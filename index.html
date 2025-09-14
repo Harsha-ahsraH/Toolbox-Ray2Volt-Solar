@@ -18,10 +18,19 @@
 </head>
 <body>
     <div class="app-container">
+        <!-- Mobile Header (Visible on small screens) -->
+        <header class="mobile-header">
+            <img src="Logo.png" alt="Company Logo" class="mobile-logo">
+            <button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Open navigation menu">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+            </button>
+        </header>
+
         <!-- Sidebar Navigation -->
         <aside class="sidebar">
             <div>
                 <div class="logo-header">
+                    <button class="sidebar-close-btn" id="sidebarCloseBtn" aria-label="Close navigation menu">&times;</button>
                     <img src="Logo.png" alt="Company Logo" class="logo">
                     <h2>Toolbox</h2>
                 </div>
@@ -70,10 +79,11 @@
                     </div>
                 </div>
             </section>
+            
             <section id="emi-calculator-section" class="calculator-panel content-section">
                 <h2>EMI Calculator</h2>
                 <div class="emi-layout">
-                    <div>
+                    <div class="calculator-inputs">
                         <div class="input-group">
                             <label for="loanAmount">Loan Amount (₹)</label>
                             <input type="number" id="loanAmount" class="input-field" value="1000000" min="10000" max="10000000" step="10000">
@@ -90,7 +100,7 @@
                             <input type="range" id="loanTenureSlider" class="slider" value="120" min="6" max="360" step="1">
                         </div>
                     </div>
-                    <div>
+                    <div class="calculator-results">
                         <div class="output-section">
                             <div class="output-item"><span>Monthly EMI</span><span id="monthlyEMI">₹0</span></div>
                             <div class="output-item"><span>Total Interest</span><span id="totalInterest">₹0</span></div>
@@ -108,6 +118,7 @@
                     </table>
                 </div>
             </section>
+            
             <section id="gst-calculator-section" class="calculator-panel content-section">
                 <h2>GST Calculator</h2>
                 <div class="input-group">
@@ -149,9 +160,10 @@
                             <div class="output-item"><span>IGST Amount</span><span id="igstAmountOutput">₹0.00</span></div>
                         </div>
                     </div>
-                    <div class="output-item"><span>Total Amount (Incl. GST)</span><span id="totalAmountOutput">₹0.00</span></div>
+                    <div class="output-item total-highlight"><span>Total Amount (Incl. GST)</span><span id="totalAmountOutput">₹0.00</span></div>
                 </div>
             </section>
+            
             <section id="prices-section" class="calculator-panel content-section">
                 <h2>Solar Package Pricing Calculator</h2>
                 <p>Calculate accurate pricing for your solar installation based on specific requirements and components.</p>
@@ -166,8 +178,8 @@
                         <div class="input-group">
                             <label for="customerType">Customer Type</label>
                             <div class="button-group">
-                                <button id="residentialBtn" class="btn active" data-type="residential">Residential (₹27/kWp)</button>
-                                <button id="commercialBtn" class="btn" data-type="commercial">Commercial (₹20/kWp)</button>
+                                <button id="residentialBtn" class="btn active" data-type="residential">Residential (₹27/Wp)</button>
+                                <button id="commercialBtn" class="btn" data-type="commercial">Commercial (₹20/Wp)</button>
                             </div>
                         </div>
                         
@@ -186,7 +198,7 @@
                         </div>
                         
                         <div class="input-group">
-                            <label for="buildingFloors">Building Floors (G+2 = 2 floors)</label>
+                            <label for="buildingFloors">Building Floors (G+2 = 2)</label>
                             <input type="number" id="buildingFloors" class="input-field" value="2" min="0" max="20" step="1" placeholder="Enter number of floors">
                             <small class="input-help">Standard BOS for G+2, ₹5,000 extra per floor beyond G+2</small>
                         </div>
@@ -205,63 +217,71 @@
                     </div>
                     
                     <div class="pricing-output">
-                        <div class="output-section">
+                        <div class="output-section-pricing">
                             <h3>Price Breakdown</h3>
-                            <div class="output-item">
-                                <span>Solar Panels (<span id="panelCount">0</span> × 575W)</span>
-                                <span id="solarPanelsPrice">₹0</span>
+                            <div class="pricing-item">
+                                <div class="item-label">
+                                    <span class="label-main">Solar Panels</span>
+                                    <small class="label-sub">(<span id="panelCount">0</span> × 575W)</small>
+                                </div>
+                                <span class="item-price" id="solarPanelsPrice">₹0</span>
                             </div>
-                            <div class="output-item">
-                                <span>Inverter (₹8,000/kWp)</span>
-                                <span id="inverterPrice">₹0</span>
+                            <div class="pricing-item">
+                                <div class="item-label">
+                                    <span class="label-main">Inverter</span>
+                                    <small class="label-sub">(₹8,000/kWp)</small>
+                                </div>
+                                <span class="item-price" id="inverterPrice">₹0</span>
                             </div>
-                            <div class="output-item">
-                                <span>Structure</span>
-                                <span id="structurePrice">₹0</span>
+                            <div class="pricing-item">
+                                <div class="item-label"><span class="label-main">Structure</span></div>
+                                <span class="item-price" id="structurePrice">₹0</span>
                             </div>
-                            <div class="output-item">
-                                <span>BOS (Balance of System)</span>
-                                <span id="bosPrice">₹0</span>
+                            <div class="pricing-item">
+                                <div class="item-label"><span class="label-main">BOS (Balance of System)</span></div>
+                                <span class="item-price" id="bosPrice">₹0</span>
                             </div>
-                            <div class="output-item">
-                                <span>Installation Charges</span>
-                                <span id="installationPrice">₹10,000</span>
+                            <div class="pricing-item">
+                                <div class="item-label"><span class="label-main">Installation Charges</span></div>
+                                <span class="item-price" id="installationPrice">₹10,000</span>
                             </div>
-                            <div class="output-item">
-                                <span>Civil Work for Legs</span>
-                                <span id="civilWorkPrice">₹0</span>
+                            <div class="pricing-item">
+                                <div class="item-label"><span class="label-main">Civil Work for Legs</span></div>
+                                <span class="item-price" id="civilWorkPrice">₹0</span>
                             </div>
-                            <div class="output-item">
-                                <span>Net Metering Assistance</span>
-                                <span id="netMeteringPrice">₹0</span>
+                            <div class="pricing-item">
+                                <div class="item-label"><span class="label-main">Net Metering Assistance</span></div>
+                                <span class="item-price" id="netMeteringPrice">₹0</span>
                             </div>
-                            <div class="output-item">
-                                <span>Wiring</span>
-                                <span id="wiringPrice">₹10,000</span>
+                            <div class="pricing-item">
+                                <div class="item-label"><span class="label-main">Wiring</span></div>
+                                <span class="item-price" id="wiringPrice">₹10,000</span>
                             </div>
-                            <div class="output-item">
-                                <span>Transportation</span>
-                                <span id="transportationPrice">₹5,000</span>
+                            <div class="pricing-item">
+                                <div class="item-label"><span class="label-main">Transportation</span></div>
+                                <span class="item-price" id="transportationPrice">₹5,000</span>
                             </div>
-                            <div class="output-item subtotal">
-                                <span>Subtotal</span>
-                                <span id="subtotalPrice">₹0</span>
+                            <div class="pricing-item subtotal">
+                                <div class="item-label"><span class="label-main">Subtotal</span></div>
+                                <span class="item-price" id="subtotalPrice">₹0</span>
                             </div>
-                            <div class="output-item profit">
-                                <span>Profit Margin</span>
-                                <span id="profitMargin">₹0</span>
+                            <div class="pricing-item">
+                                <div class="item-label">
+                                    <span class="label-main">Profit Margin <span id="profitMarginPercentText">(20%)</span></span>
+                                </div>
+                                <span class="item-price" id="profitMargin">₹0</span>
                             </div>
-                            <div class="output-item total">
-                                <span>Price (Excl. GST)</span>
-                                <span id="finalPrice">₹0</span>
+                            <div class="pricing-item">
+                                <div class="item-label"><span class="label-main">Price (Excl. GST)</span></div>
+                                <span class="item-price" id="finalPrice">₹0</span>
                             </div>
-                            <div class="output-item gst">
-                                <span>GST Amount</span>
-                                <span id="pricingGstAmount">₹0</span>
+                            <div class="pricing-item">
+                                <div class="item-label"><span class="label-main">GST Amount</span></div>
+                                <span class="item-price" id="pricingGstAmount">₹0</span>
                             </div>
-                            <div class="output-item final-total">
-                                <span>Final Price (Incl. GST)</span>
-                                <span id="finalPriceWithGst">₹0</span>
+                            <div class="pricing-item final-total">
+                                <div class="item-label"><span class="label-main">Final Price (Incl. GST)</span></div>
+                                <span class="item-price" id="finalPriceWithGst">₹0</span>
                             </div>
                         </div>
                     </div>
@@ -269,6 +289,10 @@
             </section>
         </main>
     </div>
+    
+    <!-- Overlay for Mobile Sidebar -->
+    <div class="overlay" id="overlay"></div>
+
     <script src="script.js"></script>
 </body>
 </html>

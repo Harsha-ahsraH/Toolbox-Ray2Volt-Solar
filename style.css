@@ -19,12 +19,13 @@ body {
     color: var(--text-color); margin: 0;
     -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
 }
+body.no-scroll { overflow: hidden; }
 h1, h2, h3, h4 { font-family: var(--font-heading); color: var(--text-color); }
 
 /* --- Main App Layout --- */
 .app-container { display: flex; min-height: 100vh; }
 
-/* --- REFINED WHITE SIDEBAR --- */
+/* --- DESKTOP SIDEBAR --- */
 .sidebar {
     width: 260px;
     background-color: var(--card-background);
@@ -33,6 +34,7 @@ h1, h2, h3, h4 { font-family: var(--font-heading); color: var(--text-color); }
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
+    transition: transform 0.3s ease-in-out;
 }
 .logo-header {
     display: flex;
@@ -41,55 +43,39 @@ h1, h2, h3, h4 { font-family: var(--font-heading); color: var(--text-color); }
     padding-bottom: 2rem;
     margin-bottom: 1.5rem;
     border-bottom: 1px solid var(--border-color);
+    position: relative;
 }
 .logo-header .logo {
-    width: 98%;               /* Change: Use a percentage of the sidebar width */
-    height: auto;             /* Change: Let the height adjust automatically */
-    margin-bottom: 1.5rem;    /* Optional: Increase spacing for the bigger logo */
-    object-fit: contain;
+    width: 90%; height: auto; margin-bottom: 1.5rem; object-fit: contain;
 }
 .logo-header h2 {
-    color: var(--text-color);
-    font-size: 1.75rem;
-    font-weight: 600;
-    margin: 0;
+    color: var(--text-color); font-size: 1.75rem; font-weight: 600; margin: 0;
 }
 .main-nav ul { list-style-type: none; padding: 0; margin: 0; }
 .main-nav li a {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    color: var(--label-color);
-    text-decoration: none;
-    padding: 0.8rem 1rem;
-    border-radius: 8px;
-    margin-bottom: 0.25rem;
-    transition: background-color 0.2s, color 0.2s;
-    font-weight: 600;
-    font-family: var(--font-heading);
+    display: flex; align-items: center; gap: 1rem; color: var(--label-color);
+    text-decoration: none; padding: 0.8rem 1rem; border-radius: 8px;
+    margin-bottom: 0.25rem; transition: background-color 0.2s, color 0.2s;
+    font-weight: 600; font-family: var(--font-heading);
 }
-.main-nav li a svg {
-    width: 24px;
-    height: 24px;
-    flex-shrink: 0;
-}
-.main-nav li a:hover {
-    background-color: #f1f3f5;
-    color: var(--primary-color);
-}
-.main-nav li a.active {
-    background-color: #eaf2fc;
-    color: var(--primary-color);
-}
+.main-nav li a svg { width: 24px; height: 24px; flex-shrink: 0; }
+.main-nav li a:hover { background-color: #f1f3f5; color: var(--primary-color); }
+.main-nav li a.active { background-color: #eaf2fc; color: var(--primary-color); }
+
+/* --- Mobile Navigation --- */
+.mobile-header { display: none; }
+.sidebar-close-btn { display: none; }
+.overlay { display: none; }
 
 /* --- Main Content Area --- */
 .main-content { flex-grow: 1; padding: 2.5rem; overflow-y: auto; }
 .content-section { display: none; }
-.content-section.active { display: block; }
+.content-section.active { display: block; animation: fadeIn 0.5s ease-in-out; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
 /* Dashboard Styles */
 .section-header { margin-bottom: 2rem; }
-.section-header h1 { font-size: 2rem; color: var(--text-color); margin-bottom: 0.25rem; }
+.section-header h1 { font-size: 2rem; margin-bottom: 0.25rem; }
 .section-header p { font-size: 1.1rem; color: var(--secondary-color); }
 .tool-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
 .tool-card {
@@ -101,9 +87,9 @@ h1, h2, h3, h4 { font-family: var(--font-heading); color: var(--text-color); }
 .tool-card h3 { margin: 0 0 0.5rem 0; font-size: 1.2rem; color: var(--primary-color); }
 .tool-card p { margin: 0; color: var(--label-color); }
 
-/* --- Calculator Styles (Unchanged) --- */
+/* --- Shared Calculator Styles --- */
 .calculator-panel { background-color: var(--card-background); border-radius: 12px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05); padding: 2.5rem; border: 1px solid var(--border-color); }
-.calculator-panel h2 { font-family: var(--font-heading); font-weight: 600; font-size: 1.75rem; color: var(--primary-color); margin-top: 0; margin-bottom: 2rem; }
+.calculator-panel h2 { font-weight: 600; font-size: 1.75rem; color: var(--primary-color); margin-top: 0; margin-bottom: 2rem; }
 .input-group { margin-bottom: 1.5rem; }
 .input-group label { display: block; font-weight: 600; color: var(--label-color); margin-bottom: 0.5rem; }
 .input-field { width: 100%; padding: 0.75rem 1rem; border: 1px solid var(--border-color); border-radius: 8px; font-size: 1rem; font-family: var(--font-body); background-color: #FDFDFD; transition: border-color 0.2s, box-shadow 0.2s; }
@@ -118,38 +104,117 @@ h1, h2, h3, h4 { font-family: var(--font-heading); color: var(--text-color); }
 .output-section { margin-top: 2rem; padding: 1rem 1.5rem; background-color: #F7FAFC; border-radius: 8px; }
 .output-item { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; border-bottom: 1px solid var(--border-color); }
 .output-item:last-child { border-bottom: none; }
+.output-item.total-highlight { background-color: #f8f9fa; font-weight: 700; font-size: 1.1rem; margin-top: 0.5rem; padding: 1.25rem; border-top: 1px solid #dee2e6; }
 .output-item span:first-child { font-weight: 600; color: var(--label-color); }
 .output-item span:last-child { font-family: var(--font-heading); font-weight: 600; font-size: 1.25rem; color: var(--primary-color); }
+.control-group { margin-top: 1.5rem; }
+.control-group strong { display: block; margin-bottom: 0.75rem; color: var(--label-color); font-weight: 600; }
+.input-help { display: block; margin-top: 0.5rem; font-size: 0.85rem; color: var(--secondary-color); }
+
+/* --- EMI Calculator Specifics --- */
 .emi-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; }
 #emiChartContainer { display: flex; justify-content: center; align-items: center; min-height: 250px; }
 .amortization-table-container { margin-top: 2rem; max-height: 400px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 8px; }
 table { width: 100%; border-collapse: collapse; }
-th, td { padding: 0.75rem 1rem; text-align: right; border-bottom: 1px solid var(--border-color); }
-th { background-color: #F7FAFC; position: sticky; top: 0; font-weight: 700; color: var(--label-color); text-align: right; }
-#gst-breakdown { margin-top: 1rem; padding-top: 1rem; border-top: 1px dashed var(--border-color); }
-.control-group { margin-top: 1.5rem; }
-.control-group strong { display: block; margin-bottom: 0.75rem; color: var(--label-color); font-weight: 600; }
-/* --- Pricing Calculator Styles --- */
-.pricing-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-top: 2rem; }
-.pricing-inputs { display: flex; flex-direction: column; gap: 1.75rem; }
-.pricing-output { display: flex; flex-direction: column; }
-.input-help { display: block; margin-top: 0.5rem; font-size: 0.85rem; color: var(--secondary-color); font-style: italic; }
-.output-section { background: #ffffff; border-radius: 8px; padding: 2rem; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); border: 1px solid #e9ecef; }
-.output-section h3 { font-family: var(--font-heading); font-size: 1.5rem; color: var(--text-color); margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 1px solid #dee2e6; text-align: left; font-weight: 600; }
-.output-item { display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.25rem; margin-bottom: 0.25rem; border-radius: 4px; transition: background-color 0.2s ease; border-bottom: 1px solid #f1f3f4; }
-.output-item:hover { background-color: #f8f9fa; }
-.output-item.subtotal { background-color: #f8f9fa; font-weight: 600; margin-top: 1rem; padding-top: 1.25rem; border-top: 1px solid #dee2e6; }
-.output-item.profit { background-color: #ffffff; font-weight: 600; }
-.output-item.total { background-color: #ffffff; font-weight: 600; }
-.output-item.gst { background-color: #ffffff; }
-.output-item.final-total { background-color: #f8f9fa; font-weight: 700; font-size: 1.1rem; margin-top: 0.5rem; padding-top: 1.25rem; border-top: 1px solid #dee2e6; }
-.output-item span:first-child { font-weight: 500; color: var(--text-color); font-size: 1rem; }
-.output-item span:last-child { font-family: var(--font-heading); font-weight: 600; font-size: 1.1rem; color: var(--text-color); }
-.output-item.subtotal span:last-child { font-size: 1.2rem; }
-.output-item.profit span:last-child { font-size: 1.2rem; }
-.output-item.total span:last-child { font-size: 1.2rem; }
-.output-item.gst span:last-child { font-size: 1.1rem; }
-.output-item.final-total span:last-child { font-size: 1.3rem; }
-@media (max-width: 1024px) { .emi-layout, .pricing-layout { grid-template-columns: 1fr; } .main-content { padding: 2rem; } }
-@media (max-width: 768px) { .app-container { flex-direction: column; } .sidebar { width: 100%; height: auto; border-right: none; border-bottom: 1px solid var(--border-color); } .main-content { padding: 1.5rem; } .pricing-layout { gap: 1.5rem; } }
+th, td { padding: 0.75rem 1rem; text-align: right; border-bottom: 1px solid var(--border-color); white-space: nowrap; }
+th { background-color: #F7FAFC; position: sticky; top: 0; font-weight: 700; color: var(--label-color); }
 
+/* --- GST Calculator Specifics --- */
+#gst-breakdown { margin-top: 1rem; padding-top: 1rem; border-top: 1px dashed var(--border-color); }
+
+/* --- PRICING CALCULATOR STYLES (NEW) --- */
+.pricing-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-top: 2rem; }
+.output-section-pricing {
+    background: var(--card-background); border-radius: 12px;
+    padding: 2rem; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--border-color);
+}
+.output-section-pricing h3 {
+    font-size: 1.5rem; margin-top: 0; margin-bottom: 1.5rem;
+    padding-bottom: 1rem; border-bottom: 1px solid var(--border-color);
+}
+.pricing-item {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0.9rem 0; border-bottom: 1px solid #f1f3f5;
+}
+.pricing-item:last-child { border-bottom: none; }
+.item-label { line-height: 1.4; }
+.label-main { color: var(--text-color); font-size: 1rem; font-weight: 500; }
+.label-sub { display: block; color: var(--secondary-color); font-size: 0.85rem; }
+#profitMarginPercentText { display: inline; font-size: 0.9rem; color: var(--secondary-color); margin-left: 4px; }
+.item-price {
+    font-family: var(--font-heading); color: var(--primary-color);
+    font-weight: 600; font-size: 1.1rem; text-align: right;
+}
+.pricing-item.subtotal { margin-top: 0.5rem; padding-top: 1.25rem; border-top: 1px solid var(--border-color); }
+.pricing-item.subtotal .label-main, .pricing-item.subtotal .item-price { font-weight: 700; color: var(--text-color); }
+.pricing-item.final-total { margin-top: 0.5rem; padding: 1.25rem 0; border-top: 1px solid var(--border-color); }
+.pricing-item.final-total .label-main { font-size: 1.1rem; font-weight: 700; }
+.pricing-item.final-total .item-price { font-size: 1.4rem; font-weight: 700; }
+
+/* --- RESPONSIVE STYLES --- */
+
+/* Tablet View */
+@media (max-width: 1024px) {
+    .emi-layout, .pricing-layout { grid-template-columns: 1fr; gap: 2rem; }
+    .main-content { padding: 2rem; }
+    .calculator-panel { padding: 2rem; }
+}
+
+/* Mobile View */
+@media (max-width: 768px) {
+    .app-container { flex-direction: column; }
+    
+    /* Mobile Header */
+    .mobile-header {
+        display: flex; justify-content: space-between; align-items: center;
+        padding: 0.75rem 1.5rem; background-color: var(--card-background);
+        border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 100;
+    }
+    .mobile-logo { height: 40px; }
+    .mobile-nav-toggle { background: none; border: none; cursor: pointer; padding: 0.5rem; }
+    .mobile-nav-toggle svg { width: 28px; height: 28px; color: var(--text-color); }
+
+    /* Sidebar becomes off-canvas menu */
+    .sidebar {
+        position: fixed; top: 0; left: 0; width: 280px; height: 100%;
+        z-index: 1000; transform: translateX(-100%);
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); border-right: 1px solid var(--border-color);
+    }
+    .sidebar.is-open { transform: translateX(0); }
+    .sidebar-close-btn {
+        display: block; position: absolute; top: 1rem; right: 1rem;
+        background: none; border: none; font-size: 2rem; color: var(--secondary-color);
+        cursor: pointer; line-height: 1; padding: 0.5rem;
+    }
+    .overlay {
+        display: block; position: fixed; inset: 0; background-color: rgba(0, 0, 0, 0.5);
+        z-index: 999; opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s;
+    }
+    .overlay.is-active { opacity: 1; visibility: visible; }
+    
+    /* Content adjustments for mobile */
+    .main-content { padding: 1.5rem; }
+    .calculator-panel { padding: 1.5rem; }
+    .section-header h1, .calculator-panel h2 { font-size: 1.5rem; }
+    .button-group { gap: 0.5rem; }
+    .btn { padding: 0.5rem 1rem; font-size: 0.85rem; }
+    
+    /* Make table scrollable */
+    .amortization-table-container { border-radius: 0; border-left: 0; border-right: 0; overflow-x: auto; }
+
+    /* Pricing breakdown mobile layout */
+    .pricing-item {
+        display: block; /* Stack label and price vertically */
+    }
+    .item-price {
+        text-align: right;
+        display: block; /* Ensure it takes full width */
+        font-size: 1.25rem;
+        margin-top: 0.5rem; /* Space between label and price */
+    }
+    .pricing-item.final-total .item-price {
+        font-size: 1.6rem;
+    }
+    .output-section-pricing { padding: 1.5rem; }
+}
