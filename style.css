@@ -113,7 +113,7 @@ h1, h2, h3, h4 { font-family: var(--font-heading); color: var(--text-color); }
 
 /* --- EMI Calculator Specifics --- */
 .emi-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; }
-#emiChartContainer { display: flex; justify-content: center; align-items: center; min-height: 250px; }
+#emiChartContainer { display: flex; justify-content: center; align-items: center; min-height: 250px; margin-top: 1.5rem; }
 .amortization-table-container { margin-top: 2rem; max-height: 400px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 8px; }
 table { width: 100%; border-collapse: collapse; }
 th, td { padding: 0.75rem 1rem; text-align: right; border-bottom: 1px solid var(--border-color); white-space: nowrap; }
@@ -122,30 +122,21 @@ th { background-color: #F7FAFC; position: sticky; top: 0; font-weight: 700; colo
 /* --- GST Calculator Specifics --- */
 #gst-breakdown { margin-top: 1rem; padding-top: 1rem; border-top: 1px dashed var(--border-color); }
 
-/* --- PRICING CALCULATOR STYLES (NEW) --- */
+/* --- Pricing Calculator Specifics --- */
 .pricing-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-top: 2rem; }
 .output-section-pricing {
     background: var(--card-background); border-radius: 12px;
     padding: 2rem; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
     border: 1px solid var(--border-color);
 }
-.output-section-pricing h3 {
-    font-size: 1.5rem; margin-top: 0; margin-bottom: 1.5rem;
-    padding-bottom: 1rem; border-bottom: 1px solid var(--border-color);
-}
-.pricing-item {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 0.9rem 0; border-bottom: 1px solid #f1f3f5;
-}
+.output-section-pricing h3 { font-size: 1.5rem; margin-top: 0; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color); }
+.pricing-item { display: flex; justify-content: space-between; align-items: center; padding: 0.9rem 0; border-bottom: 1px solid #f1f3f5; }
 .pricing-item:last-child { border-bottom: none; }
 .item-label { line-height: 1.4; }
 .label-main { color: var(--text-color); font-size: 1rem; font-weight: 500; }
 .label-sub { display: block; color: var(--secondary-color); font-size: 0.85rem; }
 #profitMarginPercentText { display: inline; font-size: 0.9rem; color: var(--secondary-color); margin-left: 4px; }
-.item-price {
-    font-family: var(--font-heading); color: var(--primary-color);
-    font-weight: 600; font-size: 1.1rem; text-align: right;
-}
+.item-price { font-family: var(--font-heading); color: var(--primary-color); font-weight: 600; font-size: 1.1rem; text-align: right; }
 .pricing-item.subtotal { margin-top: 0.5rem; padding-top: 1.25rem; border-top: 1px solid var(--border-color); }
 .pricing-item.subtotal .label-main, .pricing-item.subtotal .item-price { font-weight: 700; color: var(--text-color); }
 .pricing-item.final-total { margin-top: 0.5rem; padding: 1.25rem 0; border-top: 1px solid var(--border-color); }
@@ -182,15 +173,8 @@ th { background-color: #F7FAFC; position: sticky; top: 0; font-weight: 700; colo
         box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); border-right: 1px solid var(--border-color);
     }
     .sidebar.is-open { transform: translateX(0); }
-    .sidebar-close-btn {
-        display: block; position: absolute; top: 1rem; right: 1rem;
-        background: none; border: none; font-size: 2rem; color: var(--secondary-color);
-        cursor: pointer; line-height: 1; padding: 0.5rem;
-    }
-    .overlay {
-        display: block; position: fixed; inset: 0; background-color: rgba(0, 0, 0, 0.5);
-        z-index: 999; opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s;
-    }
+    .sidebar-close-btn { display: block; position: absolute; top: 1rem; right: 1rem; background: none; border: none; font-size: 2rem; color: var(--secondary-color); cursor: pointer; line-height: 1; padding: 0.5rem; }
+    .overlay { display: block; position: fixed; inset: 0; background-color: rgba(0, 0, 0, 0.5); z-index: 999; opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s; }
     .overlay.is-active { opacity: 1; visibility: visible; }
     
     /* Content adjustments for mobile */
@@ -200,8 +184,24 @@ th { background-color: #F7FAFC; position: sticky; top: 0; font-weight: 700; colo
     .button-group { gap: 0.5rem; }
     .btn { padding: 0.5rem 1rem; font-size: 0.85rem; }
     
-    /* Make table scrollable */
+    /* General Mobile Layout Adjustments */
+    .output-section { margin-top: 1.5rem; padding: 1rem; }
     .amortization-table-container { border-radius: 0; border-left: 0; border-right: 0; overflow-x: auto; }
+
+    /* --- RESPONSIVE OUTPUT FOR EMI & GST CALCULATORS (NEW) --- */
+    .output-item {
+        display: block; /* Stack label and price vertically */
+        padding: 0.8rem 0;
+    }
+    .output-item span:last-child {
+        display: block;
+        text-align: right;
+        margin-top: 0.25rem;
+        font-size: 1.4rem;
+    }
+    .output-item.total-highlight {
+        padding: 1rem;
+    }
 
     /* Pricing breakdown mobile layout */
     .pricing-item {
@@ -213,8 +213,6 @@ th { background-color: #F7FAFC; position: sticky; top: 0; font-weight: 700; colo
         font-size: 1.25rem;
         margin-top: 0.5rem; /* Space between label and price */
     }
-    .pricing-item.final-total .item-price {
-        font-size: 1.6rem;
-    }
+    .pricing-item.final-total .item-price { font-size: 1.6rem; }
     .output-section-pricing { padding: 1.5rem; }
 }
