@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ray2Volt Toolbox</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;600;700&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Chart.js for visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Custom Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div>
+                <div class="logo-header">
+                    <img src="Logo.png" alt="Company Logo" class="logo">
+                    <h2>Toolbox</h2>
+                </div>
+                <nav class="main-nav">
+                    <ul>
+                        <li><a href="#" class="nav-link active" data-target="dashboard-section">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+                            <span>Dashboard</span>
+                        </a></li>
+                        <li><a href="#" class="nav-link" data-target="emi-calculator-section">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M7 2H5v2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-1V2h-2v2H7V2zM18 10H6v2h12v-2zm-9 4H6v2h3v-2z"/></svg>
+                            <span>EMI Calculator</span>
+                        </a></li>
+                        <li><a href="#" class="nav-link" data-target="gst-calculator-section">
+                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M18 17H6v-2h12v2zm0-4H6v-2h12v2zm0-4H6V7h12v2zM3 22l1.5-1.5L6 22l1.5-1.5L9 22l1.5-1.5L12 22l1.5-1.5L15 22l1.5-1.5L18 22l1.5-1.5L21 22V2l-1.5 1.5L18 2l-1.5 1.5L15 2l-1.5 1.5L12 2l-1.5 1.5L9 2 7.5 3.5 6 2 4.5 3.5 3 2v20z"/></svg>
+                            <span>GST Calculator</span>
+                        </a></li>
+                        <li><a href="#" class="nav-link" data-target="prices-section">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12.4 2.37c-.78-.78-2.05-.78-2.83 0l-7.2 7.2c-.78.78-.78 2.05 0 2.83l7.2 7.2c.78.78 2.05.78 2.83 0l7.2-7.2c.78-.78.78-2.05 0-2.83l-7.2-7.2zM11 17H8v-2h3v2zm0-4H8v-2h3v2zm0-4H8V7h3v2z"/></svg>
+                            <span>Package Prices</span>
+                        </a></li>
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <section id="dashboard-section" class="content-section active">
+                <header class="section-header">
+                    <h1>Toolbox Dashboard</h1>
+                    <p>Welcome! Select a tool from the sidebar to get started.</p>
+                </header>
+                <div class="tool-grid">
+                    <div class="tool-card" data-target="emi-calculator-section">
+                        <h3>EMI Calculator</h3>
+                        <p>Calculate equated monthly installments for loans.</p>
+                    </div>
+                    <div class="tool-card" data-target="gst-calculator-section">
+                        <h3>GST Calculator</h3>
+                        <p>Add or remove GST for inter/intra-state transactions.</p>
+                    </div>
+                    <div class="tool-card" data-target="prices-section">
+                        <h3>Package Prices</h3>
+                        <p>View standard pricing for solar packages.</p>
+                    </div>
+                </div>
+            </section>
+            <section id="emi-calculator-section" class="calculator-panel content-section">
+                <h2>EMI Calculator</h2>
+                <div class="emi-layout">
+                    <div>
+                        <div class="input-group">
+                            <label for="loanAmount">Loan Amount (₹)</label>
+                            <input type="number" id="loanAmount" class="input-field" value="1000000" min="10000" max="10000000" step="10000">
+                            <input type="range" id="loanAmountSlider" class="slider" value="1000000" min="10000" max="10000000" step="10000">
+                        </div>
+                        <div class="input-group">
+                            <label for="interestRate">Annual Interest Rate (%)</label>
+                            <input type="number" id="interestRate" class="input-field" value="8.5" min="1" max="20" step="0.1">
+                            <input type="range" id="interestRateSlider" class="slider" value="8.5" min="1" max="20" step="0.1">
+                        </div>
+                        <div class="input-group">
+                            <label for="loanTenure">Loan Tenure (Months)</label>
+                            <input type="number" id="loanTenure" class="input-field" value="120" min="6" max="360" step="1">
+                            <input type="range" id="loanTenureSlider" class="slider" value="120" min="6" max="360" step="1">
+                        </div>
+                    </div>
+                    <div>
+                        <div class="output-section">
+                            <div class="output-item"><span>Monthly EMI</span><span id="monthlyEMI">₹0</span></div>
+                            <div class="output-item"><span>Total Interest</span><span id="totalInterest">₹0</span></div>
+                            <div class="output-item"><span>Total Payment</span><span id="totalPayment">₹0</span></div>
+                        </div>
+                        <div id="emiChartContainer"><canvas id="emiChart"></canvas></div>
+                    </div>
+                </div>
+                <div class="amortization-table-container">
+                    <table>
+                        <thead>
+                            <tr><th>Month #</th><th>Principal Paid</th><th>Interest Paid</th><th>Total Payment</th><th>Balance</th></tr>
+                        </thead>
+                        <tbody id="amortizationBody"></tbody>
+                    </table>
+                </div>
+            </section>
+            <section id="gst-calculator-section" class="calculator-panel content-section">
+                <h2>GST Calculator</h2>
+                <div class="input-group">
+                    <label for="gstAmount">Amount</label>
+                    <input type="number" id="gstAmount" class="input-field" placeholder="Enter amount">
+                </div>
+                <div class="input-group">
+                    <label for="gstRate">Total GST Rate (%)</label>
+                    <input type="number" id="gstRate" class="input-field" value="18">
+                    <div class="button-group">
+                        <button class="btn gst-rate-btn" data-rate="5">5%</button>
+                        <button class="btn gst-rate-btn" data-rate="12">12%</button>
+                        <button class="btn gst-rate-btn active" data-rate="18">18%</button>
+                        <button class="btn gst-rate-btn" data-rate="28">28%</button>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <strong>Calculation Method</strong>
+                    <div class="button-group">
+                        <button id="addGstBtn" class="btn active">Add GST</button>
+                        <button id="removeGstBtn" class="btn">Remove GST</button>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <strong>Transaction Type</strong>
+                    <div class="button-group">
+                        <button id="intraStateBtn" class="btn active">Intra-State (SGST + CGST)</button>
+                        <button id="interStateBtn" class="btn">Inter-State (IGST)</button>
+                    </div>
+                </div>
+                <div class="output-section">
+                    <div class="output-item"><span>Base Amount</span><span id="baseAmountOutput">₹0.00</span></div>
+                    <div id="gst-breakdown">
+                        <div id="intraStateOutput">
+                            <div class="output-item"><span>CGST Amount</span><span id="cgstAmountOutput">₹0.00</span></div>
+                            <div class="output-item"><span>SGST Amount</span><span id="sgstAmountOutput">₹0.00</span></div>
+                        </div>
+                        <div id="interStateOutput" style="display: none;">
+                            <div class="output-item"><span>IGST Amount</span><span id="igstAmountOutput">₹0.00</span></div>
+                        </div>
+                    </div>
+                    <div class="output-item"><span>Total Amount (Incl. GST)</span><span id="totalAmountOutput">₹0.00</span></div>
+                </div>
+            </section>
+            <section id="prices-section" class="calculator-panel content-section">
+                <h2>Solar Package Pricing Calculator</h2>
+                <p>Calculate accurate pricing for your solar installation based on specific requirements and components.</p>
+                
+                <div class="pricing-layout">
+                    <div class="pricing-inputs">
+                        <div class="input-group">
+                            <label for="solarCapacity">Solar Capacity (kWp)</label>
+                            <input type="number" id="solarCapacity" class="input-field" value="3" min="1" max="100" step="0.1" placeholder="Enter capacity in kWp">
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="customerType">Customer Type</label>
+                            <div class="button-group">
+                                <button id="residentialBtn" class="btn active" data-type="residential">Residential (₹27/kWp)</button>
+                                <button id="commercialBtn" class="btn" data-type="commercial">Commercial (₹20/kWp)</button>
+                            </div>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="structureType">Structure Type</label>
+                            <div class="button-group">
+                                <button id="standardStructureBtn" class="btn active" data-type="standard">Standard (₹18,000)</button>
+                                <button id="customStructureBtn" class="btn" data-type="custom">Custom with Legs</button>
+                            </div>
+                        </div>
+                        
+                        <div class="input-group" id="legsInputGroup" style="display: none;">
+                            <label for="legsCount">Number of Legs</label>
+                            <input type="number" id="legsCount" class="input-field" value="0" min="0" max="50" step="1" placeholder="Enter number of legs">
+                            <small class="input-help">Additional ₹1,000 per leg</small>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="buildingFloors">Building Floors (G+2 = 2 floors)</label>
+                            <input type="number" id="buildingFloors" class="input-field" value="2" min="0" max="20" step="1" placeholder="Enter number of floors">
+                            <small class="input-help">Standard BOS for G+2, ₹5,000 extra per floor beyond G+2</small>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="customProfitMargin">Profit Margin (%)</label>
+                            <input type="number" id="customProfitMargin" class="input-field" value="20" min="0" max="50" step="0.1" placeholder="Enter profit margin %">
+                            <small class="input-help">Enter the desired profit margin percentage</small>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="pricingGstRate">GST Rate (%)</label>
+                            <input type="number" id="pricingGstRate" class="input-field" value="5" min="0" max="28" step="0.1" placeholder="Enter GST rate %">
+                            <small class="input-help">Enter GST rate (0% for no GST, 5% for default rate)</small>
+                        </div>
+                    </div>
+                    
+                    <div class="pricing-output">
+                        <div class="output-section">
+                            <h3>Price Breakdown</h3>
+                            <div class="output-item">
+                                <span>Solar Panels (<span id="panelCount">0</span> × 575W)</span>
+                                <span id="solarPanelsPrice">₹0</span>
+                            </div>
+                            <div class="output-item">
+                                <span>Inverter (₹8,000/kWp)</span>
+                                <span id="inverterPrice">₹0</span>
+                            </div>
+                            <div class="output-item">
+                                <span>Structure</span>
+                                <span id="structurePrice">₹0</span>
+                            </div>
+                            <div class="output-item">
+                                <span>BOS (Balance of System)</span>
+                                <span id="bosPrice">₹0</span>
+                            </div>
+                            <div class="output-item">
+                                <span>Installation Charges</span>
+                                <span id="installationPrice">₹10,000</span>
+                            </div>
+                            <div class="output-item">
+                                <span>Civil Work for Legs</span>
+                                <span id="civilWorkPrice">₹0</span>
+                            </div>
+                            <div class="output-item">
+                                <span>Net Metering Assistance</span>
+                                <span id="netMeteringPrice">₹0</span>
+                            </div>
+                            <div class="output-item">
+                                <span>Wiring</span>
+                                <span id="wiringPrice">₹10,000</span>
+                            </div>
+                            <div class="output-item">
+                                <span>Transportation</span>
+                                <span id="transportationPrice">₹5,000</span>
+                            </div>
+                            <div class="output-item subtotal">
+                                <span>Subtotal</span>
+                                <span id="subtotalPrice">₹0</span>
+                            </div>
+                            <div class="output-item profit">
+                                <span>Profit Margin</span>
+                                <span id="profitMargin">₹0</span>
+                            </div>
+                            <div class="output-item total">
+                                <span>Price (Excl. GST)</span>
+                                <span id="finalPrice">₹0</span>
+                            </div>
+                            <div class="output-item gst">
+                                <span>GST Amount</span>
+                                <span id="pricingGstAmount">₹0</span>
+                            </div>
+                            <div class="output-item final-total">
+                                <span>Final Price (Incl. GST)</span>
+                                <span id="finalPriceWithGst">₹0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
