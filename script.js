@@ -177,7 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const transportationPriceEl = document.getElementById('transportationPrice');
     const subtotalPriceEl = document.getElementById('subtotalPrice');
     const profitMarginEl = document.getElementById('profitMargin');
-    const profitMarginPercentTextEl = document.getElementById('profitMarginPercentText'); // New element
+    const profitMarginPercentTextEl = document.getElementById('profitMarginPercentText');
     const finalPriceEl = document.getElementById('finalPrice');
     const gstAmountEl = document.getElementById('pricingGstAmount');
     const finalPriceWithGstEl = document.getElementById('finalPriceWithGst');
@@ -195,8 +195,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (capacity <= 0) {
             // Reset all prices to 0
             panelCountEl.textContent = '0';
-            [solarPanelsPriceEl, inverterPriceEl, structurePriceEl, bosPriceEl, civilWorkPriceEl, netMeteringPriceEl, subtotalPriceEl, profitMarginEl, finalPriceEl, gstAmountEl, finalPriceWithGstEl]
+            [solarPanelsPriceEl, inverterPriceEl, structurePriceEl, bosPriceEl, installationPriceEl, civilWorkPriceEl, netMeteringPriceEl, subtotalPriceEl, profitMarginEl, finalPriceEl, gstAmountEl, finalPriceWithGstEl]
                 .forEach(el => el.textContent = formatToRupees(0));
+            installationPriceEl.textContent = formatToRupees(0); // Also reset installation price display
             return;
         }
         
@@ -206,7 +207,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const solarPanelsPrice = solarRatePerWatt * 575 * numberOfPanels;
         
         const inverterPrice = 8000 * capacity;
-        let structurePrice = 18000;
+
+        // UPDATED: Structure price calculation
+        let structurePrice = 6000 * capacity;
         if (structureType === 'custom') {
             structurePrice += legsCount * 1000;
         }
@@ -216,7 +219,9 @@ document.addEventListener('DOMContentLoaded', () => {
             bosPrice += (floors - 2) * 5000;
         }
         
-        const installationPrice = 10000;
+        // UPDATED: Installation price calculation
+        const installationPrice = 3000 * capacity;
+        
         const civilWorkPrice = 2000 * capacity;
         const netMeteringPrice = 2200 * capacity;
         const wiringPrice = 10000;
@@ -245,7 +250,6 @@ document.addEventListener('DOMContentLoaded', () => {
         transportationPriceEl.textContent = formatToRupees(transportationPrice);
         subtotalPriceEl.textContent = formatToRupees(subtotal);
         
-        // Update profit margin with new, specific element
         profitMarginPercentTextEl.textContent = `(${profitMarginRate}%)`;
         profitMarginEl.textContent = formatToRupees(profitMargin);
         
