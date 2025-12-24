@@ -1,30 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ray2Volt Toolbox</title>
-    
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Nunito+Sans:wght@400;600;700&display=swap"
+        rel="stylesheet">
     <!-- Google Sans Flex (if available via your Google Workspace) -->
-    <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@500;600;700&display=swap"
+        rel="stylesheet">
 
     <!-- Chart.js for visualization -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
+
     <!-- Custom Stylesheet -->
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <div class="app-container">
         <!-- Mobile Header (Visible on small screens) -->
         <header class="mobile-header">
             <img src="Logo.png" alt="Company Logo" class="mobile-logo">
             <button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Open navigation menu">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
+                </svg>
             </button>
         </header>
 
@@ -32,28 +39,17 @@
         <aside class="sidebar">
             <div>
                 <div class="logo-header">
-                    <button class="sidebar-close-btn" id="sidebarCloseBtn" aria-label="Close navigation menu">&times;</button>
+                    <button class="sidebar-close-btn" id="sidebarCloseBtn"
+                        aria-label="Close navigation menu">&times;</button>
                     <img src="Logo.png" alt="Company Logo" class="logo">
                     <h2>Toolbox</h2>
                 </div>
                 <nav class="main-nav">
                     <ul>
-                        <li><a href="#" class="nav-link active" data-target="dashboard-section">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
-                            <span>Dashboard</span>
-                        </a></li>
-                        <li><a href="#" class="nav-link" data-target="emi-calculator-section">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M7 2H5v2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-1V2h-2v2H7V2zM18 10H6v2h12v-2zm-9 4H6v2h3v-2z"/></svg>
-                            <span>EMI Calculator</span>
-                        </a></li>
-                        <li><a href="#" class="nav-link" data-target="gst-calculator-section">
-                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M18 17H6v-2h12v2zm0-4H6v-2h12v2zm0-4H6V7h12v2zM3 22l1.5-1.5L6 22l1.5-1.5L9 22l1.5-1.5L12 22l1.5-1.5L15 22l1.5-1.5L18 22l1.5-1.5L21 22V2l-1.5 1.5L18 2l-1.5 1.5L15 2l-1.5 1.5L12 2l-1.5 1.5L9 2 7.5 3.5 6 2 4.5 3.5 3 2v20z"/></svg>
-                            <span>GST Calculator</span>
-                        </a></li>
-                        <li><a href="#" class="nav-link" data-target="prices-section">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12.4 2.37c-.78-.78-2.05-.78-2.83 0l-7.2 7.2c-.78.78-.78-2.05 0 2.83l7.2 7.2c.78.78 2.05.78 2.83 0l7.2-7.2c.78-.78.78-2.05 0-2.83l-7.2-7.2zM11 17H8v-2h3v2zm0-4H8v-2h3v2zm0-4H8V7h3v2z"/></svg>
-                            <span>Package Prices</span>
-                        </a></li>
+                        <li><a href="#" class="nav-link active" data-target="dashboard-section">Dashboard</a></li>
+                        <li><a href="#" class="nav-link" data-target="emi-calculator-section">EMI Calculator</a></li>
+                        <li><a href="#" class="nav-link" data-target="gst-calculator-section">GST Calculator</a></li>
+                        <li><a href="#" class="nav-link" data-target="prices-section">Package Prices</a></li>
                     </ul>
                 </nav>
             </div>
@@ -81,30 +77,79 @@
                     </div>
                 </div>
             </section>
-            
+
             <section id="emi-calculator-section" class="calculator-panel content-section">
                 <h2>EMI Calculator</h2>
                 <div class="emi-layout">
                     <div class="calculator-inputs">
+                        <!-- Calculation Mode Selector -->
+                        <div class="control-group calc-mode-group">
+                            <strong>Calculation Mode</strong>
+                            <div class="button-group calc-mode-buttons">
+                                <button id="calcEmiBtn" class="btn active"
+                                    title="Calculate EMI from Principal, Rate & Tenure">Calculate EMI</button>
+                                <button id="calcTenureBtn" class="btn"
+                                    title="Calculate Tenure from Principal, Rate & EMI">Calculate Tenure</button>
+                                <button id="calcRateBtn" class="btn"
+                                    title="Calculate Interest Rate from Principal, Tenure & EMI">Calculate Rate</button>
+                            </div>
+                            <small class="input-help" id="calcModeHelp">Enter loan details to calculate EMI</small>
+                        </div>
+
                         <div class="input-group">
                             <label for="loanAmount">Loan Amount (₹)</label>
-                            <input type="number" id="loanAmount" class="input-field" value="1000000" min="10000" max="10000000" step="10000">
-                            <input type="range" id="loanAmountSlider" class="slider" value="1000000" min="10000" max="10000000" step="10000">
+                            <input type="number" id="loanAmount" class="input-field" value="1000000" min="10000"
+                                max="10000000" step="10000">
+                            <input type="range" id="loanAmountSlider" class="slider" value="1000000" min="10000"
+                                max="10000000" step="10000">
                         </div>
                         <div class="input-group">
                             <label for="interestRate">Annual Interest Rate (%)</label>
-                            <input type="number" id="interestRate" class="input-field" value="8.5" min="1" max="20" step="0.1">
-                            <input type="range" id="interestRateSlider" class="slider" value="8.5" min="1" max="20" step="0.1">
+                            <input type="number" id="interestRate" class="input-field" value="8.5" min="1" max="20"
+                                step="0.1">
+                            <input type="range" id="interestRateSlider" class="slider" value="8.5" min="1" max="20"
+                                step="0.1">
                         </div>
                         <div class="input-group">
                             <label for="loanTenure">Loan Tenure (Months)</label>
-                            <input type="number" id="loanTenure" class="input-field" value="120" min="6" max="360" step="1">
-                            <input type="range" id="loanTenureSlider" class="slider" value="120" min="6" max="360" step="1">
+                            <input type="number" id="loanTenure" class="input-field" value="120" min="6" max="360"
+                                step="1">
+                            <input type="range" id="loanTenureSlider" class="slider" value="120" min="6" max="360"
+                                step="1">
+                        </div>
+                        <div class="control-group">
+                            <strong>Interest Calculation Method</strong>
+                            <div class="button-group">
+                                <button id="reducingBalanceBtn" class="btn active">Reducing Balance</button>
+                                <button id="flatRateBtn" class="btn">Flat Rate</button>
+                            </div>
+                            <small class="input-help emi-method-help">Reducing balance calculates interest on
+                                outstanding amount. Flat rate calculates on original principal.</small>
                         </div>
                     </div>
                     <div class="calculator-results">
+                        <!-- Fixed EMI Input (visible when calculating tenure or rate) -->
+                        <div class="input-group fixed-emi-group" id="fixedEmiGroup" style="display: none;">
+                            <label for="fixedEMI">Fixed Monthly EMI (₹)</label>
+                            <input type="number" id="fixedEMI" class="input-field input-highlight" value="15000"
+                                min="1000" max="10000000" step="100" placeholder="Enter your desired EMI">
+                            <small class="input-help">Enter the EMI amount you want to pay monthly</small>
+                        </div>
+
                         <div class="output-section">
-                            <div class="output-item"><span>Monthly EMI</span><span id="monthlyEMI">₹0</span></div>
+                            <!-- Dynamic result - changes based on calculation mode -->
+                            <div class="output-item calculated-result" id="calculatedResultRow">
+                                <span id="calculatedResultLabel">Monthly EMI</span>
+                                <span id="calculatedResultValue" class="result-highlight">₹0</span>
+                            </div>
+                            <div class="output-item" id="tenureResultRow" style="display: none;">
+                                <span>Required Tenure</span>
+                                <span id="calculatedTenure" class="result-highlight">0 months</span>
+                            </div>
+                            <div class="output-item" id="rateResultRow" style="display: none;">
+                                <span>Required Interest Rate</span>
+                                <span id="calculatedRate" class="result-highlight">0%</span>
+                            </div>
                             <div class="output-item"><span>Total Interest</span><span id="totalInterest">₹0</span></div>
                             <div class="output-item"><span>Total Payment</span><span id="totalPayment">₹0</span></div>
                         </div>
@@ -114,13 +159,19 @@
                 <div class="amortization-table-container">
                     <table>
                         <thead>
-                            <tr><th>Month #</th><th>Principal Paid</th><th>Interest Paid</th><th>Total Payment</th><th>Balance</th></tr>
+                            <tr>
+                                <th>Month #</th>
+                                <th>Principal Paid</th>
+                                <th>Interest Paid</th>
+                                <th>Total Payment</th>
+                                <th>Balance</th>
+                            </tr>
                         </thead>
                         <tbody id="amortizationBody"></tbody>
                     </table>
                 </div>
             </section>
-            
+
             <section id="gst-calculator-section" class="calculator-panel content-section">
                 <h2>GST Calculator</h2>
                 <div class="input-group">
@@ -155,69 +206,82 @@
                     <div class="output-item"><span>Base Amount</span><span id="baseAmountOutput">₹0.00</span></div>
                     <div id="gst-breakdown">
                         <div id="intraStateOutput">
-                            <div class="output-item"><span>CGST Amount</span><span id="cgstAmountOutput">₹0.00</span></div>
-                            <div class="output-item"><span>SGST Amount</span><span id="sgstAmountOutput">₹0.00</span></div>
+                            <div class="output-item"><span>CGST Amount</span><span id="cgstAmountOutput">₹0.00</span>
+                            </div>
+                            <div class="output-item"><span>SGST Amount</span><span id="sgstAmountOutput">₹0.00</span>
+                            </div>
                         </div>
                         <div id="interStateOutput" style="display: none;">
-                            <div class="output-item"><span>IGST Amount</span><span id="igstAmountOutput">₹0.00</span></div>
+                            <div class="output-item"><span>IGST Amount</span><span id="igstAmountOutput">₹0.00</span>
+                            </div>
                         </div>
                     </div>
-                    <div class="output-item total-highlight"><span>Total Amount (Incl. GST)</span><span id="totalAmountOutput">₹0.00</span></div>
+                    <div class="output-item total-highlight"><span>Total Amount (Incl. GST)</span><span
+                            id="totalAmountOutput">₹0.00</span></div>
                 </div>
             </section>
-            
+
             <section id="prices-section" class="calculator-panel content-section">
                 <h2>Solar Package Pricing Calculator</h2>
-                <p>Calculate accurate pricing for your solar installation based on specific requirements and components.</p>
-                
+                <p>Calculate accurate pricing for your solar installation based on specific requirements and components.
+                </p>
+
                 <div class="pricing-layout">
                     <div class="pricing-inputs">
                         <div class="input-group">
                             <label for="solarCapacity">Solar Capacity (kWp)</label>
-                            <input type="number" id="solarCapacity" class="input-field" value="3" min="1" max="100" step="0.1" placeholder="Enter capacity in kWp">
+                            <input type="number" id="solarCapacity" class="input-field" value="3" min="1" max="100"
+                                step="0.1" placeholder="Enter capacity in kWp">
                         </div>
-                        
+
                         <div class="input-group">
                             <label for="customerType">Customer Type</label>
                             <div class="button-group">
-                                <button id="residentialBtn" class="btn active" data-type="residential">Residential (₹27/Wp)</button>
-                                <button id="commercialBtn" class="btn" data-type="commercial">Commercial (₹20/Wp)</button>
+                                <button id="residentialBtn" class="btn active" data-type="residential">Residential
+                                    (₹27/Wp)</button>
+                                <button id="commercialBtn" class="btn" data-type="commercial">Commercial
+                                    (₹20/Wp)</button>
                             </div>
                         </div>
-                        
+
                         <div class="input-group">
                             <label for="structureType">Structure Type</label>
                             <div class="button-group">
-                                <button id="standardStructureBtn" class="btn active" data-type="standard">Standard (₹18,000)</button>
+                                <button id="standardStructureBtn" class="btn active" data-type="standard">Standard
+                                    (₹18,000)</button>
                                 <button id="customStructureBtn" class="btn" data-type="custom">Custom with Legs</button>
                             </div>
                         </div>
-                        
+
                         <div class="input-group" id="legsInputGroup" style="display: none;">
                             <label for="legsCount">Number of Legs</label>
-                            <input type="number" id="legsCount" class="input-field" value="0" min="0" max="50" step="1" placeholder="Enter number of legs">
+                            <input type="number" id="legsCount" class="input-field" value="0" min="0" max="50" step="1"
+                                placeholder="Enter number of legs">
                             <small class="input-help">Additional ₹1,000 per leg</small>
                         </div>
-                        
+
                         <div class="input-group">
                             <label for="buildingFloors">Building Floors (G+2 = 2)</label>
-                            <input type="number" id="buildingFloors" class="input-field" value="2" min="0" max="20" step="1" placeholder="Enter number of floors">
+                            <input type="number" id="buildingFloors" class="input-field" value="2" min="0" max="20"
+                                step="1" placeholder="Enter number of floors">
                             <small class="input-help">Standard BOS for G+2, ₹5,000 extra per floor beyond G+2</small>
                         </div>
-                        
+
                         <div class="input-group">
                             <label for="customProfitMargin">Profit Margin (%)</label>
-                            <input type="number" id="customProfitMargin" class="input-field" value="20" min="0" max="50" step="0.1" placeholder="Enter profit margin %">
+                            <input type="number" id="customProfitMargin" class="input-field" value="20" min="0" max="50"
+                                step="0.1" placeholder="Enter profit margin %">
                             <small class="input-help">Enter the desired profit margin percentage</small>
                         </div>
-                        
+
                         <div class="input-group">
                             <label for="pricingGstRate">GST Rate (%)</label>
-                            <input type="number" id="pricingGstRate" class="input-field" value="5" min="0" max="28" step="0.1" placeholder="Enter GST rate %">
+                            <input type="number" id="pricingGstRate" class="input-field" value="5" min="0" max="28"
+                                step="0.1" placeholder="Enter GST rate %">
                             <small class="input-help">Enter GST rate (0% for no GST, 5% for default rate)</small>
                         </div>
                     </div>
-                    
+
                     <div class="pricing-output">
                         <div class="output-section-pricing">
                             <h3>Price Breakdown</h3>
@@ -269,7 +333,8 @@
                             </div>
                             <div class="pricing-item">
                                 <div class="item-label">
-                                    <span class="label-main">Profit Margin <span id="profitMarginPercentText">(20%)</span></span>
+                                    <span class="label-main">Profit Margin <span
+                                            id="profitMarginPercentText">(20%)</span></span>
                                 </div>
                                 <span class="item-price" id="profitMargin">₹0</span>
                             </div>
@@ -291,10 +356,11 @@
             </section>
         </main>
     </div>
-    
+
     <!-- Overlay for Mobile Sidebar -->
     <div class="overlay" id="overlay"></div>
 
     <script src="script.js"></script>
 </body>
+
 </html>
