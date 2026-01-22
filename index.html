@@ -21,6 +21,10 @@
 
     <!-- Custom Stylesheet -->
     <link rel="stylesheet" href="style.css">
+    <!-- Receipt Stylesheet -->
+    <link rel="stylesheet" href="receipt.css">
+    <!-- Invoice Stylesheet -->
+    <link rel="stylesheet" href="invoice.css">
 </head>
 
 <body>
@@ -50,6 +54,10 @@
                         <li><a href="#" class="nav-link" data-target="emi-calculator-section">EMI Calculator</a></li>
                         <li><a href="#" class="nav-link" data-target="gst-calculator-section">GST Calculator</a></li>
                         <li><a href="#" class="nav-link" data-target="prices-section">Package Prices</a></li>
+                        <li><a href="#" class="nav-link" data-target="receipt-generator-section">Payment Receipt</a>
+                        </li>
+                        <li><a href="#" class="nav-link" data-target="invoice-generator-section">Invoice Generator</a>
+                        </li>
                     </ul>
                 </nav>
             </div>
@@ -74,6 +82,14 @@
                     <div class="tool-card" data-target="prices-section">
                         <h3>Package Prices</h3>
                         <p>View standard pricing for solar packages.</p>
+                    </div>
+                    <div class="tool-card" data-target="receipt-generator-section">
+                        <h3>Payment Receipt</h3>
+                        <p>Generate professional payment receipts.</p>
+                    </div>
+                    <div class="tool-card" data-target="invoice-generator-section">
+                        <h3>Invoice Generator</h3>
+                        <p>Generate professional GST invoices for solar projects.</p>
                     </div>
                 </div>
             </section>
@@ -223,62 +239,49 @@
 
             <section id="prices-section" class="calculator-panel content-section">
                 <h2>Solar Package Pricing Calculator</h2>
-                <p>Calculate accurate pricing for your solar installation based on specific requirements and components.
-                </p>
+                <p>Calculate accurate pricing for your on-grid solar installation based on system capacity and customer
+                    type.</p>
 
                 <div class="pricing-layout">
                     <div class="pricing-inputs">
                         <div class="input-group">
-                            <label for="solarCapacity">Solar Capacity (kWp)</label>
+                            <label for="solarCapacity">System Capacity (kWp)</label>
                             <input type="number" id="solarCapacity" class="input-field" value="3" min="1" max="100"
                                 step="0.1" placeholder="Enter capacity in kWp">
+                            <small class="input-help">Enter the total system capacity</small>
                         </div>
 
                         <div class="input-group">
                             <label for="customerType">Customer Type</label>
                             <div class="button-group">
-                                <button id="residentialBtn" class="btn active" data-type="residential">Residential
-                                    (₹27/Wp)</button>
-                                <button id="commercialBtn" class="btn" data-type="commercial">Commercial
-                                    (₹20/Wp)</button>
+                                <button id="residentialBtn" class="btn active" data-type="residential">Residential DCR
+                                    (550Wp)</button>
+                                <button id="commercialBtn" class="btn" data-type="commercial">Commercial NDCR
+                                    (580Wp)</button>
                             </div>
                         </div>
 
                         <div class="input-group">
-                            <label for="structureType">Structure Type</label>
+                            <label for="inverterType">Inverter Type</label>
                             <div class="button-group">
-                                <button id="standardStructureBtn" class="btn active" data-type="standard">Standard
-                                    (₹18,000)</button>
-                                <button id="customStructureBtn" class="btn" data-type="custom">Custom with Legs</button>
+                                <button id="singlePhaseBtn" class="btn active" data-type="single">1-Phase
+                                    (₹6,000/kWp)</button>
+                                <button id="threePhaseBtn" class="btn" data-type="three">3-Phase (₹2,500/kWp)</button>
                             </div>
-                        </div>
-
-                        <div class="input-group" id="legsInputGroup" style="display: none;">
-                            <label for="legsCount">Number of Legs</label>
-                            <input type="number" id="legsCount" class="input-field" value="0" min="0" max="50" step="1"
-                                placeholder="Enter number of legs">
-                            <small class="input-help">Additional ₹1,000 per leg</small>
-                        </div>
-
-                        <div class="input-group">
-                            <label for="buildingFloors">Building Floors (G+2 = 2)</label>
-                            <input type="number" id="buildingFloors" class="input-field" value="2" min="0" max="20"
-                                step="1" placeholder="Enter number of floors">
-                            <small class="input-help">Standard BOS for G+2, ₹5,000 extra per floor beyond G+2</small>
                         </div>
 
                         <div class="input-group">
                             <label for="customProfitMargin">Profit Margin (%)</label>
                             <input type="number" id="customProfitMargin" class="input-field" value="20" min="0" max="50"
                                 step="0.1" placeholder="Enter profit margin %">
-                            <small class="input-help">Enter the desired profit margin percentage</small>
+                            <small class="input-help">Default: 20% of subtotal</small>
                         </div>
 
                         <div class="input-group">
                             <label for="pricingGstRate">GST Rate (%)</label>
                             <input type="number" id="pricingGstRate" class="input-field" value="5" min="0" max="28"
                                 step="0.1" placeholder="Enter GST rate %">
-                            <small class="input-help">Enter GST rate (0% for no GST, 5% for default rate)</small>
+                            <small class="input-help">Default: 5% GST on solar systems</small>
                         </div>
                     </div>
 
@@ -288,43 +291,64 @@
                             <div class="pricing-item">
                                 <div class="item-label">
                                     <span class="label-main">Solar Panels</span>
-                                    <small class="label-sub">(<span id="panelCount">0</span> × 575W)</small>
+                                    <small class="label-sub" id="panelRateText">(₹27/W × 550Wp panels)</small>
                                 </div>
                                 <span class="item-price" id="solarPanelsPrice">₹0</span>
                             </div>
                             <div class="pricing-item">
                                 <div class="item-label">
                                     <span class="label-main">Inverter</span>
-                                    <small class="label-sub">(₹8,000/kWp)</small>
+                                    <small class="label-sub" id="inverterRateText">(₹6,000/kWp)</small>
                                 </div>
                                 <span class="item-price" id="inverterPrice">₹0</span>
                             </div>
                             <div class="pricing-item">
-                                <div class="item-label"><span class="label-main">Structure</span></div>
+                                <div class="item-label">
+                                    <span class="label-main">Structure</span>
+                                    <small class="label-sub">(₹4.5/W)</small>
+                                </div>
                                 <span class="item-price" id="structurePrice">₹0</span>
                             </div>
                             <div class="pricing-item">
-                                <div class="item-label"><span class="label-main">BOS (Balance of System)</span></div>
+                                <div class="item-label">
+                                    <span class="label-main">BOS (Balance of System)</span>
+                                    <small class="label-sub">(₹2/W)</small>
+                                </div>
                                 <span class="item-price" id="bosPrice">₹0</span>
                             </div>
                             <div class="pricing-item">
-                                <div class="item-label"><span class="label-main">Installation Charges</span></div>
-                                <span class="item-price" id="installationPrice">₹10,000</span>
+                                <div class="item-label">
+                                    <span class="label-main">Installation Charges</span>
+                                    <small class="label-sub">(₹4/W)</small>
+                                </div>
+                                <span class="item-price" id="installationPrice">₹0</span>
                             </div>
                             <div class="pricing-item">
-                                <div class="item-label"><span class="label-main">Civil Work for Legs</span></div>
+                                <div class="item-label">
+                                    <span class="label-main">Civil Work for Legs</span>
+                                    <small class="label-sub">(₹1.2/W × DC)</small>
+                                </div>
                                 <span class="item-price" id="civilWorkPrice">₹0</span>
                             </div>
                             <div class="pricing-item">
-                                <div class="item-label"><span class="label-main">Net Metering Assistance</span></div>
-                                <span class="item-price" id="netMeteringPrice">₹0</span>
+                                <div class="item-label">
+                                    <span class="label-main">Net Metering Assistance</span>
+                                    <small class="label-sub">(₹6,600 for ≤10 kWp)</small>
+                                </div>
+                                <span class="item-price" id="netMeteringPrice">₹6,600</span>
                             </div>
                             <div class="pricing-item">
-                                <div class="item-label"><span class="label-main">Wiring</span></div>
-                                <span class="item-price" id="wiringPrice">₹10,000</span>
+                                <div class="item-label">
+                                    <span class="label-main">Wiring</span>
+                                    <small class="label-sub">(₹5/W × DC)</small>
+                                </div>
+                                <span class="item-price" id="wiringPrice">₹0</span>
                             </div>
                             <div class="pricing-item">
-                                <div class="item-label"><span class="label-main">Transportation</span></div>
+                                <div class="item-label">
+                                    <span class="label-main">Transportation</span>
+                                    <small class="label-sub">(₹5,000 per system)</small>
+                                </div>
                                 <span class="item-price" id="transportationPrice">₹5,000</span>
                             </div>
                             <div class="pricing-item subtotal">
@@ -354,6 +378,447 @@
                     </div>
                 </div>
             </section>
+
+            <section id="receipt-generator-section" class="calculator-panel content-section">
+                <h2>Payment Receipt Generator</h2>
+                <div class="no-print-area">
+                    <p>Enter details below to generate a receipt.</p>
+                    <div class="pricing-layout">
+                        <div class="pricing-inputs">
+                            <h3>Customer Details</h3>
+                            <div class="input-group">
+                                <label for="receiptName">Customer Name</label>
+                                <input type="text" id="receiptName" class="input-field" placeholder="Enter name">
+                            </div>
+                            <div class="input-group">
+                                <label for="receiptAddress">Address (Optional)</label>
+                                <textarea id="receiptAddress" class="input-field" rows="2"
+                                    placeholder="Enter address"></textarea>
+                            </div>
+                            <div class="input-group">
+                                <label for="receiptPhone">Phone Number</label>
+                                <input type="text" id="receiptPhone" class="input-field" placeholder="Enter phone">
+                            </div>
+                            <div class="input-group">
+                                <label for="receiptEmail">Email (Optional)</label>
+                                <input type="email" id="receiptEmail" class="input-field" placeholder="Enter email">
+                            </div>
+                            <div class="input-group">
+                                <label for="receiptGstin">Customer GSTIN (Optional)</label>
+                                <input type="text" id="receiptGstin" class="input-field" placeholder="Enter GSTIN">
+                            </div>
+                        </div>
+
+                        <div class="pricing-inputs">
+                            <h3>System & Payment Details</h3>
+                            <div class="input-group">
+                                <label for="receiptCapacity">Capacity Size (kWp)</label>
+                                <input type="number" id="receiptCapacity" class="input-field" step="0.1"
+                                    placeholder="e.g. 5">
+                            </div>
+                            <div class="input-group">
+                                <label for="receiptSystemType">System Type</label>
+                                <div class="button-group">
+                                    <button class="btn active receipt-type-btn" data-type="On-Grid">On-Grid</button>
+                                    <button class="btn receipt-type-btn" data-type="Hybrid">Hybrid</button>
+                                    <button class="btn receipt-type-btn" data-type="Off-Grid">Off-Grid</button>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label for="receiptTotalCost">Total System Cost (Incl. GST) (₹)</label>
+                                <input type="number" id="receiptTotalCost" class="input-field"
+                                    placeholder="e.g. 200000">
+                            </div>
+                            <div class="input-group">
+                                <label for="receiptGstType">GST Type</label>
+                                <div class="button-group">
+                                    <button class="btn active receipt-gst-btn" data-type="Intrastate">Intrastate
+                                        (CGST+SGST)</button>
+                                    <button class="btn receipt-gst-btn" data-type="Interstate">Interstate
+                                        (IGST)</button>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label for="receiptDate">Payment Date</label>
+                                <input type="date" id="receiptDate" class="input-field">
+                            </div>
+                            <div class="input-group">
+                                <label for="receiptNumber">Receipt Number</label>
+                                <input type="text" id="receiptNumber" class="input-field"
+                                    placeholder="e.g. R2VADV0125-0001">
+                            </div>
+                            <div class="input-group">
+                                <label for="receiptPrevPayment">Previous Payments (₹)</label>
+                                <input type="number" id="receiptPrevPayment" class="input-field" value="0">
+                            </div>
+                            <div class="input-group">
+                                <label for="receiptCurrentPayment">Current Payment (₹)</label>
+                                <input type="number" id="receiptCurrentPayment" class="input-field" value="0">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="control-group" style="text-align: center; margin-top: 2rem;">
+                        <button id="generateReceiptBtn" class="btn active"
+                            style="font-size: 1.1rem; padding: 0.8rem 2rem;">Generate Receipt Preview</button>
+                        <button id="printReceiptBtn" class="btn" style="font-size: 1.1rem; padding: 0.8rem 2rem;">Print
+                            / Save as PDF</button>
+                    </div>
+                </div>
+
+                <!-- Receipt Template (Visible only when generated/printing) -->
+                <div id="receiptPreview">
+                    <!-- Header -->
+                    <div class="receipt-header">
+                        <div class="receipt-title-section">
+                            <h1>PAYMENT RECEIPT</h1>
+                            <p id="receiptNumberDisplay">R2VADV...</p>
+                        </div>
+                        <div class="receipt-logo-section">
+                            <img src="Logo.png" alt="Ray2Volt Logo" class="receipt-logo">
+                        </div>
+                    </div>
+
+                    <!-- Company & Customer Info Table -->
+                    <table class="receipt-info-table">
+                        <tr class="header-row">
+                            <td>Ray2Volt Solar Private Limited</td>
+                            <td>Bill To:</td>
+                        </tr>
+                        <tr>
+                            <td class="from-cell">
+                                <p>1-278, Pichatur road, Srikalahasti, 517640, Andhra Pradesh.</p>
+                                <p><span class="info-label">Phone:</span> +91 96 6606 8140</p>
+                                <p><span class="info-label">Email:</span> ray2voltsolar@gmail.com</p>
+                                <br>
+                                <p><span class="info-label">GSTIN:</span> 37AAOCR4626E1Z6</p>
+                                <p><span class="info-label">CIN:</span> U35104AP2025PTC118526</p>
+                            </td>
+                            <td class="to-cell">
+                                <p><span class="info-label">Name:</span> <span id="dispName"></span></p>
+                                <p><span class="info-label">Address:</span> <span id="dispAddress"></span></p>
+                                <p><span class="info-label">Phone Number:</span> <span id="dispPhone"></span></p>
+                                <p><span class="info-label">Email:</span> <span id="dispEmail"></span></p>
+                                <br>
+                                <p><span class="info-label">GSTIN:</span> <span id="dispGst"></span></p>
+                                <p><span class="info-label">Payment Date:</span> <span id="dispDate"></span></p>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <!-- Items Table -->
+                    <table class="receipt-items-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 40px;">SN</th>
+                                <th>Description of Goods / Services</th>
+                                <th style="width: 50px;">Qty</th>
+                                <th>Price per Unit (₹)</th>
+                                <th>Taxable Value (₹)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td class="desc-cell">Supply and Installation of <span id="dispCapacity"></span>-kWp
+                                    <span id="dispSysType"></span> Solar power system.
+                                </td>
+                                <td>1</td>
+                                <td id="dispTaxableValue"></td>
+                                <td id="dispTaxableValueTotal"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Tax Summary -->
+                    <div class="tax-summary-section">
+                        <table class="tax-table">
+                            <thead>
+                                <tr>
+                                    <th>Tax Summary</th>
+                                    <th>Rate</th>
+                                    <th>Amount (₹)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="taxTableBody">
+                                <!-- Populated by JS -->
+                            </tbody>
+                            <tfoot>
+                                <tr class="total-row">
+                                    <td><strong>Total Tax(B)</strong></td>
+                                    <td><strong id="dispTaxRateTotal"></strong></td>
+                                    <td><strong id="dispTaxAmountTotal"></strong></td>
+                                </tr>
+                                <tr class="grand-total-row">
+                                    <td colspan="2"><strong>Grand Total (A+B)</strong></td>
+                                    <td><strong id="dispGrandTotal"></strong></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+
+                    <!-- Amount in Words -->
+                    <div class="amount-words-section">
+                        <strong>Amount in Words:</strong> <span id="dispAmountWords"></span>
+                    </div>
+
+                    <!-- Payments Summary -->
+                    <table class="payments-table">
+                        <tr>
+                            <td>Previous Payments</td>
+                            <td id="dispPrevPayment"></td>
+                        </tr>
+                        <tr>
+                            <td>Current Payment</td>
+                            <td id="dispCurrPayment"></td>
+                        </tr>
+                        <tr class="balance-row">
+                            <td>Balance Due</td>
+                            <td id="dispBalance"></td>
+                        </tr>
+                    </table>
+
+                    <!-- Bank Details -->
+                    <div class="bank-details-section">
+                        <h4>Bank Details for Payment</h4>
+                        <div class="bank-grid">
+                            <span class="bank-label">Account Name</span>
+                            <span class="bank-value">: Ray2Volt Solar Private Limited</span>
+                            <span class="bank-label">Account Number</span>
+                            <span class="bank-value">: 50200112654604</span>
+                            <span class="bank-label">Bank Name</span>
+                            <span class="bank-value">: HDFC Bank</span>
+                            <span class="bank-label">Branch</span>
+                            <span class="bank-value">: Srikalahasti</span>
+                            <span class="bank-label">IFSC Code</span>
+                            <span class="bank-value">: HDFC0002436</span>
+                        </div>
+                    </div>
+
+                    <!-- Signature Section -->
+                    <div class="signature-section">
+                        <p class="signature-name">Harsha Vardhan Reddy</p>
+                        <p class="signature-title">Managing Director</p>
+                    </div>
+
+                    <!-- Footer Line -->
+                    <div class="receipt-footer-line"></div>
+                </div>
+            </section>
+
+            <!-- Invoice Generator Section -->
+            <section id="invoice-generator-section" class="calculator-panel content-section">
+                <h2>Invoice Generator</h2>
+                <div class="no-print-area">
+                    <p>Enter details below to generate a GST invoice.</p>
+                    <div class="pricing-layout">
+                        <div class="pricing-inputs">
+                            <h3>Customer Details</h3>
+                            <div class="input-group">
+                                <label for="invoiceName">Customer Name</label>
+                                <input type="text" id="invoiceName" class="input-field" placeholder="Enter name">
+                            </div>
+                            <div class="input-group">
+                                <label for="invoiceAddress">Address (Optional)</label>
+                                <textarea id="invoiceAddress" class="input-field" rows="2"
+                                    placeholder="Enter address"></textarea>
+                            </div>
+                            <div class="input-group">
+                                <label for="invoicePhone">Phone Number</label>
+                                <input type="text" id="invoicePhone" class="input-field" placeholder="Enter phone">
+                            </div>
+                            <div class="input-group">
+                                <label for="invoiceEmail">Email (Optional)</label>
+                                <input type="email" id="invoiceEmail" class="input-field" placeholder="Enter email">
+                            </div>
+                            <div class="input-group">
+                                <label for="invoiceGstin">Customer GSTIN (Optional)</label>
+                                <input type="text" id="invoiceGstin" class="input-field" placeholder="Enter GSTIN">
+                            </div>
+                        </div>
+
+                        <div class="pricing-inputs">
+                            <h3>System & Invoice Details</h3>
+                            <div class="input-group">
+                                <label for="invoiceCapacity">Capacity Size (kWp)</label>
+                                <input type="number" id="invoiceCapacity" class="input-field" step="0.1"
+                                    placeholder="e.g. 5">
+                            </div>
+                            <div class="input-group">
+                                <label for="invoiceSystemType">System Type</label>
+                                <div class="button-group">
+                                    <button class="btn active invoice-type-btn" data-type="On-Grid">On-Grid</button>
+                                    <button class="btn invoice-type-btn" data-type="Hybrid">Hybrid</button>
+                                    <button class="btn invoice-type-btn" data-type="Off-Grid">Off-Grid</button>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label for="invoiceHsn">HSN/SAC Code</label>
+                                <input type="text" id="invoiceHsn" class="input-field" value="8541"
+                                    placeholder="e.g. 8541">
+                            </div>
+                            <div class="input-group">
+                                <label for="invoiceTotalCost">Total System Cost (Incl. GST) (₹)</label>
+                                <input type="number" id="invoiceTotalCost" class="input-field"
+                                    placeholder="e.g. 200000">
+                            </div>
+                            <div class="input-group">
+                                <label for="invoiceGstType">GST Type</label>
+                                <div class="button-group">
+                                    <button class="btn active invoice-gst-btn" data-type="Intrastate">Intrastate
+                                        (CGST+SGST)</button>
+                                    <button class="btn invoice-gst-btn" data-type="Interstate">Interstate
+                                        (IGST)</button>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label for="invoiceDate">Invoice Date</label>
+                                <input type="date" id="invoiceDate" class="input-field">
+                            </div>
+                            <div class="input-group">
+                                <label for="invoiceNumber">Invoice Number</label>
+                                <input type="text" id="invoiceNumber" class="input-field"
+                                    placeholder="e.g. R2VINV0125-0001">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="control-group" style="text-align: center; margin-top: 2rem;">
+                        <button id="generateInvoiceBtn" class="btn active"
+                            style="font-size: 1.1rem; padding: 0.8rem 2rem;">Generate Invoice Preview</button>
+                        <button id="printInvoiceBtn" class="btn" style="font-size: 1.1rem; padding: 0.8rem 2rem;">Print
+                            / Save as PDF</button>
+                    </div>
+                </div>
+
+                <!-- Invoice Template -->
+                <div id="invoicePreview">
+                    <!-- Header -->
+                    <div class="invoice-header">
+                        <div class="invoice-title-section">
+                            <h1>TAX INVOICE</h1>
+                            <p id="invoiceNumberDisplay">R2VINV...</p>
+                        </div>
+                        <div class="invoice-logo-section">
+                            <img src="Logo.png" alt="Ray2Volt Logo" class="invoice-logo">
+                        </div>
+                    </div>
+
+                    <!-- Company & Customer Info Table -->
+                    <table class="invoice-info-table">
+                        <tr class="header-row">
+                            <td>Ray2Volt Solar Private Limited</td>
+                            <td>Bill To:</td>
+                        </tr>
+                        <tr>
+                            <td class="from-cell">
+                                <p>1-278, Pichatur road, Srikalahasti, 517640, Andhra Pradesh.</p>
+                                <p><span class="invoice-info-label">Phone:</span> +91 96 6606 8140</p>
+                                <p><span class="invoice-info-label">Email:</span> ray2voltsolar@gmail.com</p>
+                                <br>
+                                <p><span class="invoice-info-label">GSTIN:</span> 37AAOCR4626E1Z6</p>
+                                <p><span class="invoice-info-label">CIN:</span> U35104AP2025PTC118526</p>
+                            </td>
+                            <td class="to-cell">
+                                <p><span class="invoice-info-label">Name:</span> <span id="invDispName"></span></p>
+                                <p><span class="invoice-info-label">Address:</span> <span id="invDispAddress"></span>
+                                </p>
+                                <p><span class="invoice-info-label">Phone Number:</span> <span id="invDispPhone"></span>
+                                </p>
+                                <p><span class="invoice-info-label">Email:</span> <span id="invDispEmail"></span></p>
+                                <br>
+                                <p><span class="invoice-info-label">GSTIN:</span> <span id="invDispGst"></span></p>
+                                <p><span class="invoice-info-label">Invoice No:</span> <span
+                                        id="invDispInvoiceNo"></span></p>
+                                <p><span class="invoice-info-label">Invoice Date:</span> <span id="invDispDate"></span>
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <!-- Items Table -->
+                    <table class="invoice-items-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 40px;">SN</th>
+                                <th>Description of Goods / Services</th>
+                                <th style="width: 70px;">HSN/SAC</th>
+                                <th style="width: 50px;">Qty</th>
+                                <th>Price per Unit (₹)</th>
+                                <th>Taxable Value (₹)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td class="desc-cell">Supply and Installation of <span id="invDispCapacity"></span>-kWp
+                                    <span id="invDispSysType"></span> Solar power system.
+                                </td>
+                                <td id="invDispHsn"></td>
+                                <td>1</td>
+                                <td id="invDispTaxableValue"></td>
+                                <td id="invDispTaxableValueTotal"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Tax Summary -->
+                    <div class="invoice-tax-section">
+                        <table class="invoice-tax-table">
+                            <thead>
+                                <tr>
+                                    <th>Tax Summary</th>
+                                    <th>Rate</th>
+                                    <th>Amount (₹)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="invTaxTableBody">
+                                <!-- Populated by JS -->
+                            </tbody>
+                            <tfoot>
+                                <tr class="total-row">
+                                    <td><strong>Total Tax(B)</strong></td>
+                                    <td><strong id="invDispTaxRateTotal"></strong></td>
+                                    <td><strong id="invDispTaxAmountTotal"></strong></td>
+                                </tr>
+                                <tr class="grand-total-row">
+                                    <td colspan="2"><strong>Grand Total (A+B)</strong></td>
+                                    <td><strong id="invDispGrandTotal"></strong></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+
+                    <!-- Amount in Words -->
+                    <div class="invoice-amount-words">
+                        <strong>Amount in Words:</strong> <span id="invDispAmountWords"></span>
+                    </div>
+
+                    <!-- Bank Details -->
+                    <div class="invoice-bank-section">
+                        <h4>Bank Details for Payment</h4>
+                        <div class="invoice-bank-grid">
+                            <span class="bank-label">Account Name</span>
+                            <span class="bank-value">: Ray2Volt Solar Private Limited</span>
+                            <span class="bank-label">Account Number</span>
+                            <span class="bank-value">: 50200112654604</span>
+                            <span class="bank-label">Bank Name</span>
+                            <span class="bank-value">: HDFC Bank</span>
+                            <span class="bank-label">Branch</span>
+                            <span class="bank-value">: Srikalahasti</span>
+                            <span class="bank-label">IFSC Code</span>
+                            <span class="bank-value">: HDFC0002436</span>
+                        </div>
+                    </div>
+
+                    <!-- Signature Section -->
+                    <div class="invoice-signature">
+                        <p class="signature-name">Harsha Vardhan Reddy</p>
+                        <p class="signature-title">Managing Director</p>
+                    </div>
+
+                    <!-- Footer Line -->
+                    <div class="invoice-footer-line"></div>
+                </div>
+            </section>
         </main>
     </div>
 
@@ -361,6 +826,8 @@
     <div class="overlay" id="overlay"></div>
 
     <script src="script.js"></script>
+    <script src="receipt.js"></script>
+    <script src="invoice.js"></script>
 </body>
 
 </html>

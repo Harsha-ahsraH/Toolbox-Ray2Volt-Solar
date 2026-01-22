@@ -986,4 +986,330 @@ th:first-child {
     .output-item span:last-child {
         font-size: 1.1rem;
     }
+}/* ============================================
+   RECEIPT GENERATOR SPECIFICS
+   ============================================ */
+
+/* Hide receipt preview on screen by default (toggle via JS if needed, or just keep it hidden until print/preview modal)
+   For now, we will show it below the form but styled like a document */
+#receiptPreview {
+    display: none;
+    /* Hidden by default until generated */
+    margin: 2rem auto;
+    width: 210mm;
+    /* A4 width */
+    min-height: 297mm;
+    /* A4 height */
+    background: white;
+    padding: 10mm;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+    color: #000;
+    font-family: 'Nunito Sans', sans-serif;
+    border: 1px solid #ccc;
+}
+
+#receiptPreview.visible {
+    display: block;
+}
+
+/* Receipt Typography & Layout */
+.receipt-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    /* Align top */
+    margin-bottom: 0.5rem;
+}
+
+.receipt-title-section {
+    text-align: left;
+}
+
+.receipt-title-section h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 24pt;
+    font-weight: 800;
+    color: #444;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin: 0;
+    line-height: 1;
+}
+
+#receiptNumberDisplay {
+    font-size: 11pt;
+    color: #555;
+    margin-top: 5px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.receipt-logo-section {
+    text-align: right;
+}
+
+.receipt-logo {
+    height: 60px;
+    /* Adjust based on logo aspect ratio */
+    width: auto;
+}
+
+.receipt-divider {
+    height: 3px;
+    background-color: #00AEEF;
+    /* Cyan/Blue brand color */
+    margin: 10px 0 20px 0;
+    width: 100%;
+}
+
+/* Info Table (From / Bill To) */
+.receipt-info-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    border: 2px solid #5c9ce5;
+    /* Blue border matching header */
+}
+
+.receipt-info-table td {
+    vertical-align: top;
+    padding: 10px;
+    width: 50%;
+    border: 1px solid #5c9ce5;
+    font-size: 10pt;
+    line-height: 1.4;
+    color: #333;
+}
+
+.receipt-info-table h2 {
+    /* for Bill To header if needed, but using strong tags */
+}
+
+.receipt-info-table strong {
+    font-weight: 700;
+    color: #000;
+}
+
+.from-cell {
+    background-color: #f0f7ff;
+    /* Very light blue bg */
+}
+
+.to-cell {
+    background-color: #f0f7ff;
+}
+
+.from-cell strong:first-child,
+.to-cell strong:first-child {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 12pt;
+    color: #222;
+}
+
+
+/* Items Table */
+.receipt-items-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 10px;
+}
+
+.receipt-items-table th,
+.receipt-items-table td {
+    border: 2px solid #5c9ce5;
+    padding: 8px;
+    text-align: center;
+    font-size: 10pt;
+    vertical-align: middle;
+}
+
+.receipt-items-table th {
+    background-color: #e6f2ff;
+    /* Light blue header */
+    color: #000;
+    font-weight: 700;
+}
+
+.receipt-items-table td {
+    text-align: center;
+}
+
+.receipt-items-table td:nth-child(2) {
+    text-align: left;
+    /* Description aligns left */
+}
+
+.spacer-row td {
+    height: 150px;
+    /* Force some height for the body */
+    border-top: none;
+    border-bottom: 1px solid #5c9ce5;
+}
+
+/* Tax Summary */
+.tax-summary-container {
+    display: flex;
+    justify-content: flex-start;
+    /* Aligns to left as per image */
+    margin-bottom: 15px;
+}
+
+.tax-table {
+    width: 60%;
+    /* Occupies part of width */
+    border-collapse: collapse;
+}
+
+.tax-table th,
+.tax-table td {
+    border: 2px solid #5c9ce5;
+    padding: 6px;
+    text-align: center;
+    font-size: 10pt;
+}
+
+.tax-table th {
+    background-color: #e6f2ff;
+}
+
+.grand-total-row td {
+    background-color: #d9edf7;
+    font-weight: 700;
+    font-size: 11pt;
+}
+
+.amount-words {
+    margin-bottom: 15px;
+    font-size: 10pt;
+    border-bottom: 1px dotted #ccc;
+    padding-bottom: 5px;
+}
+
+/* Payments Summary Table */
+.payments-summary-table {
+    width: 50%;
+    /* Right aligned or specific width? Image shows it below tax summary, possibly right aligned or separate */
+    /* Looking at image: Payments summary seems to be separate box below tax summary */
+    width: 100%;
+    max-width: 400px;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.payments-summary-table td {
+    border: 2px solid #5c9ce5;
+    padding: 6px 12px;
+    font-size: 10pt;
+}
+
+.payments-summary-table td:first-child {
+    font-weight: 700;
+    background-color: #fff;
+    text-align: right;
+    width: 60%;
+}
+
+.payments-summary-table td:last-child {
+    text-align: right;
+    font-weight: 600;
+}
+
+.balance-row td {
+    background-color: #e6f2ff;
+}
+
+/* Bank Details */
+.bank-details-box {
+    border: 2px solid #5c9ce5;
+    margin-bottom: 20px;
+}
+
+.bank-details-box h3 {
+    background-color: #e6f2ff;
+    margin: 0;
+    padding: 5px 10px;
+    font-size: 11pt;
+    font-weight: 700;
+    border-bottom: 1px solid #5c9ce5;
+}
+
+.bank-grid {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 2px 10px;
+    padding: 10px;
+    font-size: 10pt;
+}
+
+.bank-grid span:nth-child(odd) {
+    font-weight: 700;
+}
+
+/* Footer / Signature */
+.receipt-footer {
+    position: absolute;
+    bottom: 20mm;
+    /* Adjust as needed */
+    right: 10mm;
+    text-align: right;
+}
+
+.signature-block {
+    display: inline-block;
+    text-align: center;
+}
+
+.signature-block strong {
+    display: block;
+    margin-bottom: 2px;
+    font-size: 11pt;
+}
+
+.footer-line {
+    position: absolute;
+    bottom: 10mm;
+    left: 10mm;
+    right: 10mm;
+    height: 3px;
+    background-color: #5c9ce5;
+}
+
+/* Print Styles */
+@media print {
+
+    /* Hide everything except receipt preview */
+    body * {
+        visibility: hidden;
+    }
+
+    #receiptPreview,
+    #receiptPreview * {
+        visibility: visible;
+    }
+
+    #receiptPreview {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        box-shadow: none;
+        border: none;
+        display: block !important;
+    }
+
+    @page {
+        size: A4;
+        margin: 10mm;
+        /* Small margin for printer */
+    }
+
+    /* Ensure background colors are printed */
+    * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
 }

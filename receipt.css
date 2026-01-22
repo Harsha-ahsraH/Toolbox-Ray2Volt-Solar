@@ -1,0 +1,451 @@
+/* ============================================
+   PAYMENT RECEIPT - Dedicated Stylesheet
+   Matches Ray2Volt Invoice Design
+   ============================================ */
+
+/* Main Receipt Container */
+#receiptPreview {
+    display: none;
+    width: 210mm;
+    min-height: 297mm;
+    margin: 2rem auto;
+    padding: 8mm;
+    background: #fff;
+    border: 3px solid #4A90D9;
+    border-radius: 4px;
+    font-family: 'Nunito Sans', 'Google Sans', sans-serif;
+    font-size: 10pt;
+    color: #333;
+    position: relative;
+    box-sizing: border-box;
+}
+
+#receiptPreview.visible {
+    display: block;
+}
+
+/* ============================================
+   HEADER SECTION
+   ============================================ */
+.receipt-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 10px 0;
+    margin-bottom: 10px;
+    border-bottom: 3px solid #5A9BD5;
+}
+
+.receipt-title-section h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16pt;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin: 0;
+    text-transform: uppercase;
+    color: #333;
+}
+
+.receipt-title-section p {
+    font-size: 10pt;
+    margin-top: 3px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: #555;
+}
+
+.receipt-logo-section {
+    text-align: right;
+}
+
+.receipt-logo {
+    height: 35px;
+    width: auto;
+}
+
+.receipt-logo-text {
+    font-size: 22pt;
+    font-weight: 800;
+    color: #fff;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.receipt-logo-text span {
+    color: #FFD700;
+}
+
+.receipt-logo-subtext {
+    font-size: 8pt;
+    color: #FFD700;
+    margin-top: 2px;
+}
+
+/* ============================================
+   INFO TABLE (From / Bill To)
+   ============================================ */
+.receipt-info-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    border: 2px solid #5A9BD5;
+}
+
+.receipt-info-table td {
+    width: 50%;
+    vertical-align: top;
+    padding: 12px;
+    border: 1px solid #5A9BD5;
+    font-size: 9pt;
+    line-height: 1.5;
+}
+
+.receipt-info-table .from-cell {
+    background-color: #fff;
+}
+
+.receipt-info-table .to-cell {
+    background-color: #fff;
+    text-align: left;
+}
+
+.receipt-info-table .header-row td {
+    background-color: #D6E6F5;
+    color: #333;
+    font-weight: 700;
+    text-align: center;
+    padding: 8px;
+    font-size: 10pt;
+}
+
+.info-company-name {
+    font-weight: 700;
+    font-size: 11pt;
+    color: #333;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.info-label {
+    font-weight: 700;
+    color: #333;
+}
+
+/* ============================================
+   ITEMS TABLE
+   ============================================ */
+.receipt-items-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0 10px 0;
+}
+
+.receipt-items-table th {
+    background-color: #D6E6F5;
+    color: #333;
+    font-weight: 700;
+    padding: 10px 8px;
+    border: 2px solid #5A9BD5;
+    text-align: center;
+    font-size: 9pt;
+}
+
+.receipt-items-table td {
+    padding: 10px 8px;
+    border: 2px solid #5A9BD5;
+    text-align: center;
+    font-size: 9pt;
+    vertical-align: top;
+}
+
+.receipt-items-table td.desc-cell {
+    text-align: left;
+}
+
+.receipt-items-table .spacer-row td {
+    height: 30px;
+    border-left: 2px solid #5A9BD5;
+    border-right: 2px solid #5A9BD5;
+    border-bottom: 2px solid #5A9BD5;
+    border-top: none;
+}
+
+/* ============================================
+   TAX SUMMARY TABLE
+   ============================================ */
+.tax-summary-section {
+    display: flex;
+    justify-content: flex-start;
+    margin: 10px 0;
+}
+
+.tax-table {
+    width: 55%;
+    border-collapse: collapse;
+}
+
+.tax-table th,
+.tax-table td {
+    border: 2px solid #5A9BD5;
+    padding: 8px;
+    text-align: center;
+    font-size: 9pt;
+}
+
+.tax-table th {
+    background-color: #D6E6F5;
+    font-weight: 700;
+}
+
+.tax-table .total-row td {
+    font-weight: 700;
+}
+
+.tax-table .grand-total-row td {
+    background-color: #D6E6F5;
+    font-weight: 700;
+    font-size: 10pt;
+}
+
+/* ============================================
+   AMOUNT IN WORDS
+   ============================================ */
+.amount-words-section {
+    margin: 12px 0;
+    font-size: 9pt;
+    padding: 5px 0;
+    border-bottom: 1px dashed #ccc;
+}
+
+.amount-words-section strong {
+    font-weight: 700;
+}
+
+/* ============================================
+   PAYMENTS SUMMARY TABLE
+   ============================================ */
+.payments-table {
+    width: 55%;
+    border-collapse: collapse;
+    margin: 10px 0;
+}
+
+.payments-table td {
+    border: 2px solid #5A9BD5;
+    padding: 8px 12px;
+    font-size: 9pt;
+}
+
+.payments-table td:first-child {
+    font-weight: 700;
+    text-align: left;
+    width: 55%;
+}
+
+.payments-table td:last-child {
+    text-align: right;
+}
+
+.payments-table .balance-row td {
+    background-color: #D6E6F5;
+    font-weight: 700;
+}
+
+/* ============================================
+   BANK DETAILS BOX
+   ============================================ */
+.bank-details-section {
+    border: 2px solid #5A9BD5;
+    margin: 15px 0;
+}
+
+.bank-details-section h4 {
+    background-color: #D6E6F5;
+    margin: 0;
+    padding: 8px 12px;
+    font-size: 10pt;
+    font-weight: 700;
+    border-bottom: 1px solid #5A9BD5;
+}
+
+.bank-grid {
+    display: grid;
+    grid-template-columns: 130px 1fr;
+    gap: 4px 10px;
+    padding: 10px 12px;
+    font-size: 9pt;
+}
+
+.bank-grid .bank-label {
+    font-weight: 700;
+}
+
+.bank-grid .bank-value {
+    font-weight: 400;
+}
+
+/* ============================================
+   SIGNATURE SECTION
+   ============================================ */
+.signature-section {
+    position: absolute;
+    bottom: 20mm;
+    right: 10mm;
+    text-align: right;
+}
+
+.signature-section .signature-name {
+    font-weight: 700;
+    font-size: 11pt;
+}
+
+.signature-section .signature-title {
+    font-size: 9pt;
+    color: #555;
+}
+
+/* ============================================
+   FOOTER LINE
+   ============================================ */
+.receipt-footer-line {
+    position: absolute;
+    bottom: 8mm;
+    left: 8mm;
+    right: 8mm;
+    height: 2px;
+    background: linear-gradient(90deg, #5A9BD5 0%, #4A7FC1 100%);
+}
+
+/* ============================================
+   RESPONSIVE STYLES
+   ============================================ */
+@media screen and (max-width: 900px) {
+    #receiptPreview {
+        width: 100%;
+        min-height: auto;
+        margin: 1rem auto;
+        padding: 15px;
+        font-size: 9pt;
+    }
+
+    .receipt-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 10px;
+    }
+
+    .receipt-title-section h1 {
+        font-size: 14pt;
+    }
+
+    .receipt-logo {
+        height: 30px;
+    }
+
+    .receipt-info-table td {
+        display: block;
+        width: 100%;
+    }
+
+    .receipt-info-table .header-row td {
+        display: table-cell;
+        width: 50%;
+    }
+
+    .receipt-items-table {
+        font-size: 8pt;
+    }
+
+    .receipt-items-table th,
+    .receipt-items-table td {
+        padding: 6px 4px;
+    }
+
+    .tax-table,
+    .payments-table {
+        width: 100%;
+    }
+
+    .signature-section {
+        position: static;
+        margin-top: 30px;
+        text-align: right;
+    }
+
+    .receipt-footer-line {
+        position: static;
+        margin-top: 20px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    #receiptPreview {
+        padding: 10px;
+        font-size: 8pt;
+    }
+
+    .receipt-title-section h1 {
+        font-size: 12pt;
+        letter-spacing: 1px;
+    }
+
+    .receipt-info-table .header-row td {
+        display: block;
+        width: 100%;
+    }
+
+    .receipt-items-table th:nth-child(1),
+    .receipt-items-table td:nth-child(1) {
+        display: none;
+    }
+
+    .bank-grid {
+        grid-template-columns: 1fr;
+        gap: 2px;
+    }
+
+    .bank-grid .bank-label {
+        margin-top: 5px;
+    }
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+@media print {
+    body * {
+        visibility: hidden;
+    }
+
+    #receiptPreview,
+    #receiptPreview * {
+        visibility: visible;
+    }
+
+    #receiptPreview {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: auto;
+        margin: 0;
+        padding: 10mm;
+        border: none;
+        box-shadow: none;
+        display: block !important;
+    }
+
+    .no-print-area {
+        display: none !important;
+    }
+
+    @page {
+        size: A4;
+        margin: 0;
+    }
+
+    * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+}

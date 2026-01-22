@@ -1,0 +1,389 @@
+/* ============================================
+   INVOICE GENERATOR - Dedicated Stylesheet
+   Matches Ray2Volt Invoice Design
+   ============================================ */
+
+/* Main Invoice Container */
+#invoicePreview {
+    display: none;
+    width: 210mm;
+    min-height: 297mm;
+    margin: 2rem auto;
+    padding: 8mm;
+    background: #fff;
+    border: 3px solid #4A90D9;
+    border-radius: 4px;
+    font-family: 'Nunito Sans', Arial, sans-serif;
+    font-size: 10pt;
+    color: #333;
+    position: relative;
+    box-sizing: border-box;
+}
+
+#invoicePreview.visible {
+    display: block;
+}
+
+/* ============================================
+   HEADER SECTION
+   ============================================ */
+.invoice-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 10px 0;
+    margin-bottom: 10px;
+    border-bottom: 3px solid #5A9BD5;
+}
+
+.invoice-title-section h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16pt;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin: 0;
+    text-transform: uppercase;
+    color: #333;
+}
+
+.invoice-title-section p {
+    font-size: 10pt;
+    margin-top: 3px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: #555;
+}
+
+.invoice-logo-section {
+    text-align: right;
+}
+
+.invoice-logo {
+    height: 35px;
+    width: auto;
+}
+
+/* ============================================
+   INFO TABLE (From / Bill To)
+   ============================================ */
+.invoice-info-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    border: 2px solid #5A9BD5;
+}
+
+.invoice-info-table td {
+    width: 50%;
+    vertical-align: top;
+    padding: 12px;
+    border: 1px solid #5A9BD5;
+    font-size: 9pt;
+    line-height: 1.5;
+}
+
+.invoice-info-table .from-cell {
+    background-color: #fff;
+}
+
+.invoice-info-table .to-cell {
+    background-color: #fff;
+    text-align: left;
+}
+
+.invoice-info-table .header-row td {
+    background-color: #D6E6F5;
+    color: #333;
+    font-weight: 700;
+    text-align: center;
+    padding: 8px;
+    font-size: 10pt;
+}
+
+.invoice-info-label {
+    font-weight: 700;
+    color: #333;
+}
+
+/* ============================================
+   ITEMS TABLE
+   ============================================ */
+.invoice-items-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0 10px 0;
+}
+
+.invoice-items-table th {
+    background-color: #D6E6F5;
+    color: #333;
+    font-weight: 700;
+    padding: 10px 8px;
+    border: 2px solid #5A9BD5;
+    text-align: center;
+    font-size: 9pt;
+}
+
+.invoice-items-table td {
+    padding: 10px 8px;
+    border: 2px solid #5A9BD5;
+    text-align: center;
+    font-size: 9pt;
+    vertical-align: top;
+}
+
+.invoice-items-table td.desc-cell {
+    text-align: left;
+}
+
+/* ============================================
+   TAX SUMMARY TABLE
+   ============================================ */
+.invoice-tax-section {
+    display: flex;
+    justify-content: flex-start;
+    margin: 10px 0;
+}
+
+.invoice-tax-table {
+    width: 55%;
+    border-collapse: collapse;
+}
+
+.invoice-tax-table th,
+.invoice-tax-table td {
+    border: 2px solid #5A9BD5;
+    padding: 8px;
+    text-align: center;
+    font-size: 9pt;
+}
+
+.invoice-tax-table th {
+    background-color: #D6E6F5;
+    font-weight: 700;
+}
+
+.invoice-tax-table .total-row td {
+    font-weight: 700;
+}
+
+.invoice-tax-table .grand-total-row td {
+    background-color: #D6E6F5;
+    font-weight: 700;
+    font-size: 10pt;
+}
+
+/* ============================================
+   AMOUNT IN WORDS
+   ============================================ */
+.invoice-amount-words {
+    margin: 12px 0;
+    font-size: 9pt;
+    padding: 5px 0;
+    border-bottom: 1px dashed #ccc;
+}
+
+.invoice-amount-words strong {
+    font-weight: 700;
+}
+
+/* ============================================
+   BANK DETAILS BOX
+   ============================================ */
+.invoice-bank-section {
+    border: 2px solid #5A9BD5;
+    margin: 15px 0;
+}
+
+.invoice-bank-section h4 {
+    background-color: #D6E6F5;
+    margin: 0;
+    padding: 8px 12px;
+    font-size: 10pt;
+    font-weight: 700;
+    border-bottom: 1px solid #5A9BD5;
+}
+
+.invoice-bank-grid {
+    display: grid;
+    grid-template-columns: 130px 1fr;
+    gap: 4px 10px;
+    padding: 10px 12px;
+    font-size: 9pt;
+}
+
+.invoice-bank-grid .bank-label {
+    font-weight: 700;
+}
+
+.invoice-bank-grid .bank-value {
+    font-weight: 400;
+}
+
+/* ============================================
+   SIGNATURE SECTION
+   ============================================ */
+.invoice-signature {
+    position: absolute;
+    bottom: 20mm;
+    right: 10mm;
+    text-align: right;
+}
+
+.invoice-signature .signature-name {
+    font-weight: 700;
+    font-size: 11pt;
+}
+
+.invoice-signature .signature-title {
+    font-size: 9pt;
+    color: #555;
+}
+
+/* ============================================
+   FOOTER LINE
+   ============================================ */
+.invoice-footer-line {
+    position: absolute;
+    bottom: 8mm;
+    left: 8mm;
+    right: 8mm;
+    height: 2px;
+    background: linear-gradient(90deg, #5A9BD5 0%, #4A7FC1 100%);
+}
+
+/* ============================================
+   RESPONSIVE STYLES
+   ============================================ */
+@media screen and (max-width: 900px) {
+    #invoicePreview {
+        width: 100%;
+        min-height: auto;
+        margin: 1rem auto;
+        padding: 15px;
+        font-size: 9pt;
+    }
+
+    .invoice-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 10px;
+    }
+
+    .invoice-title-section h1 {
+        font-size: 14pt;
+    }
+
+    .invoice-logo {
+        height: 30px;
+    }
+
+    .invoice-info-table td {
+        display: block;
+        width: 100%;
+    }
+
+    .invoice-info-table .header-row td {
+        display: table-cell;
+        width: 50%;
+    }
+
+    .invoice-items-table {
+        font-size: 8pt;
+    }
+
+    .invoice-items-table th,
+    .invoice-items-table td {
+        padding: 6px 4px;
+    }
+
+    .invoice-tax-table {
+        width: 100%;
+    }
+
+    .invoice-signature {
+        position: static;
+        margin-top: 30px;
+        text-align: right;
+    }
+
+    .invoice-footer-line {
+        position: static;
+        margin-top: 20px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    #invoicePreview {
+        padding: 10px;
+        font-size: 8pt;
+    }
+
+    .invoice-title-section h1 {
+        font-size: 12pt;
+        letter-spacing: 1px;
+    }
+
+    .invoice-info-table .header-row td {
+        display: block;
+        width: 100%;
+    }
+
+    .invoice-items-table th:nth-child(1),
+    .invoice-items-table td:nth-child(1),
+    .invoice-items-table th:nth-child(3),
+    .invoice-items-table td:nth-child(3) {
+        display: none;
+    }
+
+    .invoice-bank-grid {
+        grid-template-columns: 1fr;
+        gap: 2px;
+    }
+
+    .invoice-bank-grid .bank-label {
+        margin-top: 5px;
+    }
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+@media print {
+    body * {
+        visibility: hidden;
+    }
+
+    #invoicePreview,
+    #invoicePreview * {
+        visibility: visible;
+    }
+
+    #invoicePreview {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: auto;
+        margin: 0;
+        padding: 10mm;
+        border: none;
+        box-shadow: none;
+        display: block !important;
+    }
+
+    .no-print-area {
+        display: none !important;
+    }
+
+    @page {
+        size: A4;
+        margin: 0;
+    }
+
+    * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+}
