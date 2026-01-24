@@ -410,34 +410,7 @@
                         </div>
 
                         <div class="pricing-inputs">
-                            <h3>System & Payment Details</h3>
-                            <div class="input-group">
-                                <label for="receiptCapacity">Capacity Size (kWp)</label>
-                                <input type="number" id="receiptCapacity" class="input-field" step="0.1"
-                                    placeholder="e.g. 5">
-                            </div>
-                            <div class="input-group">
-                                <label for="receiptSystemType">System Type</label>
-                                <div class="button-group">
-                                    <button class="btn active receipt-type-btn" data-type="On-Grid">On-Grid</button>
-                                    <button class="btn receipt-type-btn" data-type="Hybrid">Hybrid</button>
-                                    <button class="btn receipt-type-btn" data-type="Off-Grid">Off-Grid</button>
-                                </div>
-                            </div>
-                            <div class="input-group">
-                                <label for="receiptTotalCost">Total System Cost (Incl. GST) (₹)</label>
-                                <input type="number" id="receiptTotalCost" class="input-field"
-                                    placeholder="e.g. 200000">
-                            </div>
-                            <div class="input-group">
-                                <label for="receiptGstType">GST Type</label>
-                                <div class="button-group">
-                                    <button class="btn active receipt-gst-btn" data-type="Intrastate">Intrastate
-                                        (CGST+SGST)</button>
-                                    <button class="btn receipt-gst-btn" data-type="Interstate">Interstate
-                                        (IGST)</button>
-                                </div>
-                            </div>
+                            <h3>Receipt Settings</h3>
                             <div class="input-group">
                                 <label for="receiptDate">Payment Date</label>
                                 <input type="date" id="receiptDate" class="input-field">
@@ -457,6 +430,53 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- Receipt Items Section -->
+                    <div class="receipt-items-input-section">
+                        <h3>Receipt Items</h3>
+                        <p class="input-help">Add items to your receipt. Each item can have a different GST rate.</p>
+
+                        <div id="receiptItemsContainer">
+                            <!-- Item 1 (default) -->
+                            <div class="receipt-item-row" data-item-index="0">
+                                <div class="item-row-header">
+                                    <span class="item-number">Item 1</span>
+                                    <button type="button" class="btn-remove-item" onclick="removeReceiptItem(this)"
+                                        title="Remove Item">&times;</button>
+                                </div>
+                                <div class="item-fields">
+                                    <div class="input-group item-desc">
+                                        <label>Description</label>
+                                        <textarea class="input-field item-description" rows="2"
+                                            placeholder="e.g. Supply of 10 x 550Wp Solar Panels"></textarea>
+                                    </div>
+                                    <div class="input-group item-qty">
+                                        <label>Qty</label>
+                                        <input type="number" class="input-field item-quantity" value="1" min="1">
+                                    </div>
+                                    <div class="input-group item-amount">
+                                        <label>Total Amt (Incl. GST) ₹</label>
+                                        <input type="number" class="input-field item-total-amount"
+                                            placeholder="e.g. 200000">
+                                    </div>
+                                    <div class="input-group item-gst">
+                                        <label>GST %</label>
+                                        <select class="input-field item-gst-rate">
+                                            <option value="5" selected>5%</option>
+                                            <option value="12">12%</option>
+                                            <option value="18">18%</option>
+                                            <option value="28">28%</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="button" id="addReceiptItemBtn" class="btn" style="margin-top: 1rem;">
+                            + Add Another Item
+                        </button>
+                    </div>
+
                     <div class="control-group" style="text-align: center; margin-top: 2rem;">
                         <button id="generateReceiptBtn" class="btn active"
                             style="font-size: 1.1rem; padding: 0.8rem 2rem;">Generate Receipt Preview</button>
@@ -509,52 +529,25 @@
                     <table class="receipt-items-table">
                         <thead>
                             <tr>
-                                <th style="width: 40px;">SN</th>
+                                <th style="width: 35px;">SN</th>
                                 <th>Description of Goods / Services</th>
-                                <th style="width: 50px;">Qty</th>
-                                <th>Price per Unit (₹)</th>
-                                <th>Taxable Value (₹)</th>
+                                <th style="width: 45px;">Qty</th>
+                                <th style="width: 90px;">Price/Unit (₹)</th>
+                                <th style="width: 55px;">GST %</th>
+                                <th style="width: 100px;">Amount (₹)</th>
+                                <th style="width: 110px;">Total Amount (₹)</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td class="desc-cell">Supply and Installation of <span id="dispCapacity"></span>-kWp
-                                    <span id="dispSysType"></span> Solar power system.
-                                </td>
-                                <td>1</td>
-                                <td id="dispTaxableValue"></td>
-                                <td id="dispTaxableValueTotal"></td>
-                            </tr>
+                        <tbody id="receiptItemsTableBody">
+                            <!-- Populated by JS -->
                         </tbody>
+                        <tfoot>
+                            <tr class="grand-total-row">
+                                <td colspan="6" style="text-align: right;"><strong>Grand Total:</strong></td>
+                                <td id="dispGrandTotal"></td>
+                            </tr>
+                        </tfoot>
                     </table>
-
-                    <!-- Tax Summary -->
-                    <div class="tax-summary-section">
-                        <table class="tax-table">
-                            <thead>
-                                <tr>
-                                    <th>Tax Summary</th>
-                                    <th>Rate</th>
-                                    <th>Amount (₹)</th>
-                                </tr>
-                            </thead>
-                            <tbody id="taxTableBody">
-                                <!-- Populated by JS -->
-                            </tbody>
-                            <tfoot>
-                                <tr class="total-row">
-                                    <td><strong>Total Tax(B)</strong></td>
-                                    <td><strong id="dispTaxRateTotal"></strong></td>
-                                    <td><strong id="dispTaxAmountTotal"></strong></td>
-                                </tr>
-                                <tr class="grand-total-row">
-                                    <td colspan="2"><strong>Grand Total (A+B)</strong></td>
-                                    <td><strong id="dispGrandTotal"></strong></td>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div>
 
                     <!-- Amount in Words -->
                     <div class="amount-words-section">
@@ -637,30 +630,7 @@
                         </div>
 
                         <div class="pricing-inputs">
-                            <h3>System & Invoice Details</h3>
-                            <div class="input-group">
-                                <label for="invoiceCapacity">Capacity Size (kWp)</label>
-                                <input type="number" id="invoiceCapacity" class="input-field" step="0.1"
-                                    placeholder="e.g. 5">
-                            </div>
-                            <div class="input-group">
-                                <label for="invoiceSystemType">System Type</label>
-                                <div class="button-group">
-                                    <button class="btn active invoice-type-btn" data-type="On-Grid">On-Grid</button>
-                                    <button class="btn invoice-type-btn" data-type="Hybrid">Hybrid</button>
-                                    <button class="btn invoice-type-btn" data-type="Off-Grid">Off-Grid</button>
-                                </div>
-                            </div>
-                            <div class="input-group">
-                                <label for="invoiceHsn">HSN/SAC Code</label>
-                                <input type="text" id="invoiceHsn" class="input-field" value="8541"
-                                    placeholder="e.g. 8541">
-                            </div>
-                            <div class="input-group">
-                                <label for="invoiceTotalCost">Total System Cost (Incl. GST) (₹)</label>
-                                <input type="number" id="invoiceTotalCost" class="input-field"
-                                    placeholder="e.g. 200000">
-                            </div>
+                            <h3>Invoice Settings</h3>
                             <div class="input-group">
                                 <label for="invoiceGstType">GST Type</label>
                                 <div class="button-group">
@@ -681,6 +651,53 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- Invoice Items Section -->
+                    <div class="invoice-items-input-section">
+                        <h3>Invoice Items</h3>
+                        <p class="input-help">Add items to your invoice. Each item can have a different GST rate.</p>
+
+                        <div id="invoiceItemsContainer">
+                            <!-- Item 1 (default) -->
+                            <div class="invoice-item-row" data-item-index="0">
+                                <div class="item-row-header">
+                                    <span class="item-number">Item 1</span>
+                                    <button type="button" class="btn-remove-item" onclick="removeInvoiceItem(this)"
+                                        title="Remove Item">&times;</button>
+                                </div>
+                                <div class="item-fields">
+                                    <div class="input-group item-desc">
+                                        <label>Description</label>
+                                        <textarea class="input-field item-description" rows="2"
+                                            placeholder="e.g. Supply of 10 x 550Wp Solar Panels"></textarea>
+                                    </div>
+                                    <div class="input-group item-qty">
+                                        <label>Qty</label>
+                                        <input type="number" class="input-field item-quantity" value="1" min="1">
+                                    </div>
+                                    <div class="input-group item-amount">
+                                        <label>Total Amt (Incl. GST) ₹</label>
+                                        <input type="number" class="input-field item-total-amount"
+                                            placeholder="e.g. 200000">
+                                    </div>
+                                    <div class="input-group item-gst">
+                                        <label>GST %</label>
+                                        <select class="input-field item-gst-rate">
+                                            <option value="5" selected>5%</option>
+                                            <option value="12">12%</option>
+                                            <option value="18">18%</option>
+                                            <option value="28">28%</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="button" id="addInvoiceItemBtn" class="btn" style="margin-top: 1rem;">
+                            + Add Another Item
+                        </button>
+                    </div>
+
                     <div class="control-group" style="text-align: center; margin-top: 2rem;">
                         <button id="generateInvoiceBtn" class="btn active"
                             style="font-size: 1.1rem; padding: 0.8rem 2rem;">Generate Invoice Preview</button>
@@ -738,54 +755,25 @@
                     <table class="invoice-items-table">
                         <thead>
                             <tr>
-                                <th style="width: 40px;">SN</th>
+                                <th style="width: 35px;">SN</th>
                                 <th>Description of Goods / Services</th>
-                                <th style="width: 70px;">HSN/SAC</th>
-                                <th style="width: 50px;">Qty</th>
-                                <th>Price per Unit (₹)</th>
-                                <th>Taxable Value (₹)</th>
+                                <th style="width: 45px;">Qty</th>
+                                <th style="width: 90px;">Price/Unit (₹)</th>
+                                <th style="width: 55px;">GST %</th>
+                                <th style="width: 100px;">Amount (₹)</th>
+                                <th style="width: 110px;">Total Amount (₹)</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td class="desc-cell">Supply and Installation of <span id="invDispCapacity"></span>-kWp
-                                    <span id="invDispSysType"></span> Solar power system.
-                                </td>
-                                <td id="invDispHsn"></td>
-                                <td>1</td>
-                                <td id="invDispTaxableValue"></td>
-                                <td id="invDispTaxableValueTotal"></td>
-                            </tr>
+                        <tbody id="invItemsTableBody">
+                            <!-- Populated by JS -->
                         </tbody>
+                        <tfoot>
+                            <tr class="grand-total-row">
+                                <td colspan="6" style="text-align: right;"><strong>Grand Total:</strong></td>
+                                <td id="invDispGrandTotal"></td>
+                            </tr>
+                        </tfoot>
                     </table>
-
-                    <!-- Tax Summary -->
-                    <div class="invoice-tax-section">
-                        <table class="invoice-tax-table">
-                            <thead>
-                                <tr>
-                                    <th>Tax Summary</th>
-                                    <th>Rate</th>
-                                    <th>Amount (₹)</th>
-                                </tr>
-                            </thead>
-                            <tbody id="invTaxTableBody">
-                                <!-- Populated by JS -->
-                            </tbody>
-                            <tfoot>
-                                <tr class="total-row">
-                                    <td><strong>Total Tax(B)</strong></td>
-                                    <td><strong id="invDispTaxRateTotal"></strong></td>
-                                    <td><strong id="invDispTaxAmountTotal"></strong></td>
-                                </tr>
-                                <tr class="grand-total-row">
-                                    <td colspan="2"><strong>Grand Total (A+B)</strong></td>
-                                    <td><strong id="invDispGrandTotal"></strong></td>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div>
 
                     <!-- Amount in Words -->
                     <div class="invoice-amount-words">

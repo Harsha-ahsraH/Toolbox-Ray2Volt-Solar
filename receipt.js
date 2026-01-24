@@ -1,6 +1,8 @@
 /**
  * Payment Receipt Generator - Dedicated JavaScript
  * Ray2Volt Solar Toolbox
+ * Supports multiple items with different GST rates
+ * Single table with Grand Total - no separate tax table
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -10,12 +12,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const receiptPhoneInput = document.getElementById('receiptPhone');
     const receiptEmailInput = document.getElementById('receiptEmail');
     const receiptGstinInput = document.getElementById('receiptGstin');
-    const receiptCapacityInput = document.getElementById('receiptCapacity');
-    const receiptTotalCostInput = document.getElementById('receiptTotalCost');
     const receiptDateInput = document.getElementById('receiptDate');
+    const receiptNumberInput = document.getElementById('receiptNumber');
     const receiptPrevPaymentInput = document.getElementById('receiptPrevPayment');
     const receiptCurrentPaymentInput = document.getElementById('receiptCurrentPayment');
-    const receiptNumberInput = document.getElementById('receiptNumber');
+    const receiptItemsContainer = document.getElementById('receiptItemsContainer');
+    const addReceiptItemBtn = document.getElementById('addReceiptItemBtn');
     const generateReceiptBtn = document.getElementById('generateReceiptBtn');
     const printReceiptBtn = document.getElementById('printReceiptBtn');
     const receiptPreview = document.getElementById('receiptPreview');
@@ -26,15 +28,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const dispPhone = document.getElementById('dispPhone');
     const dispEmail = document.getElementById('dispEmail');
     const dispGst = document.getElementById('dispGst');
-    const dispReceiptNo = document.getElementById('dispReceiptNo');
     const dispDate = document.getElementById('dispDate');
-    const dispCapacity = document.getElementById('dispCapacity');
-    const dispSysType = document.getElementById('dispSysType');
-    const dispTaxableValue = document.getElementById('dispTaxableValue');
-    const dispTaxableValueTotal = document.getElementById('dispTaxableValueTotal');
-    const taxTableBody = document.getElementById('taxTableBody');
-    const dispTaxRateTotal = document.getElementById('dispTaxRateTotal');
-    const dispTaxAmountTotal = document.getElementById('dispTaxAmountTotal');
+    const receiptItemsTableBody = document.getElementById('receiptItemsTableBody');
     const dispGrandTotal = document.getElementById('dispGrandTotal');
     const dispAmountWords = document.getElementById('dispAmountWords');
     const dispPrevPayment = document.getElementById('dispPrevPayment');
@@ -43,8 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const receiptNumberDisplay = document.getElementById('receiptNumberDisplay');
 
     // --- STATE ---
-    let receiptSysType = 'On-Grid';
-    let receiptGstType = 'Intrastate';
+    let itemCounter = 1;
 
     // --- HELPER: Format Currency (Indian Rupees) ---
     function formatRupees(num) {
@@ -83,31 +77,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
             let result = '';
 
-            // Crores (1,00,00,000)
             if (n >= 10000000) {
                 result += convert(Math.floor(n / 10000000)) + ' Crore ';
                 n %= 10000000;
             }
 
-            // Lakhs (1,00,000)
             if (n >= 100000) {
                 result += convert(Math.floor(n / 100000)) + ' Lakh ';
                 n %= 100000;
             }
 
-            // Thousands (1,000)
             if (n >= 1000) {
                 result += convert(Math.floor(n / 1000)) + ' Thousand ';
                 n %= 1000;
             }
 
-            // Hundreds
             if (n >= 100) {
                 result += ones[Math.floor(n / 100)] + ' Hundred ';
                 n %= 100;
             }
 
-            // Less than 100
             if (n > 0) {
                 result += convertLessThanHundred(n) + ' ';
             }
@@ -118,48 +107,99 @@ document.addEventListener('DOMContentLoaded', () => {
         return convert(Math.round(num)) + ' Rupees Only';
     }
 
-    // --- BUTTON GROUP EVENT LISTENERS ---
-    document.querySelectorAll('.receipt-type-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            document.querySelectorAll('.receipt-type-btn').forEach(b => b.classList.remove('active'));
-            e.target.classList.add('active');
-            receiptSysType = e.target.dataset.type;
-        });
-    });
+    // --- ADD NEW ITEM ROW ---
+    function createItemRow(index) {
+        const itemRow = document.createElement('div');
+        itemRow.className = 'receipt-item-row';
+        itemRow.dataset.itemIndex = index;
 
-    document.querySelectorAll('.receipt-gst-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            document.querySelectorAll('.receipt-gst-btn').forEach(b => b.classList.remove('active'));
-            e.target.classList.add('active');
-            receiptGstType = e.target.dataset.type;
+        itemRow.innerHTML = `
+            <div class="item-row-header">
+                <span class="item-number">Item ${index + 1}</span>
+                <button type="button" class="btn-remove-item" onclick="removeReceiptItem(this)" title="Remove Item">&times;</button>
+            </div>
+            <div class="item-fields">
+                <div class="input-group item-desc">
+                    <label>Description</label>
+                    <textarea class="input-field item-description" rows="2" placeholder="e.g. Supply of 10 x 550Wp Solar Panels"></textarea>
+                </div>
+                <div class="input-group item-qty">
+                    <label>Qty</label>
+                    <input type="number" class="input-field item-quantity" value="1" min="1">
+                </div>
+                <div class="input-group item-amount">
+                    <label>Total Amt (Incl. GST) ₹</label>
+                    <input type="number" class="input-field item-total-amount" placeholder="e.g. 200000">
+                </div>
+                <div class="input-group item-gst">
+                    <label>GST %</label>
+                    <select class="input-field item-gst-rate">
+                        <option value="5" selected>5%</option>
+                        <option value="12">12%</option>
+                        <option value="18">18%</option>
+                        <option value="28">28%</option>
+                    </select>
+                </div>
+            </div>
+        `;
+
+        return itemRow;
+    }
+
+    // Add item button click handler
+    if (addReceiptItemBtn) {
+        addReceiptItemBtn.addEventListener('click', () => {
+            const newItem = createItemRow(itemCounter);
+            receiptItemsContainer.appendChild(newItem);
+            itemCounter++;
+            renumberItems();
         });
-    });
+    }
+
+    // --- REMOVE ITEM (Global function for onclick) ---
+    window.removeReceiptItem = function (btn) {
+        const itemRow = btn.closest('.receipt-item-row');
+        const allItems = receiptItemsContainer.querySelectorAll('.receipt-item-row');
+
+        // Prevent removing the last item
+        if (allItems.length <= 1) {
+            alert('You must have at least one item in the receipt.');
+            return;
+        }
+
+        itemRow.remove();
+        renumberItems();
+    };
+
+    // --- RENUMBER ITEMS ---
+    function renumberItems() {
+        const items = receiptItemsContainer.querySelectorAll('.receipt-item-row');
+        items.forEach((item, index) => {
+            item.dataset.itemIndex = index;
+            const itemNumber = item.querySelector('.item-number');
+            if (itemNumber) {
+                itemNumber.textContent = `Item ${index + 1}`;
+            }
+        });
+    }
 
     // --- GENERATE RECEIPT ---
     if (generateReceiptBtn) {
         generateReceiptBtn.addEventListener('click', () => {
-            // 1. Gather Input Data
+            // 1. Gather Customer Data
             const name = receiptNameInput?.value || 'N/A';
             const address = receiptAddressInput?.value || 'N/A';
             const phone = receiptPhoneInput?.value || 'N/A';
             const email = receiptEmailInput?.value || 'NA';
             const customerGst = receiptGstinInput?.value || 'NA';
-            const capacity = receiptCapacityInput?.value || '0';
-            const totalCost = parseFloat(receiptTotalCostInput?.value) || 0;
             const dateVal = receiptDateInput?.value;
+            const prevPayment = parseFloat(receiptPrevPaymentInput?.value) || 0;
+            const currPayment = parseFloat(receiptCurrentPaymentInput?.value) || 0;
             const dateFormatted = dateVal
                 ? new Date(dateVal).toLocaleDateString('en-GB').replace(/\//g, '-')
                 : new Date().toLocaleDateString('en-GB').replace(/\//g, '-');
-            const prevPayment = parseFloat(receiptPrevPaymentInput?.value) || 0;
-            const currPayment = parseFloat(receiptCurrentPaymentInput?.value) || 0;
 
-            // 2. Calculations (GST is INCLUDED in Total Cost, 5% standard)
-            const gstRate = 0.05;
-            const taxableValue = totalCost / (1 + gstRate);
-            const totalTaxAmount = totalCost - taxableValue;
-            const balance = totalCost - (prevPayment + currPayment);
-
-            // 3. Get Receipt Number (manual input or generate if empty)
+            // 2. Get Receipt Number
             const receiptNumberInputVal = receiptNumberInput?.value?.trim();
             let receiptNo;
             if (receiptNumberInputVal) {
@@ -172,64 +212,75 @@ document.addEventListener('DOMContentLoaded', () => {
                 receiptNo = `R2VADV${month}${year}-${randomNum}`;
             }
 
-            // 4. Populate Receipt Display
+            // 3. Collect all items data
+            const itemRows = receiptItemsContainer.querySelectorAll('.receipt-item-row');
+            const items = [];
+            let totalGrandAmount = 0;
+
+            itemRows.forEach((row, index) => {
+                const description = row.querySelector('.item-description')?.value || `Item ${index + 1}`;
+                const qty = parseInt(row.querySelector('.item-quantity')?.value) || 1;
+                const totalAmount = parseFloat(row.querySelector('.item-total-amount')?.value) || 0;
+                const gstRate = parseFloat(row.querySelector('.item-gst-rate')?.value) || 5;
+
+                // Calculate taxable value from total (GST included)
+                const gstRateDecimal = gstRate / 100;
+                const taxableValue = totalAmount / (1 + gstRateDecimal);
+                const pricePerUnit = taxableValue / qty;
+
+                items.push({
+                    sn: index + 1,
+                    description,
+                    qty,
+                    pricePerUnit,
+                    gstRate,
+                    taxableValue,  // This is "Amount" (before GST)
+                    totalAmount    // This is "Total Amount" (with GST)
+                });
+
+                totalGrandAmount += totalAmount;
+            });
+
+            // 4. Calculate balance
+            const totalPayments = prevPayment + currPayment;
+            const balance = totalGrandAmount - totalPayments;
+
+            // 5. Populate Customer Info
             if (dispName) dispName.textContent = name;
             if (dispAddress) dispAddress.textContent = address;
             if (dispPhone) dispPhone.textContent = phone;
             if (dispEmail) dispEmail.textContent = email;
             if (dispGst) dispGst.textContent = customerGst;
-            if (dispReceiptNo) dispReceiptNo.textContent = receiptNo;
             if (receiptNumberDisplay) receiptNumberDisplay.textContent = receiptNo;
             if (dispDate) dispDate.textContent = dateFormatted;
-            if (dispCapacity) dispCapacity.textContent = capacity;
-            if (dispSysType) dispSysType.textContent = receiptSysType;
 
-            // Item Row Values
-            if (dispTaxableValue) dispTaxableValue.textContent = formatNumber(taxableValue);
-            if (dispTaxableValueTotal) dispTaxableValueTotal.textContent = formatNumber(taxableValue);
-
-            // Tax Breakdown
-            if (taxTableBody) {
-                taxTableBody.innerHTML = '';
-
-                if (receiptGstType === 'Intrastate') {
-                    const halfTax = totalTaxAmount / 2;
-                    taxTableBody.innerHTML = `
-                        <tr>
-                            <td>CGST</td>
-                            <td>2.5%</td>
-                            <td>${formatNumber(halfTax)}</td>
-                        </tr>
-                        <tr>
-                            <td>SGST</td>
-                            <td>2.5%</td>
-                            <td>${formatNumber(halfTax)}</td>
-                        </tr>
-                    `;
-                } else {
-                    taxTableBody.innerHTML = `
-                        <tr>
-                            <td>IGST</td>
-                            <td>5%</td>
-                            <td>${formatNumber(totalTaxAmount)}</td>
-                        </tr>
-                    `;
-                }
+            // 6. Populate Items Table
+            if (receiptItemsTableBody) {
+                receiptItemsTableBody.innerHTML = items.map(item => `
+                    <tr>
+                        <td>${item.sn}</td>
+                        <td class="desc-cell">${item.description}</td>
+                        <td>${item.qty}</td>
+                        <td>${formatNumber(item.pricePerUnit)}</td>
+                        <td>${item.gstRate}%</td>
+                        <td>${formatNumber(item.taxableValue)}</td>
+                        <td>${formatNumber(item.totalAmount)}</td>
+                    </tr>
+                `).join('');
             }
 
-            if (dispTaxRateTotal) dispTaxRateTotal.textContent = '5%';
-            if (dispTaxAmountTotal) dispTaxAmountTotal.textContent = formatNumber(totalTaxAmount);
-            if (dispGrandTotal) dispGrandTotal.textContent = formatNumber(totalCost);
+            // 7. Update Grand Total
+            if (dispGrandTotal) dispGrandTotal.textContent = '₹ ' + formatNumber(totalGrandAmount);
 
-            // Amount in Words
-            if (dispAmountWords) dispAmountWords.textContent = numberToWords(totalCost);
+            // 8. Amount in Words
+            if (dispAmountWords) dispAmountWords.textContent = numberToWords(totalGrandAmount);
 
-            // Payments Section
+            // 9. Payment Summary
             if (dispPrevPayment) dispPrevPayment.textContent = formatRupees(prevPayment);
             if (dispCurrPayment) dispCurrPayment.textContent = formatRupees(currPayment);
             if (dispBalance) dispBalance.textContent = formatRupees(balance);
 
-            // Show Receipt Preview
+            // 10. Show Receipt Preview
             if (receiptPreview) {
                 receiptPreview.classList.add('visible');
                 receiptPreview.scrollIntoView({ behavior: 'smooth', block: 'start' });

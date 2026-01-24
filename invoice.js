@@ -1,6 +1,8 @@
 /**
  * Invoice Generator - Dedicated JavaScript
  * Ray2Volt Solar Toolbox
+ * Supports multiple items with different GST rates
+ * Single table with Grand Total - no separate tax table
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -10,11 +12,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const invoicePhoneInput = document.getElementById('invoicePhone');
     const invoiceEmailInput = document.getElementById('invoiceEmail');
     const invoiceGstinInput = document.getElementById('invoiceGstin');
-    const invoiceCapacityInput = document.getElementById('invoiceCapacity');
-    const invoiceTotalCostInput = document.getElementById('invoiceTotalCost');
     const invoiceDateInput = document.getElementById('invoiceDate');
-    const invoiceHsnInput = document.getElementById('invoiceHsn');
     const invoiceNumberInput = document.getElementById('invoiceNumber');
+    const invoiceItemsContainer = document.getElementById('invoiceItemsContainer');
+    const addInvoiceItemBtn = document.getElementById('addInvoiceItemBtn');
     const generateInvoiceBtn = document.getElementById('generateInvoiceBtn');
     const printInvoiceBtn = document.getElementById('printInvoiceBtn');
     const invoicePreview = document.getElementById('invoicePreview');
@@ -27,31 +28,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const invDispGst = document.getElementById('invDispGst');
     const invDispInvoiceNo = document.getElementById('invDispInvoiceNo');
     const invDispDate = document.getElementById('invDispDate');
-    const invDispCapacity = document.getElementById('invDispCapacity');
-    const invDispSysType = document.getElementById('invDispSysType');
-    const invDispHsn = document.getElementById('invDispHsn');
-    const invDispTaxableValue = document.getElementById('invDispTaxableValue');
-    const invDispTaxableValueTotal = document.getElementById('invDispTaxableValueTotal');
-    const invTaxTableBody = document.getElementById('invTaxTableBody');
-    const invDispTaxRateTotal = document.getElementById('invDispTaxRateTotal');
-    const invDispTaxAmountTotal = document.getElementById('invDispTaxAmountTotal');
+    const invItemsTableBody = document.getElementById('invItemsTableBody');
     const invDispGrandTotal = document.getElementById('invDispGrandTotal');
     const invDispAmountWords = document.getElementById('invDispAmountWords');
     const invoiceNumberDisplay = document.getElementById('invoiceNumberDisplay');
 
     // --- STATE ---
-    let invoiceSysType = 'On-Grid';
-    let invoiceGstType = 'Intrastate';
-
-    // --- HELPER: Format Currency (Indian Rupees) ---
-    function formatRupees(num) {
-        if (typeof num !== 'number' || !isFinite(num)) num = 0;
-        return new Intl.NumberFormat('en-IN', {
-            style: 'currency',
-            currency: 'INR',
-            minimumFractionDigits: 2
-        }).format(num);
-    }
+    let itemCounter = 1;
 
     // --- HELPER: Format Number without Symbol ---
     function formatNumber(num) {
@@ -80,31 +63,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
             let result = '';
 
-            // Crores (1,00,00,000)
             if (n >= 10000000) {
                 result += convert(Math.floor(n / 10000000)) + ' Crore ';
                 n %= 10000000;
             }
 
-            // Lakhs (1,00,000)
             if (n >= 100000) {
                 result += convert(Math.floor(n / 100000)) + ' Lakh ';
                 n %= 100000;
             }
 
-            // Thousands (1,000)
             if (n >= 1000) {
                 result += convert(Math.floor(n / 1000)) + ' Thousand ';
                 n %= 1000;
             }
 
-            // Hundreds
             if (n >= 100) {
                 result += ones[Math.floor(n / 100)] + ' Hundred ';
                 n %= 100;
             }
 
-            // Less than 100
             if (n > 0) {
                 result += convertLessThanHundred(n) + ' ';
             }
@@ -115,46 +93,97 @@ document.addEventListener('DOMContentLoaded', () => {
         return convert(Math.round(num)) + ' Rupees Only';
     }
 
-    // --- BUTTON GROUP EVENT LISTENERS ---
-    document.querySelectorAll('.invoice-type-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            document.querySelectorAll('.invoice-type-btn').forEach(b => b.classList.remove('active'));
-            e.target.classList.add('active');
-            invoiceSysType = e.target.dataset.type;
-        });
-    });
+    // --- ADD NEW ITEM ROW ---
+    function createItemRow(index) {
+        const itemRow = document.createElement('div');
+        itemRow.className = 'invoice-item-row';
+        itemRow.dataset.itemIndex = index;
 
-    document.querySelectorAll('.invoice-gst-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            document.querySelectorAll('.invoice-gst-btn').forEach(b => b.classList.remove('active'));
-            e.target.classList.add('active');
-            invoiceGstType = e.target.dataset.type;
+        itemRow.innerHTML = `
+            <div class="item-row-header">
+                <span class="item-number">Item ${index + 1}</span>
+                <button type="button" class="btn-remove-item" onclick="removeInvoiceItem(this)" title="Remove Item">&times;</button>
+            </div>
+            <div class="item-fields">
+                <div class="input-group item-desc">
+                    <label>Description</label>
+                    <textarea class="input-field item-description" rows="2" placeholder="e.g. Supply of 10 x 550Wp Solar Panels"></textarea>
+                </div>
+                <div class="input-group item-qty">
+                    <label>Qty</label>
+                    <input type="number" class="input-field item-quantity" value="1" min="1">
+                </div>
+                <div class="input-group item-amount">
+                    <label>Total Amt (Incl. GST) ₹</label>
+                    <input type="number" class="input-field item-total-amount" placeholder="e.g. 200000">
+                </div>
+                <div class="input-group item-gst">
+                    <label>GST %</label>
+                    <select class="input-field item-gst-rate">
+                        <option value="5" selected>5%</option>
+                        <option value="12">12%</option>
+                        <option value="18">18%</option>
+                        <option value="28">28%</option>
+                    </select>
+                </div>
+            </div>
+        `;
+
+        return itemRow;
+    }
+
+    // Add item button click handler
+    if (addInvoiceItemBtn) {
+        addInvoiceItemBtn.addEventListener('click', () => {
+            const newItem = createItemRow(itemCounter);
+            invoiceItemsContainer.appendChild(newItem);
+            itemCounter++;
+            renumberItems();
         });
-    });
+    }
+
+    // --- REMOVE ITEM (Global function for onclick) ---
+    window.removeInvoiceItem = function (btn) {
+        const itemRow = btn.closest('.invoice-item-row');
+        const allItems = invoiceItemsContainer.querySelectorAll('.invoice-item-row');
+
+        // Prevent removing the last item
+        if (allItems.length <= 1) {
+            alert('You must have at least one item in the invoice.');
+            return;
+        }
+
+        itemRow.remove();
+        renumberItems();
+    };
+
+    // --- RENUMBER ITEMS ---
+    function renumberItems() {
+        const items = invoiceItemsContainer.querySelectorAll('.invoice-item-row');
+        items.forEach((item, index) => {
+            item.dataset.itemIndex = index;
+            const itemNumber = item.querySelector('.item-number');
+            if (itemNumber) {
+                itemNumber.textContent = `Item ${index + 1}`;
+            }
+        });
+    }
 
     // --- GENERATE INVOICE ---
     if (generateInvoiceBtn) {
         generateInvoiceBtn.addEventListener('click', () => {
-            // 1. Gather Input Data
+            // 1. Gather Customer Data
             const name = invoiceNameInput?.value || 'N/A';
             const address = invoiceAddressInput?.value || 'N/A';
             const phone = invoicePhoneInput?.value || 'N/A';
             const email = invoiceEmailInput?.value || 'NA';
             const customerGst = invoiceGstinInput?.value || 'NA';
-            const capacity = invoiceCapacityInput?.value || '0';
-            const totalCost = parseFloat(invoiceTotalCostInput?.value) || 0;
             const dateVal = invoiceDateInput?.value;
-            const hsnCode = invoiceHsnInput?.value || '8541';
             const dateFormatted = dateVal
                 ? new Date(dateVal).toLocaleDateString('en-GB').replace(/\//g, '-')
                 : new Date().toLocaleDateString('en-GB').replace(/\//g, '-');
 
-            // 2. Calculations (GST is INCLUDED in Total Cost, 5% standard)
-            const gstRate = 0.05;
-            const taxableValue = totalCost / (1 + gstRate);
-            const totalTaxAmount = totalCost - taxableValue;
-
-            // 3. Get Invoice Number (manual input or generate if empty)
+            // 2. Get Invoice Number
             const invoiceNumberInputVal = invoiceNumberInput?.value?.trim();
             let invoiceNo;
             if (invoiceNumberInputVal) {
@@ -167,7 +196,36 @@ document.addEventListener('DOMContentLoaded', () => {
                 invoiceNo = `R2VINV${month}${year}-${randomNum}`;
             }
 
-            // 4. Populate Invoice Display
+            // 3. Collect all items data
+            const itemRows = invoiceItemsContainer.querySelectorAll('.invoice-item-row');
+            const items = [];
+            let totalGrandAmount = 0;
+
+            itemRows.forEach((row, index) => {
+                const description = row.querySelector('.item-description')?.value || `Item ${index + 1}`;
+                const qty = parseInt(row.querySelector('.item-quantity')?.value) || 1;
+                const totalAmount = parseFloat(row.querySelector('.item-total-amount')?.value) || 0;
+                const gstRate = parseFloat(row.querySelector('.item-gst-rate')?.value) || 5;
+
+                // Calculate taxable value from total (GST included)
+                const gstRateDecimal = gstRate / 100;
+                const taxableValue = totalAmount / (1 + gstRateDecimal);
+                const pricePerUnit = taxableValue / qty;
+
+                items.push({
+                    sn: index + 1,
+                    description,
+                    qty,
+                    pricePerUnit,
+                    gstRate,
+                    taxableValue,  // This is "Amount" (before GST)
+                    totalAmount    // This is "Total Amount" (with GST)
+                });
+
+                totalGrandAmount += totalAmount;
+            });
+
+            // 4. Populate Customer Info
             if (invDispName) invDispName.textContent = name;
             if (invDispAddress) invDispAddress.textContent = address;
             if (invDispPhone) invDispPhone.textContent = phone;
@@ -176,51 +234,29 @@ document.addEventListener('DOMContentLoaded', () => {
             if (invDispInvoiceNo) invDispInvoiceNo.textContent = invoiceNo;
             if (invoiceNumberDisplay) invoiceNumberDisplay.textContent = invoiceNo;
             if (invDispDate) invDispDate.textContent = dateFormatted;
-            if (invDispCapacity) invDispCapacity.textContent = capacity;
-            if (invDispSysType) invDispSysType.textContent = invoiceSysType;
-            if (invDispHsn) invDispHsn.textContent = hsnCode;
 
-            // Item Row Values
-            if (invDispTaxableValue) invDispTaxableValue.textContent = formatNumber(taxableValue);
-            if (invDispTaxableValueTotal) invDispTaxableValueTotal.textContent = formatNumber(taxableValue);
-
-            // Tax Breakdown
-            if (invTaxTableBody) {
-                invTaxTableBody.innerHTML = '';
-
-                if (invoiceGstType === 'Intrastate') {
-                    const halfTax = totalTaxAmount / 2;
-                    invTaxTableBody.innerHTML = `
-                        <tr>
-                            <td>CGST</td>
-                            <td>2.5%</td>
-                            <td>${formatNumber(halfTax)}</td>
-                        </tr>
-                        <tr>
-                            <td>SGST</td>
-                            <td>2.5%</td>
-                            <td>${formatNumber(halfTax)}</td>
-                        </tr>
-                    `;
-                } else {
-                    invTaxTableBody.innerHTML = `
-                        <tr>
-                            <td>IGST</td>
-                            <td>5%</td>
-                            <td>${formatNumber(totalTaxAmount)}</td>
-                        </tr>
-                    `;
-                }
+            // 5. Populate Items Table
+            if (invItemsTableBody) {
+                invItemsTableBody.innerHTML = items.map(item => `
+                    <tr>
+                        <td>${item.sn}</td>
+                        <td class="desc-cell">${item.description}</td>
+                        <td>${item.qty}</td>
+                        <td>${formatNumber(item.pricePerUnit)}</td>
+                        <td>${item.gstRate}%</td>
+                        <td>${formatNumber(item.taxableValue)}</td>
+                        <td>${formatNumber(item.totalAmount)}</td>
+                    </tr>
+                `).join('');
             }
 
-            if (invDispTaxRateTotal) invDispTaxRateTotal.textContent = '5%';
-            if (invDispTaxAmountTotal) invDispTaxAmountTotal.textContent = formatNumber(totalTaxAmount);
-            if (invDispGrandTotal) invDispGrandTotal.textContent = formatNumber(totalCost);
+            // 6. Update Grand Total
+            if (invDispGrandTotal) invDispGrandTotal.textContent = '₹ ' + formatNumber(totalGrandAmount);
 
-            // Amount in Words
-            if (invDispAmountWords) invDispAmountWords.textContent = numberToWords(totalCost);
+            // 7. Amount in Words
+            if (invDispAmountWords) invDispAmountWords.textContent = numberToWords(totalGrandAmount);
 
-            // Show Invoice Preview
+            // 8. Show Invoice Preview
             if (invoicePreview) {
                 invoicePreview.classList.add('visible');
                 invoicePreview.scrollIntoView({ behavior: 'smooth', block: 'start' });
