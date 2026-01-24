@@ -671,6 +671,11 @@
                                         <textarea class="input-field item-description" rows="2"
                                             placeholder="e.g. Supply of 10 x 550Wp Solar Panels"></textarea>
                                     </div>
+                                    <div class="input-group item-hsn">
+                                        <label>HSN/SAC</label>
+                                        <input type="text" class="input-field item-hsn-code" value="8541"
+                                            placeholder="e.g. 8541">
+                                    </div>
                                     <div class="input-group item-qty">
                                         <label>Qty</label>
                                         <input type="number" class="input-field item-quantity" value="1" min="1">
@@ -755,13 +760,14 @@
                     <table class="invoice-items-table">
                         <thead>
                             <tr>
-                                <th style="width: 35px;">SN</th>
+                                <th style="width: 30px;">SN</th>
                                 <th>Description of Goods / Services</th>
-                                <th style="width: 45px;">Qty</th>
-                                <th style="width: 90px;">Price/Unit (₹)</th>
-                                <th style="width: 55px;">GST %</th>
-                                <th style="width: 100px;">Amount (₹)</th>
-                                <th style="width: 110px;">Total Amount (₹)</th>
+                                <th style="width: 60px;">HSN/SAC</th>
+                                <th style="width: 40px;">Qty</th>
+                                <th style="width: 85px;">Price/Unit (₹)</th>
+                                <th style="width: 50px;">GST %</th>
+                                <th style="width: 95px;">Amount (₹)</th>
+                                <th style="width: 100px;">Total Amt (₹)</th>
                             </tr>
                         </thead>
                         <tbody id="invItemsTableBody">
@@ -769,7 +775,7 @@
                         </tbody>
                         <tfoot>
                             <tr class="grand-total-row">
-                                <td colspan="6" style="text-align: right;"><strong>Grand Total:</strong></td>
+                                <td colspan="7" style="text-align: right;"><strong>Grand Total:</strong></td>
                                 <td id="invDispGrandTotal"></td>
                             </tr>
                         </tfoot>

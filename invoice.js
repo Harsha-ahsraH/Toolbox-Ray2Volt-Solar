@@ -109,6 +109,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     <label>Description</label>
                     <textarea class="input-field item-description" rows="2" placeholder="e.g. Supply of 10 x 550Wp Solar Panels"></textarea>
                 </div>
+                <div class="input-group item-hsn">
+                    <label>HSN/SAC</label>
+                    <input type="text" class="input-field item-hsn-code" value="8541" placeholder="e.g. 8541">
+                </div>
                 <div class="input-group item-qty">
                     <label>Qty</label>
                     <input type="number" class="input-field item-quantity" value="1" min="1">
@@ -203,6 +207,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             itemRows.forEach((row, index) => {
                 const description = row.querySelector('.item-description')?.value || `Item ${index + 1}`;
+                const hsnCode = row.querySelector('.item-hsn-code')?.value || '8541';
                 const qty = parseInt(row.querySelector('.item-quantity')?.value) || 1;
                 const totalAmount = parseFloat(row.querySelector('.item-total-amount')?.value) || 0;
                 const gstRate = parseFloat(row.querySelector('.item-gst-rate')?.value) || 5;
@@ -215,6 +220,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 items.push({
                     sn: index + 1,
                     description,
+                    hsnCode,
                     qty,
                     pricePerUnit,
                     gstRate,
@@ -241,6 +247,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <tr>
                         <td>${item.sn}</td>
                         <td class="desc-cell">${item.description}</td>
+                        <td>${item.hsnCode}</td>
                         <td>${item.qty}</td>
                         <td>${formatNumber(item.pricePerUnit)}</td>
                         <td>${item.gstRate}%</td>
