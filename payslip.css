@@ -1,10 +1,10 @@
 /* ============================================
-   PAYMENT RECEIPT - Dedicated Stylesheet
-   Matches Ray2Volt Invoice Design
+   PAYSLIP GENERATOR - Dedicated Stylesheet
+   Matches Ray2Volt Invoice/Receipt Design
    ============================================ */
 
-/* Main Receipt Container */
-#receiptPreview {
+/* Main PaySlip Container */
+#payslipPreview {
     display: none;
     width: 210mm;
     min-height: 297mm;
@@ -13,40 +13,40 @@
     background: #fff;
     border: 3px solid #4A90D9;
     border-radius: 4px;
-    font-family: 'Google Sans Flex', 'Nunito Sans', sans-serif;
+    font-family: 'Google Sans Flex', Arial, sans-serif;
     font-size: 10pt;
     color: #333;
     position: relative;
     box-sizing: border-box;
 }
 
-#receiptPreview.visible {
+#payslipPreview.visible {
     display: block;
 }
 
 /* ============================================
    HEADER SECTION
    ============================================ */
-.receipt-header {
+.payslip-header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     padding: 10px 0;
     margin-bottom: 10px;
+    text-transform: uppercase;
     border-bottom: 3px solid #5A9BD5;
 }
 
-.receipt-title-section h1 {
+.payslip-title-section h1 {
     font-family: 'Google Sans Flex', sans-serif;
     font-size: 16pt;
     font-weight: 700;
     letter-spacing: 2px;
     margin: 0;
-    text-transform: uppercase;
     color: #333;
 }
 
-.receipt-title-section p {
+.payslip-title-section p {
     font-size: 10pt;
     margin-top: 3px;
     font-weight: 600;
@@ -54,37 +54,20 @@
     color: #555;
 }
 
-.receipt-logo-section {
+.payslip-logo-section {
     text-align: right;
 }
 
-.receipt-logo {
+.payslip-logo {
     height: 35px;
     width: auto;
-}
-
-.receipt-logo-text {
-    font-size: 22pt;
-    font-weight: 800;
-    color: #fff;
-    font-family: 'Montserrat', sans-serif;
-}
-
-.receipt-logo-text span {
-    color: #FFD700;
-}
-
-.receipt-logo-subtext {
-    font-size: 8pt;
-    color: #FFD700;
-    margin-top: 2px;
 }
 
 /* ============================================
    UNIFIED TABLE (Info + Items combined)
    Single table ensures perfect column alignment
    ============================================ */
-.receipt-unified-table {
+.payslip-unified-table {
     width: 100%;
     border-collapse: collapse;
     margin: 15px 0 10px 0;
@@ -93,8 +76,8 @@
 }
 
 /* Info Section Header Row */
-.receipt-unified-table .info-header-row td,
-.receipt-unified-table .info-header-cell {
+.payslip-unified-table .info-header-row td,
+.payslip-unified-table .info-header-cell {
     background-color: #D6E6F5;
     color: #333;
     font-weight: 700;
@@ -105,7 +88,7 @@
 }
 
 /* Info Section Content Row */
-.receipt-unified-table .info-content-row td {
+.payslip-unified-table .info-content-row td {
     vertical-align: top;
     padding: 12px;
     border: 2px solid #5A9BD5;
@@ -116,31 +99,23 @@
     white-space: normal;
 }
 
-.receipt-unified-table .from-cell {
+.payslip-unified-table .from-cell {
     background-color: #fff;
     text-align: left;
 }
 
-.receipt-unified-table .to-cell {
+.payslip-unified-table .to-cell {
     background-color: #fff;
     text-align: left;
 }
 
-.info-company-name {
-    font-weight: 700;
-    font-size: 11pt;
-    color: #333;
-    margin-bottom: 8px;
-    display: block;
-}
-
-.info-label {
+.payslip-info-label {
     font-weight: 700;
     color: #333;
 }
 
 /* Items Header Row */
-.receipt-unified-table .items-header-row th {
+.payslip-unified-table .items-header-row th {
     background-color: #D6E6F5;
     color: #333;
     font-weight: 700;
@@ -152,7 +127,7 @@
 }
 
 /* Items Body Cells */
-.receipt-unified-table td {
+.payslip-unified-table td {
     padding: 8px 6px;
     border: 2px solid #5A9BD5;
     text-align: center;
@@ -161,7 +136,7 @@
     word-wrap: break-word;
 }
 
-.receipt-unified-table td.desc-cell {
+.payslip-unified-table td.desc-cell {
     text-align: left;
     padding-left: 8px;
     word-wrap: break-word;
@@ -169,8 +144,9 @@
     white-space: normal;
 }
 
-/* Grand Total Row */
-.receipt-unified-table .grand-total-row td {
+/* Total Rows */
+.payslip-unified-table .subtotal-row td,
+.payslip-unified-table .grand-total-row td {
     background-color: #D6E6F5;
     font-weight: 700;
     font-size: 10pt;
@@ -179,67 +155,116 @@
 }
 
 /* ============================================
-   AMOUNT IN WORDS
+   EARNINGS & DEDUCTIONS TABLES
    ============================================ */
-.amount-words-section {
+.payslip-earnings-table,
+.payslip-deductions-table {
+    width: 48%;
+    border-collapse: collapse;
+    margin: 10px 0;
+    table-layout: fixed;
+    border: 2px solid #5A9BD5;
+}
+
+.payslip-tables-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 4%;
+    margin: 15px 0;
+}
+
+.payslip-earnings-table th,
+.payslip-deductions-table th {
+    background-color: #D6E6F5;
+    color: #333;
+    font-weight: 700;
+    padding: 10px 6px;
+    border: 2px solid #5A9BD5;
+    text-align: center;
+    font-size: 9pt;
+}
+
+.payslip-earnings-table td,
+.payslip-deductions-table td {
+    padding: 8px 6px;
+    border: 2px solid #5A9BD5;
+    font-size: 9pt;
+    vertical-align: middle;
+}
+
+.payslip-earnings-table td:first-child,
+.payslip-deductions-table td:first-child {
+    text-align: left;
+    padding-left: 10px;
+}
+
+.payslip-earnings-table td:last-child,
+.payslip-deductions-table td:last-child {
+    text-align: right;
+    padding-right: 10px;
+}
+
+.payslip-earnings-table .total-row td,
+.payslip-deductions-table .total-row td {
+    background-color: #D6E6F5;
+    font-weight: 700;
+}
+
+/* ============================================
+   NET PAY SECTION
+   ============================================ */
+.payslip-net-pay {
+    border: 2px solid #5A9BD5;
+    margin: 15px 0;
+    padding: 12px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #D6E6F5;
+}
+
+.payslip-net-pay .label {
+    font-weight: 700;
+    font-size: 11pt;
+    color: #333;
+}
+
+.payslip-net-pay .amount {
+    font-weight: 700;
+    font-size: 12pt;
+    color: #333;
+}
+
+/* Amount in Words */
+.payslip-amount-words {
     margin: 12px 0;
     font-size: 9pt;
     padding: 5px 0;
     border-bottom: 1px dashed #ccc;
 }
 
-.amount-words-section strong {
-    font-weight: 700;
-}
-
-/* ============================================
-   PAYMENTS SUMMARY TABLE
-   ============================================ */
-.payments-table {
-    width: 55%;
-    border-collapse: collapse;
-    margin: 10px 0;
-}
-
-.payments-table td {
-    border: 2px solid #5A9BD5;
-    padding: 8px 12px;
-    font-size: 9pt;
-}
-
-.payments-table td:first-child {
-    font-weight: 700;
-    text-align: left;
-    width: 55%;
-}
-
-.payments-table td:last-child {
-    text-align: right;
-}
-
-.payments-table .balance-row td {
-    background-color: #D6E6F5;
+.payslip-amount-words strong {
     font-weight: 700;
 }
 
 /* ============================================
    BANK DETAILS BOX
    ============================================ */
-.bank-details-section {
+.payslip-bank-section {
     border: 2px solid #5A9BD5;
     margin: 15px 0;
 }
 
-.bank-details-section h4 {
+.payslip-bank-section h4 {
     background-color: #D6E6F5;
     margin: 0;
     padding: 8px 12px;
     font-size: 10pt;
     font-weight: 700;
-    border-bottom: 1px solid #5A9BD5;
+    border-bottom: 2px solid #5A9BD5;
 }
 
-.bank-grid {
+.payslip-bank-grid {
     display: grid;
     grid-template-columns: 130px 1fr;
     gap: 4px 10px;
@@ -247,38 +272,18 @@
     font-size: 9pt;
 }
 
-.bank-grid .bank-label {
+.payslip-bank-grid .bank-label {
     font-weight: 700;
 }
 
-.bank-grid .bank-value {
+.payslip-bank-grid .bank-value {
     font-weight: 400;
-}
-
-/* ============================================
-   SIGNATURE SECTION
-   ============================================ */
-.signature-section {
-    position: absolute;
-    bottom: 20mm;
-    right: 10mm;
-    text-align: right;
-}
-
-.signature-section .signature-name {
-    font-weight: 700;
-    font-size: 11pt;
-}
-
-.signature-section .signature-title {
-    font-size: 9pt;
-    color: #555;
 }
 
 /* ============================================
    FOOTER LINE
    ============================================ */
-.receipt-footer-line {
+.payslip-footer-line {
     position: absolute;
     bottom: 8mm;
     left: 8mm;
@@ -288,113 +293,9 @@
 }
 
 /* ============================================
-   RESPONSIVE STYLES
+   PAYSLIP ITEMS INPUT SECTION (Form)
    ============================================ */
-@media screen and (max-width: 900px) {
-    #receiptPreview {
-        width: 100%;
-        min-height: auto;
-        margin: 1rem auto;
-        padding: 15px;
-        font-size: 9pt;
-    }
-
-    .receipt-header {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        gap: 10px;
-    }
-
-    .receipt-title-section h1 {
-        font-size: 14pt;
-    }
-
-    .receipt-logo {
-        height: 30px;
-    }
-
-    .receipt-info-table td {
-        display: block;
-        width: 100%;
-    }
-
-    .receipt-info-table .header-row td {
-        display: table-cell;
-        width: 50%;
-    }
-
-    .receipt-items-table {
-        font-size: 8pt;
-    }
-
-    .receipt-items-table th,
-    .receipt-items-table td {
-        padding: 6px 4px;
-    }
-
-    .payments-table {
-        width: 100%;
-    }
-
-    .signature-section {
-        position: static;
-        margin-top: 30px;
-        text-align: right;
-    }
-
-    .receipt-footer-line {
-        position: static;
-        margin-top: 20px;
-    }
-
-    .item-fields {
-        grid-template-columns: 1fr;
-    }
-
-    .item-fields .item-desc,
-    .item-fields .item-qty,
-    .item-fields .item-amount,
-    .item-fields .item-gst {
-        grid-column: 1;
-    }
-}
-
-@media screen and (max-width: 480px) {
-    #receiptPreview {
-        padding: 10px;
-        font-size: 8pt;
-    }
-
-    .receipt-title-section h1 {
-        font-size: 12pt;
-        letter-spacing: 1px;
-    }
-
-    .receipt-info-table .header-row td {
-        display: block;
-        width: 100%;
-    }
-
-    .receipt-items-table th:nth-child(1),
-    .receipt-items-table td:nth-child(1) {
-        display: none;
-    }
-
-    .bank-grid {
-        grid-template-columns: 1fr;
-        gap: 2px;
-    }
-
-    .bank-grid .bank-label {
-        margin-top: 5px;
-    }
-}
-
-/* ============================================
-   RECEIPT ITEMS INPUT SECTION (Form)
-   ============================================ */
-.receipt-items-input-section {
+.payslip-items-input-section {
     margin-top: 2rem;
     padding: 1.5rem;
     background: linear-gradient(135deg, rgba(74, 144, 217, 0.05) 0%, rgba(90, 155, 213, 0.08) 100%);
@@ -402,18 +303,18 @@
     border: 1px solid rgba(74, 144, 217, 0.2);
 }
 
-.receipt-items-input-section h3 {
+.payslip-items-input-section h3 {
     margin-bottom: 0.5rem;
     color: #333;
 }
 
-.receipt-items-input-section>.input-help {
+.payslip-items-input-section>.input-help {
     margin-bottom: 1rem;
     display: block;
     color: #666;
 }
 
-.receipt-item-row {
+.payslip-item-row {
     background: #fff;
     border: 1px solid #ddd;
     border-radius: 6px;
@@ -422,7 +323,7 @@
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
-.receipt-item-row .item-row-header {
+.payslip-item-row .item-row-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -431,32 +332,94 @@
     border-bottom: 1px solid #eee;
 }
 
-.receipt-item-row .item-number {
+.payslip-item-row .item-number {
     font-weight: 600;
     color: #4A90D9;
     font-size: 0.95rem;
 }
 
-.receipt-item-row .item-fields {
+.payslip-item-row .item-fields {
     display: grid;
-    grid-template-columns: 1fr 80px 150px 100px;
+    grid-template-columns: 1fr 120px;
     gap: 1rem;
     align-items: end;
 }
 
-.receipt-item-row .item-fields .input-group {
+.payslip-item-row .item-fields .input-group {
     margin-bottom: 0;
 }
 
-.receipt-item-row .item-fields .input-group label {
+.payslip-item-row .item-fields .input-group label {
     font-size: 0.85rem;
     margin-bottom: 0.3rem;
     display: block;
 }
 
-.receipt-item-row .item-fields select.input-field {
-    padding: 0.6rem;
-    height: auto;
+/* ============================================
+   RESPONSIVE STYLES
+   ============================================ */
+@media screen and (max-width: 900px) {
+    #payslipPreview {
+        width: 100%;
+        min-height: auto;
+        margin: 1rem auto;
+        padding: 15px;
+        font-size: 9pt;
+    }
+
+    .payslip-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 10px;
+    }
+
+    .payslip-title-section h1 {
+        font-size: 14pt;
+    }
+
+    .payslip-logo {
+        height: 30px;
+    }
+
+    .payslip-tables-row {
+        flex-direction: column;
+    }
+
+    .payslip-earnings-table,
+    .payslip-deductions-table {
+        width: 100%;
+    }
+
+    .payslip-footer-line {
+        position: static;
+        margin-top: 20px;
+    }
+
+    .payslip-item-row .item-fields {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    #payslipPreview {
+        padding: 10px;
+        font-size: 8pt;
+    }
+
+    .payslip-title-section h1 {
+        font-size: 12pt;
+        letter-spacing: 1px;
+    }
+
+    .payslip-bank-grid {
+        grid-template-columns: 1fr;
+        gap: 2px;
+    }
+
+    .payslip-bank-grid .bank-label {
+        margin-top: 5px;
+    }
 }
 
 /* ============================================
@@ -467,12 +430,12 @@
         visibility: hidden;
     }
 
-    #receiptPreview,
-    #receiptPreview * {
+    #payslipPreview,
+    #payslipPreview * {
         visibility: visible;
     }
 
-    #receiptPreview {
+    #payslipPreview {
         position: absolute;
         left: 0;
         top: 0;
@@ -485,28 +448,20 @@
         display: block !important;
     }
 
-    /* Ensure tables don't overflow in print */
-    .receipt-info-table,
-    .receipt-items-table,
-    .tax-table,
-    .payments-table {
+    .payslip-unified-table,
+    .payslip-earnings-table,
+    .payslip-deductions-table {
         table-layout: fixed !important;
         width: 100% !important;
     }
 
-    .receipt-info-table td,
-    .receipt-items-table td {
-        word-wrap: break-word !important;
-        overflow-wrap: break-word !important;
-        white-space: normal !important;
-        overflow: hidden !important;
+    .payslip-tables-row {
+        display: flex !important;
     }
 
-    .receipt-info-table td p {
-        word-wrap: break-word !important;
-        overflow-wrap: break-word !important;
-        white-space: normal !important;
-        margin: 2px 0;
+    .payslip-earnings-table,
+    .payslip-deductions-table {
+        width: 48% !important;
     }
 
     .no-print-area {

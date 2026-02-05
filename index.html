@@ -25,6 +25,8 @@
     <link rel="stylesheet" href="receipt.css">
     <!-- Invoice Stylesheet -->
     <link rel="stylesheet" href="invoice.css">
+    <!-- PaySlip Stylesheet -->
+    <link rel="stylesheet" href="payslip.css">
 </head>
 
 <body>
@@ -58,6 +60,8 @@
                         </li>
                         <li><a href="#" class="nav-link" data-target="invoice-generator-section">Invoice Generator</a>
                         </li>
+                        <li><a href="#" class="nav-link" data-target="payslip-generator-section">PaySlip Generator</a>
+                        </li>
                     </ul>
                 </nav>
             </div>
@@ -90,6 +94,10 @@
                     <div class="tool-card" data-target="invoice-generator-section">
                         <h3>Invoice Generator</h3>
                         <p>Generate professional GST invoices for solar projects.</p>
+                    </div>
+                    <div class="tool-card" data-target="payslip-generator-section">
+                        <h3>PaySlip Generator</h3>
+                        <p>Generate employee payslips with salary and commissions.</p>
                     </div>
                 </div>
             </section>
@@ -490,7 +498,7 @@
                     <!-- Header -->
                     <div class="receipt-header">
                         <div class="receipt-title-section">
-                            <h1>PAYMENT RECEIPT</h1>
+                            <h1>Payment Receipt</h1>
                             <p id="receiptNumberDisplay">R2VADV...</p>
                         </div>
                         <div class="receipt-logo-section">
@@ -498,14 +506,25 @@
                         </div>
                     </div>
 
-                    <!-- Company & Customer Info Table -->
-                    <table class="receipt-info-table">
-                        <tr class="header-row">
-                            <td>Ray2Volt Solar Private Limited</td>
-                            <td>Bill To:</td>
+                    <!-- Unified Company/Customer Info + Items Table -->
+                    <table class="receipt-unified-table">
+                        <colgroup>
+                            <col style="width: 35px;">
+                            <col>
+                            <col style="width: 45px;">
+                            <col style="width: 90px;">
+                            <col style="width: 55px;">
+                            <col style="width: 100px;">
+                            <col style="width: 110px;">
+                        </colgroup>
+                        <!-- Info Section Header Row -->
+                        <tr class="info-header-row">
+                            <td colspan="2" class="info-header-cell">Ray2Volt Solar Private Limited</td>
+                            <td colspan="5" class="info-header-cell">Bill To:</td>
                         </tr>
-                        <tr>
-                            <td class="from-cell">
+                        <!-- Info Section Content Row -->
+                        <tr class="info-content-row">
+                            <td colspan="2" class="from-cell">
                                 <p>1-278, Pichatur road, Srikalahasti, 517640, Andhra Pradesh.</p>
                                 <p><span class="info-label">Phone:</span> +91 96 6606 8140</p>
                                 <p><span class="info-label">Email:</span> ray2voltsolar@gmail.com</p>
@@ -513,7 +532,7 @@
                                 <p><span class="info-label">GSTIN:</span> 37AAOCR4626E1Z6</p>
                                 <p><span class="info-label">CIN:</span> U35104AP2025PTC118526</p>
                             </td>
-                            <td class="to-cell">
+                            <td colspan="5" class="to-cell">
                                 <p><span class="info-label">Name:</span> <span id="dispName"></span></p>
                                 <p><span class="info-label">Address:</span> <span id="dispAddress"></span></p>
                                 <p><span class="info-label">Phone Number:</span> <span id="dispPhone"></span></p>
@@ -523,30 +542,24 @@
                                 <p><span class="info-label">Payment Date:</span> <span id="dispDate"></span></p>
                             </td>
                         </tr>
-                    </table>
-
-                    <!-- Items Table -->
-                    <table class="receipt-items-table">
-                        <thead>
-                            <tr>
-                                <th style="width: 35px;">SN</th>
-                                <th>Description of Goods / Services</th>
-                                <th style="width: 45px;">Qty</th>
-                                <th style="width: 90px;">Price/Unit (₹)</th>
-                                <th style="width: 55px;">GST %</th>
-                                <th style="width: 100px;">Amount (₹)</th>
-                                <th style="width: 110px;">Total Amount (₹)</th>
-                            </tr>
-                        </thead>
+                        <!-- Items Header Row -->
+                        <tr class="items-header-row">
+                            <th>SN</th>
+                            <th>Description of Goods / Services</th>
+                            <th>Qty</th>
+                            <th>Price/Unit (₹)</th>
+                            <th>GST %</th>
+                            <th>Amount (₹)</th>
+                            <th>Total Amount (₹)</th>
+                        </tr>
+                        <!-- Items Body - Populated by JS -->
                         <tbody id="receiptItemsTableBody">
-                            <!-- Populated by JS -->
                         </tbody>
-                        <tfoot>
-                            <tr class="grand-total-row">
-                                <td colspan="6" style="text-align: right;"><strong>Grand Total:</strong></td>
-                                <td id="dispGrandTotal"></td>
-                            </tr>
-                        </tfoot>
+                        <!-- Grand Total Row -->
+                        <tr class="grand-total-row">
+                            <td colspan="6" style="text-align: right;"><strong>Grand Total:</strong></td>
+                            <td id="dispGrandTotal"></td>
+                        </tr>
                     </table>
 
                     <!-- Amount in Words -->
@@ -587,14 +600,13 @@
                         </div>
                     </div>
 
-                    <!-- Signature Section -->
-                    <div class="signature-section">
-                        <p class="signature-name">Harsha Vardhan Reddy</p>
-                        <p class="signature-title">Managing Director</p>
-                    </div>
-
                     <!-- Footer Line -->
                     <div class="receipt-footer-line"></div>
+
+                    <!-- System Generated Disclaimer -->
+                    <div class="system-generated-notice">
+                        <p>This is a system-generated payment receipt and does not require a physical signature.</p>
+                    </div>
                 </div>
             </section>
 
@@ -716,7 +728,7 @@
                     <!-- Header -->
                     <div class="invoice-header">
                         <div class="invoice-title-section">
-                            <h1>TAX INVOICE</h1>
+                            <h1>Tax Invoice</h1>
                             <p id="invoiceNumberDisplay">R2VINV...</p>
                         </div>
                         <div class="invoice-logo-section">
@@ -724,14 +736,26 @@
                         </div>
                     </div>
 
-                    <!-- Company & Customer Info Table -->
-                    <table class="invoice-info-table">
-                        <tr class="header-row">
-                            <td>Ray2Volt Solar Private Limited</td>
-                            <td>Bill To:</td>
+                    <!-- Unified Company/Customer Info + Items Table -->
+                    <table class="invoice-unified-table">
+                        <colgroup>
+                            <col style="width: 30px;">
+                            <col>
+                            <col style="width: 75px;">
+                            <col style="width: 40px;">
+                            <col style="width: 85px;">
+                            <col style="width: 50px;">
+                            <col style="width: 95px;">
+                            <col style="width: 100px;">
+                        </colgroup>
+                        <!-- Info Section Header Row -->
+                        <tr class="info-header-row">
+                            <td colspan="2" class="info-header-cell">Ray2Volt Solar Private Limited</td>
+                            <td colspan="6" class="info-header-cell">Bill To:</td>
                         </tr>
-                        <tr>
-                            <td class="from-cell">
+                        <!-- Info Section Content Row -->
+                        <tr class="info-content-row">
+                            <td colspan="2" class="from-cell">
                                 <p>1-278, Pichatur road, Srikalahasti, 517640, Andhra Pradesh.</p>
                                 <p><span class="invoice-info-label">Phone:</span> +91 96 6606 8140</p>
                                 <p><span class="invoice-info-label">Email:</span> ray2voltsolar@gmail.com</p>
@@ -739,7 +763,7 @@
                                 <p><span class="invoice-info-label">GSTIN:</span> 37AAOCR4626E1Z6</p>
                                 <p><span class="invoice-info-label">CIN:</span> U35104AP2025PTC118526</p>
                             </td>
-                            <td class="to-cell">
+                            <td colspan="6" class="to-cell">
                                 <p><span class="invoice-info-label">Name:</span> <span id="invDispName"></span></p>
                                 <p><span class="invoice-info-label">Address:</span> <span id="invDispAddress"></span>
                                 </p>
@@ -754,31 +778,25 @@
                                 </p>
                             </td>
                         </tr>
-                    </table>
-
-                    <!-- Items Table -->
-                    <table class="invoice-items-table">
-                        <thead>
-                            <tr>
-                                <th style="width: 30px;">SN</th>
-                                <th>Description of Goods / Services</th>
-                                <th style="width: 60px;">HSN/SAC</th>
-                                <th style="width: 40px;">Qty</th>
-                                <th style="width: 85px;">Price/Unit (₹)</th>
-                                <th style="width: 50px;">GST %</th>
-                                <th style="width: 95px;">Amount (₹)</th>
-                                <th style="width: 100px;">Total Amt (₹)</th>
-                            </tr>
-                        </thead>
+                        <!-- Items Header Row -->
+                        <tr class="items-header-row">
+                            <th>SN</th>
+                            <th>Description of Goods / Services</th>
+                            <th>HSN/SAC</th>
+                            <th>Qty</th>
+                            <th>Price/Unit (₹)</th>
+                            <th>GST %</th>
+                            <th>Amount (₹)</th>
+                            <th>Total Amt (₹)</th>
+                        </tr>
+                        <!-- Items Body - Populated by JS -->
                         <tbody id="invItemsTableBody">
-                            <!-- Populated by JS -->
                         </tbody>
-                        <tfoot>
-                            <tr class="grand-total-row">
-                                <td colspan="7" style="text-align: right;"><strong>Grand Total:</strong></td>
-                                <td id="invDispGrandTotal"></td>
-                            </tr>
-                        </tfoot>
+                        <!-- Grand Total Row -->
+                        <tr class="grand-total-row">
+                            <td colspan="7" style="text-align: right;"><strong>Grand Total:</strong></td>
+                            <td id="invDispGrandTotal"></td>
+                        </tr>
                     </table>
 
                     <!-- Amount in Words -->
@@ -803,14 +821,282 @@
                         </div>
                     </div>
 
-                    <!-- Signature Section -->
-                    <div class="invoice-signature">
-                        <p class="signature-name">Harsha Vardhan Reddy</p>
-                        <p class="signature-title">Managing Director</p>
+                    <!-- Footer Line -->
+                    <div class="invoice-footer-line"></div>
+
+                    <!-- System Generated Disclaimer -->
+                    <div class="system-generated-notice">
+                        <p>This is a system-generated invoice and does not require a physical signature.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PaySlip Generator Section -->
+            <section id="payslip-generator-section" class="calculator-panel content-section">
+                <h2>PaySlip Generator</h2>
+                <div class="no-print-area">
+                    <p>Enter details below to generate an employee payslip.</p>
+                    <div class="pricing-layout">
+                        <div class="pricing-inputs">
+                            <h3>Employee Details</h3>
+                            <div class="input-group">
+                                <label for="payslipEmployeeName">Employee Name</label>
+                                <input type="text" id="payslipEmployeeName" class="input-field"
+                                    placeholder="Enter name">
+                            </div>
+                            <div class="input-group">
+                                <label for="payslipEmployeeId">Employee ID</label>
+                                <input type="text" id="payslipEmployeeId" class="input-field" placeholder="e.g. R2V001">
+                            </div>
+                            <div class="input-group">
+                                <label for="payslipDesignation">Designation</label>
+                                <input type="text" id="payslipDesignation" class="input-field"
+                                    placeholder="e.g. Sales Executive">
+                            </div>
+                            <div class="input-group">
+                                <label for="payslipDepartment">Department</label>
+                                <input type="text" id="payslipDepartment" class="input-field" placeholder="e.g. Sales">
+                            </div>
+                            <div class="input-group">
+                                <label for="payslipJoiningDate">Date of Joining</label>
+                                <input type="date" id="payslipJoiningDate" class="input-field">
+                            </div>
+                        </div>
+
+                        <div class="pricing-inputs">
+                            <h3>PaySlip Settings</h3>
+                            <div class="input-group">
+                                <label for="payslipPayPeriod">Pay Period</label>
+                                <input type="text" id="payslipPayPeriod" class="input-field"
+                                    placeholder="e.g. January 2025">
+                            </div>
+                            <div class="input-group">
+                                <label for="payslipDate">Payment Date</label>
+                                <input type="date" id="payslipDate" class="input-field">
+                            </div>
+                            <div class="input-group">
+                                <label for="payslipNumber">PaySlip Number</label>
+                                <input type="text" id="payslipNumber" class="input-field"
+                                    placeholder="e.g. R2VPAY0125-001">
+                            </div>
+                            <h3 style="margin-top: 1.5rem;">Bank Details</h3>
+                            <div class="input-group">
+                                <label for="payslipBankAccount">Bank Account Number</label>
+                                <input type="text" id="payslipBankAccount" class="input-field"
+                                    placeholder="Enter account number">
+                            </div>
+                            <div class="input-group">
+                                <label for="payslipIfscCode">IFSC Code</label>
+                                <input type="text" id="payslipIfscCode" class="input-field"
+                                    placeholder="e.g. HDFC0002436">
+                            </div>
+                            <div class="input-group">
+                                <label for="payslipPan">PAN Number</label>
+                                <input type="text" id="payslipPan" class="input-field" placeholder="e.g. ABCDE1234F">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Earnings Section -->
+                    <div class="payslip-items-input-section">
+                        <h3>Earnings</h3>
+                        <p class="input-help">Add salary and other earnings components.</p>
+
+                        <!-- Fixed earnings -->
+                        <div class="payslip-item-row">
+                            <div class="item-row-header">
+                                <span class="item-number">Basic Salary</span>
+                            </div>
+                            <div class="item-fields">
+                                <div class="input-group">
+                                    <label>Description</label>
+                                    <input type="text" class="input-field" value="Basic Salary" disabled>
+                                </div>
+                                <div class="input-group">
+                                    <label>Amount (₹)</label>
+                                    <input type="number" id="payslipBasicSalary" class="input-field" placeholder="0">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="payslip-item-row">
+                            <div class="item-row-header">
+                                <span class="item-number">Commission</span>
+                            </div>
+                            <div class="item-fields">
+                                <div class="input-group">
+                                    <label>Description</label>
+                                    <input type="text" class="input-field" value="Commission" disabled>
+                                </div>
+                                <div class="input-group">
+                                    <label>Amount (₹)</label>
+                                    <input type="number" id="payslipCommission" class="input-field" placeholder="0">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="earningsContainer">
+                            <!-- Dynamic earnings will be added here -->
+                        </div>
+
+                        <button type="button" id="addEarningBtn" class="btn" style="margin-top: 1rem;">
+                            + Add Another Earning
+                        </button>
+                    </div>
+
+                    <!-- Deductions Section -->
+                    <div class="payslip-items-input-section">
+                        <h3>Deductions</h3>
+                        <p class="input-help">Add any deductions (TDS, PF, etc.).</p>
+
+                        <div id="deductionsContainer">
+                            <!-- Dynamic deductions will be added here -->
+                        </div>
+
+                        <button type="button" id="addDeductionBtn" class="btn" style="margin-top: 1rem;">
+                            + Add Deduction
+                        </button>
+                    </div>
+
+                    <div class="control-group" style="text-align: center; margin-top: 2rem;">
+                        <button id="generatePayslipBtn" class="btn active"
+                            style="font-size: 1.1rem; padding: 0.8rem 2rem;">Generate PaySlip Preview</button>
+                        <button id="printPayslipBtn" class="btn" style="font-size: 1.1rem; padding: 0.8rem 2rem;">Print
+                            / Save as PDF</button>
+                    </div>
+                </div>
+
+                <!-- PaySlip Template -->
+                <div id="payslipPreview">
+                    <!-- Header -->
+                    <div class="payslip-header">
+                        <div class="payslip-title-section">
+                            <h1>PaySlip</h1>
+                            <p id="payslipNumberDisplay">R2VPAY...</p>
+                        </div>
+                        <div class="payslip-logo-section">
+                            <img src="Logo.png" alt="Ray2Volt Logo" class="payslip-logo">
+                        </div>
+                    </div>
+
+                    <!-- Company & Employee Info Table -->
+                    <table class="payslip-unified-table">
+                        <colgroup>
+                            <col style="width: 25%;">
+                            <col style="width: 25%;">
+                            <col style="width: 25%;">
+                            <col style="width: 25%;">
+                        </colgroup>
+                        <!-- Info Section Header Row -->
+                        <tr class="info-header-row">
+                            <td colspan="2" class="info-header-cell">Company Details</td>
+                            <td colspan="2" class="info-header-cell">Employee Details</td>
+                        </tr>
+                        <!-- Info Section Content Row -->
+                        <tr class="info-content-row">
+                            <td colspan="2" class="from-cell">
+                                <p><strong>Ray2Volt Solar Private Limited</strong></p>
+                                <p>1-278, Pichatur road, Srikalahasti, 517640, Andhra Pradesh.</p>
+                                <p><span class="payslip-info-label">Phone:</span> +91 96 6606 8140</p>
+                                <p><span class="payslip-info-label">Email:</span> ray2voltsolar@gmail.com</p>
+                                <br>
+                                <p><span class="payslip-info-label">GSTIN:</span> 37AAOCR4626E1Z6</p>
+                                <p><span class="payslip-info-label">CIN:</span> U35104AP2025PTC118526</p>
+                            </td>
+                            <td colspan="2" class="to-cell">
+                                <p><span class="payslip-info-label">Name:</span> <span id="dispEmployeeName"></span></p>
+                                <p><span class="payslip-info-label">Employee ID:</span> <span
+                                        id="dispEmployeeId"></span></p>
+                                <p><span class="payslip-info-label">Designation:</span> <span
+                                        id="dispDesignation"></span></p>
+                                <p><span class="payslip-info-label">Department:</span> <span id="dispDepartment"></span>
+                                </p>
+                                <br>
+                                <p><span class="payslip-info-label">Date of Joining:</span> <span
+                                        id="dispJoiningDate"></span></p>
+                                <p><span class="payslip-info-label">Pay Period:</span> <span id="dispPayPeriod"></span>
+                                </p>
+                                <p><span class="payslip-info-label">Payment Date:</span> <span id="dispPayDate"></span>
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <!-- Earnings & Deductions Tables -->
+                    <div class="payslip-tables-row">
+                        <table class="payslip-earnings-table">
+                            <thead>
+                                <tr>
+                                    <th colspan="2">Earnings</th>
+                                </tr>
+                                <tr>
+                                    <th style="width: 60%;">Description</th>
+                                    <th style="width: 40%;">Amount (₹)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="payslipEarningsBody">
+                                <!-- Populated by JS -->
+                            </tbody>
+                            <tfoot>
+                                <tr class="total-row">
+                                    <td><strong>Total Earnings</strong></td>
+                                    <td id="dispTotalEarnings">₹0</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+
+                        <table class="payslip-deductions-table">
+                            <thead>
+                                <tr>
+                                    <th colspan="2">Deductions</th>
+                                </tr>
+                                <tr>
+                                    <th style="width: 60%;">Description</th>
+                                    <th style="width: 40%;">Amount (₹)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="payslipDeductionsBody">
+                                <!-- Populated by JS -->
+                            </tbody>
+                            <tfoot>
+                                <tr class="total-row">
+                                    <td><strong>Total Deductions</strong></td>
+                                    <td id="dispTotalDeductions">₹0</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+
+                    <!-- Net Pay -->
+                    <div class="payslip-net-pay">
+                        <span class="label">Net Pay</span>
+                        <span class="amount" id="dispNetPay">₹0</span>
+                    </div>
+
+                    <!-- Amount in Words -->
+                    <div class="payslip-amount-words">
+                        <strong>In Words:</strong> <span id="dispNetPayWords"></span>
+                    </div>
+
+                    <!-- Bank Details -->
+                    <div class="payslip-bank-section">
+                        <h4>Employee Bank Details</h4>
+                        <div class="payslip-bank-grid">
+                            <span class="bank-label">Account Number</span>
+                            <span class="bank-value">: <span id="dispEmpBankAccount">-</span></span>
+                            <span class="bank-label">IFSC Code</span>
+                            <span class="bank-value">: <span id="dispEmpIfsc">-</span></span>
+                            <span class="bank-label">PAN Number</span>
+                            <span class="bank-value">: <span id="dispEmpPan">-</span></span>
+                        </div>
                     </div>
 
                     <!-- Footer Line -->
-                    <div class="invoice-footer-line"></div>
+                    <div class="payslip-footer-line"></div>
+
+                    <!-- System Generated Disclaimer -->
+                    <div class="system-generated-notice">
+                        <p>This is a system-generated payslip and does not require a physical signature.</p>
+                    </div>
                 </div>
             </section>
         </main>
@@ -819,9 +1105,24 @@
     <!-- Overlay for Mobile Sidebar -->
     <div class="overlay" id="overlay"></div>
 
+    <!-- Password Protection Modal -->
+    <div class="password-modal-overlay" id="passwordModalOverlay">
+        <div class="password-modal">
+            <h3>🔐 Password Required</h3>
+            <p>This section is protected. Please enter the admin password to access.</p>
+            <input type="password" id="passwordInput" class="password-input" placeholder="Enter password">
+            <div class="password-error" id="passwordError">Incorrect password. Please try again.</div>
+            <div class="password-modal-buttons">
+                <button id="passwordCancelBtn" class="btn password-cancel-btn">Cancel</button>
+                <button id="passwordSubmitBtn" class="btn password-submit-btn">Unlock</button>
+            </div>
+        </div>
+    </div>
+
     <script src="script.js"></script>
     <script src="receipt.js"></script>
     <script src="invoice.js"></script>
+    <script src="payslip.js"></script>
 </body>
 
 </html>

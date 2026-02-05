@@ -13,7 +13,7 @@
     background: #fff;
     border: 3px solid #4A90D9;
     border-radius: 4px;
-    font-family: 'Nunito Sans', Arial, sans-serif;
+    font-family: 'Google Sans Flex', Arial, sans-serif;
     font-size: 10pt;
     color: #333;
     position: relative;
@@ -37,7 +37,7 @@
 }
 
 .invoice-title-section h1 {
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Google Sans Flex', sans-serif;
     font-size: 16pt;
     font-weight: 700;
     letter-spacing: 2px;
@@ -64,19 +64,31 @@
 }
 
 /* ============================================
-   INFO TABLE (From / Bill To)
-   Consistent border styling for alignment
+   UNIFIED TABLE (Info + Items combined)
+   Single table ensures perfect column alignment
    ============================================ */
-.invoice-info-table {
+.invoice-unified-table {
     width: 100%;
     border-collapse: collapse;
-    margin: 15px 0;
-    border: 2px solid #5A9BD5;
+    margin: 15px 0 10px 0;
     table-layout: fixed;
+    border: 2px solid #5A9BD5;
 }
 
-.invoice-info-table td {
-    width: 50%;
+/* Info Section Header Row */
+.invoice-unified-table .info-header-row td,
+.invoice-unified-table .info-header-cell {
+    background-color: #D6E6F5;
+    color: #333;
+    font-weight: 700;
+    text-align: center;
+    padding: 8px 12px;
+    font-size: 10pt;
+    border: 2px solid #5A9BD5;
+}
+
+/* Info Section Content Row */
+.invoice-unified-table .info-content-row td {
     vertical-align: top;
     padding: 12px;
     border: 2px solid #5A9BD5;
@@ -87,22 +99,14 @@
     white-space: normal;
 }
 
-.invoice-info-table .from-cell {
-    background-color: #fff;
-}
-
-.invoice-info-table .to-cell {
+.invoice-unified-table .from-cell {
     background-color: #fff;
     text-align: left;
 }
 
-.invoice-info-table .header-row td {
-    background-color: #D6E6F5;
-    color: #333;
-    font-weight: 700;
-    text-align: center;
-    padding: 8px;
-    font-size: 10pt;
+.invoice-unified-table .to-cell {
+    background-color: #fff;
+    text-align: left;
 }
 
 .invoice-info-label {
@@ -110,18 +114,8 @@
     color: #333;
 }
 
-/* ============================================
-   ITEMS TABLE
-   Single table with Grand Total at bottom
-   ============================================ */
-.invoice-items-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 15px 0 10px 0;
-    table-layout: fixed;
-}
-
-.invoice-items-table th {
+/* Items Header Row */
+.invoice-unified-table .items-header-row th {
     background-color: #D6E6F5;
     color: #333;
     font-weight: 700;
@@ -132,7 +126,8 @@
     word-wrap: break-word;
 }
 
-.invoice-items-table td {
+/* Items Body Cells */
+.invoice-unified-table td {
     padding: 8px 6px;
     border: 2px solid #5A9BD5;
     text-align: center;
@@ -141,21 +136,16 @@
     word-wrap: break-word;
 }
 
-.invoice-items-table td.desc-cell {
+.invoice-unified-table td.desc-cell {
     text-align: left;
     padding-left: 8px;
     word-wrap: break-word;
     overflow-wrap: break-word;
     white-space: normal;
-    max-width: 200px;
-}
-
-.invoice-items-table tbody tr:last-child td {
-    border-bottom: 2px solid #5A9BD5;
 }
 
 /* Grand Total Row */
-.invoice-items-table tfoot .grand-total-row td {
+.invoice-unified-table .grand-total-row td {
     background-color: #D6E6F5;
     font-weight: 700;
     font-size: 10pt;

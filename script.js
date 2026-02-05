@@ -7,6 +7,100 @@ document.addEventListener('DOMContentLoaded', () => {
     const navLinks = document.querySelectorAll('.nav-link, .tool-card');
     const contentSections = document.querySelectorAll('.content-section');
 
+    // --- PASSWORD PROTECTION ---
+    const ADMIN_PASSWORD = 'Admin@Ray2Volt';
+    const PROTECTED_SECTIONS = ['receipt-generator-section', 'invoice-generator-section', 'payslip-generator-section'];
+    const passwordModal = document.getElementById('passwordModalOverlay');
+    const passwordInput = document.getElementById('passwordInput');
+    const passwordError = document.getElementById('passwordError');
+    const passwordSubmitBtn = document.getElementById('passwordSubmitBtn');
+    const passwordCancelBtn = document.getElementById('passwordCancelBtn');
+    let pendingTargetId = null;
+
+    // Check if section is unlocked (using sessionStorage for session-based access)
+    const isSectionUnlocked = (sectionId) => {
+        return sessionStorage.getItem(`unlocked_${sectionId}`) === 'true';
+    };
+
+    // Unlock a section
+    const unlockSection = (sectionId) => {
+        sessionStorage.setItem(`unlocked_${sectionId}`, 'true');
+    };
+
+    // Show password modal
+    const showPasswordModal = (targetId) => {
+        pendingTargetId = targetId;
+        passwordModal.classList.add('active');
+        passwordInput.value = '';
+        passwordInput.classList.remove('error');
+        passwordError.classList.remove('visible');
+        passwordInput.focus();
+        document.body.classList.add('no-scroll');
+    };
+
+    // Hide password modal
+    const hidePasswordModal = () => {
+        passwordModal.classList.remove('active');
+        passwordInput.value = '';
+        passwordInput.classList.remove('error');
+        passwordError.classList.remove('visible');
+        pendingTargetId = null;
+        document.body.classList.remove('no-scroll');
+    };
+
+    // Handle password submission
+    const handlePasswordSubmit = () => {
+        const enteredPassword = passwordInput.value;
+        if (enteredPassword === ADMIN_PASSWORD) {
+            // Save the target before hiding modal (hidePasswordModal clears pendingTargetId)
+            const targetId = pendingTargetId;
+            // Unlock the section
+            unlockSection(targetId);
+            hidePasswordModal();
+            // Navigate to the section
+            navigateToSection(targetId);
+        } else {
+            // Show error
+            passwordInput.classList.add('error');
+            passwordError.classList.add('visible');
+            passwordInput.value = '';
+            passwordInput.focus();
+
+            // Remove shake animation after it completes
+            setTimeout(() => {
+                passwordInput.classList.remove('error');
+            }, 400);
+        }
+    };
+
+    // Password modal event listeners
+    if (passwordSubmitBtn) {
+        passwordSubmitBtn.addEventListener('click', handlePasswordSubmit);
+    }
+
+    if (passwordCancelBtn) {
+        passwordCancelBtn.addEventListener('click', hidePasswordModal);
+    }
+
+    if (passwordInput) {
+        passwordInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                handlePasswordSubmit();
+            } else if (e.key === 'Escape') {
+                hidePasswordModal();
+            }
+        });
+    }
+
+    // Close modal when clicking outside
+    if (passwordModal) {
+        passwordModal.addEventListener('click', (e) => {
+            if (e.target === passwordModal) {
+                hidePasswordModal();
+            }
+        });
+    }
+
     const openSidebar = () => {
         sidebar.classList.add('is-open');
         overlay.classList.add('is-active');
@@ -25,31 +119,48 @@ document.addEventListener('DOMContentLoaded', () => {
         overlay.addEventListener('click', closeSidebar);
     }
 
+    // --- SECTION NAVIGATION FUNCTION ---
+    const navigateToSection = (targetId) => {
+        // Update content sections visibility
+        contentSections.forEach(section => {
+            section.classList.toggle('active', section.id === targetId);
+        });
+
+        // Update active state for nav links
+        document.querySelectorAll('.nav-link').forEach(nav => {
+            nav.classList.remove('active');
+            if (nav.dataset.target === targetId) {
+                nav.classList.add('active');
+            }
+        });
+
+        // Close sidebar on link click in mobile view
+        if (window.innerWidth <= 768) {
+            closeSidebar();
+        }
+    };
+
     // --- SECTION SWITCHING LOGIC ---
     navLinks.forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
             const targetId = link.dataset.target;
 
-            // Update content sections visibility
-            contentSections.forEach(section => {
-                section.classList.toggle('active', section.id === targetId);
-            });
-
-            // Update active state for nav links
-            document.querySelectorAll('.nav-link').forEach(nav => {
-                nav.classList.remove('active');
-                if (nav.dataset.target === targetId) {
-                    nav.classList.add('active');
+            // Check if this is a protected section
+            if (PROTECTED_SECTIONS.includes(targetId)) {
+                // Check if already unlocked
+                if (!isSectionUnlocked(targetId)) {
+                    // Show password modal
+                    showPasswordModal(targetId);
+                    return;
                 }
-            });
-
-            // Close sidebar on link click in mobile view
-            if (window.innerWidth <= 768) {
-                closeSidebar();
             }
+
+            // Navigate to section
+            navigateToSection(targetId);
         });
     });
+
 
     // HELPER: Format to Rupees
     const formatToRupees = (num) => {
