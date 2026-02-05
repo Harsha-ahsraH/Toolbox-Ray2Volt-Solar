@@ -12,8 +12,8 @@
     padding: 8mm;
     background: #fff;
     border: 3px solid #4A90D9;
-    border-radius: 4px;
-    font-family: 'Google Sans Flex', Arial, sans-serif;
+    border-radius: 6px;
+    font-family: 'Google Sans flex', 'Nunito Sans', sans-serif;
     font-size: 10pt;
     color: #333;
     position: relative;
@@ -41,7 +41,7 @@
     font-family: 'Google Sans Flex', sans-serif;
     font-size: 16pt;
     font-weight: 700;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
     margin: 0;
     color: #333;
 }

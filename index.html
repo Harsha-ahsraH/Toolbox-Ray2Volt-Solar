@@ -27,6 +27,8 @@
     <link rel="stylesheet" href="invoice.css">
     <!-- PaySlip Stylesheet -->
     <link rel="stylesheet" href="payslip.css">
+    <!-- Warranty Stylesheet -->
+    <link rel="stylesheet" href="warranty.css">
 </head>
 
 <body>
@@ -61,6 +63,8 @@
                         <li><a href="#" class="nav-link" data-target="invoice-generator-section">Invoice Generator</a>
                         </li>
                         <li><a href="#" class="nav-link" data-target="payslip-generator-section">PaySlip Generator</a>
+                        </li>
+                        <li><a href="#" class="nav-link" data-target="warranty-generator-section">Warranty Card</a>
                         </li>
                     </ul>
                 </nav>
@@ -98,6 +102,10 @@
                     <div class="tool-card" data-target="payslip-generator-section">
                         <h3>PaySlip Generator</h3>
                         <p>Generate employee payslips with salary and commissions.</p>
+                    </div>
+                    <div class="tool-card" data-target="warranty-generator-section">
+                        <h3>Warranty Card</h3>
+                        <p>Generate 5-page warranty certificates for solar installations.</p>
                     </div>
                 </div>
             </section>
@@ -1099,6 +1107,380 @@
                     </div>
                 </div>
             </section>
+
+            <!-- Warranty Card Generator Section -->
+            <section id="warranty-generator-section" class="calculator-panel content-section">
+                <h2>Warranty Card Generator</h2>
+                <div class="no-print-area">
+                    <p>Generate a comprehensive 5-page warranty certificate for solar installations.</p>
+                    <div class="pricing-layout">
+                        <div class="pricing-inputs">
+                            <h3>Project Information</h3>
+                            <div class="input-group">
+                                <label for="warrantyProjectId">Project ID</label>
+                                <input type="text" id="warrantyProjectId" class="input-field"
+                                    placeholder="e.g. R2V-2025-0001">
+                            </div>
+                            <div class="input-group">
+                                <label for="warrantyCustomerName">Customer Name</label>
+                                <input type="text" id="warrantyCustomerName" class="input-field"
+                                    placeholder="Enter customer name">
+                            </div>
+                            <div class="input-group">
+                                <label for="warrantyAddress">Site Address</label>
+                                <textarea id="warrantyAddress" class="input-field" rows="2"
+                                    placeholder="Enter installation site address"></textarea>
+                            </div>
+                            <div class="input-group">
+                                <label for="warrantyPhone">Phone Number</label>
+                                <input type="text" id="warrantyPhone" class="input-field"
+                                    placeholder="Enter phone number">
+                            </div>
+                            <div class="input-group">
+                                <label for="warrantyInstallDate">Installation Date</label>
+                                <input type="date" id="warrantyInstallDate" class="input-field">
+                            </div>
+                        </div>
+
+                        <div class="pricing-inputs">
+                            <h3>System Specifications</h3>
+                            <div class="input-group">
+                                <label for="warrantyProjectSpecs">Project Specifications</label>
+                                <textarea id="warrantyProjectSpecs" class="input-field" rows="3"
+                                    placeholder="e.g. 5 kWp On-Grid Solar Power Plant with 10 x 550Wp Panels"></textarea>
+                            </div>
+                            <div class="input-group">
+                                <label for="warrantyModuleBrand">Solar Module Brand</label>
+                                <input type="text" id="warrantyModuleBrand" class="input-field"
+                                    placeholder="e.g. Adani 550Wp Mono PERC">
+                            </div>
+                            <div class="input-group">
+                                <label for="warrantyModuleWarranty">Module Warranty (Years)</label>
+                                <input type="number" id="warrantyModuleWarranty" class="input-field" value="25" min="1"
+                                    max="30">
+                            </div>
+                            <div class="input-group">
+                                <label for="warrantyInverterName">Inverter Name</label>
+                                <input type="text" id="warrantyInverterName" class="input-field"
+                                    placeholder="e.g. Growatt 5kW On-Grid Inverter">
+                            </div>
+                            <div class="input-group">
+                                <label for="warrantyInverterWarranty">Inverter Warranty (Years)</label>
+                                <input type="number" id="warrantyInverterWarranty" class="input-field" value="5" min="1"
+                                    max="15">
+                            </div>
+                            <div class="input-group">
+                                <label for="warrantyDcrCertificate">DCR Certificate Number</label>
+                                <input type="text" id="warrantyDcrCertificate" class="input-field"
+                                    placeholder="e.g. DCR-AP-2025-XXXXX">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="control-group" style="text-align: center; margin-top: 2rem;">
+                        <button id="generateWarrantyBtn" class="btn active"
+                            style="font-size: 1.1rem; padding: 0.8rem 2rem;">Generate Warranty Card</button>
+                        <button id="printWarrantyBtn" class="btn" style="font-size: 1.1rem; padding: 0.8rem 2rem;">Print
+                            / Save as PDF</button>
+                    </div>
+                </div>
+
+                <!-- WARRANTY CARD PREVIEW - 5 PAGES -->
+                <div id="warrantyPreview">
+
+                    <!-- PAGE 1: COVER PAGE -->
+                    <div class="warranty-page warranty-cover">
+                        <img src="Logo.png" alt="Ray2Volt Logo" class="cover-logo">
+                        <h1 class="cover-title">Warranty Certificate</h1>
+                        <p class="cover-subtitle">Solar Power Installation</p>
+                        <div class="cover-decorative-line"></div>
+                        <p class="cover-project-id">Project ID: <strong id="coverProjectId">R2V-XXXX-XXXX</strong></p>
+                        <p class="cover-customer">Issued to: <span id="coverCustomerName">Valued Customer</span></p>
+                        <p class="cover-date">Date of Issue: <span id="coverDate">DD Month YYYY</span></p>
+                        <div class="cover-footer">
+                            <p>Ray2Volt Solar Private Limited | CIN: U35104AP2025PTC118526</p>
+                            <p>1-278, Pichatur Road, Srikalahasti, 517640, Andhra Pradesh</p>
+                        </div>
+                        <div class="warranty-page-footer">
+                            <span class="warranty-footer-project-id">Project: R2V-XXXX</span>
+                            <span class="warranty-page-number">Page 1 of 5</span>
+                        </div>
+                    </div>
+
+                    <!-- PAGE 2: PROJECT DETAILS -->
+                    <div class="warranty-page warranty-details-page">
+                        <div class="warranty-page-header">
+                            <h2>Project Details</h2>
+                            <img src="Logo.png" alt="Ray2Volt" class="header-logo">
+                        </div>
+
+                        <div class="warranty-section">
+                            <h3>Customer Information</h3>
+                            <div class="warranty-info-grid">
+                                <span class="info-label">Project ID:</span>
+                                <span class="info-value" id="detailProjectId">R2V-XXXX-XXXX</span>
+                                <span class="info-label">Customer Name:</span>
+                                <span class="info-value" id="detailCustomerName">-</span>
+                                <span class="info-label">Site Address:</span>
+                                <span class="info-value" id="detailAddress">-</span>
+                                <span class="info-label">Contact Number:</span>
+                                <span class="info-value" id="detailPhone">-</span>
+                                <span class="info-label">Installation Date:</span>
+                                <span class="info-value" id="detailInstallDate">-</span>
+                            </div>
+                        </div>
+
+                        <div class="warranty-section">
+                            <h3>System Specifications</h3>
+                            <table class="warranty-specs-table">
+                                <tr>
+                                    <th>Project Description</th>
+                                    <td id="detailProjectSpecs">-</td>
+                                </tr>
+                                <tr>
+                                    <th>Solar Module</th>
+                                    <td id="detailModuleBrand">-</td>
+                                </tr>
+                                <tr>
+                                    <th>Module Warranty</th>
+                                    <td id="detailModuleWarranty">-</td>
+                                </tr>
+                                <tr>
+                                    <th>Inverter</th>
+                                    <td id="detailInverterName">-</td>
+                                </tr>
+                                <tr>
+                                    <th>Inverter Warranty</th>
+                                    <td id="detailInverterWarranty">-</td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div class="warranty-section">
+                            <h3>About Ray2Volt Solar</h3>
+                            <p style="text-align: justify; line-height: 1.7; font-size: 10pt;">
+                                Ray2Volt Solar Private Limited is a leading solar energy solutions provider committed
+                                to delivering high-quality, reliable, and efficient solar power systems. We specialize
+                                in residential, commercial, and industrial solar installations across India. Our team
+                                of certified professionals ensures that every installation meets the highest standards
+                                of quality and safety. With years of experience in the renewable energy sector, we are
+                                dedicated to helping our customers reduce their carbon footprint while achieving
+                                significant savings on electricity costs.
+                            </p>
+                        </div>
+
+                        <div class="warranty-page-footer">
+                            <span class="warranty-footer-project-id">Project: R2V-XXXX</span>
+                            <span class="warranty-page-number">Page 2 of 5</span>
+                        </div>
+                    </div>
+
+                    <!-- PAGE 3: SOLAR MODULE WARRANTY -->
+                    <div class="warranty-page warranty-terms-page">
+                        <div class="warranty-page-header">
+                            <h2>Solar Module Warranty</h2>
+                            <img src="Logo.png" alt="Ray2Volt" class="header-logo">
+                        </div>
+
+                        <div class="warranty-highlight-box">
+                            <p class="highlight-label">Performance Warranty Period</p>
+                            <p class="highlight-value" id="moduleWarrantyPeriod">25 Years</p>
+                            <p class="highlight-label">Valid Until: <strong id="moduleWarrantyEnd">-</strong></p>
+                        </div>
+
+                        <div class="warranty-terms-box">
+                            <div class="terms-header">📋 Module: <span id="moduleBrandName">Premium Solar Module</span>
+                            </div>
+                            <div class="terms-content">
+                                <h4>Warranty Coverage</h4>
+                                <p>This warranty covers the solar photovoltaic modules installed as part of your solar
+                                    power system against defects in materials and workmanship under normal application,
+                                    installation, use, and service conditions.</p>
+
+                                <h4>Product Warranty (10 Years)</h4>
+                                <ul>
+                                    <li>The manufacturer warrants the modules to be free from defects in materials and
+                                        workmanship for a period of ten (10) years from the date of installation.</li>
+                                    <li>During this period, if any module is found to be defective, the manufacturer
+                                        will, at its option, repair or replace the defective module free of charge.
+                                    </li>
+                                </ul>
+
+                                <h4>Performance Warranty (25 Years)</h4>
+                                <ul>
+                                    <li><strong>Year 1:</strong> The modules will produce at least 97.5% of the nominal
+                                        power output.</li>
+                                    <li><strong>Years 2-25:</strong> Annual degradation shall not exceed 0.55% per
+                                        year.</li>
+                                    <li><strong>End of Year 25:</strong> The modules will still produce at least 84.95%
+                                        of the nominal power output.</li>
+                                </ul>
+
+                                <h4>Exclusions</h4>
+                                <ul>
+                                    <li>Damage caused by improper installation, modification, or repair by unauthorized
+                                        personnel</li>
+                                    <li>Normal wear and tear, including cosmetic deterioration</li>
+                                    <li>Damage from lightning, fire, flood, earthquake, or other natural disasters</li>
+                                    <li>Damage from voltage surges, power fluctuations, or incorrect electrical
+                                        connections</li>
+                                    <li>Use of modules in environments not recommended by the manufacturer</li>
+                                    <li>Damage caused by falling objects, impact, or vandalism</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="warranty-page-footer">
+                            <span class="warranty-footer-project-id">Project: R2V-XXXX</span>
+                            <span class="warranty-page-number">Page 3 of 5</span>
+                        </div>
+                    </div>
+
+                    <!-- PAGE 4: INVERTER WARRANTY -->
+                    <div class="warranty-page warranty-terms-page">
+                        <div class="warranty-page-header">
+                            <h2>Inverter Warranty</h2>
+                            <img src="Logo.png" alt="Ray2Volt" class="header-logo">
+                        </div>
+
+                        <div class="warranty-highlight-box">
+                            <p class="highlight-label">Inverter Warranty Period</p>
+                            <p class="highlight-value" id="inverterWarrantyPeriod">5 Years</p>
+                            <p class="highlight-label">Valid Until: <strong id="inverterWarrantyEnd">-</strong></p>
+                        </div>
+
+                        <div class="warranty-terms-box">
+                            <div class="terms-header">📋 Inverter: <span id="inverterBrandName">Grid-Tie
+                                    Inverter</span></div>
+                            <div class="terms-content">
+                                <h4>Warranty Coverage</h4>
+                                <p>This warranty covers the solar inverter installed as part of your solar power system
+                                    against defects in materials and workmanship under normal application, installation,
+                                    use, and service conditions.</p>
+
+                                <h4>Standard Warranty Terms</h4>
+                                <ul>
+                                    <li>The manufacturer warrants the inverter against manufacturing defects for the
+                                        warranty period from the date of installation.</li>
+                                    <li>During the warranty period, if the inverter fails due to manufacturing defects,
+                                        the manufacturer will repair or replace the unit at no additional cost.</li>
+                                    <li>All warranty claims must be submitted through Ray2Volt Solar for verification
+                                        and processing.</li>
+                                </ul>
+
+                                <h4>Service Conditions</h4>
+                                <ul>
+                                    <li>The inverter must be installed by a certified professional in accordance with
+                                        the manufacturer's guidelines.</li>
+                                    <li>The installation site must have proper ventilation and be protected from direct
+                                        sunlight, rain, and extreme weather conditions.</li>
+                                    <li>Regular maintenance as recommended by the manufacturer must be performed.</li>
+                                    <li>All electrical connections must comply with local electrical codes and
+                                        standards.</li>
+                                </ul>
+
+                                <h4>Exclusions</h4>
+                                <ul>
+                                    <li>Damage caused by improper installation, operation, or maintenance</li>
+                                    <li>Damage from power surges, lightning strikes, or grid instability</li>
+                                    <li>Failure due to operation outside specified environmental conditions</li>
+                                    <li>Unauthorized modifications or repairs</li>
+                                    <li>Cosmetic damage, including scratches, dents, or discoloration</li>
+                                    <li>Damage from pests, insects, or rodents</li>
+                                </ul>
+
+                                <h4>Warranty Extension</h4>
+                                <p>Extended warranty options may be available for purchase. Please contact Ray2Volt
+                                    Solar for more information on extending your inverter warranty coverage.</p>
+                            </div>
+                        </div>
+
+                        <div class="warranty-page-footer">
+                            <span class="warranty-footer-project-id">Project: R2V-XXXX</span>
+                            <span class="warranty-page-number">Page 4 of 5</span>
+                        </div>
+                    </div>
+
+                    <!-- PAGE 5: GENERAL TERMS & SIGNATURES -->
+                    <div class="warranty-page warranty-final-page">
+                        <div class="warranty-page-header">
+                            <h2>General Terms & Conditions</h2>
+                            <img src="Logo.png" alt="Ray2Volt" class="header-logo">
+                        </div>
+
+                        <div class="warranty-dcr-section">
+                            <h4>DCR Certificate Information</h4>
+                            <p><strong>Certificate Number:</strong> <span id="dcrCertNumber">-</span></p>
+                            <p>This solar installation uses Domestically Manufactured solar cells and modules as per
+                                the requirements of the Ministry of New and Renewable Energy (MNRE), Government of
+                                India. The DCR certificate confirms compliance with the domestic content requirements
+                                for the PM Surya Ghar Muft Bijli Yojana subsidy scheme.</p>
+                        </div>
+
+                        <div class="warranty-terms-box">
+                            <div class="terms-header">📋 General Warranty Terms</div>
+                            <div class="terms-content">
+                                <h4>Warranty Claim Procedure</h4>
+                                <ul>
+                                    <li>All warranty claims must be initiated through Ray2Volt Solar Private Limited.
+                                    </li>
+                                    <li>Customer must provide proof of purchase and this warranty certificate.</li>
+                                    <li>Ray2Volt Solar will coordinate with manufacturers for claim processing.</li>
+                                    <li>Claims will be assessed within 15 working days of submission.</li>
+                                </ul>
+
+                                <h4>Limitation of Liability</h4>
+                                <p>Ray2Volt Solar's liability is limited to repair or replacement of defective
+                                    components. We are not liable for incidental or consequential damages, including
+                                    loss of income or electricity production.</p>
+
+                                <h4>Maintenance Recommendations</h4>
+                                <ul>
+                                    <li>Clean solar panels every 3-6 months or as needed</li>
+                                    <li>Ensure no shadows fall on the panels during peak sunlight hours</li>
+                                    <li>Check electrical connections annually</li>
+                                    <li>Monitor system performance through the inverter display or monitoring app</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="warranty-contact-section">
+                            <div class="contact-header">📞 Contact Information</div>
+                            <div class="contact-content">
+                                <p><strong>Ray2Volt Solar Private Limited</strong></p>
+                                <p>1-278, Pichatur Road, Srikalahasti, 517640, Andhra Pradesh, India</p>
+                                <p>Phone: +91 96 6606 8140 | Email: ray2voltsolar@gmail.com</p>
+                                <p>GSTIN: 37AAOCR4626E1Z6 | CIN: U35104AP2025PTC118526</p>
+                            </div>
+                        </div>
+
+                        <div class="warranty-signature-section">
+                            <div class="signature-block">
+                                <div class="signature-line"></div>
+                                <p class="signature-name">Customer Acknowledgment</p>
+                                <p class="signature-title">Date: _______________</p>
+                            </div>
+                            <div class="signature-block">
+                                <div class="signature-line"></div>
+                                <p class="signature-name">For Ray2Volt Solar Pvt. Ltd.</p>
+                                <p class="signature-title">Authorized Signatory</p>
+                            </div>
+                        </div>
+
+                        <div class="warranty-disclaimer">
+                            <p><strong>Warranty Issue Date:</strong> <span id="warrantyIssueDate">-</span></p>
+                            <p>This warranty certificate is issued by Ray2Volt Solar Private Limited and is valid only
+                                with the company seal and authorized signature. This is a system-generated document.</p>
+                        </div>
+
+                        <div class="warranty-page-footer">
+                            <span class="warranty-footer-project-id">Project: R2V-XXXX</span>
+                            <span class="warranty-page-number">Page 5 of 5</span>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
         </main>
     </div>
 
@@ -1123,6 +1505,7 @@
     <script src="receipt.js"></script>
     <script src="invoice.js"></script>
     <script src="payslip.js"></script>
+    <script src="warranty.js"></script>
 </body>
 
 </html>
