@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Receipt Generator - Ray2Volt Toolbox</title>
+    <meta name="description" content="Generate professional payment receipts with GST breakdown.">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=Nunito+Sans:wght@400;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/receipt.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Mobile Header -->
+        <header class="mobile-header">
+            <img src="../Logo.png" alt="Company Logo" class="mobile-logo">
+            <button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Open navigation menu">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
+                </svg>
+            </button>
+        </header>
+
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div>
+                <div class="logo-header">
+                    <button class="sidebar-close-btn" id="sidebarCloseBtn"
+                        aria-label="Close navigation menu">&times;</button>
+                    <img src="../Logo.png" alt="Company Logo" class="logo">
+                    <h2>Toolbox</h2>
+                </div>
+                <nav class="main-nav">
+                    <ul>
+                        <li><a href="../index.html" class="nav-link">Dashboard</a></li>
+                        <li><a href="emi-calculator.html" class="nav-link">EMI Calculator</a></li>
+                        <li><a href="gst-calculator.html" class="nav-link">GST Calculator</a></li>
+                        <li><a href="package-prices.html" class="nav-link">Package Prices</a></li>
+                        <li><a href="receipt-generator.html" class="nav-link active">Payment Receipt</a></li>
+                        <li><a href="invoice-generator.html" class="nav-link">Invoice Generator</a></li>
+                        <li><a href="payslip-generator.html" class="nav-link">PaySlip Generator</a></li>
+                        <li><a href="warranty-card.html" class="nav-link">Warranty Card</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <section id="receipt-generator-section" class="content-section active">
+
+                <div class="no-print-area">
+                    <!-- Page Header -->
+                    <div class="rcpt-page-header">
+                        <h1>Payment Receipt Generator</h1>
+                        <p>Generate professional payment receipts with detailed GST breakdown.</p>
+                    </div>
+
+                    <!-- Form Grid -->
+                    <div class="rcpt-form-grid">
+                        <!-- Customer Details Card -->
+                        <div class="rcpt-form-card">
+                            <h3 class="rcpt-section-title">
+                                <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="12" cy="7" r="4"></circle>
+                                </svg>
+                                Customer Details
+                            </h3>
+                            <div class="rcpt-input-group">
+                                <label for="receiptName">Customer Name</label>
+                                <input type="text" id="receiptName" class="rcpt-input-field"
+                                    placeholder="Enter customer name">
+                            </div>
+                            <div class="rcpt-input-group">
+                                <label for="receiptAddress">Address (Optional)</label>
+                                <textarea id="receiptAddress" class="rcpt-input-field" rows="2"
+                                    placeholder="Enter address"></textarea>
+                            </div>
+                            <div class="rcpt-input-group">
+                                <label for="receiptPhone">Phone Number</label>
+                                <input type="text" id="receiptPhone" class="rcpt-input-field"
+                                    placeholder="Enter phone number">
+                            </div>
+                            <div class="rcpt-input-group">
+                                <label for="receiptEmail">Email (Optional)</label>
+                                <input type="email" id="receiptEmail" class="rcpt-input-field"
+                                    placeholder="Enter email address">
+                            </div>
+                            <div class="rcpt-input-group">
+                                <label for="receiptGstin">Customer GSTIN (Optional)</label>
+                                <input type="text" id="receiptGstin" class="rcpt-input-field"
+                                    placeholder="Enter customer GSTIN">
+                            </div>
+                        </div>
+
+                        <!-- Receipt Settings Card -->
+                        <div class="rcpt-form-card">
+                            <h3 class="rcpt-section-title">
+                                <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                    <polyline points="14 2 14 8 20 8"></polyline>
+                                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                                </svg>
+                                Receipt Settings
+                            </h3>
+                            <div class="rcpt-input-group">
+                                <label for="receiptDate">Payment Date</label>
+                                <input type="date" id="receiptDate" class="rcpt-input-field">
+                            </div>
+                            <div class="rcpt-input-group">
+                                <label for="receiptNumber">Receipt Number</label>
+                                <input type="text" id="receiptNumber" class="rcpt-input-field"
+                                    placeholder="e.g. R2VADV0226-0001">
+                            </div>
+                            <div class="rcpt-input-group">
+                                <label for="receiptPrevPayment">Previous Payments (₹)</label>
+                                <input type="number" id="receiptPrevPayment" class="rcpt-input-field" value="0">
+                                <span class="rcpt-input-hint">Total amount received previously</span>
+                            </div>
+                            <div class="rcpt-input-group">
+                                <label for="receiptCurrentPayment">Current Payment (₹)</label>
+                                <input type="number" id="receiptCurrentPayment" class="rcpt-input-field" value="0">
+                                <span class="rcpt-input-hint">Amount being paid now</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Receipt Items Section -->
+                    <div class="rcpt-items-card">
+                        <div class="rcpt-items-header">
+                            <div>
+                                <h3>Receipt Items</h3>
+                                <p>Add items with individual GST rates</p>
+                            </div>
+                        </div>
+
+                        <div id="receiptItemsContainer">
+                            <!-- Item 1 (default) -->
+                            <div class="rcpt-item-row" data-item-index="0">
+                                <div class="rcpt-item-header">
+                                    <span class="rcpt-item-number">Item 1</span>
+                                    <button type="button" class="rcpt-btn-remove" onclick="removeReceiptItem(this)"
+                                        title="Remove Item">&times;</button>
+                                </div>
+                                <div class="rcpt-item-fields">
+                                    <div class="rcpt-input-group">
+                                        <label>Description</label>
+                                        <textarea class="rcpt-input-field item-description" rows="2"
+                                            placeholder="e.g. Supply of 10 x 550Wp Solar Panels"></textarea>
+                                    </div>
+                                    <div class="rcpt-input-group">
+                                        <label>Qty</label>
+                                        <input type="number" class="rcpt-input-field item-quantity" value="1" min="1">
+                                    </div>
+                                    <div class="rcpt-input-group">
+                                        <label>Total Amt (Incl. GST) ₹</label>
+                                        <input type="number" class="rcpt-input-field item-total-amount"
+                                            placeholder="e.g. 200000">
+                                    </div>
+                                    <div class="rcpt-input-group">
+                                        <label>GST %</label>
+                                        <select class="rcpt-input-field item-gst-rate">
+                                            <option value="5" selected>5%</option>
+                                            <option value="12">12%</option>
+                                            <option value="18">18%</option>
+                                            <option value="28">28%</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="button" id="addReceiptItemBtn" class="rcpt-btn-add">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                            Add Another Item
+                        </button>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="rcpt-actions">
+                        <button id="generateReceiptBtn" class="rcpt-btn-primary">Generate Receipt Preview</button>
+                        <button id="printReceiptBtn" class="rcpt-btn-secondary">Print / Save as PDF</button>
+                    </div>
+                </div>
+
+                <!-- Receipt Template (Visible only when generated/printing) -->
+                <div id="receiptPreview">
+                    <!-- Header -->
+                    <div class="receipt-header">
+                        <div class="receipt-title-section">
+                            <h1>PAYMENT RECEIPT</h1>
+                            <p id="receiptNumberDisplay">R2VADV...</p>
+                        </div>
+                        <div class="receipt-logo-section">
+                            <img src="../Logo.png" alt="Ray2Volt Logo" class="receipt-logo">
+                        </div>
+                    </div>
+
+                    <!-- Unified Company/Customer Info + Items Table -->
+                    <table class="receipt-unified-table">
+                        <colgroup>
+                            <col style="width: 35px;">
+                            <col>
+                            <col style="width: 45px;">
+                            <col style="width: 90px;">
+                            <col style="width: 55px;">
+                            <col style="width: 100px;">
+                            <col style="width: 110px;">
+                        </colgroup>
+                        <!-- Info Section Header Row -->
+                        <tr class="info-header-row">
+                            <td colspan="2" class="info-header-cell">Ray2Volt Solar Private Limited</td>
+                            <td colspan="5" class="info-header-cell">Bill To:</td>
+                        </tr>
+                        <!-- Info Section Content Row -->
+                        <tr class="info-content-row">
+                            <td colspan="2" class="from-cell">
+                                <p>1-278, Pichatur road, Srikalahasti, 517640, Andhra Pradesh.</p>
+                                <p><span class="info-label">Phone:</span> +91 96 6606 8140</p>
+                                <p><span class="info-label">Email:</span> ray2voltsolar@gmail.com</p>
+                                <br>
+                                <p><span class="info-label">GSTIN:</span> 37AAOCR4626E1Z6</p>
+                                <p><span class="info-label">CIN:</span> U35104AP2025PTC118526</p>
+                            </td>
+                            <td colspan="5" class="to-cell">
+                                <p><span class="info-label">Name:</span> <span id="dispName"></span></p>
+                                <p><span class="info-label">Address:</span> <span id="dispAddress"></span></p>
+                                <p><span class="info-label">Phone Number:</span> <span id="dispPhone"></span></p>
+                                <p><span class="info-label">Email:</span> <span id="dispEmail"></span></p>
+                                <br>
+                                <p><span class="info-label">GSTIN:</span> <span id="dispGst"></span></p>
+                                <p><span class="info-label">Payment Date:</span> <span id="dispDate"></span></p>
+                            </td>
+                        </tr>
+                        <!-- Items Header Row -->
+                        <tr class="items-header-row">
+                            <th>SN</th>
+                            <th>Description of Goods / Services</th>
+                            <th>Qty</th>
+                            <th>Price/Unit (₹)</th>
+                            <th>GST %</th>
+                            <th>Amount (₹)</th>
+                            <th>Total Amount (₹)</th>
+                        </tr>
+                        <!-- Items Body - Populated by JS -->
+                        <tbody id="receiptItemsTableBody">
+                        </tbody>
+                        <!-- Grand Total Row -->
+                        <tr class="grand-total-row">
+                            <td colspan="6" style="text-align: right;"><strong>Grand Total:</strong></td>
+                            <td id="dispGrandTotal"></td>
+                        </tr>
+                    </table>
+
+                    <!-- Amount in Words -->
+                    <div class="amount-words-section">
+                        <strong>Amount in Words:</strong> <span id="dispAmountWords"></span>
+                    </div>
+
+                    <!-- Payments Summary -->
+                    <table class="payments-table">
+                        <tr>
+                            <td>Previous Payments</td>
+                            <td id="dispPrevPayment"></td>
+                        </tr>
+                        <tr>
+                            <td>Current Payment</td>
+                            <td id="dispCurrPayment"></td>
+                        </tr>
+                        <tr class="balance-row">
+                            <td>Balance Due</td>
+                            <td id="dispBalance"></td>
+                        </tr>
+                    </table>
+
+                    <!-- Bank Details -->
+                    <div class="bank-details-section">
+                        <h4>Bank Details for Payment</h4>
+                        <div class="bank-grid">
+                            <span class="bank-label">Account Name</span>
+                            <span class="bank-value">: Ray2Volt Solar Private Limited</span>
+                            <span class="bank-label">Account Number</span>
+                            <span class="bank-value">: 50200112654604</span>
+                            <span class="bank-label">Bank Name</span>
+                            <span class="bank-value">: HDFC Bank</span>
+                            <span class="bank-label">Branch</span>
+                            <span class="bank-value">: Srikalahasti</span>
+                            <span class="bank-label">IFSC Code</span>
+                            <span class="bank-value">: HDFC0002436</span>
+                        </div>
+                    </div>
+
+                    <!-- Footer Line -->
+                    <div class="receipt-footer-line"></div>
+
+                    <!-- System Generated Disclaimer -->
+                    <div class="system-generated-notice">
+                        <p>This is a system-generated payment receipt and does not require a physical signature.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Overlay for Mobile Sidebar -->
+    <div class="overlay" id="overlay"></div>
+
+    <script src="../js/navigation.js"></script>
+    <script src="../js/receipt.js"></script>
+</body>
+
+</html>

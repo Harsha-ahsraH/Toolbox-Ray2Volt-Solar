@@ -110,30 +110,30 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- ADD NEW ITEM ROW ---
     function createItemRow(index) {
         const itemRow = document.createElement('div');
-        itemRow.className = 'receipt-item-row';
+        itemRow.className = 'rcpt-item-row';
         itemRow.dataset.itemIndex = index;
 
         itemRow.innerHTML = `
-            <div class="item-row-header">
-                <span class="item-number">Item ${index + 1}</span>
-                <button type="button" class="btn-remove-item" onclick="removeReceiptItem(this)" title="Remove Item">&times;</button>
+            <div class="rcpt-item-header">
+                <span class="rcpt-item-number">Item ${index + 1}</span>
+                <button type="button" class="rcpt-btn-remove" onclick="removeReceiptItem(this)" title="Remove Item">&times;</button>
             </div>
-            <div class="item-fields">
-                <div class="input-group item-desc">
+            <div class="rcpt-item-fields">
+                <div class="rcpt-input-group">
                     <label>Description</label>
-                    <textarea class="input-field item-description" rows="2" placeholder="e.g. Supply of 10 x 550Wp Solar Panels"></textarea>
+                    <textarea class="rcpt-input-field item-description" rows="2" placeholder="e.g. Supply of 10 x 550Wp Solar Panels"></textarea>
                 </div>
-                <div class="input-group item-qty">
+                <div class="rcpt-input-group">
                     <label>Qty</label>
-                    <input type="number" class="input-field item-quantity" value="1" min="1">
+                    <input type="number" class="rcpt-input-field item-quantity" value="1" min="1">
                 </div>
-                <div class="input-group item-amount">
+                <div class="rcpt-input-group">
                     <label>Total Amt (Incl. GST) ₹</label>
-                    <input type="number" class="input-field item-total-amount" placeholder="e.g. 200000">
+                    <input type="number" class="rcpt-input-field item-total-amount" placeholder="e.g. 200000">
                 </div>
-                <div class="input-group item-gst">
+                <div class="rcpt-input-group">
                     <label>GST %</label>
-                    <select class="input-field item-gst-rate">
+                    <select class="rcpt-input-field item-gst-rate">
                         <option value="5" selected>5%</option>
                         <option value="12">12%</option>
                         <option value="18">18%</option>
@@ -158,8 +158,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- REMOVE ITEM (Global function for onclick) ---
     window.removeReceiptItem = function (btn) {
-        const itemRow = btn.closest('.receipt-item-row');
-        const allItems = receiptItemsContainer.querySelectorAll('.receipt-item-row');
+        const itemRow = btn.closest('.rcpt-item-row');
+        const allItems = receiptItemsContainer.querySelectorAll('.rcpt-item-row');
 
         // Prevent removing the last item
         if (allItems.length <= 1) {
@@ -173,10 +173,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- RENUMBER ITEMS ---
     function renumberItems() {
-        const items = receiptItemsContainer.querySelectorAll('.receipt-item-row');
+        const items = receiptItemsContainer.querySelectorAll('.rcpt-item-row');
         items.forEach((item, index) => {
             item.dataset.itemIndex = index;
-            const itemNumber = item.querySelector('.item-number');
+            const itemNumber = item.querySelector('.rcpt-item-number');
             if (itemNumber) {
                 itemNumber.textContent = `Item ${index + 1}`;
             }
@@ -213,7 +213,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // 3. Collect all items data
-            const itemRows = receiptItemsContainer.querySelectorAll('.receipt-item-row');
+            const itemRows = receiptItemsContainer.querySelectorAll('.rcpt-item-row');
             const items = [];
             let totalGrandAmount = 0;
 

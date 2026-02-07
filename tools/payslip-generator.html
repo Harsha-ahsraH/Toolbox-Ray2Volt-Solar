@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PaySlip Generator - Ray2Volt Toolbox</title>
+    <meta name="description" content="Generate employee payslips with salary and commissions.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=Nunito+Sans:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/payslip.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <header class="mobile-header">
+            <img src="../Logo.png" alt="Company Logo" class="mobile-logo">
+            <button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Open navigation menu">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
+                </svg>
+            </button>
+        </header>
+
+        <aside class="sidebar">
+            <div>
+                <div class="logo-header">
+                    <button class="sidebar-close-btn" id="sidebarCloseBtn">&times;</button>
+                    <img src="../Logo.png" alt="Company Logo" class="logo">
+                    <h2>Toolbox</h2>
+                </div>
+                <nav class="main-nav">
+                    <ul>
+                        <li><a href="../index.html" class="nav-link">Dashboard</a></li>
+                        <li><a href="emi-calculator.html" class="nav-link">EMI Calculator</a></li>
+                        <li><a href="gst-calculator.html" class="nav-link">GST Calculator</a></li>
+                        <li><a href="package-prices.html" class="nav-link">Package Prices</a></li>
+                        <li><a href="receipt-generator.html" class="nav-link">Payment Receipt</a></li>
+                        <li><a href="invoice-generator.html" class="nav-link">Invoice Generator</a></li>
+                        <li><a href="payslip-generator.html" class="nav-link active">PaySlip Generator</a></li>
+                        <li><a href="warranty-card.html" class="nav-link">Warranty Card</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <section id="payslip-generator-section" class="calculator-panel content-section active">
+                <div class="no-print-area">
+                    <!-- Page Header -->
+                    <div class="ps-page-header">
+                        <h1>PaySlip Generator</h1>
+                        <p>Generate employee payslips with salary, commissions, and deductions.</p>
+                    </div>
+
+                    <!-- Form Grid -->
+                    <div class="ps-form-grid">
+                        <!-- Employee Details Card -->
+                        <div class="ps-form-card">
+                            <h3 class="ps-section-title">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="12" cy="7" r="4"></circle>
+                                </svg>
+                                Employee Details
+                            </h3>
+                            <div class="ps-input-group">
+                                <label for="payslipEmployeeName">Employee Name</label>
+                                <input type="text" id="payslipEmployeeName" class="ps-input-field"
+                                    placeholder="Enter full name">
+                            </div>
+                            <div class="ps-input-group">
+                                <label for="payslipEmployeeId">Employee ID</label>
+                                <input type="text" id="payslipEmployeeId" class="ps-input-field"
+                                    placeholder="e.g. R2V001">
+                            </div>
+                            <div class="ps-input-group">
+                                <label for="payslipDesignation">Designation</label>
+                                <input type="text" id="payslipDesignation" class="ps-input-field"
+                                    placeholder="e.g. Sales Executive">
+                            </div>
+                            <div class="ps-input-group">
+                                <label for="payslipDepartment">Department</label>
+                                <input type="text" id="payslipDepartment" class="ps-input-field"
+                                    placeholder="e.g. Sales">
+                            </div>
+                            <div class="ps-input-group">
+                                <label for="payslipJoiningDate">Date of Joining</label>
+                                <input type="date" id="payslipJoiningDate" class="ps-input-field">
+                            </div>
+                        </div>
+
+                        <!-- PaySlip Settings Card -->
+                        <div class="ps-form-card">
+                            <h3 class="ps-section-title">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                                </svg>
+                                PaySlip Settings
+                            </h3>
+                            <div class="ps-input-group">
+                                <label for="payslipPayPeriod">Pay Period</label>
+                                <input type="text" id="payslipPayPeriod" class="ps-input-field"
+                                    placeholder="e.g. January 2025">
+                            </div>
+                            <div class="ps-input-group">
+                                <label for="payslipDate">Payment Date</label>
+                                <input type="date" id="payslipDate" class="ps-input-field">
+                            </div>
+                            <div class="ps-input-group">
+                                <label for="payslipNumber">PaySlip Number (optional)</label>
+                                <input type="text" id="payslipNumber" class="ps-input-field"
+                                    placeholder="Auto-generated if empty">
+                            </div>
+
+                            <h3 class="ps-section-title" style="margin-top: 1.5rem;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                                    <line x1="1" y1="10" x2="23" y2="10"></line>
+                                </svg>
+                                Bank Details
+                            </h3>
+                            <div class="ps-input-group">
+                                <label for="payslipBankAccount">Bank Account Number</label>
+                                <input type="text" id="payslipBankAccount" class="ps-input-field"
+                                    placeholder="Enter account number">
+                            </div>
+                            <div class="ps-input-group">
+                                <label for="payslipIfscCode">IFSC Code</label>
+                                <input type="text" id="payslipIfscCode" class="ps-input-field"
+                                    placeholder="e.g. HDFC0002436">
+                            </div>
+                            <div class="ps-input-group">
+                                <label for="payslipPan">PAN Number</label>
+                                <input type="text" id="payslipPan" class="ps-input-field" placeholder="e.g. ABCDE1234F">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Earnings Section -->
+                    <div class="ps-items-card">
+                        <div class="ps-items-header">
+                            <div>
+                                <h3>Earnings</h3>
+                                <p>Add salary and other earnings components</p>
+                            </div>
+                        </div>
+
+                        <!-- Basic Salary (Fixed) -->
+                        <div class="ps-item-row" data-type="fixed">
+                            <div class="ps-item-header">
+                                <span class="ps-item-number">Basic Salary</span>
+                            </div>
+                            <div class="ps-item-fields">
+                                <div class="ps-input-group">
+                                    <label>Description</label>
+                                    <input type="text" class="ps-input-field" value="Basic Salary" disabled>
+                                </div>
+                                <div class="ps-input-group">
+                                    <label>Amount (₹)</label>
+                                    <input type="number" id="payslipBasicSalary" class="ps-input-field" placeholder="0">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Commission (Fixed) -->
+                        <div class="ps-item-row" data-type="fixed">
+                            <div class="ps-item-header">
+                                <span class="ps-item-number">Commission</span>
+                            </div>
+                            <div class="ps-item-fields">
+                                <div class="ps-input-group">
+                                    <label>Description</label>
+                                    <input type="text" class="ps-input-field" value="Commission" disabled>
+                                </div>
+                                <div class="ps-input-group">
+                                    <label>Amount (₹)</label>
+                                    <input type="number" id="payslipCommission" class="ps-input-field" placeholder="0">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="earningsContainer"></div>
+
+                        <button type="button" id="addEarningBtn" class="ps-btn-add">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                            Add Another Earning
+                        </button>
+                    </div>
+
+                    <!-- Deductions Section -->
+                    <div class="ps-items-card">
+                        <div class="ps-items-header">
+                            <div>
+                                <h3>Deductions</h3>
+                                <p>Add any deductions (TDS, PF, etc.)</p>
+                            </div>
+                        </div>
+
+                        <div id="deductionsContainer"></div>
+
+                        <button type="button" id="addDeductionBtn" class="ps-btn-add">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                            Add Deduction
+                        </button>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="ps-actions">
+                        <button id="generatePayslipBtn" class="ps-btn-primary">Generate PaySlip Preview</button>
+                        <button id="printPayslipBtn" class="ps-btn-secondary">Print / Save as PDF</button>
+                    </div>
+                </div>
+
+                <!-- PaySlip Template -->
+                <div id="payslipPreview">
+                    <!-- Header -->
+                    <div class="payslip-header">
+                        <div class="payslip-title-section">
+                            <h1>PaySlip</h1>
+                            <p id="payslipNumberDisplay">R2VPAY...</p>
+                        </div>
+                        <div class="payslip-logo-section">
+                            <img src="../Logo.png" alt="Ray2Volt Logo" class="payslip-logo">
+                        </div>
+                    </div>
+
+                    <!-- Unified Table -->
+                    <table class="payslip-unified-table">
+                        <colgroup>
+                            <col style="width: 25%;">
+                            <col style="width: 25%;">
+                            <col style="width: 25%;">
+                            <col style="width: 25%;">
+                        </colgroup>
+                        <tr class="info-header-row">
+                            <td colspan="2" class="info-header-cell">Company Details</td>
+                            <td colspan="2" class="info-header-cell">Employee Details</td>
+                        </tr>
+                        <tr class="info-content-row">
+                            <td colspan="2" class="from-cell">
+                                <p><strong>Ray2Volt Solar Private Limited</strong></p>
+                                <p>1-278, Pichatur road, Srikalahasti, 517640, Andhra Pradesh.</p>
+                                <p><span class="payslip-info-label">Phone:</span> +91 96 6606 8140</p>
+                                <p><span class="payslip-info-label">Email:</span> ray2voltsolar@gmail.com</p><br>
+                                <p><span class="payslip-info-label">GSTIN:</span> 37AAOCR4626E1Z6</p>
+                                <p><span class="payslip-info-label">CIN:</span> U35104AP2025PTC118526</p>
+                            </td>
+                            <td colspan="2" class="to-cell">
+                                <p><span class="payslip-info-label">Name:</span> <span id="dispEmployeeName"></span></p>
+                                <p><span class="payslip-info-label">Employee ID:</span> <span
+                                        id="dispEmployeeId"></span></p>
+                                <p><span class="payslip-info-label">Designation:</span> <span
+                                        id="dispDesignation"></span></p>
+                                <p><span class="payslip-info-label">Department:</span> <span id="dispDepartment"></span>
+                                </p><br>
+                                <p><span class="payslip-info-label">Date of Joining:</span> <span
+                                        id="dispJoiningDate"></span></p>
+                                <p><span class="payslip-info-label">Pay Period:</span> <span id="dispPayPeriod"></span>
+                                </p>
+                                <p><span class="payslip-info-label">Payment Date:</span> <span id="dispPayDate"></span>
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <!-- Earnings & Deductions Tables -->
+                    <div class="payslip-tables-row">
+                        <table class="payslip-earnings-table">
+                            <thead>
+                                <tr>
+                                    <th colspan="2">Earnings</th>
+                                </tr>
+                                <tr>
+                                    <th style="width: 60%;">Description</th>
+                                    <th style="width: 40%;">Amount (₹)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="payslipEarningsBody"></tbody>
+                            <tfoot>
+                                <tr class="total-row">
+                                    <td><strong>Total Earnings</strong></td>
+                                    <td id="dispTotalEarnings">₹0</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        <table class="payslip-deductions-table">
+                            <thead>
+                                <tr>
+                                    <th colspan="2">Deductions</th>
+                                </tr>
+                                <tr>
+                                    <th style="width: 60%;">Description</th>
+                                    <th style="width: 40%;">Amount (₹)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="payslipDeductionsBody"></tbody>
+                            <tfoot>
+                                <tr class="total-row">
+                                    <td><strong>Total Deductions</strong></td>
+                                    <td id="dispTotalDeductions">₹0</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+
+                    <!-- Net Pay -->
+                    <div class="payslip-net-pay">
+                        <span class="label">Net Pay</span>
+                        <span class="amount" id="dispNetPay">₹0</span>
+                    </div>
+                    <div class="payslip-amount-words">
+                        <strong>In Words:</strong> <span id="dispNetPayWords"></span>
+                    </div>
+
+                    <!-- Bank Details -->
+                    <div class="payslip-bank-section">
+                        <h4>Employee Bank Details</h4>
+                        <div class="payslip-bank-grid">
+                            <span class="bank-label">Account Number</span>
+                            <span class="bank-value">: <span id="dispEmpBankAccount">-</span></span>
+                            <span class="bank-label">IFSC Code</span>
+                            <span class="bank-value">: <span id="dispEmpIfsc">-</span></span>
+                            <span class="bank-label">PAN Number</span>
+                            <span class="bank-value">: <span id="dispEmpPan">-</span></span>
+                        </div>
+                    </div>
+
+                    <!-- Footer Line -->
+                    <div class="payslip-footer-line"></div>
+
+                    <!-- System Generated Disclaimer -->
+                    <div class="system-generated-notice">
+                        <p>This is a system-generated payslip and does not require a physical signature.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Overlay for Mobile Sidebar -->
+    <div class="overlay" id="overlay"></div>
+
+    <script src="../js/navigation.js"></script>
+    <script src="../js/payslip.js"></script>
+</body>
+
+</html>

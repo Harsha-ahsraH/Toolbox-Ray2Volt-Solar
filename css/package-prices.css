@@ -1,0 +1,320 @@
+/* ============================================
+   Package Prices - Brutalist Styling
+   Ray2Volt Solar Toolbox
+   ============================================ */
+
+/* Google Sans Flex for UI elements */
+@import url('https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400;500;600;700&display=swap');
+
+/* --- Page Header --- */
+.pkg-page-header {
+    margin-bottom: 1.5rem;
+}
+
+.pkg-page-header h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+}
+
+.pkg-page-header p {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+}
+
+/* --- Calculator Main Card --- */
+.pkg-calculator-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-medium);
+    border-radius: 2px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.pkg-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.section-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border-light);
+}
+
+/* --- Input Section --- */
+.pkg-inputs-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.pkg-input-group {
+    margin-bottom: 1.5rem;
+}
+
+.pkg-input-group label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+/* --- Number Input --- */
+.pkg-input-field {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
+    border: 1px solid var(--border-medium);
+    border-radius: 2px;
+    background: var(--bg-card);
+    color: var(--text-primary);
+    transition: all 0.1s ease;
+    box-sizing: border-box;
+}
+
+.pkg-input-field:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-light);
+    background: #fff;
+}
+
+.pkg-input-hint {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: 0.5rem;
+}
+
+/* --- Toggle Buttons --- */
+.pkg-toggle-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.pkg-toggle-btn {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
+    border: 1px solid var(--border-medium);
+    border-radius: 2px;
+    background: var(--bg-card);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.1s ease;
+}
+
+.pkg-toggle-btn:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+}
+
+.pkg-toggle-btn.active {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: #fff;
+}
+
+/* --- Results Section --- */
+.pkg-results-section {
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- Results Table --- */
+.pkg-table-wrapper {
+    border: 1px solid var(--border-medium);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.pkg-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+}
+
+.pkg-table thead {
+    background: var(--primary);
+}
+
+.pkg-table th {
+    color: #fff;
+    padding: 0.875rem 1rem;
+    font-weight: 600;
+    text-align: left;
+}
+
+.pkg-table th:last-child {
+    text-align: right;
+}
+
+.pkg-table td {
+    padding: 0.75rem 1rem;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border-light);
+}
+
+.pkg-table td:last-child {
+    text-align: right;
+    font-weight: 600;
+    color: var(--text-primary);
+    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
+}
+
+.pkg-table tbody tr:nth-child(even) {
+    background: var(--bg-body);
+}
+
+.pkg-table tbody tr:hover {
+    background: var(--bg-hover);
+}
+
+/* Item description with sub-text */
+.pkg-item-desc {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+}
+
+.pkg-item-main {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.pkg-item-sub {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+/* --- Subtotal Row --- */
+.pkg-table-subtotal {
+    background: var(--bg-body) !important;
+    border-top: 2px solid var(--border-medium);
+}
+
+.pkg-table-subtotal td {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+/* --- Total Row --- */
+.pkg-table-total {
+    background: var(--primary) !important;
+}
+
+.pkg-table-total td {
+    color: #fff !important;
+    font-weight: 600;
+    border-bottom: none;
+}
+
+.pkg-table-total td:last-child {
+    color: #fff !important;
+    font-size: 1.1rem;
+}
+
+/* --- Responsive Design --- */
+
+/* Tablet */
+@media screen and (max-width: 1024px) {
+    .pkg-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+}
+
+/* Mobile */
+@media screen and (max-width: 768px) {
+    .pkg-page-header {
+        margin-bottom: 1rem;
+    }
+
+    .pkg-page-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .pkg-page-header p {
+        font-size: 0.875rem;
+    }
+
+    .pkg-calculator-card {
+        padding: 1rem;
+    }
+
+    .section-title {
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+    }
+
+    .pkg-input-group {
+        margin-bottom: 1.25rem;
+    }
+
+    .pkg-input-group label {
+        font-size: 0.8rem;
+    }
+
+    .pkg-input-field {
+        padding: 0.875rem 1rem;
+        font-size: 1rem;
+    }
+
+    .pkg-toggle-buttons {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .pkg-toggle-btn {
+        padding: 0.75rem 1rem;
+    }
+
+    /* Table Responsive */
+    .pkg-table {
+        font-size: 0.8rem;
+    }
+
+    .pkg-table th,
+    .pkg-table td {
+        padding: 0.625rem 0.75rem;
+    }
+
+    .pkg-item-sub {
+        font-size: 0.7rem;
+    }
+
+    .pkg-table-total td:last-child {
+        font-size: 1rem;
+    }
+}
+
+/* Small Mobile */
+@media screen and (max-width: 480px) {
+    .pkg-toggle-buttons {
+        flex-direction: column;
+    }
+
+    .pkg-table th,
+    .pkg-table td {
+        padding: 0.5rem 0.5rem;
+        font-size: 0.75rem;
+    }
+
+    .pkg-item-sub {
+        display: none;
+    }
+
+    .pkg-table-total td:last-child {
+        font-size: 0.9rem;
+    }
+}

@@ -1,0 +1,924 @@
+/* ============================================
+   Ray2Volt Solar Toolbox - Brutalist Light Theme
+   Sharp Edges, Cyan-Blue Accents
+   ============================================ */
+
+/* --- CSS Custom Properties --- */
+:root {
+    /* Primary Colors - Light Cyan Accent */
+    --primary: #06B6D4;
+    --primary-light: #CFFAFE;
+    --primary-dark: #0891B2;
+
+    /* Neutral Colors - Clean Light Theme */
+    --bg-body: #F5F7F8;
+    --bg-card: #FFFFFF;
+    --bg-sidebar: #FFFFFF;
+    --bg-hover: #EEF1F3;
+    --bg-active: #E0F7FA;
+
+    /* Text Colors */
+    --text-primary: #111827;
+    --text-secondary: #4B5563;
+    --text-muted: #6B7280;
+
+    /* Border Colors - Stronger for brutalist */
+    --border-light: #D1D5DB;
+    --border-medium: #9CA3AF;
+
+    /* Shadows - Minimal for brutalist */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 2px 4px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+    /* Transitions */
+    --transition-fast: 0.1s ease;
+    --transition-base: 0.2s ease;
+
+    /* Spacing */
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 0.75rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+
+    /* Border Radius - Sharp/Brutalist */
+    --radius-sm: 2px;
+    --radius-md: 2px;
+    --radius-lg: 4px;
+
+    /* Sidebar Width */
+    --sidebar-width: 250px;
+}
+
+/* --- Reset & Base Styles --- */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Nunito Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background-color: var(--bg-body);
+    color: var(--text-primary);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Google Sans', 'Nunito Sans', sans-serif;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--text-primary);
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* --- App Container --- */
+.app-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* --- Mobile Header --- */
+.mobile-header {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border-light);
+    padding: 0 var(--spacing-md);
+    align-items: center;
+    justify-content: space-between;
+    z-index: 100;
+    box-shadow: var(--shadow-sm);
+}
+
+.mobile-logo {
+    height: 36px;
+    width: auto;
+}
+
+.mobile-nav-toggle {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    color: var(--text-primary);
+    transition: background var(--transition-fast);
+}
+
+.mobile-nav-toggle:hover {
+    background: var(--bg-hover);
+}
+
+.mobile-nav-toggle svg {
+    width: 24px;
+    height: 24px;
+}
+
+/* --- Sidebar Navigation --- */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: var(--sidebar-width);
+    height: 100vh;
+    background: var(--bg-sidebar);
+    border-right: 1px solid var(--border-light);
+    display: flex;
+    flex-direction: column;
+    z-index: 200;
+    transition: transform var(--transition-base);
+}
+
+.sidebar-close-btn {
+    display: none;
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 32px;
+    height: 32px;
+    background: transparent;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--text-secondary);
+    transition: all var(--transition-fast);
+}
+
+.sidebar-close-btn:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+}
+
+.logo-header {
+    padding: var(--spacing-lg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-xs);
+    border-bottom: 1px solid var(--border-light);
+    text-align: center;
+}
+
+.logo-header .logo {
+    height: 32px;
+    width: auto;
+}
+
+.logo-header h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.main-nav {
+    flex: 1;
+    padding: var(--spacing-md) 0;
+    overflow-y: auto;
+}
+
+.main-nav ul {
+    list-style: none;
+}
+
+.main-nav .nav-link {
+    display: block;
+    padding: var(--spacing-sm) var(--spacing-lg);
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    font-weight: 500;
+    border-left: 3px solid transparent;
+    transition: all var(--transition-fast);
+}
+
+.main-nav .nav-link:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+}
+
+.main-nav .nav-link.active {
+    background: var(--bg-active);
+    color: var(--primary);
+    border-left-color: var(--primary);
+    font-weight: 600;
+}
+
+/* --- Main Content Area --- */
+.main-content {
+    flex: 1;
+    margin-left: var(--sidebar-width);
+    padding: var(--spacing-xl);
+    min-height: 100vh;
+}
+
+.content-section {
+    display: none;
+}
+
+.content-section.active {
+    display: block;
+}
+
+/* --- Section Header --- */
+.section-header {
+    margin-bottom: var(--spacing-xl);
+}
+
+.section-header h1 {
+    font-size: 1.75rem;
+    margin-bottom: var(--spacing-xs);
+}
+
+.section-header p {
+    color: var(--text-secondary);
+    font-size: 1rem;
+}
+
+/* --- Tool Grid (Dashboard) --- */
+.tool-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--spacing-lg);
+}
+
+.tool-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    transition: all var(--transition-base);
+    cursor: pointer;
+}
+
+.tool-card:hover {
+    border-color: var(--primary);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.tool-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: var(--spacing-xs);
+    color: var(--text-primary);
+}
+
+.tool-card p {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+/* --- Calculator Panel Styles --- */
+.calculator-panel {
+    max-width: 1200px;
+}
+
+.calculator-panel h2 {
+    font-size: 1.5rem;
+    margin-bottom: var(--spacing-lg);
+}
+
+/* --- EMI Calculator Layout --- */
+.emi-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-xl);
+}
+
+.calculator-inputs,
+.calculator-results {
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+}
+
+/* --- Input Group --- */
+.input-group {
+    margin-bottom: var(--spacing-lg);
+}
+
+.input-group label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-xs);
+}
+
+.input-field {
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 1rem;
+    font-family: inherit;
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-sm);
+    background: var(--bg-card);
+    color: var(--text-primary);
+    transition: all var(--transition-fast);
+}
+
+.input-field:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+.input-field::placeholder {
+    color: var(--text-muted);
+}
+
+.input-highlight {
+    border-color: var(--primary);
+    background: var(--primary-light);
+}
+
+/* --- Slider Styles --- */
+.slider {
+    width: 100%;
+    margin-top: var(--spacing-xs);
+    -webkit-appearance: none;
+    appearance: none;
+    height: 6px;
+    background: var(--border-light);
+    border-radius: 3px;
+    outline: none;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    background: var(--primary);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform var(--transition-fast);
+}
+
+.slider::-webkit-slider-thumb:hover {
+    transform: scale(1.1);
+}
+
+.slider::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    background: var(--primary);
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+}
+
+/* --- Control Group & Button Group --- */
+.control-group {
+    margin-bottom: var(--spacing-lg);
+}
+
+.control-group strong {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-sm);
+}
+
+.button-group {
+    display: flex;
+    gap: var(--spacing-xs);
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 10px 16px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    font-family: inherit;
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-sm);
+    background: var(--bg-card);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.btn:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+}
+
+.btn.active {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: #fff;
+}
+
+.input-help {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: var(--spacing-xs);
+}
+
+/* --- Output Section --- */
+.output-section {
+    margin-bottom: var(--spacing-lg);
+}
+
+.output-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-sm) 0;
+    border-bottom: 1px solid var(--border-light);
+    font-size: 0.95rem;
+}
+
+.output-item:last-child {
+    border-bottom: none;
+}
+
+.output-item span:first-child {
+    color: var(--text-secondary);
+}
+
+.output-item span:last-child {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.result-highlight {
+    font-size: 1.1rem !important;
+    color: var(--primary) !important;
+}
+
+.calculated-result {
+    background: var(--primary-light);
+    padding: var(--spacing-md) !important;
+    border-radius: var(--radius-sm);
+    margin-bottom: var(--spacing-sm);
+}
+
+/* --- Chart Container --- */
+#emiChartContainer {
+    max-width: 250px;
+    margin: 0 auto;
+}
+
+/* --- Amortization Table --- */
+.amortization-table-container {
+    margin-top: var(--spacing-xl);
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+}
+
+.amortization-table-container table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.amortization-table-container th {
+    background: var(--bg-hover);
+    padding: var(--spacing-md);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    text-align: left;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.amortization-table-container td {
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border-light);
+}
+
+.amortization-table-container tr:hover td {
+    background: var(--bg-hover);
+}
+
+/* --- Form Sections (for Invoice, Receipt, etc.) --- */
+.form-section {
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+}
+
+.form-section h3 {
+    font-size: 1.1rem;
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 1px solid var(--border-light);
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-md);
+}
+
+/* --- Buttons --- */
+.btn-primary {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background: var(--primary-dark);
+    border-color: var(--primary-dark);
+    color: #fff;
+}
+
+.btn-secondary {
+    background: var(--bg-hover);
+    border-color: var(--border-medium);
+    color: var(--text-primary);
+}
+
+.btn-secondary:hover {
+    background: var(--border-light);
+}
+
+.action-buttons {
+    display: flex;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-lg);
+}
+
+.action-buttons .btn {
+    flex: 1;
+    padding: 12px 20px;
+}
+
+/* --- Select Dropdown --- */
+select.input-field {
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%235A6B7C' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 36px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+/* --- Textarea --- */
+textarea.input-field {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* --- Result Cards --- */
+.result-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+}
+
+.result-card h3 {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-xs);
+}
+
+.result-card .value {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+/* --- Package Prices Grid --- */
+.price-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: var(--spacing-lg);
+    margin-top: var(--spacing-lg);
+}
+
+.price-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+}
+
+.price-item label {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-xs);
+    display: block;
+}
+
+.price-item .value {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+/* --- GST Calculator Total Highlight --- */
+.total-highlight {
+    background: var(--primary-light);
+    padding: var(--spacing-md) !important;
+    border-radius: var(--radius-sm);
+    margin-top: var(--spacing-sm);
+    border: none !important;
+}
+
+.total-highlight span:last-child {
+    font-size: 1.15rem !important;
+    color: var(--primary) !important;
+    font-weight: 700 !important;
+}
+
+/* --- Package Pricing Layout --- */
+.pricing-layout {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: var(--spacing-xl);
+    margin-top: var(--spacing-lg);
+}
+
+.pricing-inputs {
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+}
+
+.pricing-output {
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+}
+
+.output-section-pricing {
+    padding: 0;
+}
+
+.output-section-pricing h3 {
+    font-size: 1.1rem;
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 1px solid var(--border-light);
+    color: var(--text-primary);
+}
+
+.pricing-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: var(--spacing-sm) 0;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.pricing-item:last-child {
+    border-bottom: none;
+}
+
+.pricing-item .item-label {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.pricing-item .label-main {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.pricing-item .label-sub {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.pricing-item .item-price {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-align: right;
+}
+
+/* Subtotal Row */
+.pricing-item.subtotal {
+    background: var(--bg-hover);
+    margin: var(--spacing-sm) calc(-1 * var(--spacing-lg));
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border-top: 1px solid var(--border-medium);
+    border-bottom: 1px solid var(--border-medium);
+}
+
+.pricing-item.subtotal .label-main {
+    font-weight: 600;
+}
+
+.pricing-item.subtotal .item-price {
+    color: var(--text-primary);
+    font-weight: 700;
+}
+
+/* Final Total Row */
+.pricing-item.final-total {
+    background: var(--primary-light);
+    margin: var(--spacing-sm) calc(-1 * var(--spacing-lg)) calc(-1 * var(--spacing-lg));
+    padding: var(--spacing-md) var(--spacing-lg);
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    border-top: 2px solid var(--primary);
+}
+
+.pricing-item.final-total .label-main {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+}
+
+.pricing-item.final-total .item-price {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+/* --- EMI Method Help --- */
+.emi-method-help {
+    margin-top: var(--spacing-xs);
+}
+
+/* --- Calc Mode Group --- */
+.calc-mode-group {
+    background: var(--bg-hover);
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.calc-mode-buttons {
+    margin-bottom: var(--spacing-xs);
+}
+
+/* --- Fixed EMI Group styling --- */
+.fixed-emi-group {
+    background: var(--primary-light);
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-lg);
+    border: 1px solid var(--primary);
+}
+
+.fixed-emi-group label {
+    color: var(--primary-dark);
+}
+
+/* --- Responsive Package Prices --- */
+@media screen and (max-width: 1024px) {
+    .pricing-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* --- Mobile Overlay --- */
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 150;
+    opacity: 0;
+    transition: opacity var(--transition-base);
+}
+
+.overlay.active {
+    display: block;
+    opacity: 1;
+}
+
+/* --- Responsive Design --- */
+@media screen and (max-width: 1024px) {
+    .emi-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .mobile-header {
+        display: flex;
+    }
+
+    .sidebar {
+        transform: translateX(-100%);
+    }
+
+    .sidebar.open {
+        transform: translateX(0);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .sidebar-close-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .main-content {
+        margin-left: 0;
+        padding: var(--spacing-md);
+        padding-top: calc(60px + var(--spacing-lg));
+    }
+
+    .tool-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .section-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+    }
+
+    .button-group {
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .main-content {
+        padding: var(--spacing-sm);
+        padding-top: calc(60px + var(--spacing-md));
+    }
+
+    .tool-card {
+        padding: var(--spacing-md);
+    }
+
+    .calculator-inputs,
+    .calculator-results {
+        padding: var(--spacing-md);
+    }
+
+    .form-section {
+        padding: var(--spacing-md);
+    }
+}
+
+/* --- Print Styles --- */
+@media print {
+
+    .sidebar,
+    .mobile-header,
+    .overlay {
+        display: none !important;
+    }
+
+    .main-content {
+        margin-left: 0;
+        padding: 0;
+    }
+}

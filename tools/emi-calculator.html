@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EMI Calculator - Ray2Volt Toolbox</title>
+    <meta name="description"
+        content="Calculate equated monthly installments for loans with reducing balance or flat rate methods.">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=Nunito+Sans:wght@400;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Chart.js for visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Shared Stylesheet -->
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- EMI Calculator Specific Styles -->
+    <link rel="stylesheet" href="../css/emi-calculator.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Mobile Header -->
+        <header class="mobile-header">
+            <img src="../Logo.png" alt="Company Logo" class="mobile-logo">
+            <button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Open navigation menu">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
+                </svg>
+            </button>
+        </header>
+
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div>
+                <div class="logo-header">
+                    <button class="sidebar-close-btn" id="sidebarCloseBtn"
+                        aria-label="Close navigation menu">&times;</button>
+                    <img src="../Logo.png" alt="Company Logo" class="logo">
+                    <h2>Toolbox</h2>
+                </div>
+                <nav class="main-nav">
+                    <ul>
+                        <li><a href="../index.html" class="nav-link">Dashboard</a></li>
+                        <li><a href="emi-calculator.html" class="nav-link active">EMI Calculator</a></li>
+                        <li><a href="gst-calculator.html" class="nav-link">GST Calculator</a></li>
+                        <li><a href="package-prices.html" class="nav-link">Package Prices</a></li>
+                        <li><a href="receipt-generator.html" class="nav-link">Payment Receipt</a></li>
+                        <li><a href="invoice-generator.html" class="nav-link">Invoice Generator</a></li>
+                        <li><a href="payslip-generator.html" class="nav-link">PaySlip Generator</a></li>
+                        <li><a href="warranty-card.html" class="nav-link">Warranty Card</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <section id="emi-calculator-section" class="content-section active">
+
+                <!-- Page Header -->
+                <div class="emi-page-header">
+                    <h1>EMI Calculator</h1>
+                    <p>Calculate equated monthly installments, required tenure, or interest rate for your loans.</p>
+                </div>
+
+                <!-- Calculation Mode Selector -->
+                <div class="emi-mode-selector">
+                    <button id="calcEmiBtn" class="mode-btn active" title="Calculate EMI from Principal, Rate & Tenure">
+                        Calculate EMI
+                    </button>
+                    <button id="calcTenureBtn" class="mode-btn" title="Calculate Tenure from Principal, Rate & EMI">
+                        Calculate Tenure
+                    </button>
+                    <button id="calcRateBtn" class="mode-btn"
+                        title="Calculate Interest Rate from Principal, Tenure & EMI">
+                        Calculate Rate
+                    </button>
+                </div>
+
+                <!-- Calculator Main Card -->
+                <div class="emi-calculator-card">
+                    <div class="emi-grid">
+
+                        <!-- Left Column: Inputs -->
+                        <div class="emi-inputs-section">
+                            <h3 class="section-title">Loan Details</h3>
+
+                            <!-- Loan Amount -->
+                            <div class="emi-input-group">
+                                <div class="input-header">
+                                    <label for="loanAmount">Loan Amount</label>
+                                    <span class="input-value-display" id="loanAmountDisplay">₹10,00,000</span>
+                                </div>
+                                <input type="range" id="loanAmountSlider" class="emi-slider" value="1000000" min="10000"
+                                    max="10000000" step="10000">
+                                <input type="number" id="loanAmount" class="emi-input-field" value="1000000" min="10000"
+                                    max="10000000" step="10000">
+                            </div>
+
+                            <!-- Interest Rate -->
+                            <div class="emi-input-group">
+                                <div class="input-header">
+                                    <label for="interestRate">Annual Interest Rate</label>
+                                    <span class="input-value-display" id="interestRateDisplay">8.5%</span>
+                                </div>
+                                <input type="range" id="interestRateSlider" class="emi-slider" value="8.5" min="1"
+                                    max="20" step="0.1">
+                                <input type="number" id="interestRate" class="emi-input-field" value="8.5" min="1"
+                                    max="20" step="0.1">
+                            </div>
+
+                            <!-- Loan Tenure -->
+                            <div class="emi-input-group">
+                                <div class="input-header">
+                                    <label for="loanTenure">Loan Tenure</label>
+                                    <span class="input-value-display" id="loanTenureDisplay">120 months</span>
+                                </div>
+                                <input type="range" id="loanTenureSlider" class="emi-slider" value="120" min="6"
+                                    max="360" step="1">
+                                <input type="number" id="loanTenure" class="emi-input-field" value="120" min="6"
+                                    max="360" step="1">
+                            </div>
+
+                            <!-- Fixed EMI Input (hidden initially) -->
+                            <div class="emi-input-group fixed-emi-container" id="fixedEmiGroup" style="display: none;">
+                                <div class="input-header">
+                                    <label for="fixedEMI">Your Fixed Monthly EMI</label>
+                                </div>
+                                <input type="number" id="fixedEMI" class="emi-input-field emi-input-highlight"
+                                    value="15000" min="1000" max="10000000" step="100"
+                                    placeholder="Enter your desired EMI">
+                                <small class="input-hint">Enter the EMI amount you want to pay monthly</small>
+                            </div>
+
+                            <!-- Interest Method Toggle -->
+                            <div class="emi-method-toggle">
+                                <span class="toggle-label">Interest Method</span>
+                                <div class="toggle-buttons">
+                                    <button id="reducingBalanceBtn" class="toggle-btn active">Reducing Balance</button>
+                                    <button id="flatRateBtn" class="toggle-btn">Flat Rate</button>
+                                </div>
+                                <small class="input-hint" id="calcModeHelp">Reducing balance calculates interest on
+                                    outstanding amount</small>
+                            </div>
+                        </div>
+
+                        <!-- Right Column: Results -->
+                        <div class="emi-results-section">
+                            <h3 class="section-title">Loan Summary</h3>
+
+                            <!-- Primary Result Card -->
+                            <div class="emi-primary-result" id="calculatedResultRow">
+                                <span class="result-label" id="calculatedResultLabel">Monthly EMI</span>
+                                <span class="result-value" id="calculatedResultValue">₹0</span>
+                            </div>
+
+                            <!-- Alternative Results (hidden initially) -->
+                            <div class="emi-primary-result" id="tenureResultRow" style="display: none;">
+                                <span class="result-label">Required Tenure</span>
+                                <span class="result-value" id="calculatedTenure">0 months</span>
+                            </div>
+                            <div class="emi-primary-result" id="rateResultRow" style="display: none;">
+                                <span class="result-label">Required Interest Rate</span>
+                                <span class="result-value" id="calculatedRate">0%</span>
+                            </div>
+
+                            <!-- Secondary Results -->
+                            <div class="emi-secondary-results">
+                                <div class="result-item">
+                                    <span class="item-label">Total Interest</span>
+                                    <span class="item-value" id="totalInterest">₹0</span>
+                                </div>
+                                <div class="result-item">
+                                    <span class="item-label">Total Payment</span>
+                                    <span class="item-value" id="totalPayment">₹0</span>
+                                </div>
+                            </div>
+
+                            <!-- Doughnut Chart -->
+                            <div class="emi-chart-wrapper">
+                                <canvas id="emiChart"></canvas>
+                                <div class="chart-legend">
+                                    <div class="legend-item">
+                                        <span class="legend-color principal"></span>
+                                        <span>Principal</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <span class="legend-color interest"></span>
+                                        <span>Interest</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Amortization Table -->
+                <div class="emi-amortization-card">
+                    <h3 class="section-title">Amortization Schedule</h3>
+                    <div class="table-wrapper">
+                        <table class="emi-table">
+                            <thead>
+                                <tr>
+                                    <th>Month</th>
+                                    <th>Principal</th>
+                                    <th>Interest</th>
+                                    <th>EMI</th>
+                                    <th>Balance</th>
+                                </tr>
+                            </thead>
+                            <tbody id="amortizationBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </section>
+        </main>
+    </div>
+
+    <!-- Overlay for Mobile Sidebar -->
+    <div class="overlay" id="overlay"></div>
+
+    <script src="../js/navigation.js"></script>
+    <script src="../js/emi-calculator.js"></script>
+</body>
+
+</html>

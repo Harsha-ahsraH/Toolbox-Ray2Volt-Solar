@@ -96,34 +96,34 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- ADD NEW ITEM ROW ---
     function createItemRow(index) {
         const itemRow = document.createElement('div');
-        itemRow.className = 'invoice-item-row';
+        itemRow.className = 'inv-item-row';
         itemRow.dataset.itemIndex = index;
 
         itemRow.innerHTML = `
-            <div class="item-row-header">
-                <span class="item-number">Item ${index + 1}</span>
-                <button type="button" class="btn-remove-item" onclick="removeInvoiceItem(this)" title="Remove Item">&times;</button>
+            <div class="inv-item-header">
+                <span class="inv-item-number">Item ${index + 1}</span>
+                <button type="button" class="inv-btn-remove" onclick="removeInvoiceItem(this)" title="Remove Item">&times;</button>
             </div>
-            <div class="item-fields">
-                <div class="input-group item-desc">
+            <div class="inv-item-fields">
+                <div class="inv-input-group">
                     <label>Description</label>
-                    <textarea class="input-field item-description" rows="2" placeholder="e.g. Supply of 10 x 550Wp Solar Panels"></textarea>
+                    <textarea class="inv-input-field item-description" rows="2" placeholder="e.g. Supply of 10 x 550Wp Solar Panels"></textarea>
                 </div>
-                <div class="input-group item-hsn">
+                <div class="inv-input-group">
                     <label>HSN/SAC</label>
-                    <input type="text" class="input-field item-hsn-code" value="8541" placeholder="e.g. 8541">
+                    <input type="text" class="inv-input-field item-hsn-code" value="8541" placeholder="e.g. 8541">
                 </div>
-                <div class="input-group item-qty">
+                <div class="inv-input-group">
                     <label>Qty</label>
-                    <input type="number" class="input-field item-quantity" value="1" min="1">
+                    <input type="number" class="inv-input-field item-quantity" value="1" min="1">
                 </div>
-                <div class="input-group item-amount">
+                <div class="inv-input-group">
                     <label>Total Amt (Incl. GST) ₹</label>
-                    <input type="number" class="input-field item-total-amount" placeholder="e.g. 200000">
+                    <input type="number" class="inv-input-field item-total-amount" placeholder="e.g. 200000">
                 </div>
-                <div class="input-group item-gst">
+                <div class="inv-input-group">
                     <label>GST %</label>
-                    <select class="input-field item-gst-rate">
+                    <select class="inv-input-field item-gst-rate">
                         <option value="5" selected>5%</option>
                         <option value="12">12%</option>
                         <option value="18">18%</option>
@@ -148,8 +148,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- REMOVE ITEM (Global function for onclick) ---
     window.removeInvoiceItem = function (btn) {
-        const itemRow = btn.closest('.invoice-item-row');
-        const allItems = invoiceItemsContainer.querySelectorAll('.invoice-item-row');
+        const itemRow = btn.closest('.inv-item-row');
+        const allItems = invoiceItemsContainer.querySelectorAll('.inv-item-row');
 
         // Prevent removing the last item
         if (allItems.length <= 1) {
@@ -163,10 +163,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- RENUMBER ITEMS ---
     function renumberItems() {
-        const items = invoiceItemsContainer.querySelectorAll('.invoice-item-row');
+        const items = invoiceItemsContainer.querySelectorAll('.inv-item-row');
         items.forEach((item, index) => {
             item.dataset.itemIndex = index;
-            const itemNumber = item.querySelector('.item-number');
+            const itemNumber = item.querySelector('.inv-item-number');
             if (itemNumber) {
                 itemNumber.textContent = `Item ${index + 1}`;
             }
@@ -201,7 +201,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // 3. Collect all items data
-            const itemRows = invoiceItemsContainer.querySelectorAll('.invoice-item-row');
+            const itemRows = invoiceItemsContainer.querySelectorAll('.inv-item-row');
             const items = [];
             let totalGrandAmount = 0;
 

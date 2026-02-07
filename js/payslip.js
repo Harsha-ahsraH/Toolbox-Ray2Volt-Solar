@@ -37,28 +37,33 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 // Counter for dynamic items
+// Start from 3 because 1 (Basic Salary) and 2 (Commission) are fixed
 let earningCounter = 2;
-let deductionCounter = 1;
+let deductionCounter = 0;
 
 // Add Earning Item
 function addEarningItem() {
     const container = document.getElementById('earningsContainer');
     const newItem = document.createElement('div');
-    newItem.className = 'payslip-item-row earning-item';
+    newItem.className = 'ps-item-row earning-item';
+
+    // Calculate index for display (Offset by 2 for fixed items)
+    const displayIndex = earningCounter + 1;
     newItem.dataset.itemIndex = earningCounter;
+
     newItem.innerHTML = `
-        <div class="item-row-header">
-            <span class="item-number">Earning ${earningCounter + 1}</span>
-            <button type="button" class="btn-remove-item" onclick="removePayslipItem(this)" title="Remove Item">&times;</button>
+        <div class="ps-item-header">
+            <span class="ps-item-number">Earning ${displayIndex}</span>
+            <button type="button" class="ps-btn-remove" onclick="removePayslipItem(this)" title="Remove Item">&times;</button>
         </div>
-        <div class="item-fields">
-            <div class="input-group">
+        <div class="ps-item-fields">
+            <div class="ps-input-group">
                 <label>Description</label>
-                <input type="text" class="input-field earning-desc" placeholder="e.g. Bonus, Allowance">
+                <input type="text" class="ps-input-field earning-desc" placeholder="e.g. Bonus, Allowance">
             </div>
-            <div class="input-group">
+            <div class="ps-input-group">
                 <label>Amount (₹)</label>
-                <input type="number" class="input-field earning-amount" placeholder="0">
+                <input type="number" class="ps-input-field earning-amount" placeholder="0">
             </div>
         </div>
     `;
@@ -71,21 +76,24 @@ function addEarningItem() {
 function addDeductionItem() {
     const container = document.getElementById('deductionsContainer');
     const newItem = document.createElement('div');
-    newItem.className = 'payslip-item-row deduction-item';
+    newItem.className = 'ps-item-row deduction-item';
+
+    const displayIndex = deductionCounter + 1;
     newItem.dataset.itemIndex = deductionCounter;
+
     newItem.innerHTML = `
-        <div class="item-row-header">
-            <span class="item-number">Deduction ${deductionCounter + 1}</span>
-            <button type="button" class="btn-remove-item" onclick="removePayslipItem(this)" title="Remove Item">&times;</button>
+        <div class="ps-item-header">
+            <span class="ps-item-number">Deduction ${displayIndex}</span>
+            <button type="button" class="ps-btn-remove" onclick="removePayslipItem(this)" title="Remove Item">&times;</button>
         </div>
-        <div class="item-fields">
-            <div class="input-group">
+        <div class="ps-item-fields">
+            <div class="ps-input-group">
                 <label>Description</label>
-                <input type="text" class="input-field deduction-desc" placeholder="e.g. TDS, PF">
+                <input type="text" class="ps-input-field deduction-desc" placeholder="e.g. TDS, PF">
             </div>
-            <div class="input-group">
+            <div class="ps-input-group">
                 <label>Amount (₹)</label>
-                <input type="number" class="input-field deduction-amount" placeholder="0">
+                <input type="number" class="ps-input-field deduction-amount" placeholder="0">
             </div>
         </div>
     `;
@@ -96,7 +104,7 @@ function addDeductionItem() {
 
 // Remove Item
 function removePayslipItem(button) {
-    const itemRow = button.closest('.payslip-item-row');
+    const itemRow = button.closest('.ps-item-row');
     const isEarning = itemRow.classList.contains('earning-item');
     itemRow.remove();
     renumberItems(isEarning ? 'earning' : 'deduction');
@@ -106,11 +114,22 @@ function removePayslipItem(button) {
 function renumberItems(type) {
     const selector = type === 'earning' ? '.earning-item' : '.deduction-item';
     const items = document.querySelectorAll(selector);
+
+    // Offset: Earnings start after 2 fixed items. Deductions start from 1.
+    const offset = type === 'earning' ? 2 : 0;
+
     items.forEach((item, index) => {
         const label = type === 'earning' ? 'Earning' : 'Deduction';
-        item.querySelector('.item-number').textContent = `${label} ${index + 1}`;
-        item.dataset.itemIndex = index;
+        const displayNum = index + 1 + offset;
+        item.querySelector('.ps-item-number').textContent = `${label} ${displayNum}`;
+        item.dataset.itemIndex = index + offset;
     });
+
+    if (type === 'earning') {
+        earningCounter = items.length + 2;
+    } else {
+        deductionCounter = items.length;
+    }
 }
 
 // Generate Payslip Preview
@@ -127,7 +146,7 @@ function generatePayslipPreview() {
 
     // Get payslip settings
     const payslipDate = document.getElementById('payslipDate').value;
-    const payslipNumber = document.getElementById('payslipNumber').value || 'R2VPAY...';
+    const payslipNumber = document.getElementById('payslipNumber').value || 'R2VPAY' + Math.floor(1000 + Math.random() * 9000);
     const payPeriod = document.getElementById('payslipPayPeriod').value || '-';
 
     // Format date
@@ -138,14 +157,14 @@ function generatePayslipPreview() {
     }) : '-';
 
     // Display employee info
-    document.getElementById('dispEmployeeName').textContent = employeeName;
-    document.getElementById('dispEmployeeId').textContent = employeeId;
-    document.getElementById('dispDesignation').textContent = designation;
-    document.getElementById('dispDepartment').textContent = department;
-    document.getElementById('dispJoiningDate').textContent = joiningDate ? new Date(joiningDate).toLocaleDateString('en-IN') : '-';
-    document.getElementById('dispPayPeriod').textContent = payPeriod;
-    document.getElementById('dispPayDate').textContent = formattedDate;
-    document.getElementById('payslipNumberDisplay').textContent = payslipNumber;
+    setTextContent('dispEmployeeName', employeeName);
+    setTextContent('dispEmployeeId', employeeId);
+    setTextContent('dispDesignation', designation);
+    setTextContent('dispDepartment', department);
+    setTextContent('dispJoiningDate', joiningDate ? new Date(joiningDate).toLocaleDateString('en-IN') : '-');
+    setTextContent('dispPayPeriod', payPeriod);
+    setTextContent('dispPayDate', formattedDate);
+    setTextContent('payslipNumberDisplay', payslipNumber);
 
     // Collect earnings
     const earnings = [];
@@ -197,7 +216,7 @@ function generatePayslipPreview() {
     if (earnings.length === 0) {
         earningsTableBody.innerHTML = '<tr><td colspan="2" style="text-align: center;">No earnings</td></tr>';
     }
-    document.getElementById('dispTotalEarnings').textContent = `₹${formatNumber(totalEarnings)}`;
+    setTextContent('dispTotalEarnings', `₹${formatNumber(totalEarnings)}`);
 
     // Populate deductions table
     const deductionsTableBody = document.getElementById('payslipDeductionsBody');
@@ -210,29 +229,41 @@ function generatePayslipPreview() {
     if (deductions.length === 0) {
         deductionsTableBody.innerHTML = '<tr><td colspan="2" style="text-align: center;">No deductions</td></tr>';
     }
-    document.getElementById('dispTotalDeductions').textContent = `₹${formatNumber(totalDeductions)}`;
+    setTextContent('dispTotalDeductions', `₹${formatNumber(totalDeductions)}`);
 
     // Net Pay
-    document.getElementById('dispNetPay').textContent = `₹${formatNumber(netPay)}`;
-    document.getElementById('dispNetPayWords').textContent = numberToWords(netPay) + ' Only';
+    setTextContent('dispNetPay', `₹${formatNumber(netPay)}`);
+    setTextContent('dispNetPayWords', numberToWords(netPay) + ' Only');
 
     // Bank details for employee
-    document.getElementById('dispEmpBankAccount').textContent = bankAccount;
-    document.getElementById('dispEmpIfsc').textContent = ifscCode;
-    document.getElementById('dispEmpPan').textContent = pan;
+    setTextContent('dispEmpBankAccount', bankAccount);
+    setTextContent('dispEmpIfsc', ifscCode);
+    setTextContent('dispEmpPan', pan);
 
     // Show preview
-    document.getElementById('payslipPreview').classList.add('visible');
+    const preview = document.getElementById('payslipPreview');
+    if (preview) {
+        preview.classList.add('visible');
+        preview.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+}
+
+// Helper: Set text content safely
+function setTextContent(id, text) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = text;
 }
 
 // Format number with commas (Indian format)
 function formatNumber(num) {
+    if (typeof num !== 'number' || !isFinite(num)) num = 0;
     return num.toLocaleString('en-IN', { maximumFractionDigits: 2 });
 }
 
 // Convert number to words (Indian system)
 function numberToWords(num) {
     if (num === 0) return 'Zero Rupees';
+    if (num < 0) return 'Negative ' + numberToWords(Math.abs(num));
 
     const ones = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine',
         'Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];

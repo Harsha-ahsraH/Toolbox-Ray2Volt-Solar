@@ -1,0 +1,703 @@
+/* ============================================
+   PAYSLIP GENERATOR - Dedicated Stylesheet
+   Ray2Volt Solar Toolbox - Brutalist Design
+   ============================================ */
+
+/* CSS Variables */
+/* Google Sans Flex for UI elements */
+@import url('https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400;500;600;700&display=swap');
+
+/* ============================================
+   PAGE HEADER
+   ============================================ */
+.ps-page-header {
+    margin-bottom: 2rem;
+}
+
+.ps-page-header h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
+}
+
+.ps-page-header p {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    margin-top: 0.5rem;
+}
+
+/* ============================================
+   FORM LAYOUT
+   ============================================ */
+.ps-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.ps-form-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-medium);
+    border-radius: 2px;
+    padding: 1.5rem;
+}
+
+/* Section Titles with Icons */
+.ps-section-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 1.25rem 0;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border-light);
+    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
+}
+
+.ps-section-title svg {
+    color: var(--primary);
+    flex-shrink: 0;
+}
+
+/* Input Groups */
+.ps-input-group {
+    margin-bottom: 1rem;
+}
+
+.ps-input-group:last-child {
+    margin-bottom: 0;
+}
+
+.ps-input-group label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
+}
+
+.ps-input-field {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
+    border: 1px solid var(--border-medium);
+    border-radius: 2px;
+    background: var(--bg-card);
+    color: var(--text-primary);
+    transition: border-color 0.15s ease;
+    box-sizing: border-box;
+}
+
+.ps-input-field:focus {
+    outline: none;
+    border-color: var(--text-primary);
+}
+
+.ps-input-field::placeholder {
+    color: #999;
+}
+
+.ps-input-field:disabled {
+    background: #f8f8f8;
+    color: #888;
+}
+
+/* ============================================
+   ITEMS SECTION (Earnings & Deductions)
+   ============================================ */
+.ps-items-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-medium);
+    border-radius: 2px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.ps-items-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.ps-items-header h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.ps-items-header p {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin: 0;
+}
+
+/* Item Rows */
+.ps-item-row {
+    background: var(--bg-body);
+    border: 1px solid var(--border-light);
+    border-radius: 2px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.ps-item-row:last-of-type {
+    margin-bottom: 0;
+}
+
+.ps-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.ps-item-number {
+    font-weight: 600;
+    color: var(--primary);
+    font-size: 0.9rem;
+    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
+}
+
+.ps-btn-remove {
+    width: 28px;
+    height: 28px;
+    border: 1px solid var(--border-medium);
+    border-radius: 2px;
+    background: var(--bg-card);
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 1.25rem;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.1s ease;
+}
+
+.ps-btn-remove:hover {
+    background: #fee2e2;
+    border-color: #ef4444;
+    color: #ef4444;
+}
+
+/* Item Fields Grid */
+.ps-item-fields {
+    display: grid;
+    grid-template-columns: 1fr 120px;
+    gap: 1rem;
+    align-items: end;
+}
+
+.ps-item-fields .ps-input-group {
+    margin-bottom: 0;
+}
+
+.ps-item-fields .ps-input-group label {
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+/* Add Button */
+.ps-btn-add {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    margin-top: 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
+    border: 1px dashed var(--primary);
+    border-radius: 2px;
+    background: var(--primary-light);
+    color: var(--primary);
+    cursor: pointer;
+    transition: all 0.1s ease;
+}
+
+.ps-btn-add:hover {
+    background: var(--primary);
+    color: #fff;
+    border-style: solid;
+}
+
+/* ============================================
+   ACTION BUTTONS
+   ============================================ */
+.ps-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.ps-btn-primary {
+    padding: 0.875rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
+    border: 1px solid var(--primary);
+    border-radius: 2px;
+    background: var(--primary);
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.1s ease;
+}
+
+.ps-btn-primary:hover {
+    background: var(--primary-dark);
+    border-color: var(--primary-dark);
+}
+
+.ps-btn-secondary {
+    padding: 0.875rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
+    border: 1px solid var(--border-medium);
+    border-radius: 2px;
+    background: var(--bg-card);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.1s ease;
+}
+
+.ps-btn-secondary:hover {
+    background: #f5f5f5;
+    border-color: var(--text-primary);
+}
+
+/* ============================================
+   PAYSLIP PREVIEW TEMPLATE
+   ============================================ */
+#payslipPreview {
+    display: none;
+    width: 210mm;
+    min-height: 297mm;
+    margin: 2rem auto;
+    padding: 10mm;
+    background: #fff;
+    border: 1px solid var(--border-medium);
+    border-radius: 2px;
+    font-family: 'Google Sans Flex', 'Nunito Sans', sans-serif;
+    font-size: 10pt;
+    color: #1a1a1a;
+    position: relative;
+    box-sizing: border-box;
+}
+
+#payslipPreview.visible {
+    display: block;
+}
+
+/* Header */
+.payslip-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 10px 0;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    border-bottom: 2px solid #1a1a1a;
+}
+
+.payslip-title-section h1 {
+    font-family: 'Google Sans Flex', sans-serif;
+    font-size: 16pt;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin: 0;
+    color: #1a1a1a;
+}
+
+.payslip-title-section p {
+    font-size: 10pt;
+    margin-top: 3px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: #555;
+}
+
+.payslip-logo-section {
+    text-align: right;
+}
+
+.payslip-logo {
+    height: 35px;
+    width: auto;
+}
+
+/* Unified Table */
+.payslip-unified-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0 10px 0;
+    table-layout: fixed;
+    border: 1px solid #d0d0d0;
+}
+
+.payslip-unified-table .info-header-row td,
+.payslip-unified-table .info-header-cell {
+    background: #E8F4FA;
+    color: #1a1a1a;
+    font-weight: 700;
+    text-align: center;
+    padding: 8px 12px;
+    font-size: 10pt;
+    border: 1px solid #d0d0d0;
+}
+
+.payslip-unified-table .info-content-row td {
+    vertical-align: top;
+    padding: 12px;
+    border: 1px solid #d0d0d0;
+    font-size: 9pt;
+    line-height: 1.5;
+}
+
+.payslip-unified-table .from-cell,
+.payslip-unified-table .to-cell {
+    background: #fff;
+    text-align: left;
+}
+
+.payslip-info-label {
+    font-weight: 700;
+    color: #1a1a1a;
+}
+
+/* Earnings & Deductions Tables */
+.payslip-tables-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 4%;
+    margin: 15px 0;
+}
+
+.payslip-earnings-table,
+.payslip-deductions-table {
+    width: 48%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    border: 1px solid #d0d0d0;
+}
+
+.payslip-earnings-table th,
+.payslip-deductions-table th {
+    background: #E8F4FA;
+    color: #1a1a1a;
+    font-weight: 700;
+    padding: 10px 6px;
+    border: 1px solid #d0d0d0;
+    text-align: center;
+    font-size: 9pt;
+}
+
+.payslip-earnings-table td,
+.payslip-deductions-table td {
+    padding: 8px 6px;
+    border: 1px solid #d0d0d0;
+    font-size: 9pt;
+    vertical-align: middle;
+}
+
+.payslip-earnings-table td:first-child,
+.payslip-deductions-table td:first-child {
+    text-align: left;
+    padding-left: 10px;
+}
+
+.payslip-earnings-table td:last-child,
+.payslip-deductions-table td:last-child {
+    text-align: right;
+    padding-right: 10px;
+}
+
+.payslip-earnings-table .total-row td,
+.payslip-deductions-table .total-row td {
+    background: #E8F4FA;
+    font-weight: 700;
+}
+
+/* Net Pay Section */
+.payslip-net-pay {
+    border: 1px solid #d0d0d0;
+    margin: 15px 0;
+    padding: 12px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #E8F4FA;
+}
+
+.payslip-net-pay .label {
+    font-weight: 700;
+    font-size: 11pt;
+    color: #1a1a1a;
+}
+
+.payslip-net-pay .amount {
+    font-weight: 700;
+    font-size: 12pt;
+    color: #1a1a1a;
+}
+
+/* Amount in Words */
+.payslip-amount-words {
+    margin: 12px 0;
+    font-size: 9pt;
+    padding: 5px 0;
+    border-bottom: 1px dashed #ccc;
+}
+
+.payslip-amount-words strong {
+    font-weight: 700;
+}
+
+/* Bank Details Box */
+.payslip-bank-section {
+    border: 1px solid #d0d0d0;
+    margin: 15px 0;
+}
+
+.payslip-bank-section h4 {
+    background: #E8F4FA;
+    margin: 0;
+    padding: 8px 12px;
+    font-size: 10pt;
+    font-weight: 700;
+    border-bottom: 1px solid #d0d0d0;
+    color: #1a1a1a;
+}
+
+.payslip-bank-grid {
+    display: grid;
+    grid-template-columns: 130px 1fr;
+    gap: 4px 10px;
+    padding: 10px 12px;
+    font-size: 9pt;
+}
+
+.payslip-bank-grid .bank-label {
+    font-weight: 700;
+}
+
+.payslip-bank-grid .bank-value {
+    font-weight: 400;
+}
+
+/* Footer Line */
+.payslip-footer-line {
+    position: absolute;
+    bottom: 10mm;
+    left: 10mm;
+    right: 10mm;
+    height: 2px;
+    background: #d0d0d0;
+    border-radius: 2px;
+}
+
+/* System Generated Notice */
+.system-generated-notice {
+    margin-top: 18px;
+    text-align: center;
+    font-size: 8pt;
+    color: #666;
+    font-style: italic;
+    padding: 8px;
+    background: #fafafa;
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+}
+
+/* ============================================
+   RESPONSIVE STYLES
+   ============================================ */
+@media screen and (max-width: 1024px) {
+    .ps-form-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .ps-page-header {
+        margin-bottom: 1rem;
+    }
+
+    .ps-page-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .ps-page-header p {
+        font-size: 0.875rem;
+    }
+
+    .ps-form-card,
+    .ps-items-card {
+        padding: 1rem;
+    }
+
+    .ps-section-title {
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+    }
+
+    .ps-input-field {
+        padding: 0.875rem 1rem;
+        font-size: 1rem;
+    }
+
+    .ps-item-fields {
+        grid-template-columns: 1fr;
+    }
+
+    .ps-actions {
+        flex-direction: column;
+    }
+
+    .ps-btn-primary,
+    .ps-btn-secondary {
+        width: 100%;
+    }
+
+    #payslipPreview {
+        width: 100%;
+        min-height: auto;
+        margin: 1rem auto;
+        padding: 15px;
+        font-size: 9pt;
+    }
+
+    .payslip-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 10px;
+    }
+
+    .payslip-title-section h1 {
+        font-size: 14pt;
+    }
+
+    .payslip-logo {
+        height: 30px;
+    }
+
+    .payslip-tables-row {
+        flex-direction: column;
+    }
+
+    .payslip-earnings-table,
+    .payslip-deductions-table {
+        width: 100%;
+    }
+
+    .payslip-footer-line {
+        position: static;
+        margin-top: 20px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+
+    .ps-form-card,
+    .ps-items-card {
+        padding: 0.875rem;
+    }
+
+    .ps-btn-remove {
+        width: 24px;
+        height: 24px;
+        font-size: 1rem;
+    }
+
+    #payslipPreview {
+        padding: 10px;
+        font-size: 8pt;
+    }
+
+    .payslip-title-section h1 {
+        font-size: 12pt;
+        letter-spacing: 1px;
+    }
+
+    .payslip-bank-grid {
+        grid-template-columns: 1fr;
+        gap: 2px;
+    }
+
+    .payslip-bank-grid .bank-label {
+        margin-top: 5px;
+    }
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+@media print {
+    body * {
+        visibility: hidden;
+    }
+
+    #payslipPreview,
+    #payslipPreview * {
+        visibility: visible;
+    }
+
+    #payslipPreview {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: auto;
+        margin: 0;
+        padding: 10mm;
+        border: none;
+        box-shadow: none;
+        display: block !important;
+    }
+
+    .payslip-unified-table,
+    .payslip-earnings-table,
+    .payslip-deductions-table {
+        table-layout: fixed !important;
+        width: 100% !important;
+    }
+
+    .payslip-tables-row {
+        display: flex !important;
+    }
+
+    .payslip-earnings-table,
+    .payslip-deductions-table {
+        width: 48% !important;
+    }
+
+    .no-print-area {
+        display: none !important;
+    }
+
+    @page {
+        size: A4;
+        margin: 0;
+    }
+
+    * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+}

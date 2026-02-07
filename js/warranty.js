@@ -1,7 +1,7 @@
 /**
  * Warranty Card Generator - Dedicated JavaScript
  * Ray2Volt Solar Toolbox
- * Generates 5-page A4 warranty certificates
+ * Generates 4-page A4 warranty certificates
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -12,9 +12,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const warrantyPhone = document.getElementById('warrantyPhone');
     const warrantyProjectSpecs = document.getElementById('warrantyProjectSpecs');
     const warrantyModuleBrand = document.getElementById('warrantyModuleBrand');
-    const warrantyModuleWarranty = document.getElementById('warrantyModuleWarranty');
+    const warrantyModuleWarranty = document.getElementById('warrantyModuleWarranty'); // Product Warranty
+    const warrantyPerformanceWarranty = document.getElementById('warrantyPerformanceWarranty'); // Performance Warranty
+    const warrantyModuleSerials = document.getElementById('warrantyModuleSerials');
     const warrantyInverterName = document.getElementById('warrantyInverterName');
     const warrantyInverterWarranty = document.getElementById('warrantyInverterWarranty');
+    const warrantyInverterSerials = document.getElementById('warrantyInverterSerials');
     const warrantyDcrCertificate = document.getElementById('warrantyDcrCertificate');
     const warrantyInstallDate = document.getElementById('warrantyInstallDate');
 
@@ -50,6 +53,21 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // --- HELPER: Generate Serial Number Grid ---
+    function generateSerialGrid(serialText) {
+        if (!serialText || !serialText.trim()) {
+            return '<p style="color: #666; font-style: italic; grid-column: 1 / -1;">No serial numbers provided.</p>';
+        }
+        // Split by comm or newline, filter empty
+        const serials = serialText.split(/[\n,]+/).map(s => s.trim()).filter(s => s.length > 0);
+
+        if (serials.length === 0) {
+            return '<p style="color: #666; font-style: italic; grid-column: 1 / -1;">No serial numbers provided.</p>';
+        }
+
+        return serials.map(sn => `<div class="serial-number-item">${sn}</div>`).join('');
+    }
+
     // --- GENERATE WARRANTY CARD ---
     if (generateWarrantyBtn) {
         generateWarrantyBtn.addEventListener('click', () => {
@@ -59,55 +77,76 @@ document.addEventListener('DOMContentLoaded', () => {
             const address = warrantyAddress?.value || 'N/A';
             const phone = warrantyPhone?.value || 'N/A';
             const projectSpecs = warrantyProjectSpecs?.value || 'Solar Power Plant';
+
             const moduleBrand = warrantyModuleBrand?.value || 'Premium Solar Module';
-            const moduleWarranty = warrantyModuleWarranty?.value || '25';
+            const moduleProductWarranty = warrantyModuleWarranty?.value || '10';
+            const modulePerformanceWarranty = warrantyPerformanceWarranty?.value || '30';
+            const moduleSerials = warrantyModuleSerials?.value || '';
+
             const inverterName = warrantyInverterName?.value || 'Grid-Tie Inverter';
             const inverterWarranty = warrantyInverterWarranty?.value || '5';
+            const inverterSerials = warrantyInverterSerials?.value || '';
+
             const dcrCertificate = warrantyDcrCertificate?.value || 'N/A';
             const installDate = warrantyInstallDate?.value;
 
             const formattedDate = formatDate(installDate);
-            const currentYear = new Date().getFullYear();
 
             // Calculate warranty end dates
-            const moduleWarrantyEnd = calculateWarrantyEnd(installDate, parseInt(moduleWarranty) || 25);
+            // Performance warranty determines the "Valid Until" for modules usually, or product? 
+            // Typically performance is the longer one. Let's use Performance for the main highlight.
+            const moduleWarrantyEnd = calculateWarrantyEnd(installDate, parseInt(modulePerformanceWarranty) || 30);
             const inverterWarrantyEnd = calculateWarrantyEnd(installDate, parseInt(inverterWarranty) || 5);
 
-            // Populate Page 1: Cover Page
+            // Populate Page 1: Cover & Project Details
             document.getElementById('coverProjectId').textContent = projectId;
-            document.getElementById('coverCustomerName').textContent = customerName;
             document.getElementById('coverDate').textContent = formattedDate;
-
-            // Populate Page 2: Project Details
-            document.getElementById('detailProjectId').textContent = projectId;
             document.getElementById('detailCustomerName').textContent = customerName;
             document.getElementById('detailAddress').textContent = address;
             document.getElementById('detailPhone').textContent = phone;
             document.getElementById('detailInstallDate').textContent = formattedDate;
             document.getElementById('detailProjectSpecs').textContent = projectSpecs;
+
             document.getElementById('detailModuleBrand').textContent = moduleBrand;
-            document.getElementById('detailModuleWarranty').textContent = moduleWarranty + ' Years';
+            document.getElementById('detailModuleWarranty').textContent = `${moduleProductWarranty} Yrs (Prd) / ${modulePerformanceWarranty} Yrs (Perf)`;
             document.getElementById('detailInverterName').textContent = inverterName;
             document.getElementById('detailInverterWarranty').textContent = inverterWarranty + ' Years';
 
-            // Populate Page 3: Solar Module Warranty
-            document.getElementById('moduleWarrantyPeriod').textContent = moduleWarranty + ' Years';
+            // Update Overview
+            document.getElementById('overviewPerformanceYears').textContent = modulePerformanceWarranty;
+
+            // Populate Page 2: Solar Module Warranty
+            document.getElementById('modulePerformanceWarrantyPeriod').textContent = modulePerformanceWarranty + ' Years';
             document.getElementById('moduleWarrantyEnd').textContent = moduleWarrantyEnd;
             document.getElementById('moduleBrandName').textContent = moduleBrand;
 
-            // Populate Page 4: Inverter Warranty
+            // Update dynamic years in text
+            document.getElementById('moduleProductWarrantyYears').textContent = moduleProductWarranty;
+            document.getElementById('moduleProductWarrantyYearsText').textContent = moduleProductWarranty;
+
+            document.getElementById('modulePerformanceWarrantyYearsText').textContent = modulePerformanceWarranty;
+            document.getElementById('modulePerformanceWarrantyYearsText2').textContent = modulePerformanceWarranty;
+            document.getElementById('modulePerformanceWarrantyYearsText3').textContent = modulePerformanceWarranty;
+
+            // Inject Module Serials
+            document.getElementById('moduleSerialNumbersContainer').innerHTML = generateSerialGrid(moduleSerials);
+
+            // Populate Page 3: Inverter Warranty
             document.getElementById('inverterWarrantyPeriod').textContent = inverterWarranty + ' Years';
             document.getElementById('inverterWarrantyEnd').textContent = inverterWarrantyEnd;
             document.getElementById('inverterBrandName').textContent = inverterName;
 
-            // Populate Page 5: General Terms
+            // Inject Inverter Serials
+            document.getElementById('inverterSerialNumbersContainer').innerHTML = generateSerialGrid(inverterSerials);
+
+            // Populate Page 4: General Terms
             document.getElementById('dcrCertNumber').textContent = dcrCertificate;
             document.getElementById('warrantyIssueDate').textContent = formattedDate;
 
             // Update all page footers
             const pageNumbers = document.querySelectorAll('.warranty-page-number');
             pageNumbers.forEach((el, index) => {
-                el.textContent = `Page ${index + 1} of 5`;
+                el.textContent = `Page ${index + 1} of 4`;
             });
 
             const projectIdFooters = document.querySelectorAll('.warranty-footer-project-id');
