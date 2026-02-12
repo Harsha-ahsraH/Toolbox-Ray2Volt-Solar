@@ -1,0 +1,1378 @@
+/* ============================================
+   QUOTE GENERATOR - Dedicated Stylesheet
+   Ray2Volt Solar Toolbox - Brutalist/Minimalist Design
+   Matches Invoice & Warranty Card styling
+   ============================================ */
+
+/* Google Sans Flex for UI elements */
+@import url('https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400;500;600;700&display=swap');
+
+/* ============================================
+   FORM SECTION - BRUTALIST STYLING
+   ============================================ */
+
+/* --- Page Header --- */
+.qg-page-header {
+    margin-bottom: 1.5rem;
+}
+
+.qg-page-header h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+}
+
+.qg-page-header p {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+}
+
+/* --- Form Cards --- */
+.qg-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    /* Increased gap */
+    margin-bottom: 2rem;
+    /* Increased margin */
+}
+
+.qg-form-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-medium);
+    border-radius: 2px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.qg-section-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border-light);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.qg-section-title .icon {
+    width: 20px;
+    height: 20px;
+    color: var(--primary);
+}
+
+/* --- Input Groups --- */
+.qg-input-group {
+    margin-bottom: 1.25rem;
+}
+
+.qg-input-group:last-child {
+    margin-bottom: 0;
+}
+
+.qg-input-group label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+/* --- Input Fields --- */
+.qg-input-field {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
+    border: 1px solid var(--border-medium);
+    border-radius: 2px;
+    background: var(--bg-card);
+    color: var(--text-primary);
+    transition: all 0.1s ease;
+    box-sizing: border-box;
+}
+
+.qg-input-field:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-light);
+    background: #fff;
+}
+
+textarea.qg-input-field {
+    resize: vertical;
+    min-height: 70px;
+}
+
+select.qg-input-field {
+    cursor: pointer;
+}
+
+/* --- Components Card --- */
+.qg-components-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-medium);
+    border-radius: 2px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    /* Increased margin */
+}
+
+.qg-components-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.qg-components-header h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.qg-components-header p {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin: 0;
+}
+
+/* --- Component Sections --- */
+.qg-component-section {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px dashed var(--border-light);
+}
+
+.qg-component-section:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.qg-component-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+/* --- Component Row --- */
+.qg-component-row {
+    background: var(--bg-body);
+    border: 1px solid var(--border-light);
+    border-radius: 2px;
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+}
+
+.qg-component-row:last-child {
+    margin-bottom: 0;
+}
+
+.qg-component-fields {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    align-items: end;
+}
+
+.qg-component-fields .qg-input-group {
+    margin-bottom: 0;
+}
+
+.qg-component-fields .qg-input-group label {
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+/* Additional fields grid (7 columns) */
+.qg-additional-fields {
+    grid-template-columns: repeat(7, 1fr);
+}
+
+/* --- Editable BOM Input Table --- */
+.qg-bom-table-container {
+    overflow-x: auto;
+}
+
+.qg-bom-input-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+}
+
+.qg-bom-input-table th,
+.qg-bom-input-table td {
+    padding: 12px 15px;
+    /* More padding */
+    border: 1px solid var(--border-medium);
+    font-size: 0.95rem;
+    /* Larger font */
+    vertical-align: middle;
+}
+
+.qg-bom-input-table th {
+    background: #E8F4FA;
+    font-weight: 700;
+    color: var(--text-primary);
+    text-align: left;
+    white-space: nowrap;
+    border-bottom: 2px solid var(--border-medium);
+}
+
+/* ... headers ... */
+
+/* Editable inputs inside BOM table */
+.qg-bom-input-table input.bom-item,
+.qg-bom-input-table input.bom-qty,
+.qg-bom-input-table input.bom-unit,
+.qg-bom-input-table input.bom-make {
+    width: 100%;
+    padding: 8px 10px;
+    font-size: 0.95rem;
+    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
+    border: 1px solid var(--border-light);
+    /* Subtle border to show editability */
+    background: #fafafa;
+    /* Light background */
+    color: var(--text-primary);
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+}
+
+.qg-bom-input-table input.bom-item:hover,
+.qg-bom-input-table input.bom-qty:hover,
+.qg-bom-input-table input.bom-unit:hover,
+.qg-bom-input-table input.bom-make:hover {
+    background: #fff;
+    border-color: var(--border-medium);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.qg-bom-input-table input.bom-item:focus,
+.qg-bom-input-table input.bom-qty:focus,
+.qg-bom-input-table input.bom-unit:focus,
+.qg-bom-input-table input.bom-make:focus {
+    outline: none;
+    background: #fff;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+.qg-bom-input-table input.bom-qty {
+    text-align: center;
+    width: 70px;
+}
+
+.qg-bom-input-table input.bom-unit {
+    text-align: center;
+    width: 70px;
+}
+
+.qg-bom-input-table td:has(input.bom-qty),
+.qg-bom-input-table td:has(input.bom-unit) {
+    text-align: center;
+}
+
+/* --- Summary Card --- */
+.qg-summary-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-medium);
+    border-radius: 2px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.qg-summary-card h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.qg-summary-grid {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    align-items: center;
+    /* Vertically align items */
+}
+
+.qg-summary-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    /* Tighter gap */
+}
+
+.qg-summary-item .summary-label {
+    font-size: 0.75rem;
+    /* Smaller label */
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--text-muted);
+    letter-spacing: 0.5px;
+}
+
+.qg-summary-item .summary-value {
+    font-size: 0.95rem;
+    /* Much smaller value */
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.qg-summary-total .summary-value {
+    color: var(--primary);
+    font-size: 1.1rem;
+    /* Slightly larger for total but restricted */
+    font-weight: 700;
+}
+
+/* --- Action Buttons --- */
+.qg-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    /* Increased gap */
+    flex-wrap: wrap;
+    margin-top: 3rem;
+    /* Increased top margin */
+    margin-bottom: 3rem;
+    /* Increased bottom margin */
+}
+
+.qg-btn-primary {
+    padding: 0.875rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
+    border: 1px solid var(--primary);
+    border-radius: 2px;
+    background: var(--primary);
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.1s ease;
+}
+
+.qg-btn-primary:hover {
+    background: var(--primary-dark);
+    border-color: var(--primary-dark);
+}
+
+.qg-btn-secondary {
+    padding: 0.875rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
+    border: 1px solid var(--border-medium);
+    border-radius: 2px;
+    background: var(--bg-card);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.1s ease;
+}
+
+.qg-btn-secondary:hover {
+    background: var(--bg-hover);
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.qg-btn-outline {
+    padding: 0.875rem 1.5rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
+    border: 1px dashed var(--border-medium);
+    border-radius: 2px;
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.1s ease;
+}
+
+.qg-btn-outline:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    background: var(--primary-light);
+}
+
+.qg-btn-danger {
+    padding: 0.875rem 1.5rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
+    border: 1px solid #ef4444;
+    border-radius: 2px;
+    background: transparent;
+    color: #ef4444;
+    cursor: pointer;
+    transition: all 0.1s ease;
+}
+
+.qg-btn-danger:hover {
+    background: #fee2e2;
+}
+
+
+/* ============================================
+   QUOTE PREVIEW - 5 PAGE A4 DOCUMENT
+   Minimalist, Print-Friendly, Clean
+   ============================================ */
+
+#quotePreview {
+    display: none;
+    margin: 2rem auto;
+    font-family: 'Google Sans Flex', Arial, sans-serif;
+    color: #1a1a1a;
+}
+
+#quotePreview.visible {
+    display: block;
+}
+
+/* --- Page Layout --- */
+.quote-page {
+    width: 210mm;
+    min-height: 297mm;
+    height: 297mm;
+    margin: 0 auto 20px auto;
+    padding: 18mm 15mm 22mm 15mm;
+    background: #fff;
+    border: 1px solid #d0d0d0;
+    border-radius: 2px;
+    font-size: 10pt;
+    position: relative;
+    box-sizing: border-box;
+    overflow: hidden;
+    page-break-after: always;
+    page-break-inside: avoid;
+}
+
+.quote-page:last-child {
+    page-break-after: auto;
+}
+
+.quote-page-footer {
+    position: absolute;
+    bottom: 15mm;
+    left: 15mm;
+    right: 15mm;
+    display: flex;
+    justify-content: space-between;
+    font-size: 9pt;
+    color: #888;
+    border-top: 1px solid #eee;
+    padding-top: 10px;
+}
+
+/* --- Header Section (Page 1) --- */
+.quote-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 25px;
+    /* Increased from 15px */
+    padding-bottom: 12px;
+    border-bottom: 2px solid #1a1a1a;
+}
+
+.quote-logo {
+    width: 140px;
+    height: auto;
+}
+
+.quote-title-section {
+    flex: 1;
+    text-align: right;
+}
+
+.quote-title-section h1 {
+    font-size: 26pt;
+    font-weight: 700;
+    color: #1a1a1a;
+    letter-spacing: 1px;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.quote-subtitle {
+    font-size: 11pt;
+    font-weight: 600;
+    color: #555;
+    margin: 3px 0 0 0;
+    letter-spacing: 0.5px;
+}
+
+/* --- Small Header (Pages 2-5) --- */
+.quote-header-small {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+    /* Increased from 15px */
+    padding-bottom: 10px;
+    border-bottom: 2px solid #1a1a1a;
+}
+
+.quote-logo-small {
+    width: 100px;
+    height: auto;
+}
+
+.quote-header-small h2 {
+    font-size: 18pt;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.quote-header-small p {
+    font-size: 10pt;
+    color: #555;
+    margin: 2px 0 0 0;
+}
+
+/* --- Project Banner --- */
+.quote-project-banner {
+    display: flex;
+    justify-content: space-between;
+    background: #E8F4FA;
+    border: 1px solid #d0d0d0;
+    border-radius: 2px;
+    padding: 12px 20px;
+    /* Increased padding */
+    margin-bottom: 25px;
+    /* Increased from 15px */
+    font-size: 10.5pt;
+    color: #1a1a1a;
+}
+
+.quote-project-banner strong {
+    color: #1a1a1a;
+    font-weight: 700;
+}
+
+/* --- Highlight Box --- */
+.quote-highlight-box {
+    background: #1a1a1a;
+    color: #fff;
+    padding: 25px;
+    /* Increased padding */
+    text-align: center;
+    margin-bottom: 30px;
+    /* Increased from 20px */
+    border-radius: 2px;
+}
+
+.quote-highlight-box .highlight-capacity {
+    font-size: 28pt;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: 2px;
+}
+
+.quote-highlight-box .highlight-type {
+    font-size: 12pt;
+    font-weight: 500;
+    margin: 8px 0 0 0;
+    /* Increased margin */
+    opacity: 0.9;
+}
+
+/* --- Two Columns Layout --- */
+.quote-two-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+    /* Increased from 15px */
+    margin-bottom: 30px;
+    /* Increased from 20px */
+}
+
+.quote-info-box {
+    background: #fafafa;
+    border: 1px solid #d0d0d0;
+    border-radius: 2px;
+    padding: 20px;
+    /* Increased padding */
+}
+
+.quote-info-box h4 {
+    font-size: 10pt;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0 0 12px 0;
+    /* Increased margin */
+    padding-bottom: 8px;
+    /* Highlighting spacing */
+    border-bottom: 1px solid #e0e0e0;
+    background: #E8F4FA;
+    margin: -20px -20px 15px -20px;
+    /* Adjusted negative margins */
+    padding: 10px 20px;
+    /* Adjusted padding */
+}
+
+.quote-info-box p {
+    font-size: 9.5pt;
+    margin: 6px 0;
+    /* Increased line spacing */
+    line-height: 1.5;
+    color: #1a1a1a;
+}
+
+/* --- About Section --- */
+.quote-about-section {
+    margin-bottom: 30px;
+    /* Increased from 20px */
+}
+
+.quote-about-section h3 {
+    font-size: 11pt;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 12px;
+    /* Increased margin */
+    padding-bottom: 6px;
+    border-bottom: 1px solid #d0d0d0;
+    background: #fafafa;
+    padding: 8px 12px;
+}
+
+.quote-about-section p {
+    font-size: 9.5pt;
+    line-height: 1.8;
+    /* Increased line height */
+    text-align: justify;
+    color: #333;
+    margin: 10px 0;
+    /* Increased margin */
+    padding: 0 12px;
+}
+
+.quote-mission-vision {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    /* Increased gap */
+    margin-top: 20px;
+    /* Increased margin */
+    padding: 15px;
+    /* Increased padding */
+    background: #E8F4FA;
+    border: 1px solid #d0d0d0;
+    border-radius: 2px;
+    font-size: 9.5pt;
+}
+
+.quote-mission-vision div {
+    line-height: 1.5;
+}
+
+/* --- Section Styling --- */
+.quote-section {
+    margin-bottom: 15px;
+}
+
+.quote-section h3 {
+    font-size: 11pt;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 8px;
+    padding: 6px 10px;
+    background: #fafafa;
+    border-bottom: 1px solid #d0d0d0;
+}
+
+/* --- Specs Table --- */
+.quote-specs-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 5px;
+    border: 1px solid #d0d0d0;
+}
+
+.quote-specs-table th,
+.quote-specs-table td {
+    padding: 8px 10px;
+    text-align: left;
+    font-size: 9.5pt;
+    border: 1px solid #d0d0d0;
+}
+
+.quote-specs-table th {
+    background-color: #E8F4FA;
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.quote-specs-table td {
+    background-color: #fff;
+    color: #1a1a1a;
+}
+
+/* --- BOM Table --- */
+.quote-bom-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 5px;
+    border: 1px solid #d0d0d0;
+}
+
+.quote-bom-table th,
+.quote-bom-table td {
+    padding: 6px 8px;
+    text-align: left;
+    font-size: 9pt;
+    border: 1px solid #d0d0d0;
+}
+
+.quote-bom-table th {
+    background-color: #E8F4FA;
+    font-weight: 600;
+    color: #1a1a1a;
+    text-align: center;
+}
+
+.quote-bom-table td {
+    background-color: #fff;
+    color: #1a1a1a;
+}
+
+.quote-bom-table td:first-child,
+.quote-bom-table td:nth-child(3),
+.quote-bom-table td:nth-child(4) {
+    text-align: center;
+}
+
+/* --- Price Table --- */
+.quote-price-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 5px;
+    border: 1px solid #d0d0d0;
+}
+
+.quote-price-table th,
+.quote-price-table td {
+    padding: 8px 12px;
+    font-size: 9.5pt;
+    border: 1px solid #d0d0d0;
+}
+
+.quote-price-table th {
+    background-color: #E8F4FA;
+    font-weight: 600;
+    color: #1a1a1a;
+    text-align: left;
+}
+
+.quote-price-table td {
+    background-color: #fff;
+    color: #1a1a1a;
+}
+
+.quote-price-table td.text-right {
+    text-align: right;
+}
+
+.quote-price-table td:first-child {
+    width: 50px;
+    text-align: center;
+}
+
+.quote-price-table .subtotal-row td {
+    background: #fafafa;
+    font-weight: 600;
+}
+
+.quote-price-table .grand-total-row td {
+    background: #E8F4FA !important;
+    font-weight: 700;
+    font-size: 10.5pt;
+}
+
+.quote-amount-words {
+    margin-top: 10px;
+    font-size: 9pt;
+    padding: 10px 12px;
+    background: #fafafa;
+    border: 1px solid #d0d0d0;
+    border-left: 3px solid #a8d4e6;
+    border-radius: 2px;
+    color: #1a1a1a;
+}
+
+/* --- Customer Summary --- */
+.quote-customer-summary {
+    display: flex;
+    justify-content: space-between;
+    background: #fafafa;
+    border: 1px solid #d0d0d0;
+    border-radius: 2px;
+    padding: 12px 15px;
+    font-size: 9.5pt;
+}
+
+.quote-customer-summary p {
+    margin: 3px 0;
+}
+
+/* --- Subsidy Box --- */
+.quote-subsidy-box {
+    background: #E8F4FA;
+    border: 1px solid #d0d0d0;
+    border-left: 4px solid #1a1a1a;
+    border-radius: 2px;
+    padding: 12px 15px;
+}
+
+.quote-subsidy-box h4 {
+    font-size: 10.5pt;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0 0 8px 0;
+}
+
+.quote-subsidy-box ul {
+    margin: 8px 0;
+    padding-left: 20px;
+    font-size: 9.5pt;
+}
+
+.quote-subsidy-box .subsidy-estimate {
+    margin-top: 10px;
+    font-size: 10pt;
+    background: #fff;
+    padding: 8px 12px;
+    border-radius: 2px;
+}
+
+/* --- Payment Table --- */
+.quote-payment-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #d0d0d0;
+}
+
+.quote-payment-table td {
+    padding: 10px 12px;
+    font-size: 9.5pt;
+    border: 1px solid #d0d0d0;
+}
+
+.quote-payment-table td:first-child {
+    background: #fafafa;
+    width: 35%;
+}
+
+.quote-payment-table td:nth-child(2) {
+    font-weight: 600;
+    width: 25%;
+}
+
+/* --- Stats Grid (Page 4) --- */
+.quote-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.quote-stat-box {
+    background: #E8F4FA;
+    border: 1px solid #d0d0d0;
+    border-radius: 2px;
+    padding: 15px;
+    text-align: center;
+}
+
+.quote-stat-box .stat-value {
+    display: block;
+    font-size: 22pt;
+    font-weight: 700;
+    color: #1a1a1a;
+}
+
+.quote-stat-box .stat-label {
+    display: block;
+    font-size: 9pt;
+    color: #555;
+    font-weight: 600;
+}
+
+.quote-stat-box .stat-desc {
+    display: block;
+    font-size: 8pt;
+    color: #888;
+    margin-top: 4px;
+}
+
+/* --- Savings Table --- */
+.quote-savings-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 5px;
+    border: 1px solid #d0d0d0;
+}
+
+.quote-savings-table th,
+.quote-savings-table td {
+    padding: 8px 12px;
+    font-size: 9.5pt;
+    border: 1px solid #d0d0d0;
+    text-align: center;
+}
+
+.quote-savings-table th {
+    background-color: #E8F4FA;
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.quote-savings-table td {
+    background-color: #fff;
+}
+
+.quote-savings-table .highlight-row td {
+    background: #E8F4FA !important;
+}
+
+/* --- Environmental Grid --- */
+.quote-env-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.quote-env-box {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px;
+    background: #fff;
+    border: 1px solid #d0d0d0;
+    border-radius: 2px;
+}
+
+.quote-env-box .env-icon {
+    font-size: 24px;
+    flex-shrink: 0;
+}
+
+.quote-env-box .env-value {
+    display: block;
+    font-size: 16pt;
+    font-weight: 700;
+    color: #1a1a1a;
+}
+
+.quote-env-box .env-unit {
+    display: block;
+    font-size: 9pt;
+    font-weight: 600;
+    color: #555;
+}
+
+.quote-env-box .env-desc {
+    display: block;
+    font-size: 8pt;
+    color: #888;
+    margin-top: 2px;
+}
+
+/* --- Comparison Box --- */
+.quote-comparison-box {
+    background: #fafafa;
+    border: 1px solid #d0d0d0;
+    border-radius: 2px;
+    padding: 15px;
+}
+
+.quote-comparison-box h4 {
+    font-size: 10.5pt;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0 0 12px 0;
+    text-align: center;
+}
+
+.comparison-grid {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.comparison-item {
+    text-align: center;
+    padding: 15px 25px;
+    border-radius: 2px;
+}
+
+.comparison-item.before {
+    background: #fee2e2;
+    border: 1px solid #ef4444;
+}
+
+.comparison-item.after {
+    background: #d1fae5;
+    border: 1px solid #10b981;
+}
+
+.comparison-item .comparison-label {
+    display: block;
+    font-size: 9pt;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 4px;
+}
+
+.comparison-item .comparison-value {
+    display: block;
+    font-size: 16pt;
+    font-weight: 700;
+    color: #1a1a1a;
+}
+
+.comparison-item .comparison-desc {
+    display: block;
+    font-size: 8pt;
+    color: #666;
+    margin-top: 2px;
+}
+
+.comparison-arrow {
+    font-size: 24pt;
+    color: #10b981;
+    font-weight: 700;
+}
+
+.comparison-note {
+    text-align: center;
+    font-size: 8pt;
+    color: #888;
+    margin-top: 10px;
+    font-style: italic;
+}
+
+/* --- Terms List --- */
+.quote-terms-list {
+    margin: 8px 0;
+    padding-left: 20px;
+    font-size: 9.5pt;
+    line-height: 1.6;
+}
+
+.quote-terms-list li {
+    margin-bottom: 4px;
+}
+
+/* --- Terms Box --- */
+.quote-terms-box {
+    background: #fafafa;
+    border: 1px solid #d0d0d0;
+    border-radius: 2px;
+    padding: 12px 15px;
+    font-size: 9.5pt;
+    line-height: 1.5;
+}
+
+.quote-terms-box p {
+    margin: 6px 0;
+}
+
+/* --- Bank Table --- */
+.quote-bank-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #d0d0d0;
+}
+
+.quote-bank-table td {
+    padding: 8px 12px;
+    font-size: 9.5pt;
+    border: 1px solid #d0d0d0;
+}
+
+.quote-bank-table td:first-child {
+    background: #E8F4FA;
+    width: 30%;
+    font-weight: 600;
+}
+
+/* --- Thank You Section --- */
+.quote-thankyou-section {
+    text-align: center;
+    margin: 20px 0;
+    padding: 15px;
+    background: #E8F4FA;
+    border: 1px solid #d0d0d0;
+    border-radius: 2px;
+    font-size: 10pt;
+}
+
+.quote-thankyou-section p {
+    margin: 4px 0;
+}
+
+/* --- Signature Section --- */
+.quote-signature-section {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 25px;
+    padding-top: 10px;
+}
+
+.signature-block {
+    width: 40%;
+    text-align: center;
+}
+
+.signature-block .signature-line {
+    border-top: 1px solid #1a1a1a;
+    margin-bottom: 8px;
+}
+
+.signature-block .signature-name {
+    font-weight: 600;
+    font-size: 10pt;
+    color: #1a1a1a;
+    margin: 0;
+}
+
+.signature-block .signature-title {
+    font-size: 9pt;
+    color: #666;
+    margin: 2px 0 0 0;
+}
+
+/* --- Page Footer --- */
+.quote-page-footer {
+    position: absolute;
+    bottom: 8mm;
+    left: 15mm;
+    right: 15mm;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #d0d0d0;
+    padding-top: 6px;
+    font-size: 8pt;
+    color: #666;
+}
+
+
+/* ============================================
+   RESPONSIVE STYLES
+   ============================================ */
+@media screen and (max-width: 1200px) {
+    .qg-component-fields {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .qg-additional-fields {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media screen and (max-width: 900px) {
+    .qg-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .qg-component-fields {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .qg-additional-fields {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .quote-page {
+        width: 100%;
+        min-height: auto;
+        height: auto;
+        margin: 1rem auto;
+        padding: 15px;
+        font-size: 9pt;
+        border: 1px solid #eee;
+    }
+
+    .quote-header h1 {
+        font-size: 18pt;
+    }
+
+    .quote-two-columns {
+        grid-template-columns: 1fr;
+    }
+
+    .quote-stats-grid,
+    .quote-env-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .quote-signature-section {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .signature-block {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+
+    .qg-form-card,
+    .qg-components-card,
+    .qg-summary-card {
+        padding: 1rem;
+    }
+
+    .qg-component-fields {
+        grid-template-columns: 1fr;
+    }
+
+    .qg-additional-fields {
+        grid-template-columns: 1fr;
+    }
+
+    .qg-actions {
+        flex-direction: column;
+    }
+
+    .qg-btn-primary,
+    .qg-btn-secondary,
+    .qg-btn-outline,
+    .qg-btn-danger {
+        width: 100%;
+    }
+
+    .qg-summary-grid {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .comparison-grid {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .comparison-arrow {
+        transform: rotate(90deg);
+    }
+}
+
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+@media print {
+    body * {
+        visibility: hidden;
+    }
+
+    #quotePreview,
+    #quotePreview * {
+        visibility: visible;
+    }
+
+    #quotePreview {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        display: block !important;
+        background: white;
+    }
+
+    .quote-page {
+        width: 100%;
+        height: 100vh;
+        min-height: 100vh;
+        margin: 0;
+        padding: 18mm 15mm 22mm 15mm;
+        border: none;
+        box-shadow: none;
+        page-break-after: always;
+        page-break-inside: avoid;
+    }
+
+    .quote-page:last-child {
+        page-break-after: auto;
+    }
+
+    /* Force background colors */
+    .quote-project-banner,
+    .quote-specs-table th,
+    .quote-bom-table th,
+    .quote-price-table th,
+    .quote-price-table .grand-total-row td,
+    .quote-savings-table th,
+    .quote-savings-table .highlight-row td,
+    .quote-stat-box,
+    .quote-bank-table td:first-child,
+    .quote-thankyou-section,
+    .quote-mission-vision,
+    .quote-info-box h4 {
+        background-color: #E8F4FA !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    .quote-highlight-box {
+        background: #1a1a1a !important;
+        color: #fff !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    .comparison-item.before {
+        background: #fee2e2 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    .comparison-item.after {
+        background: #d1fae5 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    .quote-section h3,
+    .quote-about-section h3 {
+        background: #fafafa !important;
+    }
+
+    .no-print-area {
+        display: none !important;
+    }
+
+    @page {
+        size: A4;
+        margin: 0;
+    }
+
+    * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+}

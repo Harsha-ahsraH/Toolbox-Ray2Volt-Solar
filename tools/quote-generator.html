@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quote Generator - Ray2Volt Toolbox</title>
+    <meta name="description" content="Generate professional 5-page solar project proposals and quotations.">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=Nunito+Sans:wght@400;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/quote-generator.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Mobile Header -->
+        <header class="mobile-header">
+            <img src="../Logo.png" alt="Company Logo" class="mobile-logo">
+            <button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Open navigation menu">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
+                </svg>
+            </button>
+        </header>
+
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div>
+                <div class="logo-header">
+                    <button class="sidebar-close-btn" id="sidebarCloseBtn"
+                        aria-label="Close navigation menu">&times;</button>
+                    <img src="../Logo.png" alt="Company Logo" class="logo">
+                    <h2>Toolbox</h2>
+                </div>
+                <nav class="main-nav">
+                    <ul>
+                        <li><a href="../index.html" class="nav-link">Dashboard</a></li>
+                        <li><a href="emi-calculator.html" class="nav-link">EMI Calculator</a></li>
+                        <li><a href="gst-calculator.html" class="nav-link">GST Calculator</a></li>
+                        <li><a href="package-prices.html" class="nav-link">Package Prices</a></li>
+                        <li><a href="receipt-generator.html" class="nav-link">Payment Receipt</a></li>
+                        <li><a href="invoice-generator.html" class="nav-link">Invoice Generator</a></li>
+                        <li><a href="payslip-generator.html" class="nav-link">PaySlip Generator</a></li>
+                        <li><a href="warranty-card.html" class="nav-link">Warranty Card</a></li>
+                        <li><a href="quote-generator.html" class="nav-link active">Quote Generator</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <section id="quote-generator-section" class="content-section active">
+
+                <div class="no-print-area">
+                    <!-- Page Header -->
+                    <div class="qg-page-header">
+                        <h1>Quote Generator</h1>
+                        <p>Generate professional 5-page solar project proposals for customers.</p>
+                    </div>
+
+                    <!-- Form Grid -->
+                    <div class="qg-form-grid">
+                        <!-- Customer Details Card -->
+                        <div class="qg-form-card">
+                            <h3 class="qg-section-title">
+                                <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="12" cy="7" r="4"></circle>
+                                </svg>
+                                Customer Details
+                            </h3>
+                            <div class="qg-input-group">
+                                <label for="qgCustomerName">Customer Name *</label>
+                                <input type="text" id="qgCustomerName" class="qg-input-field"
+                                    placeholder="Enter customer name">
+                            </div>
+                            <div class="qg-input-group">
+                                <label for="qgCustomerPhone">Phone Number *</label>
+                                <input type="text" id="qgCustomerPhone" class="qg-input-field"
+                                    placeholder="Enter phone number">
+                            </div>
+                            <div class="qg-input-group">
+                                <label for="qgCustomerAddress">Address *</label>
+                                <textarea id="qgCustomerAddress" class="qg-input-field" rows="2"
+                                    placeholder="Enter customer address"></textarea>
+                            </div>
+                            <div class="qg-input-group">
+                                <label for="qgCustomerGstin">Customer GSTIN (Optional)</label>
+                                <input type="text" id="qgCustomerGstin" class="qg-input-field"
+                                    placeholder="e.g. 37AAOCR4626E1Z6">
+                            </div>
+                        </div>
+
+                        <!-- Project Settings Card -->
+                        <div class="qg-form-card">
+                            <h3 class="qg-section-title">
+                                <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                    <polyline points="14 2 14 8 20 8"></polyline>
+                                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                                </svg>
+                                Project Settings
+                            </h3>
+                            <div class="qg-input-group">
+                                <label for="qgQuoteDate">Quote Date</label>
+                                <input type="date" id="qgQuoteDate" class="qg-input-field">
+                            </div>
+                            <div class="qg-input-group">
+                                <label for="qgQuoteNumber">Quotation Number</label>
+                                <input type="text" id="qgQuoteNumber" class="qg-input-field"
+                                    placeholder="Auto-generated">
+                            </div>
+                            <div class="qg-input-group">
+                                <label for="qgSystemCapacity">System Capacity (kWp) *</label>
+                                <input type="number" id="qgSystemCapacity" class="qg-input-field" placeholder="e.g. 3"
+                                    min="1" step="0.5">
+                            </div>
+                            <div class="qg-input-group">
+                                <label for="qgInstallationType">Installation Type</label>
+                                <select id="qgInstallationType" class="qg-input-field">
+                                    <option value="On-Grid" selected>On-Grid</option>
+                                    <option value="Off-Grid">Off-Grid</option>
+                                    <option value="Hybrid">Hybrid</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bill of Materials Section -->
+                    <div class="qg-components-card">
+                        <div class="qg-components-header">
+                            <div>
+                                <h3>Bill of Materials</h3>
+                                <p>Edit item descriptions, quantities, and make as needed</p>
+                            </div>
+                        </div>
+
+                        <!-- Editable BOM Table -->
+                        <div class="qg-bom-table-container">
+                            <table class="qg-bom-input-table" id="bomInputTable">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 50px;">S.No</th>
+                                        <th style="width: 45%;">Item Description</th>
+                                        <th style="width: 80px;">Qty</th>
+                                        <th style="width: 80px;">Unit</th>
+                                        <th style="width: 20%;">Make</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="bomInputTableBody">
+                                    <tr data-row="1">
+                                        <td class="bom-sno">1</td>
+                                        <td><input type="text" class="bom-item"
+                                                value="Solar PV Module (Mono PERC DCR/Non-DCR)"></td>
+                                        <td><input type="number" class="bom-qty" value="6" min="1"></td>
+                                        <td><input type="text" class="bom-unit" value="Nos"></td>
+                                        <td><input type="text" class="bom-make" value="Adani/Waaree/Vikram"></td>
+                                    </tr>
+                                    <tr data-row="2">
+                                        <td class="bom-sno">2</td>
+                                        <td><input type="text" class="bom-item" value="Grid-Tie Inverter"></td>
+                                        <td><input type="number" class="bom-qty" value="1" min="1"></td>
+                                        <td><input type="text" class="bom-unit" value="Nos"></td>
+                                        <td><input type="text" class="bom-make" value="Polycab/Growatt/Sofar"></td>
+                                    </tr>
+                                    <tr data-row="3">
+                                        <td class="bom-sno">3</td>
+                                        <td><input type="text" class="bom-item" value="Module Mounting Structure (HDG)">
+                                        </td>
+                                        <td><input type="number" class="bom-qty" value="1" min="1"></td>
+                                        <td><input type="text" class="bom-unit" value="Set"></td>
+                                        <td><input type="text" class="bom-make" value="JSW/Custom"></td>
+                                    </tr>
+                                    <tr data-row="4">
+                                        <td class="bom-sno">4</td>
+                                        <td><input type="text" class="bom-item" value="AC Distribution Box (ACDB)"></td>
+                                        <td><input type="number" class="bom-qty" value="1" min="1"></td>
+                                        <td><input type="text" class="bom-unit" value="Nos"></td>
+                                        <td><input type="text" class="bom-make" value="Reputed"></td>
+                                    </tr>
+                                    <tr data-row="5">
+                                        <td class="bom-sno">5</td>
+                                        <td><input type="text" class="bom-item" value="DC Distribution Box (DCDB)"></td>
+                                        <td><input type="number" class="bom-qty" value="1" min="1"></td>
+                                        <td><input type="text" class="bom-unit" value="Nos"></td>
+                                        <td><input type="text" class="bom-make" value="Reputed"></td>
+                                    </tr>
+                                    <tr data-row="6">
+                                        <td class="bom-sno">6</td>
+                                        <td><input type="text" class="bom-item" value="DC Cable (4 sq mm)"></td>
+                                        <td><input type="number" class="bom-qty" value="50" min="1"></td>
+                                        <td><input type="text" class="bom-unit" value="Mtrs"></td>
+                                        <td><input type="text" class="bom-make" value="Polycab/Siechem"></td>
+                                    </tr>
+                                    <!-- Installation Accessories Header -->
+                                    <tr class="bom-section-header">
+                                        <td colspan="5"><strong>Installation Accessories</strong></td>
+                                    </tr>
+                                    <tr data-row="7">
+                                        <td class="bom-sno">7</td>
+                                        <td><input type="text" class="bom-item" value="Lightning Arrester (LA)"></td>
+                                        <td><input type="number" class="bom-qty" value="1" min="0"></td>
+                                        <td><input type="text" class="bom-unit" value="Nos"></td>
+                                        <td><input type="text" class="bom-make" value="Reputed"></td>
+                                    </tr>
+                                    <tr data-row="8">
+                                        <td class="bom-sno">8</td>
+                                        <td><input type="text" class="bom-item" value="Earthing Kit (Chemical/Rod)">
+                                        </td>
+                                        <td><input type="number" class="bom-qty" value="3" min="1"></td>
+                                        <td><input type="text" class="bom-unit" value="Set"></td>
+                                        <td><input type="text" class="bom-make" value="Reputed"></td>
+                                    </tr>
+                                    <tr data-row="9">
+                                        <td class="bom-sno">9</td>
+                                        <td><input type="text" class="bom-item" value="MC4 Connectors"></td>
+                                        <td><input type="number" class="bom-qty" value="4" min="1"></td>
+                                        <td><input type="text" class="bom-unit" value="Pairs"></td>
+                                        <td><input type="text" class="bom-make" value="Reputed"></td>
+                                    </tr>
+                                    <tr data-row="10">
+                                        <td class="bom-sno">10</td>
+                                        <td><input type="text" class="bom-item" value="AC Cable (Service Wire)"></td>
+                                        <td><input type="number" class="bom-qty" value="20" min="1"></td>
+                                        <td><input type="text" class="bom-unit" value="Mtrs"></td>
+                                        <td><input type="text" class="bom-make" value="Polycab"></td>
+                                    </tr>
+                                    <tr data-row="11">
+                                        <td class="bom-sno">11</td>
+                                        <td><input type="text" class="bom-item" value="Installation & Commissioning">
+                                        </td>
+                                        <td><input type="number" class="bom-qty" value="1" min="1"></td>
+                                        <td><input type="text" class="bom-unit" value="Job"></td>
+                                        <td><input type="text" class="bom-make" value="Ray2Volt"></td>
+                                    </tr>
+                                    <tr data-row="12">
+                                        <td class="bom-sno">12</td>
+                                        <td><input type="text" class="bom-item" value="Transportation & Handling"></td>
+                                        <td><input type="number" class="bom-qty" value="1" min="1"></td>
+                                        <td><input type="text" class="bom-unit" value="Trip"></td>
+                                        <td><input type="text" class="bom-make" value="N/A"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Commercial Offer Section -->
+                    <div class="qg-form-card">
+                        <h3 class="qg-section-title">
+                            <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
+                                <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                                <line x1="1" y1="10" x2="23" y2="10"></line>
+                            </svg>
+                            Commercial Offer
+                        </h3>
+                        <div class="qg-input-group">
+                            <label for="qgTotalPrice">Total System Price (₹) *</label>
+                            <input type="number" id="qgTotalPrice" class="qg-input-field"
+                                placeholder="Enter total price (before GST)">
+                        </div>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem;">
+                            Enter the complete turnkey system price before GST. GST will be calculated automatically.
+                        </p>
+                    </div>
+
+
+                    <!-- Financial & Projections Grid -->
+                    <div class="qg-form-grid">
+                        <!-- Financial Details Card -->
+                        <div class="qg-form-card">
+                            <h3 class="qg-section-title">
+                                <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2">
+                                    <line x1="12" y1="1" x2="12" y2="23"></line>
+                                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                                </svg>
+                                Financial Details
+                            </h3>
+                            <div class="qg-input-group">
+                                <label for="qgGstType">GST Type</label>
+                                <select id="qgGstType" class="qg-input-field">
+                                    <option value="intra" selected>Intra-State (CGST + SGST)</option>
+                                    <option value="inter">Inter-State (IGST)</option>
+                                </select>
+                            </div>
+                            <div class="qg-input-group">
+                                <label for="qgGstRate">GST Rate (%)</label>
+                                <input type="number" id="qgGstRate" class="qg-input-field" value="5" min="0" max="28">
+                            </div>
+                            <div class="qg-input-group">
+                                <label>
+                                    <input type="checkbox" id="qgSubsidyEligible" checked> PM Surya Ghar Subsidy
+                                    Eligible
+                                </label>
+                            </div>
+                            <div class="qg-input-group">
+                                <label for="qgAdvancePercent">Advance Payment (%)</label>
+                                <input type="number" id="qgAdvancePercent" class="qg-input-field" value="80" min="0"
+                                    max="100">
+                            </div>
+                            <div class="qg-input-group">
+                                <label for="qgFinalPercent">Final Payment (%)</label>
+                                <input type="number" id="qgFinalPercent" class="qg-input-field" value="20" min="0"
+                                    max="100" readonly>
+                            </div>
+                        </div>
+
+                        <!-- Projections Card -->
+                        <div class="qg-form-card">
+                            <h3 class="qg-section-title">
+                                <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2">
+                                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                                </svg>
+                                Savings Projections
+                            </h3>
+                            <div class="qg-input-group">
+                                <label for="qgTariffRate">Current Electricity Tariff (₹/unit)</label>
+                                <input type="number" id="qgTariffRate" class="qg-input-field" value="7" min="1"
+                                    step="0.5">
+                            </div>
+                            <div class="qg-input-group">
+                                <label for="qgUnitsPerKwp">Annual Generation (units/kWp)</label>
+                                <input type="number" id="qgUnitsPerKwp" class="qg-input-field" value="1440" min="1000"
+                                    max="2000">
+                            </div>
+                            <div class="qg-input-group">
+                                <label for="qgTariffEscalation">Include Tariff Escalation (5%/year)</label>
+                                <select id="qgTariffEscalation" class="qg-input-field">
+                                    <option value="yes" selected>Yes</option>
+                                    <option value="no">No</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Summary Display -->
+                    <div class="qg-summary-card">
+                        <h3>Quote Summary</h3>
+                        <div class="qg-summary-grid">
+                            <div class="qg-summary-item">
+                                <span class="summary-label">Total Taxable Value</span>
+                                <span class="summary-value" id="qgSummaryTaxable">₹0</span>
+                            </div>
+                            <div class="qg-summary-item">
+                                <span class="summary-label">GST (5%)</span>
+                                <span class="summary-value" id="qgSummaryGst">₹0</span>
+                            </div>
+                            <div class="qg-summary-item qg-summary-total">
+                                <span class="summary-label">Grand Total</span>
+                                <span class="summary-value" id="qgSummaryTotal">₹0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="qg-actions">
+                        <button id="qgSaveDraftBtn" class="qg-btn-outline">Save Draft</button>
+                        <button id="qgLoadDraftBtn" class="qg-btn-outline">Load Draft</button>
+                        <button id="qgGenerateBtn" class="qg-btn-primary">Generate Quote Preview</button>
+                        <button id="qgPrintBtn" class="qg-btn-secondary">Print / Save as PDF</button>
+                        <button id="qgClearBtn" class="qg-btn-danger">Clear Form</button>
+                    </div>
+                </div>
+
+                <!-- Quote Preview (5 Pages) -->
+                <div id="quotePreview">
+
+                    <!-- Page 1: Cover & Company Introduction -->
+                    <div class="quote-page">
+                        <div class="quote-header">
+                            <img src="../Logo.png" alt="Ray2Volt Logo" class="quote-logo">
+                            <div class="quote-title-section">
+                                <h1>Rooftop Solar</h1>
+                                <p class="quote-subtitle">Technical Overview & Project Proposal</p>
+                            </div>
+                        </div>
+
+                        <div class="quote-project-banner">
+                            <span>Quotation: <strong id="p1QuoteNumber">R2VQ0226-0001</strong></span>
+                            <span>Date: <strong id="p1QuoteDate">08 February 2026</strong></span>
+                        </div>
+
+                        <div class="quote-highlight-box">
+                            <p class="highlight-capacity" id="p1Capacity">3-kWp</p>
+                            <p class="highlight-type" id="p1Type">On-Grid Solar System</p>
+                        </div>
+
+                        <div class="quote-two-columns">
+                            <div class="quote-info-box">
+                                <h4>Presented For</h4>
+                                <p><strong id="p1CustomerName">Customer Name</strong></p>
+                                <p id="p1CustomerAddress">Customer Address</p>
+                                <p>Phone: <span id="p1CustomerPhone">-</span></p>
+                                <p id="p1CustomerGstinRow" style="display: none;">GSTIN: <span
+                                        id="p1CustomerGstin">-</span></p>
+                            </div>
+                            <div class="quote-info-box">
+                                <h4>Presented By</h4>
+                                <p><strong>Ray2Volt Solar Private Limited</strong></p>
+                                <p>1-278, Pichatur Road, Srikalahasti, 517640, Andhra Pradesh</p>
+                                <p>Phone: +91 96 6606 8140</p>
+                                <p>Email: ray2voltsolar@gmail.com</p>
+                                <p>GSTIN: 37AAOCR4626E1Z6</p>
+                            </div>
+                        </div>
+
+                        <div class="quote-about-section">
+                            <h3>About Ray2Volt Solar</h3>
+                            <p>Ray2Volt Solar Private Limited is a leading solar energy solutions provider committed to
+                                delivering high-quality, reliable, and efficient solar power systems. We specialize in
+                                residential, commercial, and industrial solar installations across India.</p>
+                            <p>With a focus on sustainable energy and customer satisfaction, we ensure every project
+                                meets the highest standards of safety and performance. Our team of expert engineers and
+                                technicians is dedicated to powering a greener future for everyone.</p>
+                            <div class="quote-mission-vision">
+                                <div>
+                                    <strong>Mission:</strong> To accelerate the transition to clean energy by providing
+                                    affordable and reliable solar solutions.
+                                </div>
+                                <div>
+                                    <strong>Vision:</strong> A world powered by sustainable energy, accessible to all.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="quote-page-footer">
+                            <span>Ray2Volt Solar Pvt. Ltd.</span>
+                            <span>Page 1 of 5</span>
+                        </div>
+                    </div>
+
+                    <!-- Page 2: Technical Specifications & BOM -->
+                    <div class="quote-page">
+                        <div class="quote-header-small">
+                            <img src="../Logo.png" alt="Ray2Volt Logo" class="quote-logo-small">
+                            <div>
+                                <h2>Technical Specifications</h2>
+                                <p>System Components & Bill of Materials</p>
+                            </div>
+                        </div>
+
+                        <div class="quote-section">
+                            <h3>System Overview</h3>
+                            <p id="p2SystemOverview">This proposal is for a 3-kWp On-Grid Solar Power Plant designed to
+                                meet your energy requirements while maximizing savings and environmental benefits.</p>
+                        </div>
+
+                        <div class="quote-section">
+                            <h3>Component Specifications</h3>
+                            <table class="quote-specs-table">
+                                <tr>
+                                    <th>Component</th>
+                                    <th>Specification</th>
+                                    <th>Warranty</th>
+                                </tr>
+                                <tr>
+                                    <td><strong>Solar Modules</strong></td>
+                                    <td id="p2PanelSpecs">6 × 550Wp Adani Mono PERC</td>
+                                    <td>10 Years Product / 25 Years Performance</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Grid-Tie Inverter</strong></td>
+                                    <td id="p2InverterSpecs">3kW Polycab Single MPPT</td>
+                                    <td>5 Years Manufacturer Warranty</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Mounting Structure</strong></td>
+                                    <td id="p2MountingSpecs">HDG (Hot Dip Galvanized) - JSW</td>
+                                    <td>10 Years Anti-Corrosion</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>DC/AC Cables</strong></td>
+                                    <td id="p2CableSpecs">30 meters, 4 sq mm UV resistant</td>
+                                    <td>5 Years</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>ACDB/DCDB</strong></td>
+                                    <td>IP65 rated junction boxes with SPD</td>
+                                    <td>2 Years</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Earthing System</strong></td>
+                                    <td>Copper bonded electrode with LA</td>
+                                    <td>5 Years</td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div class="quote-section">
+                            <h3>Bill of Materials</h3>
+                            <table class="quote-bom-table">
+                                <thead>
+                                    <tr>
+                                        <th>S.No</th>
+                                        <th>Item Description</th>
+                                        <th>Qty</th>
+                                        <th>Unit</th>
+                                        <th>Make/Brand</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="p2BomTableBody">
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Solar PV Module 550Wp</td>
+                                        <td>6</td>
+                                        <td>Nos</td>
+                                        <td>Adani</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>Grid-Tie Inverter 3kW</td>
+                                        <td>1</td>
+                                        <td>Nos</td>
+                                        <td>Polycab</td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>Module Mounting Structure</td>
+                                        <td>1</td>
+                                        <td>Set</td>
+                                        <td>JSW</td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td>DC Cable 4 sq mm</td>
+                                        <td>30</td>
+                                        <td>Mtrs</td>
+                                        <td>Polycab</td>
+                                    </tr>
+                                    <tr>
+                                        <td>5</td>
+                                        <td>ACDB with SPD</td>
+                                        <td>1</td>
+                                        <td>Nos</td>
+                                        <td>Standard</td>
+                                    </tr>
+                                    <tr>
+                                        <td>6</td>
+                                        <td>DCDB with SPD</td>
+                                        <td>1</td>
+                                        <td>Nos</td>
+                                        <td>Standard</td>
+                                    </tr>
+                                    <tr>
+                                        <td>7</td>
+                                        <td>Lightning Arrester</td>
+                                        <td>1</td>
+                                        <td>Nos</td>
+                                        <td>Standard</td>
+                                    </tr>
+                                    <tr>
+                                        <td>8</td>
+                                        <td>Earthing System</td>
+                                        <td>1</td>
+                                        <td>Set</td>
+                                        <td>Standard</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="quote-page-footer">
+                            <span>Ray2Volt Solar Pvt. Ltd.</span>
+                            <span>Page 2 of 5</span>
+                        </div>
+                    </div>
+
+                    <!-- Page 3: Financial Quotation -->
+                    <div class="quote-page">
+                        <div class="quote-header-small">
+                            <img src="../Logo.png" alt="Ray2Volt Logo" class="quote-logo-small">
+                            <div>
+                                <h2>Financial Quotation</h2>
+                                <p>Price Breakdown & Payment Terms</p>
+                            </div>
+                        </div>
+
+                        <div class="quote-section">
+                            <div class="quote-customer-summary">
+                                <div>
+                                    <p><strong>Customer:</strong> <span id="p3CustomerName">-</span></p>
+                                    <p><strong>Address:</strong> <span id="p3CustomerAddress">-</span></p>
+                                    <p id="p3CustomerGstinRow" style="display: none;"><strong>GSTIN:</strong> <span
+                                            id="p3CustomerGstin">-</span></p>
+                                </div>
+                                <div>
+                                    <p><strong>Quote No:</strong> <span id="p3QuoteNumber">-</span></p>
+                                    <p><strong>Date:</strong> <span id="p3QuoteDate">-</span></p>
+                                    <p><strong>Valid Until:</strong> <span id="p3ValidUntil">-</span></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="quote-section">
+                            <h3>Price Quotation</h3>
+                            <table class="quote-price-table">
+                                <thead>
+                                    <tr>
+                                        <th>Description</th>
+                                        <th style="text-align: right;">Amount (₹)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td id="p3SystemDesc">Complete 3-kWp On-Grid Solar Power System (Turnkey)</td>
+                                        <td class="text-right" id="p3TaxableValue">1,42,000</td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr id="p3CgstRow">
+                                        <td>CGST @ <span id="p3CgstRate">2.5</span>%</td>
+                                        <td class="text-right" id="p3CgstAmount">3,550</td>
+                                    </tr>
+                                    <tr id="p3SgstRow">
+                                        <td>SGST @ <span id="p3SgstRate">2.5</span>%</td>
+                                        <td class="text-right" id="p3SgstAmount">3,550</td>
+                                    </tr>
+                                    <tr id="p3IgstRow" style="display: none;">
+                                        <td>IGST @ <span id="p3IgstRate">5</span>%</td>
+                                        <td class="text-right" id="p3IgstAmount">7,100</td>
+                                    </tr>
+                                    <tr class="grand-total-row">
+                                        <td><strong>Grand Total</strong></td>
+                                        <td class="text-right" id="p3GrandTotal"><strong>₹1,49,100</strong></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                            <div class="quote-amount-words">
+                                <strong>Amount in Words:</strong> <span id="p3AmountWords">One Lakh Forty Nine Thousand
+                                    One Hundred Rupees Only</span>
+                            </div>
+                        </div>
+
+
+                        <div class="quote-section" id="p3SubsidySection">
+                            <div class="quote-subsidy-box">
+                                <h4>🏛️ PM Surya Ghar Muft Bijli Yojana - Government Subsidy</h4>
+                                <p>This project is eligible for central government subsidy under the PM Surya Ghar
+                                    scheme:</p>
+                                <ul>
+                                    <li><strong>Up to 3 kWp:</strong> ₹30,000/kWp (Max ₹78,000)</li>
+                                    <li><strong>Above 3 kWp:</strong> ₹18,000/kWp for additional capacity</li>
+                                </ul>
+                                <p class="subsidy-estimate"><strong>Estimated Subsidy for this project:</strong> ₹<span
+                                        id="p3SubsidyAmount">78,000</span></p>
+                            </div>
+                        </div>
+
+                        <div class="quote-section">
+                            <h3>Payment Terms</h3>
+                            <table class="quote-payment-table">
+                                <tr>
+                                    <td><strong>Advance Payment (<span id="p3AdvancePercent">80</span>%)</strong></td>
+                                    <td>₹<span id="p3AdvanceAmount">1,19,280</span></td>
+                                    <td>At the time of order confirmation</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Final Payment (<span id="p3FinalPercent">20</span>%)</strong></td>
+                                    <td>₹<span id="p3FinalAmount">29,820</span></td>
+                                    <td>Upon installation completion</td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div class="quote-page-footer">
+                            <span>Ray2Volt Solar Pvt. Ltd.</span>
+                            <span>Page 3 of 5</span>
+                        </div>
+                    </div>
+
+                    <!-- Page 4: Savings & Environmental Impact -->
+                    <div class="quote-page">
+                        <div class="quote-header-small">
+                            <img src="../Logo.png" alt="Ray2Volt Logo" class="quote-logo-small">
+                            <div>
+                                <h2>Savings & Environmental Impact</h2>
+                                <p>Financial Benefits & Green Contribution</p>
+                            </div>
+                        </div>
+
+                        <div class="quote-section">
+                            <h3>Estimated Generation & Savings</h3>
+                            <div class="quote-stats-grid">
+                                <div class="quote-stat-box">
+                                    <span class="stat-value" id="p4AnnualGeneration">4,320</span>
+                                    <span class="stat-label">kWh/Year</span>
+                                    <span class="stat-desc">Annual Generation</span>
+                                </div>
+                                <div class="quote-stat-box">
+                                    <span class="stat-value" id="p4AnnualSavings">₹30,240</span>
+                                    <span class="stat-label">Per Year</span>
+                                    <span class="stat-desc">Annual Savings</span>
+                                </div>
+                                <div class="quote-stat-box">
+                                    <span class="stat-value" id="p4PaybackPeriod">~5</span>
+                                    <span class="stat-label">Years</span>
+                                    <span class="stat-desc">Payback Period</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="quote-section">
+                            <h3>30-Year Savings Projection</h3>
+                            <table class="quote-savings-table">
+                                <thead>
+                                    <tr>
+                                        <th>Period</th>
+                                        <th>Without Tariff Escalation</th>
+                                        <th>With 5% Tariff Escalation</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="p4SavingsTableBody">
+                                    <tr>
+                                        <td>Year 1</td>
+                                        <td>₹30,240</td>
+                                        <td>₹30,240</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Year 5</td>
+                                        <td>₹1,51,200</td>
+                                        <td>₹1,67,076</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Year 10</td>
+                                        <td>₹3,02,400</td>
+                                        <td>₹3,80,120</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Year 20</td>
+                                        <td>₹6,04,800</td>
+                                        <td>₹10,00,894</td>
+                                    </tr>
+                                    <tr class="highlight-row">
+                                        <td><strong>Year 30</strong></td>
+                                        <td><strong id="p4Savings30NoEsc">₹9,07,200</strong></td>
+                                        <td><strong id="p4Savings30Esc">₹20,10,378</strong></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="quote-section">
+                            <h3>Environmental Impact</h3>
+                            <div class="quote-env-grid">
+                                <div class="quote-env-box">
+                                    <span class="env-icon">🌍</span>
+                                    <div>
+                                        <span class="env-value" id="p4Co2Reduction">3.54</span>
+                                        <span class="env-unit">Tonnes CO₂/Year</span>
+                                        <span class="env-desc">Carbon emissions prevented annually</span>
+                                    </div>
+                                </div>
+                                <div class="quote-env-box">
+                                    <span class="env-icon">🌳</span>
+                                    <div>
+                                        <span class="env-value" id="p4TreesEquivalent">163</span>
+                                        <span class="env-unit">Trees Planted</span>
+                                        <span class="env-desc">Equivalent environmental benefit annually</span>
+                                    </div>
+                                </div>
+                                <div class="quote-env-box">
+                                    <span class="env-icon">🚗</span>
+                                    <div>
+                                        <span class="env-value" id="p4CarsOffRoad">0.77</span>
+                                        <span class="env-unit">Cars Off Road</span>
+                                        <span class="env-desc">Equivalent to removing cars from road per year</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="quote-section">
+                            <div class="quote-comparison-box">
+                                <h4>Before vs. After Solar</h4>
+                                <div class="comparison-grid">
+                                    <div class="comparison-item before">
+                                        <span class="comparison-label">Before Solar</span>
+                                        <span class="comparison-value" id="p4BeforeBill">₹2,520/month</span>
+                                        <span class="comparison-desc">Average electricity bill</span>
+                                    </div>
+                                    <div class="comparison-arrow">→</div>
+                                    <div class="comparison-item after">
+                                        <span class="comparison-label">After Solar</span>
+                                        <span class="comparison-value">₹0/month*</span>
+                                        <span class="comparison-desc">Net zero electricity bill</span>
+                                    </div>
+                                </div>
+                                <p class="comparison-note">*Based on net metering and optimal generation conditions</p>
+                            </div>
+                        </div>
+
+                        <div class="quote-page-footer">
+                            <span>Ray2Volt Solar Pvt. Ltd.</span>
+                            <span>Page 4 of 5</span>
+                        </div>
+                    </div>
+
+                    <!-- Page 5: Terms, Conditions & Bank Details -->
+                    <div class="quote-page">
+                        <div class="quote-header-small">
+                            <img src="../Logo.png" alt="Ray2Volt Logo" class="quote-logo-small">
+                            <div>
+                                <h2>Terms & Conditions</h2>
+                                <p>Assumptions, Exclusions & Legal Terms</p>
+                            </div>
+                        </div>
+
+                        <div class="quote-section">
+                            <h3>Assumptions</h3>
+                            <ul class="quote-terms-list">
+                                <li>Shadow-free rooftop space is available as per system requirements.</li>
+                                <li>Adequate load-bearing capacity of roof structure for solar installation.</li>
+                                <li>Grid power supply is available and stable at the installation site.</li>
+                                <li>Single point of installation within company premises.</li>
+                                <li>Standard installation on RCC/metal roof within 15 feet height.</li>
+                                <li>Customer will provide necessary permissions and access during installation.</li>
+                            </ul>
+                        </div>
+
+                        <div class="quote-section">
+                            <h3>Exclusions</h3>
+                            <ul class="quote-terms-list">
+                                <li>Civil work, roof strengthening, or structural modifications.</li>
+                                <li>Any electrical upgrades beyond the solar system installation.</li>
+                                <li>Government fees, permits, or net metering charges (if applicable).</li>
+                                <li>Tree cutting, relocation of existing installations, or shade removal.</li>
+                                <li>Insurance for the solar system.</li>
+                                <li>Battery storage system (unless specified in the quotation).</li>
+                            </ul>
+                        </div>
+
+                        <div class="quote-section">
+                            <h3>General Terms</h3>
+                            <div class="quote-terms-box">
+                                <p><strong>Validity:</strong> This quotation is valid for 30 days from the date of
+                                    issue.</p>
+                                <p><strong>Delivery:</strong> Installation will be completed within 15-20 working days
+                                    from order confirmation and site readiness.</p>
+                                <p><strong>Warranty:</strong> All warranties are subject to manufacturer terms and
+                                    proper system maintenance.</p>
+                                <p><strong>Jurisdiction:</strong> Any disputes shall be subject to the exclusive
+                                    jurisdiction of courts in Tirupati, Andhra Pradesh.</p>
+                                <p><strong>Force Majeure:</strong> Ray2Volt Solar shall not be liable for delays due to
+                                    natural disasters, government actions, or circumstances beyond our control.</p>
+                                <p><strong>Limitation:</strong> Total liability is limited to the contract value. We
+                                    are not liable for consequential or indirect damages.</p>
+                            </div>
+                        </div>
+
+                        <div class="quote-section">
+                            <h3>Bank Details for Payment</h3>
+                            <table class="quote-bank-table">
+                                <tr>
+                                    <td><strong>Account Name</strong></td>
+                                    <td>Ray2Volt Solar Private Limited</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Account Number</strong></td>
+                                    <td>50200112654604</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Bank Name</strong></td>
+                                    <td>HDFC Bank</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Branch</strong></td>
+                                    <td>Srikalahasti</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>IFSC Code</strong></td>
+                                    <td>HDFC0002436</td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div class="quote-thankyou-section">
+                            <p>Thank you for considering Ray2Volt Solar for your solar energy needs.</p>
+                            <p>For any queries, please contact us at <strong>+91 96 6606 8140</strong> or email
+                                <strong>ray2voltsolar@gmail.com</strong>
+                            </p>
+                        </div>
+
+                        <div class="quote-signature-section">
+                            <div class="signature-block">
+                                <div class="signature-line"></div>
+                                <p class="signature-name">Customer Signature</p>
+                                <p class="signature-title">Date: _______________</p>
+                            </div>
+                            <div class="signature-block">
+                                <div class="signature-line"></div>
+                                <p class="signature-name">For Ray2Volt Solar Pvt. Ltd.</p>
+                                <p class="signature-title">Managing Director</p>
+                            </div>
+                        </div>
+
+                        <div class="quote-page-footer">
+                            <span>Ray2Volt Solar Pvt. Ltd.</span>
+                            <span>Page 5 of 5</span>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Overlay for Mobile Sidebar -->
+    <div class="overlay" id="overlay"></div>
+
+    <script src="../js/navigation.js"></script>
+    <script src="../js/quote-generator.js"></script>
+</body>
+
+</html>
