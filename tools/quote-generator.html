@@ -347,573 +347,653 @@
                         </div>
                     </div>
 
-                    <!-- Summary Display -->
-                    <div class="qg-summary-card">
-                        <h3>Quote Summary</h3>
-                        <div class="qg-summary-grid">
-                            <div class="qg-summary-item">
-                                <span class="summary-label">Total Taxable Value</span>
-                                <span class="summary-value" id="qgSummaryTaxable">₹0</span>
-                            </div>
-                            <div class="qg-summary-item">
-                                <span class="summary-label">GST (5%)</span>
-                                <span class="summary-value" id="qgSummaryGst">₹0</span>
-                            </div>
-                            <div class="qg-summary-item qg-summary-total">
-                                <span class="summary-label">Grand Total</span>
-                                <span class="summary-value" id="qgSummaryTotal">₹0</span>
-                            </div>
-                        </div>
-                    </div>
-
                     <!-- Action Buttons -->
                     <div class="qg-actions">
-                        <button id="qgSaveDraftBtn" class="qg-btn-outline">Save Draft</button>
-                        <button id="qgLoadDraftBtn" class="qg-btn-outline">Load Draft</button>
-                        <button id="qgGenerateBtn" class="qg-btn-primary">Generate Quote Preview</button>
+                        <button id="qgGenerateBtn" class="qg-btn-primary">Generate Preview</button>
                         <button id="qgPrintBtn" class="qg-btn-secondary">Print / Save as PDF</button>
-                        <button id="qgClearBtn" class="qg-btn-danger">Clear Form</button>
                     </div>
                 </div>
 
-                <!-- Quote Preview (5 Pages) -->
+                <!-- ============================================
+                     QUOTE PREVIEW - 5-Page A4 Document
+                     ============================================ -->
                 <div id="quotePreview">
 
-                    <!-- Page 1: Cover & Company Introduction -->
-                    <div class="quote-page">
-                        <div class="quote-header">
-                            <img src="../Logo.png" alt="Ray2Volt Logo" class="quote-logo">
-                            <div class="quote-title-section">
-                                <h1>Rooftop Solar</h1>
-                                <p class="quote-subtitle">Technical Overview & Project Proposal</p>
+                    <!-- ========== PAGE 1: Cover & Customer Info ========== -->
+                    <div class="quote-page qp-page1">
+                        <div class="qp-header">
+                            <div class="qp-title-section">
+                                <span class="qp-pre-title">Ray2Volt Solar Private Limited</span>
+                                <h1>Rooftop Solar<br><span class="qp-title-light">Project Proposal</span></h1>
+                                <p class="qp-subtitle">Customized Solar Energy Solution for Your Home</p>
+                            </div>
+                            <img src="../Logo.png" alt="Ray2Volt Logo" class="qp-logo">
+                        </div>
+
+                        <div class="qp-banner">
+                            <span>Quotation No: <strong id="qpQuoteNumber">—</strong></span>
+                            <span>Date: <strong id="qpQuoteDate">—</strong></span>
+                        </div>
+
+                        <div class="qp-section">
+                            <h3>Customer Information</h3>
+                            <div class="qp-info-grid">
+                                <span class="qp-info-label">Customer Name:</span>
+                                <span class="qp-info-value" id="qpCustomerName">—</span>
+                                <span class="qp-info-label">Phone Number:</span>
+                                <span class="qp-info-value" id="qpCustomerPhone">—</span>
+                                <span class="qp-info-label">Address:</span>
+                                <span class="qp-info-value" id="qpCustomerAddress">—</span>
+                                <span class="qp-info-label">GSTIN:</span>
+                                <span class="qp-info-value" id="qpCustomerGstin">—</span>
                             </div>
                         </div>
 
-                        <div class="quote-project-banner">
-                            <span>Quotation: <strong id="p1QuoteNumber">R2VQ0226-0001</strong></span>
-                            <span>Date: <strong id="p1QuoteDate">08 February 2026</strong></span>
+                        <div class="qp-section">
+                            <h3>System Overview</h3>
+                            <table class="qp-specs-table">
+                                <tr>
+                                    <th>System Capacity</th>
+                                    <td id="qpSystemCapacity">— kWp</td>
+                                </tr>
+                                <tr>
+                                    <th>Installation Type</th>
+                                    <td id="qpInstallationType">—</td>
+                                </tr>
+                            </table>
                         </div>
 
-                        <div class="quote-highlight-box">
-                            <p class="highlight-capacity" id="p1Capacity">3-kWp</p>
-                            <p class="highlight-type" id="p1Type">On-Grid Solar System</p>
-                        </div>
-
-                        <div class="quote-two-columns">
-                            <div class="quote-info-box">
-                                <h4>Presented For</h4>
-                                <p><strong id="p1CustomerName">Customer Name</strong></p>
-                                <p id="p1CustomerAddress">Customer Address</p>
-                                <p>Phone: <span id="p1CustomerPhone">-</span></p>
-                                <p id="p1CustomerGstinRow" style="display: none;">GSTIN: <span
-                                        id="p1CustomerGstin">-</span></p>
-                            </div>
-                            <div class="quote-info-box">
-                                <h4>Presented By</h4>
-                                <p><strong>Ray2Volt Solar Private Limited</strong></p>
-                                <p>1-278, Pichatur Road, Srikalahasti, 517640, Andhra Pradesh</p>
-                                <p>Phone: +91 96 6606 8140</p>
-                                <p>Email: ray2voltsolar@gmail.com</p>
-                                <p>GSTIN: 37AAOCR4626E1Z6</p>
-                            </div>
-                        </div>
-
-                        <div class="quote-about-section">
+                        <div class="qp-section">
                             <h3>About Ray2Volt Solar</h3>
-                            <p>Ray2Volt Solar Private Limited is a leading solar energy solutions provider committed to
-                                delivering high-quality, reliable, and efficient solar power systems. We specialize in
-                                residential, commercial, and industrial solar installations across India.</p>
-                            <p>With a focus on sustainable energy and customer satisfaction, we ensure every project
-                                meets the highest standards of safety and performance. Our team of expert engineers and
-                                technicians is dedicated to powering a greener future for everyone.</p>
-                            <div class="quote-mission-vision">
-                                <div>
-                                    <strong>Mission:</strong> To accelerate the transition to clean energy by providing
-                                    affordable and reliable solar solutions.
+                            <p class="qp-about-text">
+                                Ray2Volt Solar Private Limited is a leading solar energy solutions provider committed
+                                to delivering high-quality, reliable, and efficient solar power systems. We specialize
+                                in residential, commercial, and industrial solar installations across India. We offer
+                                both CAPEX and OPEX solutions to our customers. We are committed to providing our
+                                customers with the best possible service and support to ensure their satisfaction.
+                            </p>
+                        </div>
+
+                        <div class="qp-section">
+                            <h3>Our Mission & Vision</h3>
+                            <div class="qp-mission-grid">
+                                <div class="qp-mission-item">
+                                    <strong>☀️ Mission</strong>
+                                    <p>To deliver affordable, high-quality solar energy solutions that empower
+                                        homeowners and businesses to reduce their energy costs while contributing to a
+                                        cleaner environment. We are committed to making renewable energy accessible
+                                        to every household through transparent pricing and end-to-end project support.
+                                    </p>
                                 </div>
-                                <div>
-                                    <strong>Vision:</strong> A world powered by sustainable energy, accessible to all.
+                                <div class="qp-mission-item">
+                                    <strong>🌍 Vision</strong>
+                                    <p>To be the most trusted solar energy partner in India, powering a sustainable
+                                        future through innovation, reliability, and customer-first service. We envision
+                                        a nation where every rooftop generates clean energy, reducing dependence on
+                                        fossil fuels and creating long-term value for communities across the country.
+                                    </p>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="quote-page-footer">
-                            <span>Ray2Volt Solar Pvt. Ltd.</span>
+                        <div class="qp-section">
+                            <h3>Why Go Solar?</h3>
+                            <div class="qp-benefits-grid">
+                                <div class="qp-benefit-item">
+                                    <span class="qp-benefit-icon">💰</span>
+                                    <div>
+                                        <strong>Save Up to 90%</strong>
+                                        <p>Drastically reduce your monthly electricity bills from day one.</p>
+                                    </div>
+                                </div>
+                                <div class="qp-benefit-item">
+                                    <span class="qp-benefit-icon">🏛️</span>
+                                    <div>
+                                        <strong>Government Subsidy</strong>
+                                        <p>Avail up to ₹78,000 under PM Surya Ghar Yojana.</p>
+                                    </div>
+                                </div>
+                                <div class="qp-benefit-item">
+                                    <span class="qp-benefit-icon">📈</span>
+                                    <div>
+                                        <strong>25+ Year Returns</strong>
+                                        <p>Payback in 3-5 years, free electricity for 20+ years after.</p>
+                                    </div>
+                                </div>
+                                <div class="qp-benefit-item">
+                                    <span class="qp-benefit-icon">🏠</span>
+                                    <div>
+                                        <strong>Property Value</strong>
+                                        <p>Solar installations increase your property's market value.</p>
+                                    </div>
+                                </div>
+                                <div class="qp-benefit-item">
+                                    <span class="qp-benefit-icon">🌱</span>
+                                    <div>
+                                        <strong>Eco-Friendly</strong>
+                                        <p>Reduce carbon footprint and contribute to a greener planet.</p>
+                                    </div>
+                                </div>
+                                <div class="qp-benefit-item">
+                                    <span class="qp-benefit-icon">🔧</span>
+                                    <div>
+                                        <strong>Low Maintenance</strong>
+                                        <p>Minimal upkeep needed — panels last 25+ years reliably.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="qp-cover-footer">
+                            <p>Ray2Volt Solar Private Limited | CIN: U35104AP2025PTC118526</p>
+                            <p>1-278, Pichatur Road, Srikalahasti, 517640, Andhra Pradesh</p>
+                        </div>
+
+                        <div class="qp-page-footer">
+                            <span>Ray2Volt Solar Private Limited</span>
                             <span>Page 1 of 5</span>
                         </div>
                     </div>
 
-                    <!-- Page 2: Technical Specifications & BOM -->
+                    <!-- ========== PAGE 2: Bill of Materials ========== -->
                     <div class="quote-page">
-                        <div class="quote-header-small">
-                            <img src="../Logo.png" alt="Ray2Volt Logo" class="quote-logo-small">
-                            <div>
-                                <h2>Technical Specifications</h2>
-                                <p>System Components & Bill of Materials</p>
+                        <div class="qp-header">
+                            <div class="qp-title-section">
+                                <h1>Bill of Materials</h1>
+                                <p class="qp-subtitle">Component Specifications</p>
                             </div>
+                            <img src="../Logo.png" alt="Ray2Volt Logo" class="qp-logo">
                         </div>
 
-                        <div class="quote-section">
-                            <h3>System Overview</h3>
-                            <p id="p2SystemOverview">This proposal is for a 3-kWp On-Grid Solar Power Plant designed to
-                                meet your energy requirements while maximizing savings and environmental benefits.</p>
-                        </div>
-
-                        <div class="quote-section">
-                            <h3>Component Specifications</h3>
-                            <table class="quote-specs-table">
-                                <tr>
-                                    <th>Component</th>
-                                    <th>Specification</th>
-                                    <th>Warranty</th>
-                                </tr>
-                                <tr>
-                                    <td><strong>Solar Modules</strong></td>
-                                    <td id="p2PanelSpecs">6 × 550Wp Adani Mono PERC</td>
-                                    <td>10 Years Product / 25 Years Performance</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Grid-Tie Inverter</strong></td>
-                                    <td id="p2InverterSpecs">3kW Polycab Single MPPT</td>
-                                    <td>5 Years Manufacturer Warranty</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Mounting Structure</strong></td>
-                                    <td id="p2MountingSpecs">HDG (Hot Dip Galvanized) - JSW</td>
-                                    <td>10 Years Anti-Corrosion</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>DC/AC Cables</strong></td>
-                                    <td id="p2CableSpecs">30 meters, 4 sq mm UV resistant</td>
-                                    <td>5 Years</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>ACDB/DCDB</strong></td>
-                                    <td>IP65 rated junction boxes with SPD</td>
-                                    <td>2 Years</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Earthing System</strong></td>
-                                    <td>Copper bonded electrode with LA</td>
-                                    <td>5 Years</td>
-                                </tr>
-                            </table>
-                        </div>
-
-                        <div class="quote-section">
-                            <h3>Bill of Materials</h3>
-                            <table class="quote-bom-table">
+                        <div class="qp-section">
+                            <table class="qp-bom-table">
                                 <thead>
                                     <tr>
-                                        <th>S.No</th>
+                                        <th style="width:40px;">S.No</th>
                                         <th>Item Description</th>
-                                        <th>Qty</th>
-                                        <th>Unit</th>
-                                        <th>Make/Brand</th>
+                                        <th style="width:60px;">Qty</th>
+                                        <th style="width:60px;">Unit</th>
+                                        <th style="width:25%;">Make</th>
                                     </tr>
                                 </thead>
-                                <tbody id="p2BomTableBody">
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Solar PV Module 550Wp</td>
-                                        <td>6</td>
-                                        <td>Nos</td>
-                                        <td>Adani</td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>Grid-Tie Inverter 3kW</td>
-                                        <td>1</td>
-                                        <td>Nos</td>
-                                        <td>Polycab</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>Module Mounting Structure</td>
-                                        <td>1</td>
-                                        <td>Set</td>
-                                        <td>JSW</td>
-                                    </tr>
-                                    <tr>
-                                        <td>4</td>
-                                        <td>DC Cable 4 sq mm</td>
-                                        <td>30</td>
-                                        <td>Mtrs</td>
-                                        <td>Polycab</td>
-                                    </tr>
-                                    <tr>
-                                        <td>5</td>
-                                        <td>ACDB with SPD</td>
-                                        <td>1</td>
-                                        <td>Nos</td>
-                                        <td>Standard</td>
-                                    </tr>
-                                    <tr>
-                                        <td>6</td>
-                                        <td>DCDB with SPD</td>
-                                        <td>1</td>
-                                        <td>Nos</td>
-                                        <td>Standard</td>
-                                    </tr>
-                                    <tr>
-                                        <td>7</td>
-                                        <td>Lightning Arrester</td>
-                                        <td>1</td>
-                                        <td>Nos</td>
-                                        <td>Standard</td>
-                                    </tr>
-                                    <tr>
-                                        <td>8</td>
-                                        <td>Earthing System</td>
-                                        <td>1</td>
-                                        <td>Set</td>
-                                        <td>Standard</td>
-                                    </tr>
+                                <tbody id="qpBomTableBody">
+                                    <!-- Populated by JS -->
                                 </tbody>
                             </table>
                         </div>
 
-                        <div class="quote-page-footer">
-                            <span>Ray2Volt Solar Pvt. Ltd.</span>
+                        <div class="qp-note-box">
+                            <p><strong>Note:</strong> The above components are of the highest quality from reputed
+                                manufacturers. Actual brands may vary based on availability, with equivalent or superior
+                                alternatives provided.</p>
+                        </div>
+
+                        <div class="qp-section" style="margin-top: 20px;">
+                            <h3>Warranty Coverage</h3>
+                            <table class="qp-specs-table">
+                                <tr>
+                                    <th>Solar PV Modules</th>
+                                    <td>30 Years Performance Warranty (Manufacturer)</td>
+                                </tr>
+                                <tr>
+                                    <th>Inverter</th>
+                                    <td>7 Years Standard Warranty (Manufacturer)</td>
+                                </tr>
+                                <tr>
+                                    <th>Mounting Structure</th>
+                                    <td>10 Years Warranty against Structural Defects</td>
+                                </tr>
+                                <tr>
+                                    <th>Workmanship</th>
+                                    <td>5 Years Comprehensive Installation Warranty (Ray2Volt)</td>
+                                </tr>
+                                <tr>
+                                    <th>Annual Maintenance</th>
+                                    <td>1 Year Free AMC included with every installation</td>
+                                </tr>
+                            </table>
+                            <div class="qp-note-box" style="margin-top:10px;">
+                                <p>All warranties are subject to proper usage and maintenance as per manufacturer
+                                    guidelines.
+                                    Detailed warranty certificates will be provided upon project commissioning.</p>
+                            </div>
+                        </div>
+
+                        <div class="qp-note-box" style="border-left-color: #3498db;">
+                            <p><strong>📦 Delivery & Installation Timeline:</strong> Complete project execution within
+                                <strong>15-30 working days</strong> from the date of advance payment. This includes
+                                material procurement,
+                                delivery, installation, testing, and commissioning at your site.
+                            </p>
+                        </div>
+
+                        <div class="qp-page-footer">
+                            <span>Ray2Volt Solar Private Limited</span>
                             <span>Page 2 of 5</span>
                         </div>
                     </div>
 
-                    <!-- Page 3: Financial Quotation -->
+                    <!-- ========== PAGE 3: Commercial Offer (Receipt-style) ========== -->
                     <div class="quote-page">
-                        <div class="quote-header-small">
-                            <img src="../Logo.png" alt="Ray2Volt Logo" class="quote-logo-small">
-                            <div>
-                                <h2>Financial Quotation</h2>
-                                <p>Price Breakdown & Payment Terms</p>
+                        <div class="qp-header">
+                            <div class="qp-title-section">
+                                <h1>Commercial Offer</h1>
+                                <p class="qp-subtitle">Pricing & Payment Terms</p>
                             </div>
+                            <img src="../Logo.png" alt="Ray2Volt Logo" class="qp-logo">
                         </div>
 
-                        <div class="quote-section">
-                            <div class="quote-customer-summary">
-                                <div>
-                                    <p><strong>Customer:</strong> <span id="p3CustomerName">-</span></p>
-                                    <p><strong>Address:</strong> <span id="p3CustomerAddress">-</span></p>
-                                    <p id="p3CustomerGstinRow" style="display: none;"><strong>GSTIN:</strong> <span
-                                            id="p3CustomerGstin">-</span></p>
+                        <!-- Address Grid (Cards) -->
+                        <div class="qp-address-grid">
+                            <div class="qp-addr-card qp-addr-from">
+                                <div class="qp-addr-header">FROM</div>
+                                <div class="qp-addr-body">
+                                    <strong>Ray2Volt Solar Pvt Ltd</strong>
+                                    <p>1-278, Pichatur Road, Srikalahasti<br>Andhra Pradesh, 517640</p>
+                                    <p>+91 96 6606 8140</p>
+                                    <p>ray2voltsolar@gmail.com</p>
+                                    <div class="qp-addr-meta">
+                                        <span>GSTIN: 37AAOCR4626E1Z6</span>
+                                    </div>
                                 </div>
-                                <div>
-                                    <p><strong>Quote No:</strong> <span id="p3QuoteNumber">-</span></p>
-                                    <p><strong>Date:</strong> <span id="p3QuoteDate">-</span></p>
-                                    <p><strong>Valid Until:</strong> <span id="p3ValidUntil">-</span></p>
+                            </div>
+                            <div class="qp-addr-icon">➔</div>
+                            <div class="qp-addr-card qp-addr-to">
+                                <div class="qp-addr-header">PROPOSAL FOR</div>
+                                <div class="qp-addr-body">
+                                    <strong id="qpOfferName">—</strong>
+                                    <p id="qpOfferAddress" style="display:none;">—</p>
+                                    <p id="qpOfferPhone">—</p>
+                                    <p id="qpOfferGstin" style="display:none;">—</p>
+                                    <div class="qp-addr-meta">
+                                        <span>Quote No: <strong id="qpOfferQuoteNo">—</strong></span><br>
+                                        <span>Date: <span id="qpOfferDate">—</span></span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="quote-section">
-                            <h3>Price Quotation</h3>
-                            <table class="quote-price-table">
-                                <thead>
-                                    <tr>
-                                        <th>Description</th>
-                                        <th style="text-align: right;">Amount (₹)</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td id="p3SystemDesc">Complete 3-kWp On-Grid Solar Power System (Turnkey)</td>
-                                        <td class="text-right" id="p3TaxableValue">1,42,000</td>
-                                    </tr>
-                                </tbody>
-                                <tfoot>
-                                    <tr id="p3CgstRow">
-                                        <td>CGST @ <span id="p3CgstRate">2.5</span>%</td>
-                                        <td class="text-right" id="p3CgstAmount">3,550</td>
-                                    </tr>
-                                    <tr id="p3SgstRow">
-                                        <td>SGST @ <span id="p3SgstRate">2.5</span>%</td>
-                                        <td class="text-right" id="p3SgstAmount">3,550</td>
-                                    </tr>
-                                    <tr id="p3IgstRow" style="display: none;">
-                                        <td>IGST @ <span id="p3IgstRate">5</span>%</td>
-                                        <td class="text-right" id="p3IgstAmount">7,100</td>
-                                    </tr>
-                                    <tr class="grand-total-row">
-                                        <td><strong>Grand Total</strong></td>
-                                        <td class="text-right" id="p3GrandTotal"><strong>₹1,49,100</strong></td>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                            <div class="quote-amount-words">
-                                <strong>Amount in Words:</strong> <span id="p3AmountWords">One Lakh Forty Nine Thousand
-                                    One Hundred Rupees Only</span>
-                            </div>
-                        </div>
-
-
-                        <div class="quote-section" id="p3SubsidySection">
-                            <div class="quote-subsidy-box">
-                                <h4>🏛️ PM Surya Ghar Muft Bijli Yojana - Government Subsidy</h4>
-                                <p>This project is eligible for central government subsidy under the PM Surya Ghar
-                                    scheme:</p>
-                                <ul>
-                                    <li><strong>Up to 3 kWp:</strong> ₹30,000/kWp (Max ₹78,000)</li>
-                                    <li><strong>Above 3 kWp:</strong> ₹18,000/kWp for additional capacity</li>
-                                </ul>
-                                <p class="subsidy-estimate"><strong>Estimated Subsidy for this project:</strong> ₹<span
-                                        id="p3SubsidyAmount">78,000</span></p>
-                            </div>
-                        </div>
-
-                        <div class="quote-section">
-                            <h3>Payment Terms</h3>
-                            <table class="quote-payment-table">
+                        <!-- Pricing Table -->
+                        <div class="qp-section" style="margin-top:15px;">
+                            <h3>System Pricing</h3>
+                            <table class="qp-pricing-table">
                                 <tr>
-                                    <td><strong>Advance Payment (<span id="p3AdvancePercent">80</span>%)</strong></td>
-                                    <td>₹<span id="p3AdvanceAmount">1,19,280</span></td>
-                                    <td>At the time of order confirmation</td>
+                                    <td>System Capacity</td>
+                                    <td id="qpPriceCapacity">— kWp</td>
                                 </tr>
                                 <tr>
-                                    <td><strong>Final Payment (<span id="p3FinalPercent">20</span>%)</strong></td>
-                                    <td>₹<span id="p3FinalAmount">29,820</span></td>
-                                    <td>Upon installation completion</td>
+                                    <td>Base System Price</td>
+                                    <td id="qpPriceTaxable">₹0</td>
+                                </tr>
+                                <tr id="qpGstRow1">
+                                    <td id="qpGstLabel1">CGST (2.5%)</td>
+                                    <td id="qpGstAmt1">₹0</td>
+                                </tr>
+                                <tr id="qpGstRow2">
+                                    <td id="qpGstLabel2">SGST (2.5%)</td>
+                                    <td id="qpGstAmt2">₹0</td>
+                                </tr>
+                                <tr class="qp-grand-total-row">
+                                    <td><strong>Total System Cost (Incl. GST)</strong></td>
+                                    <td id="qpTableTotal"><strong>₹0</strong></td>
                                 </tr>
                             </table>
                         </div>
 
-                        <div class="quote-page-footer">
-                            <span>Ray2Volt Solar Pvt. Ltd.</span>
+                        <!-- Financial Highlight Strip -->
+                        <div class="qp-financial-strip">
+                            <div class="qp-fin-item qp-fin-total">
+                                <span class="qp-fin-label">Total Project Cost</span>
+                                <span class="qp-fin-value" id="qpGrandTotal">₹0</span>
+                                <span class="qp-fin-sublabel">(Inclusive of GST)</span>
+                            </div>
+                            <div class="qp-fin-divider"></div>
+                            <div class="qp-fin-item qp-fin-subsidy" id="qpSubsidySection">
+                                <span class="qp-fin-label">Less: PM Surya Ghar Subsidy</span>
+                                <span class="qp-fin-value" id="qpSubsidyAmount">₹0</span>
+                                <span class="qp-fin-sublabel">(Estimated Direct Benefit)</span>
+                            </div>
+                            <div class="qp-fin-divider"></div>
+                            <div class="qp-fin-item qp-fin-net">
+                                <span class="qp-fin-label">Net Effective Cost</span>
+                                <span class="qp-fin-value" id="qpNetCost">₹0</span>
+                                <span class="qp-fin-sublabel">(To Consumer)</span>
+                            </div>
+                        </div>
+                        <div class="qp-amount-words">
+                            <strong>Amount in Words:</strong> <span id="qpAmountWords">—</span>
+                        </div>
+
+                        <!-- Payment Timeline -->
+                        <div class="qp-section" style="margin-top:20px;">
+                            <h3>Payment Schedule</h3>
+                            <div class="qp-payment-steps">
+                                <div class="qp-step">
+                                    <div class="qp-step-badge">1</div>
+                                    <div class="qp-step-content">
+                                        <strong>Advance Payment (<span id="qpAdvPct">80</span>%)</strong>
+                                        <div class="qp-step-amount" id="qpAdvanceAmt">₹0</div>
+                                        <span class="qp-step-desc">To confirm order & begin procurement</span>
+                                    </div>
+                                </div>
+                                <div class="qp-step-line"></div>
+                                <div class="qp-step">
+                                    <div class="qp-step-badge">2</div>
+                                    <div class="qp-step-content">
+                                        <strong>Final Payment (<span id="qpFinalPct">20</span>%)</strong>
+                                        <div class="qp-step-amount" id="qpFinalAmt">₹0</div>
+                                        <span class="qp-step-desc">Before dispatch of materials to site</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bank Details Card -->
+                        <div class="qp-bank-card">
+                            <div class="qp-bank-header">
+                                <span>BANK TRANSFER DETAILS</span>
+                            </div>
+                            <div class="qp-bank-body">
+                                <div class="qp-bank-row">
+                                    <span>Beneficiary Name</span>
+                                    <strong>Ray2Volt Solar Private Limited</strong>
+                                </div>
+                                <div class="qp-bank-flex">
+                                    <div>
+                                        <span>Account Number</span>
+                                        <strong class="qp-mono">50200112654604</strong>
+                                    </div>
+                                    <div>
+                                        <span>IFSC Code</span>
+                                        <strong class="qp-mono">HDFC0002436</strong>
+                                    </div>
+                                </div>
+                                <div class="qp-bank-flex">
+                                    <div>
+                                        <span>Bank Name</span>
+                                        <strong>HDFC Bank</strong>
+                                    </div>
+                                    <div>
+                                        <span>Branch</span>
+                                        <strong>Srikalahasti</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="qp-page-footer">
+                            <span>Ray2Volt Solar Private Limited</span>
                             <span>Page 3 of 5</span>
                         </div>
                     </div>
 
-                    <!-- Page 4: Savings & Environmental Impact -->
+                    <!-- ========== PAGE 4: Savings & ROI ========== -->
                     <div class="quote-page">
-                        <div class="quote-header-small">
-                            <img src="../Logo.png" alt="Ray2Volt Logo" class="quote-logo-small">
-                            <div>
-                                <h2>Savings & Environmental Impact</h2>
-                                <p>Financial Benefits & Green Contribution</p>
+                        <div class="qp-header">
+                            <div class="qp-title-section">
+                                <h1>Savings & ROI</h1>
+                                <p class="qp-subtitle">Return on Investment Analysis</p>
                             </div>
+                            <img src="../Logo.png" alt="Ray2Volt Logo" class="qp-logo">
                         </div>
 
-                        <div class="quote-section">
-                            <h3>Estimated Generation & Savings</h3>
-                            <div class="quote-stats-grid">
-                                <div class="quote-stat-box">
-                                    <span class="stat-value" id="p4AnnualGeneration">4,320</span>
-                                    <span class="stat-label">kWh/Year</span>
-                                    <span class="stat-desc">Annual Generation</span>
-                                </div>
-                                <div class="quote-stat-box">
-                                    <span class="stat-value" id="p4AnnualSavings">₹30,240</span>
-                                    <span class="stat-label">Per Year</span>
-                                    <span class="stat-desc">Annual Savings</span>
-                                </div>
-                                <div class="quote-stat-box">
-                                    <span class="stat-value" id="p4PaybackPeriod">~5</span>
-                                    <span class="stat-label">Years</span>
-                                    <span class="stat-desc">Payback Period</span>
-                                </div>
-                            </div>
+                        <div class="qp-section">
+                            <h3>System Generation Overview</h3>
+                            <table class="qp-specs-table">
+                                <tr>
+                                    <th>System Capacity</th>
+                                    <td id="qpRoiCapacity">— kWp</td>
+                                </tr>
+                                <tr>
+                                    <th>Annual Generation</th>
+                                    <td id="qpAnnualUnits">— units</td>
+                                </tr>
+                                <tr>
+                                    <th>Current Tariff Rate</th>
+                                    <td id="qpTariffRate">₹—/unit</td>
+                                </tr>
+                                <tr>
+                                    <th>Annual Savings (Year 1)</th>
+                                    <td id="qpAnnualSavings">₹—</td>
+                                </tr>
+                                <tr>
+                                    <th>Estimated Payback Period</th>
+                                    <td id="qpPaybackPeriod">— years</td>
+                                </tr>
+                            </table>
                         </div>
 
-                        <div class="quote-section">
-                            <h3>30-Year Savings Projection</h3>
-                            <table class="quote-savings-table">
+                        <div class="qp-section">
+                            <h3>25-Year Savings Projection</h3>
+                            <table class="qp-savings-table">
                                 <thead>
                                     <tr>
-                                        <th>Period</th>
-                                        <th>Without Tariff Escalation</th>
-                                        <th>With 5% Tariff Escalation</th>
+                                        <th>Year</th>
+                                        <th>Tariff (₹/unit)</th>
+                                        <th>Annual Savings (₹)</th>
+                                        <th>Cumulative Savings (₹)</th>
                                     </tr>
                                 </thead>
-                                <tbody id="p4SavingsTableBody">
-                                    <tr>
-                                        <td>Year 1</td>
-                                        <td>₹30,240</td>
-                                        <td>₹30,240</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Year 5</td>
-                                        <td>₹1,51,200</td>
-                                        <td>₹1,67,076</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Year 10</td>
-                                        <td>₹3,02,400</td>
-                                        <td>₹3,80,120</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Year 20</td>
-                                        <td>₹6,04,800</td>
-                                        <td>₹10,00,894</td>
-                                    </tr>
-                                    <tr class="highlight-row">
-                                        <td><strong>Year 30</strong></td>
-                                        <td><strong id="p4Savings30NoEsc">₹9,07,200</strong></td>
-                                        <td><strong id="p4Savings30Esc">₹20,10,378</strong></td>
-                                    </tr>
+                                <tbody id="qpSavingsTableBody">
+                                    <!-- Populated by JS -->
                                 </tbody>
                             </table>
                         </div>
 
-                        <div class="quote-section">
+                        <div class="qp-highlight-box">
+                            <p class="qp-highlight-label">Lifetime Savings (25 Years)</p>
+                            <p class="qp-highlight-value" id="qpLifetimeSavings">₹0</p>
+                        </div>
+
+                        <div class="qp-section">
                             <h3>Environmental Impact</h3>
-                            <div class="quote-env-grid">
-                                <div class="quote-env-box">
-                                    <span class="env-icon">🌍</span>
+                            <div class="qp-benefits-grid">
+                                <div class="qp-benefit-item">
+                                    <span class="qp-benefit-icon">🌳</span>
                                     <div>
-                                        <span class="env-value" id="p4Co2Reduction">3.54</span>
-                                        <span class="env-unit">Tonnes CO₂/Year</span>
-                                        <span class="env-desc">Carbon emissions prevented annually</span>
+                                        <strong id="qpTreesEquiv">—</strong>
+                                        <p>Trees planted equivalent over 25 years</p>
                                     </div>
                                 </div>
-                                <div class="quote-env-box">
-                                    <span class="env-icon">🌳</span>
+                                <div class="qp-benefit-item">
+                                    <span class="qp-benefit-icon">🏭</span>
                                     <div>
-                                        <span class="env-value" id="p4TreesEquivalent">163</span>
-                                        <span class="env-unit">Trees Planted</span>
-                                        <span class="env-desc">Equivalent environmental benefit annually</span>
+                                        <strong id="qpCo2Saved">—</strong>
+                                        <p>Tonnes of CO₂ emissions avoided</p>
                                     </div>
                                 </div>
-                                <div class="quote-env-box">
-                                    <span class="env-icon">🚗</span>
+                                <div class="qp-benefit-item">
+                                    <span class="qp-benefit-icon">⚡</span>
                                     <div>
-                                        <span class="env-value" id="p4CarsOffRoad">0.77</span>
-                                        <span class="env-unit">Cars Off Road</span>
-                                        <span class="env-desc">Equivalent to removing cars from road per year</span>
+                                        <strong id="qpCleanEnergy">—</strong>
+                                        <p>MWh of clean energy generated</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="quote-section">
-                            <div class="quote-comparison-box">
-                                <h4>Before vs. After Solar</h4>
-                                <div class="comparison-grid">
-                                    <div class="comparison-item before">
-                                        <span class="comparison-label">Before Solar</span>
-                                        <span class="comparison-value" id="p4BeforeBill">₹2,520/month</span>
-                                        <span class="comparison-desc">Average electricity bill</span>
-                                    </div>
-                                    <div class="comparison-arrow">→</div>
-                                    <div class="comparison-item after">
-                                        <span class="comparison-label">After Solar</span>
-                                        <span class="comparison-value">₹0/month*</span>
-                                        <span class="comparison-desc">Net zero electricity bill</span>
+                        <div class="qp-section">
+                            <h3>Monthly Bill Comparison</h3>
+                            <div class="qp-comparison-container">
+                                <!-- BEFORE Card -->
+                                <div class="qp-comparison-card qp-card-before">
+                                    <div class="qp-card-header">Current Scenario</div>
+                                    <div class="qp-card-body">
+                                        <p class="qp-card-label">Avg. Monthly Bill</p>
+                                        <p class="qp-card-value qp-text-red" id="qpBillBefore">₹—</p>
+                                        <div class="qp-bill-bar-container">
+                                            <div class="qp-bill-bar qp-bar-red" style="width: 100%;"></div>
+                                        </div>
                                     </div>
                                 </div>
-                                <p class="comparison-note">*Based on net metering and optimal generation conditions</p>
+
+                                <!-- ARROW Icon -->
+                                <div class="qp-comparison-arrow">
+                                    ➜
+                                </div>
+
+                                <!-- AFTER Card -->
+                                <div class="qp-comparison-card qp-card-after">
+                                    <div class="qp-card-header">With Ray2Volt Solar</div>
+                                    <div class="qp-card-body">
+                                        <p class="qp-card-label">New Monthly Bill</p>
+                                        <p class="qp-card-value qp-text-green" id="qpBillAfter">₹0 - ₹200</p>
+                                        <div class="qp-bill-bar-container">
+                                            <div class="qp-bill-bar qp-bar-green" style="width: 5%;"></div>
+                                        </div>
+                                        <div class="qp-savings-badge">
+                                            Save <span id="qpMonthlySavings">₹—</span> / month
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="quote-page-footer">
-                            <span>Ray2Volt Solar Pvt. Ltd.</span>
+                        <div class="qp-page-footer">
+                            <span>Ray2Volt Solar Private Limited</span>
                             <span>Page 4 of 5</span>
                         </div>
                     </div>
 
-                    <!-- Page 5: Terms, Conditions & Bank Details -->
-                    <div class="quote-page">
-                        <div class="quote-header-small">
-                            <img src="../Logo.png" alt="Ray2Volt Logo" class="quote-logo-small">
-                            <div>
-                                <h2>Terms & Conditions</h2>
-                                <p>Assumptions, Exclusions & Legal Terms</p>
+                    <!-- ========== PAGE 5: Terms & Conditions ========== -->
+                    <div class="quote-page qp-page-flex">
+                        <div class="qp-header">
+                            <div class="qp-title-section">
+                                <h1>Terms & Conditions</h1>
+                                <p class="qp-subtitle">Scope, Responsibilities & Agreements</p>
+                            </div>
+                            <img src="../Logo.png" alt="Ray2Volt Logo" class="qp-logo">
+                        </div>
+
+                        <!-- Main Content Wrapper -->
+                        <div class="qp-page5-content">
+
+                            <!-- Scope & Exclusions Grid -->
+                            <div class="qp-terms-grid">
+                                <div class="qp-terms-card qp-scope-card">
+                                    <div class="qp-terms-header">📋 Scope of Work</div>
+                                    <div class="qp-terms-content">
+                                        <ul class="qp-checklist">
+                                            <li>Supply of all solar PV components as per BOM</li>
+                                            <li>Complete installation &amp; commissioning</li>
+                                            <li>AC/DC wiring, earthing &amp; lightning arrestor</li>
+                                            <li>Net-Metering application &amp; DISCOM liaison</li>
+                                            <li>System testing, handover &amp; user training</li>
+                                            <li>1 Year free Annual Maintenance (AMC)</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="qp-terms-card qp-exclusion-card">
+                                    <div class="qp-terms-header">⚠️ Exclusions</div>
+                                    <div class="qp-terms-content">
+                                        <ul class="qp-checklist">
+                                            <li>Civil work, scaffolding or roof waterproofing</li>
+                                            <li>Electrical panel upgrades / main breaker</li>
+                                            <li>Govt. fees, permits or DISCOM charges</li>
+                                            <li>Internet / WiFi for remote monitoring</li>
+                                            <li>Storage batteries (unless in BOM)</li>
+                                            <li>Structural modifications to the building</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Customer Responsibilities -->
+                            <div class="qp-terms-card qp-responsibility-card">
+                                <div class="qp-terms-header">🤝 Customer Responsibilities</div>
+                                <div class="qp-terms-content">
+                                    <div class="qp-resp-grid">
+                                        <div class="qp-resp-item">
+                                            <strong>Site Access</strong>
+                                            <p>Provide unobstructed access to the roof/installation site during working
+                                                hours.</p>
+                                        </div>
+                                        <div class="qp-resp-item">
+                                            <strong>Electricity & Water</strong>
+                                            <p>Provide electricity and water supply at site during installation period.
+                                            </p>
+                                        </div>
+                                        <div class="qp-resp-item">
+                                            <strong>Approvals</strong>
+                                            <p>Obtain necessary permissions from housing society or local authority, if
+                                                applicable.</p>
+                                        </div>
+                                        <div class="qp-resp-item">
+                                            <strong>Maintenance</strong>
+                                            <p>Regular cleaning of solar panels to ensure optimal performance and
+                                                warranty compliance.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- General Terms & Conditions -->
+                            <div class="qp-terms-card qp-general-terms">
+                                <div class="qp-terms-header">📜 General Terms & Conditions</div>
+                                <div class="qp-terms-content">
+                                    <ol class="qp-terms-ol">
+                                        <li><strong>Validity:</strong> This quotation is valid for 15 days from the date
+                                            of issue. Prices are subject to change post-validity due to market
+                                            fluctuations.</li>
+                                        <li><strong>Payment:</strong> 80% advance with Work Order confirmation; 20%
+                                            balance before material dispatch to site.</li>
+                                        <li><strong>Delivery:</strong> Material delivery within 10–15 working days from
+                                            receipt of advance payment.</li>
+                                        <li><strong>Installation:</strong> System installation within 5–7 working days
+                                            from material delivery, subject to site readiness.</li>
+                                        <li><strong>Warranty:</strong> All product warranties are directly from
+                                            respective manufacturers. Ray2Volt will facilitate all claims.</li>
+                                        <li><strong>Force Majeure:</strong> Ray2Volt shall not be liable for delays due
+                                            to natural calamities, strikes, govt. orders, or supply disruptions.</li>
+                                        <li><strong>Cancellation:</strong> Orders once confirmed cannot be cancelled.
+                                            Advance amount is non-refundable after material procurement.</li>
+                                        <li><strong>Jurisdiction:</strong> Any disputes shall be subject to the
+                                            exclusive jurisdiction of courts in Srikalahasti, Andhra Pradesh.</li>
+                                    </ol>
+                                </div>
+                            </div>
+
+                            <!-- After-Sales Support -->
+                            <div class="qp-note-box qp-aftersales-box">
+                                <p><strong>🛡️ Our After-Sales Commitment:</strong> Ray2Volt provides dedicated
+                                    after-sales support including remote system monitoring, on-call troubleshooting,
+                                    and annual performance checks for the duration of your workmanship warranty.
+                                    Our service team is just a phone call away at
+                                    <strong>+91 96 6606 8140</strong>.
+                                </p>
+                            </div>
+
+                        </div>
+
+                        <!-- Thank You Section (pushed to bottom via flex) -->
+                        <div class="qp-page5-bottom">
+                            <div class="qp-thankyou-section">
+                                <div class="qp-thankyou-icon">☀️</div>
+                                <h2 class="qp-thankyou-title">Thank You for Choosing Ray2Volt Solar</h2>
+                                <p class="qp-thankyou-text">We are honoured to be your trusted partner in the journey
+                                    towards clean, sustainable energy. Our team is committed to delivering a
+                                    seamless installation experience and world-class after-sales support.</p>
+                                <div class="qp-thankyou-contact">
+                                    <span>📞 +91 96 6606 8140</span>
+                                    <span>✉️ ray2voltsolar@gmail.com</span>
+                                    <span>🌐 www.ray2voltsolar.com</span>
+                                </div>
+                                <p class="qp-thankyou-tagline">Powering a Brighter, Greener Tomorrow.</p>
+                            </div>
+
+                            <div class="qp-disclaimer">
+                                <p>This is a system-generated quotation from Ray2Volt Solar Private Limited.</p>
                             </div>
                         </div>
 
-                        <div class="quote-section">
-                            <h3>Assumptions</h3>
-                            <ul class="quote-terms-list">
-                                <li>Shadow-free rooftop space is available as per system requirements.</li>
-                                <li>Adequate load-bearing capacity of roof structure for solar installation.</li>
-                                <li>Grid power supply is available and stable at the installation site.</li>
-                                <li>Single point of installation within company premises.</li>
-                                <li>Standard installation on RCC/metal roof within 15 feet height.</li>
-                                <li>Customer will provide necessary permissions and access during installation.</li>
-                            </ul>
-                        </div>
-
-                        <div class="quote-section">
-                            <h3>Exclusions</h3>
-                            <ul class="quote-terms-list">
-                                <li>Civil work, roof strengthening, or structural modifications.</li>
-                                <li>Any electrical upgrades beyond the solar system installation.</li>
-                                <li>Government fees, permits, or net metering charges (if applicable).</li>
-                                <li>Tree cutting, relocation of existing installations, or shade removal.</li>
-                                <li>Insurance for the solar system.</li>
-                                <li>Battery storage system (unless specified in the quotation).</li>
-                            </ul>
-                        </div>
-
-                        <div class="quote-section">
-                            <h3>General Terms</h3>
-                            <div class="quote-terms-box">
-                                <p><strong>Validity:</strong> This quotation is valid for 30 days from the date of
-                                    issue.</p>
-                                <p><strong>Delivery:</strong> Installation will be completed within 15-20 working days
-                                    from order confirmation and site readiness.</p>
-                                <p><strong>Warranty:</strong> All warranties are subject to manufacturer terms and
-                                    proper system maintenance.</p>
-                                <p><strong>Jurisdiction:</strong> Any disputes shall be subject to the exclusive
-                                    jurisdiction of courts in Tirupati, Andhra Pradesh.</p>
-                                <p><strong>Force Majeure:</strong> Ray2Volt Solar shall not be liable for delays due to
-                                    natural disasters, government actions, or circumstances beyond our control.</p>
-                                <p><strong>Limitation:</strong> Total liability is limited to the contract value. We
-                                    are not liable for consequential or indirect damages.</p>
-                            </div>
-                        </div>
-
-                        <div class="quote-section">
-                            <h3>Bank Details for Payment</h3>
-                            <table class="quote-bank-table">
-                                <tr>
-                                    <td><strong>Account Name</strong></td>
-                                    <td>Ray2Volt Solar Private Limited</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Account Number</strong></td>
-                                    <td>50200112654604</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Bank Name</strong></td>
-                                    <td>HDFC Bank</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Branch</strong></td>
-                                    <td>Srikalahasti</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>IFSC Code</strong></td>
-                                    <td>HDFC0002436</td>
-                                </tr>
-                            </table>
-                        </div>
-
-                        <div class="quote-thankyou-section">
-                            <p>Thank you for considering Ray2Volt Solar for your solar energy needs.</p>
-                            <p>For any queries, please contact us at <strong>+91 96 6606 8140</strong> or email
-                                <strong>ray2voltsolar@gmail.com</strong>
-                            </p>
-                        </div>
-
-                        <div class="quote-signature-section">
-                            <div class="signature-block">
-                                <div class="signature-line"></div>
-                                <p class="signature-name">Customer Signature</p>
-                                <p class="signature-title">Date: _______________</p>
-                            </div>
-                            <div class="signature-block">
-                                <div class="signature-line"></div>
-                                <p class="signature-name">For Ray2Volt Solar Pvt. Ltd.</p>
-                                <p class="signature-title">Managing Director</p>
-                            </div>
-                        </div>
-
-                        <div class="quote-page-footer">
-                            <span>Ray2Volt Solar Pvt. Ltd.</span>
+                        <div class="qp-page-footer">
+                            <span>Ray2Volt Solar Private Limited</span>
                             <span>Page 5 of 5</span>
                         </div>
                     </div>
-
                 </div>
+
             </section>
         </main>
     </div>
@@ -921,6 +1001,7 @@
     <!-- Overlay for Mobile Sidebar -->
     <div class="overlay" id="overlay"></div>
 
+    <script src="../js/tool-lock.js" data-password="Admin@Ray2Volt"></script>
     <script src="../js/navigation.js"></script>
     <script src="../js/quote-generator.js"></script>
 </body>
