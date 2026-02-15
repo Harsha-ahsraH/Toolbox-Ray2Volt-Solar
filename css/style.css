@@ -63,6 +63,7 @@
 html {
     font-size: 16px;
     scroll-behavior: smooth;
+    overflow-x: hidden;
 }
 
 body {
@@ -72,6 +73,7 @@ body {
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
 }
 
 h1,
@@ -855,6 +857,8 @@ textarea.input-field {
         display: flex;
         align-items: center;
         justify-content: center;
+        width: 40px;
+        height: 40px;
     }
 
     .main-content {
@@ -887,6 +891,13 @@ textarea.input-field {
         width: 100%;
         text-align: center;
     }
+
+    /* Password modal responsive */
+    .password-modal .modal-content {
+        width: 90%;
+        max-width: 400px;
+        margin: 0 auto;
+    }
 }
 
 @media screen and (max-width: 480px) {
@@ -895,8 +906,20 @@ textarea.input-field {
         padding-top: calc(60px + var(--spacing-md));
     }
 
+    .section-header h1 {
+        font-size: 1.25rem;
+    }
+
     .tool-card {
         padding: var(--spacing-md);
+    }
+
+    .tool-card h3 {
+        font-size: 1rem;
+    }
+
+    .tool-card p {
+        font-size: 0.85rem;
     }
 
     .calculator-inputs,

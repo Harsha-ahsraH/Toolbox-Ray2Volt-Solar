@@ -629,6 +629,7 @@ textarea.rcpt-input-field {
         margin: 1rem auto;
         padding: 15px;
         font-size: 9pt;
+        overflow-x: auto;
     }
 
     .receipt-header {
@@ -646,8 +647,17 @@ textarea.rcpt-input-field {
         height: 30px;
     }
 
+    .receipt-unified-table {
+        min-width: 480px;
+    }
+
     .payments-table {
         width: 100%;
+    }
+
+    .receipt-footer-line {
+        position: static;
+        margin-top: 20px;
     }
 }
 
@@ -673,6 +683,16 @@ textarea.rcpt-input-field {
     .receipt-title-section h1 {
         font-size: 12pt;
         letter-spacing: 1px;
+    }
+
+    .receipt-unified-table {
+        font-size: 7.5pt;
+    }
+
+    .receipt-unified-table .info-header-row td,
+    .receipt-unified-table .info-header-cell {
+        padding: 6px 8px;
+        font-size: 7.5pt;
     }
 
     .bank-grid {

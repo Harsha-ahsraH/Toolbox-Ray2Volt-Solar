@@ -580,6 +580,7 @@
         margin: 1rem auto;
         padding: 15px;
         font-size: 9pt;
+        overflow-x: auto;
     }
 
     .payslip-header {
@@ -604,6 +605,12 @@
     .payslip-earnings-table,
     .payslip-deductions-table {
         width: 100%;
+    }
+
+    .payslip-net-pay {
+        flex-direction: column;
+        gap: 8px;
+        text-align: center;
     }
 
     .payslip-footer-line {
@@ -633,6 +640,24 @@
     .payslip-title-section h1 {
         font-size: 12pt;
         letter-spacing: 1px;
+    }
+
+    .payslip-unified-table {
+        font-size: 8pt;
+    }
+
+    .payslip-unified-table .info-header-row td,
+    .payslip-unified-table .info-header-cell {
+        padding: 6px 8px;
+        font-size: 8pt;
+    }
+
+    .payslip-earnings-table th,
+    .payslip-deductions-table th,
+    .payslip-earnings-table td,
+    .payslip-deductions-table td {
+        padding: 5px 4px;
+        font-size: 7.5pt;
     }
 
     .payslip-bank-grid {

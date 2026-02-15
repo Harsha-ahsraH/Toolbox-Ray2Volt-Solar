@@ -613,6 +613,7 @@ textarea.inv-input-field {
         margin: 1rem auto;
         padding: 15px;
         font-size: 9pt;
+        overflow-x: auto;
     }
 
     .invoice-header {
@@ -628,6 +629,21 @@ textarea.inv-input-field {
 
     .invoice-logo {
         height: 30px;
+    }
+
+    .invoice-unified-table {
+        min-width: 480px;
+    }
+
+    .invoice-signature {
+        position: static;
+        text-align: right;
+        margin-top: 30px;
+    }
+
+    .invoice-footer-line {
+        position: static;
+        margin-top: 20px;
     }
 }
 
@@ -653,6 +669,16 @@ textarea.inv-input-field {
     .invoice-title-section h1 {
         font-size: 12pt;
         letter-spacing: 1px;
+    }
+
+    .invoice-unified-table {
+        font-size: 7.5pt;
+    }
+
+    .invoice-unified-table .info-header-row td,
+    .invoice-unified-table .info-header-cell {
+        padding: 6px 8px;
+        font-size: 7.5pt;
     }
 
     .invoice-bank-grid {

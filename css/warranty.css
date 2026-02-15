@@ -562,9 +562,50 @@ textarea.warranty-input-field {
 /* ============================================
    RESPONSIVE STYLES
    ============================================ */
-@media screen and (max-width: 900px) {
+
+/* Tablet */
+@media screen and (max-width: 1024px) {
     .warranty-form-grid {
         grid-template-columns: 1fr;
+    }
+}
+
+/* Mobile */
+@media screen and (max-width: 768px) {
+    .warranty-page-header-ui {
+        margin-bottom: 1rem;
+    }
+
+    .warranty-page-header-ui h1 {
+        font-size: 1.5rem;
+    }
+
+    .warranty-page-header-ui p {
+        font-size: 0.875rem;
+    }
+
+    .warranty-form-card {
+        padding: 1rem;
+    }
+
+    .warranty-section-title {
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+    }
+
+    .warranty-input-field {
+        padding: 0.875rem 1rem;
+        font-size: 1rem;
+        /* Prevent iOS zoom */
+    }
+
+    .warranty-actions {
+        flex-direction: column;
+    }
+
+    .warranty-btn-primary,
+    .warranty-btn-secondary {
+        width: 100%;
     }
 
     .warranty-page {
@@ -575,6 +616,17 @@ textarea.warranty-input-field {
         padding: 15px;
         font-size: 9pt;
         border: 1px solid #eee;
+    }
+
+    .combined-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .cover-logo-small {
+        width: 100px;
+        order: 0;
     }
 
     .combined-title {
@@ -596,6 +648,41 @@ textarea.warranty-input-field {
 
     .signature-block {
         width: 100%;
+    }
+
+    .warranty-page-footer {
+        position: static;
+        margin-top: 15px;
+    }
+}
+
+/* Small Mobile */
+@media screen and (max-width: 480px) {
+    .warranty-form-card {
+        padding: 0.875rem;
+    }
+
+    .warranty-page {
+        padding: 10px;
+        font-size: 8pt;
+    }
+
+    .combined-title {
+        font-size: 16pt;
+    }
+
+    .warranty-specs-table th,
+    .warranty-specs-table td {
+        padding: 4px 6px;
+        font-size: 8.5pt;
+    }
+
+    .serial-numbers-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .warranty-highlight-box .highlight-value {
+        font-size: 14pt;
     }
 }
 

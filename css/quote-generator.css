@@ -1428,42 +1428,283 @@ select.qg-input-field {
 /* ============================================
    RESPONSIVE STYLES
    ============================================ */
-@media screen and (max-width: 900px) {
-    .quote-page {
+
+/* Tablet (1024px) - Intermediate resizing */
+@media screen and (max-width: 1024px) {
+    .qg-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .qg-component-fields {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .qg-additional-fields {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Mobile (768px) - Full Stack layout */
+@media screen and (max-width: 768px) {
+
+    /* --- Form UI --- */
+    .qg-page-header {
+        margin-bottom: 1rem;
+    }
+
+    .qg-page-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .qg-form-card,
+    .qg-components-card {
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .qg-input-field {
+        font-size: 16px;
+        /* Prevent iOS zoom */
+        padding: 0.75rem;
+    }
+
+    .qg-component-fields {
+        grid-template-columns: 1fr;
+    }
+
+    .qg-additional-fields {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    /* Action Buttons Stack */
+    .qg-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .qg-btn-primary,
+    .qg-btn-secondary {
         width: 100%;
-        min-height: auto;
-        height: auto;
-        margin: 1rem auto;
+    }
+
+    /* BOM Input Table Scroll */
+    .qg-bom-table-container {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        border: 1px solid var(--border-light);
+    }
+
+    .qg-bom-input-table {
+        min-width: 600px;
+        /* Force scroll */
+    }
+
+    /* --- Quote Preview Document --- */
+    /* Reset A4 dimensions for mobile screen */
+    .quote-page {
+        width: 100% !important;
+        height: auto !important;
+        min-height: auto !important;
+        margin: 10px auto;
         padding: 15px;
-        font-size: 9pt;
-        border: 1px solid #eee;
+        border: 1px solid #e0e0e0;
+        box-shadow: none;
+    }
+
+    .qp-header {
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+    }
+
+    .qp-logo {
+        width: 150px;
+        order: -1;
+        /* Logo top */
     }
 
     .qp-title-section h1 {
-        font-size: 14pt;
+        font-size: 16pt;
     }
 
+    .qp-banner {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    /* Grids to 1 Column */
     .qp-info-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
+        /* Override fixed 140px */
+        gap: 5px;
+    }
+
+    .qp-info-label {
+        color: #777;
+        font-size: 8.5pt;
     }
 
     .qp-mission-grid {
         grid-template-columns: 1fr;
     }
 
-    .qp-signature-section {
-        flex-direction: column;
-        gap: 20px;
+    .qp-benefits-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
     }
 
-    .qp-signature-block {
+    .qp-benefit-item {
+        align-items: center;
+    }
+
+    /* Tables */
+    .qp-specs-table th,
+    .qp-specs-table td {
+        display: block;
+        /* Stack cells */
+        width: 100% !important;
+        box-sizing: border-box;
+    }
+
+    .qp-specs-table th {
+        background: #f0f0f0;
+        padding: 5px 10px;
+    }
+
+    .qp-specs-table td {
+        padding: 8px 10px;
+        border-top: none;
+    }
+
+    /* Heavy Data Tables (BOM, Savings) - Enable Scroll */
+    .qp-bom-table-wrapper,
+    .qp-section:has(.qp-bom-table),
+    .qp-section:has(.qp-savings-table) {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .qp-bom-table,
+    .qp-savings-table {
+        min-width: 500px;
+    }
+
+    /* Page 3: Commercial */
+    .qp-address-grid {
+        flex-direction: column;
+    }
+
+    .qp-addr-card {
         width: 100%;
     }
 
-    /* Stack terms grid on mobile */
-    .qp-terms-grid,
-    .qp-terms-list-grid {
+    .qp-addr-icon {
+        transform: rotate(90deg);
+        /* Down arrow */
+    }
+
+    .qp-financial-strip {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+
+    .qp-fin-divider {
+        display: none;
+    }
+
+    .qp-fin-item {
+        align-items: flex-start;
+        width: 100%;
+        border-bottom: 1px dashed #eee;
+        padding-bottom: 10px;
+    }
+
+    .qp-fin-item:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+
+    /* Payment Steps */
+    .qp-payment-steps {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .qp-step {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .qp-step-line {
+        display: none;
+        /* Hide connector in vertical stack */
+    }
+
+    /* Bank Details */
+    .qp-bank-body {
+        padding: 10px;
+    }
+
+    .qp-bank-flex {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    /* Page 4: Comparison */
+    .qp-comparison-container {
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .qp-comparison-arrow {
+        transform: rotate(90deg);
+    }
+
+    /* Page 5: Terms */
+    .qp-terms-grid {
         grid-template-columns: 1fr;
+    }
+
+    .qp-resp-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Footer / Signature */
+    .qp-page-footer {
+        position: static;
+        margin-top: 20px;
+        text-align: center;
+        flex-direction: column;
+        gap: 5px;
+    }
+}
+
+/* Small Mobile (480px) - Tighter adjustments */
+@media screen and (max-width: 480px) {
+    .qp-title-section h1 {
+        font-size: 14pt;
+    }
+
+    .qp-subtitle {
+        font-size: 9pt;
+    }
+
+    .qg-additional-fields {
+        grid-template-columns: 1fr;
+    }
+
+    .qp-highlight-box {
+        padding: 10px;
+    }
+
+    .qp-highlight-value {
+        font-size: 14pt;
+    }
+
+    .qp-thankyou-contact {
+        font-size: 8.5pt;
+        flex-direction: column;
     }
 }
 
