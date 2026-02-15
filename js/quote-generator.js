@@ -1,7 +1,7 @@
 /**
  * Quote Generator - Dedicated JavaScript
  * Ray2Volt Solar Toolbox
- * Handles form initialization, preview generation, and print
+ * Handles form initialization and preview generation
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -62,15 +62,13 @@ document.addEventListener('DOMContentLoaded', () => {
             generateBtn.addEventListener('click', generatePreview);
         }
 
-        // Print button
+        // Print / Save as PDF button
         if (printBtn) {
             printBtn.addEventListener('click', () => {
-                if (!quotePreview || !quotePreview.classList.contains('visible')) {
-                    generatePreview();
-                }
-                setTimeout(() => window.print(), 300);
+                window.print();
             });
         }
+
     }
 
     /**

@@ -315,18 +315,17 @@ select.qg-input-field {
     font-size: 1rem;
     font-weight: 600;
     font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
-    border: 1px solid var(--border-medium);
+    border: 1px solid var(--primary);
     border-radius: 2px;
-    background: var(--bg-card);
-    color: var(--text-primary);
+    background: transparent;
+    color: var(--primary);
     cursor: pointer;
     transition: all 0.1s ease;
 }
 
 .qg-btn-secondary:hover {
-    background: var(--bg-hover);
-    border-color: var(--primary);
-    color: var(--primary);
+    background: var(--primary);
+    color: #fff;
 }
 
 /* ============================================
@@ -369,8 +368,7 @@ select.qg-input-field {
 
 /* --- Page 1 Hero Header --- */
 .qp-page1 {
-    border-top: 4px solid;
-    border-image: linear-gradient(90deg, #1a2a3a 0%, #2980b9 50%, #3498db 100%) 1;
+    border-top: 4px solid #2980b9;
 }
 
 .qp-page1 .qp-header {
@@ -437,18 +435,18 @@ select.qg-input-field {
 .qp-banner {
     display: flex;
     justify-content: space-between;
-    background: #2c3e50;
-    border: none;
+    background: #E8F4FA;
+    border: 1px solid #d0d0d0;
     border-radius: 2px;
     padding: 8px 15px;
     margin-bottom: 15px;
     font-size: 9pt;
-    color: #fff;
+    color: #1a1a1a;
 }
 
 .qp-banner strong {
     font-weight: 700;
-    color: #fff;
+    color: #1a1a1a;
 }
 
 /* --- Sections --- */
@@ -902,14 +900,15 @@ select.qg-input-field {
 }
 
 .qp-bank-header {
-    background: #34495e;
-    color: white;
+    background: #E8F4FA;
+    color: #1a1a1a;
     padding: 8px 15px;
     font-size: 9pt;
     font-weight: 700;
     display: flex;
     justify-content: space-between;
     letter-spacing: 1px;
+    border-bottom: 1px solid #d0d0d0;
 }
 
 .qp-bank-body {
@@ -1474,95 +1473,320 @@ select.qg-input-field {
    ============================================ */
 @media print {
 
-    /* --- Global print reset --- */
-    * {
+    /* --- Global print color preservation --- */
+    *,
+    *::before,
+    *::after {
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
     }
 
-    /* --- Hide everything except the preview --- */
-    body * {
-        visibility: hidden;
-    }
-
-    #quotePreview,
-    #quotePreview * {
-        visibility: visible;
-    }
-
-    #quotePreview {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
+    /* --- Page size (A4 with zero browser margins) --- */
+    @page {
+        size: A4;
         margin: 0;
-        padding: 0;
-        display: block !important;
-        background: white;
     }
 
-    /* --- Page layout --- */
+    /* --- Hide all non-preview areas --- */
+    .no-print-area,
+    .sidebar,
+    .mobile-header,
+    .overlay,
+    .qg-form-section,
+    .qg-actions,
+    .app-container>header,
+    .app-container>aside {
+        display: none !important;
+    }
+
+    /* --- Reset body/html for print --- */
+    html,
+    body {
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+        background: white !important;
+    }
+
+    .app-container {
+        display: block !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .main-content {
+        padding: 0 !important;
+        margin: 0 !important;
+        width: 100% !important;
+        max-width: none !important;
+    }
+
+    .content-section {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    /* --- Quote preview container --- */
+    #quotePreview {
+        display: block !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+        background: white !important;
+    }
+
+    /* --- Each page = one printed page --- */
     .quote-page {
         width: 100% !important;
-        height: auto !important;
-        min-height: 0 !important;
+        height: 100vh !important;
+        min-height: 100vh !important;
         margin: 0 !important;
-        padding: 10mm 12mm 18mm 12mm !important;
+        padding: 12mm 15mm 20mm 15mm !important;
         border: none !important;
-        box-shadow: none !important;
         border-radius: 0 !important;
-        page-break-after: always;
-        page-break-inside: avoid;
+        box-shadow: none !important;
         overflow: visible !important;
+        page-break-after: always !important;
+        page-break-inside: avoid !important;
+        box-sizing: border-box !important;
+        position: relative !important;
     }
 
     .quote-page:last-child {
-        page-break-after: auto;
+        page-break-after: auto !important;
     }
 
-    /* --- Page 1 gradient accent (fallback to solid for print) --- */
+    /* --- Page 1 top accent bar --- */
     .qp-page1 {
         border-top: 4px solid #2980b9 !important;
     }
 
     /* --- Header --- */
     .qp-header {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
         border-bottom: 2px solid #1a1a1a !important;
     }
 
     .qp-logo {
-        width: 200px !important;
+        width: 220px !important;
+        height: auto !important;
     }
 
-    /* --- Banner (print-safe: border style instead of dark bg) --- */
+    /* --- Banner (light bg — already print-safe) --- */
     .qp-banner {
-        background-color: #f5f5f5 !important;
+        background-color: #E8F4FA !important;
         color: #1a1a1a !important;
-        border: 1px solid #2c3e50 !important;
-        border-left: 4px solid #2980b9 !important;
+        border: 1px solid #d0d0d0 !important;
     }
 
     .qp-banner strong {
         color: #1a1a1a !important;
     }
 
-    /* --- Section headers (no background in current design) --- */
+    /* --- Section headers --- */
     .qp-section h3 {
         border-bottom: 1px solid #d0d0d0 !important;
-        background: transparent !important;
     }
 
-    /* --- Tables with header backgrounds --- */
-    .qp-specs-table th,
-    .qp-bom-table thead th,
-    .qp-grand-total-row td,
-    .qp-savings-table thead th,
-    .qp-highlight-box,
+    /* --- Info grid (Page 1) --- */
+    .qp-info-grid {
+        display: grid !important;
+        grid-template-columns: 140px 1fr !important;
+    }
+
+    /* --- Mission grid (Page 1) --- */
+    .qp-mission-grid {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+    }
+
+    .qp-mission-item {
+        border: 1px solid #d0d0d0 !important;
+    }
+
+    /* --- Benefits grid (Page 1 + 4) --- */
+    .qp-benefits-grid {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr 1fr !important;
+    }
+
+    .qp-benefit-item {
+        display: flex !important;
+        border: 1px solid #d0d0d0 !important;
+    }
+
+    .qp-benefit-icon {
+        font-size: 14px !important;
+    }
+
+    /* --- Tables: force all backgrounds --- */
+    .qp-specs-table th {
+        background-color: #E8F4FA !important;
+    }
+
+    .qp-specs-table td {
+        background-color: #fff !important;
+    }
+
+    .qp-bom-table thead th {
+        background-color: #E8F4FA !important;
+    }
+
+    .qp-bom-table td {
+        background-color: #fff !important;
+    }
+
+    .qp-bom-table .bom-section-header td {
+        background-color: #f5f5f5 !important;
+    }
+
+    .qp-grand-total-row td {
+        background-color: #E8F4FA !important;
+    }
+
+    .qp-savings-table thead th {
+        background-color: #E8F4FA !important;
+    }
+
+    .qp-pricing-table td {
+        border: 1px solid #d0d0d0 !important;
+    }
+
     .qp-info-header-row .qp-info-header-cell {
         background-color: #E8F4FA !important;
     }
 
-    /* --- Terms section --- */
+    /* --- Note boxes --- */
+    .qp-note-box {
+        background: #fafafa !important;
+        border: 1px solid #d0d0d0 !important;
+        border-left: 4px solid #1a1a1a !important;
+    }
+
+    .qp-subsidy-box {
+        border-left: 4px solid #2ecc71 !important;
+    }
+
+    /* --- Highlight box --- */
+    .qp-highlight-box {
+        background: #E8F4FA !important;
+        border: 1px solid #d0d0d0 !important;
+    }
+
+    /* --- Page 3: Address grid --- */
+    .qp-address-grid {
+        display: flex !important;
+    }
+
+    .qp-addr-card {
+        border: 1px solid #e0e0e0 !important;
+    }
+
+    .qp-addr-header {
+        background: #f5f5f5 !important;
+        border-bottom: 1px solid #e0e0e0 !important;
+    }
+
+    /* --- Page 3: Financial strip --- */
+    .qp-financial-strip {
+        display: flex !important;
+        background: #fafafa !important;
+        border: 1px solid #d0d0d0 !important;
+    }
+
+    .qp-fin-divider {
+        background: #e0e0e0 !important;
+    }
+
+    /* --- Page 3: Amount in words --- */
+    .qp-amount-words {
+        background: #fafafa !important;
+        border: 1px solid #d0d0d0 !important;
+    }
+
+    /* --- Page 3: Payment steps --- */
+    .qp-payment-steps {
+        display: flex !important;
+    }
+
+    .qp-step {
+        display: flex !important;
+    }
+
+    .qp-step-badge {
+        background: #2980b9 !important;
+        color: white !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        border-radius: 50% !important;
+    }
+
+    /* --- Page 3: Bank card --- */
+    .qp-bank-card {
+        border: 1px solid #d0d0d0 !important;
+    }
+
+    .qp-bank-header {
+        background: #E8F4FA !important;
+        color: #1a1a1a !important;
+        border-bottom: 1px solid #d0d0d0 !important;
+    }
+
+    .qp-bank-flex {
+        display: flex !important;
+    }
+
+    /* --- Page 4: Comparison cards --- */
+    .qp-comparison-container {
+        display: flex !important;
+    }
+
+    .qp-comparison-card {
+        border: 1px solid #d0d0d0 !important;
+    }
+
+    .qp-card-before .qp-card-header {
+        background-color: #ffebee !important;
+        color: #c62828 !important;
+    }
+
+    .qp-card-after .qp-card-header {
+        background-color: #e8f5e9 !important;
+        color: #2e7d32 !important;
+    }
+
+    .qp-savings-badge {
+        background: #e8f5e9 !important;
+        color: #2e7d32 !important;
+        border: 1px solid #c8e6c9 !important;
+    }
+
+    .qp-bill-bar-container {
+        background: #f5f5f5 !important;
+    }
+
+    .qp-bar-red {
+        background: #ef5350 !important;
+    }
+
+    .qp-bar-green {
+        background: #66bb6a !important;
+    }
+
+    /* --- Page 5: Terms section --- */
+    .qp-terms-grid {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+    }
+
+    .qp-terms-card {
+        border: 1px solid #d0d0d0 !important;
+        page-break-inside: avoid !important;
+    }
+
     .qp-terms-header {
         background-color: #f8f9fa !important;
     }
@@ -1583,99 +1807,79 @@ select.qg-input-field {
         border-top: 3px solid #2c3e50 !important;
     }
 
-    /* --- After-sales box --- */
+    .qp-resp-grid {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+    }
+
+    /* --- Page 5: After-sales box --- */
     .qp-aftersales-box {
         background: #f0f7fa !important;
+        border: 1px solid #d0e4ed !important;
         border-left: 3px solid #3498db !important;
     }
 
-    /* --- Comparison cards (Page 4) --- */
-    .qp-card-before .qp-card-header {
-        background-color: #ffebee !important;
-        color: #c62828 !important;
+    /* --- Page 5: Signature section --- */
+    .qp-signature-section {
+        display: flex !important;
+        justify-content: space-between !important;
     }
 
-    .qp-card-after .qp-card-header {
-        background-color: #e8f5e9 !important;
-        color: #2e7d32 !important;
+    .qp-signature-box {
+        border-bottom: 1px solid #333 !important;
     }
 
-    .qp-savings-badge {
-        background: #e8f5e9 !important;
-        color: #2e7d32 !important;
+    /* --- Page 5: Thank you section --- */
+    .qp-thankyou-section {
+        border-top: 1px dashed #ccc !important;
     }
 
-    /* --- Financial strip (Page 3) --- */
-    .qp-financial-strip {
-        background: #fafafa !important;
+    .qp-thankyou-contact {
+        display: flex !important;
     }
 
-    /* --- Bank card header --- */
-    .qp-bank-header {
-        background: #34495e !important;
-        color: white !important;
+    .qp-disclaimer {
+        background: transparent !important;
     }
 
-    /* --- Note/subsidy boxes --- */
-    .qp-note-box {
-        border-left: 4px solid #1a1a1a !important;
-    }
-
-    .qp-subsidy-box {
-        border-left: 4px solid #2ecc71 !important;
-    }
-
-    /* --- Step badge (payment schedule) --- */
-    .qp-step-badge {
-        background: #2980b9 !important;
-        color: white !important;
-    }
-
-    /* --- Page 5 flex layout --- */
+    /* --- Page 5: Flex layout (push content to bottom) --- */
     .qp-page-flex {
         display: flex !important;
         flex-direction: column !important;
+        height: calc(100vh - 32mm) !important;
+    }
+
+    .qp-page5-content {
+        flex: 1 1 auto !important;
     }
 
     .qp-page5-bottom {
         margin-top: auto !important;
     }
 
-    /* --- Thank you section --- */
-    .qp-thankyou-section {
-        border-top: 1px dashed #ccc !important;
+    /* --- Checklist markers --- */
+    .qp-checklist li::before {
+        color: #3498db !important;
     }
 
-    /* --- Benefits grid icons --- */
-    .qp-benefit-icon {
-        font-size: 14px !important;
+    .qp-exclusion-card .qp-checklist li::before {
+        color: #e74c3c !important;
     }
 
-    /* --- Footer positioning --- */
+    /* --- Footer positioning (matches screen padding) --- */
     .qp-page-footer {
         position: absolute !important;
-        bottom: 6mm !important;
-        left: 12mm !important;
-        right: 12mm !important;
+        bottom: 8mm !important;
+        left: 15mm !important;
+        right: 15mm !important;
+        border-top: 1px solid #d0d0d0 !important;
     }
 
     .qp-cover-footer {
         position: absolute !important;
-        bottom: 16mm !important;
-    }
-
-    /* --- Hide non-print areas --- */
-    .no-print-area,
-    .sidebar,
-    .overlay,
-    .qg-form-section,
-    .qg-actions {
-        display: none !important;
-    }
-
-    /* --- Page size --- */
-    @page {
-        size: A4;
-        margin: 0;
+        bottom: 18mm !important;
+        left: 0 !important;
+        right: 0 !important;
+        border-top: 1px solid #d0d0d0 !important;
     }
 }

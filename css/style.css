@@ -155,6 +155,7 @@ a {
     flex-direction: column;
     z-index: 200;
     transition: transform var(--transition-base);
+    font-family: 'Google Sans Flex', 'Google Sans', 'Nunito Sans', sans-serif;
 }
 
 .sidebar-close-btn {
