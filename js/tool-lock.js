@@ -1,28 +1,28 @@
 /**
  * Tool Lock — Page-level password protection for standalone tool pages.
  * 
- * Usage: Add this script tag to any tool page with a data-password attribute:
- *   <script src="../js/tool-lock.js" data-password="Admin@Ray2Volt"></script>
+ * Usage: Add this script tag to any tool page with a data-tool-id attribute:
+ *   <script src="../js/tool-lock.js" data-tool-id="quote-generator"></script>
  * 
  * - Shows a fullscreen lock overlay on page load, blocking all content.
+ * - Fetches valid passwords from ../passwords.json based on data-tool-id.
  * - Once unlocked, stores the session in sessionStorage so the user
  *   doesn't need to re-enter for the same tool in the same browser tab.
- * - Fully self-contained: injects its own CSS and HTML.
  */
 (function () {
     'use strict';
 
-    // --- Get password from script tag's data attribute ---
+    // --- Get tool ID from script tag's data attribute ---
     const scriptTag = document.currentScript;
-    const CORRECT_PASSWORD = scriptTag ? scriptTag.getAttribute('data-password') : null;
+    const TOOL_ID = scriptTag ? scriptTag.getAttribute('data-tool-id') : null;
 
-    if (!CORRECT_PASSWORD) {
-        console.warn('tool-lock.js: No data-password attribute found on script tag.');
+    if (!TOOL_ID) {
+        console.warn('tool-lock.js: No data-tool-id attribute found on script tag.');
         return;
     }
 
-    // --- Session key (unique per page path) ---
-    const PAGE_KEY = 'tool_unlocked_' + window.location.pathname;
+    // --- Session key (unique per tool ID) ---
+    const PAGE_KEY = 'tool_unlocked_' + TOOL_ID;
 
     // --- Check if already unlocked this session ---
     if (sessionStorage.getItem(PAGE_KEY) === 'true') {
@@ -186,14 +186,36 @@
     `;
     document.body.appendChild(overlay);
 
-    // --- Wire up events ---
+    // --- Logic to fetch passwords and validate ---
     const input = overlay.querySelector('.tool-lock-input');
     const errorMsg = overlay.querySelector('.tool-lock-error');
     const unlockBtn = overlay.querySelector('.tool-lock-btn');
 
+    let validPasswords = [];
+
+    // Fetch passwords.json (assuming it's in the project root, so '../passwords.json' relative to 'tools/file.html')
+    // We can try fetching from root just in case instructions change, but standard structure implies parent dir.
+    fetch('../passwords.json')
+        .then(response => {
+            if (!response.ok) throw new Error("Could not load passwords config");
+            return response.json();
+        })
+        .then(data => {
+            if (data[TOOL_ID] && Array.isArray(data[TOOL_ID])) {
+                validPasswords = data[TOOL_ID];
+            } else {
+                console.warn(`No password configuration found for tool ID: ${TOOL_ID}`);
+            }
+        })
+        .catch(err => {
+            console.error("Error loading tool passwords:", err);
+            // Fallback: If fetch fails, we stay locked. No default password for security.
+        });
+
     const attemptUnlock = () => {
         const entered = input.value;
-        if (entered === CORRECT_PASSWORD) {
+
+        if (validPasswords.includes(entered)) {
             // Success — unlock
             sessionStorage.setItem(PAGE_KEY, 'true');
             document.body.classList.remove('tool-locked');
