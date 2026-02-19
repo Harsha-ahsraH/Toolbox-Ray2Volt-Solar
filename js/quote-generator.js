@@ -97,10 +97,15 @@ document.addEventListener('DOMContentLoaded', () => {
         // --- Formatted date ---
         const formattedDate = quoteDate ? formatDate(quoteDate) : '—';
 
-        // --- GST Calculations ---
+        // --- GST Calculations (Inclusive Logic) ---
+        // Input `totalPrice` is now the Grand Total (Inclusive of GST)
+        const grandTotal = totalPrice;
+        const gstDecimal = gstRate / 100;
+
+        // Back-calculate taxable base price: Base = Total / (1 + Rate)
+        const taxablePrice = grandTotal / (1 + gstDecimal);
+        const gstAmount = grandTotal - taxablePrice;
         const halfRate = gstRate / 2;
-        const gstAmount = totalPrice * (gstRate / 100);
-        const grandTotal = totalPrice + gstAmount;
 
         let gst1Label, gst2Label, gst1Amt, gst2Amt;
         if (gstType === 'inter') {
@@ -166,7 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
         setText('qpPriceCapacity', `${capacity} kWp`);
-        setText('qpPriceTaxable', formatCurrency(totalPrice));
+        setText('qpPriceTaxable', formatCurrency(taxablePrice));
         setText('qpGstLabel1', gst1Label);
         setText('qpGstAmt1', formatCurrency(gst1Amt));
 

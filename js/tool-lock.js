@@ -187,30 +187,44 @@
     document.body.appendChild(overlay);
 
     // --- Logic to fetch passwords and validate ---
+    // --- Logic to fetch passwords and validate ---
     const input = overlay.querySelector('.tool-lock-input');
     const errorMsg = overlay.querySelector('.tool-lock-error');
     const unlockBtn = overlay.querySelector('.tool-lock-btn');
 
     let validPasswords = [];
 
-    // Fetch passwords.json (assuming it's in the project root, so '../passwords.json' relative to 'tools/file.html')
-    // We can try fetching from root just in case instructions change, but standard structure implies parent dir.
-    fetch('../passwords.json')
-        .then(response => {
-            if (!response.ok) throw new Error("Could not load passwords config");
-            return response.json();
-        })
-        .then(data => {
-            if (data[TOOL_ID] && Array.isArray(data[TOOL_ID])) {
-                validPasswords = data[TOOL_ID];
-            } else {
-                console.warn(`No password configuration found for tool ID: ${TOOL_ID}`);
-            }
-        })
-        .catch(err => {
-            console.error("Error loading tool passwords:", err);
-            // Fallback: If fetch fails, we stay locked. No default password for security.
-        });
+    // Function to load the passwords using a script tag (avoids CORS issues on local filesystem)
+    function loadPasswords() {
+        // If already loaded (global var exists), usage it
+        if (window.RAY2VOLT_PASSWORDS) {
+            setPasswordsFromGlobal();
+            return;
+        }
+
+        const script = document.createElement('script');
+        script.src = '../js/passwords.js';
+        script.onload = () => {
+            setPasswordsFromGlobal();
+        };
+        script.onerror = () => {
+            console.error("Error loading passwords.js");
+            // Optional: fallback or alert user
+        };
+        document.head.appendChild(script);
+    }
+
+    function setPasswordsFromGlobal() {
+        const data = window.RAY2VOLT_PASSWORDS || {};
+        if (data[TOOL_ID] && Array.isArray(data[TOOL_ID])) {
+            validPasswords = data[TOOL_ID];
+        } else {
+            console.warn(`No password configuration found for tool ID: ${TOOL_ID}`);
+        }
+    }
+
+    // Initialize loading
+    loadPasswords();
 
     const attemptUnlock = () => {
         const entered = input.value;

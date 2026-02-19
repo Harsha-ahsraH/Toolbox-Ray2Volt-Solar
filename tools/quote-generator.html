@@ -270,12 +270,13 @@
                             Commercial Offer
                         </h3>
                         <div class="qg-input-group">
-                            <label for="qgTotalPrice">Total System Price (₹) *</label>
+                            <label for="qgTotalPrice">Total System Price (Incl. GST) *</label>
                             <input type="number" id="qgTotalPrice" class="qg-input-field"
-                                placeholder="Enter total price (before GST)">
+                                placeholder="Enter total price (Incl. GST)">
                         </div>
                         <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem;">
-                            Enter the complete turnkey system price before GST. GST will be calculated automatically.
+                            Enter the complete turnkey system price including GST. Taxable value & GST will be
+                            auto-calculated.
                         </p>
                     </div>
 
@@ -394,16 +395,18 @@
 
                         <div class="qp-section">
                             <h3>System Overview</h3>
-                            <table class="qp-specs-table">
-                                <tr>
-                                    <th>System Capacity</th>
-                                    <td id="qpSystemCapacity">— kWp</td>
-                                </tr>
-                                <tr>
-                                    <th>Installation Type</th>
-                                    <td id="qpInstallationType">—</td>
-                                </tr>
-                            </table>
+                            <div class="table-responsive">
+                                <table class="qp-specs-table">
+                                    <tr>
+                                        <th>System Capacity</th>
+                                        <td id="qpSystemCapacity">— kWp</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Installation Type</th>
+                                        <td id="qpInstallationType">—</td>
+                                    </tr>
+                                </table>
+                            </div>
                         </div>
 
                         <div class="qp-section">
@@ -509,20 +512,22 @@
                         </div>
 
                         <div class="qp-section">
-                            <table class="qp-bom-table">
-                                <thead>
-                                    <tr>
-                                        <th style="width:40px;">S.No</th>
-                                        <th>Item Description</th>
-                                        <th style="width:60px;">Qty</th>
-                                        <th style="width:60px;">Unit</th>
-                                        <th style="width:25%;">Make</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="qpBomTableBody">
-                                    <!-- Populated by JS -->
-                                </tbody>
-                            </table>
+                            <div class="table-responsive">
+                                <table class="qp-bom-table">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:40px;">S.No</th>
+                                            <th>Item Description</th>
+                                            <th style="width:60px;">Qty</th>
+                                            <th style="width:60px;">Unit</th>
+                                            <th style="width:25%;">Make</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="qpBomTableBody">
+                                        <!-- Populated by JS -->
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
 
                         <div class="qp-note-box">
@@ -533,28 +538,30 @@
 
                         <div class="qp-section" style="margin-top: 20px;">
                             <h3>Warranty Coverage</h3>
-                            <table class="qp-specs-table">
-                                <tr>
-                                    <th>Solar PV Modules</th>
-                                    <td>30 Years Performance Warranty (Manufacturer)</td>
-                                </tr>
-                                <tr>
-                                    <th>Inverter</th>
-                                    <td>7 Years Standard Warranty (Manufacturer)</td>
-                                </tr>
-                                <tr>
-                                    <th>Mounting Structure</th>
-                                    <td>10 Years Warranty against Structural Defects</td>
-                                </tr>
-                                <tr>
-                                    <th>Workmanship</th>
-                                    <td>5 Years Comprehensive Installation Warranty (Ray2Volt)</td>
-                                </tr>
-                                <tr>
-                                    <th>Annual Maintenance</th>
-                                    <td>1 Year Free AMC included with every installation</td>
-                                </tr>
-                            </table>
+                            <div class="table-responsive">
+                                <table class="qp-specs-table">
+                                    <tr>
+                                        <th>Solar PV Modules</th>
+                                        <td>30 Years Performance Warranty (Manufacturer)</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Inverter</th>
+                                        <td>7 Years Standard Warranty (Manufacturer)</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Mounting Structure</th>
+                                        <td>10 Years Warranty against Structural Defects</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Workmanship</th>
+                                        <td>5 Years Comprehensive Installation Warranty (Ray2Volt)</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Annual Maintenance</th>
+                                        <td>1 Year Free AMC included with every installation</td>
+                                    </tr>
+                                </table>
+                            </div>
                             <div class="qp-note-box" style="margin-top:10px;">
                                 <p>All warranties are subject to proper usage and maintenance as per manufacturer
                                     guidelines.
@@ -619,28 +626,30 @@
                         <!-- Pricing Table -->
                         <div class="qp-section" style="margin-top:15px;">
                             <h3>System Pricing</h3>
-                            <table class="qp-pricing-table">
-                                <tr>
-                                    <td>System Capacity</td>
-                                    <td id="qpPriceCapacity">— kWp</td>
-                                </tr>
-                                <tr>
-                                    <td>Base System Price</td>
-                                    <td id="qpPriceTaxable">₹0</td>
-                                </tr>
-                                <tr id="qpGstRow1">
-                                    <td id="qpGstLabel1">CGST (2.5%)</td>
-                                    <td id="qpGstAmt1">₹0</td>
-                                </tr>
-                                <tr id="qpGstRow2">
-                                    <td id="qpGstLabel2">SGST (2.5%)</td>
-                                    <td id="qpGstAmt2">₹0</td>
-                                </tr>
-                                <tr class="qp-grand-total-row">
-                                    <td><strong>Total System Cost (Incl. GST)</strong></td>
-                                    <td id="qpTableTotal"><strong>₹0</strong></td>
-                                </tr>
-                            </table>
+                            <div class="table-responsive">
+                                <table class="qp-pricing-table">
+                                    <tr>
+                                        <td>System Capacity</td>
+                                        <td id="qpPriceCapacity">— kWp</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Base System Price</td>
+                                        <td id="qpPriceTaxable">₹0</td>
+                                    </tr>
+                                    <tr id="qpGstRow1">
+                                        <td id="qpGstLabel1">CGST (2.5%)</td>
+                                        <td id="qpGstAmt1">₹0</td>
+                                    </tr>
+                                    <tr id="qpGstRow2">
+                                        <td id="qpGstLabel2">SGST (2.5%)</td>
+                                        <td id="qpGstAmt2">₹0</td>
+                                    </tr>
+                                    <tr class="qp-grand-total-row">
+                                        <td><strong>Total System Cost (Incl. GST)</strong></td>
+                                        <td id="qpTableTotal"><strong>₹0</strong></td>
+                                    </tr>
+                                </table>
+                            </div>
                         </div>
 
                         <!-- Financial Highlight Strip -->
@@ -768,19 +777,21 @@
 
                         <div class="qp-section">
                             <h3>25-Year Savings Projection</h3>
-                            <table class="qp-savings-table">
-                                <thead>
-                                    <tr>
-                                        <th>Year</th>
-                                        <th>Tariff (₹/unit)</th>
-                                        <th>Annual Savings (₹)</th>
-                                        <th>Cumulative Savings (₹)</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="qpSavingsTableBody">
-                                    <!-- Populated by JS -->
-                                </tbody>
-                            </table>
+                            <div class="table-responsive">
+                                <table class="qp-savings-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Year</th>
+                                            <th>Tariff (₹/unit)</th>
+                                            <th>Annual Savings (₹)</th>
+                                            <th>Cumulative Savings (₹)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="qpSavingsTableBody">
+                                        <!-- Populated by JS -->
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
 
                         <div class="qp-highlight-box">

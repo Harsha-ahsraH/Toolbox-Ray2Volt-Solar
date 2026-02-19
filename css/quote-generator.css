@@ -798,6 +798,8 @@ select.qg-input-field {
     font-size: 13pt;
 }
 
+
+
 .qp-fin-net .qp-fin-value {
     font-size: 13pt;
     /* Reduced from 16pt */
@@ -1578,10 +1580,12 @@ select.qg-input-field {
 
     /* Heavy Data Tables (BOM, Savings) - Enable Scroll */
     .qp-bom-table-wrapper,
-    .qp-section:has(.qp-bom-table),
-    .qp-section:has(.qp-savings-table) {
+    .table-responsive {
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
+        margin-bottom: 10px;
+        width: 100%;
+        display: block;
     }
 
     .qp-bom-table,
