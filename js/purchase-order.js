@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const poDateInput = document.getElementById('poDate');
     const poNumberInput = document.getElementById('poNumber');
     const poDeliveryAddressInput = document.getElementById('poDeliveryAddress');
+    const poTermsInput = document.getElementById('poTerms');
     const poItemsContainer = document.getElementById('poItemsContainer');
     const poAddItemBtn = document.getElementById('poAddItemBtn');
     const poGenerateBtn = document.getElementById('poGenerateBtn');
@@ -35,6 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const poDispGrandTotal = document.getElementById('poDispGrandTotal');
     const poDispAmountWords = document.getElementById('poDispAmountWords');
     const poNumberDisplay = document.getElementById('poNumberDisplay');
+    const poDispTerms = document.getElementById('poDispTerms');
 
     // --- STATE ---
     let itemCounter = 1;
@@ -275,7 +277,18 @@ document.addEventListener('DOMContentLoaded', () => {
             // 8. Amount in Words
             if (poDispAmountWords) poDispAmountWords.textContent = numberToWords(totalGrandAmount);
 
-            // 9. Show Preview
+            // 9. Terms & Conditions
+            const termsText = poTermsInput?.value?.trim();
+            if (poDispTerms) {
+                if (termsText) {
+                    // Split by newlines and render each line as a paragraph
+                    poDispTerms.innerHTML = termsText.split('\n').filter(line => line.trim()).map(line => `<p>${line}</p>`).join('');
+                } else {
+                    poDispTerms.innerHTML = '<p>Happy doing business with you!</p>';
+                }
+            }
+
+            // 10. Show Preview
             if (poPreview) {
                 poPreview.classList.add('visible');
                 poPreview.scrollIntoView({ behavior: 'smooth', block: 'start' });

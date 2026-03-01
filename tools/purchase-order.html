@@ -137,6 +137,26 @@
                         </div>
                     </div>
 
+                    <!-- Terms & Conditions Card -->
+                    <div class="po-form-card po-tc-card">
+                        <h3 class="po-section-title">
+                            <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                <polyline points="14 2 14 8 20 8"></polyline>
+                                <line x1="16" y1="13" x2="8" y2="13"></line>
+                                <line x1="16" y1="17" x2="8" y2="17"></line>
+                            </svg>
+                            Terms & Conditions
+                        </h3>
+                        <div class="po-input-group">
+                            <label for="poTerms">Enter Terms & Conditions (Optional)</label>
+                            <textarea id="poTerms" class="po-input-field" rows="4"
+                                placeholder="Enter your terms and conditions here. Leave blank for default message."></textarea>
+                            <span class="po-input-hint">If left blank, a default message will be used.</span>
+                        </div>
+                    </div>
+
                     <!-- Order Items Section -->
                     <div class="po-items-card">
                         <div class="po-items-header">
@@ -287,20 +307,11 @@
                         <strong>Amount in Words:</strong> <span id="poDispAmountWords"></span>
                     </div>
 
-                    <!-- Bank Details -->
-                    <div class="invoice-bank-section">
-                        <h4>Bank Details for Payment</h4>
-                        <div class="invoice-bank-grid">
-                            <span class="bank-label">Account Name</span>
-                            <span class="bank-value">: Ray2Volt Solar Private Limited</span>
-                            <span class="bank-label">Account Number</span>
-                            <span class="bank-value">: 50200112654604</span>
-                            <span class="bank-label">Bank Name</span>
-                            <span class="bank-value">: HDFC Bank</span>
-                            <span class="bank-label">Branch</span>
-                            <span class="bank-value">: Srikalahasti</span>
-                            <span class="bank-label">IFSC Code</span>
-                            <span class="bank-value">: HDFC0002436</span>
+                    <!-- Terms & Conditions -->
+                    <div class="invoice-tc-section">
+                        <h4>Terms & Conditions</h4>
+                        <div class="invoice-tc-content" id="poDispTerms">
+                            <p>Happy doing business with you!</p>
                         </div>
                     </div>
 

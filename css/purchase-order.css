@@ -462,14 +462,14 @@ textarea.po-input-field {
     color: #1a1a1a;
 }
 
-/* ---- Bank Details Box ---- */
-.invoice-bank-section {
+/* ---- Terms & Conditions Box ---- */
+.invoice-tc-section {
     border: 1px solid #d0d0d0;
     border-radius: 2px;
     margin: 18px 0;
 }
 
-.invoice-bank-section h4 {
+.invoice-tc-section h4 {
     background: #E8F4FA;
     margin: 0;
     padding: 10px 12px;
@@ -480,23 +480,21 @@ textarea.po-input-field {
     border-bottom: 1px solid #d0d0d0;
 }
 
-.invoice-bank-grid {
-    display: grid;
-    grid-template-columns: 130px 1fr;
-    gap: 5px 10px;
+.invoice-tc-content {
     padding: 12px;
     font-size: 9pt;
     background: #fff;
-}
-
-.invoice-bank-grid .bank-label {
-    font-weight: 600;
-    color: #555;
-}
-
-.invoice-bank-grid .bank-value {
-    font-weight: 500;
+    line-height: 1.7;
     color: #1a1a1a;
+}
+
+.invoice-tc-content p {
+    margin: 3px 0;
+}
+
+/* ---- T&C Form Card ---- */
+.po-tc-card {
+    margin-bottom: 1.5rem;
 }
 
 /* ---- Signature Section ---- */
@@ -681,13 +679,8 @@ textarea.po-input-field {
         font-size: 7.5pt;
     }
 
-    .invoice-bank-grid {
-        grid-template-columns: 1fr;
-        gap: 2px;
-    }
-
-    .invoice-bank-grid .bank-label {
-        margin-top: 5px;
+    .invoice-tc-content {
+        font-size: 7.5pt;
     }
 }
 
@@ -735,7 +728,7 @@ textarea.po-input-field {
         border-left: 3px solid #a8d4e6 !important;
     }
 
-    .invoice-bank-section h4 {
+    .invoice-tc-section h4 {
         background: #E8F4FA !important;
         color: #1a1a1a !important;
     }
