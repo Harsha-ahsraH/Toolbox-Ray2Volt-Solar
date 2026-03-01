@@ -196,7 +196,7 @@ textarea.po-input-field {
 /* --- Item Fields Grid --- */
 .po-item-fields {
     display: grid;
-    grid-template-columns: 1fr 80px 70px 130px 80px;
+    grid-template-columns: 1fr 70px 130px 80px;
     gap: 1rem;
     align-items: end;
 }

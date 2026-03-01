@@ -180,11 +180,7 @@
                                         <textarea class="po-input-field po-item-description" rows="2"
                                             placeholder="e.g. Supply of 10 x 550Wp Solar Panels"></textarea>
                                     </div>
-                                    <div class="po-input-group">
-                                        <label>HSN/SAC</label>
-                                        <input type="text" class="po-input-field po-item-hsn-code" value="8541"
-                                            placeholder="e.g. 8541">
-                                    </div>
+
                                     <div class="po-input-group">
                                         <label>Qty</label>
                                         <input type="number" class="po-input-field po-item-quantity" value="1" min="1">
@@ -242,21 +238,20 @@
                         <colgroup>
                             <col style="width: 30px;">
                             <col>
-                            <col style="width: 75px;">
                             <col style="width: 40px;">
-                            <col style="width: 85px;">
+                            <col style="width: 90px;">
                             <col style="width: 50px;">
-                            <col style="width: 95px;">
                             <col style="width: 100px;">
+                            <col style="width: 110px;">
                         </colgroup>
                         <!-- Info Section Header Row -->
                         <tr class="info-header-row">
                             <td colspan="2" class="info-header-cell">Ray2Volt Solar Private Limited</td>
-                            <td colspan="6" class="info-header-cell">Vendor:</td>
+                            <td colspan="5" class="info-header-cell">Vendor:</td>
                         </tr>
                         <!-- Info Section Content Row -->
                         <tr class="info-content-row">
-                            <td colspan="2" class="from-cell">
+                            <td colspan="2" class="from-cell" style="width: 45%;">
                                 <p>1-278, Pichatur road, Srikalahasti, 517640, Andhra Pradesh.</p>
                                 <p><span class="invoice-info-label">Phone:</span> +91 96 6606 8140</p>
                                 <p><span class="invoice-info-label">Email:</span> ray2voltsolar@gmail.com</p>
@@ -264,7 +259,7 @@
                                 <p><span class="invoice-info-label">GSTIN:</span> 37AAOCR4626E1Z6</p>
                                 <p><span class="invoice-info-label">CIN:</span> U35104AP2025PTC118526</p>
                             </td>
-                            <td colspan="6" class="to-cell">
+                            <td colspan="5" class="to-cell">
                                 <p><span class="invoice-info-label">Name:</span> <span id="poDispName"></span></p>
                                 <p><span class="invoice-info-label">Address:</span> <span id="poDispAddress"></span>
                                 </p>
@@ -285,7 +280,6 @@
                         <tr class="items-header-row">
                             <th>SN</th>
                             <th>Description of Goods / Services</th>
-                            <th>HSN/SAC</th>
                             <th>Qty</th>
                             <th>Price/Unit (₹)</th>
                             <th>GST %</th>
@@ -297,7 +291,7 @@
                         </tbody>
                         <!-- Grand Total Row -->
                         <tr class="grand-total-row">
-                            <td colspan="7" style="text-align: right;"><strong>Grand Total:</strong></td>
+                            <td colspan="6" style="text-align: right;"><strong>Grand Total:</strong></td>
                             <td id="poDispGrandTotal"></td>
                         </tr>
                     </table>
