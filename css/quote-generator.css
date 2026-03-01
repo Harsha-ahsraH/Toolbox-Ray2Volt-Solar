@@ -16,6 +16,12 @@
     margin-bottom: 1.5rem;
 }
 
+/* Keep the quote generator form comfortably centered */
+.no-print-area {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
 .qg-page-header h1 {
     font-size: 1.75rem;
     font-weight: 700;
@@ -28,22 +34,39 @@
     color: var(--text-secondary);
 }
 
+/* Mobile-first header rhythm */
+@media screen and (max-width: 768px) {
+    .qg-page-header {
+        margin-bottom: 1rem;
+    }
+
+    .qg-page-header h1 {
+        font-size: 1.4rem;
+        line-height: 1.2;
+    }
+
+    .qg-page-header p {
+        font-size: 0.9rem;
+        line-height: 1.4;
+    }
+}
+
 /* --- Form Cards --- */
 .qg-form-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-    /* Increased gap */
-    margin-bottom: 2rem;
-    /* Increased margin */
+    /* Mobile-first: stack by default */
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
 }
 
 .qg-form-card {
     background: var(--bg-card);
     border: 1px solid var(--border-medium);
     border-radius: 2px;
-    padding: 1.5rem;
-    margin-bottom: 2rem;
+    /* Mobile-first: tighter spacing */
+    padding: 1rem;
+    margin-bottom: 0;
 }
 
 .qg-section-title {
@@ -116,9 +139,9 @@ select.qg-input-field {
     background: var(--bg-card);
     border: 1px solid var(--border-medium);
     border-radius: 2px;
-    padding: 1.5rem;
-    margin-bottom: 2rem;
-    /* Increased margin */
+    /* Mobile-first: tighter spacing */
+    padding: 1rem;
+    margin-bottom: 1rem;
 }
 
 .qg-components-header {
@@ -128,6 +151,28 @@ select.qg-input-field {
     margin-bottom: 1.5rem;
     padding-bottom: 0.75rem;
     border-bottom: 1px solid var(--border-light);
+}
+
+@media screen and (max-width: 768px) {
+    .no-print-area {
+        max-width: none;
+    }
+
+    .qg-section-title {
+        margin-bottom: 0.9rem;
+        padding-bottom: 0.6rem;
+        font-size: 0.95rem;
+    }
+
+    .qg-input-group {
+        margin-bottom: 1rem;
+    }
+
+    .qg-components-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
 }
 
 .qg-components-header h3 {
@@ -178,7 +223,8 @@ select.qg-input-field {
 
 .qg-component-fields {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    /* Mobile-first */
+    grid-template-columns: 1fr;
     gap: 1rem;
     align-items: end;
 }
@@ -194,7 +240,8 @@ select.qg-input-field {
 
 /* Additional fields grid (7 columns) */
 .qg-additional-fields {
-    grid-template-columns: repeat(7, 1fr);
+    /* Mobile-first */
+    grid-template-columns: 1fr;
 }
 
 /* --- Editable BOM Input Table --- */
@@ -287,9 +334,17 @@ select.qg-input-field {
 .qg-actions {
     display: flex;
     justify-content: center;
-    gap: 1rem;
-    margin-top: 2rem;
-    margin-bottom: 2rem;
+    /* Mobile-first: stacked, full-width buttons */
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    margin-top: 1.25rem;
+    margin-bottom: 1.25rem;
+}
+
+/* If cards are in a grid, spacing should come from the grid gap */
+.qg-form-grid .qg-form-card {
+    margin-bottom: 0;
 }
 
 .qg-btn-primary {
@@ -303,6 +358,7 @@ select.qg-input-field {
     color: #fff;
     cursor: pointer;
     transition: all 0.1s ease;
+    width: 100%;
 }
 
 .qg-btn-primary:hover {
@@ -321,6 +377,7 @@ select.qg-input-field {
     color: var(--primary);
     cursor: pointer;
     transition: all 0.1s ease;
+    width: 100%;
 }
 
 .qg-btn-secondary:hover {
@@ -346,13 +403,14 @@ select.qg-input-field {
 
 /* --- Page Layout --- */
 .quote-page {
-    width: 210mm;
-    min-height: 297mm;
-    height: 297mm;
-    margin: 0 auto 20px auto;
-    padding: 12mm 15mm 25mm 15mm;
+    /* Mobile-first preview: fluid, readable on small screens */
+    width: 100%;
+    min-height: auto;
+    height: auto;
+    margin: 10px auto;
+    padding: 15px;
     background: #fff;
-    border: none;
+    border: 1px solid #e0e0e0;
     border-radius: 2px;
     font-size: 10pt;
     position: relative;
@@ -551,8 +609,9 @@ select.qg-input-field {
 /* --- Benefits Grid (Why Go Solar) --- */
 .qp-benefits-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 8px;
+    /* Mobile-first */
+    grid-template-columns: 1fr;
+    gap: 10px;
     margin-top: 5px;
 }
 
@@ -588,10 +647,12 @@ select.qg-input-field {
 
 /* --- Comparison Cards (Before vs After) --- */
 .qp-comparison-container {
+    /* Mobile-first */
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    align-items: stretch;
     justify-content: center;
-    gap: 20px;
+    gap: 30px;
     margin-top: 15px;
 }
 
@@ -688,10 +749,12 @@ select.qg-input-field {
 
 /* --- Page 3: Address Grid --- */
 .qp-address-grid {
+    /* Mobile-first */
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
     align-items: flex-start;
-    gap: 20px;
+    gap: 12px;
     margin-bottom: 15px;
 }
 
@@ -744,13 +807,17 @@ select.qg-input-field {
     align-self: center;
     color: #ccc;
     font-size: 16pt;
+    transform: rotate(90deg);
 }
 
 /* --- Page 3: Financial Strip --- */
 .qp-financial-strip {
+    /* Mobile-first */
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
     justify-content: space-between;
+    gap: 15px;
     background: #fafafa;
     border: 1px solid #d0d0d0;
     padding: 12px 15px;
@@ -807,10 +874,7 @@ select.qg-input-field {
 }
 
 .qp-fin-divider {
-    width: 1px;
-    height: 40px;
-    background: #e0e0e0;
-    margin: 0 10px;
+    display: none;
 }
 
 .qp-amount-words {
@@ -827,9 +891,12 @@ select.qg-input-field {
 
 /* --- Page 3: Payment Steps --- */
 .qp-payment-steps {
+    /* Mobile-first */
     display: flex;
+    flex-direction: column;
     align-items: flex-start;
     justify-content: space-between;
+    gap: 15px;
     position: relative;
     padding: 10px 0;
 }
@@ -924,8 +991,10 @@ select.qg-input-field {
 }
 
 .qp-bank-flex {
+    /* Mobile-first */
     display: flex;
-    gap: 40px;
+    flex-direction: column;
+    gap: 10px;
     margin-bottom: 0px;
 }
 
@@ -1210,7 +1279,8 @@ select.qg-input-field {
 /* --- Scope & Exclusions Grid --- */
 .qp-terms-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    /* Mobile-first */
+    grid-template-columns: 1fr;
     gap: 12px;
     margin-bottom: 12px;
 }
@@ -1291,8 +1361,9 @@ select.qg-input-field {
 /* --- Customer Responsibilities Grid --- */
 .qp-resp-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px 20px;
+    /* Mobile-first */
+    grid-template-columns: 1fr;
+    gap: 10px;
 }
 
 .qp-resp-item strong {
@@ -1402,9 +1473,11 @@ select.qg-input-field {
 }
 
 .qp-thankyou-contact {
+    /* Mobile-first */
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    gap: 25px;
+    gap: 8px;
     font-size: 8.5pt;
     color: #333;
     margin-bottom: 10px;
@@ -1431,10 +1504,116 @@ select.qg-input-field {
    RESPONSIVE STYLES
    ============================================ */
 
-/* Tablet (1024px) - Intermediate resizing */
-@media screen and (max-width: 1024px) {
-    .qg-form-grid {
-        grid-template-columns: 1fr;
+/* Global mobile-first safeguards */
+.qg-input-field {
+    font-size: 16px; /* prevent iOS zoom */
+}
+
+.qp-header {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+}
+
+.qp-logo {
+    width: 150px;
+    order: -1;
+}
+
+.qp-banner {
+    flex-direction: column;
+    gap: 5px;
+}
+
+.qp-info-grid {
+    grid-template-columns: 1fr;
+    gap: 5px;
+}
+
+.qp-info-label {
+    color: #777;
+    font-size: 8.5pt;
+}
+
+.qp-mission-grid {
+    grid-template-columns: 1fr;
+}
+
+/* Tables: stack simple 2-col table rows on mobile */
+.qp-specs-table th,
+.qp-specs-table td {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.qp-specs-table th {
+    background: #f0f0f0;
+    padding: 5px 10px;
+}
+
+.qp-specs-table td {
+    padding: 8px 10px;
+    border-top: none;
+}
+
+.qg-bom-table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.qg-bom-input-table {
+    min-width: 600px; /* keep table usable; scroll on small screens */
+}
+
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    display: block;
+}
+
+/* Footer / Signature: avoid overlapping on small screens */
+.qp-page-footer {
+    position: static;
+    margin-top: 20px;
+    text-align: center;
+    flex-direction: column;
+    gap: 5px;
+}
+
+/* Progressive enhancements */
+@media screen and (min-width: 600px) {
+    .qg-actions {
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+    }
+
+    .qg-btn-primary,
+    .qg-btn-secondary {
+        width: auto;
+    }
+}
+
+@media screen and (min-width: 769px) {
+    .qg-page-header {
+        margin-bottom: 1.5rem;
+    }
+
+    .qg-page-header h1 {
+        font-size: 1.75rem;
+    }
+
+    .qg-form-card,
+    .qg-components-card {
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .qg-input-field {
+        font-size: 0.95rem;
     }
 
     .qg-component-fields {
@@ -1444,271 +1623,145 @@ select.qg-input-field {
     .qg-additional-fields {
         grid-template-columns: repeat(3, 1fr);
     }
-}
 
-/* Mobile (768px) - Full Stack layout */
-@media screen and (max-width: 768px) {
-
-    /* --- Form UI --- */
-    .qg-page-header {
-        margin-bottom: 1rem;
-    }
-
-    .qg-page-header h1 {
-        font-size: 1.5rem;
-    }
-
-    .qg-form-card,
-    .qg-components-card {
-        padding: 1rem;
-        margin-bottom: 1rem;
-    }
-
-    .qg-input-field {
-        font-size: 16px;
-        /* Prevent iOS zoom */
-        padding: 0.75rem;
-    }
-
-    .qg-component-fields {
-        grid-template-columns: 1fr;
-    }
-
-    .qg-additional-fields {
-        grid-template-columns: 1fr 1fr;
-    }
-
-    /* Action Buttons Stack */
-    .qg-actions {
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .qg-btn-primary,
-    .qg-btn-secondary {
-        width: 100%;
-    }
-
-    /* BOM Input Table Scroll */
-    .qg-bom-table-container {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        border: 1px solid var(--border-light);
-    }
-
-    .qg-bom-input-table {
-        min-width: 600px;
-        /* Force scroll */
-    }
-
-    /* --- Quote Preview Document --- */
-    /* Reset A4 dimensions for mobile screen */
+    /* Restore more "document-like" preview on larger screens */
     .quote-page {
-        width: 100% !important;
-        height: auto !important;
-        min-height: auto !important;
-        margin: 10px auto;
-        padding: 15px;
-        border: 1px solid #e0e0e0;
-        box-shadow: none;
+        width: 210mm;
+        min-height: 297mm;
+        height: 297mm;
+        margin: 0 auto 20px auto;
+        padding: 12mm 15mm 25mm 15mm;
+        border: none;
     }
 
     .qp-header {
-        flex-direction: column;
-        gap: 10px;
-        align-items: flex-start;
-    }
-
-    .qp-logo {
-        width: 150px;
-        order: -1;
-        /* Logo top */
-    }
-
-    .qp-title-section h1 {
-        font-size: 16pt;
-    }
-
-    .qp-banner {
-        flex-direction: column;
-        gap: 5px;
-    }
-
-    /* Grids to 1 Column */
-    .qp-info-grid {
-        grid-template-columns: 1fr !important;
-        /* Override fixed 140px */
-        gap: 5px;
-    }
-
-    .qp-info-label {
-        color: #777;
-        font-size: 8.5pt;
-    }
-
-    .qp-mission-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .qp-benefits-grid {
-        grid-template-columns: 1fr;
-        gap: 10px;
-    }
-
-    .qp-benefit-item {
+        flex-direction: row;
         align-items: center;
     }
 
-    /* Tables */
+    .qp-logo {
+        width: 250px;
+        order: 0;
+    }
+
+    .qp-banner {
+        flex-direction: row;
+    }
+
+    .qp-info-grid {
+        grid-template-columns: 140px 1fr;
+    }
+
     .qp-specs-table th,
     .qp-specs-table td {
-        display: block;
-        /* Stack cells */
-        width: 100% !important;
-        box-sizing: border-box;
+        display: table-cell;
+        width: auto;
     }
 
     .qp-specs-table th {
-        background: #f0f0f0;
-        padding: 5px 10px;
+        background-color: #E8F4FA;
     }
 
     .qp-specs-table td {
-        padding: 8px 10px;
-        border-top: none;
+        border-top: 1px solid #d0d0d0;
     }
 
-    /* Heavy Data Tables (BOM, Savings) - Enable Scroll */
-    .qp-bom-table-wrapper,
-    .table-responsive {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        margin-bottom: 10px;
-        width: 100%;
-        display: block;
+    .qp-mission-grid {
+        grid-template-columns: 1fr 1fr;
     }
 
-    .qp-bom-table,
-    .qp-savings-table {
-        min-width: 500px;
+    .qp-benefits-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
     }
 
-    /* Page 3: Commercial */
     .qp-address-grid {
-        flex-direction: column;
-    }
-
-    .qp-addr-card {
-        width: 100%;
+        flex-direction: row;
+        gap: 20px;
     }
 
     .qp-addr-icon {
-        transform: rotate(90deg);
-        /* Down arrow */
+        transform: none;
     }
 
     .qp-financial-strip {
-        flex-direction: column;
-        gap: 15px;
-        align-items: flex-start;
+        flex-direction: row;
+        align-items: center;
+        gap: 0;
     }
 
     .qp-fin-divider {
-        display: none;
+        display: block;
+        width: 1px;
+        height: 40px;
+        background: #e0e0e0;
+        margin: 0 10px;
     }
 
-    .qp-fin-item {
-        align-items: flex-start;
-        width: 100%;
-        border-bottom: 1px dashed #eee;
-        padding-bottom: 10px;
-    }
-
-    .qp-fin-item:last-child {
-        border-bottom: none;
-        padding-bottom: 0;
-    }
-
-    /* Payment Steps */
     .qp-payment-steps {
-        flex-direction: column;
-        gap: 15px;
-    }
-
-    .qp-step {
-        width: 100%;
-        justify-content: flex-start;
-    }
-
-    .qp-step-line {
-        display: none;
-        /* Hide connector in vertical stack */
-    }
-
-    /* Bank Details */
-    .qp-bank-body {
-        padding: 10px;
+        flex-direction: row;
+        gap: 0;
     }
 
     .qp-bank-flex {
-        flex-direction: column;
-        gap: 10px;
+        flex-direction: row;
+        gap: 40px;
     }
 
-    /* Page 4: Comparison */
     .qp-comparison-container {
-        flex-direction: column;
-        gap: 30px;
+        flex-direction: row;
+        align-items: center;
+        gap: 20px;
     }
 
     .qp-comparison-arrow {
-        transform: rotate(90deg);
+        transform: none;
     }
 
-    /* Page 5: Terms */
     .qp-terms-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr 1fr;
     }
 
     .qp-resp-grid {
-        grid-template-columns: 1fr;
-    }
-
-    /* Footer / Signature */
-    .qp-page-footer {
-        position: static;
-        margin-top: 20px;
-        text-align: center;
-        flex-direction: column;
-        gap: 5px;
-    }
-}
-
-/* Small Mobile (480px) - Tighter adjustments */
-@media screen and (max-width: 480px) {
-    .qp-title-section h1 {
-        font-size: 14pt;
-    }
-
-    .qp-subtitle {
-        font-size: 9pt;
-    }
-
-    .qg-additional-fields {
-        grid-template-columns: 1fr;
-    }
-
-    .qp-highlight-box {
-        padding: 10px;
-    }
-
-    .qp-highlight-value {
-        font-size: 14pt;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px 20px;
     }
 
     .qp-thankyou-contact {
-        font-size: 8.5pt;
-        flex-direction: column;
+        flex-direction: row;
+        gap: 25px;
+    }
+
+    /* On larger screens, keep footer pinned inside A4 preview */
+    .qp-page-footer {
+        position: absolute;
+        bottom: 8mm;
+        left: 15mm;
+        right: 15mm;
+        text-align: left;
+        flex-direction: row;
+        gap: 0;
+        margin-top: 0;
+    }
+}
+
+@media screen and (min-width: 1025px) {
+    .qg-form-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .qg-component-fields {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .qg-additional-fields {
+        grid-template-columns: repeat(7, 1fr);
+    }
+
+    .qp-benefits-grid {
+        grid-template-columns: 1fr 1fr 1fr;
     }
 }
 

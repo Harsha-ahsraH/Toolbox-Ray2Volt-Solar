@@ -7,6 +7,14 @@ window.RAY2VOLT_PASSWORDS = {
         "Admin@Ray2Volt",
         "fj"
     ],
+    "proforma-invoice": [
+        "Admin@Ray2Volt",
+        "fj"
+    ],
+    "purchase-order": [
+        "Admin@Ray2Volt",
+        "fj"
+    ],
     "quote-generator": [
         "Admin@Ray2Volt",
         "DilliBabu",
