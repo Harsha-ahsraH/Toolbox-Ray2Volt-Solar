@@ -276,59 +276,6 @@ select.qg-input-field {
 
 /* ... headers ... */
 
-/* Editable inputs inside BOM table */
-.qg-bom-input-table input.bom-item,
-.qg-bom-input-table input.bom-qty,
-.qg-bom-input-table input.bom-unit,
-.qg-bom-input-table input.bom-make {
-    width: 100%;
-    padding: 8px 10px;
-    font-size: 0.95rem;
-    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
-    border: 1px solid var(--border-light);
-    /* Subtle border to show editability */
-    background: #fafafa;
-    /* Light background */
-    color: var(--text-primary);
-    border-radius: 4px;
-    transition: all 0.2s ease;
-    box-sizing: border-box;
-}
-
-.qg-bom-input-table input.bom-item:hover,
-.qg-bom-input-table input.bom-qty:hover,
-.qg-bom-input-table input.bom-unit:hover,
-.qg-bom-input-table input.bom-make:hover {
-    background: #fff;
-    border-color: var(--border-medium);
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-}
-
-.qg-bom-input-table input.bom-item:focus,
-.qg-bom-input-table input.bom-qty:focus,
-.qg-bom-input-table input.bom-unit:focus,
-.qg-bom-input-table input.bom-make:focus {
-    outline: none;
-    background: #fff;
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px var(--primary-light);
-}
-
-.qg-bom-input-table input.bom-qty {
-    text-align: center;
-    width: 70px;
-}
-
-.qg-bom-input-table input.bom-unit {
-    text-align: center;
-    width: 70px;
-}
-
-.qg-bom-input-table td:has(input.bom-qty),
-.qg-bom-input-table td:has(input.bom-unit) {
-    text-align: center;
-}
-
 
 /* --- Action Buttons --- */
 .qg-actions {
