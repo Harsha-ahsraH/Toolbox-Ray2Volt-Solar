@@ -43,6 +43,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (qgSystemCapacity && !qgSystemCapacity.value) {
             qgSystemCapacity.value = 3;
         }
+
+        // Initialize BOM table
+        updateBomTable();
     }
 
     /**
@@ -69,6 +72,93 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
+        // Installation Type change to update BOM table
+        if (qgInstallationType) {
+            qgInstallationType.addEventListener('change', updateBomTable);
+        }
+    }
+
+    /**
+     * Update BOM table defaults based on installation type
+     */
+    function updateBomTable() {
+        const type = qgInstallationType ? qgInstallationType.options[qgInstallationType.selectedIndex].value : 'On-Grid';
+        const tbody = document.getElementById('bomInputTableBody');
+        if (!tbody) return;
+
+        const onGridDefaults = [
+            { item: 'Solar PV Module (Mono PERC DCR/Non-DCR) 540/550 Wp', qty: 6, unit: 'Nos', make: 'Adani' },
+            { item: 'On-Grid Inverter', qty: 1, unit: 'Nos', make: 'Polycab/Growatt/Deye' },
+            { item: 'Module Mounting Structure (HDG/GI)', qty: 1, unit: 'Set', make: 'JSW/Custom' },
+            { item: 'AC Distribution Box (ACDB)', qty: 1, unit: 'Nos', make: 'Polycab' },
+            { item: 'DC Distribution Box (DCDB)', qty: 1, unit: 'Nos', make: 'Polycab' },
+            { item: 'DC Cable (4 sq mm)', qty: 50, unit: 'Mtrs', make: 'Polycab/Reputed' }
+        ];
+
+        const hybridDefaults = [
+            { item: 'Solar PV Module (Mono PERC DCR/Non-DCR) 540/550 Wp', qty: 6, unit: 'Nos', make: 'Adani' },
+            { item: 'Hybrid Inverter', qty: 1, unit: 'Nos', make: 'Deye' },
+            { item: 'SE-F5 Plus LiFePO4 Battery (5.12kWh, 100Ah, 51.2V)', qty: 1, unit: 'Set', make: 'Deye' },
+            { item: 'Module Mounting Structure (HDG/GI)', qty: 1, unit: 'Nos', make: 'JSW/TATA/Reputed' },
+            { item: 'DCDB, ACDB & Battery DB', qty: 1, unit: 'Set', make: 'Deye/Feston' },
+            { item: 'DC Cable (4 sq mm)', qty: 50, unit: 'Mtrs', make: 'Polycab/Reputed' }
+        ];
+
+        const commonAccessories = [
+            { item: 'Lightning Arrester (LA)', qty: 1, unit: 'Nos', make: 'Reputed' },
+            { item: 'Earthing Kit (Chemical/Rod)', qty: 3, unit: 'Set', make: 'Reputed' },
+            { item: 'MC4 Connectors', qty: 4, unit: 'Pairs', make: 'Reputed' },
+            { item: 'AC Cable (Service Wire)', qty: 20, unit: 'Mtrs', make: 'Polycab/Reputed' },
+            { item: 'Installation & Commissioning', qty: 1, unit: 'Job', make: 'Ray2Volt Solar' },
+            { item: 'Transportation & Handling', qty: 1, unit: 'Trip', make: 'Ray2Volt Solar' }
+        ];
+
+        let selectedDefaults = type === 'Hybrid' ? hybridDefaults : onGridDefaults;
+        
+        // Use hybrid defaults for Off-Grid as well
+        if (type === 'Off-Grid') {
+            selectedDefaults = hybridDefaults;
+        }
+
+        let html = '';
+        let sno = 1;
+
+        // Add main items
+        selectedDefaults.forEach(row => {
+            html += `
+                <tr data-row="${sno}">
+                    <td class="bom-sno">${sno}</td>
+                    <td><input type="text" class="bom-item" value="${row.item}"></td>
+                    <td><input type="number" class="bom-qty" value="${row.qty}" min="1"></td>
+                    <td><input type="text" class="bom-unit" value="${row.unit}"></td>
+                    <td><input type="text" class="bom-make" value="${row.make}"></td>
+                </tr>
+            `;
+            sno++;
+        });
+
+        // Add accessories header
+        html += `
+            <tr class="bom-section-header">
+                <td colspan="5"><strong>Installation Accessories</strong></td>
+            </tr>
+        `;
+
+        // Add accessories
+        commonAccessories.forEach(row => {
+            html += `
+                <tr data-row="${sno}">
+                    <td class="bom-sno">${sno}</td>
+                    <td><input type="text" class="bom-item" value="${row.item}"></td>
+                    <td><input type="number" class="bom-qty" value="${row.qty}" min="0"></td>
+                    <td><input type="text" class="bom-unit" value="${row.unit}"></td>
+                    <td><input type="text" class="bom-make" value="${row.make}"></td>
+                </tr>
+            `;
+            sno++;
+        });
+
+        tbody.innerHTML = html;
     }
 
     /**
@@ -149,6 +239,14 @@ document.addEventListener('DOMContentLoaded', () => {
         // PAGE 2: Bill of Materials
         // ============================
         populateBomTable();
+
+        if (installType === 'Hybrid' || installType === 'Off-Grid') {
+            setText('qpWarrantyInverterLabel', 'Inverter & Battery');
+            setText('qpWarrantyInverterValue', '10 Years Standard Warranty (Manufacturer)');
+        } else {
+            setText('qpWarrantyInverterLabel', 'Inverter');
+            setText('qpWarrantyInverterValue', '7 Years Standard Warranty (Manufacturer)');
+        }
 
         // ============================
         // PAGE 3: Commercial Offer

@@ -247,31 +247,88 @@ select.qg-input-field {
 /* --- Editable BOM Input Table --- */
 .qg-bom-table-container {
     overflow-x: auto;
+    border: 1px solid var(--border-medium);
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
 }
 
 .qg-bom-input-table {
     width: 100%;
     border-collapse: collapse;
     background: #fff;
-}
-
-.qg-bom-input-table th,
-.qg-bom-input-table td {
-    padding: 12px 15px;
-    /* More padding */
-    border: 1px solid var(--border-medium);
-    font-size: 0.95rem;
-    /* Larger font */
-    vertical-align: middle;
+    border: none;
 }
 
 .qg-bom-input-table th {
+    padding: 12px 16px;
     background: #E8F4FA;
-    font-weight: 700;
+    font-weight: 600;
     color: var(--text-primary);
     text-align: left;
     white-space: nowrap;
-    border-bottom: 2px solid var(--border-medium);
+    border-bottom: 1px solid var(--border-medium);
+    font-size: 0.9rem;
+    letter-spacing: 0.3px;
+}
+
+.qg-bom-input-table td {
+    padding: 0;
+    border-bottom: 1px solid var(--border-light);
+    border-right: 1px solid var(--border-light);
+    vertical-align: middle;
+    position: relative;
+}
+
+.qg-bom-input-table td:last-child {
+    border-right: none;
+}
+
+.qg-bom-input-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.qg-bom-input-table td.bom-sno {
+    padding: 12px 16px;
+    color: var(--text-secondary);
+    font-weight: 500;
+    font-size: 0.95rem;
+    text-align: center;
+}
+
+.qg-bom-input-table input {
+    width: 100%;
+    height: 100%;
+    padding: 12px 16px;
+    border: none;
+    background: transparent;
+    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    box-sizing: border-box;
+    transition: background-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.qg-bom-input-table input:focus {
+    outline: none;
+    background-color: #fff;
+    box-shadow: inset 0 0 0 2px var(--primary);
+    z-index: 2;
+    position: relative;
+    border-radius: 2px;
+}
+
+.qg-bom-input-table input:hover:not(:focus) {
+    background-color: rgba(0, 0, 0, 0.015);
+}
+
+.qg-bom-input-table tr.bom-section-header td {
+    background: #f8fafc;
+    padding: 14px 16px;
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid var(--border-medium);
 }
 
 /* ... headers ... */
@@ -938,11 +995,11 @@ select.qg-input-field {
 }
 
 .qp-bank-flex {
-    /* Mobile-first */
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-bottom: 0px;
+    /* Updated for perfect vertical alignment */
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 8px;
 }
 
 .qp-bank-body span {

@@ -33,3 +33,23 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+// ==========================================
+// CHATBOT INJECTION
+// ==========================================
+(function injectChatbot() {
+    const isToolsDir = window.location.pathname.includes('/tools/');
+    const cssPath = isToolsDir ? '../css/chatbot.css' : 'css/chatbot.css';
+    const jsPath = isToolsDir ? '../js/chatbot.js' : 'js/chatbot.js';
+
+    // Inject CSS
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = cssPath;
+    document.head.appendChild(link);
+
+    // Inject JS
+    const script = document.createElement('script');
+    script.src = jsPath;
+    document.body.appendChild(script);
+})();
