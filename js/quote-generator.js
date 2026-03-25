@@ -324,9 +324,11 @@ document.addEventListener('DOMContentLoaded', () => {
         // --- Before vs After Solar ---
         const monthlyUnits = annualUnits / 12;
         const monthlyBillBefore = monthlyUnits * tariffRate;
+        const newMonthlyBillEst = 60 * capacity;
+
         setText('qpBillBefore', `${formatCurrency(monthlyBillBefore)}/month (est.)`);
-        setText('qpBillAfter', 'Approx. ₹0 – ₹200/month');
-        setText('qpMonthlySavings', `${formatCurrency(monthlyBillBefore - 100)}/month (est.)`);
+        setText('qpBillAfter', `Approx. ${formatCurrency(newMonthlyBillEst)}/month`);
+        setText('qpMonthlySavings', `${formatCurrency(monthlyBillBefore - newMonthlyBillEst)} (est.)`);
 
         // ============================
         // Show the preview
