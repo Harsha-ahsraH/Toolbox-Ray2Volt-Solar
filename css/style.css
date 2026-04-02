@@ -51,6 +51,25 @@
     --sidebar-width: 250px;
 }
 
+/* --- Custom Scrollbars --- */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-body);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border-medium);
+    border-radius: var(--radius-lg);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary);
+}
+
 /* --- Reset & Base Styles --- */
 *,
 *::before,

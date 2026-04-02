@@ -12,7 +12,7 @@ window.RAY2VOLT_PASSWORDS = {
         "fj"
     ],
     "purchase-order": [
-        "Admin@Ray2Volt",
+        "Finance@Admin@Ray2Volt",
         "fj"
     ],
     "quote-generator": [
@@ -30,5 +30,9 @@ window.RAY2VOLT_PASSWORDS = {
     ],
     "payslip-generator": [
         "Finance@Admin@Ray2Volt"
+    ],
+    "request-for-quotation": [
+        "Finance@Admin@Ray2Volt",
+        "fj"
     ]
 };
