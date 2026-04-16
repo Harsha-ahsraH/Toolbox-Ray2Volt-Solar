@@ -1,7 +1,4 @@
-/**
- * Centralized Password Configuration
- * Loaded by tool-lock.js
- */
+
 window.RAY2VOLT_PASSWORDS = {
     "invoice-generator": [
         "Admin@Ray2Volt",
@@ -9,7 +6,8 @@ window.RAY2VOLT_PASSWORDS = {
     ],
     "proforma-invoice": [
         "Admin@Ray2Volt",
-        "fj"
+        "fj",
+        "prasanar2v"
     ],
     "purchase-order": [
         "Finance@Admin@Ray2Volt",
@@ -17,12 +15,13 @@ window.RAY2VOLT_PASSWORDS = {
     ],
     "quote-generator": [
         "Admin@Ray2Volt",
-        "DilliBabu",
-        "fj"
+        "fj",
+        "prasanar2v"
     ],
     "receipt-generator": [
         "Admin@Ray2Volt",
-        "fj"
+        "fj",
+        "prasanar2v"
     ],
     "warranty-card": [
         "Admin@Ray2Volt",
@@ -36,3 +35,4 @@ window.RAY2VOLT_PASSWORDS = {
         "fj"
     ]
 };
+
