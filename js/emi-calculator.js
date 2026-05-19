@@ -82,18 +82,21 @@ document.addEventListener('DOMContentLoaded', () => {
         if (calcMode === 'emi') {
             calculatedResultLabel.textContent = 'Monthly EMI';
             calcModeHelp.textContent = 'Enter loan details to calculate EMI';
+            if (document.getElementById('printCalcMode')) document.getElementById('printCalcMode').textContent = 'Calculate EMI';
         } else if (calcMode === 'tenure') {
             fixedEmiGroup.style.display = 'block';
             calculatedResultRow.style.display = 'none';
             tenureResultRow.style.display = 'flex';
             tenureGroup?.classList.add('input-disabled');
             calcModeHelp.textContent = 'Fix your EMI to calculate required tenure';
+            if (document.getElementById('printCalcMode')) document.getElementById('printCalcMode').textContent = 'Calculate Tenure';
         } else if (calcMode === 'rate') {
             fixedEmiGroup.style.display = 'block';
             calculatedResultRow.style.display = 'none';
             rateResultRow.style.display = 'flex';
             interestRateGroup?.classList.add('input-disabled');
             calcModeHelp.textContent = 'Fix your EMI to calculate required interest rate';
+            if (document.getElementById('printCalcMode')) document.getElementById('printCalcMode').textContent = 'Calculate Interest Rate';
         }
         performEMICalculation();
     }
@@ -248,8 +251,20 @@ document.addEventListener('DOMContentLoaded', () => {
         loanTenureSlider.addEventListener('input', () => syncSliders(loanTenureSlider, loanTenureInput));
         if (fixedEMIInput) fixedEMIInput.addEventListener('input', performEMICalculation);
         if (reducingBalanceBtn && flatRateBtn) {
-            reducingBalanceBtn.addEventListener('click', () => { emiMethod = 'reducing'; reducingBalanceBtn.classList.add('active'); flatRateBtn.classList.remove('active'); performEMICalculation(); });
-            flatRateBtn.addEventListener('click', () => { emiMethod = 'flat'; flatRateBtn.classList.add('active'); reducingBalanceBtn.classList.remove('active'); performEMICalculation(); });
+            reducingBalanceBtn.addEventListener('click', () => { 
+                emiMethod = 'reducing'; 
+                reducingBalanceBtn.classList.add('active'); 
+                flatRateBtn.classList.remove('active'); 
+                if (document.getElementById('printInterestMethod')) document.getElementById('printInterestMethod').textContent = 'Reducing Balance';
+                performEMICalculation(); 
+            });
+            flatRateBtn.addEventListener('click', () => { 
+                emiMethod = 'flat'; 
+                flatRateBtn.classList.add('active'); 
+                reducingBalanceBtn.classList.remove('active'); 
+                if (document.getElementById('printInterestMethod')) document.getElementById('printInterestMethod').textContent = 'Flat Rate';
+                performEMICalculation(); 
+            });
         }
         if (calcEmiBtn && calcTenureBtn && calcRateBtn) {
             const setActiveCalcMode = (mode, activeBtn) => {
@@ -264,5 +279,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         updateDisplayValues();
         performEMICalculation();
+        
+        const printEmiBtn = document.getElementById('printEmiBtn');
+        if (printEmiBtn) {
+            printEmiBtn.addEventListener('click', () => {
+                window.print();
+            });
+        }
     }
 });

@@ -71,10 +71,23 @@
         <main class="main-content">
             <section id="emi-calculator-section" class="content-section active">
 
+                <!-- Print Only Header -->
+                <div class="print-only-header" style="display: none; text-align: center; margin-bottom: 2rem; border-bottom: 2px solid var(--primary); padding-bottom: 1.5rem;">
+                    <img src="../Logo.png" alt="Ray2Volt Logo" style="max-height: 50px; margin-bottom: 1rem;">
+                    <h1 style="font-size: 1.8rem; font-weight: 700; color: var(--text-primary); margin: 0; font-family: 'Google Sans Flex', 'Google Sans', sans-serif;">Ray2Volt Solar Financing Report</h1>
+                    <p style="color: var(--text-secondary); font-size: 0.95rem; margin-top: 0.5rem; font-weight: 500;">Comprehensive Loan & Amortization Schedule</p>
+                </div>
+
                 <!-- Page Header -->
-                <div class="emi-page-header">
-                    <h1>EMI Calculator</h1>
-                    <p>Calculate equated monthly installments, required tenure, or interest rate for your loans.</p>
+                <div class="emi-page-header" style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;">
+                    <div>
+                        <h1>EMI Calculator</h1>
+                        <p>Calculate equated monthly installments, required tenure, or interest rate for your loans.</p>
+                    </div>
+                    <button id="printEmiBtn" class="mode-btn" style="background: var(--primary); color: white; border: none; font-weight: 600; padding: 0.6rem 1.2rem; display: flex; align-items: center; gap: 0.5rem;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                        Download / Print
+                    </button>
                 </div>
 
                 <!-- Calculation Mode Selector -->
@@ -98,6 +111,18 @@
                         <!-- Left Column: Inputs -->
                         <div class="emi-inputs-section">
                             <h3 class="section-title">Loan Details</h3>
+                            
+                            <!-- Print-only detailed summary -->
+                            <div class="print-only-details" style="display: none; margin-bottom: 1.5rem; padding: 1rem; background: var(--bg-body); border: 1px solid var(--border-medium); border-radius: 4px;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                    <span style="color: var(--text-secondary); font-weight: 500;">Calculation Mode:</span>
+                                    <span id="printCalcMode" style="font-weight: 600; color: var(--text-primary);">EMI</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span style="color: var(--text-secondary); font-weight: 500;">Interest Method:</span>
+                                    <span id="printInterestMethod" style="font-weight: 600; color: var(--text-primary);">Reducing Balance</span>
+                                </div>
+                            </div>
 
                             <!-- Loan Amount -->
                             <div class="emi-input-group">

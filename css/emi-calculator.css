@@ -631,3 +631,153 @@
         display: none;
     }
 }
+
+/* --- Print Styles --- */
+@media print {
+    body {
+        background: #fff;
+        color: #000;
+    }
+
+    .mobile-header,
+    .sidebar,
+    .emi-mode-selector,
+    .emi-slider,
+    .emi-input-field,
+    .emi-method-toggle,
+    #printEmiBtn,
+    .mobile-nav-toggle {
+        display: none !important;
+    }
+
+    .emi-page-header {
+        display: none !important;
+    }
+
+    .print-only-header {
+        display: block !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        margin-bottom: 1rem !important;
+        padding-bottom: 0.5rem !important;
+    }
+
+    .emi-calculator-card {
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        margin-bottom: 1rem !important;
+    }
+
+    .main-content {
+        margin-left: 0 !important;
+        padding: 0 !important;
+    }
+
+    .app-container {
+        display: block !important;
+    }
+
+    .emi-grid {
+        display: block !important;
+    }
+
+    .emi-inputs-section {
+        border-right: none !important;
+        padding-right: 0 !important;
+        margin-bottom: 1rem;
+    }
+
+    .emi-input-group {
+        margin-bottom: 0.75rem !important;
+    }
+
+    .section-title {
+        margin-bottom: 0.75rem !important;
+        padding-bottom: 0.25rem !important;
+    }
+
+    .emi-results-section {
+        padding-top: 1rem;
+        border-top: 1px dashed var(--border-medium);
+    }
+
+    .emi-primary-result {
+        padding: 1rem !important;
+        min-height: auto !important;
+        margin-bottom: 0.75rem !important;
+    }
+
+    .emi-secondary-results {
+        margin-bottom: 0.5rem !important;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .emi-chart-wrapper {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: center;
+        align-items: center;
+        padding: 0.5rem !important;
+        background: transparent !important;
+        border: none !important;
+        gap: 1.5rem;
+    }
+
+    .emi-chart-wrapper canvas {
+        width: 200px !important;
+        height: 200px !important;
+        min-width: 200px !important;
+        min-height: 200px !important;
+        max-width: 200px !important;
+        max-height: 200px !important;
+        margin-bottom: 0 !important;
+    }
+
+    .chart-legend {
+        flex-direction: column;
+        gap: 0.75rem !important;
+        justify-content: center;
+        font-size: 0.9rem !important;
+    }
+
+    .print-only-details {
+        display: block !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        margin-bottom: 1rem !important;
+        padding: 0.75rem !important;
+    }
+
+    .table-wrapper {
+        max-height: none !important;
+        overflow: visible !important;
+        border: none !important;
+    }
+
+    .emi-table th {
+        background-color: #f3f4f6 !important;
+        color: #111827 !important;
+        border-bottom: 2px solid #d1d5db !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .emi-table td {
+        border-bottom: 1px solid #e5e7eb !important;
+    }
+
+    .emi-primary-result,
+    .input-value-display,
+    .result-item {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .emi-amortization-card {
+        border: none !important;
+        padding: 0 !important;
+        box-shadow: none !important;
+        page-break-before: always;
+    }
+}
