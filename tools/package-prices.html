@@ -75,16 +75,41 @@
                 </div>
 
                 <!-- ============================== -->
-                <!-- ON-GRID SOLAR PACKAGES         -->
+                <!-- DYNAMIC PRICING CONTROLS       -->
+                <!-- ============================== -->
+                <div class="pkg-controls-container">
+                    <!-- Segmented toggle for On-Grid / Hybrid -->
+                    <div class="pkg-segmented-toggle" id="systemSegmented">
+                        <div class="pkg-seg-highlight"></div>
+                        <button class="pkg-seg-btn active" data-value="ongrid" id="btn-ongrid">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                            On-Grid
+                        </button>
+                        <button class="pkg-seg-btn" data-value="hybrid" id="btn-hybrid">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                            Hybrid
+                        </button>
+                    </div>
+
+                    <!-- Styled package type select -->
+                    <div class="pkg-select-wrap">
+                        <label class="pkg-select-label" for="packageSelect">Package type</label>
+                        <div class="pkg-select-box">
+                            <select id="packageSelect" class="pkg-dropdown">
+                                <option value="residential">Residential · DCR Panels</option>
+                                <option value="commercial">Commercial · NDCR Panels</option>
+                            </select>
+                            <svg class="pkg-select-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ============================== -->
+                <!-- DYNAMIC PRICING TABLES         -->
                 <!-- ============================== -->
                 <div class="pkg-section-block">
-                    <h2 class="pkg-section-title">
-                        <span class="pkg-title-icon">☀️</span>
-                        On-Grid Solar Packages & Prices
-                    </h2>
-
                     <!-- Residential On-Grid -->
-                    <div class="pkg-card">
+                    <div class="pkg-card table-view" id="view-ongrid-residential">
                         <h3 class="pkg-card-title">Residential Packages <span class="pkg-badge">Includes DCR Solar Panels</span></h3>
                         <div class="pkg-table-wrapper">
                             <table class="pkg-table">
@@ -97,22 +122,26 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr><td data-label="Capacity">2-kWp</td><td data-label="Price">1,68,000</td><td data-label="Subsidy">60,000</td><td data-label="Units/Month">240 kWh</td></tr>
-                                    <tr><td data-label="Capacity">3-kWp</td><td data-label="Price">2,18,000</td><td data-label="Subsidy">78,000</td><td data-label="Units/Month">360 kWh</td></tr>
-                                    <tr><td data-label="Capacity">4-kWp</td><td data-label="Price">2,71,000</td><td data-label="Subsidy">78,000</td><td data-label="Units/Month">480 kWh</td></tr>
-                                    <tr><td data-label="Capacity">5-kWp</td><td data-label="Price">3,28,000</td><td data-label="Subsidy">78,000</td><td data-label="Units/Month">600 kWh</td></tr>
-                                    <tr><td data-label="Capacity">6-kWp</td><td data-label="Price">4,04,000</td><td data-label="Subsidy">78,000</td><td data-label="Units/Month">720 kWh</td></tr>
-                                    <tr><td data-label="Capacity">7-kWp</td><td data-label="Price">4,56,000</td><td data-label="Subsidy">78,000</td><td data-label="Units/Month">840 kWh</td></tr>
-                                    <tr><td data-label="Capacity">8-kWp</td><td data-label="Price">4,90,000</td><td data-label="Subsidy">78,000</td><td data-label="Units/Month">960 kWh</td></tr>
-                                    <tr><td data-label="Capacity">9-kWp</td><td data-label="Price">5,38,000</td><td data-label="Subsidy">78,000</td><td data-label="Units/Month">1080 kWh</td></tr>
-                                    <tr><td data-label="Capacity">10-kWp</td><td data-label="Price">5,88,000</td><td data-label="Subsidy">78,000</td><td data-label="Units/Month">1200 kWh</td></tr>
+                                    <tr><td data-label="Capacity">2-kWp</td><td data-label="Price">1,73,600</td><td data-label="Subsidy">60,000</td><td data-label="Units/Month">240 kWh</td></tr>
+                                    <tr><td data-label="Capacity">3-kWp</td><td data-label="Price">2,26,400</td><td data-label="Subsidy">78,000</td><td data-label="Units/Month">360 kWh</td></tr>
+                                    <tr><td data-label="Capacity">4-kWp</td><td data-label="Price">2,82,200</td><td data-label="Subsidy">78,000</td><td data-label="Units/Month">480 kWh</td></tr>
+                                    <tr><td data-label="Capacity">5-kWp</td><td data-label="Price">3,42,000</td><td data-label="Subsidy">78,000</td><td data-label="Units/Month">600 kWh</td></tr>
+                                    <tr><td data-label="Capacity">6-kWp</td><td data-label="Price">4,20,800</td><td data-label="Subsidy">78,000</td><td data-label="Units/Month">720 kWh</td></tr>
+                                    <tr><td data-label="Capacity">7-kWp</td><td data-label="Price">4,75,600</td><td data-label="Subsidy">78,000</td><td data-label="Units/Month">840 kWh</td></tr>
+                                    <tr><td data-label="Capacity">8-kWp</td><td data-label="Price">5,12,400</td><td data-label="Subsidy">78,000</td><td data-label="Units/Month">960 kWh</td></tr>
+                                    <tr><td data-label="Capacity">9-kWp</td><td data-label="Price">5,63,200</td><td data-label="Subsidy">78,000</td><td data-label="Units/Month">1080 kWh</td></tr>
+                                    <tr><td data-label="Capacity">10-kWp</td><td data-label="Price">6,16,000</td><td data-label="Subsidy">78,000</td><td data-label="Units/Month">1200 kWh</td></tr>
+                                    <tr><td data-label="Capacity">12-kWp</td><td data-label="Price">7,17,600</td><td data-label="Subsidy">78,000</td><td data-label="Units/Month">1440 kWh</td></tr>
+                                    <tr><td data-label="Capacity">15-kWp</td><td data-label="Price">8,82,000</td><td data-label="Subsidy">78,000</td><td data-label="Units/Month">1800 kWh</td></tr>
+                                    <tr><td data-label="Capacity">18-kWp</td><td data-label="Price">10,49,400</td><td data-label="Subsidy">78,000</td><td data-label="Units/Month">2160 kWh</td></tr>
+                                    <tr><td data-label="Capacity">20-kWp</td><td data-label="Price">11,56,000</td><td data-label="Subsidy">78,000</td><td data-label="Units/Month">2400 kWh</td></tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
 
                     <!-- Commercial On-Grid -->
-                    <div class="pkg-card">
+                    <div class="pkg-card table-view" id="view-ongrid-commercial" style="display: none;">
                         <h3 class="pkg-card-title">Commercial Packages <span class="pkg-badge pkg-badge-alt">No Subsidies · NDCR Panels</span></h3>
                         <div class="pkg-table-wrapper">
                             <table class="pkg-table">
@@ -125,36 +154,26 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr><td data-label="Capacity">2-kWp</td><td data-label="Price">1,16,000</td><td data-label="₹/Watt">58.00</td><td data-label="Units/Month">240 kWh</td></tr>
-                                    <tr><td data-label="Capacity">3-kWp</td><td data-label="Price">1,65,000</td><td data-label="₹/Watt">55.00</td><td data-label="Units/Month">360 kWh</td></tr>
-                                    <tr><td data-label="Capacity">4-kWp</td><td data-label="Price">2,20,000</td><td data-label="₹/Watt">55.00</td><td data-label="Units/Month">480 kWh</td></tr>
-                                    <tr><td data-label="Capacity">5-kWp</td><td data-label="Price">2,75,000</td><td data-label="₹/Watt">55.00</td><td data-label="Units/Month">600 kWh</td></tr>
-                                    <tr><td data-label="Capacity">6-kWp</td><td data-label="Price">3,42,000</td><td data-label="₹/Watt">57.00</td><td data-label="Units/Month">720 kWh</td></tr>
-                                    <tr><td data-label="Capacity">7-kWp</td><td data-label="Price">4,06,000</td><td data-label="₹/Watt">58.00</td><td data-label="Units/Month">840 kWh</td></tr>
-                                    <tr><td data-label="Capacity">8-kWp</td><td data-label="Price">4,32,000</td><td data-label="₹/Watt">54.00</td><td data-label="Units/Month">960 kWh</td></tr>
-                                    <tr><td data-label="Capacity">9-kWp</td><td data-label="Price">4,50,000</td><td data-label="₹/Watt">50.00</td><td data-label="Units/Month">1080 kWh</td></tr>
-                                    <tr><td data-label="Capacity">10-kWp</td><td data-label="Price">4,85,000</td><td data-label="₹/Watt">48.50</td><td data-label="Units/Month">1200 kWh</td></tr>
-                                    <tr><td data-label="Capacity">12-kWp</td><td data-label="Price">5,64,000</td><td data-label="₹/Watt">47.00</td><td data-label="Units/Month">1440 kWh</td></tr>
-                                    <tr><td data-label="Capacity">15-kWp</td><td data-label="Price">6,90,000</td><td data-label="₹/Watt">46.00</td><td data-label="Units/Month">1800 kWh</td></tr>
-                                    <tr><td data-label="Capacity">18-kWp</td><td data-label="Price">8,19,000</td><td data-label="₹/Watt">45.50</td><td data-label="Units/Month">2160 kWh</td></tr>
-                                    <tr><td data-label="Capacity">20-kWp</td><td data-label="Price">9,00,000</td><td data-label="₹/Watt">45.00</td><td data-label="Units/Month">2400 kWh</td></tr>
+                                    <tr><td data-label="Capacity">2-kWp</td><td data-label="Price">1,21,600</td><td data-label="₹/Watt">60.80</td><td data-label="Units/Month">240 kWh</td></tr>
+                                    <tr><td data-label="Capacity">3-kWp</td><td data-label="Price">1,73,400</td><td data-label="₹/Watt">57.80</td><td data-label="Units/Month">360 kWh</td></tr>
+                                    <tr><td data-label="Capacity">4-kWp</td><td data-label="Price">2,31,200</td><td data-label="₹/Watt">57.80</td><td data-label="Units/Month">480 kWh</td></tr>
+                                    <tr><td data-label="Capacity">5-kWp</td><td data-label="Price">2,89,000</td><td data-label="₹/Watt">57.80</td><td data-label="Units/Month">600 kWh</td></tr>
+                                    <tr><td data-label="Capacity">6-kWp</td><td data-label="Price">3,58,800</td><td data-label="₹/Watt">59.80</td><td data-label="Units/Month">720 kWh</td></tr>
+                                    <tr><td data-label="Capacity">7-kWp</td><td data-label="Price">4,25,600</td><td data-label="₹/Watt">60.80</td><td data-label="Units/Month">840 kWh</td></tr>
+                                    <tr><td data-label="Capacity">8-kWp</td><td data-label="Price">4,54,400</td><td data-label="₹/Watt">56.80</td><td data-label="Units/Month">960 kWh</td></tr>
+                                    <tr><td data-label="Capacity">9-kWp</td><td data-label="Price">4,75,200</td><td data-label="₹/Watt">52.80</td><td data-label="Units/Month">1080 kWh</td></tr>
+                                    <tr><td data-label="Capacity">10-kWp</td><td data-label="Price">5,13,000</td><td data-label="₹/Watt">51.30</td><td data-label="Units/Month">1200 kWh</td></tr>
+                                    <tr><td data-label="Capacity">12-kWp</td><td data-label="Price">5,97,600</td><td data-label="₹/Watt">49.80</td><td data-label="Units/Month">1440 kWh</td></tr>
+                                    <tr><td data-label="Capacity">15-kWp</td><td data-label="Price">7,32,000</td><td data-label="₹/Watt">48.80</td><td data-label="Units/Month">1800 kWh</td></tr>
+                                    <tr><td data-label="Capacity">18-kWp</td><td data-label="Price">8,69,400</td><td data-label="₹/Watt">48.30</td><td data-label="Units/Month">2160 kWh</td></tr>
+                                    <tr><td data-label="Capacity">20-kWp</td><td data-label="Price">9,56,000</td><td data-label="₹/Watt">47.80</td><td data-label="Units/Month">2400 kWh</td></tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
-                </div>
-
-                <!-- ============================== -->
-                <!-- HYBRID SOLAR PACKAGES          -->
-                <!-- ============================== -->
-                <div class="pkg-section-block">
-                    <h2 class="pkg-section-title">
-                        <span class="pkg-title-icon">⚡</span>
-                        Hybrid Solar Packages & Prices
-                    </h2>
 
                     <!-- Residential Hybrid -->
-                    <div class="pkg-card">
+                    <div class="pkg-card table-view" id="view-hybrid-residential" style="display: none;">
                         <h3 class="pkg-card-title">Residential Packages <span class="pkg-badge">Includes DCR Solar Panels</span></h3>
                         <div class="pkg-table-wrapper">
                             <table class="pkg-table">
@@ -168,21 +187,25 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr><td data-label="Capacity">3-kWp</td><td data-label="Price">4,35,000</td><td data-label="Subsidy">78,000</td><td data-label="Units/Month">360 kWh</td><td data-label="Battery">5.12 kWh</td></tr>
-                                    <tr><td data-label="Capacity">4-kWp</td><td data-label="Price">4,87,000</td><td data-label="Subsidy">78,000</td><td data-label="Units/Month">480 kWh</td><td data-label="Battery">5.12 kWh</td></tr>
-                                    <tr><td data-label="Capacity">5-kWp</td><td data-label="Price">5,69,000</td><td data-label="Subsidy">78,000</td><td data-label="Units/Month">600 kWh</td><td data-label="Battery">5.12 kWh</td></tr>
-                                    <tr><td data-label="Capacity">6-kWp</td><td data-label="Price">6,55,000</td><td data-label="Subsidy">78,000</td><td data-label="Units/Month">720 kWh</td><td data-label="Battery">5.12 kWh</td></tr>
-                                    <tr><td data-label="Capacity">7-kWp</td><td data-label="Price">7,17,000</td><td data-label="Subsidy">78,000</td><td data-label="Units/Month">840 kWh</td><td data-label="Battery">5.12 kWh</td></tr>
-                                    <tr><td data-label="Capacity">8-kWp</td><td data-label="Price">8,67,000</td><td data-label="Subsidy">78,000</td><td data-label="Units/Month">960 kWh</td><td data-label="Battery">10.24 kWh</td></tr>
-                                    <tr><td data-label="Capacity">9-kWp</td><td data-label="Price">9,35,000</td><td data-label="Subsidy">78,000</td><td data-label="Units/Month">1080 kWh</td><td data-label="Battery">10.24 kWh</td></tr>
-                                    <tr><td data-label="Capacity">10-kWp</td><td data-label="Price">10,10,000</td><td data-label="Subsidy">78,000</td><td data-label="Units/Month">1200 kWh</td><td data-label="Battery">10.24 kWh</td></tr>
+                                    <tr><td data-label="Capacity">3-kWp</td><td data-label="Price">4,34,000</td><td data-label="Subsidy">78,000</td><td data-label="Units/Month">360 kWh</td><td data-label="Battery">5.12 kWh</td></tr>
+                                    <tr><td data-label="Capacity">4-kWp</td><td data-label="Price">5,07,800</td><td data-label="Subsidy">78,000</td><td data-label="Units/Month">480 kWh</td><td data-label="Battery">5.12 kWh</td></tr>
+                                    <tr><td data-label="Capacity">5-kWp</td><td data-label="Price">5,85,600</td><td data-label="Subsidy">78,000</td><td data-label="Units/Month">600 kWh</td><td data-label="Battery">5.12 kWh</td></tr>
+                                    <tr><td data-label="Capacity">6-kWp</td><td data-label="Price">6,82,400</td><td data-label="Subsidy">78,000</td><td data-label="Units/Month">720 kWh</td><td data-label="Battery">5.12 kWh</td></tr>
+                                    <tr><td data-label="Capacity">7-kWp</td><td data-label="Price">7,55,200</td><td data-label="Subsidy">78,000</td><td data-label="Units/Month">840 kWh</td><td data-label="Battery">5.12 kWh</td></tr>
+                                    <tr><td data-label="Capacity">8-kWp</td><td data-label="Price">9,63,600</td><td data-label="Subsidy">78,000</td><td data-label="Units/Month">960 kWh</td><td data-label="Battery">10.24 kWh</td></tr>
+                                    <tr><td data-label="Capacity">9-kWp</td><td data-label="Price">10,32,400</td><td data-label="Subsidy">78,000</td><td data-label="Units/Month">1080 kWh</td><td data-label="Battery">10.24 kWh</td></tr>
+                                    <tr><td data-label="Capacity">10-kWp</td><td data-label="Price">11,03,200</td><td data-label="Subsidy">78,000</td><td data-label="Units/Month">1200 kWh</td><td data-label="Battery">10.24 kWh</td></tr>
+                                    <tr><td data-label="Capacity">12-kWp</td><td data-label="Price">12,86,700</td><td data-label="Subsidy">78,000</td><td data-label="Units/Month">1440 kWh</td><td data-label="Battery">11.77 kWh</td></tr>
+                                    <tr><td data-label="Capacity">15-kWp</td><td data-label="Price">16,34,100</td><td data-label="Subsidy">78,000</td><td data-label="Units/Month">1800 kWh</td><td data-label="Battery">16.07 kWh</td></tr>
+                                    <tr><td data-label="Capacity">18-kWp</td><td data-label="Price">18,55,500</td><td data-label="Subsidy">78,000</td><td data-label="Units/Month">2160 kWh</td><td data-label="Battery">16.07 kWh</td></tr>
+                                    <tr><td data-label="Capacity">20-kWp</td><td data-label="Price">19,98,100</td><td data-label="Subsidy">78,000</td><td data-label="Units/Month">2400 kWh</td><td data-label="Battery">16.07 kWh</td></tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
 
                     <!-- Commercial Hybrid -->
-                    <div class="pkg-card">
+                    <div class="pkg-card table-view" id="view-hybrid-commercial" style="display: none;">
                         <h3 class="pkg-card-title">Commercial Packages <span class="pkg-badge pkg-badge-alt">No Subsidies · NDCR Panels</span></h3>
                         <div class="pkg-table-wrapper">
                             <table class="pkg-table">
@@ -195,18 +218,18 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr><td data-label="Capacity">3-kWp</td><td data-label="Price">3,95,000</td><td data-label="Battery Specs">LV, 100Ah, 51.2V (SE-F5)</td><td data-label="Battery">5.12 kWh</td></tr>
-                                    <tr><td data-label="Capacity">4-kWp</td><td data-label="Price">4,51,000</td><td data-label="Battery Specs">LV, 100Ah, 51.2V (SE-F5)</td><td data-label="Battery">5.12 kWh</td></tr>
-                                    <tr><td data-label="Capacity">5-kWp</td><td data-label="Price">5,04,000</td><td data-label="Battery Specs">LV, 100Ah, 51.2V (SE-F5)</td><td data-label="Battery">5.12 kWh</td></tr>
-                                    <tr><td data-label="Capacity">6-kWp</td><td data-label="Price">5,92,000</td><td data-label="Battery Specs">LV, 100Ah, 51.2V (SE-F5)</td><td data-label="Battery">5.12 kWh</td></tr>
-                                    <tr><td data-label="Capacity">7-kWp</td><td data-label="Price">6,54,000</td><td data-label="Battery Specs">LV, 100Ah, 51.2V (SE-F5)</td><td data-label="Battery">5.12 kWh</td></tr>
-                                    <tr><td data-label="Capacity">8-kWp</td><td data-label="Price">7,95,000</td><td data-label="Battery Specs">LV, 230Ah, 51.2V (SE-F12)</td><td data-label="Battery">11.77 kWh</td></tr>
-                                    <tr><td data-label="Capacity">9-kWp</td><td data-label="Price">8,54,000</td><td data-label="Battery Specs">LV, 230Ah, 51.2V (SE-F12)</td><td data-label="Battery">11.77 kWh</td></tr>
-                                    <tr><td data-label="Capacity">10-kWp</td><td data-label="Price">9,20,000</td><td data-label="Battery Specs">LV, 230Ah, 51.2V (SE-F12)</td><td data-label="Battery">11.77 kWh</td></tr>
-                                    <tr><td data-label="Capacity">12-kWp</td><td data-label="Price">11,17,000</td><td data-label="Battery Specs">LV, 230Ah, 51.2V (SE-F12)</td><td data-label="Battery">11.77 kWh</td></tr>
-                                    <tr><td data-label="Capacity">15-kWp</td><td data-label="Price">13,22,000</td><td data-label="Battery Specs">LV, 314Ah, 51.2V (SE-F16)</td><td data-label="Battery">16.07 kWh</td></tr>
-                                    <tr><td data-label="Capacity">18-kWp</td><td data-label="Price">15,08,000</td><td data-label="Battery Specs">LV, 314Ah, 51.2V (SE-F16)</td><td data-label="Battery">16.07 kWh</td></tr>
-                                    <tr><td data-label="Capacity">20-kWp</td><td data-label="Price">16,18,000</td><td data-label="Battery Specs">LV, 314Ah, 51.2V (SE-F16)</td><td data-label="Battery">16.07 kWh</td></tr>
+                                    <tr><td data-label="Capacity">3-kWp</td><td data-label="Price">3,81,000</td><td data-label="Battery Specs">LV, 100Ah, 51.2V (SE-F5)</td><td data-label="Battery">5.12 kWh</td></tr>
+                                    <tr><td data-label="Capacity">4-kWp</td><td data-label="Price">4,56,800</td><td data-label="Battery Specs">LV, 100Ah, 51.2V (SE-F5)</td><td data-label="Battery">5.12 kWh</td></tr>
+                                    <tr><td data-label="Capacity">5-kWp</td><td data-label="Price">5,32,600</td><td data-label="Battery Specs">LV, 100Ah, 51.2V (SE-F5)</td><td data-label="Battery">5.12 kWh</td></tr>
+                                    <tr><td data-label="Capacity">6-kWp</td><td data-label="Price">6,20,400</td><td data-label="Battery Specs">LV, 100Ah, 51.2V (SE-F5)</td><td data-label="Battery">5.12 kWh</td></tr>
+                                    <tr><td data-label="Capacity">7-kWp</td><td data-label="Price">7,05,200</td><td data-label="Battery Specs">LV, 100Ah, 51.2V (SE-F5)</td><td data-label="Battery">5.12 kWh</td></tr>
+                                    <tr><td data-label="Capacity">8-kWp</td><td data-label="Price">9,51,500</td><td data-label="Battery Specs">LV, 230Ah, 51.2V (SE-F12)</td><td data-label="Battery">11.77 kWh</td></tr>
+                                    <tr><td data-label="Capacity">9-kWp</td><td data-label="Price">9,90,300</td><td data-label="Battery Specs">LV, 230Ah, 51.2V (SE-F12)</td><td data-label="Battery">11.77 kWh</td></tr>
+                                    <tr><td data-label="Capacity">10-kWp</td><td data-label="Price">10,46,100</td><td data-label="Battery Specs">LV, 230Ah, 51.2V (SE-F12)</td><td data-label="Battery">11.77 kWh</td></tr>
+                                    <tr><td data-label="Capacity">12-kWp</td><td data-label="Price">11,66,700</td><td data-label="Battery Specs">LV, 230Ah, 51.2V (SE-F12)</td><td data-label="Battery">11.77 kWh</td></tr>
+                                    <tr><td data-label="Capacity">15-kWp</td><td data-label="Price">14,84,100</td><td data-label="Battery Specs">LV, 314Ah, 51.2V (SE-F16)</td><td data-label="Battery">16.07 kWh</td></tr>
+                                    <tr><td data-label="Capacity">18-kWp</td><td data-label="Price">16,75,500</td><td data-label="Battery Specs">LV, 314Ah, 51.2V (SE-F16)</td><td data-label="Battery">16.07 kWh</td></tr>
+                                    <tr><td data-label="Capacity">20-kWp</td><td data-label="Price">17,98,100</td><td data-label="Battery Specs">LV, 314Ah, 51.2V (SE-F16)</td><td data-label="Battery">16.07 kWh</td></tr>
                                 </tbody>
                             </table>
                         </div>
@@ -307,6 +330,62 @@
             window.addEventListener('resize', checkScroll, { passive: true });
             checkScroll();
         });
+
+        // Pricing Tables Interactivity
+        const btnOngrid = document.getElementById('btn-ongrid');
+        const btnHybrid = document.getElementById('btn-hybrid');
+        const packageSelect = document.getElementById('packageSelect');
+        const segHighlight = document.querySelector('.pkg-seg-highlight');
+        
+        let currentSystem = 'ongrid';
+
+        const views = {
+            'ongrid-residential': document.getElementById('view-ongrid-residential'),
+            'ongrid-commercial': document.getElementById('view-ongrid-commercial'),
+            'hybrid-residential': document.getElementById('view-hybrid-residential'),
+            'hybrid-commercial': document.getElementById('view-hybrid-commercial')
+        };
+
+        function moveHighlight(btn) {
+            if (!segHighlight || !btn) return;
+            segHighlight.style.width = btn.offsetWidth + 'px';
+            segHighlight.style.left = btn.offsetLeft + 'px';
+        }
+
+        function updateView() {
+            const packageType = packageSelect.value;
+            const activeViewId = `${currentSystem}-${packageType}`;
+
+            for (const [key, element] of Object.entries(views)) {
+                if (element) {
+                    element.style.display = (key === activeViewId) ? 'block' : 'none';
+                }
+            }
+        }
+
+        function setSystem(system, btn) {
+            currentSystem = system;
+            document.querySelectorAll('.pkg-seg-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            moveHighlight(btn);
+            updateView();
+        }
+
+        if (btnOngrid && btnHybrid && packageSelect) {
+            btnOngrid.addEventListener('click', () => setSystem('ongrid', btnOngrid));
+            btnHybrid.addEventListener('click', () => setSystem('hybrid', btnHybrid));
+            packageSelect.addEventListener('change', updateView);
+
+            // Initialize highlight position
+            moveHighlight(btnOngrid);
+            updateView();
+
+            // Re-position highlight on resize
+            window.addEventListener('resize', () => {
+                const activeBtn = document.querySelector('.pkg-seg-btn.active');
+                if (activeBtn) moveHighlight(activeBtn);
+            });
+        }
     </script>
 </body>
 
