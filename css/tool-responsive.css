@@ -1,0 +1,647 @@
+/* ============================================
+   Shared Mobile-First Tool Responsiveness
+   Loaded after each document/generator stylesheet.
+   ============================================ */
+
+@media screen {
+    .main-content,
+    .content-section,
+    .calculator-panel,
+    .no-print-area {
+        min-width: 0;
+        max-width: 100%;
+    }
+
+    .rcpt-page-header,
+    .inv-page-header,
+    .pi-page-header,
+    .po-page-header,
+    .ps-page-header,
+    .warranty-page-header-ui,
+    .qg-page-header,
+    .rfq-page-header {
+        max-width: 100%;
+        margin-bottom: 1rem;
+    }
+
+    .rcpt-page-header h1,
+    .inv-page-header h1,
+    .pi-page-header h1,
+    .po-page-header h1,
+    .ps-page-header h1,
+    .warranty-page-header-ui h1,
+    .qg-page-header h1,
+    .rfq-page-header h1 {
+        font-size: clamp(1.35rem, 6vw, 1.75rem);
+        overflow-wrap: anywhere;
+    }
+
+    .rcpt-page-header p,
+    .inv-page-header p,
+    .pi-page-header p,
+    .po-page-header p,
+    .ps-page-header p,
+    .warranty-page-header-ui p,
+    .qg-page-header p,
+    .rfq-page-header p {
+        font-size: clamp(0.875rem, 3.6vw, 0.95rem);
+    }
+
+    .rcpt-form-grid,
+    .inv-form-grid,
+    .pi-form-grid,
+    .po-form-grid,
+    .ps-form-grid,
+    .warranty-form-grid,
+    .qg-form-grid,
+    .rfq-form-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) !important;
+        gap: 1rem;
+        max-width: 100%;
+    }
+
+    .rcpt-form-card,
+    .rcpt-items-card,
+    .inv-form-card,
+    .inv-items-card,
+    .pi-form-card,
+    .pi-items-card,
+    .po-form-card,
+    .po-items-card,
+    .ps-form-card,
+    .ps-items-card,
+    .warranty-form-card,
+    .qg-form-card,
+    .qg-components-card,
+    .rfq-form-card {
+        width: 100%;
+        min-width: 0;
+        max-width: 100%;
+        padding: clamp(0.875rem, 4vw, 1rem);
+    }
+
+    .rcpt-section-title,
+    .inv-section-title,
+    .pi-section-title,
+    .po-section-title,
+    .ps-section-title,
+    .warranty-section-title,
+    .qg-section-title,
+    .rfq-section-title {
+        align-items: flex-start;
+        overflow-wrap: anywhere;
+    }
+
+    .rcpt-input-field,
+    .inv-input-field,
+    .pi-input-field,
+    .po-input-field,
+    .ps-input-field,
+    .warranty-input-field,
+    .qg-input-field,
+    .rfq-input-field {
+        max-width: 100%;
+        min-width: 0;
+        font-size: 16px;
+    }
+
+    textarea.rcpt-input-field,
+    textarea.inv-input-field,
+    textarea.pi-input-field,
+    textarea.po-input-field,
+    textarea.ps-input-field,
+    textarea.warranty-input-field,
+    textarea.qg-input-field,
+    textarea.rfq-input-field {
+        resize: vertical;
+    }
+
+    .rcpt-items-header,
+    .inv-items-header,
+    .pi-items-header,
+    .po-items-header,
+    .ps-items-header,
+    .qg-components-header {
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .rcpt-item-fields,
+    .inv-item-fields,
+    .pi-item-fields,
+    .po-item-fields,
+    .ps-item-fields,
+    .qg-component-fields,
+    .qg-additional-fields {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) !important;
+        gap: 0.875rem;
+        max-width: 100%;
+    }
+
+    .rcpt-item-fields > *,
+    .inv-item-fields > *,
+    .pi-item-fields > *,
+    .po-item-fields > *,
+    .ps-item-fields > *,
+    .qg-component-fields > *,
+    .qg-additional-fields > * {
+        grid-column: auto !important;
+        min-width: 0;
+    }
+
+    .rcpt-actions,
+    .inv-actions,
+    .pi-actions,
+    .po-actions,
+    .ps-actions,
+    .warranty-actions,
+    .qg-actions,
+    .rfq-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        align-items: stretch;
+        width: 100%;
+    }
+
+    .rcpt-btn-primary,
+    .rcpt-btn-secondary,
+    .rcpt-btn-add,
+    .inv-btn-primary,
+    .inv-btn-secondary,
+    .inv-btn-add,
+    .pi-btn-primary,
+    .pi-btn-secondary,
+    .pi-btn-add,
+    .po-btn-primary,
+    .po-btn-secondary,
+    .po-btn-add,
+    .ps-btn-primary,
+    .ps-btn-secondary,
+    .ps-btn-add,
+    .warranty-btn-primary,
+    .warranty-btn-secondary,
+    .qg-btn-primary,
+    .qg-btn-secondary,
+    .rfq-btn-primary,
+    .rfq-btn-secondary {
+        width: 100%;
+        min-height: 44px;
+        justify-content: center;
+        text-align: center;
+        white-space: normal;
+        overflow-wrap: anywhere;
+    }
+
+    .qg-bom-table-container,
+    .table-responsive,
+    .rfq-body-content {
+        max-width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .qg-bom-input-table {
+        min-width: 560px;
+    }
+
+    #receiptPreview,
+    #invoicePreview,
+    #proformaInvoicePreview,
+    #purchaseOrderPreview,
+    #payslipPreview,
+    #rfqPreview {
+        width: 100% !important;
+        max-width: 100%;
+        min-height: auto !important;
+        height: auto !important;
+        margin: 1rem auto 1.5rem !important;
+        padding: clamp(0.625rem, 4vw, 1rem) !important;
+        overflow-x: auto !important;
+        box-sizing: border-box;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    #warrantyPreview,
+    #quotePreview {
+        max-width: 100%;
+        overflow-x: visible;
+    }
+
+    .warranty-page,
+    .quote-page {
+        width: 100% !important;
+        max-width: 100%;
+        min-height: auto !important;
+        height: auto !important;
+        margin: 1rem auto !important;
+        padding: clamp(0.625rem, 4vw, 1rem) !important;
+        overflow: visible !important;
+        box-sizing: border-box;
+    }
+
+    .receipt-header,
+    .invoice-header,
+    .payslip-header,
+    .combined-header,
+    .qp-header {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        text-align: left !important;
+        gap: 0.75rem !important;
+    }
+
+    .receipt-title-section h1,
+    .invoice-title-section h1,
+    .payslip-title-section h1,
+    .combined-title,
+    .qp-title-section h1 {
+        font-size: clamp(1rem, 5vw, 1.35rem) !important;
+        letter-spacing: 0 !important;
+        overflow-wrap: anywhere;
+    }
+
+    .receipt-logo,
+    .invoice-logo,
+    .payslip-logo {
+        height: clamp(28px, 8vw, 36px) !important;
+        max-width: 70vw;
+    }
+
+    .cover-logo-small,
+    .qp-logo {
+        width: min(150px, 60vw) !important;
+        order: 0 !important;
+    }
+
+    .combined-project-id-banner,
+    .qp-banner,
+    .payslip-net-pay {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 0.4rem !important;
+    }
+
+    .invoice-unified-table,
+    .receipt-unified-table,
+    .payslip-unified-table,
+    .payslip-earnings-table,
+    .payslip-deductions-table,
+    .qp-bom-table,
+    .qp-pricing-table,
+    .qp-savings-table,
+    .rfq-body-content table {
+        max-width: 100%;
+        overflow-wrap: anywhere;
+    }
+
+    .invoice-unified-table,
+    .receipt-unified-table {
+        min-width: 520px;
+    }
+
+    .payslip-unified-table,
+    .payslip-earnings-table,
+    .payslip-deductions-table {
+        min-width: 360px;
+    }
+
+    .rfq-body-content table {
+        min-width: 420px;
+    }
+
+    .payments-table {
+        width: 100% !important;
+        min-width: 300px;
+    }
+
+    .payslip-tables-row,
+    .qp-address-grid,
+    .qp-financial-strip,
+    .qp-payment-steps,
+    .qp-bank-flex,
+    .qp-comparison-container,
+    .qp-thankyou-contact {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 0.875rem !important;
+    }
+
+    .invoice-bank-grid,
+    .bank-grid,
+    .payslip-bank-grid,
+    .warranty-info-grid,
+    .warranty-overview-grid,
+    .warranty-signature-section,
+    .qp-info-grid,
+    .qp-mission-grid,
+    .qp-benefits-grid,
+    .qp-terms-grid,
+    .qp-resp-grid {
+        grid-template-columns: minmax(0, 1fr) !important;
+        gap: 0.625rem !important;
+    }
+
+    .serial-numbers-grid {
+        grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)) !important;
+    }
+
+    .warranty-specs-table,
+    .qp-specs-table {
+        display: block;
+        width: 100%;
+        max-width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .invoice-unified-table td,
+    .invoice-unified-table th,
+    .receipt-unified-table td,
+    .receipt-unified-table th,
+    .payslip-unified-table td,
+    .payslip-unified-table th,
+    .warranty-specs-table td,
+    .warranty-specs-table th,
+    .qp-specs-table td,
+    .qp-specs-table th,
+    .rfq-body-content td,
+    .rfq-body-content th {
+        overflow-wrap: anywhere;
+        white-space: normal;
+    }
+
+    .invoice-signature,
+    .invoice-footer-line,
+    .receipt-footer-line,
+    .payslip-footer-line,
+    .cover-footer,
+    .warranty-page-footer,
+    .qp-cover-footer,
+    .qp-page-footer,
+    #rfqPreview .system-generated-notice {
+        position: static !important;
+        margin-top: 1rem;
+    }
+
+    .system-generated-notice {
+        max-width: 100%;
+        overflow-wrap: anywhere;
+    }
+}
+
+@media screen and (min-width: 600px) {
+    .rcpt-actions,
+    .inv-actions,
+    .pi-actions,
+    .po-actions,
+    .ps-actions,
+    .warranty-actions,
+    .qg-actions,
+    .rfq-actions {
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .rcpt-btn-primary,
+    .rcpt-btn-secondary,
+    .inv-btn-primary,
+    .inv-btn-secondary,
+    .pi-btn-primary,
+    .pi-btn-secondary,
+    .po-btn-primary,
+    .po-btn-secondary,
+    .ps-btn-primary,
+    .ps-btn-secondary,
+    .warranty-btn-primary,
+    .warranty-btn-secondary,
+    .qg-btn-primary,
+    .qg-btn-secondary,
+    .rfq-btn-primary,
+    .rfq-btn-secondary {
+        width: auto;
+    }
+}
+
+@media screen and (min-width: 1025px) {
+    .rcpt-form-grid,
+    .inv-form-grid,
+    .pi-form-grid,
+    .po-form-grid,
+    .ps-form-grid,
+    .warranty-form-grid,
+    .qg-form-grid,
+    .rfq-form-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 1.5rem;
+    }
+
+    .rcpt-form-card,
+    .rcpt-items-card,
+    .inv-form-card,
+    .inv-items-card,
+    .pi-form-card,
+    .pi-items-card,
+    .po-form-card,
+    .po-items-card,
+    .ps-form-card,
+    .ps-items-card,
+    .warranty-form-card,
+    .qg-form-card,
+    .qg-components-card,
+    .rfq-form-card {
+        padding: 1.5rem;
+    }
+
+    .rcpt-input-field,
+    .inv-input-field,
+    .pi-input-field,
+    .po-input-field,
+    .ps-input-field,
+    .warranty-input-field,
+    .qg-input-field,
+    .rfq-input-field {
+        font-size: 0.95rem;
+    }
+
+    .rcpt-item-fields {
+        grid-template-columns: minmax(220px, 1fr) minmax(80px, 0.3fr) minmax(150px, 0.55fr) minmax(100px, 0.35fr) !important;
+    }
+
+    .inv-item-fields,
+    .pi-item-fields {
+        grid-template-columns: minmax(220px, 1fr) minmax(80px, 0.35fr) minmax(70px, 0.3fr) minmax(130px, 0.55fr) minmax(80px, 0.35fr) !important;
+    }
+
+    .po-item-fields {
+        grid-template-columns: minmax(220px, 1fr) minmax(70px, 0.3fr) minmax(130px, 0.55fr) minmax(80px, 0.35fr) !important;
+    }
+
+    .ps-item-fields {
+        grid-template-columns: minmax(0, 1fr) minmax(120px, 0.35fr) !important;
+    }
+
+    .qg-component-fields {
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)) !important;
+    }
+
+    .qg-additional-fields {
+        grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)) !important;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    #receiptPreview,
+    #invoicePreview,
+    #proformaInvoicePreview,
+    #purchaseOrderPreview,
+    #payslipPreview,
+    #rfqPreview {
+        width: 210mm !important;
+        min-height: 297mm !important;
+        margin: 2rem auto !important;
+        padding: 10mm !important;
+        overflow: visible !important;
+    }
+
+    .warranty-page {
+        width: 210mm !important;
+        min-height: 297mm !important;
+        height: 297mm !important;
+        margin: 0 auto 20px auto !important;
+        padding: 20mm 15mm 25mm 15mm !important;
+        overflow: hidden !important;
+    }
+
+    .quote-page {
+        width: 210mm !important;
+        min-height: 297mm !important;
+        height: 297mm !important;
+        margin: 0 auto 20px auto !important;
+        padding: 12mm 15mm 25mm 15mm !important;
+        overflow: hidden !important;
+    }
+
+    .receipt-header,
+    .invoice-header,
+    .payslip-header,
+    .combined-header,
+    .qp-header {
+        flex-direction: row !important;
+        align-items: center !important;
+        text-align: left !important;
+    }
+
+    .receipt-title-section h1,
+    .invoice-title-section h1,
+    .payslip-title-section h1,
+    .combined-title,
+    .qp-title-section h1 {
+        letter-spacing: 1px !important;
+    }
+
+    .receipt-logo,
+    .invoice-logo,
+    .payslip-logo {
+        height: 40px !important;
+    }
+
+    .cover-logo-small {
+        width: 130px !important;
+        order: 2 !important;
+    }
+
+    .qp-logo {
+        width: 250px !important;
+    }
+
+    .combined-project-id-banner,
+    .qp-banner,
+    .payslip-net-pay {
+        flex-direction: row !important;
+        align-items: center !important;
+    }
+
+    .invoice-bank-grid,
+    .bank-grid,
+    .payslip-bank-grid,
+    .warranty-info-grid,
+    .qp-info-grid {
+        grid-template-columns: 140px minmax(0, 1fr) !important;
+    }
+
+    .warranty-info-grid {
+        grid-template-columns: 160px minmax(0, 1fr) !important;
+    }
+
+    .warranty-overview-grid,
+    .qp-mission-grid,
+    .qp-benefits-grid,
+    .qp-terms-grid,
+    .qp-resp-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+
+    .warranty-specs-table,
+    .qp-specs-table {
+        display: table;
+        overflow: visible;
+    }
+
+    .invoice-signature {
+        position: absolute !important;
+        bottom: 25mm !important;
+        right: 10mm !important;
+        margin-top: 0;
+    }
+
+    .invoice-footer-line,
+    .receipt-footer-line,
+    .payslip-footer-line {
+        position: absolute !important;
+        bottom: 10mm !important;
+        left: 10mm !important;
+        right: 10mm !important;
+        margin-top: 0;
+    }
+
+    #rfqPreview .invoice-footer-line {
+        bottom: 15mm !important;
+    }
+
+    #rfqPreview .system-generated-notice {
+        position: absolute !important;
+        bottom: 0 !important;
+        left: 10mm !important;
+        right: 10mm !important;
+        margin-top: 0;
+    }
+
+    .cover-footer {
+        position: absolute !important;
+        bottom: 20mm !important;
+        left: 0 !important;
+        right: 0 !important;
+        margin-top: 0;
+    }
+
+    .warranty-page-footer,
+    .qp-page-footer {
+        position: absolute !important;
+        bottom: 8mm !important;
+        left: 15mm !important;
+        right: 15mm !important;
+        margin-top: 0;
+    }
+
+    .qp-cover-footer {
+        position: absolute !important;
+        bottom: 20mm !important;
+        left: 0 !important;
+        right: 0 !important;
+        margin-top: 0;
+    }
+}
