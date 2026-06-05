@@ -84,7 +84,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const profitMargin = subtotal * (profitMarginRate / 100);
         const finalPrice = subtotal + profitMargin;
 
-        const gstRate = parseFloat(gstRateInput.value) || 5;
+        const gstRateVal = gstRateInput ? parseFloat(gstRateInput.value) : 5;
+        const gstRate = isNaN(gstRateVal) ? 5 : gstRateVal;
         const gstAmount = finalPrice * (gstRate / 100);
         const finalPriceWithGst = finalPrice + gstAmount;
 

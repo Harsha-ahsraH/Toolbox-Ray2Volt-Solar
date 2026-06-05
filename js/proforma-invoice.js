@@ -124,6 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="pi-input-group">
                     <label>GST %</label>
                     <select class="pi-input-field pi-item-gst-rate">
+                        <option value="0">0%</option>
                         <option value="5" selected>5%</option>
                         <option value="12">12%</option>
                         <option value="18">18%</option>

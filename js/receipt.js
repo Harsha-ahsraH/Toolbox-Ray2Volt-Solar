@@ -134,6 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="rcpt-input-group">
                     <label>GST %</label>
                     <select class="rcpt-input-field item-gst-rate">
+                        <option value="0">0%</option>
                         <option value="5" selected>5%</option>
                         <option value="12">12%</option>
                         <option value="18">18%</option>
