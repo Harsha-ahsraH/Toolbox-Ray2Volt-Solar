@@ -390,7 +390,7 @@ select.qg-input-field {
 }
 
 /* ============================================
-   QUOTE PREVIEW - 5 Page A4 Document
+   QUOTE PREVIEW - 7 Page A4 Document
    Minimalist, Print-Friendly, Clean
    ============================================ */
 
@@ -649,6 +649,313 @@ select.qg-input-field {
     line-height: 1.35;
 }
 
+/* --- Technical Overview Pages --- */
+.qp-technical-page .qp-section {
+    margin-bottom: 14px;
+}
+
+.qp-tech-hero {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px 14px;
+    margin-bottom: 14px;
+    border: 1px solid #d0d0d0;
+    border-left: 4px solid #2980b9;
+    background: #fafafa;
+    border-radius: 2px;
+}
+
+.qp-tech-kicker {
+    display: block;
+    font-size: 7.5pt;
+    font-weight: 700;
+    color: #2980b9;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 2px;
+}
+
+.qp-tech-hero h2 {
+    margin: 0 0 4px 0;
+    font-size: 16pt;
+    line-height: 1.2;
+    color: #1a1a1a;
+}
+
+.qp-tech-hero p {
+    margin: 0;
+    font-size: 9.2pt;
+    color: #444;
+    line-height: 1.5;
+}
+
+.qp-tech-capacity {
+    flex-shrink: 0;
+    align-self: flex-start;
+    min-width: 110px;
+    padding: 10px 12px;
+    border: 1px solid #d0d0d0;
+    background: #fff;
+    text-align: center;
+}
+
+.qp-tech-capacity span {
+    display: block;
+    font-size: 7pt;
+    color: #777;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+
+.qp-tech-capacity strong {
+    display: block;
+    font-size: 15pt;
+    color: #2980b9;
+    line-height: 1.2;
+}
+
+.qp-schematic-card {
+    border: 1px solid #d0d0d0;
+    border-radius: 2px;
+    background: #fff;
+    overflow: hidden;
+    margin-bottom: 14px;
+}
+
+.qp-schematic-header {
+    padding: 10px 14px;
+    background: #E8F4FA;
+    border-bottom: 1px solid #d0d0d0;
+}
+
+.qp-schematic-header h3 {
+    margin: 0 0 3px 0;
+    font-size: 10.5pt;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #1a1a1a;
+}
+
+.qp-schematic-header p {
+    margin: 0;
+    font-size: 8.5pt;
+    color: #444;
+    line-height: 1.35;
+}
+
+.qp-schematic {
+    padding: 10px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.qp-schematic svg {
+    display: block;
+    width: 100%;
+    min-width: 640px;
+    height: auto;
+}
+
+.qp-svg-bg {
+    fill: #f8fafc;
+}
+
+.qp-svg-node rect,
+.qp-svg-node path,
+.qp-svg-node circle {
+    fill: #fff;
+    stroke: #1f2937;
+    stroke-width: 2;
+    vector-effect: non-scaling-stroke;
+}
+
+.qp-svg-pv rect,
+.qp-svg-pv path {
+    stroke: #2980b9;
+}
+
+.qp-svg-inverter rect {
+    stroke: #475569;
+}
+
+.qp-svg-battery rect,
+.qp-svg-battery path {
+    stroke: #2e7d32;
+}
+
+.qp-svg-home path {
+    stroke: #7c3aed;
+}
+
+.qp-svg-grid path {
+    stroke: #64748b;
+}
+
+.qp-svg-node text {
+    font-family: 'Google Sans Flex', Arial, sans-serif;
+    text-anchor: middle;
+    fill: #1a1a1a;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.qp-svg-node text + text {
+    fill: #64748b;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.qp-svg-line {
+    fill: none;
+    stroke: #0f172a;
+    stroke-width: 3;
+    stroke-linecap: round;
+    vector-effect: non-scaling-stroke;
+}
+
+.qp-svg-dc {
+    stroke: #2980b9;
+}
+
+.qp-svg-bi {
+    stroke-dasharray: 7 6;
+}
+
+.qp-svg-tag {
+    fill: #2980b9;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.qp-svg-note {
+    fill: #475569;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.qp-tech-explainer-grid,
+.qp-feature-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+}
+
+.qp-tech-card,
+.qp-feature-card {
+    border: 1px solid #d0d0d0;
+    border-radius: 2px;
+    background: #fff;
+    padding: 10px;
+}
+
+.qp-tech-card {
+    display: grid;
+    grid-template-columns: 30px 1fr;
+    gap: 4px 8px;
+    align-items: start;
+}
+
+.qp-tech-card span {
+    grid-row: span 2;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #2980b9;
+    color: #fff;
+    font-size: 9pt;
+    font-weight: 700;
+    border-radius: 50%;
+}
+
+.qp-tech-card strong,
+.qp-feature-card strong {
+    display: block;
+    font-size: 9.5pt;
+    color: #1a1a1a;
+    margin-bottom: 2px;
+}
+
+.qp-tech-card p,
+.qp-feature-card p {
+    margin: 0;
+    font-size: 8.5pt;
+    color: #555;
+    line-height: 1.42;
+}
+
+.qp-process-timeline {
+    display: grid;
+    gap: 10px;
+}
+
+.qp-process-step {
+    display: grid;
+    grid-template-columns: 42px 1fr;
+    gap: 10px;
+    padding: 10px;
+    border: 1px solid #d0d0d0;
+    background: #fff;
+}
+
+.qp-process-badge {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #E8F4FA;
+    border: 1px solid #a8d4e6;
+    color: #1a1a1a;
+    font-size: 9pt;
+    font-weight: 700;
+}
+
+.qp-process-step strong {
+    display: block;
+    font-size: 9.5pt;
+    color: #1a1a1a;
+    margin-bottom: 2px;
+}
+
+.qp-process-step p {
+    margin: 0;
+    font-size: 8.5pt;
+    color: #555;
+    line-height: 1.45;
+}
+
+.qp-tech-callout {
+    margin-top: 14px;
+    padding: 12px 14px;
+    border: 1px solid #c8e6c9;
+    border-left: 4px solid #2e7d32;
+    background: #f1f8f4;
+    border-radius: 2px;
+}
+
+.qp-tech-callout-muted {
+    border-color: #d0d0d0;
+    border-left-color: #2980b9;
+    background: #f8fafc;
+}
+
+.qp-tech-callout strong {
+    display: block;
+    font-size: 10pt;
+    margin-bottom: 3px;
+    color: #1a1a1a;
+}
+
+.qp-tech-callout p {
+    margin: 0;
+    font-size: 8.8pt;
+    line-height: 1.45;
+    color: #444;
+}
+
 /* --- Comparison Cards (Before vs After) --- */
 .qp-comparison-container {
     /* Mobile-first */
@@ -751,7 +1058,7 @@ select.qg-input-field {
     font-weight: bold;
 }
 
-/* --- Page 3: Address Grid --- */
+/* --- Commercial Offer: Address Grid --- */
 .qp-address-grid {
     /* Mobile-first */
     display: flex;
@@ -814,7 +1121,7 @@ select.qg-input-field {
     transform: rotate(90deg);
 }
 
-/* --- Page 3: Financial Strip --- */
+/* --- Commercial Offer: Financial Strip --- */
 .qp-financial-strip {
     /* Mobile-first */
     display: flex;
@@ -893,7 +1200,7 @@ select.qg-input-field {
     margin-bottom: 10px;
 }
 
-/* --- Page 3: Payment Steps --- */
+/* --- Commercial Offer: Payment Steps --- */
 .qp-payment-steps {
     /* Mobile-first */
     display: flex;
@@ -963,7 +1270,7 @@ select.qg-input-field {
     /* Hidden for now, spacing acts as separation */
 }
 
-/* --- Page 3: Bank Card --- */
+/* --- Commercial Offer: Bank Card --- */
 .qp-bank-card {
     border: 1px solid #d0d0d0;
     background: #fff;
@@ -1045,7 +1352,7 @@ select.qg-input-field {
     color: #666;
 }
 
-/* --- BOM Table (Page 2) --- */
+/* --- BOM Table --- */
 .qp-bom-table {
     width: 100%;
     border-collapse: collapse;
@@ -1093,7 +1400,7 @@ select.qg-input-field {
     line-height: 1.5;
 }
 
-/* --- Unified Info Table (Page 3 - Receipt-style) --- */
+/* --- Unified Info Table (Receipt-style) --- */
 .qp-unified-table {
     width: 100%;
     border-collapse: collapse;
@@ -1212,7 +1519,7 @@ select.qg-input-field {
     color: #1a1a1a;
 }
 
-/* --- Savings Table (Page 4) --- */
+/* --- Savings Table --- */
 .qp-savings-table {
     width: 100%;
     border-collapse: collapse;
@@ -1265,7 +1572,7 @@ select.qg-input-field {
    PAGE 5: Terms & Conditions
    ============================================ */
 
-/* Flex layout for Page 5 — pushes signature to bottom */
+/* Flex layout for terms page: pushes signature to bottom */
 .qp-page-flex {
     display: flex;
     flex-direction: column;
@@ -1634,10 +1941,11 @@ select.qg-input-field {
     .quote-page {
         width: 210mm;
         min-height: 297mm;
-        height: 297mm;
+        height: auto;
         margin: 0 auto 20px auto;
         padding: 12mm 15mm 25mm 15mm;
         border: none;
+        overflow: visible;
     }
 
     .qp-header {
@@ -1674,6 +1982,20 @@ select.qg-input-field {
 
     .qp-mission-grid {
         grid-template-columns: 1fr 1fr;
+    }
+
+    .qp-tech-hero {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .qp-tech-explainer-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .qp-feature-grid {
+        grid-template-columns: repeat(2, 1fr);
     }
 
     .qp-benefits-grid {
@@ -1929,6 +2251,72 @@ select.qg-input-field {
         font-size: 14px !important;
     }
 
+    /* --- Technical overview pages --- */
+    .qp-tech-hero {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        background: #fafafa !important;
+        border: 1px solid #d0d0d0 !important;
+        border-left: 4px solid #2980b9 !important;
+    }
+
+    .qp-schematic-card {
+        border: 1px solid #d0d0d0 !important;
+    }
+
+    .qp-schematic-header {
+        background: #E8F4FA !important;
+        border-bottom: 1px solid #d0d0d0 !important;
+    }
+
+    .qp-schematic {
+        overflow: visible !important;
+    }
+
+    .qp-schematic svg {
+        min-width: 0 !important;
+    }
+
+    .qp-tech-explainer-grid {
+        display: grid !important;
+        grid-template-columns: repeat(4, 1fr) !important;
+    }
+
+    .qp-feature-grid {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+
+    .qp-tech-card,
+    .qp-feature-card,
+    .qp-process-step {
+        border: 1px solid #d0d0d0 !important;
+    }
+
+    .qp-tech-card span {
+        background: #2980b9 !important;
+        color: #fff !important;
+    }
+
+    .qp-process-badge {
+        background: #E8F4FA !important;
+        border: 1px solid #a8d4e6 !important;
+    }
+
+    .qp-tech-callout {
+        background: #f1f8f4 !important;
+        border: 1px solid #c8e6c9 !important;
+        border-left: 4px solid #2e7d32 !important;
+    }
+
+    .qp-tech-callout-muted {
+        background: #f8fafc !important;
+        border: 1px solid #d0d0d0 !important;
+        border-left: 4px solid #2980b9 !important;
+    }
+
     /* --- Tables: restore table-cell display and backgrounds --- */
     .qp-specs-table th,
     .qp-specs-table td {
@@ -1991,7 +2379,7 @@ select.qg-input-field {
         border: 1px solid #d0d0d0 !important;
     }
 
-    /* --- Page 3: Address grid (restore row layout) --- */
+    /* --- Commercial offer: address grid (restore row layout) --- */
     .qp-address-grid {
         display: flex !important;
         flex-direction: row !important;
@@ -2011,7 +2399,7 @@ select.qg-input-field {
         transform: none !important;
     }
 
-    /* --- Page 3: Financial strip (restore row layout) --- */
+    /* --- Commercial offer: financial strip (restore row layout) --- */
     .qp-financial-strip {
         display: flex !important;
         flex-direction: row !important;
@@ -2029,13 +2417,13 @@ select.qg-input-field {
         margin: 0 10px !important;
     }
 
-    /* --- Page 3: Amount in words --- */
+    /* --- Commercial offer: amount in words --- */
     .qp-amount-words {
         background: #fafafa !important;
         border: 1px solid #d0d0d0 !important;
     }
 
-    /* --- Page 3: Payment steps (restore row layout) --- */
+    /* --- Commercial offer: payment steps (restore row layout) --- */
     .qp-payment-steps {
         display: flex !important;
         flex-direction: row !important;
@@ -2055,7 +2443,7 @@ select.qg-input-field {
         border-radius: 50% !important;
     }
 
-    /* --- Page 3: Bank card (restore row layout) --- */
+    /* --- Commercial offer: bank card (restore row layout) --- */
     .qp-bank-card {
         border: 1px solid #d0d0d0 !important;
     }
@@ -2072,7 +2460,7 @@ select.qg-input-field {
         gap: 40px !important;
     }
 
-    /* --- Page 4: Comparison cards (restore row layout) --- */
+    /* --- Savings page: comparison cards (restore row layout) --- */
     .qp-comparison-container {
         display: flex !important;
         flex-direction: row !important;
@@ -2112,7 +2500,7 @@ select.qg-input-field {
         background: #66bb6a !important;
     }
 
-    /* --- Page 5: Terms section --- */
+    /* --- Terms section --- */
     .qp-terms-grid {
         display: grid !important;
         grid-template-columns: 1fr 1fr !important;
@@ -2148,14 +2536,14 @@ select.qg-input-field {
         grid-template-columns: 1fr 1fr !important;
     }
 
-    /* --- Page 5: After-sales box --- */
+    /* --- After-sales box --- */
     .qp-aftersales-box {
         background: #f0f7fa !important;
         border: 1px solid #d0e4ed !important;
         border-left: 3px solid #3498db !important;
     }
 
-    /* --- Page 5: Signature section --- */
+    /* --- Signature section --- */
     .qp-signature-section {
         display: flex !important;
         justify-content: space-between !important;
@@ -2165,7 +2553,7 @@ select.qg-input-field {
         border-bottom: 1px solid #333 !important;
     }
 
-    /* --- Page 5: Thank you section --- */
+    /* --- Thank you section --- */
     .qp-thankyou-section {
         border-top: 1px dashed #ccc !important;
     }
@@ -2180,7 +2568,7 @@ select.qg-input-field {
         background: transparent !important;
     }
 
-    /* --- Page 5: Flex layout (push content to bottom) --- */
+    /* --- Terms page flex layout (push content to bottom) --- */
     .qp-page-flex {
         display: flex !important;
         flex-direction: column !important;

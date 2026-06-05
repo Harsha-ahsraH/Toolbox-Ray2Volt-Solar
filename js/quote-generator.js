@@ -74,7 +74,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Installation Type change to update BOM table
         if (qgInstallationType) {
-            qgInstallationType.addEventListener('change', updateBomTable);
+            qgInstallationType.addEventListener('change', () => {
+                updateBomTable();
+                if (quotePreview?.classList.contains('visible')) {
+                    generatePreview();
+                }
+            });
         }
     }
 
@@ -162,7 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     /**
-     * Generate the 5-page preview
+     * Generate the 7-page preview
      */
     function generatePreview() {
         // --- Read form values ---
@@ -237,7 +242,12 @@ document.addEventListener('DOMContentLoaded', () => {
         setText('qpInstallationType', installType);
 
         // ============================
-        // PAGE 2: Bill of Materials
+        // PAGES 2-3: Technical Overview
+        // ============================
+        updateTechnicalOverview(installType, capacity);
+
+        // ============================
+        // PAGE 4: Bill of Materials
         // ============================
         populateBomTable();
 
@@ -250,7 +260,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // ============================
-        // PAGE 3: Commercial Offer
+        // PAGE 5: Commercial Offer
         // ============================
         setText('qpOfferName', customerName);
         setText('qpOfferAddress', customerAddress);
@@ -298,7 +308,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (subsidySection) subsidySection.style.display = subsidyEligible ? '' : 'none';
 
         // ============================
-        // PAGE 4: Savings & ROI
+        // PAGE 6: Savings & ROI
         // ============================
         const annualUnits = capacity * unitsPerKwp;
         const annualSavingsY1 = annualUnits * tariffRate;
@@ -338,6 +348,66 @@ document.addEventListener('DOMContentLoaded', () => {
             quotePreview.classList.add('visible');
             quotePreview.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
+    }
+
+    /**
+     * Update technical overview pages based on selected system type.
+     */
+    function updateTechnicalOverview(installType, capacity) {
+        const hasBattery = installType === 'Hybrid' || installType === 'Off-Grid';
+        const systemLabel = hasBattery ? `${capacity} kWp ${installType} Solar System` : `${capacity} kWp On-Grid Solar System`;
+
+        setText('qpTechnicalMode', systemLabel);
+        setText('qpTechnicalCapacity', `${capacity} kWp`);
+        setText(
+            'qpTechnicalIntro',
+            hasBattery
+                ? 'The proposed system combines solar generation, inverter control, battery storage and grid support to keep priority loads powered with improved energy independence.'
+                : 'The proposed system converts rooftop solar generation into usable AC power, serves site loads first and exchanges surplus energy with the utility grid through net metering.'
+        );
+        setText('qpTechnicalDiagramTitle', hasBattery ? 'Hybrid / Off-Grid System Schematic' : 'On-Grid System Schematic');
+        setText(
+            'qpTechnicalCaption',
+            hasBattery
+                ? 'Solar power serves connected loads first, charges the battery when surplus is available and uses the grid as support where configured.'
+                : 'Solar power first serves local loads. Surplus energy is exported through the net meter as per DISCOM policy.'
+        );
+        setText('qpTechnicalFourthTitle', hasBattery ? 'Battery Backup' : 'Net Metering');
+        setText(
+            'qpTechnicalFourthText',
+            hasBattery
+                ? 'Battery storage supports selected backup loads during outages or low-sun periods.'
+                : 'The net meter records grid import and surplus solar export.'
+        );
+        setText(
+            'qpLoadPriorityText',
+            hasBattery
+                ? 'Solar energy powers connected loads first, then charges the battery as per inverter settings.'
+                : 'Solar energy is consumed by connected loads first, reducing the power imported from the grid.'
+        );
+        setText('qpSurplusTitle', hasBattery ? 'Storage and Export Logic' : 'Surplus Export');
+        setText(
+            'qpSurplusText',
+            hasBattery
+                ? 'When production exceeds demand, surplus energy charges the battery and may export to the grid depending on configuration and approvals.'
+                : 'When solar generation is higher than site demand, surplus units are exported through the bi-directional meter.'
+        );
+        setText(
+            'qpNightOperationText',
+            hasBattery
+                ? 'At night or during outages, selected loads can run from the battery, with grid support available when configured.'
+                : 'At night or during low generation, the premises draw power from the grid as usual.'
+        );
+
+        const onGridDiagram = document.getElementById('qpOnGridDiagram');
+        const hybridDiagram = document.getElementById('qpHybridDiagram');
+        if (onGridDiagram) onGridDiagram.hidden = hasBattery;
+        if (hybridDiagram) hybridDiagram.hidden = !hasBattery;
+
+        const batteryCallout = document.getElementById('qpBatteryCallout');
+        const gridCallout = document.getElementById('qpGridCallout');
+        if (batteryCallout) batteryCallout.style.display = hasBattery ? '' : 'none';
+        if (gridCallout) gridCallout.style.display = hasBattery ? 'none' : '';
     }
 
     /**

@@ -1,4 +1,4 @@
-/* ============================================
+﻿/* ============================================
    REQUEST FOR QUOTATION GENERATOR - Dedicated Stylesheet
    Ray2Volt Solar Toolbox - Brutalist Design
    Matches Tax Invoice / Purchase Order styling
@@ -182,7 +182,7 @@ textarea.rfq-input-field {
     background: #fff;
     border: 1px solid #d0d0d0;
     border-radius: 2px;
-    font-family: 'Google Sans Flex', 'Nunito Sans', sans-serif;
+    font-family: 'Google Sans Flex', 'Open Sans', sans-serif;
     font-size: 10pt;
     color: #1a1a1a;
     position: relative;

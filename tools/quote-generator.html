@@ -1,11 +1,11 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quote Generator - Ray2Volt Toolbox</title>
-    <meta name="description" content="Generate professional 5-page solar project proposals and quotations.">
+    <meta name="description" content="Generate professional 7-page solar project proposals and quotations.">
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="../R2V Shock symbol.png">
@@ -14,13 +14,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=Nunito+Sans:wght@400;600;700&family=Google+Sans+Flex:wght@400;500;600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=Open+Sans:wght@400;600;700&family=Google+Sans+Flex:wght@400;500;600;700&display=swap"
         rel="stylesheet">
 
     <!-- Stylesheets -->
     <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/quote-generator.css">
-    <link rel="stylesheet" href="../css/tool-responsive.css">
+    <link rel="stylesheet" href="../css/quote-generator.css?v=technical-overview-3">
+    <link rel="stylesheet" href="../css/tool-responsive.css?v=quote-auto-height">
 </head>
 
 <body>
@@ -75,7 +75,7 @@
                     <!-- Page Header -->
                     <div class="qg-page-header">
                         <h1>Quote Generator</h1>
-                        <p>Generate professional 5-page solar project proposals for customers.</p>
+                        <p>Generate professional 7-page solar project proposals for customers.</p>
                     </div>
 
                     <!-- Form Grid -->
@@ -367,7 +367,7 @@
                 </div>
 
                 <!-- ============================================
-                     QUOTE PREVIEW - 5-Page A4 Document
+                     QUOTE PREVIEW - 7-Page A4 Document
                      ============================================ -->
                 <div id="quotePreview">
 
@@ -505,11 +505,284 @@
 
                         <div class="qp-page-footer">
                             <span>Ray2Volt Solar Private Limited</span>
-                            <span>Page 1 of 5</span>
+                            <span>Page 1 of 7</span>
                         </div>
                     </div>
 
-                    <!-- ========== PAGE 2: Bill of Materials ========== -->
+                    <!-- ========== PAGE 2: Technical Overview - Schematic ========== -->
+                    <div class="quote-page qp-technical-page">
+                        <div class="qp-header">
+                            <div class="qp-title-section">
+                                <h1>Technical Overview</h1>
+                                <p class="qp-subtitle">System Architecture & Energy Flow</p>
+                            </div>
+                            <img src="../Logo.png" alt="Ray2Volt Logo" class="qp-logo">
+                        </div>
+
+                        <div class="qp-tech-hero">
+                            <div>
+                                <span class="qp-tech-kicker">Proposed Configuration</span>
+                                <h2 id="qpTechnicalMode">Solar Power System</h2>
+                                <p id="qpTechnicalIntro">
+                                    This overview shows how solar energy is generated, converted, protected, and used
+                                    by the premises.
+                                </p>
+                            </div>
+                            <div class="qp-tech-capacity">
+                                <span>Capacity</span>
+                                <strong id="qpTechnicalCapacity">-- kWp</strong>
+                            </div>
+                        </div>
+
+                        <div class="qp-schematic-card">
+                            <div class="qp-schematic-header">
+                                <h3 id="qpTechnicalDiagramTitle">On-Grid System Schematic</h3>
+                                <p id="qpTechnicalCaption">
+                                    Solar power first serves local loads. Surplus energy is exported through the net
+                                    meter as per DISCOM policy.
+                                </p>
+                            </div>
+
+                            <div class="qp-schematic qp-on-grid-schematic" id="qpOnGridDiagram" role="img"
+                                aria-label="On-grid solar system schematic diagram">
+                                <svg viewBox="0 0 960 430" xmlns="http://www.w3.org/2000/svg">
+                                    <defs>
+                                        <marker id="arrowOnGrid" markerWidth="10" markerHeight="10" refX="8" refY="3"
+                                            orient="auto" markerUnits="strokeWidth">
+                                            <path d="M0,0 L0,6 L9,3 z" fill="#0f172a" />
+                                        </marker>
+                                    </defs>
+                                    <rect class="qp-svg-bg" x="0" y="0" width="960" height="430" rx="8" />
+                                    <g class="qp-svg-node qp-svg-pv">
+                                        <rect x="34" y="116" width="170" height="142" rx="8" />
+                                        <path d="M57 148h124M57 180h124M57 212h124M88 132v104M128 132v104M168 132v104" />
+                                        <text x="119" y="292">Solar PV Array</text>
+                                        <text x="119" y="315">DC Power</text>
+                                    </g>
+                                    <g class="qp-svg-node">
+                                        <rect x="278" y="132" width="150" height="110" rx="8" />
+                                        <path d="M310 190c18-34 49-34 67 0s49 34 67 0" transform="scale(.75) translate(90 50)" />
+                                        <text x="353" y="272">String Inverter</text>
+                                        <text x="353" y="295">DC to AC</text>
+                                    </g>
+                                    <g class="qp-svg-node">
+                                        <rect x="506" y="132" width="130" height="110" rx="8" />
+                                        <path d="M542 165h58M542 187h58M542 209h58" />
+                                        <text x="571" y="272">ACDB</text>
+                                        <text x="571" y="295">MCB SPD Protection</text>
+                                    </g>
+                                    <g class="qp-svg-node">
+                                        <rect x="706" y="132" width="130" height="110" rx="8" />
+                                        <circle cx="771" cy="177" r="27" />
+                                        <path d="M754 181h34M771 160v34" />
+                                        <text x="771" y="272">Net Meter</text>
+                                        <text x="771" y="295">Import Export</text>
+                                    </g>
+                                    <g class="qp-svg-node qp-svg-home">
+                                        <path d="M338 363h132v-66l-66-44-66 44z" />
+                                        <path d="M378 363v-42h52v42" />
+                                        <text x="404" y="399">Home Loads</text>
+                                    </g>
+                                    <g class="qp-svg-node qp-svg-grid">
+                                        <path d="M805 362h92M818 362l18-88h30l18 88M829 311h44M824 338h54" />
+                                        <text x="851" y="399">Utility Grid</text>
+                                    </g>
+                                    <path class="qp-svg-line qp-svg-dc" d="M204 187H278" marker-end="url(#arrowOnGrid)" />
+                                    <path class="qp-svg-line" d="M428 187H506" marker-end="url(#arrowOnGrid)" />
+                                    <path class="qp-svg-line" d="M636 187H706" marker-end="url(#arrowOnGrid)" />
+                                    <path class="qp-svg-line" d="M771 242v56c0 24-18 37-43 37H470" marker-end="url(#arrowOnGrid)" />
+                                    <path class="qp-svg-line qp-svg-bi" d="M796 242c58 16 63 51 55 94" marker-end="url(#arrowOnGrid)" />
+                                    <path class="qp-svg-line qp-svg-bi" d="M850 336c-10-42 5-76-54-94" marker-end="url(#arrowOnGrid)" />
+                                    <text class="qp-svg-tag" x="234" y="170">DC</text>
+                                    <text class="qp-svg-tag" x="460" y="170">AC</text>
+                                    <text class="qp-svg-tag" x="651" y="170">AC</text>
+                                    <text class="qp-svg-note" x="604" y="348">Solar serves loads first</text>
+                                    <text class="qp-svg-note" x="792" y="316">Two-way grid exchange</text>
+                                </svg>
+                            </div>
+
+                            <div class="qp-schematic qp-hybrid-schematic" id="qpHybridDiagram" role="img"
+                                aria-label="Hybrid solar system schematic diagram" hidden>
+                                <svg viewBox="0 0 960 430" xmlns="http://www.w3.org/2000/svg">
+                                    <defs>
+                                        <marker id="arrowHybrid" markerWidth="10" markerHeight="10" refX="8" refY="3"
+                                            orient="auto" markerUnits="strokeWidth">
+                                            <path d="M0,0 L0,6 L9,3 z" fill="#0f172a" />
+                                        </marker>
+                                    </defs>
+                                    <rect class="qp-svg-bg" x="0" y="0" width="960" height="430" rx="8" />
+                                    <g class="qp-svg-node qp-svg-pv">
+                                        <rect x="36" y="126" width="162" height="132" rx="8" />
+                                        <path d="M58 155h118M58 185h118M58 215h118M91 141v101M130 141v101M166 141v101" />
+                                        <text x="117" y="292">Solar PV Array</text>
+                                        <text x="117" y="315">DC Power</text>
+                                    </g>
+                                    <g class="qp-svg-node qp-svg-inverter">
+                                        <rect x="292" y="116" width="170" height="142" rx="8" />
+                                        <path d="M330 165h94M330 189h94M330 213h94" />
+                                        <text x="377" y="292">Hybrid Inverter</text>
+                                        <text x="377" y="315">MPPT Battery AC Control</text>
+                                    </g>
+                                    <g class="qp-svg-node qp-svg-battery">
+                                        <rect x="296" y="334" width="162" height="56" rx="8" />
+                                        <rect x="458" y="354" width="12" height="16" rx="2" />
+                                        <path d="M320 362h36M380 362h36M338 344v36M398 344v36" />
+                                        <text x="377" y="415">Battery Bank</text>
+                                    </g>
+                                    <g class="qp-svg-node qp-svg-home">
+                                        <path d="M592 258h146v-72l-73-49-73 49z" />
+                                        <path d="M634 258v-45h58v45" />
+                                        <text x="665" y="292">Home Loads</text>
+                                        <text x="665" y="315">Priority Supply</text>
+                                    </g>
+                                    <g class="qp-svg-node">
+                                        <rect x="596" y="334" width="150" height="56" rx="8" />
+                                        <path d="M622 362h98M622 378h98" />
+                                        <text x="671" y="415">Backup Loads</text>
+                                    </g>
+                                    <g class="qp-svg-node qp-svg-grid">
+                                        <path d="M812 257h92M825 257l18-88h30l18 88M836 206h44M831 233h54" />
+                                        <text x="858" y="292">Utility Grid</text>
+                                        <text x="858" y="315">Import Export</text>
+                                    </g>
+                                    <path class="qp-svg-line qp-svg-dc" d="M198 192H292" marker-end="url(#arrowHybrid)" />
+                                    <path class="qp-svg-line" d="M462 188H592" marker-end="url(#arrowHybrid)" />
+                                    <path class="qp-svg-line qp-svg-bi" d="M377 258v76" marker-end="url(#arrowHybrid)" />
+                                    <path class="qp-svg-line qp-svg-bi" d="M395 334v-76" marker-end="url(#arrowHybrid)" />
+                                    <path class="qp-svg-line" d="M462 214c72 0 92 148 134 148" marker-end="url(#arrowHybrid)" />
+                                    <path class="qp-svg-line qp-svg-bi" d="M738 207H812" marker-end="url(#arrowHybrid)" />
+                                    <path class="qp-svg-line qp-svg-bi" d="M812 228H738" marker-end="url(#arrowHybrid)" />
+                                    <text class="qp-svg-tag" x="230" y="176">DC</text>
+                                    <text class="qp-svg-tag" x="510" y="172">AC</text>
+                                    <text class="qp-svg-tag" x="480" y="342">Backup AC</text>
+                                    <text class="qp-svg-note" x="500" y="94">Solar, battery, grid and loads are managed by one inverter</text>
+                                    <text class="qp-svg-note" x="676" y="238">Power stays available during outages</text>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <div class="qp-tech-explainer-grid">
+                            <div class="qp-tech-card">
+                                <span>1</span>
+                                <strong>Generation</strong>
+                                <p>Solar modules convert sunlight into DC electricity during the day.</p>
+                            </div>
+                            <div class="qp-tech-card">
+                                <span>2</span>
+                                <strong>Conversion</strong>
+                                <p>The inverter converts DC into synchronized AC power usable by appliances.</p>
+                            </div>
+                            <div class="qp-tech-card">
+                                <span>3</span>
+                                <strong>Protection</strong>
+                                <p>AC/DC protection devices isolate faults and protect equipment from surges.</p>
+                            </div>
+                            <div class="qp-tech-card">
+                                <span>4</span>
+                                <strong id="qpTechnicalFourthTitle">Net Metering</strong>
+                                <p id="qpTechnicalFourthText">The net meter records grid import and surplus solar export.</p>
+                            </div>
+                        </div>
+
+                        <div class="qp-page-footer">
+                            <span>Ray2Volt Solar Private Limited</span>
+                            <span>Page 2 of 7</span>
+                        </div>
+                    </div>
+
+                    <!-- ========== PAGE 3: Technical Overview - Operation ========== -->
+                    <div class="quote-page qp-technical-page">
+                        <div class="qp-header">
+                            <div class="qp-title-section">
+                                <h1>Technical Overview</h1>
+                                <p class="qp-subtitle">Operation, Safety & Monitoring</p>
+                            </div>
+                            <img src="../Logo.png" alt="Ray2Volt Logo" class="qp-logo">
+                        </div>
+
+                        <div class="qp-section">
+                            <h3>How the System Works</h3>
+                            <div class="qp-process-timeline">
+                                <div class="qp-process-step">
+                                    <span class="qp-process-badge">01</span>
+                                    <div>
+                                        <strong>Daytime Solar Production</strong>
+                                        <p>Panels generate maximum energy when sunlight is available. The inverter
+                                            continuously tracks the best operating point for higher generation.</p>
+                                    </div>
+                                </div>
+                                <div class="qp-process-step">
+                                    <span class="qp-process-badge">02</span>
+                                    <div>
+                                        <strong>Load Priority</strong>
+                                        <p id="qpLoadPriorityText">Solar energy is consumed by connected loads first,
+                                            reducing the power imported from the grid.</p>
+                                    </div>
+                                </div>
+                                <div class="qp-process-step">
+                                    <span class="qp-process-badge">03</span>
+                                    <div>
+                                        <strong id="qpSurplusTitle">Surplus Export</strong>
+                                        <p id="qpSurplusText">When solar generation is higher than site demand, surplus
+                                            units are exported through the bi-directional meter.</p>
+                                    </div>
+                                </div>
+                                <div class="qp-process-step">
+                                    <span class="qp-process-badge">04</span>
+                                    <div>
+                                        <strong>Night and Low-Sun Operation</strong>
+                                        <p id="qpNightOperationText">At night or during low generation, the premises
+                                            draw power from the grid as usual.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="qp-section">
+                            <h3>Key Technical Features</h3>
+                            <div class="qp-feature-grid">
+                                <div class="qp-feature-card">
+                                    <strong>Module Performance</strong>
+                                    <p>High-efficiency PV modules are selected for reliable output across seasonal
+                                        conditions.</p>
+                                </div>
+                                <div class="qp-feature-card">
+                                    <strong>Inverter Intelligence</strong>
+                                    <p>MPPT tracking, grid synchronization, event logging and fault protection are
+                                        built into the inverter platform.</p>
+                                </div>
+                                <div class="qp-feature-card">
+                                    <strong>Electrical Safety</strong>
+                                    <p>MCBs, isolators, surge protection and earthing reduce operational risk and
+                                        simplify maintenance.</p>
+                                </div>
+                                <div class="qp-feature-card">
+                                    <strong>Remote Monitoring</strong>
+                                    <p>Generation trends and inverter status can be monitored to spot abnormal
+                                        performance early.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="qp-tech-callout" id="qpBatteryCallout">
+                            <strong>Battery-backed operation</strong>
+                            <p>For hybrid/off-grid systems, the battery stores surplus energy and supports selected
+                                backup loads when the grid is unavailable.</p>
+                        </div>
+
+                        <div class="qp-tech-callout qp-tech-callout-muted" id="qpGridCallout">
+                            <strong>Grid-interactive operation</strong>
+                            <p>For on-grid systems, the grid remains available as backup supply while solar generation
+                                reduces daytime imports and can export surplus units.</p>
+                        </div>
+
+                        <div class="qp-page-footer">
+                            <span>Ray2Volt Solar Private Limited</span>
+                            <span>Page 3 of 7</span>
+                        </div>
+                    </div>
+
+                    <!-- ========== PAGE 4: Bill of Materials ========== -->
                     <div class="quote-page">
                         <div class="qp-header">
                             <div class="qp-title-section">
@@ -587,11 +860,11 @@
 
                         <div class="qp-page-footer">
                             <span>Ray2Volt Solar Private Limited</span>
-                            <span>Page 2 of 5</span>
+                            <span>Page 4 of 7</span>
                         </div>
                     </div>
 
-                    <!-- ========== PAGE 3: Commercial Offer (Receipt-style) ========== -->
+                    <!-- ========== PAGE 5: Commercial Offer (Receipt-style) ========== -->
                     <div class="quote-page">
                         <div class="qp-header">
                             <div class="qp-title-section">
@@ -743,11 +1016,11 @@
 
                         <div class="qp-page-footer">
                             <span>Ray2Volt Solar Private Limited</span>
-                            <span>Page 3 of 5</span>
+                            <span>Page 5 of 7</span>
                         </div>
                     </div>
 
-                    <!-- ========== PAGE 4: Savings & ROI ========== -->
+                    <!-- ========== PAGE 6: Savings & ROI ========== -->
                     <div class="quote-page">
                         <div class="qp-header">
                             <div class="qp-title-section">
@@ -873,11 +1146,11 @@
 
                         <div class="qp-page-footer">
                             <span>Ray2Volt Solar Private Limited</span>
-                            <span>Page 4 of 5</span>
+                            <span>Page 6 of 7</span>
                         </div>
                     </div>
 
-                    <!-- ========== PAGE 5: Terms & Conditions ========== -->
+                    <!-- ========== PAGE 7: Terms & Conditions ========== -->
                     <div class="quote-page qp-page-flex">
                         <div class="qp-header">
                             <div class="qp-title-section">
@@ -1011,7 +1284,7 @@
 
                         <div class="qp-page-footer">
                             <span>Ray2Volt Solar Private Limited</span>
-                            <span>Page 5 of 5</span>
+                            <span>Page 7 of 7</span>
                         </div>
                     </div>
                 </div>
@@ -1025,7 +1298,7 @@
 
     <script src="../js/tool-lock.js" data-tool-id="quote-generator"></script>
     <script src="../js/navigation.js"></script>
-    <script src="../js/quote-generator.js"></script>
+    <script src="../js/quote-generator.js?v=technical-overview-2"></script>
 </body>
 
 </html>
