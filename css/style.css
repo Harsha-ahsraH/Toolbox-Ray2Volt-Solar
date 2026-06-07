@@ -86,7 +86,7 @@ html {
 }
 
 body {
-    font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     background-color: var(--bg-body);
     color: var(--text-primary);
     line-height: 1.6;
@@ -101,7 +101,7 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: 'Google Sans', 'Open Sans', sans-serif;
+    font-family: 'Google Sans', 'DM Sans', sans-serif;
     font-weight: 600;
     line-height: 1.3;
     color: var(--text-primary);
@@ -182,7 +182,7 @@ a {
     flex-direction: column;
     z-index: 200;
     transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1);
-    font-family: 'Google Sans Flex', 'Google Sans', 'Open Sans', sans-serif;
+    font-family: 'Google Sans Flex', 'Google Sans', 'DM Sans', sans-serif;
 }
 
 /* --- Sidebar Mobile Header (visible only on mobile) --- */
