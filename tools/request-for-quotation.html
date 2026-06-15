@@ -224,13 +224,15 @@
                         <!-- Markdown text will be injected here as HTML -->
                     </div>
 
-                    <!-- Footer Line -->
-                    <div class="invoice-footer-line"></div>
-
-                    <!-- System Generated Disclaimer -->
-                    <div class="system-generated-notice">
-                        <p>This is a system-generated document and may not require a physical signature.</p>
-                    </div>
+                    <!-- Screen footer; repeated on every printed page -->
+                    <footer class="rfq-document-footer">
+                        <div class="rfq-footer-rule"></div>
+                        <div class="rfq-footer-content">
+                            <span class="rfq-footer-company">Ray2Volt Solar Private Limited</span>
+                            <span class="rfq-footer-notice">System-generated document; no physical signature required.</span>
+                            <span class="rfq-footer-reference">RFQ <span id="rfqFooterNumber">R2VRFQ...</span></span>
+                        </div>
+                    </footer>
                 </div>
             </section>
         </main>

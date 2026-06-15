@@ -190,7 +190,8 @@ textarea.rfq-input-field {
 }
 
 #rfqPreview.visible {
-    display: block;
+    display: flex;
+    flex-direction: column;
 }
 
 /* ---- Header Section ---- */
@@ -355,31 +356,43 @@ textarea.rfq-input-field {
     color: #444;
 }
 
-/* ---- Footer & Disclaimer ---- */
-.invoice-footer-line {
-    position: absolute;
-    bottom: 15mm;
-    left: 10mm;
-    right: 10mm;
-    height: 2px;
-    background: #d0d0d0;
-    border-radius: 2px;
+/* ---- Document Footer ---- */
+.rfq-document-footer {
+    width: 100%;
+    margin-top: auto;
+    padding-top: 12mm;
+    color: #5f6368;
+    font-size: 7.5pt;
 }
 
-.system-generated-notice {
-    position: absolute;
-    bottom: 0;
-    left: 10mm;
-    right: 10mm;
+.rfq-footer-rule {
+    height: 1px;
+    margin-bottom: 7px;
+    background: #a8d4e6;
+}
+
+.rfq-footer-content {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 10px;
+    line-height: 1.35;
+}
+
+.rfq-footer-company {
+    color: #333;
+    font-weight: 600;
+}
+
+.rfq-footer-notice {
     text-align: center;
-    font-size: 8pt;
-    color: #666;
-    font-style: italic;
-    padding: 8px;
-    background: #fafafa;
-    border: 1px solid #e0e0e0;
-    border-bottom: none;
-    border-radius: 2px 2px 0 0;
+}
+
+.rfq-footer-reference {
+    color: #333;
+    font-weight: 600;
+    text-align: right;
+    white-space: nowrap;
 }
 
 /* ============================================
@@ -448,14 +461,19 @@ textarea.rfq-input-field {
         min-width: 480px;
     }
 
-    .invoice-footer-line {
-        position: static;
-        margin-top: 20px;
+    .rfq-document-footer {
+        padding-top: 24px;
     }
 
-    .system-generated-notice {
-        position: static;
-        margin-top: 10px;
+    .rfq-footer-content {
+        grid-template-columns: 1fr;
+        gap: 4px;
+        text-align: center;
+    }
+
+    .rfq-footer-company,
+    .rfq-footer-reference {
+        text-align: center;
     }
 }
 
@@ -489,17 +507,17 @@ textarea.rfq-input-field {
     }
 
     #rfqPreview {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
+        position: static;
+        width: auto;
+        min-height: 0;
         height: auto;
         margin: 0;
-        padding: 10mm;
+        padding: 0;
         border: none;
         border-radius: 0;
         background: #fff;
         display: block !important;
+        overflow: visible;
     }
 
     /* Light cyan for headers, black text */
@@ -521,8 +539,35 @@ textarea.rfq-input-field {
         border-left: 4px solid #a8d4e6 !important;
     }
 
-    .invoice-footer-line {
-        background: #d0d0d0 !important;
+    .invoice-header,
+    .invoice-unified-table,
+    .rfq-body-content blockquote,
+    .rfq-body-content pre {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .rfq-body-content h1,
+    .rfq-body-content h2,
+    .rfq-body-content h3,
+    .rfq-body-content h4,
+    .rfq-body-content h5,
+    .rfq-body-content h6 {
+        break-after: avoid;
+        page-break-after: avoid;
+    }
+
+    .rfq-body-content tr {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .rfq-body-content thead {
+        display: table-header-group;
+    }
+
+    .rfq-document-footer {
+        display: none !important;
     }
 
     .invoice-unified-table {
@@ -543,7 +588,41 @@ textarea.rfq-input-field {
 
     @page {
         size: A4;
-        margin: 0;
+        margin: 10mm 10mm 18mm;
+
+        @bottom-left {
+            content: "Ray2Volt Solar Private Limited";
+            padding-top: 2mm;
+            border-top: 0.5pt solid #a8d4e6;
+            color: #333;
+            font-family: Arial, sans-serif;
+            font-size: 7pt;
+            font-weight: 600;
+            vertical-align: top;
+        }
+
+        @bottom-center {
+            content: "System-generated document; no physical signature required.";
+            padding-top: 2mm;
+            border-top: 0.5pt solid #a8d4e6;
+            color: #5f6368;
+            font-family: Arial, sans-serif;
+            font-size: 7pt;
+            text-align: center;
+            vertical-align: top;
+        }
+
+        @bottom-right {
+            content: "Page " counter(page) " of " counter(pages);
+            padding-top: 2mm;
+            border-top: 0.5pt solid #a8d4e6;
+            color: #333;
+            font-family: Arial, sans-serif;
+            font-size: 7pt;
+            font-weight: 600;
+            text-align: right;
+            vertical-align: top;
+        }
     }
 
     * {

@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- OUTPUT ELEMENTS ---
     const rfqDispHeading = document.getElementById('rfqDispHeading');
     const rfqDispNumber = document.getElementById('rfqDispNumber');
+    const rfqFooterNumber = document.getElementById('rfqFooterNumber');
     
     const rfqDispVendorName = document.getElementById('rfqDispVendorName');
     const rfqDispVendorAddress = document.getElementById('rfqDispVendorAddress');
@@ -88,6 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // 4. Populate Document Fields
             if (rfqDispHeading) rfqDispHeading.textContent = heading;
             if (rfqDispNumber) rfqDispNumber.textContent = rfqNo;
+            if (rfqFooterNumber) rfqFooterNumber.textContent = rfqNo;
             
             if (rfqDispVendorName) rfqDispVendorName.textContent = vendorName;
             if (rfqDispVendorAddress) rfqDispVendorAddress.textContent = vendorAddress;
