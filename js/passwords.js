@@ -33,6 +33,11 @@ window.RAY2VOLT_PASSWORDS = {
     "request-for-quotation": [
         "Finance@Admin@Ray2Volt",
         "fj"
+    ],
+    "letterhead-documents": [
+        "Admin@Ray2Volt",
+        "fj",
+        "prasanar2v"
     ]
 };
 

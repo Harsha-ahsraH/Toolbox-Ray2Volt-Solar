@@ -946,6 +946,7 @@ textarea.input-field {
     .sidebar.open .main-nav li:nth-child(10) .nav-link { animation-delay: 0.33s; }
     .sidebar.open .main-nav li:nth-child(11) .nav-link { animation-delay: 0.36s; }
     .sidebar.open .main-nav li:nth-child(12) .nav-link { animation-delay: 0.39s; }
+    .sidebar.open .main-nav li:nth-child(13) .nav-link { animation-delay: 0.42s; }
 
     @keyframes navLinkSlideIn {
         to {
