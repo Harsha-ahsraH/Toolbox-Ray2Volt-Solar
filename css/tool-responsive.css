@@ -673,7 +673,7 @@
     }
 
     #quotePreview .qp-page1 .qp-title-section h1 {
-        font-size: 27pt !important;
+        font-size: 21pt !important;
     }
 
     #quotePreview .qp-title-light {
@@ -685,6 +685,36 @@
         width: 176px !important;
         max-width: 176px !important;
         order: 0 !important;
+    }
+
+    #quotePreview .qp-page1 .qp-logo {
+        width: 158px !important;
+        max-width: 158px !important;
+    }
+
+    #quotePreview .qp-page1 .qp-cover-head {
+        padding-bottom: 9px !important;
+        margin-bottom: 5mm !important;
+    }
+
+    #quotePreview .qp-page1 .qp-hero-band {
+        gap: 6mm !important;
+        padding: 5mm 6mm !important;
+        margin-bottom: 5mm !important;
+    }
+
+    #quotePreview .qp-page1 .qp-hero-divider {
+        height: 12mm !important;
+    }
+
+    #quotePreview .qp-page1 .qp-cover-grid {
+        gap: 4mm !important;
+        margin-bottom: 4mm !important;
+    }
+
+    #quotePreview .qp-page1 .qp-glance-strip {
+        gap: 4mm !important;
+        margin-bottom: 4mm !important;
     }
 
     #quotePreview .qp-banner,
@@ -730,6 +760,11 @@
         overflow: visible !important;
     }
 
+    #quotePreview .qp-page1 {
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
     #quotePreview .qp-page-footer {
         position: absolute !important;
         bottom: 7mm !important;
@@ -743,6 +778,17 @@
         bottom: 17mm !important;
         left: 0 !important;
         right: 0 !important;
+        margin-top: 0 !important;
+    }
+
+    #quotePreview .qp-page1 .qp-cover-footer {
+        position: absolute !important;
+        bottom: 15mm !important;
+        left: 13mm !important;
+        right: 13mm !important;
+        background: var(--qp-soft) !important;
+        border: 1px solid var(--qp-line) !important;
+        padding: 5px 10px !important;
         margin-top: 0 !important;
     }
 }

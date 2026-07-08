@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const qgCustomerGstin = document.getElementById('qgCustomerGstin');
     const qgInstallationType = document.getElementById('qgInstallationType');
     const qgTotalPrice = document.getElementById('qgTotalPrice');
+    const qgDiscountAmount = document.getElementById('qgDiscountAmount');
     const qgGstType = document.getElementById('qgGstType');
     const qgGstRate = document.getElementById('qgGstRate');
     const qgSubsidyEligible = document.getElementById('qgSubsidyEligible');
@@ -68,6 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Print / Save as PDF button
         if (printBtn) {
             printBtn.addEventListener('click', () => {
+                updatePreviewScale();
                 window.print();
             });
         }
@@ -76,6 +78,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (qgInstallationType) {
             qgInstallationType.addEventListener('change', updateBomTable);
         }
+
+        window.addEventListener('resize', updatePreviewScale);
+        window.addEventListener('orientationchange', updatePreviewScale);
     }
 
     /**
@@ -113,12 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
             { item: 'Transportation & Handling', qty: 1, unit: 'Trip', make: 'Ray2Volt Solar' }
         ];
 
-        let selectedDefaults = type === 'Hybrid' ? hybridDefaults : onGridDefaults;
-        
-        // Use hybrid defaults for Off-Grid as well
-        if (type === 'Off-Grid') {
-            selectedDefaults = hybridDefaults;
-        }
+        const selectedDefaults = type === 'Hybrid' ? hybridDefaults : onGridDefaults;
 
         let html = '';
         let sno = 1;
@@ -162,7 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     /**
-     * Generate the 5-page preview
+     * Generate the 8-page preview
      */
     function generatePreview() {
         // --- Read form values ---
@@ -174,7 +174,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const quoteNumber = val(qgQuoteNumber) || '—';
         const capacity = parseFloat(val(qgSystemCapacity)) || 3;
         const installType = qgInstallationType ? qgInstallationType.options[qgInstallationType.selectedIndex].text : 'On-Grid';
-        const totalPrice = parseFloat(val(qgTotalPrice)) || 0;
+        const actualProjectCost = Math.max(0, parseFloat(val(qgTotalPrice)) || 0);
+        const requestedDiscount = Math.max(0, parseFloat(val(qgDiscountAmount)) || 0);
+        const discountAmount = Math.min(requestedDiscount, actualProjectCost);
         const gstType = qgGstType ? qgGstType.value : 'intra';
         const gstRateVal = parseFloat(val(qgGstRate));
         const gstRate = isNaN(gstRateVal) ? 5 : gstRateVal;
@@ -189,8 +191,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const formattedDate = quoteDate ? formatDate(quoteDate) : '—';
 
         // --- GST Calculations (Inclusive Logic) ---
-        // Input `totalPrice` is now the Grand Total (Inclusive of GST)
-        const grandTotal = totalPrice;
+        // Final project cost is the inclusive project cost after discount.
+        const grandTotal = Math.max(0, actualProjectCost - discountAmount);
         const gstDecimal = gstRate / 100;
 
         // Back-calculate taxable base price: Base = Total / (1 + Rate)
@@ -218,30 +220,67 @@ document.addEventListener('DOMContentLoaded', () => {
             else if (capacity <= 3) subsidyAmount = 78000;
             else subsidyAmount = 78000;
         }
-        const netCost = grandTotal - subsidyAmount;
+        const netCost = Math.max(0, grandTotal - subsidyAmount);
 
         // --- Payment split ---
         const advanceAmt = grandTotal * (advancePct / 100);
         const finalAmt = grandTotal * (finalPct / 100);
 
+        const isHybrid = installType === 'Hybrid';
+
         // ============================
-        // PAGE 1: Cover & Customer Info
+        // PAGE 1: Cover
+        // ============================
+        setText('qpCoverDate', formattedDate);
+
+        const coverTitleText = isHybrid
+            ? `${capacity}-kWp Hybrid Rooftop Solar with Battery Backup Project Proposal`
+            : `${capacity}-kWp On-Grid Rooftop Solar Project Proposal`;
+        setText('qpCoverTitle', coverTitleText);
+
+        // ============================
+        // PAGE 2: Overview
         // ============================
         setText('qpQuoteNumber', quoteNumber);
-        setText('qpQuoteDate', formattedDate);
         setText('qpCustomerName', customerName);
         setText('qpCustomerPhone', customerPhone);
         setText('qpCustomerAddress', customerAddress);
         setText('qpCustomerGstin', customerGstin);
-        setText('qpSystemCapacity', `${capacity} kWp`);
         setText('qpInstallationType', installType);
 
+        // Hero
+        setText('qpHeroCapacity', `${capacity} kWp`);
+        setText('qpHeroType', isHybrid ? 'Hybrid System' : 'On-Grid System');
+        setText('qpHeroTagline', isHybrid
+            ? 'Solar + battery backup — power day and night'
+            : 'Grid-connected solar with net-metering');
+        const heroSubsidyBadge = document.getElementById('qpHeroSubsidyBadge');
+        if (heroSubsidyBadge) heroSubsidyBadge.style.display = subsidyEligible ? '' : 'none';
+
+        // Hide GSTIN row when not provided
+        const gstinRow = document.getElementById('qpCustomerGstinRow');
+        if (gstinRow) gstinRow.style.display = (customerGstin && customerGstin !== 'N/A') ? '' : 'none';
+
+        // At-a-glance stats (generation & payback filled in ROI section)
+        setText('qpStatCapacity', `${capacity} kWp`);
+        setText('qpStatSubsidy', formatCurrency(subsidyAmount));
+        const statSubsidyItem = document.getElementById('qpStatSubsidyItem');
+        if (statSubsidyItem) statSubsidyItem.style.display = subsidyEligible ? '' : 'none';
+
+        // Add Turnkey Price
+        setText('qpStatTurnkeyPrice', formatCurrency(grandTotal));
+
         // ============================
-        // PAGE 2: Bill of Materials
+        // PAGES 2 & 3: Technical Overview
+        // ============================
+        populateTechnicalPages(isHybrid);
+
+        // ============================
+        // PAGE 4: Bill of Materials
         // ============================
         populateBomTable();
 
-        if (installType === 'Hybrid' || installType === 'Off-Grid') {
+        if (isHybrid) {
             setText('qpWarrantyInverterLabel', 'Inverter & Battery');
             setText('qpWarrantyInverterValue', '10 Years Standard Warranty (Manufacturer)');
         } else {
@@ -250,7 +289,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // ============================
-        // PAGE 3: Commercial Offer
+        // PAGE 6: Commercial Offer
         // ============================
         setText('qpOfferName', customerName);
         setText('qpOfferAddress', customerAddress);
@@ -270,6 +309,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
         setText('qpPriceCapacity', `${capacity} kWp`);
+        setText('qpActualProjectCost', formatCurrency(actualProjectCost));
+        setText('qpDiscountAmount', discountAmount > 0 ? `- ${formatCurrency(discountAmount)}` : formatCurrency(0));
         setText('qpPriceTaxable', formatCurrency(taxablePrice));
         setText('qpGstLabel1', gst1Label);
         setText('qpGstAmt1', formatCurrency(gst1Amt));
@@ -298,7 +339,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (subsidySection) subsidySection.style.display = subsidyEligible ? '' : 'none';
 
         // ============================
-        // PAGE 4: Savings & ROI
+        // PAGE 7: Savings & ROI
         // ============================
         const annualUnits = capacity * unitsPerKwp;
         const annualSavingsY1 = annualUnits * tariffRate;
@@ -310,13 +351,24 @@ document.addEventListener('DOMContentLoaded', () => {
         setText('qpAnnualSavings', formatCurrency(annualSavingsY1));
         setText('qpPaybackPeriod', `${paybackYears} years`);
 
+        // Cover at-a-glance stats
+        setText('qpStatGeneration', `${annualUnits.toLocaleString('en-IN')} units`);
+        setText('qpStatPayback', `${paybackYears} years`);
+        setText('qpHeroSavings', formatCurrency(annualSavingsY1));
+
         populateSavingsTable(annualUnits, tariffRate, escalation);
 
-        // --- Environmental Impact (25 years) ---
-        const totalUnits25yr = annualUnits * 25;
-        const co2Saved = (totalUnits25yr * 0.82) / 1000; // 0.82 kg CO2 per kWh, converted to tonnes
+        // Populate Lifetime Savings onto Page 2 after calculate in populateSavingsTable
+        const lifetimeSavings = document.getElementById('qpLifetimeSavings');
+        if (lifetimeSavings) {
+            setText('qpStatLifetimeSavings', lifetimeSavings.innerText || lifetimeSavings.textContent);
+        }
+
+        // --- Environmental Impact (30 years) ---
+        const totalUnits30yr = annualUnits * 30;
+        const co2Saved = (totalUnits30yr * 0.82) / 1000; // 0.82 kg CO2 per kWh, converted to tonnes
         const treesEquiv = Math.round(co2Saved * 45); // ~45 trees per tonne CO2
-        const cleanEnergyMwh = (totalUnits25yr / 1000).toFixed(1);
+        const cleanEnergyMwh = (totalUnits30yr / 1000).toFixed(1);
 
         setText('qpCo2Saved', `${co2Saved.toFixed(1)} Tonnes`);
         setText('qpTreesEquiv', `${treesEquiv.toLocaleString('en-IN')}+ Trees`);
@@ -336,7 +388,93 @@ document.addEventListener('DOMContentLoaded', () => {
         // ============================
         if (quotePreview) {
             quotePreview.classList.add('visible');
+            updatePreviewScale();
             quotePreview.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }
+
+    function updatePreviewScale() {
+        if (!quotePreview) return;
+
+        const a4WidthPx = 210 / 25.4 * 96;
+        const smallScreen = window.matchMedia('(max-width: 768px)').matches;
+
+        if (!smallScreen) {
+            quotePreview.style.setProperty('--qp-preview-scale', '1');
+            return;
+        }
+
+        const parentWidth = quotePreview.parentElement ? quotePreview.parentElement.clientWidth : window.innerWidth;
+        const availableWidth = Math.max(280, Math.min(parentWidth, window.innerWidth) - 16);
+        const scale = Math.min(1, Math.max(0.35, availableWidth / a4WidthPx));
+        quotePreview.style.setProperty('--qp-preview-scale', scale.toFixed(4));
+    }
+
+    /**
+     * Populate pages 2 & 3 (schematic, energy flow, tech cards)
+     * based on installation type
+     */
+    function populateTechnicalPages(isHybrid) {
+        // --- Schematic image & title (Page 2) ---
+        const schematicImg = document.getElementById('qpSchematicImg');
+        if (schematicImg) {
+            schematicImg.src = isHybrid
+                ? '../assets/Hybrid Solar Schemartic Diagram.png'
+                : '../assets/On-Grid Schematic Diagram.png';
+            schematicImg.alt = isHybrid
+                ? 'Hybrid solar system schematic diagram'
+                : 'On-grid solar system schematic diagram';
+        }
+        setText('qpSchematicTitle', isHybrid ? 'Hybrid System Schematic' : 'On-Grid System Schematic');
+
+        // --- Energy flow steps (Page 2) ---
+        const onGridFlow = [
+            { title: 'Generation', desc: 'Solar panels convert sunlight into DC electricity throughout the day.' },
+            { title: 'DC Protection', desc: 'The DCDB isolates and protects the DC side with fuses and surge protection.' },
+            { title: 'Conversion', desc: 'The inverter converts DC into grid-synchronized 230V AC power.' },
+            { title: 'AC Protection', desc: 'The ACDB safeguards the AC side and provides safe isolation.' },
+            { title: 'Net-Metering', desc: 'The bi-directional meter records energy imported and exported.' },
+            { title: 'Home & Grid', desc: 'Your loads are powered first; surplus energy is exported to the grid.' }
+        ];
+
+        const hybridFlow = [
+            { title: 'Generation', desc: 'Solar panels convert sunlight into DC electricity throughout the day.' },
+            { title: 'DC Protection', desc: 'The DCDB isolates and protects the DC side with fuses and surge protection.' },
+            { title: 'Smart Conversion', desc: 'The hybrid inverter powers your loads and charges the battery.' },
+            { title: 'Battery Storage', desc: 'Surplus energy is stored in the LiFePO4 battery for night and outages.' },
+            { title: 'Main Line', desc: 'Grid-connected loads run via the ACDB and bi-directional net-meter.' },
+            { title: 'Backup Line', desc: 'Essential loads stay powered from the battery during grid outages.' }
+        ];
+
+        const flow = isHybrid ? hybridFlow : onGridFlow;
+        const flowContainer = document.getElementById('qpFlowSteps');
+        if (flowContainer) {
+            flowContainer.innerHTML = flow.map((step, i) => `
+                <div class="qp-flow-step">
+                    <span class="qp-flow-num">${i + 1}</span>
+                    <div>
+                        <strong>${step.title}</strong>
+                        <p>${step.desc}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // --- Conditional tech cards (Page 3) ---
+        if (isHybrid) {
+            setText('qpTechInverterTitle', 'Hybrid Inverter');
+            setText('qpTechInverterDesc', 'MPPT-tracked inverter that intelligently routes power between solar, ' +
+                'battery, loads, and grid — with seamless switchover to backup during outages.');
+            setText('qpTechCard6Title', 'Battery Storage');
+            setText('qpTechCard6Desc', 'LiFePO4 battery (5.12 kWh) with built-in BMS protection, 6000+ charge ' +
+                'cycles, and a 10-year warranty for dependable night-time and backup power.');
+        } else {
+            setText('qpTechInverterTitle', 'Grid-Tie Inverter');
+            setText('qpTechInverterDesc', 'MPPT-tracked conversion of DC to grid-synchronized AC at over 97% ' +
+                'efficiency, with built-in anti-islanding protection and app-based monitoring.');
+            setText('qpTechCard6Title', 'Net-Meter & Monitoring');
+            setText('qpTechCard6Desc', 'Bi-directional DISCOM meter for net billing, plus Wi-Fi inverter ' +
+                'monitoring so you can track generation live from your phone.');
         }
     }
 
@@ -380,14 +518,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     /**
-     * Populate 25-year savings projection table
+     * Populate 30-year savings projection table
      */
     function populateSavingsTable(annualUnits, baseTariff, escalationPct) {
         const tbody = document.getElementById('qpSavingsTableBody');
         if (!tbody) return;
         tbody.innerHTML = '';
 
-        const milestones = [1, 5, 10, 25];
+        const milestones = [1, 5, 10, 30];
         let cumulative = 0;
         let lastYear = 0;
 
