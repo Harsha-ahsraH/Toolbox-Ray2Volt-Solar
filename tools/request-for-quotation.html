@@ -22,8 +22,8 @@
 
     <!-- Stylesheets -->
     <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/request-for-quotation.css">
     <link rel="stylesheet" href="../css/tool-responsive.css">
+    <link rel="stylesheet" href="../css/request-for-quotation.css">
 </head>
 
 <body>
@@ -173,21 +173,24 @@
                     </div>
                 </div>
 
-                <!-- Request for Quotation Template -->
-                <div id="rfqPreview">
-                    <!-- Header -->
-                    <div class="invoice-header">
+                <!-- Paginated Request for Quotation Preview -->
+                <div id="rfqPreview" aria-live="polite"></div>
+
+                <!-- Every generated A4 sheet is cloned from this template. -->
+                <template id="rfqPageTemplate">
+                    <article class="rfq-page">
+                    <header class="invoice-header rfq-page-header">
                         <div class="invoice-title-section">
-                            <h1 id="rfqDispHeading">REQUEST FOR QUOTATION</h1>
-                            <p id="rfqDispNumber">R2VRFQ...</p>
+                            <h1 data-rfq-heading>REQUEST FOR QUOTATION</h1>
+                            <p data-rfq-number>R2VRFQ...</p>
                         </div>
                         <div class="invoice-logo-section">
                             <img src="../Logo.png" alt="Ray2Volt Logo" class="invoice-logo">
                         </div>
-                    </div>
+                    </header>
 
-                    <!-- Unified Company/Vendor Info -->
-                    <table class="invoice-unified-table">
+                    <main class="rfq-page-main">
+                    <table class="invoice-unified-table" data-rfq-first-page-details>
                         <colgroup>
                             <col style="width: 50%;">
                             <col style="width: 50%;">
@@ -209,32 +212,30 @@
                                 <p><span class="invoice-info-label">CIN:</span> U35104AP2025PTC118526</p>
                             </td>
                             <td class="to-cell">
-                                <p><span class="invoice-info-label">Name:</span> <span id="rfqDispVendorName"></span></p>
-                                <p><span class="invoice-info-label">Address:</span> <span id="rfqDispVendorAddress"></span></p>
-                                <p><span class="invoice-info-label">Phone Number:</span> <span id="rfqDispVendorPhone"></span></p>
-                                <p><span class="invoice-info-label">Email:</span> <span id="rfqDispVendorEmail"></span></p>
+                                <p><span class="invoice-info-label">Name:</span> <span data-rfq-vendor-name></span></p>
+                                <p><span class="invoice-info-label">Address:</span> <span data-rfq-vendor-address></span></p>
+                                <p><span class="invoice-info-label">Phone Number:</span> <span data-rfq-vendor-phone></span></p>
+                                <p><span class="invoice-info-label">Email:</span> <span data-rfq-vendor-email></span></p>
                                 <br>
-                                <p><span class="invoice-info-label">GSTIN:</span> <span id="rfqDispVendorGstin"></span></p>
-                                <p><span class="invoice-info-label">Date:</span> <span id="rfqDispDate"></span></p>
+                                <p><span class="invoice-info-label">GSTIN:</span> <span data-rfq-vendor-gstin></span></p>
+                                <p><span class="invoice-info-label">Date:</span> <span data-rfq-date></span></p>
                             </td>
                         </tr>
                     </table>
 
-                    <!-- Markdown Body -->
-                    <div class="rfq-body-content" id="rfqDispBody">
-                        <!-- Markdown text will be injected here as HTML -->
-                    </div>
+                    <div class="rfq-body-content" data-rfq-page-body></div>
+                    </main>
 
-                    <!-- Screen footer; repeated on every printed page -->
-                    <footer class="rfq-document-footer">
+                    <footer class="rfq-document-footer rfq-page-footer">
                         <div class="rfq-footer-rule"></div>
                         <div class="rfq-footer-content">
                             <span class="rfq-footer-company">Ray2Volt Solar Private Limited</span>
                             <span class="rfq-footer-notice">System-generated document; no physical signature required.</span>
-                            <span class="rfq-footer-reference">RFQ <span id="rfqFooterNumber">R2VRFQ...</span></span>
+                            <span class="rfq-footer-reference">RFQ <span data-rfq-footer-number>R2VRFQ...</span><br><span data-rfq-page-number>Page 1 of 1</span></span>
                         </div>
                     </footer>
-                </div>
+                    </article>
+                </template>
             </section>
         </main>
     </div>
