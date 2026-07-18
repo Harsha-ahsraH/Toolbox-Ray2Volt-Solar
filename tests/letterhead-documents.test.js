@@ -9,7 +9,7 @@ const js = fs.readFileSync(path.join(repoRoot, 'js', 'letterhead-documents.js'),
 const index = fs.readFileSync(path.join(repoRoot, 'index.html'), 'utf8');
 const passwords = fs.readFileSync(path.join(repoRoot, 'js', 'passwords.js'), 'utf8');
 
-assert.match(html, /Letterhead Documents/);
+assert.match(html, /Letterheadify/);
 assert.match(html, /pdf-lib@1\.17\.1\/dist\/pdf-lib\.min\.js/);
 assert.match(html, /id="lhdPdfInput"/);
 assert.match(html, /accept="application\/pdf"/);
