@@ -1,0 +1,117 @@
+/* ============================================
+   Ray2Volt Solar Toolbox - Brutalist Light Theme
+   Sharp Edges, Cyan-Blue Accents
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,400,0,0');
+
+/* --- CSS Custom Properties --- */
+:root {
+    /* Primary Colors - Light Cyan Accent */
+    --primary: #06B6D4;
+    --primary-light: #CFFAFE;
+    --primary-dark: #0891B2;
+
+    /* Neutral Colors - Clean Light Theme */
+    --bg-body: #F5F7F8;
+    --bg-card: #FFFFFF;
+    --bg-sidebar: #FFFFFF;
+    --bg-hover: #EEF1F3;
+    --bg-active: #E0F7FA;
+
+    /* Text Colors */
+    --text-primary: #111827;
+    --text-secondary: #4B5563;
+    --text-muted: #6B7280;
+
+    /* Border Colors - Stronger for brutalist */
+    --border-light: #D1D5DB;
+    --border-medium: #9CA3AF;
+
+    /* Shadows - Minimal for brutalist */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 2px 4px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+    /* Transitions */
+    --transition-fast: 0.1s ease;
+    --transition-base: 0.2s ease;
+
+    /* Spacing */
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 0.75rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+
+    /* Border Radius - Sharp/Brutalist */
+    --radius-sm: 2px;
+    --radius-md: 2px;
+    --radius-lg: 4px;
+
+    /* Sidebar Width */
+    --sidebar-width: 250px;
+}
+
+/* --- Custom Scrollbars --- */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-body);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border-medium);
+    border-radius: var(--radius-lg);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary);
+}
+
+/* --- Reset & Base Styles --- */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+}
+
+body {
+    font-family: 'Google Sans Flex', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background-color: var(--bg-body);
+    color: var(--text-primary);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Google Sans', 'Google Sans Flex', sans-serif;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--text-primary);
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* --- App Container --- */

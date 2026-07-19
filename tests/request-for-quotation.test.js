@@ -3,9 +3,10 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const repoRoot = path.resolve(__dirname, '..');
-const html = fs.readFileSync(path.join(repoRoot, 'tools', 'request-for-quotation.html'), 'utf8');
-const css = fs.readFileSync(path.join(repoRoot, 'css', 'request-for-quotation.css'), 'utf8');
-const js = fs.readFileSync(path.join(repoRoot, 'js', 'request-for-quotation.js'), 'utf8');
+const toolRoot = path.join(repoRoot, 'tools', 'request-for-quotation');
+const html = fs.readFileSync(path.join(toolRoot, 'request-for-quotation.html'), 'utf8');
+const css = fs.readFileSync(path.join(toolRoot, 'request-for-quotation.css'), 'utf8');
+const js = fs.readFileSync(path.join(toolRoot, 'request-for-quotation.js'), 'utf8');
 
 function cssRule(selector, within = css) {
     const escaped = selector.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');

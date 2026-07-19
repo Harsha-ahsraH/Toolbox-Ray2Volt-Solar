@@ -2,7 +2,7 @@
  * Letterheadify - adds the Ray2Volt letterhead image to every PDF page.
  */
 document.addEventListener('DOMContentLoaded', () => {
-    const LETTERHEAD_SRC = '../assets/Letterhead (Latest) Ray2Volt Solar PNG.png';
+    const LETTERHEAD_SRC = 'assets/Letterhead (Latest) Ray2Volt Solar PNG.png';
 
     const pdfInput = document.getElementById('lhdPdfInput');
     const processBtn = document.getElementById('lhdProcessBtn');

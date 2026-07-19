@@ -1,5 +1,5 @@
 const assert = require('node:assert/strict');
-const Docs = require('../js/financial-document.js');
+const Docs = require('../global/scripts/financial-document.js');
 
 function fakeRow(values) {
     return {

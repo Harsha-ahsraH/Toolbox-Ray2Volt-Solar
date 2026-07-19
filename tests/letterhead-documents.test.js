@@ -3,11 +3,12 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const repoRoot = path.resolve(__dirname, '..');
-const html = fs.readFileSync(path.join(repoRoot, 'tools', 'letterhead-documents.html'), 'utf8');
-const css = fs.readFileSync(path.join(repoRoot, 'css', 'letterhead-documents.css'), 'utf8');
-const js = fs.readFileSync(path.join(repoRoot, 'js', 'letterhead-documents.js'), 'utf8');
+const toolRoot = path.join(repoRoot, 'tools', 'letterheadify');
+const html = fs.readFileSync(path.join(toolRoot, 'letterheadify.html'), 'utf8');
+const css = fs.readFileSync(path.join(toolRoot, 'letterheadify.css'), 'utf8');
+const js = fs.readFileSync(path.join(toolRoot, 'letterheadify.js'), 'utf8');
 const index = fs.readFileSync(path.join(repoRoot, 'index.html'), 'utf8');
-const passwords = fs.readFileSync(path.join(repoRoot, 'js', 'passwords.js'), 'utf8');
+const passwords = fs.readFileSync(path.join(repoRoot, 'global', 'scripts', 'passwords.js'), 'utf8');
 
 assert.match(html, /Letterheadify/);
 assert.match(html, /pdf-lib@1\.17\.1\/dist\/pdf-lib\.min\.js/);
@@ -16,8 +17,8 @@ assert.match(html, /accept="application\/pdf"/);
 assert.match(html, /id="lhdProcessBtn"/);
 assert.match(html, /Add Letterhead &amp; Download/);
 assert.match(html, /data-tool-id="letterhead-documents"/);
-assert.match(html, /letterhead-documents\.css/);
-assert.match(html, /letterhead-documents\.js/);
+assert.match(html, /letterheadify\.css/);
+assert.match(html, /letterheadify\.js/);
 assert.doesNotMatch(html, /marked\.min\.js|Markdown Content|lhdMarkdownBody|Document Title|lhdDocumentDate/);
 
 assert.match(css, /\.lhd-file-drop\s*\{/);
@@ -37,7 +38,7 @@ assert.match(js, /Could not load the letterhead image/);
 assert.doesNotMatch(js, /fetchLetterhead/);
 assert.doesNotMatch(js, /marked|parseMarkdown|lhdPreview|window\.print/);
 
-assert.match(index, /tools\/letterhead-documents\.html/);
+assert.match(index, /tools\/letterheadify\/letterheadify\.html/);
 assert.match(passwords, /"letterhead-documents"/);
 
 console.log('letterhead-documents tests passed');

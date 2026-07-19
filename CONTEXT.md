@@ -16,7 +16,7 @@ _Avoid_: Quote document, offer letter
 Unique identifier for a Proposal, format `R2VQ[MMYY]-[NNNN]`, sequential per month.
 
 **Schematic**:
-The illustrated system-diagram PNG in `assets/`, one per Installation Type, shown on the Proposal's technical overview page.
+The illustrated system-diagram PNG in `tools/quote-generator/assets/`, one per Installation Type, shown on the Proposal's technical overview page.
 _Avoid_: circuit diagram, wiring diagram
 
 **BOM (Bill of Materials)**:

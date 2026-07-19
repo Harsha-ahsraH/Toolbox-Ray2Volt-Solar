@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request for Quotation - Ray2Volt Toolbox</title>
+    <link rel="icon" type="image/png" href="../../global/assets/favicon.png">
+    <meta name="description" content="Generate professional Request for Quotations from Markdown.">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=Google+Sans+Flex:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Marked JS for Markdown parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="../../global/styles/base.css">
+    <link rel="stylesheet" href="../../global/styles/navigation.css">
+    <link rel="stylesheet" href="../../global/styles/components.css">
+    <link rel="stylesheet" href="../../global/styles/responsive.css">
+    <link rel="stylesheet" href="../../global/styles/tool-responsive.css">
+    <link rel="stylesheet" href="request-for-quotation.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Mobile Header -->
+        <header class="mobile-header">
+            <img src="../../global/assets/logo.png" alt="Company Logo" class="mobile-logo">
+            <button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Open navigation menu">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
+                </svg>
+            </button>
+        </header>
+
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-mobile-header">
+                <img src="../../global/assets/logo.png" alt="Company Logo" class="sidebar-mobile-logo">
+                <button class="sidebar-close-btn" id="sidebarCloseBtn" aria-label="Close menu">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                </button>
+            </div>
+            <div>
+                <div class="logo-header">
+                    <img src="../../global/assets/logo.png" alt="Company Logo" class="logo">
+                    <h2>Toolbox</h2>
+                </div>
+                <nav class="main-nav">
+                    <ul>
+                        <li><a href="../../index.html" class="nav-link">Dashboard</a></li>
+                        <li><a href="../emi-calculator/emi-calculator.html" class="nav-link">EMI Calculator</a></li>
+                        <li><a href="../gst-calculator/gst-calculator.html" class="nav-link">GST Calculator</a></li>
+                        <li><a href="../package-prices/package-prices.html" class="nav-link">Package Prices</a></li>
+                        <li><a href="../receipt-generator/receipt-generator.html" class="nav-link">Payment Receipt</a></li>
+                        <li><a href="../invoice-generator/invoice-generator.html" class="nav-link">Invoice Generator</a></li>
+                        <li><a href="../proforma-invoice/proforma-invoice.html" class="nav-link">Proforma Invoice</a></li>
+                        <li><a href="../purchase-order/purchase-order.html" class="nav-link">Purchase Order</a></li>
+                        <li><a href="../payslip-generator/payslip-generator.html" class="nav-link">PaySlip Generator</a></li>
+                        <li><a href="../warranty-card/warranty-card.html" class="nav-link">Warranty Card</a></li>
+                        <li><a href="../quote-generator/quote-generator.html" class="nav-link">Quote Generator</a></li>
+                        <li><a href="../request-for-quotation/request-for-quotation.html" class="nav-link active">Request For Quotation</a></li>
+                        <li><a href="../letterheadify/letterheadify.html" class="nav-link">Letterheadify</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <section id="rfq-section" class="content-section active">
+
+                <div class="no-print-area">
+                    <!-- Page Header -->
+                    <div class="rfq-page-header">
+                        <h1>Request for Quotation Generator</h1>
+                        <p>Generate professional Request for Quotations from Markdown text.</p>
+                    </div>
+
+                    <!-- Form Grid -->
+                    <div class="rfq-form-grid">
+                        <!-- Vendor Details Card -->
+                        <div class="rfq-form-card">
+                            <h3 class="rfq-section-title">
+                                <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="12" cy="7" r="4"></circle>
+                                </svg>
+                                Vendor Details
+                            </h3>
+                            <div class="rfq-input-group">
+                                <label for="rfqVendorName">Vendor Name</label>
+                                <input type="text" id="rfqVendorName" class="rfq-input-field" placeholder="Enter vendor name">
+                            </div>
+                            <div class="rfq-input-group">
+                                <label for="rfqVendorAddress">Address (Optional)</label>
+                                <textarea id="rfqVendorAddress" class="rfq-input-field" rows="2"
+                                    placeholder="Enter vendor address"></textarea>
+                            </div>
+                            <div class="rfq-input-group">
+                                <label for="rfqVendorPhone">Phone Number (Optional)</label>
+                                <input type="text" id="rfqVendorPhone" class="rfq-input-field" placeholder="Enter phone number">
+                            </div>
+                            <div class="rfq-input-group">
+                                <label for="rfqVendorEmail">Email (Optional)</label>
+                                <input type="email" id="rfqVendorEmail" class="rfq-input-field"
+                                    placeholder="Enter email address">
+                            </div>
+                            <div class="rfq-input-group">
+                                <label for="rfqVendorGstin">Vendor GSTIN (Optional)</label>
+                                <input type="text" id="rfqVendorGstin" class="rfq-input-field" placeholder="Enter vendor GSTIN">
+                            </div>
+                        </div>
+
+                        <!-- RFQ Settings Card -->
+                        <div class="rfq-form-card">
+                            <h3 class="rfq-section-title">
+                                <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                    <polyline points="14 2 14 8 20 8"></polyline>
+                                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                                </svg>
+                                RFQ Settings
+                            </h3>
+                            <div class="rfq-input-group">
+                                <label for="rfqHeading">Document Heading</label>
+                                <input type="text" id="rfqHeading" class="rfq-input-field" value="REQUEST FOR QUOTATION" placeholder="e.g. REQUEST FOR QUOTATION">
+                            </div>
+                            <div class="rfq-input-group">
+                                <label for="rfqDate">RFQ Date</label>
+                                <input type="date" id="rfqDate" class="rfq-input-field">
+                            </div>
+                            <div class="rfq-input-group">
+                                <label for="rfqNumber">RFQ Number</label>
+                                <input type="text" id="rfqNumber" class="rfq-input-field"
+                                    placeholder="e.g. R2VRFQ0125-0001">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Markdown Text Area Card -->
+                    <div class="rfq-form-card rfq-tc-card">
+                        <h3 class="rfq-section-title">
+                            <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                <polyline points="14 2 14 8 20 8"></polyline>
+                                <line x1="16" y1="13" x2="8" y2="13"></line>
+                                <line x1="16" y1="17" x2="8" y2="17"></line>
+                            </svg>
+                            Request Body (Markdown)
+                        </h3>
+                        <div class="rfq-input-group">
+                            <label for="rfqBody">Enter request content in Markdown format</label>
+                            <textarea id="rfqBody" class="rfq-input-field rfq-markdown-editor" rows="15"
+                                placeholder="### Scope of Supply&#10;Please provide a quotation for the following items:&#10;&#10;1. **Solar Panels:** 10 x 550Wp Monocrystalline&#10;2. **Inverter:** 1 x 5kW Hybrid Inverter&#10;&#10;*Note: Ensure delivery within 10 working days.*"></textarea>
+                            <span class="rfq-input-hint">Use standard Markdown syntax (# for headers, * for lists, ** for bold, etc.). We use marked.js to compile it.</span>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="rfq-actions">
+                        <button id="rfqGenerateBtn" class="rfq-btn-primary">Generate RFQ Preview</button>
+                        <button id="rfqPrintBtn" class="rfq-btn-secondary">Print / Save as PDF</button>
+                    </div>
+                </div>
+
+                <!-- Paginated Request for Quotation Preview -->
+                <div id="rfqPreview" aria-live="polite"></div>
+
+                <!-- Every generated A4 sheet is cloned from this template. -->
+                <template id="rfqPageTemplate">
+                    <article class="rfq-page">
+                    <header class="invoice-header rfq-page-header">
+                        <div class="invoice-title-section">
+                            <h1 data-rfq-heading>REQUEST FOR QUOTATION</h1>
+                            <p data-rfq-number>R2VRFQ...</p>
+                        </div>
+                        <div class="invoice-logo-section">
+                            <img src="../../global/assets/logo.png" alt="Ray2Volt Logo" class="invoice-logo">
+                        </div>
+                    </header>
+
+                    <main class="rfq-page-main">
+                    <table class="invoice-unified-table" data-rfq-first-page-details>
+                        <colgroup>
+                            <col style="width: 50%;">
+                            <col style="width: 50%;">
+                        </colgroup>
+                        <!-- Info Section Header Row -->
+                        <tr class="info-header-row">
+                            <td class="info-header-cell">From:</td>
+                            <td class="info-header-cell">Vendor:</td>
+                        </tr>
+                        <!-- Info Section Content Row -->
+                        <tr class="info-content-row">
+                            <td class="from-cell">
+                                <h3 class="company-name-bold">Ray2Volt Solar Private Limited</h3>
+                                <p>1-278, Pichatur road, Srikalahasti, 517640, Andhra Pradesh.</p>
+                                <p><span class="invoice-info-label">Phone:</span> +91 96 6606 8140</p>
+                                <p><span class="invoice-info-label">Email:</span> ray2voltsolar@gmail.com</p>
+                                <br>
+                                <p><span class="invoice-info-label">GSTIN:</span> 37AAOCR4626E1Z6</p>
+                                <p><span class="invoice-info-label">CIN:</span> U35104AP2025PTC118526</p>
+                            </td>
+                            <td class="to-cell">
+                                <p><span class="invoice-info-label">Name:</span> <span data-rfq-vendor-name></span></p>
+                                <p><span class="invoice-info-label">Address:</span> <span data-rfq-vendor-address></span></p>
+                                <p><span class="invoice-info-label">Phone Number:</span> <span data-rfq-vendor-phone></span></p>
+                                <p><span class="invoice-info-label">Email:</span> <span data-rfq-vendor-email></span></p>
+                                <br>
+                                <p><span class="invoice-info-label">GSTIN:</span> <span data-rfq-vendor-gstin></span></p>
+                                <p><span class="invoice-info-label">Date:</span> <span data-rfq-date></span></p>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <div class="rfq-body-content" data-rfq-page-body></div>
+                    </main>
+
+                    <footer class="rfq-document-footer rfq-page-footer">
+                        <div class="rfq-footer-rule"></div>
+                        <div class="rfq-footer-content">
+                            <span class="rfq-footer-company">Ray2Volt Solar Private Limited</span>
+                            <span class="rfq-footer-notice">System-generated document; no physical signature required.</span>
+                            <span class="rfq-footer-reference">RFQ <span data-rfq-footer-number>R2VRFQ...</span><br><span data-rfq-page-number>Page 1 of 1</span></span>
+                        </div>
+                    </footer>
+                    </article>
+                </template>
+            </section>
+        </main>
+    </div>
+
+    <!-- Overlay for Mobile Sidebar -->
+    <div class="overlay" id="overlay"></div>
+
+    <script src="../../global/scripts/tool-lock.js" data-tool-id="request-for-quotation"></script>
+    <script src="../../global/scripts/navigation.js"></script>
+    <script src="request-for-quotation.js"></script>
+</body>
+
+</html>

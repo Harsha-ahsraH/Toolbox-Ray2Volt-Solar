@@ -1,0 +1,183 @@
+/* ============================================
+   DESKTOP PREVIEW (A4 look from 769px)
+   ============================================ */
+@media screen and (min-width: 769px) {
+    .quote-page {
+        width: 210mm;
+        min-height: 297mm;
+        height: 297mm;
+        margin: 0 auto 20px auto;
+        padding: 12mm 14mm 24mm 14mm;
+        border: none;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+    }
+
+    .qp-cover {
+        padding-bottom: 35mm;
+    }
+
+    .qp-header {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+    }
+
+    .qp-logo {
+        width: 170px;
+        order: 0;
+    }
+
+
+    .qp-cover-image {
+        max-height: 120mm;
+    }
+
+    .qp-cover-maintitle {
+        font-size: 30pt;
+    }
+
+    .qp-cover-footer-meta {
+        grid-template-columns: 1.2fr 1fr;
+        gap: 8mm;
+        align-items: start;
+        margin-top: auto;
+    }
+
+    .qp-highlights-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 4mm;
+    }
+
+    .qp-hero-band {
+        flex-direction: row;
+        align-items: center;
+        gap: 4mm;
+    }
+
+    .qp-hero-divider {
+        width: 1px;
+        height: 12mm;
+        align-self: center;
+    }
+
+    .qp-cover-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .qp-glance-strip {
+        display: flex;
+        gap: 4mm;
+    }
+
+    .qp-assurance-strip {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 3mm;
+    }
+
+    .qp-specs-table th,
+    .qp-specs-table td {
+        display: table-cell;
+        width: auto;
+    }
+
+    .qp-specs-table th {
+        width: 40%;
+    }
+
+    .qp-benefits-grid {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .qp-flow-grid {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .qp-tech-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .qp-address-grid {
+        flex-direction: row;
+        gap: 6mm;
+    }
+
+    .qp-financial-strip {
+        flex-direction: row;
+        align-items: center;
+        gap: 0;
+    }
+
+    .qp-fin-divider {
+        display: block;
+        width: 1px;
+        height: 40px;
+        background: var(--qp-line);
+        margin: 0 10px;
+    }
+
+    .qp-payment-steps {
+        flex-direction: row;
+        gap: 6mm;
+    }
+
+    .qp-bank-flex {
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+    }
+
+    .qp-comparison-container {
+        flex-direction: row;
+        align-items: center;
+        gap: 5mm;
+    }
+
+    .qp-comparison-arrow {
+        transform: none;
+    }
+
+    .qp-terms-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .qp-resp-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 2mm 6mm;
+    }
+
+    .qp-thankyou-contact {
+        flex-direction: row;
+        gap: 25px;
+    }
+
+    .qp-page-footer {
+        position: absolute;
+        bottom: 8mm;
+        left: 14mm;
+        right: 14mm;
+        margin-top: 0;
+        flex-direction: row;
+        text-align: left;
+        gap: 0;
+    }
+
+    .qp-cover-footer {
+        padding: 6px 0 0;
+    }
+
+    .qp-page1 .qp-cover-footer {
+        padding: 5px 10px;
+        margin-top: auto;
+    }
+
+    /* Flex page 7: content column fills fixed page height */
+    .qp-page-flex {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .qp-page7-bottom {
+        margin-top: auto;
+        padding-bottom: 2mm;
+    }
+}

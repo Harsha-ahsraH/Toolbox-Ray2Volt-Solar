@@ -1,0 +1,283 @@
+.app-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* --- Mobile Header --- */
+.mobile-header {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border-light);
+    padding: 0 var(--spacing-md);
+    align-items: center;
+    justify-content: space-between;
+    z-index: 100;
+    box-shadow: var(--shadow-sm);
+}
+
+.mobile-logo {
+    height: 36px;
+    width: auto;
+}
+
+.mobile-nav-toggle {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-hover);
+    border: 1px solid var(--border-light);
+    border-radius: 10px;
+    cursor: pointer;
+    color: var(--text-primary);
+    transition: all 0.2s ease;
+}
+
+.mobile-nav-toggle:hover {
+    background: var(--primary-light);
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.mobile-nav-toggle:active {
+    transform: scale(0.92);
+}
+
+.mobile-nav-toggle svg {
+    width: 22px;
+    height: 22px;
+}
+
+/* --- Sidebar Navigation --- */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: var(--sidebar-width);
+    height: 100vh;
+    background: var(--bg-sidebar);
+    border-right: 1px solid var(--border-light);
+    display: flex;
+    flex-direction: column;
+    z-index: 200;
+    transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+    font-family: 'Google Sans Flex', 'Google Sans', 'Google Sans Flex', sans-serif;
+}
+
+/* --- Sidebar Mobile Header (visible only on mobile) --- */
+.sidebar-mobile-header {
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border-light);
+    background: var(--bg-card);
+    flex-shrink: 0;
+}
+
+.sidebar-mobile-header .sidebar-mobile-logo {
+    height: 30px;
+    width: auto;
+}
+
+.sidebar-close-btn {
+    display: none;
+    width: 38px;
+    height: 38px;
+    background: var(--bg-hover);
+    border: 1px solid var(--border-light);
+    border-radius: 10px;
+    font-size: 0px;
+    cursor: pointer;
+    color: var(--text-secondary);
+    transition: all 0.2s ease;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.sidebar-close-btn svg {
+    width: 20px;
+    height: 20px;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+}
+
+.sidebar-close-btn:hover {
+    background: #FEE2E2;
+    border-color: #FCA5A5;
+    color: #DC2626;
+}
+
+.sidebar-close-btn:active {
+    transform: scale(0.9);
+}
+
+.logo-header {
+    padding: var(--spacing-lg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-xs);
+    border-bottom: 1px solid var(--border-light);
+    text-align: center;
+}
+
+.logo-header .logo {
+    height: 32px;
+    width: auto;
+}
+
+.logo-header h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.main-nav {
+    flex: 1;
+    padding: var(--spacing-md) 0;
+    overflow-y: auto;
+}
+
+.main-nav ul {
+    list-style: none;
+}
+
+.main-nav .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: var(--spacing-sm) var(--spacing-lg);
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    font-weight: 500;
+    border-left: 3px solid transparent;
+    transition: all var(--transition-fast);
+}
+
+.main-nav .nav-link::before,
+.tool-card h3::before {
+    font-family: 'Material Symbols Rounded';
+    font-weight: 400;
+    font-style: normal;
+    letter-spacing: 0;
+    line-height: 1;
+    text-transform: none;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -webkit-font-feature-settings: 'liga';
+    font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased;
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+.main-nav .nav-link::before {
+    content: "apps";
+    width: 22px;
+    height: 22px;
+    flex: 0 0 22px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    font-size: 20px;
+    transition: color var(--transition-fast), font-variation-settings var(--transition-fast);
+}
+
+.main-nav .nav-link:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+}
+
+.main-nav .nav-link:hover::before {
+    color: var(--primary);
+}
+
+.main-nav .nav-link.active {
+    background: var(--bg-active);
+    color: var(--primary);
+    border-left-color: var(--primary);
+    font-weight: 600;
+}
+
+.main-nav .nav-link.active::before {
+    color: var(--primary);
+    font-variation-settings: 'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 24;
+}
+
+.main-nav .nav-link[href$="index.html"]::before {
+    content: "dashboard";
+}
+
+.main-nav .nav-link[href$="emi-calculator.html"]::before,
+.tool-card[href$="emi-calculator.html"] h3::before {
+    content: "calculate";
+}
+
+.main-nav .nav-link[href$="gst-calculator.html"]::before,
+.tool-card[href$="gst-calculator.html"] h3::before {
+    content: "percent";
+}
+
+.main-nav .nav-link[href$="package-prices.html"]::before,
+.tool-card[href$="package-prices.html"] h3::before {
+    content: "sell";
+}
+
+.main-nav .nav-link[href$="receipt-generator.html"]::before,
+.tool-card[href$="receipt-generator.html"] h3::before {
+    content: "receipt_long";
+}
+
+.main-nav .nav-link[href$="invoice-generator.html"]::before,
+.tool-card[href$="invoice-generator.html"] h3::before {
+    content: "description";
+}
+
+.main-nav .nav-link[href$="proforma-invoice.html"]::before,
+.tool-card[href$="proforma-invoice.html"] h3::before {
+    content: "article";
+}
+
+.main-nav .nav-link[href$="purchase-order.html"]::before,
+.tool-card[href$="purchase-order.html"] h3::before {
+    content: "shopping_cart";
+}
+
+.main-nav .nav-link[href$="payslip-generator.html"]::before,
+.tool-card[href$="payslip-generator.html"] h3::before {
+    content: "badge";
+}
+
+.main-nav .nav-link[href$="warranty-card.html"]::before,
+.tool-card[href$="warranty-card.html"] h3::before {
+    content: "verified";
+}
+
+.main-nav .nav-link[href$="quote-generator.html"]::before,
+.tool-card[href$="quote-generator.html"] h3::before {
+    content: "request_quote";
+}
+
+.main-nav .nav-link[href$="request-for-quotation.html"]::before,
+.tool-card[href$="request-for-quotation.html"] h3::before {
+    content: "format_quote";
+}
+
+.main-nav .nav-link[href$="letterheadify.html"]::before,
+.tool-card[href$="letterheadify.html"] h3::before {
+    content: "picture_as_pdf";
+}
+
+/* --- Main Content Area --- */

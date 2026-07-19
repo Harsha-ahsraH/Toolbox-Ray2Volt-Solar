@@ -3,9 +3,19 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const repoRoot = path.resolve(__dirname, '..');
-const html = fs.readFileSync(path.join(repoRoot, 'tools', 'quote-generator.html'), 'utf8');
-const css = fs.readFileSync(path.join(repoRoot, 'css', 'quote-generator.css'), 'utf8');
-const js = fs.readFileSync(path.join(repoRoot, 'js', 'quote-generator.js'), 'utf8');
+const toolRoot = path.join(repoRoot, 'tools', 'quote-generator');
+const html = fs.readFileSync(path.join(toolRoot, 'quote-generator.html'), 'utf8');
+const pageTemplates = [
+    'quote-generator-pages-3-5.js',
+    'quote-generator-pages-6-8.js'
+].map(file => fs.readFileSync(path.join(toolRoot, file), 'utf8')).join('\n');
+const markup = `${html}\n${pageTemplates}`;
+const css = fs.readdirSync(toolRoot)
+    .filter(file => file.startsWith('quote-generator') && file.endsWith('.css'))
+    .sort()
+    .map(file => fs.readFileSync(path.join(toolRoot, file), 'utf8'))
+    .join('\n');
+const js = fs.readFileSync(path.join(toolRoot, 'quote-generator.js'), 'utf8');
 
 function cssRule(selector, within = css) {
     const escaped = selector.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -34,10 +44,10 @@ function mediaBlock(query) {
 assert.match(html, /Generate professional 8-page solar project proposals/);
 
 for (let page = 1; page <= 8; page++) {
-    assert.match(html, new RegExp(`Page ${page} of 8`));
+    assert.match(markup, new RegExp(`Page ${page} of 8`));
 }
 
-assert.equal((html.match(/class="quote-page/g) || []).length, 8);
+assert.equal((markup.match(/class="quote-page/g) || []).length, 8);
 assert.ok(
     html.indexOf('tool-responsive.css') < html.indexOf('quote-generator.css'),
     'Quote generator CSS must load after shared responsive CSS so the proposal layout wins.'
@@ -48,49 +58,49 @@ assert.doesNotMatch(html, /chart\.umd|Chart\.js/i);
 
 // Off-Grid was dropped as an offering (see CONTEXT.md) — only
 // On-Grid and Hybrid exist, each with its own schematic from assets.
-assert.doesNotMatch(html, /Off-Grid/);
+assert.doesNotMatch(markup, /Off-Grid/);
 assert.doesNotMatch(js, /Off-Grid/);
-assert.match(html, /assets\/On-Grid Schematic Diagram\.png/);
+assert.match(markup, /assets\/On-Grid Schematic Diagram\.png/);
 assert.match(js, /assets\/Hybrid Solar Schemartic Diagram\.png/);
 
 // Technical overview pages exist and are populated per installation type.
-assert.match(html, /How Your System Works/);
-assert.match(html, /Technology &amp; Installation/);
+assert.match(markup, /How Your System Works/);
+assert.match(markup, /Technology &amp; Installation/);
 assert.match(js, /function populateTechnicalPages\(/);
 
-assert.match(html, /<script src="\.\.\/js\/quote-generator\.js(?:\?[^"]+)?"><\/script>/);
+assert.match(html, /<script src="quote-generator\.js(?:\?[^"]+)?"><\/script>/);
 assert.match(css, /QUOTE PREVIEW - 8 Page A4 Document/);
 assert.match(js, /Generate the 8-page preview/);
 assert.match(js, /function generatePreview\(\)/);
 
 // Module warranty is 30 years, so all proposal lifetime savings and impact
 // projections use a 30-year horizon.
-assert.match(html, /System Warranty[\s\S]*30 Years/);
-assert.match(html, /30-Year Savings Projection/);
-assert.match(html, /Lifetime Savings \(30 Years\)/);
-assert.match(html, /Trees planted equivalent over 30 years/);
+assert.match(markup, /System Warranty[\s\S]*30 Years/);
+assert.match(markup, /30-Year Savings Projection/);
+assert.match(markup, /Lifetime Savings \(30 Years\)/);
+assert.match(markup, /Trees planted equivalent over 30 years/);
 assert.match(js, /Environmental Impact \(30 years\)/);
 assert.match(js, /const totalUnits30yr = annualUnits \* 30/);
 assert.match(js, /const milestones = \[1, 5, 10, 30\]/);
-assert.doesNotMatch(html, /25-Year Savings Projection|Lifetime Savings \(25 Years\)|Trees planted equivalent over 25 years|>25 Years</);
+assert.doesNotMatch(markup, /25-Year Savings Projection|Lifetime Savings \(25 Years\)|Trees planted equivalent over 25 years|>25 Years</);
 assert.doesNotMatch(js, /Environmental Impact \(25 years\)|totalUnits25yr|const milestones = \[1, 5, 10, 25\]/);
 
 // Page 5 fills the previous empty lower area with a compact quality/warranty
 // assurance band.
-assert.match(html, /Quality &amp; Warranty Assurance/);
-assert.match(html, /Commissioning Checked/);
-assert.match(html, /Warranty Records/);
-assert.match(html, /class="quote-page qp-page-bom"/);
+assert.match(markup, /Quality &amp; Warranty Assurance/);
+assert.match(markup, /Commissioning Checked/);
+assert.match(markup, /Warranty Records/);
+assert.match(markup, /class="quote-page qp-page-bom"/);
 assert.match(css, /\.qp-quality-assurance\s*\{/);
 assert.match(css, /\.qp-quality-grid\s*\{[\s\S]*grid-template-columns:\s*repeat\(3,\s*1fr\)/);
 
 // Page 6 commercial offer supports an explicit discount. The entered project
 // cost remains the actual inclusive cost; the quote total is cost minus discount.
 assert.match(html, /id="qgDiscountAmount"/);
-assert.match(html, /id="qpActualProjectCost"/);
-assert.match(html, /id="qpDiscountAmount"/);
-assert.match(html, /Actual Project Cost \(Incl\. GST\)/);
-assert.match(html, /Less: Discount/);
+assert.match(markup, /id="qpActualProjectCost"/);
+assert.match(markup, /id="qpDiscountAmount"/);
+assert.match(markup, /Actual Project Cost \(Incl\. GST\)/);
+assert.match(markup, /Less: Discount/);
 assert.match(js, /const qgDiscountAmount = document\.getElementById\('qgDiscountAmount'\)/);
 assert.match(js, /const actualProjectCost = Math\.max\(0, parseFloat\(val\(qgTotalPrice\)\) \|\| 0\)/);
 assert.match(js, /const discountAmount = Math\.min\(requestedDiscount, actualProjectCost\)/);

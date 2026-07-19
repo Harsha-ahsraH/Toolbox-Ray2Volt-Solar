@@ -2,10 +2,10 @@
  * Tool Lock — Page-level password protection for standalone tool pages.
  * 
  * Usage: Add this script tag to any tool page with a data-tool-id attribute:
- *   <script src="../js/tool-lock.js" data-tool-id="quote-generator"></script>
+ *   <script src="../../global/scripts/tool-lock.js" data-tool-id="quote-generator"></script>
  * 
  * - Shows a fullscreen lock overlay on page load, blocking all content.
- * - Fetches valid passwords from ../passwords.json based on data-tool-id.
+ * - Loads valid passwords from the sibling passwords.js file.
  * - Once unlocked, stores the session in sessionStorage so the user
  *   doesn't need to re-enter for the same tool in the same browser tab.
  */
@@ -203,7 +203,7 @@
         }
 
         const script = document.createElement('script');
-        script.src = '../js/passwords.js';
+        script.src = new URL('passwords.js', scriptTag.src).href;
         script.onload = () => {
             setPasswordsFromGlobal();
         };

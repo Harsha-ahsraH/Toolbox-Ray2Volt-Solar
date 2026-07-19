@@ -3,7 +3,10 @@ const fs = require('fs');
 const path = require('path');
 
 const root = path.resolve(__dirname, '..');
-const styleCss = fs.readFileSync(path.join(root, 'css', 'style.css'), 'utf8');
+const styleCss = fs.readdirSync(path.join(root, 'global', 'styles'))
+  .filter(file => file.endsWith('.css'))
+  .map(file => fs.readFileSync(path.join(root, 'global', 'styles', file), 'utf8'))
+  .join('\n');
 
 const toolPages = [
   'emi-calculator',
@@ -17,7 +20,7 @@ const toolPages = [
   'warranty-card',
   'quote-generator',
   'request-for-quotation',
-  'letterhead-documents',
+  'letterheadify',
 ];
 
 assert(

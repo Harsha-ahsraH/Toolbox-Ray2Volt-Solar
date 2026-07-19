@@ -1,0 +1,736 @@
+/* ============================================
+   QUOTE PREVIEW - 8 Page A4 Document
+   Clean corporate: Google Sans Flex, one navy accent,
+   grayscale everything else, strict page fit.
+   ============================================ */
+
+#quotePreview {
+    /* Design tokens for the printed proposal */
+    --qp-navy: #1F4E79;
+    --qp-navy-dark: #17395A;
+    --qp-tint: #EDF3FA;
+    --qp-ink: #1A1A1A;
+    --qp-gray: #555555;
+    --qp-muted: #777777;
+    --qp-line: #D8DEE6;
+    --qp-soft: #F7F9FC;
+    --qp-preview-scale: 1;
+
+    display: none;
+    margin: 2rem auto;
+    max-width: 100%;
+    font-family: 'Google Sans Flex', Arial, sans-serif;
+    color: var(--qp-ink);
+}
+#quotePreview.visible {
+    display: block;
+}
+/* --- Page Layout: the preview and PDF share one A4 canvas --- */
+.quote-page {
+    width: 210mm;
+    min-height: 297mm;
+    height: 297mm;
+    margin: 0 auto 20px auto;
+    padding: 12mm 14mm 24mm 14mm;
+    background: #fff;
+    border: none;
+    border-radius: 2px;
+    font-size: 10pt;
+    position: relative;
+    box-sizing: border-box;
+    overflow: hidden;
+    page-break-after: always;
+    page-break-inside: avoid;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+    zoom: var(--qp-preview-scale);
+}
+
+.quote-page:last-child {
+    page-break-after: auto;
+}
+
+/* --- Header (every page) --- */
+.qp-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 6mm;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--qp-navy);
+}
+
+.qp-logo {
+    width: 170px;
+    height: auto;
+    order: 0;
+}
+
+.qp-title-section {
+    flex: 1;
+}
+
+.qp-title-section h1 {
+    font-size: 15pt;
+    font-weight: 700;
+    color: var(--qp-ink);
+    letter-spacing: 0.5px;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.qp-subtitle {
+    font-size: 9pt;
+    font-weight: 400;
+    color: var(--qp-muted);
+    margin: 2px 0 0 0;
+    letter-spacing: 0.4px;
+}
+
+/* --- Page 1: Cover (Logo on left, date on right, title, image, metadata) --- */
+.qp-cover {
+    border-top: 5px solid var(--qp-navy);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    box-sizing: border-box;
+    text-align: left;
+}
+
+.qp-cover-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 3px solid var(--qp-navy);
+    padding-bottom: 6mm;
+    margin: 8mm 0 18mm 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.qp-cover-logo-box {
+    display: flex;
+    align-items: center;
+}
+
+.qp-cover-logo {
+    width: 400px;
+    max-width: 60%;
+    height: auto;
+    display: block;
+}
+
+.qp-cover-date-box {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    font-size: 13pt;
+    color: var(--qp-ink);
+    font-weight: 500;
+}
+
+.qp-cover-date-label {
+    font-size: 9.5pt;
+    font-weight: 700;
+    color: var(--qp-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+
+.qp-cover-date-value {
+    font-weight: 600;
+    color: var(--qp-navy-dark);
+}
+
+.qp-cover-image-wrap {
+    border: none;
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 0 0 10mm 0;
+    background: var(--qp-soft);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.qp-cover-image {
+    display: block;
+    width: 100%;
+    max-height: 120mm;
+    height: auto;
+    object-fit: cover;
+}
+
+.qp-cover-titleblock {
+    margin: 0 0 18mm 0;
+    text-align: left;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.qp-cover-kicker {
+    display: block;
+    font-size: 8.5pt;
+    font-weight: 700;
+    color: var(--qp-navy);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 6px;
+}
+
+.qp-cover-maintitle {
+    font-size: 30pt;
+    font-weight: 700;
+    color: var(--qp-navy-dark);
+    margin: 0;
+    letter-spacing: 0.2px;
+    line-height: 1.25;
+}
+
+.qp-cover-title-line {
+    width: 80px;
+    height: 4px;
+    background-color: var(--qp-navy);
+    margin-top: 12px;
+    border-radius: 2px;
+}
+
+.qp-cover-footer-meta {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 8mm;
+    border-top: 2px solid var(--qp-navy);
+    padding-top: 5mm;
+    margin: 0;
+    width: 100%;
+    box-sizing: border-box;
+    align-items: start;
+}
+
+.qp-cover-to {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    text-align: left;
+}
+
+.qp-cover-to-label {
+    font-size: 7.5pt;
+    font-weight: 700;
+    color: var(--qp-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 3px;
+}
+
+.qp-cover-to-name {
+    font-size: 13pt;
+    font-weight: 700;
+    color: var(--qp-navy-dark);
+    margin: 0;
+}
+
+.qp-cover-to-detail {
+    font-size: 9.5pt;
+    color: var(--qp-gray);
+    margin: 0;
+    line-height: 1.4;
+}
+
+.qp-cover-meta-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 9.5pt;
+    text-align: left;
+}
+
+.qp-cover-meta-table th,
+.qp-cover-meta-table td {
+    padding: 5px 0;
+    border: none;
+    line-height: 1.3;
+}
+
+.qp-cover-meta-table th {
+    font-weight: 600;
+    color: var(--qp-muted);
+    text-transform: uppercase;
+    font-size: 7.5pt;
+    letter-spacing: 0.6px;
+    width: 110px;
+}
+
+.qp-cover-meta-table td {
+    color: var(--qp-ink);
+    font-weight: 600;
+}
+
+.qp-cover-meta-table-total th {
+    color: var(--qp-navy-dark);
+    font-weight: 700;
+    font-size: 8.5pt;
+}
+
+.qp-cover-meta-table-total td {
+    font-size: 13pt;
+    font-weight: 700;
+    color: var(--qp-navy-dark);
+}
+
+/* --- Page 2 (Overview) --- */
+.qp-page1 {
+    border-top: 5px solid var(--qp-navy);
+    display: flex;
+    flex-direction: column;
+}
+
+/* Cover page breathes more than inner pages */
+.qp-page1 .qp-section {
+    margin-bottom: 4mm;
+}
+
+.qp-page1 .qp-about-text {
+    font-size: 9.5pt;
+    line-height: 1.6;
+}
+
+/* --- Page 2: Key Project Highlights --- */
+.qp-overview-highlights {
+    margin-top: 4mm;
+}
+
+.qp-highlights-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6mm;
+}
+
+.qp-highlight-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: #fff;
+    border: 1px solid var(--qp-line);
+    border-top: 3px solid var(--qp-navy);
+    border-radius: 2px;
+    padding: 10px 12px;
+    min-height: 28mm;
+}
+
+.qp-highlight-icon {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    color: var(--qp-navy);
+    margin-top: 2px;
+}
+
+.qp-highlight-icon svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.qp-highlight-text strong {
+    display: block;
+    font-size: 9.5pt;
+    color: var(--qp-navy-dark);
+    margin-bottom: 2px;
+}
+
+.qp-highlight-text p {
+    font-size: 8.5pt;
+    color: var(--qp-gray);
+    margin: 0;
+    line-height: 1.35;
+}
+
+/* --- Page 1: Header (standard layout, slightly thicker) --- */
+.qp-cover-head {
+    border-bottom-width: 3px;
+    padding-bottom: 9px;
+    margin-bottom: 5mm;
+}
+
+.qp-cover-head h1 {
+    font-size: 17pt;
+}
+
+.qp-kicker {
+    display: block;
+    font-size: 7pt;
+    font-weight: 700;
+    color: var(--qp-navy);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 4px;
+}
+
+/* --- Page 2: Dashboard Hero Banner --- */
+.qp-dashboard-hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 4mm;
+    background: var(--qp-tint);
+    border: 1px solid var(--qp-line);
+    border-left: 4px solid var(--qp-navy);
+    border-radius: 2px;
+    padding: 5mm 6mm;
+    margin-bottom: 5mm;
+    color: var(--qp-ink);
+}
+
+.qp-dashboard-hero .qp-hero-main {
+    flex: 1;
+}
+
+.qp-hero-type {
+    display: inline-block;
+    font-size: 7pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--qp-navy);
+    margin-bottom: 4px;
+}
+
+.qp-dashboard-hero .qp-hero-title {
+    font-size: 15pt;
+    font-weight: 700;
+    color: var(--qp-navy-dark);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    margin: 0 0 4px;
+    line-height: 1.2;
+}
+
+.qp-dashboard-hero .qp-hero-sub {
+    font-size: 9pt;
+    color: var(--qp-gray);
+    margin: 0;
+}
+
+.qp-dashboard-hero .qp-hero-badges {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+}
+
+.qp-dashboard-hero .qp-hero-badge {
+    display: inline-block;
+    font-size: 7pt;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 2px;
+    background: #fff;
+    border: 1px solid var(--qp-navy);
+    color: var(--qp-navy);
+    white-space: nowrap;
+}
+
+/* --- Page 2: Core Content Split --- */
+.qp-overview-split {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 8mm;
+    margin-bottom: 8mm;
+}
+
+.qp-metrics-dashboard {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 5mm;
+}
+
+.qp-metric-card {
+    background: #fff;
+    border: 1px solid var(--qp-line);
+    border-radius: 2px;
+    padding: 4mm 5mm;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 0;
+}
+
+.qp-metric-primary {
+    background: var(--qp-soft);
+    border: 1px solid var(--qp-navy);
+}
+
+.qp-metric-label {
+    font-size: 8pt;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--qp-gray);
+    margin-bottom: 8px;
+}
+
+.qp-metric-primary .qp-metric-label {
+    color: var(--qp-navy);
+}
+
+.qp-metric-value {
+    font-size: 15pt;
+    font-weight: 700;
+    color: var(--qp-navy-dark);
+    line-height: 1.1;
+}
+
+.qp-metric-primary .qp-metric-value {
+    font-size: 17pt;
+}
+
+.qp-about-sidebar {
+    background: var(--qp-soft);
+    border: 1px solid var(--qp-line);
+    border-radius: 2px;
+    padding: 4mm;
+}
+
+.qp-about-sidebar h3 {
+    font-size: 10pt;
+    font-weight: 700;
+    color: var(--qp-navy-dark);
+    margin-top: 0;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.qp-about-sidebar .qp-about-text {
+    font-size: 9pt;
+    color: var(--qp-ink);
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* --- Page 1: Prepared For / Proposal Details cards --- */
+.qp-prep-card {
+    border: 1px solid var(--qp-line);
+    border-top: 3px solid var(--qp-navy);
+    border-radius: 2px;
+    overflow: hidden;
+    background: #fff;
+    min-width: 0;
+}
+
+.qp-prep-header {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    background: var(--qp-tint);
+    padding: 6px 11px;
+    font-weight: 700;
+    color: var(--qp-navy);
+    font-size: 8pt;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--qp-line);
+}
+
+.qp-prep-header svg {
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
+}
+
+.qp-prep-body {
+    padding: 9px 12px;
+    font-size: 9pt;
+    line-height: 1.45;
+}
+
+.qp-prep-body strong {
+    display: block;
+    font-size: 10.5pt;
+    color: var(--qp-ink);
+    margin-bottom: 3px;
+}
+
+.qp-prep-body p {
+    margin: 0;
+    color: var(--qp-gray);
+}
+
+.qp-prep-meta {
+    display: grid;
+    grid-template-columns: 105px 1fr;
+    gap: 5px 10px;
+    align-items: baseline;
+}
+
+.qp-prep-label {
+    font-size: 8pt;
+    color: var(--qp-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.qp-prep-value {
+    color: var(--qp-ink);
+    font-weight: 500;
+    font-size: 9pt;
+    overflow-wrap: anywhere;
+}
+
+
+
+/* --- Page 1: Assurance strip --- */
+.qp-assurance-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 3mm;
+}
+
+.qp-assurance-item {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    border: 1px solid var(--qp-line);
+    border-radius: 2px;
+    padding: 9px 11px;
+    background: #fff;
+}
+
+.qp-assurance-item svg {
+    width: 17px;
+    height: 17px;
+    color: var(--qp-navy);
+    flex-shrink: 0;
+}
+
+.qp-assurance-item strong {
+    display: block;
+    font-size: 9.5pt;
+    color: var(--qp-navy-dark);
+    line-height: 1.1;
+}
+
+.qp-assurance-item span {
+    display: block;
+    font-size: 6.8pt;
+    color: var(--qp-gray);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin-top: 2px;
+}
+
+/* --- Sections --- */
+.qp-section {
+    margin-bottom: 6mm;
+}
+
+.qp-page-bom .qp-section {
+    margin-bottom: 3mm;
+}
+
+.qp-section h3 {
+    font-size: 10pt;
+    font-weight: 700;
+    color: var(--qp-navy);
+    margin: 0 0 3mm 0;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--qp-line);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+
+/* --- Cover: prep cards side by side --- */
+.qp-cover-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 4mm;
+    margin-bottom: 4mm;
+    margin-top: auto;
+}
+
+/* --- Specs Table (2-column key/value) --- */
+.qp-specs-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid var(--qp-line);
+}
+
+.qp-specs-table th,
+.qp-specs-table td {
+    padding: 7px 10px;
+    text-align: left;
+    font-size: 9.5pt;
+    border: 1px solid var(--qp-line);
+    display: table-cell;
+    width: auto;
+    box-sizing: border-box;
+}
+
+.qp-specs-table th {
+    background-color: var(--qp-tint);
+    font-weight: 600;
+    color: var(--qp-ink);
+    width: 40%;
+}
+
+.qp-specs-table td {
+    background-color: #fff;
+    color: var(--qp-ink);
+}
+
+/* --- About Text --- */
+.qp-about-text {
+    line-height: 1.6;
+    font-size: 9.5pt;
+    color: var(--qp-gray);
+    margin: 0;
+}
+
+/* --- Benefits Grid (Why Go Solar / Environmental Impact) --- */
+.qp-benefits-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 3mm;
+}
+
+.qp-benefit-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    padding: 9px 10px;
+    background: #fff;
+    border: 1px solid var(--qp-line);
+    border-radius: 2px;
+}
+
+.qp-benefit-icon {
+    flex-shrink: 0;
+    width: 17px;
+    height: 17px;
+    color: var(--qp-navy);
+    margin-top: 1px;
+}
+
+.qp-benefit-icon svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.qp-benefit-item strong {
+    display: block;
+    font-size: 9pt;
+    color: var(--qp-ink);
+    margin-bottom: 2px;
+}
+
+.qp-benefit-item p {
+    font-size: 8pt;
+    color: var(--qp-gray);
+    margin: 0;
+    line-height: 1.4;
+}
