@@ -3,6 +3,7 @@
     margin-left: var(--sidebar-width);
     padding: var(--spacing-xl);
     min-height: 100vh;
+    transition: margin-left 0.35s cubic-bezier(0.32, 0.72, 0, 1);
 }
 
 .content-section {

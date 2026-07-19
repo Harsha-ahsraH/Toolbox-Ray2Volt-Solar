@@ -51,6 +51,7 @@
 
     /* Sidebar Width */
     --sidebar-width: 250px;
+    --sidebar-collapsed-width: 76px;
 }
 
 /* --- Custom Scrollbars --- */

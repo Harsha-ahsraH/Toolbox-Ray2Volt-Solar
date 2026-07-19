@@ -36,6 +36,10 @@
         width: 280px;
     }
 
+    .sidebar-collapse-btn {
+        display: none;
+    }
+
     .sidebar.open {
         transform: translateX(0);
         box-shadow: 8px 0 30px rgba(0, 0, 0, 0.12);
