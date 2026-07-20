@@ -286,5 +286,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 window.print();
             });
         }
+
+        const downloadEmiBtn = document.getElementById('downloadEmiBtn');
+        if (downloadEmiBtn) {
+            downloadEmiBtn.addEventListener('click', () => {
+                const Pdf = window.Ray2VoltPdfDownload;
+                if (!Pdf) return;
+
+                let removePrintStyles = null;
+                Pdf.downloadElement({
+                    element: document.getElementById('emi-calculator-section'),
+                    button: downloadEmiBtn,
+                    filename: 'Ray2Volt-EMI-Report',
+                    marginMm: 10,
+                    beforeCapture: () => { removePrintStyles = Pdf.applyPrintStyles(); },
+                    afterCapture: () => { removePrintStyles?.(); }
+                });
+            });
+        }
     }
 });

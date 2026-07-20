@@ -68,4 +68,19 @@ document.addEventListener('DOMContentLoaded', () => {
             window.print();
         });
     }
+
+    const downloadInvoiceBtn = byId('downloadInvoiceBtn');
+    if (downloadInvoiceBtn) {
+        downloadInvoiceBtn.addEventListener('click', () => {
+            if (!invoicePreview?.classList.contains('visible')) {
+                generateInvoiceBtn?.click();
+            }
+
+            window.Ray2VoltPdfDownload?.downloadElement({
+                element: invoicePreview,
+                button: downloadInvoiceBtn,
+                filename: `Ray2Volt-Invoice-${byId('invDispInvoiceNo')?.textContent || 'Draft'}`
+            });
+        });
+    }
 });

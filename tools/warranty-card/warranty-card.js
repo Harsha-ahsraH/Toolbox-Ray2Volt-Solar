@@ -168,4 +168,21 @@ document.addEventListener('DOMContentLoaded', () => {
             window.print();
         });
     }
+
+    // --- DIRECT PDF DOWNLOAD ---
+    const downloadWarrantyBtn = document.getElementById('downloadWarrantyBtn');
+    if (downloadWarrantyBtn) {
+        downloadWarrantyBtn.addEventListener('click', () => {
+            if (warrantyPreview && !warrantyPreview.classList.contains('visible')) {
+                generateWarrantyBtn?.click();
+            }
+
+            const projectId = warrantyProjectId?.value?.trim();
+            window.Ray2VoltPdfDownload?.downloadPages({
+                pages: warrantyPreview?.querySelectorAll('.warranty-page'),
+                button: downloadWarrantyBtn,
+                filename: `Ray2Volt-Warranty-Card-${projectId || 'Draft'}`
+            });
+        });
+    }
 });

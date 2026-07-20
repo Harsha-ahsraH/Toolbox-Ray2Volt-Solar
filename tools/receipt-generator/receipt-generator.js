@@ -75,4 +75,19 @@ document.addEventListener('DOMContentLoaded', () => {
             window.print();
         });
     }
+
+    const downloadReceiptBtn = byId('downloadReceiptBtn');
+    if (downloadReceiptBtn) {
+        downloadReceiptBtn.addEventListener('click', () => {
+            if (!receiptPreview?.classList.contains('visible')) {
+                generateReceiptBtn?.click();
+            }
+
+            window.Ray2VoltPdfDownload?.downloadElement({
+                element: receiptPreview,
+                button: downloadReceiptBtn,
+                filename: `Ray2Volt-Receipt-${byId('receiptNumberDisplay')?.textContent || 'Draft'}`
+            });
+        });
+    }
 });
