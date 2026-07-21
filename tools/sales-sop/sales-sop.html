@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales SOP - Ray2Volt Toolbox</title>
+    <meta name="description" content="Ray2Volt Solar sales standard operating procedure for on-grid and hybrid rooftop solar systems.">
+    <link rel="icon" type="image/png" href="../../global/assets/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=Google+Sans+Flex:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../global/styles/base.css">
+    <link rel="stylesheet" href="../../global/styles/navigation.css">
+    <link rel="stylesheet" href="../../global/styles/components.css">
+    <link rel="stylesheet" href="../../global/styles/responsive.css">
+    <link rel="stylesheet" href="sales-sop.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <header class="mobile-header">
+            <img src="../../global/assets/logo.png" alt="Ray2Volt Solar" class="mobile-logo">
+            <button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Open navigation menu">
+                <span class="material-symbols-rounded" aria-hidden="true">menu</span>
+            </button>
+        </header>
+
+        <aside class="sidebar">
+            <div class="sidebar-mobile-header">
+                <img src="../../global/assets/logo.png" alt="Ray2Volt Solar" class="sidebar-mobile-logo">
+                <button class="sidebar-close-btn" id="sidebarCloseBtn" aria-label="Close menu">
+                    <span class="material-symbols-rounded" aria-hidden="true">close</span>
+                </button>
+            </div>
+            <div>
+                <div class="logo-header">
+                    <img src="../../global/assets/logo.png" alt="Ray2Volt Solar" class="logo">
+                    <h2>Toolbox</h2>
+                </div>
+                <nav class="main-nav" aria-label="Toolbox navigation">
+                    <ul>
+                        <li><a href="../../index.html" class="nav-link">Dashboard</a></li>
+                        <li><a href="../emi-calculator/emi-calculator.html" class="nav-link">EMI Calculator</a></li>
+                        <li><a href="../gst-calculator/gst-calculator.html" class="nav-link">GST Calculator</a></li>
+                        <li><a href="../package-prices/package-prices.html" class="nav-link">Package Prices</a></li>
+                        <li><a href="../sales-sop/sales-sop.html" class="nav-link active">Sales SOP</a></li>
+                        <li><a href="../receipt-generator/receipt-generator.html" class="nav-link">Payment Receipt</a></li>
+                        <li><a href="../invoice-generator/invoice-generator.html" class="nav-link">Invoice Generator</a></li>
+                        <li><a href="../proforma-invoice/proforma-invoice.html" class="nav-link">Proforma Invoice</a></li>
+                        <li><a href="../purchase-order/purchase-order.html" class="nav-link">Purchase Order</a></li>
+                        <li><a href="../payslip-generator/payslip-generator.html" class="nav-link">PaySlip Generator</a></li>
+                        <li><a href="../warranty-card/warranty-card.html" class="nav-link">Warranty Card</a></li>
+                        <li><a href="../quote-generator/quote-generator.html" class="nav-link">Quote Generator</a></li>
+                        <li><a href="../request-for-quotation/request-for-quotation.html" class="nav-link">Request For Quotation</a></li>
+                        <li><a href="../letterheadify/letterheadify.html" class="nav-link">Letterheadify</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <section class="content-section active sop-page" aria-labelledby="sop-title">
+                <header class="sop-page-header">
+                    <p class="sop-eyebrow">Ray2Volt Solar sales playbook</p>
+                    <h1 id="sop-title">Rooftop Solar Sales SOP</h1>
+                    <p>Use this guide to explain the right system, answer common questions, and set clear expectations from the first conversation.</p>
+                </header>
+
+                <div class="sop-trust-row" aria-label="Product assurances">
+                    <span><span class="material-symbols-rounded" aria-hidden="true">verified</span>MNRE Approved Vendors</span>
+                    <span><span class="material-symbols-rounded" aria-hidden="true">military_tech</span>BIS Certified Panels</span>
+                    <span><span class="material-symbols-rounded" aria-hidden="true">shield</span>25-Year Performance Warranty</span>
+                </div>
+
+                <div class="sop-comparison-wrap">
+                    <table class="sop-comparison">
+                        <thead>
+                            <tr><th>Feature</th><th><span class="material-symbols-rounded" aria-hidden="true">bolt</span>On-Grid Solar</th><th><span class="material-symbols-rounded" aria-hidden="true">battery_charging_full</span>Hybrid Solar</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><th scope="row">Batteries</th><td>None</td><td>Included</td></tr>
+                            <tr><th scope="row">Power Cuts</th><td>System shuts down</td><td>Seamless backup 24/7</td></tr>
+                            <tr><th scope="row">Cost Profile</th><td>Lowest investment</td><td>Higher because of batteries</td></tr>
+                            <tr><th scope="row">Subsidy Eligible</th><td>Yes (PM Surya Ghar)</td><td>Yes (PM Surya Ghar)</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="sop-system-grid">
+                    <section class="sop-system-column" aria-labelledby="ongrid-heading">
+                        <header class="sop-system-header">
+                            <span class="material-symbols-rounded" aria-hidden="true">solar_power</span>
+                            <div><h2 id="ongrid-heading">On-Grid Solar System</h2><p>Connected directly to the electricity grid. Excess power earns credit through net metering—no batteries needed, lowest cost.</p></div>
+                        </header>
+
+                        <details class="sop-card">
+                            <summary>How On-Grid Works<span class="material-symbols-rounded" aria-hidden="true">expand_more</span></summary>
+                            <div class="sop-card-body">
+                                <figure class="sop-diagram"><img src="../../global/assets/On-Grid Schematic Diagram.png" alt="On-grid solar schematic showing panels, DCDB, inverter, ACDB, net meter, grid, and house"><figcaption>On-grid power flow</figcaption></figure>
+                                <ul>
+                                    <li>Solar panels generate electricity during the day, powering the home directly.</li>
+                                    <li>Excess power is exported to the grid; the net meter records credit.</li>
+                                    <li>At night, grid power is used as usual, while daytime credits offset the bill.</li>
+                                    <li>No batteries are required, so the system costs significantly less.</li>
+                                    <li>Installation is completed without disturbing existing house wiring.</li>
+                                </ul>
+                                <p class="sop-callout"><strong>Best for:</strong> Homes and businesses with reliable grid power and minimal power cuts. Maximum savings with low maintenance.</p>
+                            </div>
+                        </details>
+
+                        <details class="sop-card">
+                            <summary>Key Numbers (Example: 3 kW System)<span class="material-symbols-rounded" aria-hidden="true">expand_more</span></summary>
+                            <div class="sop-card-body sop-stat-grid">
+                                <div><strong>~250 sq ft</strong><span>Roof area needed</span></div>
+                                <div><strong>360 units</strong><span>Monthly generation</span></div>
+                                <div><strong>25 years</strong><span>Panel warranty</span></div>
+                                <div><strong>4–5 years</strong><span>Payback period</span></div>
+                                <div><strong>5–10 years</strong><span>Inverter warranty</span></div>
+                                <div><strong>5 years</strong><span>Free service</span></div>
+                                <div><strong>120/kW</strong><span>Units per month</span></div>
+                            </div>
+                        </details>
+
+                        <details class="sop-card">
+                            <summary>System Components<span class="material-symbols-rounded" aria-hidden="true">expand_more</span></summary>
+                            <div class="sop-card-body sop-component-grid">
+                                <div><strong>Solar Panels</strong><span>For example, 6 panels for a 3 kW system; each panel is roughly 3.8 ft × 7.8 ft.</span></div>
+                                <div><strong>On-Grid Inverter</strong><span>Synchronizes solar output with the power grid.</span></div>
+                                <div><strong>Mounting Structure</strong><span>Typical height: 5 ft south side and 6–7 ft north side.</span></div>
+                                <div><strong>Cables & Connectors</strong><span>4 sq mm cables for safe, efficient transmission.</span></div>
+                                <div><strong>ACDB & DCDB</strong><span>Safety disconnect boxes that protect against electrical faults.</span></div>
+                                <div><strong>Earthing & Lightning Arrestor</strong><span>Protection from lightning and ground faults.</span></div>
+                            </div>
+                        </details>
+
+                        <details class="sop-card">
+                            <summary>On-Grid Brands<span class="material-symbols-rounded" aria-hidden="true">expand_more</span></summary>
+                            <div class="sop-card-body">
+                                <h3>DCR Solar Panels</h3><div class="sop-tags"><span class="preferred">Adani Solar ★</span><span>ReNew Photovoltaics</span><span>Emmvee Solar</span><span>Vikram Solar</span></div>
+                                <h3>NDCR Solar Panels</h3><div class="sop-tags"><span>Adani Solar</span><span>ReNew Solar</span><span>Emmvee Solar</span><span>Waaree Solar</span><span>Vikram Solar</span></div>
+                                <h3>On-Grid Inverters</h3><div class="sop-tags"><span class="preferred">Polycab ★</span><span>Deye</span><span>Growatt</span><span>Solis</span></div>
+                            </div>
+                        </details>
+                    </section>
+
+                    <section class="sop-system-column sop-hybrid" aria-labelledby="hybrid-heading">
+                        <header class="sop-system-header">
+                            <span class="material-symbols-rounded" aria-hidden="true">battery_charging_full</span>
+                            <div><h2 id="hybrid-heading">Hybrid Solar System</h2><p>Grid-connected with battery backup. Uninterrupted power 24/7—solar during the day and stored energy at night.</p></div>
+                        </header>
+
+                        <details class="sop-card">
+                            <summary>How Hybrid Works<span class="material-symbols-rounded" aria-hidden="true">expand_more</span></summary>
+                            <div class="sop-card-body">
+                                <figure class="sop-diagram"><img src="../../global/assets/Hybrid Solar Schemartic Diagram.png" alt="Hybrid solar schematic showing panels, DCDB, hybrid inverter, battery, ACDB, net meter, grid, and backup house"><figcaption>Hybrid power and backup flow</figcaption></figure>
+                                <h3>During the Day</h3>
+                                <ul><li>Solar panels power the home directly, even during a grid power cut.</li><li>Excess solar energy charges the batteries.</li><li>Remaining surplus is exported for net-metering credit.</li></ul>
+                                <h3>During the Night</h3>
+                                <ul><li>Lithium-ion batteries automatically run ACs, fridges, lights, and fans.</li><li>90% depth of discharge uses far more stored energy than lead-acid batteries.</li><li>Switching is seamless—no flicker or disruption.</li></ul>
+                                <h3>During Power Cuts</h3>
+                                <ul><li>In daytime cuts, panels deliver power directly.</li><li>During evening or night cuts, batteries take over instantly.</li><li>The home remains comfortable with 24/7 uninterrupted power.</li></ul>
+                                <p class="sop-callout"><strong>Best for:</strong> Areas with frequent power cuts and families who want round-the-clock comfort without UPS or generator hassles.</p>
+                            </div>
+                        </details>
+
+                        <details class="sop-card">
+                            <summary>Battery Options<span class="material-symbols-rounded" aria-hidden="true">expand_more</span></summary>
+                            <div class="sop-card-body">
+                                <h3>Lithium-Ion — Recommended</h3>
+                                <div class="sop-stat-grid"><div><strong>Deye</strong><span>SE-F5 Plus</span></div><div><strong>100 Ah</strong><span>Capacity</span></div><div><strong>51.2V</strong><span>Voltage</span></div><div><strong>90% DoD</strong><span>Usable energy</span></div></div>
+                                <p class="sop-callout"><strong>Why lithium?</strong> 10+ year life, lighter weight, faster charging, and 90% usable energy. Ideal for high-power appliances.</p>
+                                <h3>Lead-Acid Tall Tubular — Budget Option</h3>
+                                <div class="sop-stat-grid"><div><strong>Amaron</strong><span>Brand</span></div><div><strong>200 Ah</strong><span>Capacity</span></div><div><strong>12V</strong><span>Voltage</span></div><div><strong>50% DoD</strong><span>Usable energy</span></div></div>
+                            </div>
+                        </details>
+
+                        <details class="sop-card">
+                            <summary>System Components<span class="material-symbols-rounded" aria-hidden="true">expand_more</span></summary>
+                            <div class="sop-card-body sop-component-grid">
+                                <div><strong>Solar Panels</strong><span>Generate power for the home and battery charging.</span></div>
+                                <div><strong>Hybrid Inverter</strong><span>Intelligently manages and switches solar, grid, and battery power.</span></div>
+                                <div><strong>Battery Bank</strong><span>Lithium-ion or lead-acid storage for night and power cuts.</span></div>
+                                <div><strong>Mounting Structure</strong><span>Typical height: 5 ft south side and 6–7 ft north side.</span></div>
+                                <div><strong>Cables, ACDB & DCDB</strong><span>4 sq mm cables and safety boxes for full system protection.</span></div>
+                                <div><strong>Earthing & Lightning Arrestor</strong><span>Protection from lightning and ground faults.</span></div>
+                            </div>
+                        </details>
+
+                        <details class="sop-card">
+                            <summary>Hybrid Brands<span class="material-symbols-rounded" aria-hidden="true">expand_more</span></summary>
+                            <div class="sop-card-body">
+                                <h3>DCR Solar Panels</h3><div class="sop-tags"><span class="preferred">Adani Solar ★</span><span>ReNew Photovoltaics</span><span>Emmvee Solar</span><span>Vikram Solar</span></div>
+                                <h3>NDCR Solar Panels</h3><div class="sop-tags"><span>Adani Solar</span><span>ReNew Solar</span><span>Emmvee Solar</span><span>Waaree Solar</span><span>Vikram Solar</span></div>
+                                <h3>Hybrid Inverter</h3><div class="sop-tags"><span class="preferred">Deye ★</span></div>
+                                <h3>Batteries</h3><div class="sop-tags"><span class="preferred">Deye Lithium (SE-F5 Plus) ★</span><span>Amaron Lead Acid</span></div>
+                            </div>
+                        </details>
+                    </section>
+                </div>
+
+                <section class="sop-shared-section">
+                    <h2><span class="material-symbols-rounded" aria-hidden="true">monitoring</span>App Monitoring & Maintenance</h2>
+                    <div class="sop-shared-grid"><p class="sop-callout"><strong>Smart Monitoring:</strong> Track live solar generation from a smartphone with the Wi-Fi-enabled app.</p><p class="sop-callout sop-green"><strong>Zero-Hassle Cleaning:</strong> Wash panels with water every few weeks, depending on dust. No special chemicals are needed.</p></div>
+                </section>
+
+                <section class="sop-shared-section">
+                    <h2><span class="material-symbols-rounded" aria-hidden="true">savings</span>PM Surya Ghar Muft Bijli Yojana</h2>
+                    <p>Government subsidy for residential rooftop solar, credited directly to the customer’s bank account after DISCOM approval.</p>
+                    <div class="sop-tier-grid"><div><strong>₹30,000</strong><span>1 kWp system</span></div><div><strong>₹60,000</strong><span>2 kWp system</span></div><div><strong>₹78,000</strong><span>3 kWp and above</span></div></div>
+                    <p class="sop-callout sop-green"><strong>Eligibility:</strong> An Indian citizen with a valid LT-1 electricity connection, a suitable rooftop, and no prior subsidy benefit.</p>
+                </section>
+
+                <section class="sop-shared-section">
+                    <h2><span class="material-symbols-rounded" aria-hidden="true">account_balance</span>Easy Solar Loan Option</h2>
+                    <div class="sop-tier-grid sop-loan-grid"><div><strong>₹1,98,000</strong><span>Loan amount</span></div><div><strong>6% p.a.</strong><span>Interest rate</span></div><div><strong>10 years</strong><span>Tenure</span></div><div><strong>₹2,198</strong><span>Monthly EMI</span></div></div>
+                    <p class="sop-callout sop-green">The EMI can be lower than the current electricity bill, so customers can save from day one. Higher loan amounts are also available.</p>
+                    <h3>Partner Banks (PSU only)</h3><div class="sop-tags"><span>SBI</span><span>Bank of Baroda</span><span>Canara Bank</span><span>Union Bank of India</span><span>Bank of India</span></div>
+                </section>
+
+                <section class="sop-shared-section">
+                    <h2><span class="material-symbols-rounded" aria-hidden="true">calendar_month</span>Project Timeline</h2>
+                    <ol class="sop-timeline">
+                        <li><strong>Week 1 — Material Procurement & Delivery</strong><span>Panels, inverter, mounting structure, and batteries for hybrid systems are procured and delivered.</span></li>
+                        <li><strong>Weeks 2–3 — Full System Installation</strong><span>The certified team completes mounting, wiring, inverter setup, and battery integration.</span></li>
+                        <li><strong>Week 4 — Net Meter & Subsidy Application</strong><span>Ray2Volt coordinates with DISCOM and starts the subsidy redemption process.</span></li>
+                    </ol>
+                </section>
+
+                <div class="sop-actions">
+                    <a class="sop-action secondary" href="https://solarsavingscalculator.ray2voltsolar.com/" target="_blank" rel="noopener"><span class="material-symbols-rounded" aria-hidden="true">calculate</span>Calculate Savings</a>
+                    <a class="sop-action primary" href="https://ray2voltsolar.com/contact.html" target="_blank" rel="noopener"><span class="material-symbols-rounded" aria-hidden="true">support_agent</span>Contact Ray2Volt</a>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div class="overlay" id="overlay"></div>
+    <script src="../../global/scripts/navigation.js"></script>
+    <script src="sales-sop.js"></script>
+</body>
+
+</html>

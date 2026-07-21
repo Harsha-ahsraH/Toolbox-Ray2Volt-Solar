@@ -8,6 +8,7 @@ const toolNames = [
     'emi-calculator',
     'gst-calculator',
     'package-prices',
+    'sales-sop',
     'receipt-generator',
     'invoice-generator',
     'proforma-invoice',
@@ -44,7 +45,7 @@ for (const sharedPath of [
 
 function collectTextFiles(directory) {
     return fs.readdirSync(directory, { withFileTypes: true }).flatMap(entry => {
-        if (entry.isDirectory() && ['.git', 'tmp', 'node_modules'].includes(entry.name)) return [];
+        if (entry.isDirectory() && ['.git', 'tmp', 'node_modules', 'Samples'].includes(entry.name)) return [];
         const absolutePath = path.join(directory, entry.name);
         if (entry.isDirectory()) return collectTextFiles(absolutePath);
         return /\.(?:css|html|js|json|md)$/i.test(entry.name) ? [absolutePath] : [];

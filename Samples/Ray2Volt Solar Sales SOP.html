@@ -1,0 +1,1815 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rooftop Solar SOP — Ray2Volt Solar</title>
+    <link rel="icon"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 -960 960 960' fill='%231A73E8'%3E%3Cpath d='M160-120q-33 0-56.5-23.5T80-200v-400q0-33 23.5-56.5T160-680h200v-120q0-33 23.5-56.5T440-880h80q33 0 56.5 23.5T600-800v120h200q33 0 56.5 23.5T880-600v400q0-33-23.5 56.5T800-120H160Zm0-80h640v-400H160v400Zm280-560h80v-120h-80v120Z'/%3E%3C/svg%3E"
+        type="image/svg+xml">
+    <meta name="description"
+        content="Standard Operating Procedure for Ray2Volt Solar residential rooftop solar installations — On-Grid & Hybrid systems, subsidy info, loan options, and project timelines.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700;800&family=Google+Sans+Flex:wght@400;500;600;700;800&family=Nunito+Sans:opsz,wght@6..12,400;6..12,500;6..12,600;6..12,700&family=Noto+Sans+Telugu:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* ── Reset & Base ─────────────────────────────────── */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            /* Minimalist Brand Colors mapped over old */
+            --blue-600: #171923;
+            --blue-500: #2D3748;
+            --blue-100: #E2E8F0;
+            --blue-50: #F7FAFC;
+            --grey-900: #171923;
+            --grey-800: #2D3748;
+            --grey-700: #4A5568;
+            --grey-600: #718096;
+            --grey-400: #9AA0A6;
+            --grey-300: #E2E8F0;
+            --grey-100: #F7FAFC;
+            --grey-50: #FFFFFF;
+            --white: #FFFFFF;
+            --orange: #171923;
+            --orange-light: #F7FAFC;
+            --green: #2D3748;
+            --green-light: #F7FAFC;
+            --red: #E53E3E;
+            --radius: 8px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-heading: 'Google Sans', 'Google Sans Flex', 'Product Sans', 'Montserrat', sans-serif;
+            --font-body: 'Nunito Sans', sans-serif;
+            --font-telugu: 'Noto Sans Telugu', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--grey-900);
+            background: var(--grey-50);
+            line-height: 1.7;
+            font-size: 15px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .material-symbols-rounded {
+            font-variation-settings: 'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 24;
+        }
+
+        /* ── Scrollbar ────────────────────────────────────── */
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--grey-300);
+            border-radius: 3px;
+        }
+
+        /* ── Header ───────────────────────────────────────── */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--grey-300);
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header-left img {
+            height: 34px;
+            width: auto;
+        }
+
+        .company-name {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 13px;
+            color: var(--blue-600);
+            line-height: 1.2;
+        }
+
+        .company-name span {
+            display: block;
+            font-size: 9px;
+            font-weight: 600;
+            color: var(--grey-400);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        /* ── Language Toggle ──────────────────────────────── */
+        .lang-toggle {
+            display: flex;
+            background: var(--grey-100);
+            border-radius: var(--radius);
+            overflow: hidden;
+            border: 1px solid var(--grey-300);
+            flex-shrink: 0;
+        }
+
+        .lang-toggle button {
+            border: none;
+            background: transparent;
+            padding: 5px 12px;
+            font-family: var(--font-body);
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            color: var(--grey-700);
+            transition: var(--transition);
+            border-radius: var(--radius);
+        }
+
+        .lang-toggle button.active {
+            background: var(--blue-600);
+            color: var(--white);
+        }
+
+        /* ── Page Title ───────────────────────────────────── */
+        .page-title {
+            text-align: center;
+            padding: 28px 16px 8px;
+        }
+
+        .page-title h1 {
+            font-family: var(--font-heading);
+            font-weight: 800;
+            font-size: 22px;
+            color: var(--grey-900);
+        }
+
+        .page-title .subtitle {
+            color: var(--grey-700);
+            font-size: 13px;
+            margin-top: 4px;
+        }
+
+        /* ── Main Content ─────────────────────────────────── */
+        .content {
+            max-width: 640px;
+            margin: 0 auto;
+            padding: 0 12px 60px;
+        }
+
+        /* ── System Type Nav ──────────────────────────────── */
+        .system-nav {
+            display: flex;
+            gap: 8px;
+            padding: 16px 0 20px;
+            position: sticky;
+            top: 55px;
+            z-index: 50;
+            background: rgba(248, 249, 250, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        .system-nav a {
+            flex: 1;
+            text-align: center;
+            padding: 10px 8px;
+            border-radius: var(--radius);
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 13px;
+            text-decoration: none;
+            transition: var(--transition);
+            border: 1.5px solid var(--grey-300);
+            color: var(--grey-700);
+            background: var(--white);
+        }
+
+        .system-nav a:first-child:hover,
+        .system-nav a:first-child:focus {
+            border-color: var(--blue-500);
+            color: var(--blue-600);
+            background: var(--blue-50);
+        }
+
+        .system-nav a:last-child:hover,
+        .system-nav a:last-child:focus {
+            border-color: var(--orange);
+            color: var(--grey-900);
+            background: var(--orange-light);
+        }
+
+        /* ── System Section ───────────────────────────────── */
+        .system-section {
+            margin-bottom: 28px;
+        }
+
+        .system-section-header {
+            padding: 24px 20px;
+            margin-bottom: 16px;
+            border-bottom: 2px solid var(--grey-900);
+        }
+
+        .system-section-header.ongrid {
+            background: transparent;
+            color: var(--grey-900);
+        }
+
+        .system-section-header.hybrid {
+            background: transparent;
+            color: var(--grey-900);
+        }
+
+        .system-section-header .sys-label {
+            font-family: var(--font-heading);
+            font-weight: 800;
+            font-size: 18px;
+            margin-bottom: 6px;
+        }
+
+        .system-section-header .sys-desc {
+            font-size: 13px;
+            opacity: 0.92;
+            line-height: 1.55;
+        }
+
+        /* ── Card (generic) ───────────────────────────────── */
+        .card {
+            background: var(--white);
+            border: 1px solid var(--grey-300);
+            border-radius: var(--radius);
+            margin-bottom: 10px;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            border-color: var(--blue-500);
+            box-shadow: 0 1px 8px rgba(0, 0, 0, 0.03);
+        }
+
+        .card.orange-accent:hover {
+            border-color: var(--orange);
+            box-shadow: 0 1px 8px rgba(249, 171, 0, 0.1);
+        }
+
+        /* ── Accordion ────────────────────────────────────── */
+        .acc-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 16px;
+            cursor: pointer;
+            user-select: none;
+            transition: var(--transition);
+        }
+
+        .acc-header:hover {
+            background: var(--grey-50);
+        }
+
+        .card.orange-accent .acc-header:hover {
+            background: var(--orange-light);
+        }
+
+        .acc-title {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--grey-900);
+            flex: 1;
+        }
+
+        .acc-chevron {
+            transition: transform var(--transition);
+            color: var(--grey-400);
+        }
+
+        .card.open .acc-chevron {
+            transform: rotate(180deg);
+        }
+
+        .acc-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+
+        .card.open .acc-body {
+            max-height: 5000px;
+        }
+
+        .acc-inner {
+            padding: 0 16px 16px;
+        }
+
+        /* ── Info List ─────────────────────────────────────── */
+        .info-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .info-list li {
+            position: relative;
+            padding-left: 18px;
+            margin-bottom: 8px;
+            font-size: 13.5px;
+            line-height: 1.6;
+            color: var(--grey-700);
+        }
+
+        .info-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 8px;
+            width: 6px;
+            height: 6px;
+            background: var(--blue-500);
+            border-radius: 50%;
+        }
+
+        .card.orange-accent .info-list li::before {
+            background: var(--orange);
+        }
+
+        .info-list li strong {
+            color: var(--grey-900);
+        }
+
+        /* ── Highlight Box ────────────────────────────────── */
+        .highlight-box {
+            border-radius: var(--radius);
+            padding: 12px 14px;
+            font-size: 13px;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+
+        .highlight-box.blue {
+            background: var(--blue-50);
+            border-left: 3px solid var(--blue-600);
+            color: var(--grey-700);
+        }
+
+        .highlight-box.blue strong {
+            color: var(--blue-600);
+        }
+
+        .highlight-box.orange {
+            background: var(--orange-light);
+            border-left: 3px solid var(--orange);
+            color: var(--grey-700);
+        }
+
+        .highlight-box.orange strong {
+            color: var(--grey-900);
+        }
+
+        .highlight-box.green {
+            background: var(--green-light);
+            border-left: 3px solid var(--green);
+            color: var(--grey-700);
+        }
+
+        .highlight-box.green strong {
+            color: var(--green);
+        }
+
+        /* ── Component Cards ──────────────────────────────── */
+        .comp-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-top: 4px;
+        }
+
+        .comp-item {
+            padding: 16px;
+            background: var(--white);
+            border: 1px solid var(--grey-300);
+            border-top: 4px solid var(--blue-500);
+            border-radius: var(--radius);
+            font-size: 13px;
+            line-height: 1.5;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+            position: relative;
+        }
+
+        .comp-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+            border-color: var(--blue-100);
+            border-top-color: var(--blue-600);
+        }
+
+        .comp-item strong {
+            font-family: var(--font-heading);
+            font-size: 14.5px;
+            color: var(--blue-600);
+            margin-bottom: 6px;
+            line-height: 1.3;
+        }
+
+        .comp-item .comp-detail {
+            color: var(--grey-700);
+            line-height: 1.6;
+        }
+
+        .comp-item.orange-border {
+            border-top-color: var(--orange);
+        }
+
+        .comp-item.orange-border strong {
+            color: var(--grey-900);
+        }
+
+        .comp-item.orange-border:hover {
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+            border-color: var(--grey-300);
+        }
+
+        /* ── Stat Grid ────────────────────────────────────── */
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .stat-grid.three-col {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .stat-box {
+            text-align: center;
+            padding: 12px 8px;
+            background: var(--blue-50);
+            border-radius: var(--radius);
+            border: 1px solid var(--blue-100);
+        }
+
+        .stat-box.orange {
+            background: var(--orange-light);
+            border-color: var(--grey-300);
+        }
+
+        .stat-box .stat-value {
+            font-family: var(--font-heading);
+            font-weight: 800;
+            font-size: 16px;
+            color: var(--blue-600);
+        }
+
+        .stat-box.orange .stat-value {
+            color: var(--grey-900);
+        }
+
+        .stat-box .stat-label {
+            font-size: 10px;
+            color: var(--grey-700);
+            font-weight: 600;
+            margin-top: 2px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        /* ── Tag / Pill ───────────────────────────────────── */
+        .tag-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 5px 10px;
+            font-size: 12px;
+            font-weight: 600;
+            border-radius: var(--radius);
+            border: 1px solid var(--grey-300);
+            background: var(--white);
+            color: var(--grey-900);
+            transition: var(--transition);
+        }
+
+        .tag:hover {
+            border-color: var(--blue-500);
+            color: var(--blue-600);
+            background: var(--blue-50);
+        }
+
+        .tag.preferred {
+            background: var(--blue-600);
+            color: var(--white);
+            border-color: var(--blue-600);
+        }
+
+        .tag.preferred:hover {
+            background: var(--grey-800);
+        }
+
+        .tag.preferred.orange {
+            background: var(--grey-900);
+            border-color: var(--grey-900);
+        }
+
+        .tag.preferred.orange:hover {
+            background: var(--grey-800);
+        }
+
+        .tag.spec {
+            font-size: 11px;
+            color: var(--grey-700);
+            font-weight: 500;
+        }
+
+        /* ── Subsection Label ─────────────────────────────── */
+        .sub-label {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 12px;
+            color: var(--grey-700);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin: 14px 0 6px;
+        }
+
+        .sub-label:first-child {
+            margin-top: 0;
+        }
+
+        /* ── Subsidy Tiers ────────────────────────────────── */
+        .subsidy-tiers {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin: 10px 0 14px;
+        }
+
+        .tier {
+            text-align: center;
+            padding: 12px 6px;
+            background: var(--green-light);
+            border: 1px solid var(--grey-300);
+            border-radius: var(--radius);
+            transition: var(--transition);
+        }
+
+        .tier:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+        }
+
+        .tier .amount {
+            font-family: var(--font-heading);
+            font-weight: 800;
+            font-size: 17px;
+            color: var(--green);
+        }
+
+        .tier .label {
+            font-size: 10px;
+            color: var(--grey-700);
+            margin-top: 2px;
+            font-weight: 600;
+        }
+
+        /* ── Loan Stats ───────────────────────────────────── */
+        .loan-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .loan-stat {
+            text-align: center;
+            padding: 12px 8px;
+            background: var(--green-light);
+            border-radius: var(--radius);
+            border: 1px solid var(--grey-300);
+        }
+
+        .loan-stat .value {
+            font-family: var(--font-heading);
+            font-weight: 800;
+            font-size: 16px;
+            color: var(--green);
+        }
+
+        .loan-stat .desc {
+            font-size: 10px;
+            color: var(--grey-700);
+            margin-top: 2px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        /* ── Bank Tags ────────────────────────────────────── */
+        .bank-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 8px;
+        }
+
+        .bank-tag {
+            background: var(--blue-50);
+            border: 1px solid var(--blue-100);
+            border-radius: var(--radius);
+            padding: 6px 12px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--blue-600);
+            transition: var(--transition);
+        }
+
+        .bank-tag:hover {
+            background: var(--blue-600);
+            color: var(--white);
+        }
+
+        /* ── Timeline ─────────────────────────────────────── */
+        .timeline {
+            position: relative;
+            padding-left: 24px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 4px;
+            bottom: 4px;
+            width: 2px;
+            background: var(--blue-100);
+        }
+
+        .tl-item {
+            position: relative;
+            margin-bottom: 16px;
+        }
+
+        .tl-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .tl-item::before {
+            content: '';
+            position: absolute;
+            left: -24px;
+            top: 4px;
+            width: 16px;
+            height: 16px;
+            background: var(--blue-600);
+            border-radius: 50%;
+            border: 2.5px solid var(--white);
+            box-shadow: 0 0 0 1.5px var(--blue-500);
+        }
+
+        .tl-item .tl-week {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 13px;
+            color: var(--blue-600);
+            margin-bottom: 2px;
+        }
+
+        .tl-item .tl-desc {
+            font-size: 13px;
+            color: var(--grey-700);
+            line-height: 1.55;
+        }
+
+        /* ── Divider ──────────────────────────────────────── */
+        .divider {
+            border: none;
+            border-top: 1px solid var(--grey-300);
+            margin: 24px 0;
+        }
+
+        /* ── Section Title (shared sections) ──────────────── */
+        .shared-title {
+            font-family: var(--font-heading);
+            font-weight: 800;
+            font-size: 16px;
+            color: var(--grey-900);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .shared-title .dot {
+            width: 4px;
+            height: 16px;
+            background: var(--blue-600);
+            border-radius: 2px;
+            flex-shrink: 0;
+        }
+
+        /* ── Footer ───────────────────────────────────────── */
+        .footer {
+            text-align: center;
+            padding: 20px 16px;
+            border-top: 1px solid var(--grey-300);
+            font-size: 11px;
+            color: var(--grey-400);
+            background: var(--white);
+        }
+
+        .footer strong {
+            color: var(--blue-600);
+        }
+
+        /* ── Telugu override ───────────────────────────────── */
+        body.telugu .acc-inner,
+        body.telugu .info-list li,
+        body.telugu .highlight-box,
+        body.telugu .comp-item,
+        body.telugu .tl-item .tl-desc,
+        body.telugu .page-title .subtitle,
+        body.telugu .system-section-header .sys-desc,
+        body.telugu .footer {
+            font-family: var(--font-telugu);
+        }
+
+        /* ── Desktop ──────────────────────────────────────── */
+        @media (min-width: 1024px) {
+            .page-title h1 {
+                font-size: 32px;
+            }
+
+            .header {
+                padding: 16px 40px;
+            }
+
+            .content {
+                max-width: 1000px;
+                padding: 0 40px 100px;
+            }
+
+            body {
+                font-size: 16px;
+            }
+
+            .two-col-layout {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 32px;
+                align-items: start;
+            }
+
+            .system-nav {
+                display: none;
+            }
+
+            .cta-container {
+                padding: 20px 40px;
+            }
+
+            .cta-btn {
+                max-width: 320px;
+                font-size: 16px;
+                padding: 16px 32px;
+            }
+        }
+
+        /* ── Animations & Enhancements ────────────────────── */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+        }
+
+        .comp-item {
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .comp-item:hover {
+            transform: translateY(-4px) scale(1.02);
+        }
+
+        .icon-text {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .icon-text .material-symbols-rounded {
+            font-size: 1.25em;
+        }
+
+        /* ── Trust Badges ─────────────────────────────────── */
+        .trust-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 16px 0;
+            justify-content: center;
+        }
+
+        .trust-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background: var(--white);
+            border: 1px solid var(--grey-300);
+            border-radius: var(--radius);
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--blue-600);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .trust-badge .material-symbols-rounded {
+            color: var(--blue-500);
+            font-size: 18px;
+        }
+
+        /* ── Comparison Table ─────────────────────────────── */
+        .comparison-table-wrapper {
+            overflow-x: auto;
+            margin-bottom: 24px;
+            border-radius: var(--radius);
+            border: 1px solid var(--grey-300);
+            background: var(--white);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            text-align: left;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--grey-300);
+        }
+
+        .comparison-table th {
+            background: var(--grey-50);
+            font-family: var(--font-heading);
+            font-weight: 700;
+            color: var(--grey-900);
+            white-space: nowrap;
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .comparison-table td strong {
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        /* ── CTA Container ────────────────────────────────── */
+        .cta-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-top: 1px solid rgba(218, 220, 224, 0.6);
+            display: flex;
+            justify-content: center;
+            z-index: 90;
+        }
+
+        .cta-btn {
+            background: var(--blue-600);
+            color: var(--white);
+            border: none;
+            padding: 14px 24px;
+            font-family: var(--font-heading);
+            font-size: 15px;
+            font-weight: 700;
+            border-radius: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+            max-width: 400px;
+            justify-content: center;
+            text-decoration: none;
+        }
+
+        .cta-btn:hover {
+            background: var(--grey-800);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+            color: var(--white);
+        }
+
+        body {
+            padding-bottom: 80px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ═══════════ HEADER ═══════════ -->
+    <header class="header">
+        <div class="header-left">
+            <a href="https://ray2voltsolar.com/" target="_blank" style="text-decoration: none;" class="company-name">
+                Ray2Volt Solar
+                <span>Private Limited</span>
+            </a>
+        </div>
+        <div class="lang-toggle">
+            <button id="btn-en" class="active" onclick="setLang('en')">ENG</button>
+            <button id="btn-te" onclick="setLang('te')">తెలుగు</button>
+        </div>
+    </header>
+
+    <!-- ═══════════ TITLE ═══════════ -->
+    <div class="page-title">
+        <h1 data-en="Rooftop Solar Sales SOP" data-te="రూఫ్‌టాప్ సోలార్ SOP">Rooftop Solar Sales SOP</h1>
+    </div>
+
+    <!-- ═══════════ CONTENT ═══════════ -->
+    <main class="content">
+
+        <!-- Trust Badges -->
+        <div class="trust-badges fade-in-up">
+            <div class="trust-badge">
+                <span class="material-symbols-rounded">verified</span>
+                <span data-en="MNRE Approved Vendors" data-te="MNRE ఆమోదించిన విక్రేతలు">MNRE Approved Vendors</span>
+            </div>
+            <div class="trust-badge">
+                <span class="material-symbols-rounded">military_tech</span>
+                <span data-en="BIS Certified Panels" data-te="BIS సర్టిఫైడ్ ప్యానెల్స్">BIS Certified Panels</span>
+            </div>
+            <div class="trust-badge">
+                <span class="material-symbols-rounded">shield</span>
+                <span data-en="25-Year Performance Warranty" data-te="25-సంవత్సరాల పనితీరు వారంటీ">25-Year Performance
+                    Warranty</span>
+            </div>
+        </div>
+
+        <!-- Quick Nav Removed -->
+
+        <!-- Side-by-Side Comparison -->
+        <div class="comparison-table-wrapper fade-in-up">
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th data-en="Feature" data-te="లక్షణం">Feature</th>
+                        <th data-en="<span class='icon-text'><span class='material-symbols-rounded'>bolt</span> On-Grid Solar</span>"
+                            data-te="<span class='icon-text'><span class='material-symbols-rounded'>bolt</span> ఆన్-గ్రిడ్ సోలార్</span>">
+                            <span class="icon-text"><span class="material-symbols-rounded">bolt</span> On-Grid
+                                Solar</span>
+                        </th>
+                        <th data-en="<span class='icon-text'><span class='material-symbols-rounded'>battery_charging_full</span> Hybrid Solar</span>"
+                            data-te="<span class='icon-text'><span class='material-symbols-rounded'>battery_charging_full</span> హైబ్రిడ్ సోలార్</span>">
+                            <span class="icon-text"><span class="material-symbols-rounded">battery_charging_full</span>
+                                Hybrid Solar</span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td data-en="<strong>Batteries</strong>" data-te="<strong>బ్యాటరీలు</strong>">
+                            <strong>Batteries</strong>
+                        </td>
+                        <td data-en="None" data-te="లేవు">None</td>
+                        <td data-en="Included" data-te="ఉన్నాయి">Included</td>
+                    </tr>
+                    <tr>
+                        <td data-en="<strong>Power Cuts</strong>" data-te="<strong>పవర్ కట్స్</strong>"><strong>Power
+                                Cuts</strong></td>
+                        <td data-en="System shuts down" data-te="సిస్టమ్ ఆగిపోతుంది">System shuts down</td>
+                        <td data-en="Seamless Backup 24/7" data-te="అవిరామ బ్యాకప్ 24/7">Seamless Backup 24/7</td>
+                    </tr>
+                    <tr>
+                        <td data-en="<strong>Cost Profile</strong>" data-te="<strong>ఖర్చు ప్రొఫైల్</strong>">
+                            <strong>Cost Profile</strong>
+                        </td>
+                        <td data-en="Lowest Investment" data-te="అత్యల్ప పెట్టుబడి">Lowest Investment</td>
+                        <td data-en="Higher (batteries)" data-te="ఎక్కువ (బ్యాటరీల వల్ల)">Higher (batteries)</td>
+                    </tr>
+                    <tr>
+                        <td data-en="<strong>Subsidy Eligible</strong>" data-te="<strong>సబ్సిడీ అర్హత</strong>">
+                            <strong>Subsidy Eligible</strong>
+                        </td>
+                        <td data-en="Yes (PM Surya Ghar)" data-te="అవును (PM సూర్య ఘర్)">Yes (PM Surya Ghar)</td>
+                        <td data-en="Yes (PM Surya Ghar)" data-te="అవును (PM సూర్య ఘర్)">Yes (PM Surya Ghar)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="two-col-layout">
+            <!-- ══════════════════════════════════════════════════════
+         ON-GRID SOLAR SYSTEM
+         ══════════════════════════════════════════════════════ -->
+            <div class="system-section fade-in-up" id="ongrid">
+
+                <div class="system-section-header ongrid">
+                    <div class="sys-label" data-en="On-Grid Solar System" data-te="ఆన్-గ్రిడ్ సోలార్ సిస్టమ్">On-Grid
+                        Solar
+                        System</div>
+                    <div class="sys-desc"
+                        data-en="Connected directly to the electricity grid. Excess power earns you credit through Net Metering — no batteries needed, lowest cost."
+                        data-te="విద్యుత్ గ్రిడ్‌కు నేరుగా అనుసంధానం చేయబడింది. అదనపు విద్యుత్ నెట్ మీటరింగ్ ద్వారా క్రెడిట్ పొందుతుంది — బ్యాటరీలు అవసరం లేదు, తక్కువ ఖర్చు.">
+                        Connected directly to the electricity grid. Excess power earns you credit through Net Metering —
+                        no
+                        batteries needed, lowest cost.</div>
+                </div>
+
+                <!-- How it works -->
+                <div class="card">
+                    <div class="acc-header" onclick="toggleCard(this)">
+                        <span class="acc-title" data-en="How On-Grid Works" data-te="ఆన్-గ్రిడ్ ఎలా పనిచేస్తుంది">How
+                            On-Grid Works</span>
+                        <svg class="acc-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <polyline points="6 9 12 15 18 9" />
+                        </svg>
+                    </div>
+                    <div class="acc-body">
+                        <div class="acc-inner">
+                            <ul class="info-list">
+                                <li data-en="Solar panels generate electricity during the day, powering your home directly."
+                                    data-te="సోలార్ ప్యానెల్స్ పగటి సమయంలో విద్యుత్‌ను ఉత్పత్తి చేసి, మీ ఇంటిని నేరుగా నడుపుతాయి.">
+                                    Solar panels generate electricity during the day, powering your home directly.</li>
+                                <li data-en="<strong>Excess power</strong> is exported to the grid — your meter runs backward, earning you credit."
+                                    data-te="<strong>అదనపు విద్యుత్</strong> గ్రిడ్‌కు ఎగుమతి చేయబడుతుంది — మీ మీటర్ వెనక్కి నడుస్తుంది, మీకు క్రెడిట్ లభిస్తుంది.">
+                                    <strong>Excess power</strong> is exported to the grid — your meter runs backward,
+                                    earning you credit.
+                                </li>
+                                <li data-en="At night, you consume power from the grid as usual — but your bill is offset by daytime credits."
+                                    data-te="రాత్రి, మీరు ఎప్పటిలాగే గ్రిడ్ నుండి విద్యుత్‌ను వినియోగిస్తారు — కానీ పగటి క్రెడిట్ల ద్వారా మీ బిల్లు ఆఫ్‌సెట్ అవుతుంది.">
+                                    At night, you consume power from the grid as usual — but your bill is offset by
+                                    daytime
+                                    credits.</li>
+                                <li data-en="<strong>No batteries</strong> required, so the system costs significantly less."
+                                    data-te="<strong>బ్యాటరీలు</strong> అవసరం లేదు, కాబట్టి సిస్టమ్ ఖర్చు చాలా తక్కువ.">
+                                    <strong>No batteries</strong> required, so the system costs significantly less.
+                                </li>
+                                <li data-en="Installation is done <strong>without disturbing</strong> your existing house wiring."
+                                    data-te="మీ ఇంటి వైరింగ్‌ను <strong>ప్రభావితం చేయకుండా</strong> ఇన్‌స్టాలేషన్ చేయబడుతుంది.">
+                                    Installation is done <strong>without disturbing</strong> your existing house wiring.
+                                </li>
+                            </ul>
+                            <div class="highlight-box blue"
+                                data-en="<strong>Best for:</strong> Homes and businesses with <strong>reliable grid power</strong> and minimal power cuts. Maximum savings, zero maintenance headache."
+                                data-te="<strong>ఉత్తమం:</strong> <strong>నమ్మకమైన గ్రిడ్ విద్యుత్</strong> మరియు తక్కువ విద్యుత్ కోతలు ఉన్న ఇళ్లు మరియు వ్యాపారాలకు. గరిష్ట ఆదా, సున్నా నిర్వహణ.">
+                                <strong>Best for:</strong> Homes and businesses with <strong>reliable grid
+                                    power</strong>
+                                and minimal power cuts. Maximum savings, zero maintenance headache.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Key Numbers -->
+                <div class="card">
+                    <div class="acc-header" onclick="toggleCard(this)">
+                        <span class="acc-title" data-en="Key Numbers (Example: 3 kW System)"
+                            data-te="ముఖ్య సంఖ్యలు (ఉదాహరణ: 3 kW సిస్టమ్)">Key Numbers (Example: 3 kW System)</span>
+                        <svg class="acc-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <polyline points="6 9 12 15 18 9" />
+                        </svg>
+                    </div>
+                    <div class="acc-body">
+                        <div class="acc-inner">
+                            <div class="stat-grid">
+                                <div class="stat-box">
+                                    <div class="stat-value">~250 sqft</div>
+                                    <div class="stat-label" data-en="Roof Area Needed"
+                                        data-te="అవసరమైన పైకప్పు విస్తీర్ణం">
+                                        Roof Area Needed</div>
+                                </div>
+                                <div class="stat-box">
+                                    <div class="stat-value">360 units</div>
+                                    <div class="stat-label" data-en="Monthly Generation" data-te="నెలవారీ ఉత్పత్తి">
+                                        Monthly
+                                        Generation</div>
+                                </div>
+                                <div class="stat-box">
+                                    <div class="stat-value">25 years</div>
+                                    <div class="stat-label" data-en="Panel Warranty" data-te="ప్యానెల్ వారంటీ">Panel
+                                        Warranty</div>
+                                </div>
+                                <div class="stat-box">
+                                    <div class="stat-value">4–5 yrs</div>
+                                    <div class="stat-label" data-en="Payback Period" data-te="పెట్టుబడి రాబడి కాలం">
+                                        Payback
+                                        Period</div>
+                                </div>
+                            </div>
+                            <div class="stat-grid three-col">
+                                <div class="stat-box">
+                                    <div class="stat-value">5–10 yr</div>
+                                    <div class="stat-label" data-en="Inverter Warranty" data-te="ఇన్వర్టర్ వారంటీ">
+                                        Inverter
+                                        Warranty</div>
+                                </div>
+                                <div class="stat-box">
+                                    <div class="stat-value">5 years</div>
+                                    <div class="stat-label" data-en="Free Service" data-te="ఉచిత సేవ">Free Service</div>
+                                </div>
+                                <div class="stat-box">
+                                    <div class="stat-value">120/kW</div>
+                                    <div class="stat-label" data-en="Units per month" data-te="నెలకు యూనిట్లు">Units per
+                                        month</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Components -->
+                <div class="card">
+                    <div class="acc-header" onclick="toggleCard(this)">
+                        <span class="acc-title" data-en="System Components" data-te="సిస్టమ్ భాగాలు">System
+                            Components</span>
+                        <svg class="acc-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <polyline points="6 9 12 15 18 9" />
+                        </svg>
+                    </div>
+                    <div class="acc-body">
+                        <div class="acc-inner">
+                            <div class="comp-grid">
+                                <div class="comp-item">
+                                    <strong data-en="Solar Panels (e.g., 6 Nos. for 3 kW)"
+                                        data-te="సోలార్ ప్యానెల్స్ (ఉదా., 3 kW కి 6 నంబర్లు)">Solar Panels (e.g., 6 Nos.
+                                        for
+                                        3 kW)</strong>
+                                    <div class="comp-detail"
+                                        data-en="Converts sunlight into electricity — each panel ~3.8 ft × 7.8 ft"
+                                        data-te="సూర్యరశ్మిని విద్యుత్‌గా మారుస్తుంది — ప్రతి ప్యానెల్ ~3.8 అ. × 7.8 అ.">
+                                        Converts sunlight into electricity — each panel ~3.8 ft × 7.8 ft</div>
+                                </div>
+                                <div class="comp-item">
+                                    <strong data-en="On-Grid Inverter (e.g., 3 kW)"
+                                        data-te="ఆన్-గ్రిడ్ ఇన్వర్టర్ (ఉదా., 3 kW)">On-Grid Inverter (e.g., 3
+                                        kW)</strong>
+                                    <div class="comp-detail"
+                                        data-en="Synchronizes solar output with the power grid for seamless operation"
+                                        data-te="సీమ్‌లెస్ ఆపరేషన్ కోసం సోలార్ అవుట్‌పుట్‌ను పవర్ గ్రిడ్‌తో సమకాలీకరిస్తుంది">
+                                        Synchronizes solar output with the power grid for seamless operation</div>
+                                </div>
+                                <div class="comp-item">
+                                    <strong data-en="Mounting Structure" data-te="మౌంటింగ్ స్ట్రక్చర్">Mounting
+                                        Structure</strong>
+                                    <div class="comp-detail"
+                                        data-en="Secures panels on roof — 5 ft height on South, 6–7 ft on North"
+                                        data-te="పైకప్పుపై ప్యానెల్‌లను బిగిస్తుంది — దక్షిణం 5 అ., ఉత్తరం 6–7 అ.">
+                                        Secures
+                                        panels on roof — 5 ft height on South, 6–7 ft on North</div>
+                                </div>
+                                <div class="comp-item">
+                                    <strong data-en="Cables & Connectors" data-te="కేబుల్స్ & కనెక్టర్లు">Cables &
+                                        Connectors</strong>
+                                    <div class="comp-detail"
+                                        data-en="4 sq mm cables for safe, efficient power transmission"
+                                        data-te="సురక్షిత, సమర్థ విద్యుత్ ప్రసారం కోసం 4 sq mm కేబుల్స్">4 sq mm cables
+                                        for
+                                        safe, efficient power transmission</div>
+                                </div>
+                                <div class="comp-item">
+                                    <strong>ACDB & DCDB</strong>
+                                    <div class="comp-detail"
+                                        data-en="Safety disconnect boxes — protect the system from electrical faults"
+                                        data-te="సేఫ్టీ డిస్‌కనెక్ట్ బాక్సులు — విద్యుత్ లోపాల నుండి సిస్టమ్‌ను రక్షిస్తాయి">
+                                        Safety disconnect boxes — protect the system from electrical faults</div>
+                                </div>
+                                <div class="comp-item">
+                                    <strong data-en="Earthing Kit & Lightning Arrestor"
+                                        data-te="ఎర్తింగ్ కిట్ & లైట్నింగ్ అరెస్టర్">Earthing Kit & Lightning
+                                        Arrestor</strong>
+                                    <div class="comp-detail"
+                                        data-en="Essential protection against lightning and ground faults"
+                                        data-te="పిడుగులు మరియు గ్రౌండ్ ఫాల్ట్‌ల నుండి అవసరమైన రక్షణ">Essential
+                                        protection
+                                        against lightning and ground faults</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- On-Grid Brands -->
+                <div class="card">
+                    <div class="acc-header" onclick="toggleCard(this)">
+                        <span class="acc-title" data-en="On-Grid Brands" data-te="ఆన్-గ్రిడ్ బ్రాండ్లు">On-Grid
+                            Brands</span>
+                        <svg class="acc-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <polyline points="6 9 12 15 18 9" />
+                        </svg>
+                    </div>
+                    <div class="acc-body">
+                        <div class="acc-inner">
+                            <div class="sub-label" data-en="DCR Solar Panels" data-te="DCR సోలార్ ప్యానెల్స్">DCR Solar
+                                Panels</div>
+                            <div class="tag-group">
+                                <span class="tag preferred">Adani Solar ★</span>
+                                <span class="tag">ReNew Photovoltaics</span>
+                                <span class="tag">Emmvee Solar</span>
+                                <span class="tag">Vikram Solar</span>
+                            </div>
+
+                            <div class="sub-label" data-en="NDCR Solar Panels" data-te="NDCR సోలార్ ప్యానెల్స్">NDCR
+                                Solar
+                                Panels</div>
+                            <div class="tag-group">
+                                <span class="tag">Adani Solar</span>
+                                <span class="tag">ReNew Solar</span>
+                                <span class="tag">Emmvee Solar</span>
+                                <span class="tag">Waaree Solar</span>
+                                <span class="tag">Vikram Solar</span>
+                            </div>
+
+                            <div class="sub-label" data-en="On-Grid Inverters" data-te="ఆన్-గ్రిడ్ ఇన్వర్టర్లు">On-Grid
+                                Inverters</div>
+                            <div class="tag-group">
+                                <span class="tag preferred">Polycab ★</span>
+                                <span class="tag">Deye</span>
+                                <span class="tag">Growatt</span>
+                                <span class="tag">Solis</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- /ongrid -->
+
+
+            <!-- ══════════════════════════════════════════════════════
+         HYBRID SOLAR SYSTEM
+         ══════════════════════════════════════════════════════ -->
+            <div class="system-section" id="hybrid">
+
+                <div class="system-section-header hybrid">
+                    <div class="sys-label" data-en="Hybrid Solar System" data-te="హైబ్రిడ్ సోలార్ సిస్టమ్">Hybrid Solar
+                        System</div>
+                    <div class="sys-desc"
+                        data-en="Grid-connected + battery backup. Uninterrupted power 24/7 — solar during the day, lithium batteries at night."
+                        data-te="గ్రిడ్-కనెక్టెడ్ + బ్యాటరీ బ్యాకప్. 24/7 అవిరామ విద్యుత్ — పగటి సమయంలో సోలార్, రాత్రి లిథియం బ్యాటరీలు.">
+                        Grid-connected + battery backup. Uninterrupted power 24/7 — solar during the day, lithium
+                        batteries at night.</div>
+                </div>
+
+                <!-- How Hybrid Works -->
+                <div class="card orange-accent">
+                    <div class="acc-header" onclick="toggleCard(this)">
+                        <span class="acc-title" data-en="How Hybrid Works" data-te="హైబ్రిడ్ ఎలా పనిచేస్తుంది">How
+                            Hybrid
+                            Works</span>
+                        <svg class="acc-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <polyline points="6 9 12 15 18 9" />
+                        </svg>
+                    </div>
+                    <div class="acc-body">
+                        <div class="acc-inner">
+                            <div class="sub-label" data-en="☀️ During the Day" data-te="☀️ పగటి సమయంలో">☀️ During the
+                                Day
+                            </div>
+                            <ul class="info-list">
+                                <li data-en="Solar panels generate power for your home — <strong>power cuts don't affect you at all</strong>."
+                                    data-te="సోలార్ ప్యానెల్స్ మీ ఇంటికి విద్యుత్ ఉత్పత్తి చేస్తాయి — <strong>విద్యుత్ కోతలు మిమ్మల్ని ఏమాత్రం ప్రభావితం చేయవు</strong>.">
+                                    Solar panels generate power for your home — <strong>power cuts don't affect you at
+                                        all</strong>.</li>
+                                <li data-en="Excess solar energy is used to <strong>charge the batteries</strong> for later use."
+                                    data-te="అదనపు సోలార్ శక్తి తర్వాత ఉపయోగం కోసం <strong>బ్యాటరీలను ఛార్జ్ చేయడానికి</strong> ఉపయోగించబడుతుంది.">
+                                    Excess solar energy is used to <strong>charge the batteries</strong> for later use.
+                                </li>
+                                <li data-en="Any remaining surplus is exported to the grid for net metering credits."
+                                    data-te="మిగిలిన అదనపు నెట్ మీటరింగ్ క్రెడిట్ల కోసం గ్రిడ్‌కు ఎగుమతి చేయబడుతుంది.">
+                                    Any
+                                    remaining surplus is exported to the grid for net metering credits.</li>
+                            </ul>
+
+                            <div class="sub-label" data-en="🌙 During the Night" data-te="🌙 రాత్రి సమయంలో">🌙 During
+                                the
+                                Night</div>
+                            <ul class="info-list">
+                                <li data-en="Powerful <strong>lithium-ion batteries</strong> kick in automatically — running ACs, fridges, lights, and fans all night."
+                                    data-te="శక్తివంతమైన <strong>లిథియం-అయాన్ బ్యాటరీలు</strong> ఆటోమేటిగ్గా మొదలవుతాయి — ACలు, ఫ్రిజ్‌లు, లైట్లు మరియు ఫ్యాన్‌లను రాత్రంతా నడుపుతాయి.">
+                                    Powerful <strong>lithium-ion batteries</strong> kick in automatically — running ACs,
+                                    fridges, lights, and fans all night.</li>
+                                <li data-en="<strong>90% Depth of Discharge</strong> — uses almost all stored energy, unlike lead-acid (50%)."
+                                    data-te="<strong>90% డెప్త్ ఆఫ్ డిస్చార్జ్</strong> — లెడ్-యాసిడ్ (50%) కంటే భిన్నంగా, నిల్వ చేసిన శక్తిలో దాదాపు అంతా ఉపయోగిస్తుంది.">
+                                    <strong>90% Depth of Discharge</strong> — uses almost all stored energy, unlike
+                                    lead-acid (50%).
+                                </li>
+                                <li data-en="Seamless switch — <strong>no flicker, no disruption</strong>, your appliances stay on."
+                                    data-te="అతుకులు లేని మార్పు — <strong>ఫ్లికర్ లేదు, అంతరాయం లేదు</strong>, మీ ఉపకరణాలు ఆన్‌లో ఉంటాయి.">
+                                    Seamless switch — <strong>no flicker, no disruption</strong>, your appliances stay
+                                    on.
+                                </li>
+                            </ul>
+
+                            <div class="sub-label" data-en="⚡ During Power Cuts" data-te="⚡ విద్యుత్ కోతల సమయంలో">⚡
+                                During
+                                Power Cuts</div>
+                            <ul class="info-list">
+                                <li data-en="Morning power cuts? <strong>Solar panels deliver power directly</strong> — you won't even notice."
+                                    data-te="ఉదయం విద్యుత్ కోతలు? <strong>సోలార్ ప్యానెల్స్ నేరుగా విద్యుత్ అందిస్తాయి</strong> — మీకు తెలియదు కూడా.">
+                                    Morning power cuts? <strong>Solar panels deliver power directly</strong> — you won't
+                                    even notice.</li>
+                                <li data-en="Evening/night cuts? <strong>Batteries take over instantly</strong>, providing hours of backup."
+                                    data-te="సాయంత్రం/రాత్రి కోతలు? <strong>బ్యాటరీలు వెంటనే బాధ్యత తీసుకుంటాయి</strong>, గంటల కొద్దీ బ్యాకప్ అందిస్తాయి.">
+                                    Evening/night cuts? <strong>Batteries take over instantly</strong>, providing hours
+                                    of
+                                    backup.</li>
+                                <li data-en="Your family's comfort is <strong>never compromised</strong> — 24/7 uninterrupted power."
+                                    data-te="మీ కుటుంబ సౌకర్యం <strong>ఎప్పటికీ రాజీ పడదు</strong> — 24/7 అవిరామ విద్యుత్.">
+                                    Your family's comfort is <strong>never compromised</strong> — 24/7 uninterrupted
+                                    power.
+                                </li>
+                            </ul>
+
+                            <div class="highlight-box orange"
+                                data-en="<strong>Best for:</strong> Areas with <strong>frequent power cuts</strong>. Ideal for families who want the peace of mind that their home runs smoothly round-the-clock — no inverter UPS hassles, no fuel generators."
+                                data-te="<strong>ఉత్తమం:</strong> <strong>తరచుగా విద్యుత్ కోతలు</strong> ఉన్న ప్రాంతాలకు. తమ ఇల్లు రోజంతా సజావుగా నడవాలని కోరుకునే కుటుంబాలకు ఆదర్శం — ఇన్వర్టర్ UPS ఇబ్బందులు లేవు, ఫ్యూయెల్ జనరేటర్లు లేవు.">
+                                <strong>Best for:</strong> Areas with <strong>frequent power cuts</strong>. Ideal for
+                                families who want the peace of mind that their home runs smoothly round-the-clock — no
+                                inverter UPS hassles, no fuel generators.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Battery Specs -->
+                <div class="card orange-accent">
+                    <div class="acc-header" onclick="toggleCard(this)">
+                        <span class="acc-title" data-en="Battery Options" data-te="బ్యాటరీ ఎంపికలు">Battery
+                            Options</span>
+                        <svg class="acc-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <polyline points="6 9 12 15 18 9" />
+                        </svg>
+                    </div>
+                    <div class="acc-body">
+                        <div class="acc-inner">
+                            <div class="sub-label" data-en="🔋 Lithium Ion — Recommended"
+                                data-te="🔋 లిథియం అయాన్ — సిఫార్సు చేయబడింది">🔋 Lithium Ion — Recommended</div>
+                            <div class="stat-grid">
+                                <div class="stat-box orange">
+                                    <div class="stat-value">Deye</div>
+                                    <div class="stat-label">SE-F5 Plus</div>
+                                </div>
+                                <div class="stat-box orange">
+                                    <div class="stat-value">100 Ah</div>
+                                    <div class="stat-label" data-en="Capacity" data-te="సామర్థ్యం">Capacity</div>
+                                </div>
+                                <div class="stat-box orange">
+                                    <div class="stat-value">51.2V</div>
+                                    <div class="stat-label" data-en="Voltage" data-te="వోల్టేజ్">Voltage</div>
+                                </div>
+                                <div class="stat-box orange">
+                                    <div class="stat-value">90% DoD</div>
+                                    <div class="stat-label" data-en="Usable Energy" data-te="ఉపయోగించగల శక్తి">Usable
+                                        Energy
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="highlight-box orange"
+                                data-en="<strong>Why Lithium?</strong> Longer life (10+ years), lighter weight, faster charging, and 90% usable energy vs. 50% for lead-acid. Perfect for high-power appliances like ACs, washing machines, and water heaters."
+                                data-te="<strong>లిథియం ఎందుకు?</strong> ఎక్కువ జీవితకాలం (10+ సంవత్సరాలు), తక్కువ బరువు, వేగవంతమైన ఛార్జింగ్, మరియు లెడ్-యాసిడ్‌కు 50% కంటే 90% ఉపయోగించగల శక్తి. ACలు, వాషింగ్ మెషీన్లు మరియు వాటర్ హీటర్ల వంటి అధిక-శక్తి ఉపకరణాలకు ఖచ్చితం.">
+                                <strong>Why Lithium?</strong> Longer life (10+ years), lighter weight, faster charging,
+                                and
+                                90% usable energy vs. 50% for lead-acid. Perfect for high-power appliances like ACs,
+                                washing
+                                machines, and water heaters.
+                            </div>
+
+                            <div class="sub-label" data-en="🔌 Lead Acid Tall Tubular — Budget Option"
+                                data-te="🔌 లెడ్ యాసిడ్ టాల్ ట్యూబ్యులర్ — బడ్జెట్ ఎంపిక">🔌 Lead Acid Tall Tubular —
+                                Budget
+                                Option</div>
+                            <div class="stat-grid">
+                                <div class="stat-box">
+                                    <div class="stat-value">Amaron</div>
+                                    <div class="stat-label" data-en="Brand" data-te="బ్రాండ్">Brand</div>
+                                </div>
+                                <div class="stat-box">
+                                    <div class="stat-value">200 Ah</div>
+                                    <div class="stat-label" data-en="Capacity" data-te="సామర్థ్యం">Capacity</div>
+                                </div>
+                                <div class="stat-box">
+                                    <div class="stat-value">12V</div>
+                                    <div class="stat-label" data-en="Voltage" data-te="వోల్టేజ్">Voltage</div>
+                                </div>
+                                <div class="stat-box">
+                                    <div class="stat-value">50% DoD</div>
+                                    <div class="stat-label" data-en="Usable Energy" data-te="ఉపయోగించగల శక్తి">Usable
+                                        Energy
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hybrid Components -->
+                <div class="card orange-accent">
+                    <div class="acc-header" onclick="toggleCard(this)">
+                        <span class="acc-title" data-en="System Components" data-te="సిస్టమ్ భాగాలు">System
+                            Components</span>
+                        <svg class="acc-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <polyline points="6 9 12 15 18 9" />
+                        </svg>
+                    </div>
+                    <div class="acc-body">
+                        <div class="acc-inner">
+                            <div class="comp-grid">
+                                <div class="comp-item orange-border">
+                                    <strong data-en="Solar Panels (e.g., 6 Nos. for 3 kW)"
+                                        data-te="సోలార్ ప్యానెల్స్ (ఉదా., 3 kW కి 6 నంబర్లు)">Solar Panels (e.g., 6 Nos.
+                                        for
+                                        3 kW)</strong>
+                                    <div class="comp-detail"
+                                        data-en="Converts sunlight into electricity — each panel ~3.8 ft × 7.8 ft"
+                                        data-te="సూర్యరశ్మిని విద్యుత్‌గా మారుస్తుంది — ప్రతి ప్యానెల్ ~3.8 అ. × 7.8 అ.">
+                                        Converts sunlight into electricity — each panel ~3.8 ft × 7.8 ft</div>
+                                </div>
+                                <div class="comp-item orange-border">
+                                    <strong data-en="Hybrid Inverter (e.g., 3 kW)"
+                                        data-te="హైబ్రిడ్ ఇన్వర్టర్ (ఉదా., 3 kW)">Hybrid Inverter (e.g., 3 kW)</strong>
+                                    <div class="comp-detail"
+                                        data-en="Manages solar, grid, and battery power intelligently — auto-switches between sources"
+                                        data-te="సోలార్, గ్రిడ్ మరియు బ్యాటరీ విద్యుత్‌ను తెలివిగా నిర్వహిస్తుంది — మూలాల మధ్య ఆటో-స్విచ్ అవుతుంది">
+                                        Manages solar, grid, and battery power intelligently — auto-switches between
+                                        sources
+                                    </div>
+                                </div>
+                                <div class="comp-item orange-border">
+                                    <strong data-en="Battery Bank" data-te="బ్యాటరీ బ్యాంక్">Battery Bank</strong>
+                                    <div class="comp-detail"
+                                        data-en="Lithium-ion or Lead-acid batteries store excess solar energy for night/power-cut usage"
+                                        data-te="లిథియం-అయాన్ లేదా లెడ్-యాసిడ్ బ్యాటరీలు రాత్రి/విద్యుత్ కోత వాడకం కోసం అదనపు సోలార్ శక్తిని నిల్వ చేస్తాయి">
+                                        Lithium-ion or Lead-acid batteries store excess solar energy for night/power-cut
+                                        usage</div>
+                                </div>
+                                <div class="comp-item orange-border">
+                                    <strong data-en="Mounting Structure" data-te="మౌంటింగ్ స్ట్రక్చర్">Mounting
+                                        Structure</strong>
+                                    <div class="comp-detail"
+                                        data-en="Secures panels on roof — 5 ft height on South, 6–7 ft on North"
+                                        data-te="పైకప్పుపై ప్యానెల్‌లను బిగిస్తుంది — దక్షిణం 5 అ., ఉత్తరం 6–7 అ.">
+                                        Secures
+                                        panels on roof — 5 ft height on South, 6–7 ft on North</div>
+                                </div>
+                                <div class="comp-item orange-border">
+                                    <strong data-en="Cables, ACDB, DCDB" data-te="కేబుల్స్, ACDB, DCDB">Cables, ACDB,
+                                        DCDB</strong>
+                                    <div class="comp-detail"
+                                        data-en="4 sq mm cables + safety disconnect boxes for full system protection"
+                                        data-te="పూర్తి సిస్టమ్ రక్షణ కోసం 4 sq mm కేబుల్స్ + సేఫ్టీ డిస్‌కనెక్ట్ బాక్సులు">
+                                        4 sq mm cables + safety disconnect boxes for full system protection</div>
+                                </div>
+                                <div class="comp-item orange-border">
+                                    <strong data-en="Earthing Kit & Lightning Arrestor"
+                                        data-te="ఎర్తింగ్ కిట్ & లైట్నింగ్ అరెస్టర్">Earthing Kit & Lightning
+                                        Arrestor</strong>
+                                    <div class="comp-detail"
+                                        data-en="Essential protection against lightning and ground faults"
+                                        data-te="పిడుగులు మరియు గ్రౌండ్ ఫాల్ట్‌ల నుండి అవసరమైన రక్షణ">Essential
+                                        protection
+                                        against lightning and ground faults</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hybrid Brands -->
+                <div class="card orange-accent">
+                    <div class="acc-header" onclick="toggleCard(this)">
+                        <span class="acc-title" data-en="Hybrid Brands" data-te="హైబ్రిడ్ బ్రాండ్లు">Hybrid
+                            Brands</span>
+                        <svg class="acc-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <polyline points="6 9 12 15 18 9" />
+                        </svg>
+                    </div>
+                    <div class="acc-body">
+                        <div class="acc-inner">
+                            <div class="sub-label" data-en="DCR Solar Panels" data-te="DCR సోలార్ ప్యానెల్స్">DCR Solar
+                                Panels</div>
+                            <div class="tag-group">
+                                <span class="tag preferred orange">Adani Solar ★</span>
+                                <span class="tag">ReNew Photovoltaics</span>
+                                <span class="tag">Emmvee Solar</span>
+                                <span class="tag">Vikram Solar</span>
+                            </div>
+
+                            <div class="sub-label" data-en="NDCR Solar Panels" data-te="NDCR సోలార్ ప్యానెల్స్">NDCR
+                                Solar
+                                Panels</div>
+                            <div class="tag-group">
+                                <span class="tag">Adani Solar</span>
+                                <span class="tag">ReNew Solar</span>
+                                <span class="tag">Emmvee Solar</span>
+                                <span class="tag">Waaree Solar</span>
+                                <span class="tag">Vikram Solar</span>
+                            </div>
+
+                            <div class="sub-label" data-en="Hybrid Inverter" data-te="హైబ్రిడ్ ఇన్వర్టర్">Hybrid
+                                Inverter
+                            </div>
+                            <div class="tag-group">
+                                <span class="tag preferred orange">Deye ★</span>
+                            </div>
+
+                            <div class="sub-label" data-en="Batteries" data-te="బ్యాటరీలు">Batteries</div>
+                            <div class="tag-group">
+                                <span class="tag preferred orange">Deye Lithium (SE-F5 Plus) ★</span>
+                                <span class="tag">Amaron Lead Acid</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- /hybrid -->
+        </div><!-- /two-col-layout -->
+
+        <hr class="divider">
+
+
+        <!-- ══════════════════════════════════════════════════════
+         SHARED SECTIONS
+         ══════════════════════════════════════════════════════ -->
+
+        <!-- Maintenance & Monitoring -->
+        <div id="maintenance" class="fade-in-up">
+            <div class="shared-title">
+                <span class="dot" style="background: var(--blue-500);"></span>
+                <span data-en="App Monitoring & Maintenance" data-te="యాప్ పర్యవేక్షణ & నిర్వహణ">App Monitoring &
+                    Maintenance</span>
+            </div>
+            <div class="highlight-box blue"
+                data-en="<strong>Smart Monitoring:</strong> Track your solar generation live from your smartphone using our dedicated Wi-Fi enabled app."
+                data-te="<strong>స్మార్ట్ పర్యవేక్షణ:</strong> మా Wi-Fi ఎనేబుల్డ్ యాప్‌తో మీ స్మార్ట్‌ఫోన్ నుండి లైవ్ సోలార్ జనరేషన్ పర్యవేక్షించండి.">
+                <strong>Smart Monitoring:</strong> Track your solar generation live from your smartphone using our
+                dedicated Wi-Fi enabled app.
+            </div>
+            <div class="highlight-box green"
+                data-en="<strong>Zero Hassle Cleaning:</strong> Panels only require periodic water washing (once every few weeks depending on dust). No specialized chemicals needed."
+                data-te="<strong>సులభమైన క్లీనింగ్:</strong> ప్యానెల్లకు కేవలం కాలానుగుణ వాటర్ వాషింగ్ అవసరం.">
+                <strong>Zero Hassle Cleaning:</strong> Panels only require periodic water washing (once every few weeks
+                depending on dust). No specialized chemicals needed.
+            </div>
+        </div>
+
+        <hr class="divider">
+
+        <!-- Subsidy -->
+        <div id="subsidy" class="fade-in-up">
+            <div class="shared-title">
+                <span class="dot" style="background: var(--green);"></span>
+                <span data-en="PM Surya Ghar Muft Bijli Yojana" data-te="PM సూర్య ఘర్ ముఫ్త్ బిజ్లీ యోజన">PM Surya Ghar
+                    Muft Bijli Yojana</span>
+            </div>
+
+            <p style="font-size:13px;color:var(--grey-700);margin-bottom:10px;line-height:1.6;"
+                data-en="Government subsidy for residential rooftop solar. Credited directly to your bank account after DISCOM approves the installation."
+                data-te="రెసిడెన్షియల్ రూఫ్‌టాప్ సోలార్ కోసం ప్రభుత్వ సబ్సిడీ. DISCOM ఇన్‌స్టాలేషన్‌ను ఆమోదించిన తర్వాత నేరుగా మీ బ్యాంక్ ఖాతాలో జమ చేయబడుతుంది.">
+                Government subsidy for residential rooftop solar. Credited directly to your bank account after DISCOM
+                approves the installation.</p>
+
+            <div class="subsidy-tiers">
+                <div class="tier">
+                    <div class="amount">₹30,000</div>
+                    <div class="label" data-en="1 kWp System" data-te="1 kWp సిస్టమ్">1 kWp System</div>
+                </div>
+                <div class="tier">
+                    <div class="amount">₹60,000</div>
+                    <div class="label" data-en="2 kWp System" data-te="2 kWp సిస్టమ్">2 kWp System</div>
+                </div>
+                <div class="tier">
+                    <div class="amount">₹78,000</div>
+                    <div class="label" data-en="3 kWp & above" data-te="3 kWp & అంతకంటే ఎక్కువ">3 kWp & above</div>
+                </div>
+            </div>
+
+            <div class="highlight-box green"
+                data-en="<strong>Eligibility:</strong> Indian citizen with a valid electricity connection (LT-1 meter type), suitable rooftop, and not a prior subsidy beneficiary."
+                data-te="<strong>అర్హత:</strong> చెల్లుబాటు అయ్యే విద్యుత్ కనెక్షన్ (LT-1 మీటర్ రకం), తగిన రూఫ్‌టాప్ మరియు గతంలో సబ్సిడీ లబ్ధిదారుడు కాని భారతీయ పౌరుడు.">
+                <strong>Eligibility:</strong> Indian citizen with a valid electricity connection (LT-1 meter type),
+                suitable rooftop, and not a prior subsidy beneficiary.
+            </div>
+        </div>
+
+        <hr class="divider">
+
+        <!-- Solar Loan -->
+        <div id="loan">
+            <div class="shared-title">
+                <span class="dot"></span>
+                <span data-en="Easy Solar Loan Option" data-te="సులభ సోలార్ లోన్ ఎంపిక">Easy Solar Loan Option</span>
+            </div>
+
+            <div class="loan-grid">
+                <div class="loan-stat">
+                    <div class="value">₹1,98,000</div>
+                    <div class="desc" data-en="Loan Amount" data-te="లోన్ మొత్తం">Loan Amount</div>
+                </div>
+                <div class="loan-stat">
+                    <div class="value">6% <small>p.a.</small></div>
+                    <div class="desc" data-en="Interest Rate" data-te="వడ్డీ రేటు">Interest Rate</div>
+                </div>
+                <div class="loan-stat">
+                    <div class="value">10 <small data-en="years" data-te="సంవ.">years</small></div>
+                    <div class="desc" data-en="Tenure" data-te="కాలపరిమితి">Tenure</div>
+                </div>
+                <div class="loan-stat">
+                    <div class="value">₹2,198</div>
+                    <div class="desc" data-en="Monthly EMI" data-te="నెలవారీ EMI">Monthly EMI</div>
+                </div>
+            </div>
+
+            <div class="highlight-box green"
+                data-en="Your EMI will be <strong>less than your current electricity bill</strong>, meaning you save from Day 1 while generating your own power! Loans for higher amounts are also available."
+                data-te="మీ EMI మీ ప్రస్తుత <strong>విద్యుత్ బిల్లు కంటే తక్కువగా</strong> ఉంటుంది, అంటే మీరు మొదటి రోజు నుండే ఆదా చేస్తారు! ఎక్కువ మొత్తాల కోసం లోన్లు కూడా అందుబాటులో ఉన్నాయి.">
+                Your EMI will be <strong>less than your current electricity bill</strong>, meaning you save from Day 1
+                while generating your own power! Loans for higher amounts are also available.</div>
+
+            <div class="sub-label" data-en="Partner Banks (PSU only)" data-te="భాగస్వామ్య బ్యాంకులు (PSU మాత్రమే)">
+                Partner Banks (PSU only)</div>
+            <div class="bank-tags">
+                <span class="bank-tag">SBI</span>
+                <span class="bank-tag">Bank of Baroda</span>
+                <span class="bank-tag">Canara Bank</span>
+                <span class="bank-tag">Union Bank of India</span>
+                <span class="bank-tag">Bank of India</span>
+            </div>
+        </div>
+
+        <hr class="divider">
+
+        <!-- Timeline -->
+        <div id="timeline">
+            <div class="shared-title">
+                <span class="dot" style="background: var(--orange);"></span>
+                <span data-en="Project Timeline" data-te="ప్రాజెక్ట్ టైమ్‌లైన్">Project Timeline</span>
+            </div>
+
+            <div class="timeline">
+                <div class="tl-item">
+                    <div class="tl-week" data-en="Week 1 — Material Procurement & Delivery"
+                        data-te="వారం 1 — మెటీరియల్ సేకరణ & డెలివరీ">Week 1 — Material Procurement & Delivery</div>
+                    <div class="tl-desc"
+                        data-en="All components — panels, inverter, mounting structure, and batteries (if hybrid) — procured and delivered to site."
+                        data-te="అన్ని భాగాలు — ప్యానెల్స్, ఇన్వర్టర్, మౌంటింగ్ స్ట్రక్చర్, మరియు బ్యాటరీలు (హైబ్రిడ్ అయితే) — సేకరించబడి సైట్‌కు డెలివరీ చేయబడతాయి.">
+                        All components — panels, inverter, mounting structure, and batteries (if hybrid) — procured and
+                        delivered to site.</div>
+                </div>
+                <div class="tl-item">
+                    <div class="tl-week" data-en="Weeks 2–3 — Full System Installation"
+                        data-te="వారాలు 2–3 — పూర్తి సిస్టమ్ ఇన్‌స్టాలేషన్">Weeks 2–3 — Full System Installation</div>
+                    <div class="tl-desc"
+                        data-en="Certified team completes panel mounting, wiring, inverter setup, and battery integration (for hybrid systems)."
+                        data-te="సర్టిఫైడ్ టీమ్ ప్యానెల్ మౌంటింగ్, వైరింగ్, ఇన్వర్టర్ సెటప్ మరియు బ్యాటరీ ఇంటిగ్రేషన్ (హైబ్రిడ్ సిస్టమ్‌ల కోసం) పూర్తి చేస్తుంది.">
+                        Certified team completes panel mounting, wiring, inverter setup, and battery integration (for
+                        hybrid systems).</div>
+                </div>
+                <div class="tl-item">
+                    <div class="tl-week" data-en="Week 4 — Net-Meter & Subsidy Application"
+                        data-te="వారం 4 — నెట్-మీటర్ & సబ్సిడీ దరఖాస్తు">Week 4 — Net-Meter & Subsidy Application</div>
+                    <div class="tl-desc"
+                        data-en="We coordinate with DISCOM for Net-Meter installation and initiate the government subsidy redemption process."
+                        data-te="నెట్-మీటర్ ఇన్‌స్టాలేషన్ కోసం మేము DISCOM తో సమన్వయం చేసి, ప్రభుత్వ సబ్సిడీ రిడంప్షన్ ప్రక్రియను ప్రారంభిస్తాము.">
+                        We coordinate with DISCOM for Net-Meter installation and initiate the government subsidy
+                        redemption process.</div>
+                </div>
+            </div>
+        </div>
+
+        <hr class="divider">
+
+        <!-- Contact CTA -->
+        <div style="text-align: center; margin-top: 32px; padding-bottom: 24px;" class="fade-in-up">
+            <div class="shared-title" style="justify-content: center; margin-bottom: 16px;">
+                <span class="dot" style="background: var(--blue-600);"></span>
+                <span data-en="Ready to Switch to Solar?" data-te="సోలార్ కు మారడానికి సిద్ధంగా ఉన్నారా?">Ready to
+                    Switch to Solar?</span>
+            </div>
+            <a href="https://ray2voltsolar.com/contact.html" style="text-decoration: none;" class="cta-btn">
+                <span class="material-symbols-rounded">support_agent</span>
+                <span data-en="Contact Us" data-te="మమ్మల్ని సంప్రదించండి">Contact Us</span>
+            </a>
+        </div>
+
+    </main>
+
+    <!-- CTA Footer -->
+    <div class="cta-container fade-in-up">
+        <a href="https://solarsavingscalculator.ray2voltsolar.com/" target="_blank" style="text-decoration: none;"
+            class="cta-btn">
+            <span class="material-symbols-rounded">calculate</span>
+            <span data-en="Calculate Your Savings" data-te="మీ పొదుపును లెక్కించండి">Calculate Your Savings</span>
+        </a>
+    </div>
+
+    <!-- ═══════════ FOOTER ═══════════ -->
+    <footer class="footer">
+        <span data-en="© 2026 <strong>Ray2Volt Solar Private Limited</strong>"
+            data-te="© 2026 <strong>Ray2Volt Solar Private Limited</strong>">© 2026
+            <strong>Ray2Volt Solar Private Limited</strong></span>
+    </footer>
+
+    <!-- ═══════════ JS ═══════════ -->
+    <script>
+        /* ── Accordion ───────────────────────────────── */
+        function toggleCard(header) {
+            header.parentElement.classList.toggle('open');
+        }
+
+        /* ── Language Toggle ─────────────────────────── */
+        function setLang(lang) {
+            const isTE = lang === 'te';
+            document.body.classList.toggle('telugu', isTE);
+            document.getElementById('btn-en').classList.toggle('active', !isTE);
+            document.getElementById('btn-te').classList.toggle('active', isTE);
+
+            document.querySelectorAll('[data-en]').forEach(el => {
+                const text = isTE ? el.getAttribute('data-te') : el.getAttribute('data-en');
+                if (text) el.innerHTML = text;
+            });
+        }
+
+        /* ── Smooth scroll for nav ───────────────────── */
+        document.querySelectorAll('.system-nav a').forEach(link => {
+            link.addEventListener('click', e => {
+                e.preventDefault();
+                const target = document.querySelector(link.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        /* ── Animate Staggering ──────────────────────── */
+        document.querySelectorAll('.fade-in-up').forEach((el, i) => {
+            el.style.animationDelay = `${(i % 15) * 0.1}s`;
+        });
+    </script>
+
+</body>
+
+</html>
