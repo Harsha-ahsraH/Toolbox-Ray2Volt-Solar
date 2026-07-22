@@ -25,6 +25,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const printWarrantyBtn = document.getElementById('printWarrantyBtn');
     const warrantyPreview = document.getElementById('warrantyPreview');
 
+    window.addEventListener('resize', updatePreviewScale);
+    window.addEventListener('orientationchange', updatePreviewScale);
+
     // --- HELPER: Format Date ---
     function formatDate(dateStr) {
         if (!dateStr) {
@@ -157,6 +160,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Show preview
             if (warrantyPreview) {
                 warrantyPreview.classList.add('visible');
+                updatePreviewScale();
                 warrantyPreview.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         });
@@ -165,6 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- PRINT / SAVE AS PDF ---
     if (printWarrantyBtn) {
         printWarrantyBtn.addEventListener('click', () => {
+            updatePreviewScale();
             window.print();
         });
     }
@@ -181,8 +186,29 @@ document.addEventListener('DOMContentLoaded', () => {
             window.Ray2VoltPdfDownload?.downloadPages({
                 pages: warrantyPreview?.querySelectorAll('.warranty-page'),
                 button: downloadWarrantyBtn,
-                filename: `Ray2Volt-Warranty-Card-${projectId || 'Draft'}`
+                filename: `Ray2Volt-Warranty-Card-${projectId || 'Draft'}`,
+                beforeCapture: () => warrantyPreview?.style.setProperty('--warranty-preview-scale', '1'),
+                afterCapture: () => updatePreviewScale()
             });
         });
+    }
+
+    function updatePreviewScale() {
+        if (!warrantyPreview) return;
+
+        const a4WidthPx = 210 / 25.4 * 96;
+        const smallScreen = window.matchMedia('(max-width: 768px)').matches;
+
+        if (!smallScreen) {
+            warrantyPreview.style.setProperty('--warranty-preview-scale', '1');
+            return;
+        }
+
+        const parentWidth = warrantyPreview.parentElement
+            ? warrantyPreview.parentElement.clientWidth
+            : window.innerWidth;
+        const availableWidth = Math.max(280, Math.min(parentWidth, window.innerWidth) - 16);
+        const scale = Math.min(1, Math.max(0.35, availableWidth / a4WidthPx));
+        warrantyPreview.style.setProperty('--warranty-preview-scale', scale.toFixed(4));
     }
 });
