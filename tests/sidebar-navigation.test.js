@@ -7,10 +7,21 @@ const navigationCss = fs.readFileSync(
     path.join(repoRoot, 'global', 'styles', 'navigation.css'),
     'utf8'
 );
+const responsiveCss = fs.readFileSync(
+    path.join(repoRoot, 'global', 'styles', 'responsive.css'),
+    'utf8'
+);
 const navigationJs = fs.readFileSync(
     path.join(repoRoot, 'global', 'scripts', 'navigation.js'),
     'utf8'
 );
+const mobileRulesStart = responsiveCss.indexOf('@media screen and (max-width: 768px)');
+const mobileRulesEnd = responsiveCss.indexOf('@media screen and (max-width: 480px)');
+
+assert.notEqual(mobileRulesStart, -1, 'the shared mobile breakpoint should exist');
+assert.ok(mobileRulesEnd > mobileRulesStart, 'the mobile breakpoint should precede the narrow breakpoint');
+
+const mobileNavigationCss = responsiveCss.slice(mobileRulesStart, mobileRulesEnd);
 
 assert.match(
     navigationCss,
@@ -28,6 +39,24 @@ assert.match(
     navigationCss,
     /\.main-nav\s*{[^}]*flex:\s*1;[^}]*overflow-y:\s*auto;[^}]*min-height:\s*0;[^}]*scrollbar-gutter:\s*stable;/,
     'the tool list should own a stable vertical scrollbar when its links overflow'
+);
+
+assert.match(
+    mobileNavigationCss,
+    /\.sidebar\s*{[^}]*height:\s*100dvh;[^}]*max-height:\s*100dvh;/,
+    'the mobile sidebar should be constrained to the dynamic viewport height'
+);
+
+assert.match(
+    mobileNavigationCss,
+    /\.main-nav\s*{[^}]*-webkit-overflow-scrolling:\s*touch;[^}]*touch-action:\s*pan-y pinch-zoom;[^}]*scrollbar-color:\s*var\(--primary-dark\)\s+var\(--mobile-scrollbar-track\);/,
+    'the mobile tool list should support touch scrolling and expose a high-contrast scrollbar'
+);
+
+assert.match(
+    mobileNavigationCss,
+    /\.main-nav::\-webkit-scrollbar-track\s*{[^}]*background:\s*var\(--mobile-scrollbar-track\);/,
+    'the mobile WebKit scrollbar should have a visible track'
 );
 
 assert.match(
