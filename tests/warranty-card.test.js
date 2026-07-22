@@ -4,6 +4,7 @@ const path = require('node:path');
 
 const repoRoot = path.resolve(__dirname, '..');
 const toolRoot = path.join(repoRoot, 'tools', 'warranty-card');
+const baseCss = fs.readFileSync(path.join(repoRoot, 'global', 'styles', 'base.css'), 'utf8');
 const html = fs.readFileSync(path.join(toolRoot, 'warranty-card.html'), 'utf8');
 const css = fs.readFileSync(path.join(toolRoot, 'warranty-card.css'), 'utf8');
 const js = fs.readFileSync(path.join(toolRoot, 'warranty-card.js'), 'utf8');
@@ -68,12 +69,14 @@ assert.match(js, /--warranty-preview-scale/);
 assert.match(js, /window\.addEventListener\('resize', updatePreviewScale\)/);
 assert.match(js, /window\.addEventListener\('orientationchange', updatePreviewScale\)/);
 
-// Warranty overview uses the quotation's SVG icon language, never emoji glyphs.
-assert.equal((html.match(/<svg[^>]*class="overview-icon"/g) || []).length, 4);
-assert.equal((html.match(/<svg[^>]*class="terms-header-icon"/g) || []).length, 3);
-assert.equal((html.match(/<svg[^>]*class="contact-header-icon"/g) || []).length, 1);
+// Warranty uses the toolbox's Material 3 icon language, never custom SVGs or emojis.
+assert.doesNotMatch(html, /<svg\b/i);
+assert.equal((html.match(/class="material-symbols-rounded/g) || []).length, 12);
+for (const icon of ['menu', 'close', 'info', 'solar_power', 'electric_bolt', 'construction', 'support_agent', 'description', 'contact_support']) {
+    assert.match(html, new RegExp(`>${icon}<`));
+}
 assert.doesNotMatch(html, /\p{Extended_Pictographic}/u);
-assert.match(cssRule('.warranty-overview-item .overview-icon'), /width:\s*20px/);
-assert.match(cssRule('.warranty-overview-item .overview-icon'), /stroke:\s*currentColor/);
+assert.match(cssRule('.material-symbols-rounded', baseCss), /font-family:\s*'Material Symbols Rounded'/);
+assert.match(cssRule('.material-symbols-rounded', baseCss), /font-variation-settings:/);
 
 console.log('warranty-card tests passed');

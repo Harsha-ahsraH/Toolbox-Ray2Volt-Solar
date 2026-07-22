@@ -7,6 +7,11 @@
 /* Google Sans Flex for UI elements */
 @import url('https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400;500;600;700&display=swap');
 
+.mobile-nav-toggle > .material-symbols-rounded,
+.sidebar-close-btn > .material-symbols-rounded {
+    font-size: 24px;
+}
+
 /* ============================================
    FORM SECTION - BRUTALIST STYLING
    ============================================ */
@@ -63,6 +68,7 @@
 .warranty-section-title .icon {
     width: 20px;
     height: 20px;
+    font-size: 20px;
     color: var(--primary);
 }
 
@@ -356,16 +362,11 @@ textarea.warranty-input-field {
 }
 
 .warranty-overview-item .overview-icon {
-    display: block;
     width: 20px;
     height: 20px;
+    font-size: 20px;
     flex-shrink: 0;
     color: var(--warranty-navy);
-    fill: none;
-    stroke: currentColor;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    stroke-width: 2;
 }
 
 .warranty-overview-item .overview-details strong {
@@ -483,12 +484,8 @@ textarea.warranty-input-field {
 .contact-header-icon {
     width: 16px;
     height: 16px;
+    font-size: 16px;
     flex: 0 0 16px;
-    fill: none;
-    stroke: currentColor;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    stroke-width: 2;
 }
 
 .warranty-terms-box .terms-content {
