@@ -356,9 +356,16 @@ textarea.warranty-input-field {
 }
 
 .warranty-overview-item .overview-icon {
-    font-size: 20px;
+    display: block;
+    width: 20px;
+    height: 20px;
     flex-shrink: 0;
     color: var(--warranty-navy);
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 2;
 }
 
 .warranty-overview-item .overview-details strong {
@@ -456,6 +463,13 @@ textarea.warranty-input-field {
     margin-bottom: 15px;
 }
 
+.warranty-terms-box .terms-header,
+.warranty-contact-section .contact-header {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
 .warranty-terms-box .terms-header {
     background-color: var(--warranty-tint);
     padding: 10px 15px;
@@ -463,6 +477,18 @@ textarea.warranty-input-field {
     font-weight: 600;
     color: var(--warranty-navy);
     border-bottom: 1px solid var(--warranty-line);
+}
+
+.terms-header-icon,
+.contact-header-icon {
+    width: 16px;
+    height: 16px;
+    flex: 0 0 16px;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 2;
 }
 
 .warranty-terms-box .terms-content {

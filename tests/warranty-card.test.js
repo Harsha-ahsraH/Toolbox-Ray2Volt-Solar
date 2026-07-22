@@ -68,4 +68,12 @@ assert.match(js, /--warranty-preview-scale/);
 assert.match(js, /window\.addEventListener\('resize', updatePreviewScale\)/);
 assert.match(js, /window\.addEventListener\('orientationchange', updatePreviewScale\)/);
 
+// Warranty overview uses the quotation's SVG icon language, never emoji glyphs.
+assert.equal((html.match(/<svg[^>]*class="overview-icon"/g) || []).length, 4);
+assert.equal((html.match(/<svg[^>]*class="terms-header-icon"/g) || []).length, 3);
+assert.equal((html.match(/<svg[^>]*class="contact-header-icon"/g) || []).length, 1);
+assert.doesNotMatch(html, /\p{Extended_Pictographic}/u);
+assert.match(cssRule('.warranty-overview-item .overview-icon'), /width:\s*20px/);
+assert.match(cssRule('.warranty-overview-item .overview-icon'), /stroke:\s*currentColor/);
+
 console.log('warranty-card tests passed');
