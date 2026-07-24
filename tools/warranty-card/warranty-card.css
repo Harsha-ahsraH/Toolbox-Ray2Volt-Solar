@@ -17,11 +17,6 @@
    ============================================ */
 
 /* --- Page Header --- */
-.no-print-area {
-    max-width: 1100px;
-    margin: 0 auto;
-}
-
 .warranty-page-header-ui {
     margin-bottom: 1.5rem;
 }

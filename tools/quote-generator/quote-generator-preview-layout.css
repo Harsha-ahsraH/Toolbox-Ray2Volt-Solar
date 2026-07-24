@@ -25,6 +25,16 @@
 #quotePreview.visible {
     display: block;
 }
+/* The proposal keeps Google Sans Flex throughout; base.css points headings at
+   Google Sans, which the toolbox UI uses. Pin them back for the document. */
+#quotePreview h1,
+#quotePreview h2,
+#quotePreview h3,
+#quotePreview h4,
+#quotePreview h5,
+#quotePreview h6 {
+    font-family: 'Google Sans Flex', Arial, sans-serif;
+}
 /* --- Page Layout: the preview and PDF share one A4 canvas --- */
 .quote-page {
     width: 210mm;

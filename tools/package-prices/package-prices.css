@@ -1,10 +1,12 @@
 .pkg-page-header {
-    margin-bottom: 1.75rem;
+    margin-bottom: 1.5rem;
 }
 
 .pkg-page-header h1 {
-    margin-bottom: 0.3rem;
-    font-size: clamp(1.65rem, 3vw, 2.25rem);
+    margin-bottom: 0.25rem;
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--text-primary);
 }
 
 .pkg-page-header p {
@@ -13,7 +15,6 @@
 }
 
 .pkg-system-group {
-    max-width: 1120px;
     margin-bottom: 2rem;
 }
 
@@ -201,7 +202,6 @@
 }
 
 .pkg-section-block {
-    max-width: 1120px;
     margin: 2.25rem 0;
 }
 

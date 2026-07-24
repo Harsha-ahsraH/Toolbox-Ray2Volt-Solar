@@ -5,6 +5,7 @@ const path = require('node:path');
 const repoRoot = path.resolve(__dirname, '..');
 const toolRoot = path.join(repoRoot, 'tools', 'warranty-card');
 const baseCss = fs.readFileSync(path.join(repoRoot, 'global', 'styles', 'base.css'), 'utf8');
+const componentsCss = fs.readFileSync(path.join(repoRoot, 'global', 'styles', 'components.css'), 'utf8');
 const html = fs.readFileSync(path.join(toolRoot, 'warranty-card.html'), 'utf8');
 const css = fs.readFileSync(path.join(toolRoot, 'warranty-card.css'), 'utf8');
 const js = fs.readFileSync(path.join(toolRoot, 'warranty-card.js'), 'utf8');
@@ -36,7 +37,8 @@ assert.ok(
     html.indexOf('tool-responsive.css') < html.indexOf('warranty-card.css'),
     'Warranty Card CSS must load after shared responsive CSS so its A4 preview rules win.'
 );
-assert.match(cssRule('.no-print-area'), /max-width:\s*1100px/);
+// Width and centering now come from the shared tool shell, not this stylesheet.
+assert.match(cssRule('.main-content > .content-section', componentsCss), /max-width:\s*var\(--tool-width\)/);
 assert.match(cssRule('.warranty-form-grid'), /grid-template-columns:\s*1fr/);
 assert.match(cssRule('.warranty-actions'), /flex-direction:\s*column/);
 assert.match(cssRule('.warranty-btn-secondary'), /border:\s*1px solid var\(--primary\)/);

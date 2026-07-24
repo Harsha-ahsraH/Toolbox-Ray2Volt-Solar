@@ -14,6 +14,21 @@
     display: block;
 }
 
+/* Shared tool shell — every tool renders inside .main-content > .content-section.
+   One width, centred, so every tool lines up with the Quote Generator.
+   The child selector outranks the .content-section reset in tool-responsive.css. */
+.main-content > .content-section {
+    max-width: var(--tool-width);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media print {
+    .main-content > .content-section {
+        max-width: none;
+    }
+}
+
 /* --- Section Header --- */
 .section-header {
     margin-bottom: var(--spacing-xl);
