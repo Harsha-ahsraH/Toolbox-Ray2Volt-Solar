@@ -9,6 +9,7 @@ const toolNames = [
     'gst-calculator',
     'package-prices',
     'sales-sop',
+    'solar-savings',
     'receipt-generator',
     'invoice-generator',
     'proforma-invoice',

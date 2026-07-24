@@ -19,7 +19,8 @@
     .ps-page-header,
     .warranty-page-header-ui,
     .qg-page-header,
-    .rfq-page-header {
+    .rfq-page-header,
+    .ssc-page-header {
         max-width: 100%;
         margin-bottom: 1rem;
     }
@@ -31,7 +32,8 @@
     .ps-page-header h1,
     .warranty-page-header-ui h1,
     .qg-page-header h1,
-    .rfq-page-header h1 {
+    .rfq-page-header h1,
+    .ssc-page-header h1 {
         font-size: clamp(1.35rem, 6vw, 1.75rem);
         overflow-wrap: anywhere;
     }
@@ -43,7 +45,8 @@
     .ps-page-header p,
     .warranty-page-header-ui p,
     .qg-page-header p,
-    .rfq-page-header p {
+    .rfq-page-header p,
+    .ssc-page-header p {
         font-size: clamp(0.875rem, 3.6vw, 0.95rem);
     }
 
@@ -54,7 +57,8 @@
     .ps-form-grid,
     .warranty-form-grid,
     .qg-form-grid,
-    .rfq-form-grid {
+    .rfq-form-grid,
+    .ssc-form-grid {
         display: grid;
         grid-template-columns: minmax(0, 1fr) !important;
         gap: 1rem;
@@ -74,7 +78,8 @@
     .warranty-form-card,
     .qg-form-card,
     .qg-components-card,
-    .rfq-form-card {
+    .rfq-form-card,
+    .ssc-form-card {
         width: 100%;
         min-width: 0;
         max-width: 100%;
@@ -88,7 +93,8 @@
     .ps-section-title,
     .warranty-section-title,
     .qg-section-title,
-    .rfq-section-title {
+    .rfq-section-title,
+    .ssc-section-title {
         align-items: flex-start;
         overflow-wrap: anywhere;
     }
@@ -100,7 +106,8 @@
     .ps-input-field,
     .warranty-input-field,
     .qg-input-field,
-    .rfq-input-field {
+    .rfq-input-field,
+    .ssc-input-field {
         max-width: 100%;
         min-width: 0;
         font-size: 16px;
@@ -158,7 +165,8 @@
     .ps-actions,
     .warranty-actions,
     .qg-actions,
-    .rfq-actions {
+    .rfq-actions,
+    .ssc-actions {
         display: flex;
         flex-direction: column;
         gap: 0.75rem;
@@ -186,7 +194,9 @@
     .qg-btn-primary,
     .qg-btn-secondary,
     .rfq-btn-primary,
-    .rfq-btn-secondary {
+    .rfq-btn-secondary,
+    .ssc-btn-primary,
+    .ssc-btn-secondary {
         width: 100%;
         min-height: 44px;
         justify-content: center;
@@ -400,7 +410,8 @@
     .ps-actions,
     .warranty-actions,
     .qg-actions,
-    .rfq-actions {
+    .rfq-actions,
+    .ssc-actions {
         flex-direction: row;
         justify-content: center;
         align-items: center;
@@ -421,7 +432,9 @@
     .qg-btn-primary,
     .qg-btn-secondary,
     .rfq-btn-primary,
-    .rfq-btn-secondary {
+    .rfq-btn-secondary,
+    .ssc-btn-primary,
+    .ssc-btn-secondary {
         width: auto;
     }
 }
@@ -434,7 +447,8 @@
     .ps-form-grid,
     .warranty-form-grid,
     .qg-form-grid,
-    .rfq-form-grid {
+    .rfq-form-grid,
+    .ssc-form-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
         gap: 1.5rem;
     }
@@ -452,7 +466,8 @@
     .warranty-form-card,
     .qg-form-card,
     .qg-components-card,
-    .rfq-form-card {
+    .rfq-form-card,
+    .ssc-form-card {
         padding: 1.5rem;
     }
 
@@ -463,7 +478,8 @@
     .ps-input-field,
     .warranty-input-field,
     .qg-input-field,
-    .rfq-input-field {
+    .rfq-input-field,
+    .ssc-input-field {
         font-size: 0.95rem;
     }
 

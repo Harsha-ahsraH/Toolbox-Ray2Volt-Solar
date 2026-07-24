@@ -12,6 +12,7 @@ const toolPages = [
   'emi-calculator',
   'gst-calculator',
   'package-prices',
+  'solar-savings',
   'receipt-generator',
   'invoice-generator',
   'proforma-invoice',

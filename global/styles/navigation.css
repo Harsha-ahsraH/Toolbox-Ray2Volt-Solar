@@ -360,6 +360,11 @@
     content: "sell";
 }
 
+.main-nav .nav-link[href$="solar-savings.html"]::before,
+.tool-card[href$="solar-savings.html"] h3::before {
+    content: "savings";
+}
+
 .main-nav .nav-link[href$="receipt-generator.html"]::before,
 .tool-card[href$="receipt-generator.html"] h3::before {
     content: "receipt_long";

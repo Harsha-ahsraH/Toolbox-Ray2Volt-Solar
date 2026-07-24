@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solar Savings - Ray2Volt Toolbox</title>
+    <link rel="icon" type="image/png" href="../../global/assets/favicon.png">
+    <meta name="description"
+        content="Calculate CAPEX and RESCO solar investment savings, loan payback, and breakeven analysis for Ray2Volt customers.">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=Google+Sans+Flex:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="../../global/styles/base.css">
+    <link rel="stylesheet" href="../../global/styles/navigation.css">
+    <link rel="stylesheet" href="../../global/styles/components.css">
+    <link rel="stylesheet" href="../../global/styles/responsive.css">
+    <link rel="stylesheet" href="solar-savings.css">
+    <link rel="stylesheet" href="solar-savings-report.css">
+    <link rel="stylesheet" href="../../global/styles/tool-responsive.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Mobile Header -->
+        <header class="mobile-header">
+            <img src="../../global/assets/logo.png" alt="Company Logo" class="mobile-logo">
+            <button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Open navigation menu">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
+                </svg>
+            </button>
+        </header>
+
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-mobile-header">
+                <img src="../../global/assets/logo.png" alt="Company Logo" class="sidebar-mobile-logo">
+                <button class="sidebar-close-btn" id="sidebarCloseBtn" aria-label="Close menu">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                </button>
+            </div>
+            <div>
+                <div class="logo-header">
+                    <img src="../../global/assets/logo.png" alt="Company Logo" class="logo">
+                    <h2>Toolbox</h2>
+                </div>
+                <nav class="main-nav">
+                    <ul>
+                        <li><a href="../../index.html" class="nav-link">Dashboard</a></li>
+                        <li><a href="../emi-calculator/emi-calculator.html" class="nav-link">EMI Calculator</a></li>
+                        <li><a href="../gst-calculator/gst-calculator.html" class="nav-link">GST Calculator</a></li>
+                        <li><a href="../package-prices/package-prices.html" class="nav-link">Package Prices</a></li>
+                        <li><a href="../sales-sop/sales-sop.html" class="nav-link">Sales SOP</a></li>
+                        <li><a href="../solar-savings/solar-savings.html" class="nav-link active">Solar Savings</a></li>
+                        <li><a href="../receipt-generator/receipt-generator.html" class="nav-link">Payment Receipt</a></li>
+                        <li><a href="../invoice-generator/invoice-generator.html" class="nav-link">Invoice Generator</a></li>
+                        <li><a href="../proforma-invoice/proforma-invoice.html" class="nav-link">Proforma Invoice</a></li>
+                        <li><a href="../purchase-order/purchase-order.html" class="nav-link">Purchase Order</a></li>
+                        <li><a href="../payslip-generator/payslip-generator.html" class="nav-link">PaySlip Generator</a></li>
+                        <li><a href="../warranty-card/warranty-card.html" class="nav-link">Warranty Card</a></li>
+                        <li><a href="../quote-generator/quote-generator.html" class="nav-link">Quote Generator</a></li>
+                        <li><a href="../request-for-quotation/request-for-quotation.html" class="nav-link">Request For Quotation</a></li>
+                        <li><a href="../letterheadify/letterheadify.html" class="nav-link">Letterheadify</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <section id="solar-savings-section" class="content-section active">
+                <div class="ssc-app-body" id="sscAppBody">
+
+                    <!-- Page Header -->
+                    <div class="ssc-page-header">
+                        <h1>Solar Savings Calculator</h1>
+                        <p>Model CAPEX ownership or RESCO subscription savings for a customer's solar project.</p>
+                    </div>
+
+                    <!-- Calculator Mode Switcher -->
+                    <div class="ssc-mode-switcher">
+                        <button class="ssc-mode-btn active" id="capexModeBtn" onclick="switchCalculatorMode('capex')">CAPEX</button>
+                        <button class="ssc-mode-btn" id="rescoModeBtn" onclick="switchCalculatorMode('resco')">RESCO</button>
+                    </div>
+
+                    <!-- ========== CAPEX FORM ========== -->
+                    <form id="solarForm" class="ssc-input-form" onsubmit="return false;">
+                        <div class="ssc-form-grid">
+                            <!-- Project & Finance -->
+                            <div class="ssc-form-card">
+                                <h3 class="ssc-section-title">
+                                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2">
+                                        <line x1="12" y1="1" x2="12" y2="23"></line>
+                                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                                    </svg>
+                                    Project & Finance
+                                </h3>
+                                <div class="ssc-input-group">
+                                    <label for="kwInstalled">Solar System Capacity</label>
+                                    <select id="kwInstalled" class="ssc-input-field" onchange="calculateSavings()">
+                                        <option value="" disabled selected>Select kW Capacity</option>
+                                        <option value="2">2 kW</option>
+                                        <option value="3">3 kW</option>
+                                        <option value="4">4 kW</option>
+                                        <option value="5">5 kW</option>
+                                        <option value="6">6 kW</option>
+                                        <option value="7">7 kW</option>
+                                        <option value="8">8 kW</option>
+                                        <option value="9">9 kW</option>
+                                        <option value="10">10 kW</option>
+                                        <option value="manual">Manual Entry</option>
+                                    </select>
+                                </div>
+                                <div class="ssc-input-group" id="manualKwInputGroup">
+                                    <label for="manualKwInput">Manual System Capacity (kW)</label>
+                                    <input type="number" id="manualKwInput" class="ssc-input-field"
+                                        placeholder="Enter kW (e.g., 12)" step="0.1" oninput="calculateSavings()">
+                                </div>
+                                <div class="ssc-input-group">
+                                    <label for="totalCost">Total Project Cost (₹)</label>
+                                    <input type="number" id="totalCost" class="ssc-input-field" placeholder="Enter project cost">
+                                    <small class="ssc-input-hint">Auto-filled for 2-10 kW, editable. Enter manually for other capacities.</small>
+                                </div>
+                                <div class="ssc-input-group">
+                                    <label for="subsidyAmount">Subsidy Amount (₹)</label>
+                                    <input type="number" id="subsidyAmount" class="ssc-input-field" step="100" placeholder="e.g., 40000" value="0">
+                                </div>
+                                <div class="ssc-input-group">
+                                    <label for="downPayment">Down Payment (₹)</label>
+                                    <input type="number" id="downPayment" class="ssc-input-field" step="100" placeholder="e.g., 50000">
+                                </div>
+                                <div class="ssc-input-group">
+                                    <label for="loanTenure">Loan Tenure (Years)</label>
+                                    <input type="number" id="loanTenure" class="ssc-input-field" step="1" placeholder="e.g., 5">
+                                </div>
+                                <div class="ssc-input-group">
+                                    <label for="interestRate">Annual Interest Rate (%)</label>
+                                    <input type="number" id="interestRate" class="ssc-input-field" step="0.1" placeholder="e.g., 9.5">
+                                </div>
+                                <div class="ssc-input-group">
+                                    <label for="loanType">Loan Type</label>
+                                    <select id="loanType" class="ssc-input-field">
+                                        <option value="reducing" selected>Reducing Balance</option>
+                                        <option value="flat">Flat Rate</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Energy Consumption -->
+                            <div class="ssc-form-card">
+                                <h3 class="ssc-section-title">
+                                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2">
+                                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                                    </svg>
+                                    Energy Consumption
+                                </h3>
+                                <div class="ssc-input-group">
+                                    <label for="unitsPerKwDay">Daily Units / kW (kWh)</label>
+                                    <input type="number" id="unitsPerKwDay" class="ssc-input-field" step="0.1" placeholder="e.g., 4.5" value="4.5">
+                                </div>
+                                <div class="ssc-input-group">
+                                    <label for="avgUnitsConsumed">Monthly Consumption (kWh)</label>
+                                    <input type="number" id="avgUnitsConsumed" class="ssc-input-field" step="1" placeholder="e.g., 400">
+                                </div>
+                                <div class="ssc-input-group">
+                                    <label for="costPerUnit">Grid Cost / Unit (₹/kWh)</label>
+                                    <input type="number" id="costPerUnit" class="ssc-input-field" step="0.01" placeholder="e.g., 7.50">
+                                </div>
+                                <div class="ssc-input-group">
+                                    <label for="additionalCharges">Additional Charges (₹/month)</label>
+                                    <input type="number" id="additionalCharges" class="ssc-input-field" step="0.01" placeholder="e.g., 100" value="0">
+                                </div>
+                                <div class="ssc-input-group">
+                                    <label for="inflationRate">Electricity Inflation (%)</label>
+                                    <input type="number" id="inflationRate" class="ssc-input-field" step="0.1" placeholder="e.g., 4.0" value="4.0">
+                                </div>
+                                <div class="ssc-input-group">
+                                    <label for="netMeteringRate">Export Rate (₹/kWh)</label>
+                                    <input type="number" id="netMeteringRate" class="ssc-input-field" step="0.01" placeholder="e.g., 3.50">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="ssc-actions">
+                            <button type="button" onclick="calculateSavings()" class="ssc-btn-primary">Calculate Savings</button>
+                            <button type="button" id="resetBtn" class="ssc-btn-secondary">Reset</button>
+                        </div>
+                        <div id="errorMessage" class="ssc-error-message" style="display: none;"></div>
+                    </form>
+
+                    <!-- ========== RESCO FORM ========== -->
+                    <form id="rescoForm" class="ssc-input-form" onsubmit="return false;" style="display: none;">
+                        <div class="ssc-form-grid">
+                            <!-- Consumer Consumption & Billing -->
+                            <div class="ssc-form-card">
+                                <h3 class="ssc-section-title">
+                                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2">
+                                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                        <polyline points="14 2 14 8 20 8"></polyline>
+                                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                                    </svg>
+                                    Consumer Consumption & Billing
+                                </h3>
+                                <div class="ssc-input-group">
+                                    <label for="rescoMonthlyUnits">Monthly Consumption (kWh)</label>
+                                    <input type="number" id="rescoMonthlyUnits" class="ssc-input-field" step="1" placeholder="e.g., 500">
+                                </div>
+                                <div class="ssc-input-group">
+                                    <label for="rescoCurrentBill">Current Electricity Bill (₹/month)</label>
+                                    <input type="number" id="rescoCurrentBill" class="ssc-input-field" step="1" placeholder="e.g., 4000">
+                                </div>
+                                <div class="ssc-input-group">
+                                    <label for="rescoAdditionalCharges">Additional Charges (₹/month)</label>
+                                    <input type="number" id="rescoAdditionalCharges" class="ssc-input-field" step="1" placeholder="e.g., 100" value="0">
+                                </div>
+                                <div class="ssc-input-group">
+                                    <label for="rescoDiscomTariff">DISCOM Tariff (₹/kWh)</label>
+                                    <input type="number" id="rescoDiscomTariff" class="ssc-input-field" step="0.01" placeholder="e.g., 8.00">
+                                </div>
+                                <div class="ssc-input-group">
+                                    <label for="rescoTariffEscalation">DISCOM Tariff Escalation (%/yr)</label>
+                                    <input type="number" id="rescoTariffEscalation" class="ssc-input-field" step="0.1" placeholder="e.g., 5" value="5">
+                                </div>
+                            </div>
+
+                            <!-- RESCO Policy -->
+                            <div class="ssc-form-card">
+                                <h3 class="ssc-section-title">
+                                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2">
+                                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                                    </svg>
+                                    RESCO Policy
+                                </h3>
+                                <div class="ssc-input-group">
+                                    <label for="rescoSystemCapacity">System Capacity (kW)</label>
+                                    <input type="number" id="rescoSystemCapacity" class="ssc-input-field" step="0.1" placeholder="e.g., 10">
+                                </div>
+                                <div class="ssc-input-group">
+                                    <label for="rescoUnitsPerKwDay">Daily Generation / kW (kWh)</label>
+                                    <input type="number" id="rescoUnitsPerKwDay" class="ssc-input-field" step="0.1" placeholder="e.g., 4.2" value="4.2">
+                                </div>
+                                <div class="ssc-input-group">
+                                    <label for="rescoR2VTariff">Ray2Volt Tariff (₹/kWh)</label>
+                                    <input type="number" id="rescoR2VTariff" class="ssc-input-field" step="0.01" placeholder="e.g., 5.50">
+                                    <small class="ssc-input-hint">Rate charged by Ray2Volt to the consumer for solar power.</small>
+                                </div>
+                                <div class="ssc-input-group">
+                                    <label for="rescoR2VEscalation">R2V Tariff Escalation (%/yr)</label>
+                                    <input type="number" id="rescoR2VEscalation" class="ssc-input-field" step="0.1" placeholder="e.g., 3" value="3">
+                                </div>
+                                <div class="ssc-input-group">
+                                    <label for="rescoPPATenure">PPA Tenure (Years)</label>
+                                    <input type="number" id="rescoPPATenure" class="ssc-input-field" step="1" placeholder="e.g., 25" value="25">
+                                </div>
+                                <div class="ssc-input-group">
+                                    <label for="rescoSecurityMonths">Security Deposit (Months)</label>
+                                    <input type="number" id="rescoSecurityMonths" class="ssc-input-field" step="1" placeholder="e.g., 3" value="3">
+                                    <small class="ssc-input-hint">Months of projected RESCO bill as security deposit.</small>
+                                </div>
+                            </div>
+
+                            <!-- System Cost to Ray2Volt -->
+                            <div class="ssc-form-card">
+                                <h3 class="ssc-section-title">
+                                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2">
+                                        <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                                        <line x1="1" y1="10" x2="23" y2="10"></line>
+                                    </svg>
+                                    System Cost to Ray2Volt
+                                </h3>
+                                <div class="ssc-input-group">
+                                    <label for="rescoSystemCost">Total System Cost (₹)</label>
+                                    <input type="number" id="rescoSystemCost" class="ssc-input-field" step="1" placeholder="e.g., 500000">
+                                </div>
+                                <div class="ssc-input-group">
+                                    <label for="rescoOMCost">Annual O&M Cost (₹)</label>
+                                    <input type="number" id="rescoOMCost" class="ssc-input-field" step="1" placeholder="e.g., 5000" value="0">
+                                </div>
+                                <div class="ssc-input-group">
+                                    <label for="rescoOMEscalation">O&M Escalation (%/yr)</label>
+                                    <input type="number" id="rescoOMEscalation" class="ssc-input-field" step="0.1" placeholder="e.g., 5" value="5">
+                                </div>
+                                <div class="ssc-input-group">
+                                    <label for="rescoAMCCost">Annual AMC Cost (₹)</label>
+                                    <input type="number" id="rescoAMCCost" class="ssc-input-field" step="1" placeholder="e.g., 3000" value="0">
+                                </div>
+                                <div class="ssc-input-group">
+                                    <label for="rescoAMCEscalation">AMC Escalation (%/yr)</label>
+                                    <input type="number" id="rescoAMCEscalation" class="ssc-input-field" step="0.1" placeholder="e.g., 5" value="5">
+                                </div>
+                                <div class="ssc-input-group">
+                                    <label for="rescoPanelDegradation">Panel Degradation (%/yr)</label>
+                                    <input type="number" id="rescoPanelDegradation" class="ssc-input-field" step="0.1" placeholder="e.g., 0.5" value="0.5">
+                                </div>
+                            </div>
+
+                            <!-- R2V Loan / Financing -->
+                            <div class="ssc-form-card">
+                                <h3 class="ssc-section-title">
+                                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2">
+                                        <line x1="3" y1="22" x2="21" y2="22"></line>
+                                        <line x1="6" y1="18" x2="6" y2="11"></line>
+                                        <line x1="10" y1="18" x2="10" y2="11"></line>
+                                        <line x1="14" y1="18" x2="14" y2="11"></line>
+                                        <line x1="18" y1="18" x2="18" y2="11"></line>
+                                        <polygon points="12 2 20 7 4 7"></polygon>
+                                    </svg>
+                                    R2V Loan / Financing
+                                </h3>
+                                <div class="ssc-input-group">
+                                    <label for="rescoLoanAmount">Loan Amount (₹)</label>
+                                    <input type="number" id="rescoLoanAmount" class="ssc-input-field" step="1" placeholder="e.g., 400000" value="0">
+                                    <small class="ssc-input-hint">Leave 0 if no loan financing.</small>
+                                </div>
+                                <div class="ssc-input-group">
+                                    <label for="rescoLoanTenure">Loan Tenure (Years)</label>
+                                    <input type="number" id="rescoLoanTenure" class="ssc-input-field" step="1" placeholder="e.g., 10" value="10">
+                                </div>
+                                <div class="ssc-input-group">
+                                    <label for="rescoMoratorium">Moratorium Period (Months)</label>
+                                    <input type="number" id="rescoMoratorium" class="ssc-input-field" step="1" placeholder="e.g., 6" value="0">
+                                    <small class="ssc-input-hint">Interest-only period before EMI starts.</small>
+                                </div>
+                                <div class="ssc-input-group">
+                                    <label for="rescoLoanInterest">Loan Interest Rate (%/yr)</label>
+                                    <input type="number" id="rescoLoanInterest" class="ssc-input-field" step="0.1" placeholder="e.g., 9.5" value="9.5">
+                                </div>
+                                <div class="ssc-input-group">
+                                    <label for="rescoLoanType">Loan Type</label>
+                                    <select id="rescoLoanType" class="ssc-input-field">
+                                        <option value="reducing" selected>Reducing Balance</option>
+                                        <option value="flat">Flat Rate</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="ssc-actions">
+                            <button type="button" onclick="calculateRESCO()" class="ssc-btn-primary">Calculate RESCO</button>
+                        </div>
+                        <div id="rescoErrorMessage" class="ssc-error-message" style="display: none;"></div>
+                    </form>
+
+                    <!-- Initial Message -->
+                    <div id="initialMessage" class="ssc-initial-message">
+                        <h2>Model a Solar Project</h2>
+                        <p>Enter the customer's project details above, then calculate to see savings, loan payback, and breakeven analysis.</p>
+                    </div>
+
+                    <!-- ========== CAPEX RESULTS ========== -->
+                    <div id="resultsSection" class="ssc-results-card" style="display: none;">
+                        <h2 class="ssc-results-title">Solar Investment Analysis</h2>
+
+                        <div class="ssc-table-wrapper">
+                            <table id="resultsTable" class="ssc-table">
+                                <thead>
+                                    <tr>
+                                        <th class="ssc-metric-col">Metric</th>
+                                        <th>Value</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+
+                        <h3 class="ssc-subheading">Monthly Costs Comparison (Year 1 Average)</h3>
+                        <div id="monthlyCostsComparison" class="ssc-table-wrapper"></div>
+
+                        <h3 class="ssc-subheading">Breakeven Analysis (Year-by-Year)</h3>
+                        <div id="breakevenAnalysis" class="ssc-table-wrapper"></div>
+
+                        <div class="ssc-report-btn-wrapper">
+                            <button onclick="openReportModal()" class="ssc-report-btn">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                    <polyline points="14 2 14 8 20 8"></polyline>
+                                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                                </svg>
+                                View Detailed Report & Print
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                                    class="ssc-report-btn-arrow">
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    <polyline points="12 5 19 12 12 19"></polyline>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- ========== RESCO RESULTS ========== -->
+                    <div id="rescoResultsSection" class="ssc-results-card" style="display: none;">
+                        <h2 class="ssc-results-title">RESCO Model Analysis</h2>
+
+                        <div id="rescoSummary" class="ssc-summary-grid"></div>
+
+                        <h3 class="ssc-subheading">Ray2Volt Breakeven Analysis</h3>
+                        <div id="rescoR2VBreakeven" class="ssc-table-wrapper"></div>
+
+                        <h3 class="ssc-subheading">Ray2Volt Cash Flow Analysis</h3>
+                        <div id="rescoR2VCashFlow" class="ssc-table-wrapper"></div>
+
+                        <h3 class="ssc-subheading">Consumer Savings & Cash Flow</h3>
+                        <div id="rescoConsumerSavings" class="ssc-table-wrapper"></div>
+                    </div>
+
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Overlay for Mobile Sidebar -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Report Preview Modal -->
+    <div id="reportModal" class="ssc-modal-overlay">
+        <div class="ssc-modal-content">
+            <div class="ssc-modal-header">
+                <h3>Solar Savings Report Preview</h3>
+                <div class="ssc-modal-header-actions">
+                    <button class="ssc-btn-primary" onclick="printReport()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                            <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                            <rect x="6" y="14" width="12" height="8"></rect>
+                        </svg>
+                        Print / Save PDF
+                    </button>
+                    <button class="ssc-close-modal-btn" onclick="closeReportModal()">&times;</button>
+                </div>
+            </div>
+            <div class="ssc-modal-body" id="modalBody">
+
+                <!-- ===== PAGE 1 ===== -->
+                <div class="ssc-report-page" id="printableReport">
+                    <div class="ssc-report-header">
+                        <div class="ssc-report-title-section">
+                            <span class="ssc-report-kicker">Ray2Volt Solar</span>
+                            <h1>Solar Savings Analysis</h1>
+                            <p class="ssc-report-subtitle">Personalised Financial &amp; Energy Projection</p>
+                        </div>
+                        <img src="../../global/assets/logo.png" alt="Ray2Volt Logo" class="ssc-report-logo">
+                    </div>
+
+                    <div class="ssc-report-section">
+                        <h3>Requirements Summary</h3>
+                        <div class="ssc-req-summary-grid" id="reqSummaryGrid"></div>
+                    </div>
+
+                    <div class="ssc-report-section">
+                        <h3>Financial Overview</h3>
+                        <div class="ssc-report-table-container" id="reportFinancialTable"></div>
+                    </div>
+
+                    <div class="ssc-report-section">
+                        <h3>Monthly Costs Comparison</h3>
+                        <div class="ssc-report-table-container" id="reportMonthlyTable"></div>
+                    </div>
+
+                    <div class="ssc-report-page-footer">
+                        <span>Ray2Volt Solar Private Limited</span>
+                        <span id="reportDate"></span>
+                        <span>Page 1 of 2</span>
+                    </div>
+                </div>
+
+                <!-- ===== PAGE 2 ===== -->
+                <div class="ssc-report-page" id="printableReport2">
+                    <div class="ssc-report-header">
+                        <div class="ssc-report-title-section">
+                            <span class="ssc-report-kicker">Ray2Volt Solar</span>
+                            <h1>Long-Term Projection</h1>
+                            <p class="ssc-report-subtitle">25-Year Breakeven &amp; Cash Flow</p>
+                        </div>
+                        <img src="../../global/assets/logo.png" alt="Ray2Volt Logo" class="ssc-report-logo">
+                    </div>
+
+                    <div class="ssc-report-section ssc-report-section--full">
+                        <h3>Breakeven Analysis (25-Year Projection)</h3>
+                        <p class="ssc-report-note">Projected cash flows accounting for electricity inflation and
+                            utility rate increases.</p>
+                        <div class="ssc-report-table-container" id="reportBreakevenTable"></div>
+                    </div>
+
+                    <div class="ssc-report-disclaimer">
+                        <p><strong>Disclaimer:</strong> This report is an estimate based on the inputs provided and
+                            standard assumptions. Actual savings may vary based on weather conditions, electricity
+                            tariff changes, system performance, and other factors. This is not a guarantee of
+                            savings.</p>
+                    </div>
+
+                    <div class="ssc-report-page-footer">
+                        <span>Ray2Volt Solar Private Limited</span>
+                        <span>ray2voltsolar.com</span>
+                        <span>Page 2 of 2</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="../../global/scripts/navigation.js"></script>
+    <script src="solar-savings.js"></script>
+    <script src="solar-savings-resco.js"></script>
+    <script src="solar-savings-report.js"></script>
+</body>
+
+</html>

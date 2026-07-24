@@ -1,0 +1,532 @@
+/* ============================================
+   SOLAR SAVINGS CALCULATOR - Dedicated Stylesheet
+   Ray2Volt Solar Toolbox
+   Form conventions match Invoice / Quote Generator
+   ============================================ */
+
+/* --- Page Header --- */
+.ssc-page-header {
+    margin-bottom: 1.5rem;
+}
+
+.ssc-page-header h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+}
+
+.ssc-page-header p {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+}
+
+/* --- Mode Switcher --- */
+.ssc-mode-switcher {
+    display: flex;
+    gap: 4px;
+    max-width: 320px;
+    margin-bottom: 1.5rem;
+    padding: 3px;
+    background: var(--bg-body);
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-lg);
+}
+
+.ssc-mode-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    padding: 0.6rem 0.9rem;
+    border: none;
+    border-radius: 2px;
+    background: transparent;
+    color: var(--text-secondary);
+    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.ssc-mode-btn:hover {
+    color: var(--text-primary);
+    background: var(--bg-card);
+}
+
+.ssc-mode-btn.active {
+    background: var(--primary);
+    color: #fff;
+    box-shadow: var(--shadow-sm);
+}
+
+/* --- Form Cards --- */
+.ssc-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.ssc-form-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-medium);
+    border-radius: 2px;
+    padding: 1.5rem;
+}
+
+.ssc-section-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border-light);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.ssc-section-title .icon {
+    width: 20px;
+    height: 20px;
+    color: var(--primary);
+}
+
+/* --- Input Groups --- */
+.ssc-input-group {
+    margin-bottom: 1.25rem;
+}
+
+.ssc-input-group:last-child {
+    margin-bottom: 0;
+}
+
+.ssc-input-group label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.ssc-input-field {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
+    border: 1px solid var(--border-medium);
+    border-radius: 2px;
+    background: var(--bg-card);
+    color: var(--text-primary);
+    transition: all 0.1s ease;
+    box-sizing: border-box;
+}
+
+.ssc-input-field:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-light);
+    background: #fff;
+}
+
+select.ssc-input-field {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%234B5563' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 14px;
+    padding-right: 2.25rem;
+    cursor: pointer;
+}
+
+.ssc-input-field.ssc-input-error {
+    border-color: #ef4444;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12);
+}
+
+.ssc-input-hint {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: 0.4rem;
+}
+
+/* --- Action Buttons --- */
+.ssc-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.ssc-btn-primary {
+    padding: 0.875rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
+    border: 1px solid var(--primary);
+    border-radius: 2px;
+    background: var(--primary);
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.1s ease;
+}
+
+.ssc-btn-primary:hover {
+    background: var(--primary-dark);
+    border-color: var(--primary-dark);
+}
+
+.ssc-btn-secondary {
+    padding: 0.875rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
+    border: 1px solid var(--border-medium);
+    border-radius: 2px;
+    background: var(--bg-card);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.1s ease;
+}
+
+.ssc-btn-secondary:hover {
+    background: var(--bg-hover, var(--bg-body));
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+/* --- Error Message --- */
+.ssc-error-message {
+    max-width: 100%;
+    margin: 0 auto 1.5rem;
+    padding: 0.75rem 1rem;
+    color: #991b1b;
+    background: #fef2f2;
+    border: 1px solid #fca5a5;
+    border-radius: 2px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-align: left;
+}
+
+/* --- Initial Message --- */
+.ssc-initial-message {
+    max-width: 560px;
+    margin: 1rem auto;
+    padding: 3rem 1.75rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border-medium);
+    border-radius: 2px;
+    text-align: center;
+}
+
+.ssc-initial-message h2 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.75rem;
+}
+
+.ssc-initial-message p {
+    font-size: 1rem;
+    color: var(--text-secondary);
+}
+
+/* --- Results Card --- */
+.ssc-results-card {
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border-medium);
+    border-radius: 2px;
+}
+
+.ssc-results-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1.25rem;
+    text-align: center;
+}
+
+.ssc-subheading {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border-light);
+}
+
+/* --- Data Table --- */
+.ssc-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin-bottom: 1.25rem;
+    scrollbar-width: thin;
+}
+
+.ssc-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 1px solid var(--border-medium);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.ssc-table th,
+.ssc-table td {
+    padding: 0.7rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.ssc-table th {
+    background: var(--bg-body);
+    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border-medium);
+}
+
+.ssc-table td {
+    font-size: 0.9rem;
+    color: var(--text-primary);
+}
+
+.ssc-table tr:last-child td {
+    border-bottom: none;
+}
+
+.ssc-table td:nth-child(n+2) {
+    text-align: right;
+    font-family: 'SF Mono', Menlo, Monaco, Consolas, monospace;
+    font-size: 0.87rem;
+    font-weight: 500;
+}
+
+.ssc-table .ssc-metric-col {
+    text-align: left;
+    font-weight: 600;
+    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
+}
+
+.ssc-highlight-row td {
+    background: var(--primary-light) !important;
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+/* --- Summary Text --- */
+.ssc-summary-text {
+    text-align: center;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    margin-top: 0.75rem;
+    padding: 0.75rem 1rem;
+    background: var(--bg-body);
+    border: 1px solid var(--border-light);
+    border-left: 3px solid var(--primary);
+    border-radius: 2px;
+    line-height: 1.6;
+}
+
+.ssc-summary-text strong {
+    color: var(--primary-dark);
+}
+
+/* --- Profit / Loss Colors --- */
+.ssc-text-profit {
+    color: #10b981 !important;
+    font-weight: 600;
+}
+
+.ssc-text-loss {
+    color: #ef4444 !important;
+    font-weight: 600;
+}
+
+/* --- RESCO Summary Cards --- */
+.ssc-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.ssc-summary-card {
+    position: relative;
+    padding: 1.25rem 1rem 1.1rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border-medium);
+    border-radius: 2px;
+    text-align: center;
+    overflow: hidden;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.ssc-summary-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--card-accent, var(--primary));
+}
+
+.ssc-summary-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+}
+
+.ssc-summary-card-icon {
+    width: 38px;
+    height: 38px;
+    margin: 0 auto 0.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--card-icon-bg, var(--primary-light));
+}
+
+.ssc-summary-card-icon svg {
+    width: 19px;
+    height: 19px;
+    fill: none;
+    stroke: var(--card-accent, var(--primary));
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.ssc-summary-card-label {
+    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
+    font-weight: 600;
+    font-size: 0.68rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+}
+
+.ssc-summary-card-value {
+    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+/* --- Report Button --- */
+.ssc-report-btn-wrapper {
+    text-align: center;
+    margin-top: 1.75rem;
+}
+
+.ssc-report-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.9rem 1.75rem;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: #fff;
+    border: none;
+    border-radius: 2px;
+    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    letter-spacing: 0.2px;
+}
+
+.ssc-report-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(6, 182, 212, 0.35);
+}
+
+.ssc-report-btn-arrow {
+    transition: transform 0.2s ease;
+}
+
+.ssc-report-btn:hover .ssc-report-btn-arrow {
+    transform: translateX(3px);
+}
+
+/* --- Manual kW conditional group --- */
+#manualKwInputGroup {
+    display: none;
+}
+
+/* ============================================
+   RESPONSIVE — tool-specific layout not covered
+   by the shared tool-responsive.css conventions
+   ============================================ */
+@media (max-width: 900px) {
+    .ssc-summary-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .ssc-mode-switcher {
+        max-width: 100%;
+    }
+
+    .ssc-results-card {
+        padding: 1rem;
+    }
+
+    .ssc-table {
+        min-width: 480px;
+    }
+}
+
+@media (max-width: 480px) {
+    .ssc-summary-grid {
+        grid-template-columns: 1fr;
+        gap: 0.6rem;
+    }
+
+    .ssc-summary-card {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 0.85rem;
+        padding: 0.85rem 1rem;
+        text-align: left;
+    }
+
+    .ssc-summary-card::before {
+        top: 0;
+        left: 0;
+        right: auto;
+        width: 3px;
+        height: 100%;
+    }
+
+    .ssc-summary-card-icon {
+        margin: 0;
+        flex-shrink: 0;
+    }
+
+    .ssc-summary-card:hover {
+        transform: none;
+    }
+
+    .ssc-initial-message {
+        padding: 2rem 1.1rem;
+    }
+}
