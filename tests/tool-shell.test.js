@@ -5,6 +5,22 @@ const path = require('node:path');
 const repoRoot = path.resolve(__dirname, '..');
 const baseCss = fs.readFileSync(path.join(repoRoot, 'global', 'styles', 'base.css'), 'utf8');
 const componentsCss = fs.readFileSync(path.join(repoRoot, 'global', 'styles', 'components.css'), 'utf8');
+const responsiveCss = fs.readFileSync(path.join(repoRoot, 'global', 'styles', 'responsive.css'), 'utf8');
+
+function mediaBlock(query, within) {
+    const start = within.indexOf(query);
+    assert.notEqual(start, -1, `Missing media block ${query}`);
+    const open = within.indexOf('{', start);
+    let depth = 0;
+
+    for (let i = open; i < within.length; i++) {
+        if (within[i] === '{') depth++;
+        if (within[i] === '}') depth--;
+        if (depth === 0) return within.slice(open + 1, i);
+    }
+
+    assert.fail(`Unclosed media block ${query}`);
+}
 
 function cssRule(selector, within) {
     const escaped = selector.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -28,9 +44,42 @@ assert.ok(
     'Tool shell must stay scoped to .main-content > .content-section'
 );
 
+// The dashboard keeps two cards per row on phones.
+assert.match(cssRule(':root', baseCss), /--section-gap:\s*1\.5rem/);
+
+const mobile = mediaBlock('@media screen and (max-width: 768px)', responsiveCss);
+assert.match(cssRule('.tool-grid', mobile), /grid-template-columns:\s*repeat\(2, minmax\(0, 1fr\)\)/);
+
+const narrow = mediaBlock('@media screen and (max-width: 480px)', responsiveCss);
+assert.match(cssRule('.tool-grid', narrow), /gap:/, 'the narrow breakpoint should tighten the two-column gap');
+
 const toolDirs = fs.readdirSync(path.join(repoRoot, 'tools'), { withFileTypes: true })
     .filter(entry => entry.isDirectory())
     .map(entry => entry.name);
+
+// Sections that stack on mobile must space themselves off the shared token.
+// A bare `margin-bottom: 0` on a card is what let the Quote Generator's
+// standalone card collide with the grid below it.
+const sectionSpacing = {
+    'quote-generator': ['.qg-form-grid', '.qg-form-card', '.qg-components-card'],
+    'warranty-card': ['.warranty-form-grid'],
+    'solar-savings': ['.ssc-actions']
+};
+
+for (const [tool, selectors] of Object.entries(sectionSpacing)) {
+    const cssFiles = fs.readdirSync(path.join(repoRoot, 'tools', tool))
+        .filter(file => file.endsWith('.css'))
+        .map(file => fs.readFileSync(path.join(repoRoot, 'tools', tool, file), 'utf8'))
+        .join('\n');
+
+    for (const selector of selectors) {
+        assert.match(
+            cssRule(selector, cssFiles),
+            /margin-bottom:\s*var\(--section-gap, 1\.5rem\)/,
+            `${tool} ${selector} should space itself off --section-gap`
+        );
+    }
+}
 
 // No tool may reintroduce its own page-level width — that is what made the
 // tools disagree with one another in the first place.

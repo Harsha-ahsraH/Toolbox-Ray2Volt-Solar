@@ -136,7 +136,8 @@
     }
 
     .tool-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: var(--spacing-md);
     }
 
     .section-header h1 {
@@ -179,23 +180,31 @@
         font-size: 1.25rem;
     }
 
+    /* Two cards per row on phones, so the tighter card has to work harder. */
+    .tool-grid {
+        gap: var(--spacing-sm);
+    }
+
     .tool-card {
-        padding: var(--spacing-md);
+        padding: var(--spacing-sm);
     }
 
     .tool-card h3 {
-        font-size: 1rem;
+        font-size: 0.9rem;
+        gap: 0.4rem;
+        overflow-wrap: anywhere;
     }
 
     .tool-card h3::before {
-        width: 20px;
-        height: 20px;
-        flex-basis: 20px;
-        font-size: 20px;
+        width: 18px;
+        height: 18px;
+        flex-basis: 18px;
+        font-size: 18px;
     }
 
     .tool-card p {
-        font-size: 0.85rem;
+        font-size: 0.78rem;
+        line-height: 1.45;
     }
 
     .calculator-inputs,

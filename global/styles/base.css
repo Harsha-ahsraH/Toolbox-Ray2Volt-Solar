@@ -72,6 +72,9 @@
 
     /* Shared width for every tool's content column */
     --tool-width: 1100px;
+
+    /* Vertical gap between a tool's top-level sections (cards, grids, tables) */
+    --section-gap: 1.5rem;
 }
 
 /* --- Custom Scrollbars --- */

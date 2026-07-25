@@ -159,7 +159,7 @@ select.ssc-input-field {
     display: flex;
     justify-content: center;
     gap: 1rem;
-    margin-bottom: 1rem;
+    margin-bottom: var(--section-gap, 1.5rem);
 }
 
 .ssc-btn-primary {

@@ -38,7 +38,7 @@
     display: grid;
     grid-template-columns: 1fr;
     gap: 1rem;
-    margin-bottom: 1rem;
+    margin-bottom: var(--section-gap, 1.5rem);
 }
 
 .warranty-form-card {

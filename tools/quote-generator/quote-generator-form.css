@@ -50,7 +50,7 @@
     /* Mobile-first: stack by default */
     grid-template-columns: 1fr;
     gap: 1rem;
-    margin-bottom: 1rem;
+    margin-bottom: var(--section-gap, 1.5rem);
 }
 
 .qg-form-card {
@@ -59,7 +59,8 @@
     border-radius: 2px;
     /* Mobile-first: tighter spacing */
     padding: 1rem;
-    margin-bottom: 0;
+    /* A card standing on its own has no grid gap to lean on. */
+    margin-bottom: var(--section-gap, 1.5rem);
 }
 
 .qg-section-title {
@@ -134,7 +135,7 @@ select.qg-input-field {
     border-radius: 2px;
     /* Mobile-first: tighter spacing */
     padding: 1rem;
-    margin-bottom: 1rem;
+    margin-bottom: var(--section-gap, 1.5rem);
 }
 
 .qg-components-header {
@@ -147,10 +148,6 @@ select.qg-input-field {
 }
 
 @media screen and (max-width: 768px) {
-    .no-print-area {
-        max-width: none;
-    }
-
     .qg-section-title {
         margin-bottom: 0.9rem;
         padding-bottom: 0.6rem;
