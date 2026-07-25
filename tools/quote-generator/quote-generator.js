@@ -376,6 +376,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setText('qpHeroSavings', formatCurrency(annualSavingsY1));
 
         populateSavingsTable(annualUnits, tariffRate, escalation);
+        populateReturns(annualUnits, tariffRate, escalation, netCost);
 
         // Populate Lifetime Savings onto Page 2 after calculate in populateSavingsTable
         const lifetimeSavings = document.getElementById('qpLifetimeSavings');
@@ -572,6 +573,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Lifetime savings highlight
         setText('qpLifetimeSavings', formatCurrency(cumulative));
+    }
+
+    /**
+     * Year-by-year savings across the 30-year projection, on the same
+     * escalating-tariff basis as the savings table above.
+     */
+    function savingsSeries(annualUnits, baseTariff, escalationPct, years = 30) {
+        const series = [];
+        for (let year = 1; year <= years; year++) {
+            series.push(annualUnits * baseTariff * Math.pow(1 + escalationPct / 100, year - 1));
+        }
+        return series;
+    }
+
+    function populateReturns(annualUnits, baseTariff, escalationPct, netCost) {
+        const returns = Ray2VoltSolarReturns.projectReturns(
+            netCost,
+            savingsSeries(annualUnits, baseTariff, escalationPct)
+        );
+
+        setText('qpRoiPercent', Ray2VoltSolarReturns.formatPercent(returns.roi, 0));
+        setText('qpIrrPercent', Ray2VoltSolarReturns.formatPercent(returns.irr));
     }
 
 

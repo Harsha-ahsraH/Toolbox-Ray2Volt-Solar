@@ -145,4 +145,20 @@ assert.doesNotMatch(coverFooterRule, /position:\s*absolute/);
 assert.match(css, /#quotePreview \.qp-cover-footer,\s*#quotePreview \.qp-page1 \.qp-cover-footer\s*\{[\s\S]*position:\s*static\s*!important/);
 assert.doesNotMatch(cssRule('.qp-cover-footer', printCss), /position:\s*absolute/);
 
+// --- ROI & IRR on the Savings page -------------------------------------------
+assert.match(html, /solar-returns\.js/, 'the shared returns module must be loaded');
+assert.match(js, /Ray2VoltSolarReturns\.projectReturns/, 'the proposal must compute ROI and IRR');
+assert.match(markup, /id="qpRoiPercent"/);
+assert.match(markup, /id="qpIrrPercent"/);
+
+// Both sit in the existing highlight band beside Lifetime Savings. A separate
+// block would push page 7 past its fixed A4 height.
+assert.match(markup, /qp-highlight-box qp-returns-box/);
+const returnsBox = cssRule('.qp-returns-box');
+assert.match(returnsBox, /grid-template-columns:\s*repeat\(3, 1fr\)/);
+
+// The 30-year IRR must run off the same escalating tariff as the savings table.
+assert.match(js, /function savingsSeries/);
+assert.match(js, /Math\.pow\(1 \+ escalationPct \/ 100, year - 1\)/);
+
 console.log('quote-generator tests passed');

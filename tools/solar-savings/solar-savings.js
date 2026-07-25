@@ -330,17 +330,72 @@ function calculateSavings() {
 
     // --- 4. Generate Detail Tables ---
     generateMonthlyComparisonTable(avgMonthlyBillBefore_Y1, avgMonthlyBillAfter_Y1, monthlyEMI, avgMonthlySavings_Y1);
-    const financedBreakevenYearText = generateBreakevenTable(
+    const breakeven = generateBreakevenTable(
         netProjectCost, monthlyEMI, inputs.loanTenure,
         annualUnitsConsumed, annualSolarGeneration,
         inputs.costPerUnit, inputs.netMeteringRate, inputs.inflationRate,
         additionalCharges
     );
 
-    addRow('Financed Breakeven Year (Incl. Inflation)', financedBreakevenYearText);
+    addRow('Financed Breakeven Year (Incl. Inflation)', breakeven.breakevenText);
+
+    // --- 5. Project Returns (ROI & IRR) ---
+    // Headlined in the strip above the table rather than repeated as rows —
+    // the report clones this table onto a fixed A4 page with no room to spare.
+    const returns = Ray2VoltSolarReturns.projectReturns(netProjectCost, breakeven.savingsByYear);
+    generateReturnsSummary(returns, simplePaybackText);
 
     resultsSection.style.display = 'block';
     initialMessage.style.display = 'none';
+}
+
+// --- Helper: Highlighted ROI / IRR / Payback strip above the results table ---
+function generateReturnsSummary(returns, paybackText) {
+    const container = document.getElementById('capexReturnsSummary');
+    if (!container) return;
+
+    const icons = {
+        roi: `<svg viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>`,
+        irr: `<svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>`,
+        payback: `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`
+    };
+
+    const positive = value => Number.isFinite(value) && value > 0;
+
+    const cards = [
+        {
+            label: 'Return on Investment (25 yr)',
+            value: Ray2VoltSolarReturns.formatPercent(returns.roi),
+            color: positive(returns.roi) ? '#10b981' : '#ef4444',
+            accent: positive(returns.roi) ? '#8B5CF6' : '#EF4444',
+            iconBg: positive(returns.roi) ? 'rgba(139, 92, 246, 0.12)' : 'rgba(239, 68, 68, 0.12)',
+            icon: icons.roi
+        },
+        {
+            label: 'Internal Rate of Return (25 yr)',
+            value: Ray2VoltSolarReturns.formatPercent(returns.irr),
+            color: positive(returns.irr) ? '#10b981' : '#ef4444',
+            accent: positive(returns.irr) ? '#10B981' : '#EF4444',
+            iconBg: positive(returns.irr) ? 'rgba(16, 185, 129, 0.12)' : 'rgba(239, 68, 68, 0.12)',
+            icon: icons.irr
+        },
+        {
+            label: 'Simple Payback',
+            value: paybackText,
+            color: 'var(--text-primary)',
+            accent: '#F59E0B',
+            iconBg: 'rgba(245, 158, 11, 0.12)',
+            icon: icons.payback
+        }
+    ];
+
+    container.innerHTML = cards.map(card => `
+        <div class="ssc-summary-card" style="--card-accent: ${card.accent}; --card-icon-bg: ${card.iconBg}">
+            <div class="ssc-summary-card-icon">${card.icon}</div>
+            <div class="ssc-summary-card-label">${card.label}</div>
+            <div class="ssc-summary-card-value" style="color: ${card.color}">${card.value}</div>
+        </div>
+    `).join('');
 }
 
 // --- Helper: Generate Monthly Comparison Table (Year 1 Average Snapshot) ---
@@ -399,6 +454,7 @@ function generateBreakevenTable(
                         <tbody>`;
 
     let breakevenYearNum = -1;
+    const savingsByYear = [];
     if (netInitialCost <= 0) breakevenYearNum = 0;
 
     tableHTML += `<tr class="${(breakevenYearNum === 0) ? 'ssc-highlight-row' : ''}">
@@ -421,6 +477,7 @@ function generateBreakevenTable(
         const annualCreditForExported_inflated = annualUnitsExported * currentNetMeteringRate;
         const annualBillAfter_inflated = (annualCostOfImported_inflated - annualCreditForExported_inflated) + currentAnnualAdditionalCharges;
         const currentAnnualSavings = annualBillBefore_inflated - annualBillAfter_inflated;
+        savingsByYear.push(currentAnnualSavings);
         const currentAnnualEMI = (year <= loanTenure && annualEMI > 0) ? annualEMI : 0;
         const netAnnualCashFlow = currentAnnualSavings - currentAnnualEMI;
         cumulativeNetCashFlow += netAnnualCashFlow;
@@ -459,7 +516,7 @@ function generateBreakevenTable(
     }
 
     container.innerHTML = tableHTML + `<p class="ssc-summary-text">${summary}</p>`;
-    return returnValue;
+    return { breakevenText: returnValue, savingsByYear };
 }
 
 // --- Reset Form ---

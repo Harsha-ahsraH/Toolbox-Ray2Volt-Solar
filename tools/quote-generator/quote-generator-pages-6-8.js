@@ -214,9 +214,19 @@ window.QuoteGeneratorPageTemplates.push(`                    <!-- ========== PAG
                             </div>
                         </div>
 
-                        <div class="qp-highlight-box">
-                            <p class="qp-highlight-label">Lifetime Savings (30 Years)</p>
-                            <p class="qp-highlight-value" id="qpLifetimeSavings">₹0</p>
+                        <div class="qp-highlight-box qp-returns-box">
+                            <div class="qp-returns-item">
+                                <p class="qp-highlight-label">Lifetime Savings (30 Years)</p>
+                                <p class="qp-highlight-value" id="qpLifetimeSavings">₹0</p>
+                            </div>
+                            <div class="qp-returns-item">
+                                <p class="qp-highlight-label">Return on Investment (30 Years)</p>
+                                <p class="qp-highlight-value" id="qpRoiPercent">—</p>
+                            </div>
+                            <div class="qp-returns-item">
+                                <p class="qp-highlight-label">Internal Rate of Return (IRR)</p>
+                                <p class="qp-highlight-value" id="qpIrrPercent">—</p>
+                            </div>
                         </div>
 
                         <div class="qp-section">

@@ -612,6 +612,22 @@
     text-align: center;
 }
 
+/* Three headline returns across one band — same height as the single
+   Lifetime Savings box it replaced, so page 7 keeps its A4 fit. */
+.qp-returns-box {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4mm;
+}
+
+.qp-returns-item + .qp-returns-item {
+    border-left: 1px solid var(--qp-line);
+}
+
+.qp-returns-box .qp-highlight-label {
+    font-size: 7.5pt;
+}
+
 .qp-highlight-label {
     font-size: 9pt;
     color: var(--qp-gray);

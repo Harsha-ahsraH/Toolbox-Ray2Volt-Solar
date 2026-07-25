@@ -39,6 +39,16 @@ function openReportModal() {
     }
     reqGrid.innerHTML = gridHTML;
 
+    // Mirror the headline returns from the on-screen strip so the report and
+    // the calculator can never disagree.
+    const returnsCards = document.querySelectorAll('#capexReturnsSummary .ssc-summary-card-value');
+    ['reportRoi', 'reportIrr', 'reportPayback'].forEach((id, index) => {
+        const target = document.getElementById(id);
+        if (target && returnsCards[index]) {
+            target.textContent = returnsCards[index].textContent.trim();
+        }
+    });
+
     const resultsTableOriginal = document.getElementById('resultsTable');
     if (resultsTableOriginal) {
         reportFinancial.innerHTML = '';

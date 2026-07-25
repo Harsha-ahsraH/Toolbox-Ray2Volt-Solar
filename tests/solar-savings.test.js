@@ -52,6 +52,32 @@ assert.equal(pages.length, 2, 'Report must be exactly two A4 pages');
 assert.match(html, /Page 1 of 2/);
 assert.match(html, /Page 2 of 2/);
 
+// --- ROI & IRR --------------------------------------------------------------
+const js = fs.readFileSync(path.join(toolRoot, 'solar-savings.js'), 'utf8');
+const resco = fs.readFileSync(path.join(toolRoot, 'solar-savings-resco.js'), 'utf8');
+const reportJs = fs.readFileSync(path.join(toolRoot, 'solar-savings-report.js'), 'utf8');
+
+assert.match(html, /solar-returns\.js/, 'the shared returns module must be loaded');
+assert.match(js, /Ray2VoltSolarReturns\.projectReturns/, 'CAPEX must compute ROI and IRR');
+assert.match(resco, /Ray2VoltSolarReturns\.irr/, 'RESCO must report an equity IRR');
+
+// Headlined on screen and on the report, and the two read from one source.
+assert.match(html, /id="capexReturnsSummary"/);
+assert.match(html, /id="reportRoi"/);
+assert.match(html, /id="reportIrr"/);
+assert.match(reportJs, /#capexReturnsSummary \.ssc-summary-card-value/,
+    'the report must mirror the on-screen returns rather than recompute them');
+
+const returnsBand = cssRule('.ssc-report-returns');
+assert.match(returnsBand, /background:\s*var\(--sr-tint\)/, 'the band uses the Proposal highlight style');
+assert.match(returnsBand, /border-left:\s*3px solid var\(--sr-navy\)/);
+
+// The returns must not also be table rows — page 1 has no room for both.
+assert.ok(
+    !/addRow\('Return on Investment/.test(js),
+    'ROI belongs in the highlighted strip, not duplicated as a table row'
+);
+
 const printBlock = reportCss.slice(reportCss.indexOf('@media print'));
 assert.match(printBlock, /size:\s*A4/);
 assert.match(printBlock, /margin:\s*0/);

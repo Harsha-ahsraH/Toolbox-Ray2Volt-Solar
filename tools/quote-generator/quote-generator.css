@@ -1,9 +1,9 @@
 /* Quote Generator stylesheet manifest. Keep imports in this order.
    The ?v= query matches the one on the <link> in quote-generator.html —
    bump both together so imported sheets are never served stale. */
-@import url('./quote-generator-form.css?v=20260725-section-gap2');
-@import url('./quote-generator-preview-layout.css?v=20260725-section-gap2');
-@import url('./quote-generator-preview-details.css?v=20260725-section-gap2');
-@import url('./quote-generator-preview-terms.css?v=20260725-section-gap2');
-@import url('./quote-generator-responsive.css?v=20260725-section-gap2');
-@import url('./quote-generator-print.css?v=20260725-section-gap2');
+@import url('./quote-generator-form.css?v=20260725-roi-irr-b');
+@import url('./quote-generator-preview-layout.css?v=20260725-roi-irr-b');
+@import url('./quote-generator-preview-details.css?v=20260725-roi-irr-b');
+@import url('./quote-generator-preview-terms.css?v=20260725-roi-irr-b');
+@import url('./quote-generator-responsive.css?v=20260725-roi-irr-b');
+@import url('./quote-generator-print.css?v=20260725-roi-irr-b');

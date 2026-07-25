@@ -186,6 +186,40 @@
     flex-shrink: 0;
 }
 
+/* --- Headline returns band (mirrors .qp-highlight-box in the Proposal) --- */
+.ssc-report-returns {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    background: var(--sr-tint);
+    border: 1px solid var(--sr-line);
+    border-left: 3px solid var(--sr-navy);
+    border-radius: 2px;
+    padding: 2.2mm 4mm;
+    margin-bottom: 3.5mm;
+}
+
+.ssc-report-returns-item {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    padding-right: 4mm;
+}
+
+.ssc-report-returns-label {
+    font-size: 7pt;
+    font-weight: 700;
+    color: var(--sr-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+}
+
+.ssc-report-returns-value {
+    font-size: 12.5pt;
+    font-weight: 700;
+    color: var(--sr-navy-dark);
+    line-height: 1.15;
+}
+
 /* --- Sections --- */
 .ssc-report-page .ssc-report-section {
     margin-bottom: 4mm;

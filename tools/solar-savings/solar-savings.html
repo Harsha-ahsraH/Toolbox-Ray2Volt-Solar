@@ -21,8 +21,8 @@
     <link rel="stylesheet" href="../../global/styles/navigation.css">
     <link rel="stylesheet" href="../../global/styles/components.css">
     <link rel="stylesheet" href="../../global/styles/responsive.css">
-    <link rel="stylesheet" href="solar-savings.css">
-    <link rel="stylesheet" href="solar-savings-report.css">
+    <link rel="stylesheet" href="solar-savings.css?v=20260725-roi-irr6">
+    <link rel="stylesheet" href="solar-savings-report.css?v=20260725-roi-irr6">
     <link rel="stylesheet" href="../../global/styles/tool-responsive.css">
 </head>
 
@@ -365,6 +365,10 @@
                     <div id="resultsSection" class="ssc-results-card" style="display: none;">
                         <h2 class="ssc-results-title">Solar Investment Analysis</h2>
 
+                        <div id="capexReturnsSummary" class="ssc-summary-grid ssc-returns-grid"></div>
+                        <p class="ssc-returns-note">ROI and IRR are project returns on the net cost after subsidy,
+                            before financing. Loan cost is shown separately as EMI and financed breakeven.</p>
+
                         <div class="ssc-table-wrapper">
                             <table id="resultsTable" class="ssc-table">
                                 <thead>
@@ -458,6 +462,21 @@
                         <img src="../../global/assets/logo.png" alt="Ray2Volt Logo" class="ssc-report-logo">
                     </div>
 
+                    <div class="ssc-report-returns" id="reportReturnsBand">
+                        <div class="ssc-report-returns-item">
+                            <span class="ssc-report-returns-label">Return on Investment (25 yr)</span>
+                            <span class="ssc-report-returns-value" id="reportRoi">—</span>
+                        </div>
+                        <div class="ssc-report-returns-item">
+                            <span class="ssc-report-returns-label">Internal Rate of Return (25 yr)</span>
+                            <span class="ssc-report-returns-value" id="reportIrr">—</span>
+                        </div>
+                        <div class="ssc-report-returns-item">
+                            <span class="ssc-report-returns-label">Simple Payback</span>
+                            <span class="ssc-report-returns-value" id="reportPayback">—</span>
+                        </div>
+                    </div>
+
                     <div class="ssc-report-section">
                         <h3>Requirements Summary</h3>
                         <div class="ssc-req-summary-grid" id="reqSummaryGrid"></div>
@@ -517,9 +536,10 @@
     </div>
 
     <script src="../../global/scripts/navigation.js"></script>
-    <script src="solar-savings.js"></script>
-    <script src="solar-savings-resco.js"></script>
-    <script src="solar-savings-report.js"></script>
+    <script src="../../global/scripts/solar-returns.js?v=20260725-roi-irr6"></script>
+    <script src="solar-savings.js?v=20260725-roi-irr6"></script>
+    <script src="solar-savings-resco.js?v=20260725-roi-irr6"></script>
+    <script src="solar-savings-report.js?v=20260725-roi-irr6"></script>
 </body>
 
 </html>

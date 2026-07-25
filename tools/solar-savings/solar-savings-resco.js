@@ -244,9 +244,16 @@ function calculateRESCO() {
     if (minDSCR === Infinity) minDSCR = 0;
 
     // --- 3. Generate Output ---
+    // Equity IRR on Ray2Volt's own money: the deposit offsets the equity put in
+    // at signing, then each year's net cash flow comes back.
+    const equityIrr = Ray2VoltSolarReturns.irr([
+        -(equityInvestment - securityDeposit),
+        ...yearData.map(y => y.r2vNetCashFlow)
+    ]);
+
     generateRESCOSummary(r2vBreakevenYear, totalR2VRevenue, totalR2VCosts, totalR2VProfit,
         totalConsumerSavings, securityDeposit, systemCost, ppaTenure,
-        loanAmount, monthlyEMI, minDSCR, avgDSCR, totalDebtService);
+        loanAmount, monthlyEMI, minDSCR, avgDSCR, totalDebtService, equityIrr);
     generateR2VBreakevenTable(yearData, equityInvestment, securityDeposit, r2vBreakevenYear, loanAmount);
     generateR2VCashFlowTable(yearData, equityInvestment, securityDeposit, loanAmount);
     generateConsumerSavingsTable(yearData);
@@ -258,7 +265,7 @@ function calculateRESCO() {
 // --- RESCO Summary Cards ---
 function generateRESCOSummary(breakevenYear, totalRevenue, totalCosts, totalProfit,
     consumerSavings, securityDeposit, systemCost, ppaTenure,
-    loanAmount, monthlyEMI, minDSCR, avgDSCR, totalDebtService) {
+    loanAmount, monthlyEMI, minDSCR, avgDSCR, totalDebtService, equityIrr) {
     const container = document.getElementById('rescoSummary');
 
     const breakevenText = breakevenYear > 0 ? `Year ${breakevenYear}` : `> ${ppaTenure} Years`;
@@ -283,6 +290,7 @@ function generateRESCOSummary(breakevenYear, totalRevenue, totalCosts, totalProf
         { label: 'R2V Total Revenue', value: formatCurrency(totalRevenue), color: '#10b981', accent: '#00B4D8', iconBg: 'rgba(0, 180, 216, 0.12)', icon: svgIcons.revenue },
         { label: 'R2V Net Profit', value: formatCurrency(totalProfit), color: totalProfit >= 0 ? '#10b981' : '#ef4444', accent: totalProfit >= 0 ? '#10B981' : '#EF4444', iconBg: totalProfit >= 0 ? 'rgba(16, 185, 129, 0.12)' : 'rgba(239, 68, 68, 0.12)', icon: svgIcons.profit },
         { label: 'Project ROI', value: formatNumber(roi, 1, '%'), color: roi >= 0 ? '#10b981' : '#ef4444', accent: roi >= 0 ? '#8B5CF6' : '#EF4444', iconBg: roi >= 0 ? 'rgba(139, 92, 246, 0.12)' : 'rgba(239, 68, 68, 0.12)', icon: svgIcons.roi },
+        { label: 'Equity IRR', value: Ray2VoltSolarReturns.formatPercent(equityIrr), color: Number.isFinite(equityIrr) && equityIrr >= 0 ? '#10b981' : '#ef4444', accent: Number.isFinite(equityIrr) && equityIrr >= 0 ? '#10B981' : '#EF4444', iconBg: Number.isFinite(equityIrr) && equityIrr >= 0 ? 'rgba(16, 185, 129, 0.12)' : 'rgba(239, 68, 68, 0.12)', icon: svgIcons.profit },
         { label: 'Consumer Total Savings', value: formatCurrency(consumerSavings), color: consumerSavings >= 0 ? '#10b981' : '#ef4444', accent: '#F59E0B', iconBg: 'rgba(245, 158, 11, 0.12)', icon: svgIcons.savings },
         { label: 'Security Deposit', value: formatCurrency(securityDeposit), color: 'var(--text-primary)', accent: '#6B7280', iconBg: 'rgba(107, 114, 128, 0.12)', icon: svgIcons.deposit },
     ];

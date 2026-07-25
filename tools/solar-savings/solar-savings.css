@@ -363,6 +363,22 @@ select.ssc-input-field {
     margin-bottom: 1.5rem;
 }
 
+/* CAPEX returns strip — the headline ROI / IRR / payback above the tables. */
+.ssc-returns-grid:empty {
+    display: none;
+}
+
+.ssc-returns-note {
+    margin: -0.75rem 0 1.5rem;
+    font-size: 0.8rem;
+    line-height: 1.5;
+    color: var(--text-muted);
+}
+
+.ssc-returns-grid:empty + .ssc-returns-note {
+    display: none;
+}
+
 .ssc-summary-card {
     position: relative;
     padding: 1.25rem 1rem 1.1rem;
@@ -492,9 +508,58 @@ select.ssc-input-field {
     .ssc-table {
         min-width: 480px;
     }
+
+    /* The on-screen result tables carry long rupee figures across up to five
+       columns. Desktop type in a scrolling 320px viewport reads as oversized,
+       so tighten it here. Scoped to the results card: the A4 report page sets
+       its own print-accurate sizes and must not follow. */
+    .ssc-results-card .ssc-table th,
+    .ssc-results-card .ssc-table td {
+        padding: 0.45rem 0.6rem;
+    }
+
+    .ssc-results-card .ssc-table th {
+        font-size: 0.75rem;
+    }
+
+    .ssc-results-card .ssc-table td {
+        font-size: 0.8rem;
+    }
+
+    /* Rupee figures stay on one line — a wrapped amount reads as two numbers.
+       The wrapper scrolls horizontally instead. Headers may still wrap. */
+    .ssc-results-card .ssc-table td:nth-child(n+2) {
+        font-size: 0.78rem;
+        white-space: nowrap;
+    }
 }
 
 @media (max-width: 480px) {
+    /* Let the results tables shrink to their content instead of being held
+       open at the tablet min-width — a five-column rupee table has to scroll
+       on a phone, but it should not scroll further than its text needs. */
+    .ssc-results-card .ssc-table {
+        min-width: 0;
+    }
+
+    .ssc-results-card .ssc-table th,
+    .ssc-results-card .ssc-table td {
+        padding: 0.4rem 0.45rem;
+    }
+
+    .ssc-results-card .ssc-table th {
+        font-size: 0.7rem;
+    }
+
+    .ssc-results-card .ssc-table td,
+    .ssc-results-card .ssc-table td:nth-child(n+2) {
+        font-size: 0.74rem;
+    }
+
+    .ssc-results-card .ssc-table td:nth-child(n+2) {
+        white-space: nowrap;
+    }
+
     .ssc-summary-grid {
         grid-template-columns: 1fr;
         gap: 0.6rem;
