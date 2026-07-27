@@ -400,6 +400,11 @@
     content: "request_quote";
 }
 
+.main-nav .nav-link[href$="comparison-sheet.html"]::before,
+.tool-card[href$="comparison-sheet.html"] h3::before {
+    content: "balance";
+}
+
 .main-nav .nav-link[href$="request-for-quotation.html"]::before,
 .tool-card[href$="request-for-quotation.html"] h3::before {
     content: "format_quote";

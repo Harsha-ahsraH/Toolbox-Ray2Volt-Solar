@@ -1,0 +1,403 @@
+/* ============================================
+   COMPARISON SHEET - 2 Page A4 Document
+   Clean corporate: Google Sans Flex, one navy
+   accent, grayscale everything else, strict page
+   fit. Tokens match the Quote Generator's
+   proposal so the two documents read as one set.
+   ============================================ */
+
+#comparisonSheet {
+    --cs-navy: #1F4E79;
+    --cs-navy-dark: #17395A;
+    --cs-tint: #EDF3FA;
+    --cs-ink: #1A1A1A;
+    --cs-gray: #555555;
+    --cs-muted: #777777;
+    --cs-line: #D8DEE6;
+    --cs-border: #B8C4D2;
+    --cs-soft: #F7F9FC;
+
+    /* Semantic flags. Used only to mark good and bad, never as decoration. */
+    --cs-poor: #DC2626;
+    --cs-poor-bg: #FEF2F2;
+    --cs-poor-ink: #991B1B;
+    --cs-good: #16A34A;
+    --cs-good-bg: #F0FDF4;
+    --cs-good-ink: #166534;
+    --cs-tint-strong: #DEEAF7;
+
+    --cs-preview-scale: 1;
+
+    display: none;
+    margin: 2rem auto;
+    max-width: 100%;
+    font-family: 'Google Sans Flex', Arial, sans-serif;
+    color: var(--cs-ink);
+}
+
+#comparisonSheet.visible {
+    display: block;
+}
+
+/* The document keeps Google Sans Flex throughout; base.css points headings at
+   Google Sans, which the toolbox UI uses. Pin them back for the document. */
+#comparisonSheet h1,
+#comparisonSheet h2,
+#comparisonSheet h3 {
+    font-family: 'Google Sans Flex', Arial, sans-serif;
+}
+
+/* --- Page: the preview and the PDF share one A4 canvas.
+   `overflow: hidden` is what makes an over-long page detectable rather than
+   silently spilling, and the height is fixed for the same reason. --- */
+.cs-page {
+    width: 210mm;
+    min-height: 297mm;
+    height: 297mm;
+    margin: 0 auto 20px auto;
+    padding: 12mm 14mm 24mm 14mm;
+    background: #fff;
+    border-radius: 2px;
+    font-size: 10pt;
+    position: relative;
+    box-sizing: border-box;
+    overflow: hidden;
+    page-break-after: always;
+    page-break-inside: avoid;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+    zoom: var(--cs-preview-scale);
+}
+
+.cs-page:last-child {
+    page-break-after: auto;
+}
+
+/* --- Header --- */
+.cs-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 5mm;
+    padding-bottom: 7px;
+    border-bottom: 2px solid var(--cs-navy);
+}
+
+.cs-logo {
+    width: 170px;
+    height: auto;
+    order: 0;
+}
+
+.cs-title-section {
+    flex: 1;
+    text-align: right;
+}
+
+.cs-title-section h1 {
+    font-size: 14pt;
+    font-weight: 700;
+    color: var(--cs-ink);
+    letter-spacing: 0.5px;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.cs-subtitle {
+    font-size: 8.5pt;
+    font-weight: 400;
+    color: var(--cs-muted);
+    margin: 2px 0 0 0;
+    letter-spacing: 0.3px;
+}
+
+/* --- Section headings --- */
+.cs-heading {
+    font-size: 10pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--cs-navy);
+    margin: 3.5mm 0 1.5mm 0;
+}
+
+.cs-page > .cs-heading:first-of-type {
+    margin-top: 0;
+}
+
+/* --- Shared table furniture --- */
+.cs-doc-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid var(--cs-border);
+    table-layout: fixed;
+}
+
+.cs-doc-table th,
+.cs-doc-table td {
+    padding: 5px 8px;
+    text-align: left;
+    font-size: 9pt;
+    border: 1px solid var(--cs-line);
+    vertical-align: top;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/**
+ * The header band.
+ *
+ * It carries its own padding rather than inheriting the cell padding, because
+ * the body's padding is set by the eighteen-row hybrid fit — letting the header
+ * share that budget is what made this row look starved.
+ */
+.cs-doc-table thead th {
+    background-color: var(--cs-tint);
+    padding: 8px;
+    font-weight: 600;
+    color: var(--cs-navy);
+    vertical-align: middle;
+    border-bottom: 1.5px solid var(--cs-navy);
+}
+
+/* Option 3 is the recommendation, so its column head is set apart — a slightly
+   deeper tint and a green rule above, no dark fill. A border rather than an
+   inset shadow: html2canvas drops box-shadows, and this has to survive the
+   Download PDF path as well as the print one. */
+.cs-doc-table thead th.cs-option-head-pick {
+    background-color: var(--cs-tint-strong);
+    border-top: 2.5px solid var(--cs-good);
+}
+
+.cs-option-label {
+    display: block;
+    font-size: 9.5pt;
+    font-weight: 700;
+    color: var(--cs-navy);
+    letter-spacing: 0.3px;
+}
+
+.cs-option-sublabel {
+    display: block;
+    font-size: 7.5pt;
+    font-weight: 500;
+    color: var(--cs-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.cs-doc-table tbody td {
+    background-color: #fff;
+    color: var(--cs-ink);
+}
+
+/* Zebra banding, so the eye can hold a row across four columns. */
+.cs-doc-table tbody tr:nth-child(even) td {
+    background-color: #FAFBFD;
+}
+
+.cs-doc-table th.cs-row-label {
+    background-color: var(--cs-soft);
+    font-weight: 600;
+    color: var(--cs-gray);
+    width: 24%;
+    border-right: 1.5px solid var(--cs-border);
+}
+
+.cs-doc-table thead th.cs-corner {
+    background-color: var(--cs-tint);
+    color: var(--cs-navy);
+    font-size: 8.5pt;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.cs-doc-table .cs-money {
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+/**
+ * Good and bad, flagged.
+ *
+ * Only the extremes are coloured; a 'fair' middle stays plain so the red and
+ * green carry meaning rather than decoration. The left stripe is what survives
+ * a greyscale print, where the tints alone would be indistinguishable.
+ */
+.cs-doc-table tbody td.cs-tone-poor,
+.cs-doc-table tbody tr:nth-child(even) td.cs-tone-poor {
+    background-color: var(--cs-poor-bg);
+    color: var(--cs-poor-ink);
+    border-left: 2.5px solid var(--cs-poor);
+}
+
+.cs-doc-table tbody td.cs-tone-good,
+.cs-doc-table tbody tr:nth-child(even) td.cs-tone-good {
+    background-color: var(--cs-good-bg);
+    color: var(--cs-good-ink);
+    border-left: 2.5px solid var(--cs-good);
+    font-weight: 500;
+}
+
+/* --- Price summary --- */
+.cs-price-table .cs-row-figure td {
+    font-size: 11pt;
+    font-weight: 700;
+    color: var(--cs-navy);
+    padding-top: 6px;
+    padding-bottom: 6px;
+}
+
+.cs-price-table .cs-row-suited td {
+    font-size: 8pt;
+    color: var(--cs-gray);
+    font-weight: 400;
+    line-height: 1.3;
+}
+
+/* --- Specification table ---
+   The densest thing on the sheet, and the row count is not fixed: on-grid
+   brings 13 rows, hybrid 18. Rather than set one cramped padding from the worst
+   case, the comfortable spacing below is the default and `.cs-spec-dense`
+   (applied by the renderer past a row threshold) tightens only what has to be
+   tightened. See comparison-sheet-render.js. */
+.cs-spec-doc-table th,
+.cs-spec-doc-table td {
+    font-size: 9pt;
+    padding: 8px 10px;
+    line-height: 1.4;
+}
+
+.cs-spec-doc-table th.cs-row-label {
+    width: 22%;
+}
+
+/* Hybrid's longer row set. Tighter than the default, but nowhere near the
+   2.5px the first cut used. 4px is the measured ceiling: at 5px an 18-row
+   sheet runs 3mm over page 1. */
+.cs-spec-doc-table.cs-spec-dense th,
+.cs-spec-doc-table.cs-spec-dense td {
+    font-size: 8.5pt;
+    padding: 4px 9px;
+    line-height: 1.35;
+}
+
+/* --- Ownership table ---
+   The two rows that carry the argument. Weight and rules do the emphasis, not
+   a background, so the red/green flag on the figures still reads through. */
+.cs-ownership-table .cs-row-total th,
+.cs-ownership-table .cs-row-total td {
+    font-weight: 700;
+    font-size: 9.5pt;
+    border-top: 1.5px solid var(--cs-navy);
+    border-bottom: 1.5px solid var(--cs-navy);
+}
+
+.cs-ownership-table .cs-row-total th.cs-row-label {
+    background-color: var(--cs-tint);
+    color: var(--cs-navy);
+}
+
+/* --- Closing callout --- */
+.cs-callout {
+    margin: 4mm 0 0 0;
+    padding: 3mm 4mm;
+    background: var(--cs-soft);
+    border-left: 3px solid var(--cs-navy);
+}
+
+.cs-callout p {
+    font-size: 9pt;
+    line-height: 1.45;
+    color: var(--cs-gray);
+    margin: 0 0 1.5mm 0;
+}
+
+.cs-callout p:last-child {
+    margin-bottom: 0;
+}
+
+.cs-callout .cs-callout-lead {
+    font-size: 9.5pt;
+    font-weight: 600;
+    color: var(--cs-ink);
+}
+
+/* --- Vendor questions --- */
+.cs-questions {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: cs-question;
+}
+
+.cs-questions li {
+    counter-increment: cs-question;
+    position: relative;
+    padding-left: 9mm;
+    margin-bottom: 1.8mm;
+    font-size: 8.5pt;
+    line-height: 1.4;
+    color: var(--cs-gray);
+}
+
+.cs-questions li::before {
+    content: counter(cs-question, decimal-leading-zero);
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 9pt;
+    font-weight: 700;
+    color: var(--cs-navy);
+}
+
+.cs-questions li:last-child {
+    margin-bottom: 0;
+}
+
+/* --- Basis of calculation --- */
+.cs-basis {
+    margin-top: 4mm;
+    padding-top: 2.5mm;
+    border-top: 1px solid var(--cs-line);
+}
+
+.cs-basis p {
+    font-size: 7pt;
+    line-height: 1.4;
+    color: var(--cs-muted);
+    margin: 0 0 1.2mm 0;
+    text-align: justify;
+}
+
+.cs-basis p:last-child {
+    margin-bottom: 0;
+}
+
+/* --- Page footer --- */
+.cs-page-footer {
+    position: absolute;
+    bottom: 8mm;
+    left: 14mm;
+    right: 14mm;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--cs-line);
+    padding-top: 6px;
+    font-size: 8pt;
+    color: var(--cs-muted);
+}
+
+/* --- Small screens: the A4 canvas is zoomed, never reflowed --- */
+@media screen and (max-width: 768px) {
+    #comparisonSheet {
+        margin: 1.25rem auto;
+    }
+
+    .cs-page {
+        margin-bottom: 12px;
+    }
+}

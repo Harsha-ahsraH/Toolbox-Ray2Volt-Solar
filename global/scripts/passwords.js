@@ -23,6 +23,11 @@ window.RAY2VOLT_PASSWORDS = {
         "fj",
         "prasanar2v"
     ],
+    "comparison-sheet": [
+        "Admin@Ray2Volt",
+        "fj",
+        "prasanar2v"
+    ],
     "warranty-card": [
         "Admin@Ray2Volt",
         "fj"

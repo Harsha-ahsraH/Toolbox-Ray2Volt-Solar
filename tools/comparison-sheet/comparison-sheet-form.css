@@ -1,0 +1,508 @@
+/* ============================================
+   COMPARISON SHEET - Form Stylesheet
+   Ray2Volt Solar Toolbox - matches the Quote
+   Generator's form furniture exactly.
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400;500;600;700&display=swap');
+
+/* --- Page Header --- */
+.cs-page-header {
+    margin-bottom: 1.5rem;
+}
+
+.cs-page-header h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+}
+
+.cs-page-header p {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+}
+
+@media screen and (max-width: 768px) {
+    .cs-page-header {
+        margin-bottom: 1rem;
+    }
+
+    .cs-page-header h1 {
+        font-size: 1.4rem;
+        line-height: 1.2;
+    }
+
+    .cs-page-header p {
+        font-size: 0.9rem;
+        line-height: 1.4;
+    }
+}
+
+/* --- Cards --- */
+.cs-form-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-bottom: var(--section-gap, 1.5rem);
+}
+
+.cs-form-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-medium);
+    border-radius: 2px;
+    padding: 1rem;
+    /* A card standing on its own has no grid gap to lean on. */
+    margin-bottom: var(--section-gap, 1.5rem);
+}
+
+.cs-form-grid .cs-form-card {
+    margin-bottom: 0;
+}
+
+.cs-section-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border-light);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.cs-section-title .icon {
+    width: 20px;
+    height: 20px;
+    color: var(--primary);
+}
+
+/* --- Inputs --- */
+.cs-input-group {
+    margin-bottom: 1.25rem;
+}
+
+.cs-input-group:last-child {
+    margin-bottom: 0;
+}
+
+.cs-input-group label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.cs-input-field {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    /* 16px prevents the iOS focus zoom. */
+    font-size: 16px;
+    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
+    border: 1px solid var(--border-medium);
+    border-radius: 2px;
+    background: var(--bg-card);
+    color: var(--text-primary);
+    transition: all 0.1s ease;
+    box-sizing: border-box;
+}
+
+.cs-input-field:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-light);
+    background: #fff;
+}
+
+select.cs-input-field {
+    cursor: pointer;
+}
+
+.cs-input-hint {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: 0.35rem;
+}
+
+/* --- Price mode toggle --- */
+.cs-mode-toggle {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+}
+
+.cs-mode-option {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.6rem 0.9rem;
+    border: 1px solid var(--border-medium);
+    border-radius: 2px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    background: var(--bg-card);
+}
+
+.cs-mode-option:hover {
+    background: var(--bg-hover);
+}
+
+.cs-mode-option input {
+    accent-color: var(--primary);
+    margin: 0;
+}
+
+/* --- Price rows --- */
+.cs-price-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.35rem;
+    margin-bottom: 1.1rem;
+}
+
+.cs-price-row:last-child {
+    margin-bottom: 0;
+}
+
+.cs-price-row label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.cs-price-field {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+}
+
+.cs-price-field .cs-input-field {
+    border-radius: 2px 0 0 2px;
+}
+
+.cs-price-unit {
+    display: flex;
+    align-items: center;
+    padding: 0 0.85rem;
+    border: 1px solid var(--border-medium);
+    border-left: none;
+    border-radius: 0 2px 2px 0;
+    background: var(--bg-hover);
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.cs-price-echo {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    min-height: 1.1em;
+}
+
+/* --- Specification table --- */
+.cs-spec-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-medium);
+    border-radius: 2px;
+    padding: 1rem;
+    margin-bottom: var(--section-gap, 1.5rem);
+}
+
+.cs-spec-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.cs-spec-header h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.cs-spec-header p {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin: 0;
+}
+
+.cs-row-count {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+}
+
+@media screen and (max-width: 768px) {
+    .cs-section-title {
+        margin-bottom: 0.9rem;
+        padding-bottom: 0.6rem;
+        font-size: 0.95rem;
+    }
+
+    .cs-input-group {
+        margin-bottom: 1rem;
+    }
+
+    .cs-spec-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+}
+
+.cs-spec-table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border: 1px solid var(--border-medium);
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+.cs-spec-input-table {
+    width: 100%;
+    min-width: 760px;
+    border-collapse: collapse;
+    background: #fff;
+    border: none;
+}
+
+.cs-spec-input-table th {
+    padding: 12px 16px;
+    background: #E8F4FA;
+    font-weight: 600;
+    color: var(--text-primary);
+    text-align: left;
+    white-space: nowrap;
+    border-bottom: 1px solid var(--border-medium);
+    font-size: 0.9rem;
+    letter-spacing: 0.3px;
+}
+
+.cs-spec-input-table td {
+    padding: 0;
+    border-bottom: 1px solid var(--border-light);
+    border-right: 1px solid var(--border-light);
+    vertical-align: middle;
+    position: relative;
+}
+
+.cs-spec-input-table td:last-child {
+    border-right: none;
+}
+
+.cs-spec-input-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.cs-spec-input-table input {
+    width: 100%;
+    padding: 12px 16px;
+    border: none;
+    background: transparent;
+    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    box-sizing: border-box;
+    transition: background-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.cs-spec-input-table input:focus {
+    outline: none;
+    background-color: #fff;
+    box-shadow: inset 0 0 0 2px var(--primary);
+    z-index: 2;
+    position: relative;
+    border-radius: 2px;
+}
+
+.cs-spec-input-table input:hover:not(:focus) {
+    background-color: rgba(0, 0, 0, 0.015);
+}
+
+.cs-cell-label input {
+    font-weight: 600;
+}
+
+/* A derived row starts filled from the inputs. */
+.cs-row-derived .cs-cell-label input {
+    color: var(--primary-dark);
+}
+
+/**
+ * An edited cell is frozen: the capacity can change beneath it and it will not
+ * be recalculated. The marker is the only signal that has happened, so it has
+ * to be visible without being loud.
+ */
+.cs-spec-input-table input.cs-cell-edited {
+    background-color: #FFFBEB;
+    box-shadow: inset 3px 0 0 #D97706;
+}
+
+.cs-cell-action {
+    width: 44px;
+    text-align: center;
+}
+
+.cs-row-remove {
+    width: 28px;
+    height: 28px;
+    line-height: 1;
+    font-size: 1.15rem;
+    border: 1px solid transparent;
+    border-radius: 2px;
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.1s ease;
+}
+
+.cs-row-remove:hover {
+    background: #FEE2E2;
+    border-color: #DC2626;
+    color: #B91C1C;
+}
+
+.cs-spec-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+/* --- Validation --- */
+.cs-validation {
+    border: 1px solid var(--border-medium);
+    border-radius: 2px;
+    background: var(--bg-card);
+    padding: 0.9rem 1rem;
+    margin-bottom: var(--section-gap, 1.5rem);
+}
+
+.cs-validation ul {
+    margin: 0;
+    padding-left: 1.1rem;
+}
+
+.cs-validation li {
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.cs-validation-blocking li {
+    color: #B91C1C;
+}
+
+.cs-validation-warning li {
+    color: #92400E;
+}
+
+.cs-validation-blocking + .cs-validation-warning {
+    margin-top: 0.5rem;
+}
+
+/* --- Actions --- */
+.cs-actions {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    margin-top: 1.25rem;
+    margin-bottom: 1.25rem;
+}
+
+.cs-btn-primary,
+.cs-btn-secondary {
+    padding: 0.875rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
+    border: 1px solid var(--primary);
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.1s ease;
+    width: 100%;
+}
+
+.cs-btn-primary {
+    background: var(--primary);
+    color: #fff;
+}
+
+.cs-btn-primary:hover {
+    background: var(--primary-dark);
+    border-color: var(--primary-dark);
+}
+
+.cs-btn-secondary {
+    background: transparent;
+    color: var(--primary);
+}
+
+.cs-btn-secondary:hover {
+    background: var(--primary);
+    color: #fff;
+}
+
+.cs-btn-secondary:disabled,
+.cs-btn-primary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+@media screen and (min-width: 600px) {
+    .cs-actions {
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+    }
+
+    .cs-btn-primary,
+    .cs-btn-secondary {
+        width: auto;
+    }
+
+    .cs-price-row {
+        grid-template-columns: 200px 1fr;
+        align-items: center;
+        gap: 0.75rem 1rem;
+    }
+
+    .cs-price-echo {
+        grid-column: 2;
+    }
+}
+
+@media screen and (min-width: 769px) {
+    .cs-page-header {
+        margin-bottom: 1.5rem;
+    }
+
+    .cs-form-card,
+    .cs-spec-card {
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .cs-input-field {
+        font-size: 0.95rem;
+    }
+}
+
+@media screen and (min-width: 1025px) {
+    .cs-form-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        margin-bottom: 2rem;
+    }
+}

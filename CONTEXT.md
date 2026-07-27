@@ -53,3 +53,19 @@ _Avoid_: circuit diagram, wiring diagram
 
 **BOM (Bill of Materials)**:
 The editable list of supplied components and services in a Proposal — main items plus Installation Accessories. Quantities and makes, no per-line pricing.
+
+**Comparison Sheet**:
+The two-page A4 document produced by the Comparison Sheet tool, setting three Build Standards for one plant against each other at three entered prices. Ships alongside a Proposal; it is not a quotation and carries no BOM, margins, customer name, date or Quotation Number.
+_Avoid_: Options sheet, price comparison, quote comparison
+
+**Build Standard**:
+One of the three specification levels a Comparison Sheet compares — Option 1 (Basic build), Option 2 (Standard build), Option 3 (Ray2Volt Choice). A Build Standard is a specification, not a package or a price.
+_Avoid_: Tier, package, variant
+
+**Derived Row**:
+A Comparison Sheet specification row filled from the Generation Request rather than the template — rear-side generation, earthing, annual maintenance, and usable storage on Hybrid. A Derived Row cell the salesperson edits by hand is frozen permanently and is never recalculated, including when capacity changes.
+_Avoid_: Computed row, auto row
+
+**Earth Pit Schedule**:
+The capacity bands fixing earth pit counts for Option 3 — 3 pits to 10 kWp, 4 to 20, 6 to 50, 8 to 250, 10 to 500, 12 to 1 MWp, then 2 more per additional MWp. Options 1 and 2 take two fewer, with a floor of three pits for any option at any capacity, so below 20 kWp the counts converge and electrode type is what distinguishes the options.
+_Avoid_: Earthing table, pit count rule

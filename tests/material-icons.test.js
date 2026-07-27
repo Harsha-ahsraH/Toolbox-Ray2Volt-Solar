@@ -20,6 +20,7 @@ const toolPages = [
   'payslip-generator',
   'warranty-card',
   'quote-generator',
+  'comparison-sheet',
   'request-for-quotation',
   'letterheadify',
 ];

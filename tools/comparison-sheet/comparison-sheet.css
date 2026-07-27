@@ -1,0 +1,6 @@
+/* Comparison Sheet stylesheet manifest. Keep imports in this order.
+   The ?v= query matches the one on the <link> in comparison-sheet.html —
+   bump both together so imported sheets are never served stale. */
+@import url('./comparison-sheet-form.css?v=20260727-a');
+@import url('./comparison-sheet-document.css?v=20260727-a');
+@import url('./comparison-sheet-print.css?v=20260727-a');

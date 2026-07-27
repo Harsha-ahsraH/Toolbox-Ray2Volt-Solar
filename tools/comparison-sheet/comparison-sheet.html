@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comparison Sheet - Ray2Volt Toolbox</title>
+    <link rel="icon" type="image/png" href="../../global/assets/favicon.png">
+    <meta name="description"
+        content="Compare three build standards for the same solar plant at three price points, on two A4 pages.">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=Google+Sans+Flex:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="../../global/styles/base.css">
+    <link rel="stylesheet" href="../../global/styles/navigation.css">
+    <link rel="stylesheet" href="../../global/styles/components.css">
+    <link rel="stylesheet" href="../../global/styles/responsive.css">
+    <link rel="stylesheet" href="../../global/styles/tool-responsive.css">
+    <link rel="stylesheet" href="comparison-sheet.css?v=20260727-a">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Mobile Header -->
+        <header class="mobile-header">
+            <img src="../../global/assets/logo.png" alt="Company Logo" class="mobile-logo">
+            <button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Open navigation menu">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
+                </svg>
+            </button>
+        </header>
+
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-mobile-header">
+                <img src="../../global/assets/logo.png" alt="Company Logo" class="sidebar-mobile-logo">
+                <button class="sidebar-close-btn" id="sidebarCloseBtn" aria-label="Close menu">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M18 6L6 18M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div>
+                <div class="logo-header">
+                    <img src="../../global/assets/logo.png" alt="Company Logo" class="logo">
+                    <h2>Toolbox</h2>
+                </div>
+                <nav class="main-nav">
+                    <ul>
+                        <li><a href="../../index.html" class="nav-link">Dashboard</a></li>
+                        <li><a href="../emi-calculator/emi-calculator.html" class="nav-link">EMI Calculator</a></li>
+                        <li><a href="../gst-calculator/gst-calculator.html" class="nav-link">GST Calculator</a></li>
+                        <li><a href="../package-prices/package-prices.html" class="nav-link">Package Prices</a></li>
+                        <li><a href="../sales-sop/sales-sop.html" class="nav-link">Sales SOP</a></li>
+                        <li><a href="../solar-savings/solar-savings.html" class="nav-link">Solar Savings</a></li>
+                        <li><a href="../receipt-generator/receipt-generator.html" class="nav-link">Payment Receipt</a>
+                        </li>
+                        <li><a href="../invoice-generator/invoice-generator.html" class="nav-link">Invoice Generator</a>
+                        </li>
+                        <li><a href="../proforma-invoice/proforma-invoice.html" class="nav-link">Proforma Invoice</a>
+                        </li>
+                        <li><a href="../purchase-order/purchase-order.html" class="nav-link">Purchase Order</a></li>
+                        <li><a href="../payslip-generator/payslip-generator.html" class="nav-link">PaySlip Generator</a>
+                        </li>
+                        <li><a href="../warranty-card/warranty-card.html" class="nav-link">Warranty Card</a></li>
+                        <li><a href="../quote-generator/quote-generator.html" class="nav-link">Quote Generator</a></li>
+                        <li><a href="../comparison-sheet/comparison-sheet.html" class="nav-link active">Comparison
+                                Sheet</a></li>
+                        <li><a href="../request-for-quotation/request-for-quotation.html" class="nav-link">Request For
+                                Quotation</a></li>
+                        <li><a href="../letterheadify/letterheadify.html" class="nav-link">Letterheadify</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <section id="comparison-sheet-section" class="content-section active">
+
+                <div class="no-print-area">
+                    <!-- Page Header -->
+                    <div class="cs-page-header">
+                        <h1>Comparison Sheet</h1>
+                        <p>Compare three build standards for the same plant at three price points, on two A4 pages.</p>
+                    </div>
+
+                    <!-- Plant & Prices -->
+                    <div class="cs-form-grid">
+                        <div class="cs-form-card">
+                            <h3 class="cs-section-title">
+                                <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                    <polyline points="14 2 14 8 20 8"></polyline>
+                                </svg>
+                                Plant
+                            </h3>
+                            <div class="cs-input-group">
+                                <label for="csCapacity">Plant capacity (kWp)</label>
+                                <input type="number" id="csCapacity" class="cs-input-field" min="0" step="0.01"
+                                    value="75" placeholder="e.g. 75">
+                            </div>
+                            <div class="cs-input-group">
+                                <label for="csSystemType">Type</label>
+                                <select id="csSystemType" class="cs-input-field">
+                                    <option value="on-grid" selected>On-Grid</option>
+                                    <option value="hybrid">Hybrid</option>
+                                </select>
+                            </div>
+                            <div class="cs-input-group" id="csBatteryGroup" hidden>
+                                <label for="csBattery">Battery capacity (kWh)</label>
+                                <input type="number" id="csBattery" class="cs-input-field" min="0" step="0.1"
+                                    placeholder="e.g. 100">
+                                <p class="cs-input-hint">Drives the battery replacement line in the 30-year cost of
+                                    ownership.</p>
+                            </div>
+                        </div>
+
+                        <div class="cs-form-card">
+                            <h3 class="cs-section-title">
+                                <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2">
+                                    <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                                    <line x1="1" y1="10" x2="23" y2="10"></line>
+                                </svg>
+                                Prices, ex-GST
+                            </h3>
+                            <div class="cs-mode-toggle">
+                                <label class="cs-mode-option">
+                                    <input type="radio" name="csPriceMode" value="rate" checked> ₹ per Wp
+                                </label>
+                                <label class="cs-mode-option">
+                                    <input type="radio" name="csPriceMode" value="total"> Total price
+                                </label>
+                            </div>
+                            <div class="cs-price-row">
+                                <label for="csPrice1">Option 1 — Basic build</label>
+                                <div class="cs-price-field">
+                                    <input type="number" id="csPrice1" class="cs-input-field" min="0" step="0.01"
+                                        placeholder="e.g. 34.00">
+                                    <span class="cs-price-unit">₹ / Wp</span>
+                                </div>
+                                <span class="cs-price-echo" id="csPriceEcho1"></span>
+                            </div>
+                            <div class="cs-price-row">
+                                <label for="csPrice2">Option 2 — Standard build</label>
+                                <div class="cs-price-field">
+                                    <input type="number" id="csPrice2" class="cs-input-field" min="0" step="0.01"
+                                        placeholder="e.g. 37.50">
+                                    <span class="cs-price-unit">₹ / Wp</span>
+                                </div>
+                                <span class="cs-price-echo" id="csPriceEcho2"></span>
+                            </div>
+                            <div class="cs-price-row">
+                                <label for="csPrice3">Option 3 — Ray2Volt Choice</label>
+                                <div class="cs-price-field">
+                                    <input type="number" id="csPrice3" class="cs-input-field" min="0" step="0.01"
+                                        placeholder="e.g. 40.00">
+                                    <span class="cs-price-unit">₹ / Wp</span>
+                                </div>
+                                <span class="cs-price-echo" id="csPriceEcho3"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Specification Table -->
+                    <div class="cs-spec-card">
+                        <div class="cs-spec-header">
+                            <div>
+                                <h3>What the price difference buys</h3>
+                                <p>Edit any cell. Highlighted cells are your own wording and are never recalculated.</p>
+                            </div>
+                            <span class="cs-row-count" id="csSpecRowCount"></span>
+                        </div>
+
+                        <div class="cs-spec-table-container">
+                            <table class="cs-spec-input-table" id="csSpecTable">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 20%;">Specification</th>
+                                        <th style="width: 25%;">Option 1</th>
+                                        <th style="width: 25%;">Option 2</th>
+                                        <th style="width: 25%;">Option 3</th>
+                                        <th style="width: 44px;"></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="csSpecTableBody">
+                                    <!-- Populated by JS from the template for the selected type -->
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="cs-spec-actions">
+                            <button type="button" class="cs-btn-secondary" id="csResetRowsBtn">Reset to template</button>
+                        </div>
+                    </div>
+
+                    <div class="cs-validation" id="csValidation" hidden></div>
+
+                    <!-- Action Buttons -->
+                    <div class="cs-actions">
+                        <button type="button" id="csPreviewBtn" class="cs-btn-primary">Generate Preview</button>
+                        <button type="button" id="csPrintBtn" class="cs-btn-secondary">Print / Save as PDF</button>
+                        <button type="button" id="csDownloadBtn" class="cs-btn-secondary">Download PDF</button>
+                    </div>
+                </div>
+
+                <!-- ============================================
+                     COMPARISON SHEET - 2-Page A4 Document
+                     ============================================ -->
+                <div id="comparisonSheet">
+                    <div class="cs-page" id="csPageOne"></div>
+                    <div class="cs-page" id="csPageTwo"></div>
+                </div>
+
+            </section>
+        </main>
+    </div>
+
+    <!-- Overlay for Mobile Sidebar -->
+    <div class="overlay" id="overlay"></div>
+
+    <script src="../../global/scripts/tool-lock.js" data-tool-id="comparison-sheet"></script>
+    <script src="../../global/scripts/navigation.js"></script>
+    <script src="../../global/scripts/pdf-download.js"></script>
+    <script src="comparison-sheet-content.js?v=20260727-a"></script>
+    <script src="comparison-sheet-model.js?v=20260727-a"></script>
+    <script src="comparison-sheet-copy.js?v=20260727-a"></script>
+    <script src="comparison-sheet-render.js?v=20260727-a"></script>
+    <script src="comparison-sheet.js?v=20260727-a"></script>
+</body>
+
+</html>
