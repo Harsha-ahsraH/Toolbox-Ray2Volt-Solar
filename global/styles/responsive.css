@@ -132,6 +132,8 @@
     .nav-search-input {
         padding-top: 11px;
         padding-bottom: 11px;
+        /* 16px keeps iOS from zooming the page when the field takes focus. */
+        font-size: 16px;
     }
 
     /* Improve nav links on mobile for touch */
