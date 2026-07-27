@@ -116,6 +116,24 @@
         }
     }
 
+    /* Results must appear instantly — the staggered fade would blank the list
+       on every keystroke. */
+    .sidebar.open .main-nav.is-filtering .nav-link {
+        animation: none;
+        opacity: 1;
+        transform: none;
+    }
+
+    .nav-search {
+        padding: var(--spacing-sm) var(--spacing-md);
+        border-bottom: 1px solid var(--border-light);
+    }
+
+    .nav-search-input {
+        padding-top: 11px;
+        padding-bottom: 11px;
+    }
+
     /* Improve nav links on mobile for touch */
     .main-nav .nav-link {
         padding: 14px 20px;
