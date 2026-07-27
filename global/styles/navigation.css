@@ -155,10 +155,12 @@
     flex-shrink: 0;
 }
 
+/* The cap is a safety net for very narrow screens; at 60% it was binding at
+   normal widths and letterboxing the wordmark below its 22px. */
 .sidebar-mobile-header .sidebar-mobile-logo {
     height: 22px;
     width: auto;
-    max-width: 60%;
+    max-width: 75%;
     object-fit: contain;
 }
 
@@ -208,9 +210,13 @@
     text-align: center;
 }
 
+/* The wordmark is 1401x209, so height drives the width: at 32px it ran 215px
+   and spilled past the header's own padding in a 250px sidebar. */
 .logo-header .logo {
-    height: 32px;
+    height: 24px;
     width: auto;
+    max-width: 100%;
+    object-fit: contain;
 }
 
 .logo-header h2 {
