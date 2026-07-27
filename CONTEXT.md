@@ -66,6 +66,18 @@ _Avoid_: Tier, package, variant
 A Comparison Sheet specification row filled from the Generation Request rather than the template — rear-side generation, earthing, annual maintenance, and usable storage on Hybrid. A Derived Row cell the salesperson edits by hand is frozen permanently and is never recalculated, including when capacity changes.
 _Avoid_: Computed row, auto row
 
+**Resource Library**:
+The catalogue tool listing every downloadable template, datasheet, brochure and process document. It stores nothing itself; each entry either points at a file committed into `downloads/` or links to one held in Drive.
+_Avoid_: Downloads page, file manager, document store
+
+**Toolbox-hosted resource**:
+A Resource Library entry whose file is committed into this repository (`place: 'toolbox'`). **The repository is public**, so such a file is downloadable by anyone with its address, is not protected by the tool password, and remains in git history after deletion. Reserved for material that is safe to publish: manufacturer datasheets, brochures, blank templates.
+_Avoid_: Local file, internal file
+
+**Linked resource**:
+A Resource Library entry that points at a file in Drive or SharePoint (`place: 'link'`). Access is governed by whoever owns that folder, and staff without repository access can add them. Required for anything internal — price lists showing margin, contracts, or documents holding real figures or personal details.
+_Avoid_: External file, remote file
+
 **Earth Pit Schedule**:
 The capacity bands fixing earth pit counts for Option 3 — 3 pits to 10 kWp, 4 to 20, 6 to 50, 8 to 250, 10 to 500, 12 to 1 MWp, then 2 more per additional MWp. Options 1 and 2 take two fewer, with a floor of three pits for any option at any capacity, so below 20 kWp the counts converge and electrode type is what distinguishes the options.
 _Avoid_: Earthing table, pit count rule

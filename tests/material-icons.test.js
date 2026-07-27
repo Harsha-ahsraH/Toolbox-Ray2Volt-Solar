@@ -23,6 +23,7 @@ const toolPages = [
   'comparison-sheet',
   'request-for-quotation',
   'letterheadify',
+  'resource-library',
 ];
 
 assert(

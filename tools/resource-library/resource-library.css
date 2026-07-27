@@ -1,0 +1,458 @@
+/* ============================================
+   RESOURCE LIBRARY - Stylesheet
+   Ray2Volt Solar Toolbox. Form furniture matches
+   the Quote Generator; headers stay light.
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400;500;600;700&display=swap');
+
+/* --- Page Header --- */
+.rl-page-header {
+    margin-bottom: 1.5rem;
+}
+
+.rl-page-header h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+}
+
+.rl-page-header p {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+}
+
+@media screen and (max-width: 768px) {
+    .rl-page-header {
+        margin-bottom: 1rem;
+    }
+
+    .rl-page-header h1 {
+        font-size: 1.4rem;
+        line-height: 1.2;
+    }
+
+    .rl-page-header p {
+        font-size: 0.9rem;
+        line-height: 1.4;
+    }
+}
+
+/* --- Catalogue problems --- */
+.rl-problems {
+    border: 1px solid #DC2626;
+    border-left-width: 3px;
+    border-radius: 2px;
+    background: #FEF2F2;
+    padding: 0.9rem 1rem;
+    margin-bottom: var(--section-gap, 1.5rem);
+}
+
+.rl-problems-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #991B1B;
+    margin-bottom: 0.4rem;
+}
+
+.rl-problems ul {
+    margin: 0;
+    padding-left: 1.1rem;
+}
+
+.rl-problems li {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: #991B1B;
+}
+
+/* --- Search and filters --- */
+.rl-controls-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-medium);
+    border-radius: 2px;
+    padding: 1rem;
+    margin-bottom: var(--section-gap, 1.5rem);
+}
+
+.rl-search-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    margin-bottom: 0.9rem;
+}
+
+.rl-search-field {
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex: 1;
+}
+
+.rl-search-icon {
+    position: absolute;
+    left: 0.75rem;
+    font-size: 20px;
+    color: var(--text-muted);
+    pointer-events: none;
+}
+
+.rl-search-input {
+    width: 100%;
+    padding: 0.75rem 2.5rem;
+    /* 16px prevents the iOS focus zoom. */
+    font-size: 16px;
+    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
+    border: 1px solid var(--border-medium);
+    border-radius: 2px;
+    background: var(--bg-card);
+    color: var(--text-primary);
+    box-sizing: border-box;
+    transition: all 0.1s ease;
+}
+
+.rl-search-input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-light);
+    background: #fff;
+}
+
+/* The browser's own clear affordance would sit on top of ours. */
+.rl-search-input::-webkit-search-cancel-button {
+    display: none;
+}
+
+.rl-search-clear {
+    position: absolute;
+    right: 0.5rem;
+    width: 28px;
+    height: 28px;
+    line-height: 1;
+    font-size: 1.25rem;
+    border: none;
+    border-radius: 2px;
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+}
+
+.rl-search-clear:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+}
+
+.rl-count {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+}
+
+.rl-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.rl-filter {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.45rem 0.75rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
+    border: 1px solid var(--border-medium);
+    border-radius: 2px;
+    background: var(--bg-card);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.1s ease;
+}
+
+.rl-filter:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+}
+
+.rl-filter-active {
+    border-color: var(--primary-dark);
+    background: var(--bg-active);
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.rl-filter-count {
+    font-size: 0.75rem;
+    font-variant-numeric: tabular-nums;
+    color: var(--text-muted);
+}
+
+.rl-filter-active .rl-filter-count {
+    color: var(--primary-dark);
+}
+
+/* --- Results grid --- */
+.rl-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-bottom: var(--section-gap, 1.5rem);
+}
+
+.rl-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border-medium);
+    border-radius: 2px;
+    padding: 1rem;
+}
+
+.rl-card-head {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+}
+
+.rl-card-head h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+    line-height: 1.35;
+}
+
+.rl-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+}
+
+.rl-badge {
+    display: inline-block;
+    padding: 0.15rem 0.45rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    border-radius: 2px;
+    border: 1px solid transparent;
+}
+
+/* Where the file lives. Not a verdict, so no red or green — those are reserved
+   for good and bad elsewhere in the toolbox. */
+.rl-badge-toolbox {
+    background: #EDF3FA;
+    border-color: #B8C4D2;
+    color: #1F4E79;
+}
+
+.rl-badge-link {
+    background: #F3F4F6;
+    border-color: #D1D5DB;
+    color: #4B5563;
+}
+
+.rl-badge-format {
+    background: transparent;
+    border-color: var(--border-light);
+    color: var(--text-muted);
+}
+
+.rl-card-desc {
+    flex: 1;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+.rl-card-foot {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    padding-top: 0.7rem;
+    border-top: 1px solid var(--border-light);
+}
+
+.rl-card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.5rem;
+}
+
+.rl-category {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.rl-updated {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+}
+
+.rl-card-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.rl-btn {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
+    border: 1px solid var(--primary);
+    border-radius: 2px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.1s ease;
+}
+
+.rl-btn-primary {
+    background: var(--primary);
+    color: #fff;
+}
+
+.rl-btn-primary:hover {
+    background: var(--primary-dark);
+    border-color: var(--primary-dark);
+    color: #fff;
+}
+
+.rl-btn-secondary {
+    background: transparent;
+    color: var(--primary);
+}
+
+.rl-btn-secondary:hover {
+    background: var(--primary);
+    color: #fff;
+}
+
+/* --- Empty state --- */
+.rl-empty {
+    background: var(--bg-card);
+    border: 1px dashed var(--border-medium);
+    border-radius: 2px;
+    padding: 2rem 1rem;
+    text-align: center;
+    margin-bottom: var(--section-gap, 1.5rem);
+}
+
+.rl-empty p {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+.rl-empty-hint {
+    margin-top: 0.4rem !important;
+    font-size: 0.85rem !important;
+    color: var(--text-muted) !important;
+}
+
+.rl-empty code,
+.rl-help code {
+    font-family: ui-monospace, 'Cascadia Code', Consolas, monospace;
+    font-size: 0.85em;
+    background: var(--bg-hover);
+    border: 1px solid var(--border-light);
+    border-radius: 2px;
+    padding: 0.05rem 0.3rem;
+}
+
+/* --- Adding a resource --- */
+.rl-help {
+    background: var(--bg-card);
+    border: 1px solid var(--border-medium);
+    border-radius: 2px;
+    margin-bottom: var(--section-gap, 1.5rem);
+}
+
+.rl-help summary {
+    padding: 0.9rem 1rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    cursor: pointer;
+}
+
+.rl-help[open] summary {
+    border-bottom: 1px solid var(--border-light);
+}
+
+.rl-help-body {
+    padding: 1rem;
+}
+
+.rl-help-body p,
+.rl-help-body li {
+    font-size: 0.875rem;
+    line-height: 1.55;
+    color: var(--text-secondary);
+}
+
+.rl-help-body p {
+    margin-bottom: 0.7rem;
+}
+
+.rl-help-body ul {
+    margin: 0 0 0.7rem 0;
+    padding-left: 1.2rem;
+}
+
+.rl-help-body li {
+    margin-bottom: 0.5rem;
+}
+
+.rl-help-body strong {
+    color: var(--text-primary);
+}
+
+.rl-help-rule {
+    font-weight: 600;
+    color: var(--text-primary) !important;
+    margin-bottom: 0 !important;
+}
+
+/* --- Wider screens --- */
+@media screen and (min-width: 600px) {
+    .rl-search-row {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+    }
+}
+
+@media screen and (min-width: 769px) {
+    .rl-controls-card,
+    .rl-card,
+    .rl-help-body {
+        padding: 1.5rem;
+    }
+
+    .rl-search-input {
+        font-size: 0.95rem;
+    }
+
+    .rl-card-foot {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+}
+
+@media screen and (min-width: 1025px) {
+    .rl-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1.25rem;
+    }
+}

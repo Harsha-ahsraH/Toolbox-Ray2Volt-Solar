@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resource Library - Ray2Volt Toolbox</title>
+    <link rel="icon" type="image/png" href="../../global/assets/favicon.png">
+    <meta name="description" content="Find and download Ray2Volt templates, datasheets, brochures and process documents.">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=Google+Sans+Flex:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="../../global/styles/base.css">
+    <link rel="stylesheet" href="../../global/styles/navigation.css">
+    <link rel="stylesheet" href="../../global/styles/components.css">
+    <link rel="stylesheet" href="../../global/styles/responsive.css">
+    <link rel="stylesheet" href="../../global/styles/tool-responsive.css">
+    <link rel="stylesheet" href="resource-library.css?v=20260727-a">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Mobile Header -->
+        <header class="mobile-header">
+            <img src="../../global/assets/logo.png" alt="Company Logo" class="mobile-logo">
+            <button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Open navigation menu">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
+                </svg>
+            </button>
+        </header>
+
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-mobile-header">
+                <img src="../../global/assets/logo.png" alt="Company Logo" class="sidebar-mobile-logo">
+                <button class="sidebar-close-btn" id="sidebarCloseBtn" aria-label="Close menu">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M18 6L6 18M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div>
+                <div class="logo-header">
+                    <img src="../../global/assets/logo.png" alt="Company Logo" class="logo">
+                    <h2>Toolbox</h2>
+                </div>
+                <nav class="main-nav">
+                    <ul>
+                        <li><a href="../../index.html" class="nav-link">Dashboard</a></li>
+                        <li><a href="../emi-calculator/emi-calculator.html" class="nav-link">EMI Calculator</a></li>
+                        <li><a href="../gst-calculator/gst-calculator.html" class="nav-link">GST Calculator</a></li>
+                        <li><a href="../package-prices/package-prices.html" class="nav-link">Package Prices</a></li>
+                        <li><a href="../sales-sop/sales-sop.html" class="nav-link">Sales SOP</a></li>
+                        <li><a href="../solar-savings/solar-savings.html" class="nav-link">Solar Savings</a></li>
+                        <li><a href="../receipt-generator/receipt-generator.html" class="nav-link">Payment Receipt</a>
+                        </li>
+                        <li><a href="../invoice-generator/invoice-generator.html" class="nav-link">Invoice Generator</a>
+                        </li>
+                        <li><a href="../proforma-invoice/proforma-invoice.html" class="nav-link">Proforma Invoice</a>
+                        </li>
+                        <li><a href="../purchase-order/purchase-order.html" class="nav-link">Purchase Order</a></li>
+                        <li><a href="../payslip-generator/payslip-generator.html" class="nav-link">PaySlip Generator</a>
+                        </li>
+                        <li><a href="../warranty-card/warranty-card.html" class="nav-link">Warranty Card</a></li>
+                        <li><a href="../quote-generator/quote-generator.html" class="nav-link">Quote Generator</a></li>
+                        <li><a href="../comparison-sheet/comparison-sheet.html" class="nav-link">Comparison Sheet</a>
+                        </li>
+                        <li><a href="../request-for-quotation/request-for-quotation.html" class="nav-link">Request For
+                                Quotation</a></li>
+                        <li><a href="../letterheadify/letterheadify.html" class="nav-link">Letterheadify</a></li>
+                        <li><a href="../resource-library/resource-library.html" class="nav-link active">Resource
+                                Library</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <section id="resource-library-section" class="content-section active">
+
+                <!-- Page Header -->
+                <div class="rl-page-header">
+                    <h1>Resource Library</h1>
+                    <p>Templates, datasheets, brochures and process documents, in one place.</p>
+                </div>
+
+                <div class="rl-problems" id="rlProblems" hidden></div>
+
+                <!-- Search and filters -->
+                <div class="rl-controls-card">
+                    <div class="rl-search-row">
+                        <div class="rl-search-field">
+                            <span class="rl-search-icon material-symbols-rounded" aria-hidden="true">search</span>
+                            <input type="search" id="rlSearch" class="rl-search-input"
+                                placeholder="Search by name, description or type" aria-label="Search resources"
+                                autocomplete="off">
+                            <button type="button" class="rl-search-clear" id="rlClearSearch" aria-label="Clear search"
+                                hidden>&times;</button>
+                        </div>
+                        <span class="rl-count" id="rlCount"></span>
+                    </div>
+                    <div class="rl-filters" id="rlFilters" role="group" aria-label="Filter by category"></div>
+                </div>
+
+                <!-- Results -->
+                <div class="rl-grid" id="rlGrid"></div>
+                <div class="rl-empty" id="rlEmpty" hidden></div>
+
+                <!-- How to add -->
+                <details class="rl-help">
+                    <summary>Adding a resource</summary>
+                    <div class="rl-help-body">
+                        <p>Everything on this page comes from one file:
+                            <code>tools/resource-library/resource-library-catalogue.js</code>. Add an entry there and it
+                            appears here.
+                        </p>
+                        <p>There are two kinds of entry, and the difference is not cosmetic:</p>
+                        <ul>
+                            <li><strong>In toolbox</strong> — the file is committed into this repository.
+                                One-click download and it works offline. <strong>The repository is public:</strong>
+                                anyone on the internet can download the file directly by its address, the tool password
+                                does not protect it, and it stays in the history even after you delete it. Use this only
+                                for material you would be happy for a competitor or a customer to read.</li>
+                            <li><strong>Drive link</strong> — the file stays in Drive and this is only a link.
+                                Whoever owns that folder decides who can open it, and the team can add files without
+                                needing repository access. Use this for anything internal: price lists with margins,
+                                vendor contracts, signed documents, templates holding real figures.</li>
+                        </ul>
+                        <p class="rl-help-rule">If you are not sure which to use, use a Drive link.</p>
+                    </div>
+                </details>
+
+            </section>
+        </main>
+    </div>
+
+    <!-- Overlay for Mobile Sidebar -->
+    <div class="overlay" id="overlay"></div>
+
+    <script src="../../global/scripts/tool-lock.js" data-tool-id="resource-library"></script>
+    <script src="../../global/scripts/navigation.js"></script>
+    <script src="resource-library-catalogue.js?v=20260727-a"></script>
+    <script src="resource-library.js?v=20260727-a"></script>
+</body>
+
+</html>

@@ -19,7 +19,8 @@ const toolNames = [
     'quote-generator',
     'comparison-sheet',
     'request-for-quotation',
-    'letterheadify'
+    'letterheadify',
+    'resource-library'
 ];
 
 for (const toolName of toolNames) {
