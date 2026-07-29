@@ -28,6 +28,10 @@
     --primary: #06B6D4;
     --primary-light: #CFFAFE;
     --primary-dark: #0891B2;
+    /* Accent text on a light background. --primary is 2.45:1 and --primary-dark
+       3.68:1 against white, so neither is legible as body text; this is 5.37:1.
+       Use it wherever the accent is the text itself, never as a fill. */
+    --primary-text: #0E7490;
 
     /* Neutral Colors - Clean Light Theme */
     --bg-body: #F5F7F8;
