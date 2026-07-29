@@ -25,7 +25,9 @@ const TOOL_SEARCH_KEYWORDS = {
     'comparison-sheet.html': 'comparison compare options build standard basic choice',
     'request-for-quotation.html': 'rfq request for quotation vendor enquiry supplier',
     'letterheadify.html': 'letterhead pdf brand stationery header stamp',
-    'resource-library.html': 'resource library download template datasheet brochure document file drive'
+    'resource-library.html': 'resource library download template datasheet brochure document file drive',
+    // Keyed by host, not file name — the Pricing Desk is a separate site.
+    'pricing.ray2voltsolar.com': 'pricing desk consultant consultants management package prices rates portal'
 };
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -102,9 +104,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const mainNav = sidebar.querySelector('.main-nav');
     if (!mainNav) return;
 
-    /** The file name of a tool page, used to tie a nav link to its card. */
+    /**
+     * The file name of a tool page, used to tie a nav link to its card. An
+     * external tool has no file name, so its host stands in — which is why the
+     * trailing slash has to go first.
+     */
     function toolKey(href) {
-        const withoutQuery = (href || '').split(/[?#]/)[0];
+        const withoutQuery = (href || '').split(/[?#]/)[0].replace(/\/+$/, '');
         return withoutQuery.slice(withoutQuery.lastIndexOf('/') + 1).toLowerCase();
     }
 

@@ -17,12 +17,19 @@ const keywordBlock = navigationJs.slice(
     navigationJs.indexOf('document.addEventListener')
 );
 const keywordKeys = new Set(
-    Array.from(keywordBlock.matchAll(/'([a-z0-9-]+\.html)':/g), match => match[1])
+    Array.from(keywordBlock.matchAll(/'([a-z0-9.-]+)':/g), match => match[1])
 );
 const linkedPages = new Set();
 
+// Mirrors toolKey() in navigation.js: an external tool is keyed by host, so the
+// trailing slash has to come off before the last segment is taken.
+const toolKey = (href) => {
+    const withoutQuery = href.split(/[?#]/)[0].replace(/\/+$/, '');
+    return withoutQuery.slice(withoutQuery.lastIndexOf('/') + 1).toLowerCase();
+};
+
 for (const match of indexHtml.matchAll(/<a href="([^"]+)" class="nav-link/g)) {
-    const page = match[1].slice(match[1].lastIndexOf('/') + 1);
+    const page = toolKey(match[1]);
     linkedPages.add(page);
     assert.ok(
         keywordKeys.has(page),

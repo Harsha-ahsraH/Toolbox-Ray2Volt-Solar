@@ -428,6 +428,11 @@
     .sidebar.collapsed .main-nav .nav-link::before {
         margin: 0;
     }
+
+    /* No room for the leaves-the-toolbox arrow beside a bare icon. */
+    .sidebar.collapsed .main-nav .nav-link.is-external::after {
+        display: none;
+    }
 }
 
 .main-nav ul {
@@ -447,7 +452,9 @@
 }
 
 .main-nav .nav-link::before,
-.tool-card h3::before {
+.main-nav .nav-link.is-external::after,
+.tool-card h3::before,
+.tool-card.is-external h3::after {
     font-family: 'Material Symbols Rounded';
     font-weight: 400;
     font-style: normal;
@@ -574,6 +581,28 @@
 .main-nav .nav-link[href$="letterheadify.html"]::before,
 .tool-card[href$="letterheadify.html"] h3::before {
     content: "picture_as_pdf";
+}
+
+/* Matched on host rather than file name: this one leaves the toolbox. */
+.main-nav .nav-link[href*="pricing.ray2voltsolar.com"]::before,
+.tool-card[href*="pricing.ray2voltsolar.com"] h3::before {
+    content: "price_change";
+}
+
+/* An item that navigates away from the toolbox says so. */
+.main-nav .nav-link.is-external::after,
+.tool-card.is-external h3::after {
+    content: "open_in_new";
+    margin-left: auto;
+    flex: 0 0 auto;
+    font-size: 15px;
+    color: var(--text-muted);
+    transition: color var(--transition-fast);
+}
+
+.main-nav .nav-link.is-external:hover::after,
+.tool-card.is-external:hover h3::after {
+    color: var(--primary);
 }
 
 /* --- Main Content Area --- */
