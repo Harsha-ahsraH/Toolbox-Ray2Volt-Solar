@@ -21,6 +21,7 @@ const toolPages = [
   'warranty-card',
   'quote-generator',
   'comparison-sheet',
+  'margin-breakdown',
   'request-for-quotation',
   'letterheadify',
   'resource-library',

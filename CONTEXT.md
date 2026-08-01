@@ -66,6 +66,18 @@ _Avoid_: Tier, package, variant
 A Comparison Sheet specification row filled from the Generation Request rather than the template — rear-side generation, earthing, annual maintenance, and usable storage on Hybrid. A Derived Row cell the salesperson edits by hand is frozen permanently and is never recalculated, including when capacity changes.
 _Avoid_: Computed row, auto row
 
+**Margin Breakdown**:
+The A4 document produced by the Margin Breakdown tool, splitting one project's price into numbered Add-on Lines, their sub-total, and the Ray2Volt Project Margin. It is issued to a named consultant or channel partner, not to the customer, and it is one page — content that does not fit continues on further pages carrying the same header and footer.
+_Avoid_: Margin sheet, price split, commission statement
+
+**Add-on Line**:
+One numbered row of a Margin Breakdown: a description and an amount. Nothing about it is derived from capacity or project type — every figure is typed, so the consultant can check each line against what they were told.
+_Avoid_: Line item, BOM row
+
+**Ray2Volt Project Margin**:
+The margin figure printed as the closing row of a Margin Breakdown, entered by hand and never calculated from the Add-on Lines. It is a separate figure from the Add-on sub-total, which is their sum.
+_Avoid_: Profit, commission, markup
+
 **Resource Library**:
 The catalogue tool listing every downloadable template, datasheet, brochure and process document. It stores nothing itself; each entry either points at a file committed into `downloads/` or links to one held in Drive.
 _Avoid_: Downloads page, file manager, document store

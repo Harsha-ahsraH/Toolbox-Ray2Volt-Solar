@@ -1,0 +1,109 @@
+/* ============================================
+   MARGIN BREAKDOWN - Print
+   The paginator has already cut the document into
+   A4 canvases, so printing only has to get out of
+   the way: hide the editing surface, drop the
+   preview zoom, and let one .mb-page be one sheet.
+   ============================================ */
+
+@media print {
+    body * {
+        visibility: hidden;
+    }
+
+    #marginBreakdown,
+    #marginBreakdown * {
+        visibility: visible;
+    }
+
+    #marginBreakdown {
+        position: absolute;
+        inset: 0;
+        width: auto;
+        height: auto;
+        margin: 0;
+        padding: 0;
+        background: #fff;
+        display: block !important;
+        overflow: visible;
+        zoom: 1 !important;
+    }
+
+    .mb-page {
+        width: 210mm !important;
+        height: 297mm !important;
+        min-height: 297mm !important;
+        max-height: 297mm !important;
+        margin: 0 !important;
+        padding: 12mm 14mm !important;
+        border: none !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        overflow: hidden !important;
+        break-after: page;
+        page-break-after: always;
+        zoom: 1 !important;
+    }
+
+    .mb-page:last-child {
+        break-after: auto;
+        page-break-after: auto;
+    }
+
+    /* Tints carry meaning here — the header band and the two closing rows —
+       so they have to survive the browser's default colour stripping. */
+    .mb-doc-table thead th {
+        background-color: #EDF3FA !important;
+        color: #1F4E79 !important;
+    }
+
+    .mb-doc-table tbody tr:nth-child(even) td {
+        background-color: #FAFBFD !important;
+    }
+
+    .mb-summary-row th,
+    .mb-summary-row td {
+        background-color: #F7F9FC !important;
+    }
+
+    .mb-margin-row th,
+    .mb-margin-row td {
+        background-color: #EDF3FA !important;
+    }
+
+    .mb-notes th {
+        background-color: #EDF3FA !important;
+    }
+
+    blockquote.mb-notes,
+    pre.mb-notes {
+        background-color: #F7F9FC !important;
+    }
+
+    .mb-header,
+    .mb-footer,
+    .mb-meta {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .mb-doc-table tr,
+    .mb-notes tr {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .no-print-area {
+        display: none !important;
+    }
+
+    @page {
+        size: A4;
+        margin: 0;
+    }
+
+    * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+}

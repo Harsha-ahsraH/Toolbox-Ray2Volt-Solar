@@ -568,6 +568,11 @@
     content: "balance";
 }
 
+.main-nav .nav-link[href$="margin-breakdown.html"]::before,
+.tool-card[href$="margin-breakdown.html"] h3::before {
+    content: "pie_chart";
+}
+
 .main-nav .nav-link[href$="resource-library.html"]::before,
 .tool-card[href$="resource-library.html"] h3::before {
     content: "library_books";

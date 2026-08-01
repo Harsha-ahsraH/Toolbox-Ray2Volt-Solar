@@ -1,0 +1,481 @@
+/* ============================================
+   MARGIN BREAKDOWN - A4 Document
+   Clean corporate: Google Sans Flex, one navy
+   accent, grayscale everything else. Tokens match
+   the Quote Generator's proposal so the two
+   documents read as one set.
+
+   The document is one page. Anything that does not
+   fit flows onto further pages that carry the same
+   header and footer — see margin-breakdown-paginate.js.
+   ============================================ */
+
+#marginBreakdown {
+    --mb-navy: #1F4E79;
+    --mb-navy-dark: #17395A;
+    --mb-tint: #EDF3FA;
+    --mb-tint-strong: #DEEAF7;
+    --mb-ink: #1A1A1A;
+    --mb-gray: #555555;
+    --mb-muted: #777777;
+    --mb-line: #D8DEE6;
+    --mb-border: #B8C4D2;
+    --mb-soft: #F7F9FC;
+
+    --mb-preview-scale: 1;
+
+    display: none;
+    width: 100%;
+    margin: 2rem auto;
+    font-family: 'Google Sans Flex', Arial, sans-serif;
+    font-size: 10pt;
+    color: var(--mb-ink);
+    box-sizing: border-box;
+}
+
+#marginBreakdown.visible {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+/* base.css points headings at Google Sans for the toolbox UI; the document
+   keeps Google Sans Flex throughout, so pin them back. */
+#marginBreakdown h1,
+#marginBreakdown h2,
+#marginBreakdown h3 {
+    font-family: 'Google Sans Flex', Arial, sans-serif;
+}
+
+/* --- The page: preview and PDF share one A4 canvas.
+   The fixed height plus `overflow: hidden` is what makes an over-long page
+   measurable rather than silently spilling; the paginator relies on it. --- */
+.mb-page {
+    width: 210mm;
+    height: 297mm;
+    min-height: 297mm;
+    max-height: 297mm;
+    padding: 12mm 14mm;
+    background: #fff;
+    border-radius: 2px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 auto;
+    overflow: hidden;
+    page-break-after: always;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+    zoom: var(--mb-preview-scale);
+}
+
+.mb-page:last-child {
+    page-break-after: auto;
+}
+
+/* The only region that flows. Its measured height is what tells the paginator
+   a block has to move to the next page. */
+.mb-page-main {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.mb-page-body {
+    flex: 0 0 auto;
+}
+
+/* --- Header: identical on every page --- */
+.mb-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex: 0 0 auto;
+    margin-bottom: 5mm;
+    padding-bottom: 7px;
+    border-bottom: 2px solid var(--mb-navy);
+}
+
+.mb-logo {
+    width: 170px;
+    height: auto;
+}
+
+.mb-title-section {
+    flex: 1;
+    text-align: right;
+}
+
+.mb-title-section h1 {
+    font-size: 14pt;
+    font-weight: 700;
+    color: var(--mb-ink);
+    letter-spacing: 0.5px;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.mb-subtitle {
+    font-size: 8.5pt;
+    font-weight: 400;
+    color: var(--mb-muted);
+    margin: 2px 0 0 0;
+    letter-spacing: 0.3px;
+}
+
+/* --- Section headings --- */
+.mb-heading {
+    font-size: 10pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--mb-navy);
+    margin: 4mm 0 1.5mm 0;
+}
+
+.mb-page-body > .mb-heading:first-child {
+    margin-top: 0;
+}
+
+/* --- Who this is for: customer on the left, consultant on the right --- */
+.mb-meta {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 8mm;
+    align-items: start;
+    padding-bottom: 4mm;
+    border-bottom: 1px solid var(--mb-line);
+}
+
+.mb-meta-label {
+    display: block;
+    font-size: 7.5pt;
+    font-weight: 700;
+    color: var(--mb-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 3px;
+}
+
+.mb-meta-name {
+    font-size: 13pt;
+    font-weight: 700;
+    color: var(--mb-navy-dark);
+    margin: 0;
+}
+
+.mb-meta-detail {
+    font-size: 9.5pt;
+    color: var(--mb-gray);
+    margin: 2px 0 0 0;
+    line-height: 1.4;
+}
+
+.mb-meta-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 9.5pt;
+}
+
+.mb-meta-table th,
+.mb-meta-table td {
+    padding: 4px 0;
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 1px solid var(--mb-line);
+}
+
+.mb-meta-table th {
+    font-weight: 600;
+    color: var(--mb-muted);
+    white-space: nowrap;
+    padding-right: 8px;
+}
+
+.mb-meta-table td {
+    color: var(--mb-ink);
+    font-weight: 600;
+    text-align: right;
+}
+
+.mb-meta-table tr:last-child th,
+.mb-meta-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* --- Shared table furniture --- */
+.mb-doc-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid var(--mb-border);
+    table-layout: fixed;
+}
+
+.mb-doc-table th,
+.mb-doc-table td {
+    padding: 6px 9px;
+    text-align: left;
+    font-size: 9pt;
+    line-height: 1.4;
+    border: 1px solid var(--mb-line);
+    vertical-align: top;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* A light tint with navy text — never a dark fill, which prints heavy and was
+   rejected on the Comparison Sheet. The band carries its own padding so it is
+   not starved by whatever the body rows need. */
+.mb-doc-table thead th {
+    background-color: var(--mb-tint);
+    padding: 8px 9px;
+    font-weight: 700;
+    font-size: 8.5pt;
+    color: var(--mb-navy);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    vertical-align: middle;
+    border-bottom: 1.5px solid var(--mb-navy);
+}
+
+.mb-doc-table tbody td {
+    background-color: #fff;
+    color: var(--mb-ink);
+}
+
+/* Zebra banding, so the eye can hold a row across the width. */
+.mb-doc-table tbody tr:nth-child(even) td {
+    background-color: #FAFBFD;
+}
+
+.mb-amount,
+.mb-doc-table th.mb-amount {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+.mb-sn {
+    text-align: center;
+    color: var(--mb-gray);
+    font-variant-numeric: tabular-nums;
+}
+
+/* --- Price breakdown --- */
+.mb-breakdown-table .mb-line-description {
+    color: var(--mb-ink);
+}
+
+/* The two rows the document closes on. Weight and rules do the emphasis,
+   not a fill, and both rows stay on one page together. */
+.mb-summary-row th,
+.mb-summary-row td {
+    background-color: var(--mb-soft);
+    font-weight: 700;
+    font-size: 9.5pt;
+    color: var(--mb-navy-dark);
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
+
+.mb-summary-row th {
+    text-align: left;
+    letter-spacing: 0.2px;
+}
+
+.mb-subtotal-row th,
+.mb-subtotal-row td {
+    border-top: 1.5px solid var(--mb-navy);
+}
+
+.mb-margin-row th,
+.mb-margin-row td {
+    background-color: var(--mb-tint);
+    border-top: 1px solid var(--mb-border);
+    border-bottom: 1.5px solid var(--mb-navy);
+}
+
+/* --- Reference documents --- */
+.mb-ref-table .mb-ref-link {
+    font-size: 8pt;
+    color: var(--mb-navy);
+    word-break: break-all;
+    text-decoration: underline;
+}
+
+.mb-ref-empty {
+    font-size: 8.5pt;
+    color: var(--mb-muted);
+    margin: 0;
+}
+
+/* --- Notes: rendered from Markdown ---
+   The class lands on each top-level node the Markdown compiles to, not on a
+   wrapper, so the paginator can move or split them one at a time. A wrapper
+   would be a single indivisible block the height of the whole note. */
+.mb-notes {
+    font-size: 9pt;
+    line-height: 1.5;
+    color: var(--mb-gray);
+    overflow-wrap: anywhere;
+}
+
+h1.mb-notes,
+h2.mb-notes,
+h3.mb-notes,
+h4.mb-notes,
+h5.mb-notes,
+h6.mb-notes {
+    color: var(--mb-navy-dark);
+    font-weight: 700;
+    margin: 3mm 0 1.5mm 0;
+}
+
+h1.mb-notes { font-size: 11pt; }
+h2.mb-notes { font-size: 10pt; }
+h3.mb-notes,
+h4.mb-notes,
+h5.mb-notes,
+h6.mb-notes { font-size: 9.5pt; }
+
+p.mb-notes {
+    margin: 0 0 2mm 0;
+}
+
+ul.mb-notes,
+ol.mb-notes {
+    margin: 0 0 2mm 0;
+    padding-left: 5mm;
+}
+
+.mb-notes li {
+    margin-bottom: 1mm;
+}
+
+.mb-notes strong {
+    color: var(--mb-ink);
+    font-weight: 700;
+}
+
+table.mb-notes {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    margin: 0 0 2mm 0;
+}
+
+.mb-notes th,
+.mb-notes td {
+    border: 1px solid var(--mb-line);
+    padding: 5px 8px;
+    text-align: left;
+    font-size: 8.5pt;
+}
+
+.mb-notes th {
+    background: var(--mb-tint);
+    color: var(--mb-navy);
+    font-weight: 700;
+}
+
+blockquote.mb-notes {
+    margin: 0 0 2mm 0;
+    padding: 2mm 3mm;
+    border-left: 3px solid var(--mb-navy);
+    background: var(--mb-soft);
+}
+
+.mb-notes a {
+    color: var(--mb-navy);
+    text-decoration: underline;
+    word-break: break-all;
+}
+
+pre.mb-notes {
+    margin: 0 0 2mm 0;
+    padding: 2mm 3mm;
+    border: 1px solid var(--mb-line);
+    background: var(--mb-soft);
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.mb-notes code {
+    padding: 1px 3px;
+    background: var(--mb-soft);
+    font-family: Consolas, 'Courier New', monospace;
+    font-size: 0.9em;
+}
+
+.mb-notes pre code {
+    padding: 0;
+    background: transparent;
+}
+
+hr.mb-notes {
+    margin: 3mm 0;
+    border: 0;
+    border-top: 1px solid var(--mb-line);
+}
+
+.mb-notes img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* A block too tall for even an empty page is clipped by the page canvas.
+   Marking it keeps the loss visible rather than silent. */
+.mb-oversized-block {
+    outline: 1px dashed #b3261e;
+}
+
+/* --- Footer: identical on every page --- */
+.mb-footer {
+    flex: 0 0 auto;
+    width: 100%;
+    padding-top: 4mm;
+    font-size: 7.5pt;
+    color: var(--mb-muted);
+}
+
+.mb-footer-rule {
+    height: 1px;
+    margin-bottom: 7px;
+    background: var(--mb-line);
+}
+
+.mb-footer-content {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 10px;
+    line-height: 1.35;
+}
+
+.mb-footer-company {
+    color: var(--mb-gray);
+    font-weight: 600;
+}
+
+.mb-footer-notice {
+    text-align: center;
+}
+
+.mb-footer-reference {
+    color: var(--mb-gray);
+    font-weight: 600;
+    text-align: right;
+    white-space: nowrap;
+}
+
+/* --- Small screens: the A4 canvas is zoomed, never reflowed --- */
+@media screen and (max-width: 768px) {
+    #marginBreakdown {
+        margin: 1.25rem auto;
+        overflow: visible;
+    }
+}

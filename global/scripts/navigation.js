@@ -23,6 +23,7 @@ const TOOL_SEARCH_KEYWORDS = {
     'warranty-card.html': 'warranty certificate guarantee card cover',
     'quote-generator.html': 'quote quotation proposal offer bom pricing customer',
     'comparison-sheet.html': 'comparison compare options build standard basic choice',
+    'margin-breakdown.html': 'margin breakdown add-on addon consultant channel partner price split commission',
     'request-for-quotation.html': 'rfq request for quotation vendor enquiry supplier',
     'letterheadify.html': 'letterhead pdf brand stationery header stamp',
     'resource-library.html': 'resource library download template datasheet brochure document file drive',

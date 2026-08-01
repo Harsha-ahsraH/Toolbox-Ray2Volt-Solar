@@ -1,0 +1,6 @@
+/* Margin Breakdown stylesheet manifest. Keep imports in this order.
+   The ?v= query matches the one on the <link> in margin-breakdown.html —
+   bump both together so imported sheets are never served stale. */
+@import url('./margin-breakdown-form.css?v=20260801-a');
+@import url('./margin-breakdown-document.css?v=20260801-a');
+@import url('./margin-breakdown-print.css?v=20260801-a');
