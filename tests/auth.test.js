@@ -5,19 +5,50 @@ const path = require('node:path');
 const repoRoot = path.resolve(__dirname, '..');
 const auth = fs.readFileSync(path.join(repoRoot, 'global', 'scripts', 'auth.js'), 'utf8');
 
-// --- The four roles and their passwords -----------------------------------
-for (const [role, password] of [
-    ['everyone', ''],
-    ['sales', 'sales@ray2volt'],
-    ['admin', 'admin@ray2volt'],
-    ['owner', 'fjfj']
-]) {
-    const pattern = new RegExp(`id: '${role}'[^}]*password: '${password.replace(/[@.]/g, '\\$&')}'`);
-    assert.match(auth, pattern, `${role} must sign in with its agreed password`);
+// --- Who can sign in, under what name, at what level ----------------------
+const accounts = [...auth.matchAll(
+    /\{ id: '([\w-]+)', name: '([^']*)', level: (\d), password: '([^']*)' \}/g
+)].map(([, id, name, level, password]) => ({ id, name, level: Number(level), password }));
+
+assert.deepEqual(accounts, [
+    { id: 'everyone', name: 'Everyone', level: 0, password: '' },
+    { id: 'sales', name: 'Sales', level: 1, password: 'sales@ray2volt' },
+    { id: 'truewatt', name: 'TrueWatt Solar', level: 1, password: 'truewatt' },
+    { id: 'admin', name: 'Admin', level: 2, password: 'admin@ray2volt' },
+    { id: 'owner', name: 'Owner', level: 3, password: 'fjfj' }
+], 'the sign-in list must match the agreed accounts');
+
+// Everyone signs in with an empty password, so a blank box is a valid sign-in,
+// and it has to come first or another account could claim the blank.
+assert.equal(accounts[0].password, '', 'Everyone needs no password');
+assert.equal(accounts[0].id, 'everyone', 'Everyone must be the first account matched');
+
+// The first account holding a typed password wins, so two must never share one.
+const passwords = accounts.map((account) => account.password);
+assert.equal(new Set(passwords).size, passwords.length, 'every account needs a distinct password');
+
+// Named accounts ride on a level rather than inventing their own access.
+const levelLabels = [...auth.matchAll(/\{ level: (\d), label: '([^']+)'/g)]
+    .map(([, level, label]) => ({ level: Number(level), label }));
+assert.deepEqual(levelLabels, [
+    { level: 0, label: 'Everyone' },
+    { level: 1, label: 'Sales' },
+    { level: 2, label: 'Admin' },
+    { level: 3, label: 'Owner' }
+], 'the four access levels are fixed');
+
+for (const account of accounts) {
+    assert.ok(
+        levelLabels.some((entry) => entry.level === account.level),
+        `${account.id} names a level that exists`
+    );
 }
 
-// Everyone signs in with an empty password, so a blank box is a valid sign-in.
-assert.match(auth, /id: 'everyone'[^}]*level: 0[^}]*password: ''/, 'Everyone needs no password');
+// TrueWatt Solar signs in under its own name with Sales access.
+const truewatt = accounts.find((account) => account.id === 'truewatt');
+assert.equal(truewatt.name, 'TrueWatt Solar');
+assert.equal(truewatt.password, 'truewatt');
+assert.equal(truewatt.level, accounts.find((a) => a.id === 'sales').level, 'same access as Sales');
 
 // --- Which level may open which tool --------------------------------------
 const declaredLevels = Object.fromEntries(
@@ -34,13 +65,13 @@ const expectedLevels = {
     'letterhead-documents': 1,
     'proforma-invoice': 1,
     'quote-generator': 1,
-    'request-for-quotation': 1,
     'resource-library': 1,
     'invoice-generator': 2,
     'margin-breakdown': 2,
     'pricing-desk': 2,
     'purchase-order': 2,
     'receipt-generator': 2,
+    'request-for-quotation': 2,
     'warranty-card': 2,
     'payslip-generator': 3
 };

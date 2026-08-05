@@ -94,8 +94,12 @@ _Avoid_: External file, remote file
 One of the four nesting tiers deciding which Tool Operations a person may open — Everyone, Sales, Admin, Owner, in rising order. Each tier can do everything the tier below it can, so a tool names only the lowest level allowed to open it. Held in `global/scripts/auth.js`; a tool absent from that list is Owner-only.
 _Avoid_: Permission, group, tier
 
+**Account**:
+One entry in the toolbox sign-in list, holding a display name, its own password, and the Access Level it carries. Several Accounts may name the same level — that is how each salesperson signs in under their own name while sharing the Sales tools. Passwords must be unique across Accounts, because the first match wins. Held in `global/scripts/auth.js`.
+_Avoid_: User, login, profile
+
 **Sign-in**:
-Entering an Access Level's shared team password once for the whole toolbox, which then hides every tool above that level for 12 hours. Everyone signs in with a blank password. **The repository is public**, so a Sign-in decides what a person is shown; it does not stop anyone fetching a tool's files directly by URL — see **Toolbox-hosted resource**.
+Entering an Account's password once for the whole toolbox, which then hides every tool above that Account's Access Level for 12 hours and shows its name in the sidebar. Everyone signs in with a blank password. **The repository is public**, so a Sign-in decides what a person is shown; it does not stop anyone fetching a tool's files directly by URL — see **Toolbox-hosted resource**.
 _Avoid_: Login, authentication, security
 
 **Earth Pit Schedule**:

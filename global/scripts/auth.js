@@ -10,6 +10,10 @@
  * TOOL_LEVELS; a tool missing from that list is Owner-only, so a new page is
  * never accidentally public.
  *
+ * People sign in as an account, and an account names a level. That is what
+ * lets several salespeople hold their own password and show their own name in
+ * the sidebar while sharing one set of tools — see ACCOUNTS.
+ *
  * This runs in the visitor's browser on a public static site. It decides what
  * a signed-in person sees; it does not stop anyone fetching a tool's files by
  * URL. Treat it as a convenience gate, not a security boundary.
@@ -17,11 +21,28 @@
 (function () {
     'use strict';
 
-    const ROLES = [
-        { id: 'everyone', label: 'Everyone', level: 0, password: '' },
-        { id: 'sales', label: 'Sales', level: 1, password: 'sales@ray2volt' },
-        { id: 'admin', label: 'Admin', level: 2, password: 'admin@ray2volt' },
-        { id: 'owner', label: 'Owner', level: 3, password: 'fjfj' }
+    /** The four access levels, each nesting inside the one above it. */
+    const LEVELS = [
+        { level: 0, label: 'Everyone', icon: 'group' },
+        { level: 1, label: 'Sales', icon: 'handshake' },
+        { level: 2, label: 'Admin', icon: 'admin_panel_settings' },
+        { level: 3, label: 'Owner', icon: 'workspace_premium' }
+    ];
+
+    /**
+     * Everyone who can sign in. An account brings its own password and shows
+     * its own name in the sidebar, while taking the access of the level it
+     * names — so a new salesperson is one line here, not a new level.
+     *
+     * Passwords must be unique: the first account matching what was typed is
+     * the one signed in. Everyone stays first so a blank box lands there.
+     */
+    const ACCOUNTS = [
+        { id: 'everyone', name: 'Everyone', level: 0, password: '' },
+        { id: 'sales', name: 'Sales', level: 1, password: 'sales@ray2volt' },
+        { id: 'truewatt', name: 'TrueWatt Solar', level: 1, password: 'truewatt' },
+        { id: 'admin', name: 'Admin', level: 2, password: 'admin@ray2volt' },
+        { id: 'owner', name: 'Owner', level: 3, password: 'fjfj' }
     ];
 
     /** Lowest level allowed to open each tool, keyed by its tool id. */
@@ -35,13 +56,13 @@
         'letterhead-documents': 1,
         'proforma-invoice': 1,
         'quote-generator': 1,
-        'request-for-quotation': 1,
         'resource-library': 1,
         'invoice-generator': 2,
         'margin-breakdown': 2,
         'pricing-desk': 2,
         'purchase-order': 2,
         'receipt-generator': 2,
+        'request-for-quotation': 2,
         'warranty-card': 2,
         'payslip-generator': 3
     };
@@ -64,15 +85,15 @@
     // A page naming a tool we do not know about is treated as Owner-only.
     const REQUIRED_LEVEL = TOOL_ID ? (TOOL_ID in TOOL_LEVELS ? TOOL_LEVELS[TOOL_ID] : 3) : 0;
 
-    function roleById(id) {
-        return ROLES.find((role) => role.id === id) || null;
+    function accountById(id) {
+        return ACCOUNTS.find((account) => account.id === id) || null;
     }
 
-    function lowestRoleForLevel(level) {
-        return ROLES.find((role) => role.level >= level) || ROLES[ROLES.length - 1];
+    function levelInfo(level) {
+        return LEVELS.find((entry) => entry.level >= level) || LEVELS[LEVELS.length - 1];
     }
 
-    /** The signed-in role, or null when nobody is signed in or the session lapsed. */
+    /** The signed-in account, or null when nobody is signed in or the session lapsed. */
     function readSession() {
         let stored = null;
         try {
@@ -82,12 +103,12 @@
         }
         if (!stored || typeof stored.at !== 'number') return null;
         if (Date.now() - stored.at > SESSION_HOURS * 60 * 60 * 1000) return null;
-        return roleById(stored.role);
+        return accountById(stored.role);
     }
 
-    function writeSession(roleId) {
+    function writeSession(accountId) {
         try {
-            localStorage.setItem(SESSION_KEY, JSON.stringify({ role: roleId, at: Date.now() }));
+            localStorage.setItem(SESSION_KEY, JSON.stringify({ role: accountId, at: Date.now() }));
         } catch (error) {
             /* Private browsing with storage denied — the sign-in just won't stick. */
         }
@@ -246,46 +267,6 @@
         body.toolbox-locked > *:not(.toolbox-auth-overlay):not(script):not(style):not(link) {
             display: none !important;
         }
-
-        /* Signed-in badge at the foot of the sidebar. */
-        .nav-session {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 8px;
-            margin-top: 12px;
-            padding: 10px 12px;
-            border-top: 1px solid rgba(148, 163, 184, 0.25);
-            font-size: 12px;
-            color: #64748b;
-        }
-
-        .nav-session-role {
-            font-weight: 600;
-            color: #334155;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .nav-session-out {
-            flex: none;
-            background: none;
-            border: none;
-            padding: 0;
-            font: inherit;
-            color: #2563eb;
-            cursor: pointer;
-        }
-
-        .nav-session-out:hover { text-decoration: underline; }
-
-        .sidebar.collapsed .nav-session {
-            justify-content: center;
-            padding: 10px 4px;
-        }
-
-        .sidebar.collapsed .nav-session-role { display: none; }
     `;
     document.head.appendChild(style);
 
@@ -323,11 +304,11 @@
 
         const attemptSignIn = () => {
             const entered = input.value.trim();
-            const role = ROLES.find((candidate) => candidate.password === entered);
+            const account = ACCOUNTS.find((candidate) => candidate.password === entered);
 
-            if (role) {
-                writeSession(role.id);
-                // Reload so the nav is built once, already filtered to this role.
+            if (account) {
+                writeSession(account.id);
+                // Reload so the nav is built once, already filtered to this level.
                 window.location.reload();
                 return;
             }
@@ -351,13 +332,13 @@
         requestAnimationFrame(() => input.focus());
     }
 
-    function showNoAccess(role) {
-        const needed = lowestRoleForLevel(REQUIRED_LEVEL);
+    function showNoAccess(account) {
+        const needed = levelInfo(REQUIRED_LEVEL);
         const overlay = lockPage(`
             <div class="toolbox-auth-icon">${LOCK_ICON}</div>
             <h2 class="toolbox-auth-title">No access to this tool</h2>
             <p class="toolbox-auth-subtitle">
-                You're signed in as <strong>${role.label}</strong>. This tool is open to
+                You're signed in as <strong>${account.name}</strong>. This tool is open to
                 <strong>${needed.label}</strong> and above.
             </p>
             <a class="toolbox-auth-btn" style="display:block;text-decoration:none;box-sizing:border-box"
@@ -371,7 +352,7 @@
         });
     }
 
-    /** Drop every nav link and dashboard card this role cannot open. */
+    /** Drop every nav link and dashboard card this level cannot open. */
     function pruneNavigation(level) {
         const entries = [
             ...document.querySelectorAll('.main-nav .nav-link'),
@@ -386,15 +367,29 @@
         });
     }
 
-    function renderSessionBadge(role) {
+    function renderSessionBadge(account) {
         const mainNav = document.querySelector('.sidebar .main-nav');
         if (!mainNav) return;
 
+        const level = levelInfo(account.level);
+        // A named account shows whose access it carries; the plain level
+        // accounts would only repeat their own name, so they say "Signed in as".
+        const named = account.name !== level.label;
+
         const badge = document.createElement('div');
         badge.className = 'nav-session';
+        badge.title = named
+            ? `${account.name} — ${level.label} access`
+            : `Signed in as ${account.name}`;
         badge.innerHTML =
-            `<span class="nav-session-role" title="Signed in as ${role.label}">${role.label}</span>` +
-            '<button type="button" class="nav-session-out">Sign out</button>';
+            `<span class="nav-session-avatar material-symbols-rounded" aria-hidden="true">${level.icon}</span>` +
+            '<span class="nav-session-text">' +
+            `<span class="nav-session-label">${named ? level.label : 'Signed in as'}</span>` +
+            `<span class="nav-session-role">${account.name}</span>` +
+            '</span>' +
+            '<button type="button" class="nav-session-out" aria-label="Sign out">' +
+            '<span class="material-symbols-rounded" aria-hidden="true">logout</span>' +
+            '</button>';
         mainNav.parentNode.insertBefore(badge, mainNav.nextSibling);
 
         badge.querySelector('.nav-session-out').addEventListener('click', () => {
