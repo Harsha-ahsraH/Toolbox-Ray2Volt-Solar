@@ -196,35 +196,65 @@
         max-width: 100vw;
     }
 
+    .section-header {
+        margin-bottom: var(--spacing-lg);
+    }
+
     .section-header h1 {
         font-size: 1.25rem;
     }
 
-    /* Two cards per row on phones, so the tighter card has to work harder. */
+    /* A phone reads the dashboard as a list of tools rather than a grid of
+       cards. Two columns left the text column 146px wide, which pushed the
+       descriptions to five lines and broke titles mid-word; one column gives
+       the name a full line and the icon a place of its own. */
     .tool-grid {
-        gap: var(--spacing-sm);
+        grid-template-columns: 1fr;
+        gap: var(--spacing-xs);
     }
 
     .tool-card {
-        padding: var(--spacing-sm);
+        position: relative;
+        padding: var(--spacing-sm) var(--spacing-sm) var(--spacing-sm) 60px;
+    }
+
+    .tool-card:active {
+        background: var(--bg-hover);
+        transform: none;
     }
 
     .tool-card h3 {
-        font-size: 0.9rem;
-        gap: 0.4rem;
-        overflow-wrap: anywhere;
+        font-size: 0.95rem;
+        gap: 0;
+        margin-bottom: 2px;
     }
 
+    /* Out of the title's flow and into a chip down the left edge, matching the
+       avatar on the sidebar's signed-in badge. */
     .tool-card h3::before {
-        width: 18px;
-        height: 18px;
-        flex-basis: 18px;
-        font-size: 18px;
+        position: absolute;
+        left: var(--spacing-sm);
+        top: 50%;
+        transform: translateY(-50%);
+        width: 36px;
+        height: 36px;
+        flex-basis: 36px;
+        border-radius: 50%;
+        background: var(--bg-active);
+        color: var(--primary-text);
+        font-size: 20px;
     }
 
+    /* Held to two lines — enough for every description we ship, and it keeps
+       each row the same height whether the text runs one line or three. */
     .tool-card p {
         font-size: 0.78rem;
-        line-height: 1.45;
+        line-height: 1.4;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        min-height: 2.8em;
     }
 
     .calculator-inputs,
