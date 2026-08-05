@@ -161,8 +161,8 @@ const indexHtml = fs.readFileSync(path.join(repoRoot, 'index.html'), 'utf8');
 assert.match(indexHtml, /tools\/margin-breakdown\/margin-breakdown\.html" class="nav-link/);
 assert.match(indexHtml, /tools\/margin-breakdown\/margin-breakdown\.html" class="tool-card/);
 
-const passwords = fs.readFileSync(path.join(repoRoot, 'global', 'scripts', 'passwords.js'), 'utf8');
-assert.match(passwords, /"margin-breakdown":/, 'the tool must be behind the shared password gate');
+const auth = fs.readFileSync(path.join(repoRoot, 'global', 'scripts', 'auth.js'), 'utf8');
+assert.match(auth, /'margin-breakdown':\s*2/, 'the tool must be limited to Admin and above');
 assert.match(html, /data-tool-id="margin-breakdown"/);
 
 // Every tool page carries the same sidebar, so the new entry belongs on all.

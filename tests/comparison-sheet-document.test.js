@@ -392,9 +392,9 @@ for (const field of ['csCustomerName', 'csDate', 'csSheetNumber', 'csValidity'])
     assert.ok(!html.includes(field), `the sheet must not collect ${field}`);
 }
 
-// --- Password registration ----------------------------------------------
-const passwords = fs.readFileSync(path.join(repoRoot, 'global', 'scripts', 'passwords.js'), 'utf8');
-assert.match(passwords, /"comparison-sheet":\s*\[/, 'the tool has a password entry');
+// --- Access level ---------------------------------------------------------
+const auth = fs.readFileSync(path.join(repoRoot, 'global', 'scripts', 'auth.js'), 'utf8');
+assert.match(auth, /'comparison-sheet':\s*1/, 'the sheet is open to Sales and above');
 
 // --- Nav link on every page that lists the tools ------------------------
 const pagesWithNav = [path.join(repoRoot, 'index.html')].concat(

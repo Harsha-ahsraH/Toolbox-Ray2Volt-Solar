@@ -8,7 +8,7 @@ const html = fs.readFileSync(path.join(toolRoot, 'letterheadify.html'), 'utf8');
 const css = fs.readFileSync(path.join(toolRoot, 'letterheadify.css'), 'utf8');
 const js = fs.readFileSync(path.join(toolRoot, 'letterheadify.js'), 'utf8');
 const index = fs.readFileSync(path.join(repoRoot, 'index.html'), 'utf8');
-const passwords = fs.readFileSync(path.join(repoRoot, 'global', 'scripts', 'passwords.js'), 'utf8');
+const auth = fs.readFileSync(path.join(repoRoot, 'global', 'scripts', 'auth.js'), 'utf8');
 
 assert.match(html, /Letterheadify/);
 assert.match(html, /pdf-lib@1\.17\.1\/dist\/pdf-lib\.min\.js/);
@@ -39,6 +39,6 @@ assert.doesNotMatch(js, /fetchLetterhead/);
 assert.doesNotMatch(js, /marked|parseMarkdown|lhdPreview|window\.print/);
 
 assert.match(index, /tools\/letterheadify\/letterheadify\.html/);
-assert.match(passwords, /"letterhead-documents"/);
+assert.match(auth, /'letterhead-documents':\s*1/);
 
 console.log('letterhead-documents tests passed');

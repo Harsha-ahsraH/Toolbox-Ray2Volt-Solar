@@ -90,6 +90,14 @@ _Avoid_: Local file, internal file
 A Resource Library entry that points at a file in Drive or SharePoint (`place: 'link'`). Access is governed by whoever owns that folder, and staff without repository access can add them. Required for anything internal — price lists showing margin, contracts, or documents holding real figures or personal details.
 _Avoid_: External file, remote file
 
+**Access Level**:
+One of the four nesting tiers deciding which Tool Operations a person may open — Everyone, Sales, Admin, Owner, in rising order. Each tier can do everything the tier below it can, so a tool names only the lowest level allowed to open it. Held in `global/scripts/auth.js`; a tool absent from that list is Owner-only.
+_Avoid_: Permission, group, tier
+
+**Sign-in**:
+Entering an Access Level's shared team password once for the whole toolbox, which then hides every tool above that level for 12 hours. Everyone signs in with a blank password. **The repository is public**, so a Sign-in decides what a person is shown; it does not stop anyone fetching a tool's files directly by URL — see **Toolbox-hosted resource**.
+_Avoid_: Login, authentication, security
+
 **Earth Pit Schedule**:
 The capacity bands fixing earth pit counts for Option 3 — 3 pits to 10 kWp, 4 to 20, 6 to 50, 8 to 250, 10 to 500, 12 to 1 MWp, then 2 more per additional MWp. Options 1 and 2 take two fewer, with a floor of three pits for any option at any capacity, so below 20 kWp the counts converge and electrode type is what distinguishes the options.
 _Avoid_: Earthing table, pit count rule

@@ -39,7 +39,7 @@ for (const sharedPath of [
     'global/styles/navigation.css',
     'global/styles/tool-responsive.css',
     'global/scripts/navigation.js',
-    'global/scripts/tool-lock.js',
+    'global/scripts/auth.js',
     'global/scripts/financial-document.js',
     'global/assets/logo.png',
     'global/assets/favicon.png'
