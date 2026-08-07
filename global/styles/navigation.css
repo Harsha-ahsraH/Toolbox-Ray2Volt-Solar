@@ -96,35 +96,39 @@
     overflow: hidden;
 }
 
+/* Ported from the Pricing Desk: a soft filled disc that sits inside the
+   sidebar's top-right corner, rather than a bordered notch hanging off the
+   edge and over the content. Collapsed, it drops into the flow and centres
+   itself where the logo header used to be. */
 .sidebar-collapse-btn {
     position: absolute;
-    top: 24px;
-    right: -14px;
+    top: 20px;
+    right: 10px;
     z-index: 1;
-    width: 28px;
-    height: 28px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: 32px;
+    height: 32px;
+    flex: 0 0 auto;
+    display: grid;
+    place-items: center;
     padding: 0;
-    border: 1px solid var(--border-light);
+    border: 0;
     border-radius: 50%;
-    background: var(--bg-card);
-    color: var(--text-secondary);
-    box-shadow: var(--shadow-sm);
+    background: var(--bg-hover);
+    color: var(--text-muted);
     cursor: pointer;
-    transition: color var(--transition-fast), background var(--transition-fast),
-        border-color var(--transition-fast), transform var(--transition-fast);
+    transition: color var(--transition-base), background var(--transition-base),
+        transform var(--transition-base);
 }
 
 .sidebar-collapse-btn:hover {
-    background: var(--primary-light);
-    border-color: var(--primary);
-    color: var(--primary-dark);
+    background: var(--bg-active);
+    color: var(--primary-text);
+    transform: translateX(-1px);
 }
 
-.sidebar-collapse-btn:active {
-    transform: scale(0.92);
+.sidebar-collapse-btn:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
 }
 
 .sidebar-collapse-btn .material-symbols-rounded {
@@ -200,8 +204,11 @@
     transform: scale(0.9);
 }
 
+/* The right padding is the collapse disc's berth: it keeps the centred
+   wordmark clear of the button instead of ending 2px short of it. */
 .logo-header {
     padding: var(--spacing-lg);
+    padding-right: calc(var(--spacing-lg) + 22px);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -387,10 +394,19 @@
         display: none;
     }
 
-    /* The collapse control sits where the logo header used to; the search
-       block now carries the clearance for it. */
+    /* Collapsed there is no header to pin to, so the disc leaves the corner
+       and stands in the flow where the logo header used to be. */
+    .sidebar.collapsed .sidebar-collapse-btn {
+        position: static;
+        margin: var(--spacing-md) auto var(--spacing-xs);
+    }
+
+    .sidebar.collapsed .sidebar-collapse-btn:hover {
+        transform: translateX(1px);
+    }
+
     .sidebar.collapsed .nav-search {
-        padding: calc(var(--spacing-xl) + var(--spacing-lg)) var(--spacing-xs) 0;
+        padding: var(--spacing-xs) var(--spacing-xs) 0;
     }
 
     .sidebar.collapsed .nav-search-input {
@@ -504,19 +520,22 @@
     color: var(--text-primary);
 }
 
+/* The accent is a fill, never the ink: --primary is 2.45:1 on white and 2.3:1
+   on the --bg-active tint this row sits on, so the label and its icon take
+   --primary-text (5.37:1) while the rail keeps --primary. */
 .main-nav .nav-link:hover::before {
-    color: var(--primary);
+    color: var(--primary-text);
 }
 
 .main-nav .nav-link.active {
     background: var(--bg-active);
-    color: var(--primary);
+    color: var(--primary-text);
     border-left-color: var(--primary);
     font-weight: 600;
 }
 
 .main-nav .nav-link.active::before {
-    color: var(--primary);
+    color: var(--primary-text);
     font-variation-settings: 'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 24;
 }
 
@@ -623,7 +642,7 @@
 
 .main-nav .nav-link.is-external:hover::after,
 .tool-card.is-external:hover h3::after {
-    color: var(--primary);
+    color: var(--primary-text);
 }
 
 /* --- Signed-in badge ---

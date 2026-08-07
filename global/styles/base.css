@@ -34,7 +34,11 @@
     --primary-text: #0E7490;
 
     /* Neutral Colors - Clean Light Theme */
-    --bg-body: #F5F7F8;
+    /* The page sits one step below the cards rather than a full shade of grey
+       below them: halfway from the old #F5F7F8 to white. Cards still read as
+       raised because every one of them carries a --border-light edge, so the
+       fill only has to hint at the difference, not carry it. */
+    --bg-body: #FAFBFC;
     --bg-card: #FFFFFF;
     --bg-sidebar: #FFFFFF;
     --bg-hover: #EEF1F3;
