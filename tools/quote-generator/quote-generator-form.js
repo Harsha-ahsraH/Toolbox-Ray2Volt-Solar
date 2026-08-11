@@ -408,6 +408,45 @@
         // Accordion
         // -----------------------------------------------------------------
 
+        /**
+         * Adds a Reset Panel control to the top of every panel body. Injected
+         * here rather than written into the markup nine times, so the control
+         * and its confirmation stay in one place.
+         */
+        function setupPanelReset() {
+            if (!refs.accordion) return;
+
+            Array.prototype.forEach.call(refs.accordion.querySelectorAll('.qg-panel'), panel => {
+                const name = panel.dataset.panel;
+                const body = panel.querySelector('.qg-panel-body');
+                if (!name || !body) return;
+
+                const bar = document.createElement('div');
+                bar.className = 'qg-inline-actions qg-panel-reset';
+                bar.innerHTML = `<button type="button" class="qg-btn-ghost qg-btn-danger"
+                    data-reset-panel="${Editors.esc(name)}">Reset Current Panel</button>`;
+                body.insertBefore(bar, body.firstChild);
+            });
+
+            refs.accordion.addEventListener('click', event => {
+                const button = event.target.closest('[data-reset-panel]');
+                if (!button) return;
+
+                const name = button.dataset.resetPanel;
+                const label = PANEL_LABELS[name] || name;
+
+                if (!window.confirm(`Reset "${label}" to its defaults? Everything entered in this panel will be lost. Other panels are unaffected.`)) {
+                    return;
+                }
+
+                if (name === 'annexures') {
+                    Storage.clearAnnexureFiles().catch(() => null);
+                }
+
+                api.update(s => Model.resetPanel(s, name));
+            });
+        }
+
         function setupAccordion() {
             if (!refs.accordion) return;
 
@@ -707,6 +746,7 @@
         if (refs.preset) refs.preset.value = state.preset;
 
         bindFixedFields();
+        setupPanelReset();
         setupAccordion();
         setupPresets();
         setupNewQuotation();

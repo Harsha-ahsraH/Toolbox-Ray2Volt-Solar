@@ -915,3 +915,13 @@
         width: 100%;
     }
 }
+
+/* Reset Current Panel sits at the top of each panel body, injected by
+   quote-generator-form.js so the control and its confirmation live in one
+   place rather than being repeated nine times in the markup. */
+.qg-panel-reset {
+    justify-content: flex-end;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.65rem;
+    border-bottom: 1px dashed var(--border-light);
+}

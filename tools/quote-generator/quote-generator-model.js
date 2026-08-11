@@ -305,6 +305,77 @@
         return state;
     }
 
+    /**
+     * Returns one input panel to its defaults, leaving every other panel alone.
+     *
+     * Document identity survives a Project Settings reset: the quotation number
+     * and date identify this quotation, not its contents, and re-issuing a
+     * number would burn one from the monthly sequence for no reason. Clearing
+     * everything is what New Quotation is for.
+     */
+    function resetPanel(state, panelName) {
+        const bomContext = () => ({
+            systemConfiguration: state.project.systemConfiguration,
+            installationLocation: state.project.installationLocation,
+            dcCapacityKwp: state.project.dcCapacityKwp,
+            acCapacityKw: state.project.acCapacityKw,
+            batteryEnergyKwh: state.project.batteryEnergyKwh
+        });
+
+        switch (panelName) {
+            case 'sections':
+                state.selectedSectionIds = Config.presetSectionIds(state.preset);
+                break;
+
+            case 'customer':
+                state.customer = emptyCustomer();
+                break;
+
+            case 'project': {
+                const identity = {
+                    quoteDate: state.project.quoteDate,
+                    quoteNumber: state.project.quoteNumber
+                };
+                state.project = Object.assign(emptyProject(state.preset), identity);
+                break;
+            }
+
+            case 'narrative':
+                restoreAllNarrative(state);
+                break;
+
+            case 'bom':
+                state.bom.categories = buildBomCategories(bomContext());
+                break;
+
+            case 'commercial':
+                state.commercial = emptyCommercial();
+                state.commercial.milestones = BomDefaults.defaultMilestones()
+                    .map(milestone => Object.assign({ id: makeId('milestone') }, milestone));
+                break;
+
+            case 'savings':
+                state.savings = emptySavings();
+                state.savings.futureCosts = BomDefaults.defaultFutureCosts({
+                    projectionYears: state.savings.projectionYears
+                }).map(cost => Object.assign({ id: makeId('cost') }, cost));
+                break;
+
+            case 'contract':
+                state.contract = emptyContract();
+                break;
+
+            case 'annexures':
+                state.annexures = [];
+                break;
+
+            default:
+                break;
+        }
+
+        return state;
+    }
+
     // ---------------------------------------------------------------------
     // Section selection
     // ---------------------------------------------------------------------
@@ -728,6 +799,7 @@
         setNarrativeField,
         restoreNarrativeField,
         restoreAllNarrative,
+        resetPanel,
         isDirty,
         markDirty,
         clearDirty,
