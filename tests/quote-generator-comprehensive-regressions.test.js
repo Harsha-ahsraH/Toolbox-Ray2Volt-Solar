@@ -299,6 +299,98 @@ function fieldsOf(validation) {
     assert.equal(calc.withinPercentTolerance(99.98), false);
 }
 
+// --- Nothing a user types may vanish from the document ------------------------
+// Each of these once existed in state but appeared on no page.
+{
+    const state = validState();
+    model.selectAllSections(state);
+
+    model.setNarrativeField(state, 'proposedSolution',
+        `START_MARKER. ${'filler sentence here. '.repeat(200)} END_MARKER.`);
+    state.commercial.discounts = [];
+    for (let index = 0; index < 50; index++) {
+        model.addDiscount(state, { name: `Named discount ${index + 1}`, amount: 1000 });
+    }
+    model.addClause(state, 'terms', `CLAUSE_START ${'term '.repeat(5000)} CLAUSE_END`);
+
+    // The proposed solution flows across pages instead of being excerpted away.
+    const solutionUnits = pagination.narrativeUnits(state, 'proposed-solution');
+    assert.ok(solutionUnits.map(unit => unit.text).join(' ').includes('END_MARKER'),
+        'the end of a long proposed solution must still reach a page');
+    assert.ok(calc.planPages(state).filter(page => page.sectionId === 'proposed-solution').length > 1,
+        'a long proposed solution must span more than one page');
+
+    // Discounts are counted in the commercial offer page plan, not just drawn.
+    const offerUnits = pagination.commercialOfferUnits(state);
+    assert.equal(offerUnits.filter(unit => unit.kind === 'discount').length, 50);
+    const offerChunks = pagination.sectionChunks(state, 'commercial-offer');
+    assert.equal(offerChunks[offerChunks.length - 1].end, offerUnits.length,
+        'every discount must fall inside a planned page');
+    assert.ok(offerChunks.length > 1, '50 discounts cannot fit on one page');
+
+    // A clause longer than a page is split rather than clipped.
+    const termUnits = pagination.clauseUnits(state, 'terms');
+    const joined = termUnits.map(unit => unit.text).join(' ');
+    assert.ok(joined.includes('CLAUSE_START') && joined.includes('CLAUSE_END'),
+        'an oversized clause must be split, keeping both ends');
+    assert.ok(termUnits.filter(unit => unit.isContinuation).length > 0,
+        'the split parts are marked as continuations so numbering is not repeated');
+
+    // No chunk may exceed its page budget once items are splittable.
+    const clauseBudget = config.PAGINATION.clause.budgetPx;
+    const heights = pagination.clauseHeights(state, 'terms');
+    pagination.sectionChunks(state, 'terms-conditions').forEach(chunk => {
+        const used = heights.slice(chunk.start, chunk.end).reduce((total, h) => total + h, 0);
+        assert.ok(used <= clauseBudget,
+            `a clause page must stay within its ${clauseBudget}px budget, got ${used}px`);
+    });
+}
+
+// --- Author paragraphs survive pagination -------------------------------------
+{
+    const state = validState();
+    model.setNarrativeField(state, 'objective',
+        'First paragraph.\n\nSecond paragraph.\n\nThird paragraph.');
+
+    const units = pagination.narrativeUnits(state, 'project-objectives')
+        .filter(unit => unit.heading.indexOf('Customer Objective') === 0);
+
+    assert.equal(units.length, 3, 'blank-line paragraph breaks must survive as separate blocks');
+    assert.equal(units[2].text, 'Third paragraph.');
+}
+
+// --- Entered invalid values versus absent ones --------------------------------
+{
+    const negative = validState();
+    negative.commercial.actualProjectCost = -1;
+    const negativeValidation = calc.validate(negative);
+    assert.equal(negativeValidation.panels.commercial, 'error',
+        'a negative cost was entered, so the panel reads Error rather than Incomplete');
+    assert.equal(negativeValidation.canExport, false);
+
+    const breakdown = validState();
+    breakdown.commercial.actualProjectCost = 100000;
+    breakdown.commercial.priceBreakdown = [
+        { id: 'a', description: 'Supply', amount: 150000 },
+        { id: 'b', description: 'Rebate', amount: -50000 }
+    ];
+    assert.equal(calc.validate(breakdown).canExport, false,
+        'negative breakdown rows must not be able to net out to a matching total');
+
+    const escalation = validState();
+    escalation.savings.tariffEscalationPercent = -1;
+    assert.equal(calc.validate(escalation).canExport, false,
+        'a negative percentage is rejected, not only one below -100%');
+
+    const email = validState();
+    email.customer.email = 'not-an-email';
+    const emailValidation = calc.validate(email);
+    assert.equal(emailValidation.panels.customer, 'error',
+        'an entered but malformed value leaves the panel in Error');
+    assert.equal(emailValidation.canExport, true,
+        'but a bad email address does not block the quotation going out');
+}
+
 // --- The mode bridge ----------------------------------------------------------
 // These are source assertions: the bridge is DOM code with no Node harness, and
 // the defects it carried were all in the guards below.
@@ -318,6 +410,14 @@ function fieldsOf(validation) {
         'a newer-schema draft must switch autosave off rather than be overwritten');
     assert.match(form, /aria-invalid/,
         'field errors must be associated with their control, not only listed in the summary');
+    assert.match(form, /data-field="\$\{field\}"/,
+        'repeater rows carry their errors too, found by the data-field they render with');
+    assert.doesNotMatch(form, /if \(!settings\.silent\) autosave\.schedule\(state\);/,
+        'every save path must go through the guard that protects a newer-schema draft');
+    assert.match(form, /autosaveDisabled = false;/,
+        'New Quotation deliberately replaces the stored draft, so it clears the guard');
+    assert.match(form, /onConfigurationChanged\(\)/,
+        'a configuration change arriving over the bridge runs the same side effects');
 }
 
 console.log('quote-generator comprehensive regression tests passed');
