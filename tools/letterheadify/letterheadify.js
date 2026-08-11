@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
             processBtn.disabled = true;
             setStatus('Adding letterhead to every page...', 'busy');
 
-            const { PDFDocument } = window.PDFLib;
+            const { PDFDocument, BlendMode } = window.PDFLib;
             const [pdfBytes, letterheadBytes] = await Promise.all([
                 selectedFile.arrayBuffer(),
                 loadLetterheadBytes()
@@ -65,7 +65,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     x: 0,
                     y: 0,
                     width,
-                    height
+                    height,
+                    blendMode: BlendMode.Multiply
                 });
             });
 

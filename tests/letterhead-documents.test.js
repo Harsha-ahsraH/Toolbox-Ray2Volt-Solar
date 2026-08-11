@@ -1,4 +1,5 @@
 const assert = require('node:assert/strict');
+const crypto = require('node:crypto');
 const fs = require('node:fs');
 const path = require('node:path');
 
@@ -9,6 +10,7 @@ const css = fs.readFileSync(path.join(toolRoot, 'letterheadify.css'), 'utf8');
 const js = fs.readFileSync(path.join(toolRoot, 'letterheadify.js'), 'utf8');
 const index = fs.readFileSync(path.join(repoRoot, 'index.html'), 'utf8');
 const auth = fs.readFileSync(path.join(repoRoot, 'global', 'scripts', 'auth.js'), 'utf8');
+const letterheadAsset = fs.readFileSync(path.join(toolRoot, 'assets', 'Letterhead (Latest) Ray2Volt Solar PNG.png'));
 
 assert.match(html, /Letterheadify/);
 assert.match(html, /pdf-lib@1\.17\.1\/dist\/pdf-lib\.min\.js/);
@@ -30,6 +32,7 @@ assert.match(js, /Letterhead \(Latest\) Ray2Volt Solar PNG\.png/);
 assert.match(js, /PDFDocument\.load\(pdfBytes, \{ ignoreEncryption: true \}\)/);
 assert.match(js, /embedPng\(letterheadBytes\)/);
 assert.match(js, /page\.drawImage\(letterhead/);
+assert.match(js, /blendMode:\s*BlendMode\.Multiply/);
 assert.match(js, /downloadPdf\(outputBytes, buildOutputName\(selectedFile\.name\)\)/);
 assert.match(js, /password-protected or corrupted/);
 assert.match(js, /function loadLetterheadBytes\(/);
@@ -40,5 +43,9 @@ assert.doesNotMatch(js, /marked|parseMarkdown|lhdPreview|window\.print/);
 
 assert.match(index, /tools\/letterheadify\/letterheadify\.html/);
 assert.match(auth, /'letterhead-documents':\s*1/);
+assert.equal(
+    crypto.createHash('sha256').update(letterheadAsset).digest('hex'),
+    '7d4510724d5924ca426ca7254dd35d524de0cf27cea572f24b9480b93b7fe5cb'
+);
 
 console.log('letterhead-documents tests passed');
