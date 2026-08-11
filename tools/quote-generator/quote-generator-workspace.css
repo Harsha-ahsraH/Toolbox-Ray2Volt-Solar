@@ -1,0 +1,917 @@
+/* ============================================
+   QUOTE GENERATOR - Comprehensive workspace controls
+   Ray2Volt Solar Toolbox
+
+   Mode toggle, workspace tabs, the multi-open input accordion, the validation
+   summary and every repeater editor. Matches the brutalist/minimalist form
+   styling already used by the Short Quotation form.
+   ============================================ */
+
+/* --- Mode bar ------------------------------------------------------- */
+
+.qg-mode-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 1rem;
+    padding: 0.85rem 1rem;
+    margin-bottom: 1.25rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-sm);
+}
+
+.qg-mode-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.qg-mode-status {
+    margin-left: auto;
+    align-items: flex-end;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.qg-mode-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+.qg-segmented {
+    display: inline-flex;
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+}
+
+.qg-segmented-btn {
+    padding: 0.5rem 1rem;
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    background: var(--bg-card);
+    border: none;
+    border-right: 1px solid var(--border-light);
+    cursor: pointer;
+    transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.qg-segmented-btn:last-child {
+    border-right: none;
+}
+
+.qg-segmented-btn:hover {
+    background: var(--bg-hover);
+}
+
+.qg-segmented-btn.is-active {
+    background: var(--qp-navy, #1F4E79);
+    color: #fff;
+    font-weight: 600;
+}
+
+.qg-segmented-btn:focus-visible,
+.qg-workspace-tab:focus-visible,
+.qg-panel-toggle:focus-visible,
+.qg-btn-ghost:focus-visible {
+    outline: 2px solid var(--qp-navy, #1F4E79);
+    outline-offset: 2px;
+}
+
+.qg-preset-select {
+    min-width: 220px;
+}
+
+/* Save status. The state is carried in text as well as colour, so the status
+   never depends on colour alone. */
+.qg-save-status {
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    white-space: nowrap;
+}
+
+.qg-save-status[data-state="saving"] {
+    color: var(--text-secondary);
+}
+
+.qg-save-status[data-state="saved"] {
+    color: #1B7F4B;
+}
+
+.qg-save-status[data-state="failed"] {
+    color: #B42318;
+    font-weight: 600;
+}
+
+/* --- Workspace tabs ------------------------------------------------- */
+
+.qg-workspace-tabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: 1.25rem;
+    border-bottom: 2px solid var(--border-light);
+}
+
+.qg-workspace-tab {
+    padding: 0.6rem 1.25rem;
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+    cursor: pointer;
+}
+
+.qg-workspace-tab.is-active {
+    color: var(--qp-navy, #1F4E79);
+    border-bottom-color: var(--qp-navy, #1F4E79);
+    font-weight: 600;
+}
+
+/* --- Validation summary --------------------------------------------- */
+
+.qg-validation-summary {
+    padding: 1rem 1.15rem;
+    margin-bottom: 1.25rem;
+    background: #FFF6F5;
+    border: 1px solid #E8A9A2;
+    border-left: 4px solid #B42318;
+    border-radius: var(--radius-sm);
+}
+
+.qg-validation-summary[data-severity="warning"] {
+    background: #FFFBEB;
+    border-color: #E4C580;
+    border-left-color: #B7791F;
+}
+
+.qg-validation-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.6rem;
+}
+
+.qg-validation-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.qg-validation-list li {
+    font-size: 0.88rem;
+    line-height: 1.45;
+}
+
+.qg-validation-link {
+    font-family: inherit;
+    font-size: inherit;
+    text-align: left;
+    color: var(--text-primary);
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.qg-validation-link:hover {
+    color: #B42318;
+}
+
+.qg-validation-badge {
+    display: inline-block;
+    min-width: 4.4rem;
+    margin-right: 0.5rem;
+    padding: 0.05rem 0.4rem;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    text-align: center;
+    border-radius: 2px;
+}
+
+.qg-validation-badge[data-severity="critical"] {
+    background: #B42318;
+    color: #fff;
+}
+
+.qg-validation-badge[data-severity="warning"] {
+    background: #B7791F;
+    color: #fff;
+}
+
+/* --- Accordion ------------------------------------------------------ */
+
+.qg-accordion-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.85rem;
+}
+
+.qg-page-estimate {
+    margin-left: auto;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--text-muted);
+}
+
+.qg-accordion {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: var(--section-gap, 1.5rem);
+}
+
+.qg-panel {
+    background: var(--bg-card);
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+}
+
+.qg-panel-heading {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.qg-panel-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    width: 100%;
+    padding: 0.85rem 1rem;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    text-align: left;
+    background: var(--bg-card);
+    border: none;
+    cursor: pointer;
+}
+
+.qg-panel-toggle:hover {
+    background: var(--bg-hover);
+}
+
+.qg-panel-name {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+/* Disclosure caret, rotated by aria-expanded so the control's visual state and
+   its accessible state can never disagree. */
+.qg-panel-name::before {
+    content: '';
+    width: 0;
+    height: 0;
+    border-left: 5px solid var(--text-muted);
+    border-top: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+    transition: transform var(--transition-base);
+}
+
+.qg-panel-toggle[aria-expanded="true"] .qg-panel-name::before {
+    transform: rotate(90deg);
+}
+
+.qg-panel-state {
+    padding: 0.15rem 0.55rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    border-radius: 2px;
+    border: 1px solid;
+    white-space: nowrap;
+}
+
+.qg-panel-state[data-state="complete"] {
+    color: #1B7F4B;
+    border-color: #9BD5B4;
+    background: #F1FAF5;
+}
+
+.qg-panel-state[data-state="incomplete"] {
+    color: #8A6100;
+    border-color: #E4C580;
+    background: #FFFBEB;
+}
+
+.qg-panel-state[data-state="error"] {
+    color: #B42318;
+    border-color: #E8A9A2;
+    background: #FFF6F5;
+}
+
+.qg-panel-body {
+    padding: 0 1rem 1.15rem;
+    border-top: 1px solid var(--border-light);
+    padding-top: 1rem;
+}
+
+/* --- Shared field furniture ----------------------------------------- */
+
+.qg-field-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+}
+
+.qg-subheading {
+    margin: 1.25rem 0 0.75rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+.qg-subheading:first-child {
+    margin-top: 0;
+}
+
+.qg-field-hint {
+    margin-top: 0.35rem;
+    font-size: 0.8rem;
+    line-height: 1.4;
+    color: var(--text-muted);
+}
+
+.qg-field-error {
+    margin-top: 0.3rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #B42318;
+}
+
+.qg-input-field.has-error {
+    border-color: #B42318;
+}
+
+.qg-checkbox-row label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 400;
+    cursor: pointer;
+}
+
+.qg-derived-line {
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.qg-derived-line[data-state="error"] {
+    color: #B42318;
+    font-weight: 600;
+}
+
+.qg-derived-line[data-state="warning"] {
+    color: #8A6100;
+    font-weight: 600;
+}
+
+.qg-inline-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.85rem;
+}
+
+.qg-btn-ghost {
+    padding: 0.4rem 0.8rem;
+    font-family: inherit;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    background: var(--bg-card);
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: background var(--transition-fast);
+}
+
+.qg-btn-ghost:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+}
+
+.qg-btn-danger {
+    color: #B42318;
+    border-color: #E8A9A2;
+}
+
+.qg-btn-danger:hover {
+    background: #FFF6F5;
+    color: #8C1A12;
+}
+
+/* --- Section checklist ---------------------------------------------- */
+
+.qg-section-group {
+    margin-bottom: 1rem;
+}
+
+.qg-section-group-title {
+    margin-bottom: 0.5rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+.qg-section-items {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.35rem;
+}
+
+.qg-section-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.55rem;
+    padding: 0.4rem 0.5rem;
+    font-size: 0.88rem;
+    line-height: 1.35;
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+}
+
+.qg-section-item:hover {
+    background: var(--bg-hover);
+}
+
+.qg-section-item input {
+    margin-top: 0.15rem;
+    flex-shrink: 0;
+}
+
+.qg-section-core {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+/* --- Repeaters ------------------------------------------------------ */
+
+.qg-repeater {
+    margin-top: 1.25rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-light);
+}
+
+.qg-repeater-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+}
+
+.qg-repeater-head h4 {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.qg-repeater-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.qg-repeater-row {
+    display: grid;
+    gap: 0.5rem;
+    padding: 0.65rem;
+    background: var(--bg-body);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-sm);
+}
+
+.qg-repeater-row .qg-row-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.qg-repeater-row label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+.qg-repeater-row .qg-input-field {
+    padding: 0.4rem 0.55rem;
+    font-size: 0.87rem;
+}
+
+.qg-row-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    align-items: center;
+}
+
+.qg-row-readonly {
+    font-size: 0.87rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    padding: 0.4rem 0;
+}
+
+.qg-empty-note {
+    padding: 0.6rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    background: var(--bg-body);
+    border: 1px dashed var(--border-light);
+    border-radius: var(--radius-sm);
+}
+
+/* --- BOM editor ------------------------------------------------------ */
+
+.qg-bom-category {
+    margin-bottom: 1rem;
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-sm);
+}
+
+.qg-bom-category-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.6rem 0.75rem;
+    background: var(--bg-body);
+    border-bottom: 1px solid var(--border-light);
+}
+
+.qg-bom-category-head h4 {
+    font-size: 0.88rem;
+    font-weight: 700;
+}
+
+.qg-bom-count {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+}
+
+.qg-bom-rows {
+    padding: 0.65rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+/* Reconciliation panel: approved and BOM-derived totals shown side by side so
+   neither silently wins. */
+.qg-reconciliation {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.6rem;
+    margin-bottom: 1rem;
+}
+
+.qg-recon-card {
+    padding: 0.65rem 0.75rem;
+    background: var(--bg-body);
+    border: 1px solid var(--border-light);
+    border-left: 3px solid #1B7F4B;
+    border-radius: var(--radius-sm);
+}
+
+.qg-recon-card[data-state="mismatch"] {
+    border-left-color: #B42318;
+    background: #FFF6F5;
+}
+
+.qg-recon-card[data-state="unrated"] {
+    border-left-color: #B7791F;
+    background: #FFFBEB;
+}
+
+.qg-recon-title {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 0.3rem;
+}
+
+.qg-recon-values {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    font-size: 0.87rem;
+}
+
+.qg-recon-values strong {
+    font-weight: 700;
+}
+
+.qg-recon-message {
+    margin-top: 0.35rem;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.qg-recon-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.5rem;
+}
+
+/* --- Clause editors -------------------------------------------------- */
+
+.qg-clause-list {
+    margin-bottom: 1.5rem;
+}
+
+.qg-clause-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+
+.qg-clause-head h4 {
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.qg-clause-row {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: start;
+    gap: 0.6rem;
+    padding: 0.5rem 0.6rem;
+    background: var(--bg-body);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-sm);
+    margin-bottom: 0.5rem;
+}
+
+.qg-clause-row textarea {
+    resize: vertical;
+    min-height: 2.6rem;
+    font-size: 0.87rem;
+}
+
+.qg-clause-number {
+    padding-top: 0.45rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    min-width: 1.6rem;
+}
+
+.qg-clause-row[data-included="false"] {
+    opacity: 0.6;
+}
+
+.qg-clause-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding-top: 0.45rem;
+    font-size: 0.78rem;
+    white-space: nowrap;
+}
+
+/* --- Narrative fields ------------------------------------------------ */
+
+.qg-narrative-field {
+    margin-bottom: 1.15rem;
+}
+
+.qg-narrative-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-bottom: 0.35rem;
+}
+
+.qg-narrative-head label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.qg-narrative-flag {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+.qg-narrative-field textarea {
+    min-height: 6.5rem;
+    resize: vertical;
+    line-height: 1.5;
+}
+
+/* --- Annexures -------------------------------------------------------- */
+
+.qg-file-input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.qg-file-button {
+    display: inline-block;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    background: var(--bg-card);
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+}
+
+.qg-file-button:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+}
+
+.qg-file-input:focus-visible + .qg-file-button,
+.qg-file-button:focus-within {
+    outline: 2px solid var(--qp-navy, #1F4E79);
+    outline-offset: 2px;
+}
+
+.qg-annexure-error {
+    padding: 0.6rem 0.75rem;
+    margin-bottom: 0.75rem;
+    font-size: 0.85rem;
+    color: #B42318;
+    background: #FFF6F5;
+    border: 1px solid #E8A9A2;
+    border-radius: var(--radius-sm);
+}
+
+.qg-annexure-meta {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+}
+
+/* --- Editor tables ---------------------------------------------------- */
+
+.qg-table-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.qg-editor-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+    min-width: 460px;
+}
+
+.qg-editor-table th,
+.qg-editor-table td {
+    padding: 0.4rem 0.5rem;
+    border: 1px solid var(--border-light);
+    text-align: left;
+}
+
+.qg-editor-table th {
+    background: var(--bg-body);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+.qg-editor-table .qg-input-field {
+    padding: 0.3rem 0.4rem;
+    font-size: 0.85rem;
+}
+
+/* --- Wider viewports --------------------------------------------------- */
+
+@media screen and (min-width: 700px) {
+    .qg-field-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .qg-section-items {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .qg-reconciliation {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .qg-repeater-row {
+        grid-template-columns: repeat(4, 1fr);
+        align-items: end;
+    }
+
+    .qg-repeater-row .qg-row-actions {
+        grid-column: 1 / -1;
+    }
+}
+
+@media screen and (min-width: 1000px) {
+    .qg-field-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* --- Narrow viewports --------------------------------------------------- */
+
+@media screen and (max-width: 700px) {
+    .qg-mode-bar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.75rem;
+    }
+
+    .qg-mode-status {
+        margin-left: 0;
+        justify-content: space-between;
+    }
+
+    .qg-segmented {
+        width: 100%;
+    }
+
+    .qg-segmented-btn {
+        flex: 1;
+        padding: 0.55rem 0.5rem;
+        font-size: 0.85rem;
+    }
+
+    .qg-panel-toggle {
+        padding: 0.75rem 0.75rem;
+        font-size: 0.92rem;
+    }
+
+    .qg-panel-body {
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+    }
+
+    .qg-clause-row {
+        grid-template-columns: auto 1fr;
+    }
+
+    .qg-clause-row .qg-row-actions {
+        grid-column: 1 / -1;
+        justify-content: flex-end;
+    }
+
+    .qg-accordion-controls .qg-page-estimate {
+        margin-left: 0;
+        width: 100%;
+    }
+}

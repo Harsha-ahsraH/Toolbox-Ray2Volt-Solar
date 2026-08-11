@@ -1,0 +1,688 @@
+/* ============================================
+   QUOTE GENERATOR - Comprehensive proposal pages
+   Ray2Volt Solar Toolbox
+
+   The A4 document styling for the Comprehensive (C&I) Proposal. Every page is
+   a .quote-page, so it inherits the exact 210mm x 297mm contract the Short
+   Proposal already uses; these rules only add the layout primitives the
+   Comprehensive sections are composed from.
+
+   Design tokens are declared on .cq-page rather than on the container, because
+   the preview rail and stage render *clones* of these pages outside
+   #qgComprehensivePages and must style identically.
+   ============================================ */
+
+.cq-page {
+    /* Same palette as the Short Proposal so both documents look like one house. */
+    --qp-navy: #1F4E79;
+    --qp-navy-dark: #17395A;
+    --qp-tint: #EDF3FA;
+    --qp-ink: #1A1A1A;
+    --qp-gray: #555555;
+    --qp-muted: #777777;
+    --qp-line: #D8DEE6;
+    --qp-soft: #F7F9FC;
+
+    font-family: 'Google Sans Flex', Arial, sans-serif;
+    color: var(--qp-ink);
+    display: flex;
+    flex-direction: column;
+}
+
+.cq-page h1,
+.cq-page h2,
+.cq-page h3,
+.cq-page h4 {
+    font-family: 'Google Sans Flex', Arial, sans-serif;
+    color: var(--qp-navy);
+}
+
+/* --- Running header and footer ---------------------------------------- */
+
+.cq-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8mm;
+    padding-bottom: 3mm;
+    margin-bottom: 5mm;
+    border-bottom: 2px solid var(--qp-navy);
+    flex-shrink: 0;
+}
+
+.cq-head-title h1 {
+    font-size: 16pt;
+    font-weight: 700;
+    line-height: 1.15;
+}
+
+.cq-head-title p {
+    margin-top: 1mm;
+    font-size: 8.5pt;
+    color: var(--qp-muted);
+}
+
+.cq-head-logo {
+    width: 30mm;
+    height: auto;
+    flex-shrink: 0;
+}
+
+.cq-foot {
+    position: absolute;
+    left: 14mm;
+    right: 14mm;
+    bottom: 8mm;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 2mm;
+    border-top: 1px solid var(--qp-line);
+    font-size: 7.5pt;
+    color: var(--qp-muted);
+}
+
+/* Everything between header and footer. Scrolling is impossible on paper, so
+   content is paginated by the page plan rather than allowed to overflow. */
+.cq-body {
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+}
+
+/* --- Type ------------------------------------------------------------- */
+
+.cq-lead {
+    font-size: 9.5pt;
+    line-height: 1.55;
+    color: var(--qp-gray);
+    margin-bottom: 4mm;
+}
+
+.cq-para {
+    font-size: 9pt;
+    line-height: 1.55;
+    color: var(--qp-ink);
+    margin-bottom: 3mm;
+}
+
+.cq-subtitle {
+    font-size: 10.5pt;
+    font-weight: 700;
+    color: var(--qp-navy);
+    margin: 5mm 0 2.5mm;
+}
+
+.cq-subtitle:first-child {
+    margin-top: 0;
+}
+
+.cq-note {
+    padding: 2.5mm 3mm;
+    margin-top: 4mm;
+    font-size: 8pt;
+    line-height: 1.45;
+    color: var(--qp-gray);
+    background: var(--qp-soft);
+    border-left: 2.5px solid var(--qp-navy);
+}
+
+.cq-placeholder {
+    color: #A33;
+    font-style: italic;
+}
+
+/* --- Grids and cards --------------------------------------------------- */
+
+.cq-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3mm;
+}
+
+.cq-grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3mm;
+}
+
+.cq-card {
+    padding: 3mm;
+    background: var(--qp-soft);
+    border: 1px solid var(--qp-line);
+    border-radius: 1mm;
+}
+
+.cq-card h4 {
+    font-size: 9pt;
+    font-weight: 700;
+    margin-bottom: 1.5mm;
+}
+
+.cq-card p {
+    font-size: 8.2pt;
+    line-height: 1.45;
+    color: var(--qp-gray);
+}
+
+/* --- Key/value blocks --------------------------------------------------- */
+
+.cq-kv {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1.2mm 4mm;
+    font-size: 9pt;
+}
+
+.cq-kv dt {
+    font-weight: 600;
+    color: var(--qp-muted);
+    white-space: nowrap;
+}
+
+.cq-kv dd {
+    color: var(--qp-ink);
+}
+
+.cq-kv-boxed {
+    padding: 3mm;
+    background: var(--qp-soft);
+    border: 1px solid var(--qp-line);
+}
+
+/* --- Metric tiles -------------------------------------------------------- */
+
+.cq-metrics {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2.5mm;
+    margin-bottom: 4mm;
+}
+
+.cq-metrics-3 {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.cq-metric {
+    padding: 2.5mm;
+    text-align: center;
+    background: var(--qp-tint);
+    border: 1px solid var(--qp-line);
+    border-radius: 1mm;
+}
+
+.cq-metric-label {
+    display: block;
+    font-size: 7pt;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--qp-muted);
+    margin-bottom: 1mm;
+}
+
+.cq-metric-value {
+    display: block;
+    font-size: 12pt;
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--qp-navy);
+}
+
+.cq-metric-sub {
+    display: block;
+    margin-top: 0.8mm;
+    font-size: 7pt;
+    color: var(--qp-muted);
+}
+
+/* --- Tables -------------------------------------------------------------- */
+
+.cq-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 8.2pt;
+    table-layout: fixed;
+}
+
+.cq-table th,
+.cq-table td {
+    padding: 1.6mm 2mm;
+    border: 1px solid var(--qp-line);
+    text-align: left;
+    vertical-align: top;
+    line-height: 1.35;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.cq-table thead th {
+    background: var(--qp-navy);
+    color: #fff;
+    font-size: 7.5pt;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+}
+
+.cq-table tbody tr:nth-child(even) td {
+    background: var(--qp-soft);
+}
+
+.cq-table .cq-num {
+    text-align: right;
+    white-space: nowrap;
+}
+
+.cq-table .cq-center {
+    text-align: center;
+}
+
+.cq-table tfoot td,
+.cq-table .cq-total-row td {
+    background: var(--qp-tint) !important;
+    font-weight: 700;
+}
+
+/* Category heading row inside the bill of materials. */
+.cq-table .cq-cat-row td {
+    background: var(--qp-navy-dark) !important;
+    color: #fff;
+    font-weight: 700;
+    font-size: 7.8pt;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+}
+
+.cq-table-note {
+    margin-top: 2mm;
+    font-size: 7.5pt;
+    color: var(--qp-muted);
+}
+
+/* --- Lists ---------------------------------------------------------------- */
+
+.cq-clause-list {
+    list-style: none;
+    counter-reset: none;
+    margin: 0;
+    padding: 0;
+}
+
+.cq-clause-list li {
+    display: grid;
+    grid-template-columns: 7mm 1fr;
+    gap: 1mm;
+    padding: 1.4mm 0;
+    font-size: 8.5pt;
+    line-height: 1.5;
+    border-bottom: 1px solid var(--qp-line);
+}
+
+.cq-clause-list li:last-child {
+    border-bottom: none;
+}
+
+.cq-clause-num {
+    font-weight: 700;
+    color: var(--qp-navy);
+}
+
+.cq-bullets {
+    margin: 0 0 3mm;
+    padding-left: 5mm;
+    font-size: 8.8pt;
+    line-height: 1.55;
+}
+
+.cq-bullets li {
+    margin-bottom: 1.2mm;
+}
+
+/* --- Numbered steps -------------------------------------------------------- */
+
+.cq-steps {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5mm;
+}
+
+.cq-step {
+    display: grid;
+    grid-template-columns: 7mm 1fr;
+    gap: 2mm;
+    padding: 2.2mm;
+    background: var(--qp-soft);
+    border: 1px solid var(--qp-line);
+}
+
+.cq-step-num {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 6mm;
+    height: 6mm;
+    font-size: 8pt;
+    font-weight: 700;
+    color: #fff;
+    background: var(--qp-navy);
+    border-radius: 50%;
+}
+
+.cq-step strong {
+    display: block;
+    font-size: 8.5pt;
+    color: var(--qp-navy);
+    margin-bottom: 0.8mm;
+}
+
+.cq-step p {
+    font-size: 8pt;
+    line-height: 1.45;
+    color: var(--qp-gray);
+}
+
+/* --- Cover page ------------------------------------------------------------ */
+
+.cq-cover {
+    justify-content: flex-start;
+}
+
+.cq-cover-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10mm;
+}
+
+.cq-cover-logo {
+    width: 42mm;
+    height: auto;
+}
+
+.cq-cover-ref {
+    text-align: right;
+    font-size: 8.5pt;
+    color: var(--qp-muted);
+    line-height: 1.5;
+}
+
+.cq-cover-kicker {
+    font-size: 9pt;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--qp-navy);
+}
+
+.cq-cover-title {
+    margin: 3mm 0 4mm;
+    font-size: 26pt;
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--qp-navy);
+}
+
+.cq-cover-rule {
+    width: 40mm;
+    height: 1.2mm;
+    background: var(--qp-navy);
+    margin-bottom: 8mm;
+}
+
+.cq-cover-image {
+    width: 100%;
+    height: 68mm;
+    object-fit: cover;
+    border: 1px solid var(--qp-line);
+    margin-bottom: 8mm;
+}
+
+.cq-cover-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4mm;
+    margin-top: auto;
+}
+
+.cq-cover-card {
+    padding: 3.5mm;
+    background: var(--qp-soft);
+    border: 1px solid var(--qp-line);
+    border-top: 2.5px solid var(--qp-navy);
+}
+
+.cq-cover-card h3 {
+    font-size: 8pt;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--qp-navy);
+    margin-bottom: 2mm;
+}
+
+.cq-cover-card p,
+.cq-cover-card strong {
+    font-size: 9pt;
+    line-height: 1.5;
+    display: block;
+}
+
+.cq-cover-footer {
+    margin-top: 6mm;
+    padding-top: 3mm;
+    border-top: 1px solid var(--qp-line);
+    font-size: 7.5pt;
+    line-height: 1.5;
+    color: var(--qp-muted);
+    text-align: center;
+}
+
+/* --- Table of contents ------------------------------------------------------ */
+
+.cq-toc-group {
+    margin-top: 3.5mm;
+    font-size: 7.5pt;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--qp-muted);
+}
+
+.cq-toc-group:first-child {
+    margin-top: 0;
+}
+
+.cq-toc-list {
+    list-style: none;
+    margin: 1.5mm 0 0;
+    padding: 0;
+}
+
+.cq-toc-list li {
+    display: flex;
+    align-items: baseline;
+    gap: 2mm;
+    padding: 1.1mm 0;
+    font-size: 9pt;
+    border-bottom: 1px dotted var(--qp-line);
+}
+
+.cq-toc-title {
+    flex: 1;
+}
+
+.cq-toc-page {
+    font-weight: 700;
+    color: var(--qp-navy);
+}
+
+/* --- Signature / acceptance -------------------------------------------------- */
+
+.cq-sign-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8mm;
+    margin-top: 12mm;
+}
+
+.cq-sign-box {
+    padding-top: 16mm;
+    border-top: 1px solid var(--qp-ink);
+    font-size: 8.5pt;
+    color: var(--qp-gray);
+}
+
+.cq-sign-box strong {
+    display: block;
+    font-size: 9pt;
+    color: var(--qp-ink);
+    margin-bottom: 1mm;
+}
+
+/* --- Schematic -------------------------------------------------------------- */
+
+.cq-schematic {
+    width: 100%;
+    max-height: 105mm;
+    object-fit: contain;
+    border: 1px solid var(--qp-line);
+    background: #fff;
+    padding: 2mm;
+    margin-bottom: 4mm;
+}
+
+/* --- Consumption bar chart (CSS only, no chart library) ---------------------- */
+
+.cq-bars {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    align-items: end;
+    gap: 1.5mm;
+    height: 42mm;
+    padding: 2mm 2mm 0;
+    border: 1px solid var(--qp-line);
+    background: var(--qp-soft);
+}
+
+.cq-bar {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    height: 100%;
+    gap: 1mm;
+}
+
+.cq-bar-fill {
+    width: 100%;
+    background: var(--qp-navy);
+    min-height: 0.5mm;
+}
+
+.cq-bar-label {
+    font-size: 6.2pt;
+    color: var(--qp-muted);
+}
+
+.cq-bar-value {
+    font-size: 6pt;
+    color: var(--qp-gray);
+}
+
+/* --- Annexure pages ----------------------------------------------------------- */
+
+.cq-annexure-page {
+    display: flex;
+    flex-direction: column;
+}
+
+.cq-annexure-frame {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 0;
+    overflow: hidden;
+    background: #fff;
+}
+
+/* Aspect ratio is preserved and the artwork is bounded by the A4 text area, so
+   an annexure can never bleed off the page. */
+.cq-annexure-frame img,
+.cq-annexure-frame canvas {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    display: block;
+}
+
+.cq-annexure-error {
+    padding: 4mm;
+    font-size: 9pt;
+    line-height: 1.5;
+    color: #A33;
+    background: #FFF6F5;
+    border: 1px solid #E8A9A2;
+}
+
+/* ============================================
+   PRINT
+   ============================================ */
+
+@media print {
+
+    /* Only the active mode's document reaches the printer. */
+    body.qg-print-short #qgComprehensivePages {
+        display: none !important;
+    }
+
+    body.qg-print-comprehensive #quotePreview {
+        display: none !important;
+    }
+
+    body.qg-print-comprehensive #qgComprehensivePages {
+        display: block !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+        background: #fff !important;
+        --qp-preview-scale: 1 !important;
+    }
+
+    .cq-page {
+        width: 210mm !important;
+        height: 297mm !important;
+        min-height: 297mm !important;
+        margin: 0 !important;
+        padding: 12mm 14mm 24mm 14mm !important;
+        border: none !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        zoom: 1 !important;
+        page-break-after: always;
+        page-break-inside: avoid;
+        overflow: hidden !important;
+    }
+
+    .cq-page:last-child {
+        page-break-after: auto;
+    }
+
+    .cq-foot {
+        position: absolute !important;
+        bottom: 8mm !important;
+        left: 14mm !important;
+        right: 14mm !important;
+    }
+
+    .cq-table {
+        page-break-inside: avoid;
+    }
+
+    .cq-table thead {
+        display: table-header-group;
+    }
+}

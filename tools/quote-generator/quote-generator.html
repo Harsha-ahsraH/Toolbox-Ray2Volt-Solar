@@ -82,6 +82,49 @@
             <section id="quote-generator-section" class="content-section active">
 
                 <div class="no-print-area">
+                    <!-- ============================================
+                         Proposal mode + workspace controls
+                         ============================================ -->
+                    <div class="qg-mode-bar">
+                        <div class="qg-mode-group">
+                            <span class="qg-mode-label" id="qgModeLabel">Proposal Mode</span>
+                            <div class="qg-segmented" role="tablist" aria-labelledby="qgModeLabel">
+                                <button type="button" class="qg-segmented-btn is-active" id="qgModeShort" role="tab"
+                                    aria-selected="true" aria-controls="qgShortWorkspace">Short Quotation</button>
+                                <button type="button" class="qg-segmented-btn" id="qgModeComprehensive" role="tab"
+                                    aria-selected="false" aria-controls="qgComprehensiveWorkspace">Comprehensive
+                                    Quotation</button>
+                            </div>
+                        </div>
+
+                        <div class="qg-mode-group qg-comprehensive-only" id="qgPresetGroup" hidden>
+                            <label class="qg-mode-label" for="qgPreset">Preset</label>
+                            <select id="qgPreset" class="qg-input-field qg-preset-select">
+                                <option value="ci-on-grid-rooftop" selected>C&amp;I On-Grid Rooftop</option>
+                                <option value="ci-ground-mounted">C&amp;I Ground-Mounted</option>
+                                <option value="ci-hybrid">C&amp;I Hybrid</option>
+                            </select>
+                        </div>
+
+                        <div class="qg-mode-group qg-mode-status">
+                            <span class="qg-save-status" id="qgSaveStatus" role="status" aria-live="polite"
+                                data-state="idle">Draft not saved yet</span>
+                            <button type="button" class="qg-btn-ghost qg-comprehensive-only" id="qgNewQuotation"
+                                hidden>New Quotation</button>
+                        </div>
+                    </div>
+
+                    <!-- Workspace tabs (Comprehensive mode only) -->
+                    <div class="qg-workspace-tabs qg-comprehensive-only" id="qgWorkspaceTabs" role="tablist"
+                        aria-label="Workspace" hidden>
+                        <button type="button" class="qg-workspace-tab is-active" id="qgWorkspaceInputsTab" role="tab"
+                            aria-selected="true" aria-controls="qgComprehensiveInputs">Inputs</button>
+                        <button type="button" class="qg-workspace-tab" id="qgWorkspacePreviewTab" role="tab"
+                            aria-selected="false" aria-controls="qgComprehensivePreviewWorkspace">Proposal
+                            Preview</button>
+                    </div>
+
+                    <div id="qgShortWorkspace" role="tabpanel" aria-labelledby="qgModeShort">
                     <!-- Page Header -->
                     <div class="qg-page-header">
                         <h1>Quote Generator</h1>
@@ -288,6 +331,11 @@
                         <button id="qgPrintBtn" class="qg-btn-secondary">Print / Save as PDF</button>
                         <button id="qgDownloadBtn" class="qg-btn-secondary">Download PDF</button>
                     </div>
+                    </div><!-- /#qgShortWorkspace -->
+
+                    <!-- Comprehensive workspace markup is injected here by
+                         quote-generator-workspace-template.js. -->
+                    <div id="qgComprehensiveWorkspacePlaceholder"></div>
                 </div>
 
                 <!-- ============================================
@@ -540,6 +588,10 @@
                     <div id="quotePreviewAdditionalPages"></div>
                 </div>
 
+                <!-- Comprehensive proposal pages. Built at runtime from the page
+                     plan; this is the surface that print and Download PDF read. -->
+                <div id="qgComprehensivePages" hidden></div>
+
             </section>
         </main>
     </div>
@@ -555,6 +607,23 @@
     <script src="quote-generator-pages-6-8.js?v=20260725-roi-irr-b"></script>
     <script src="quote-generator-pages.js?v=20260725-roi-irr-b"></script>
     <script src="quote-generator.js?v=20260725-roi-irr-b"></script>
+
+    <!-- Comprehensive mode. Loaded after the Short generator so the existing
+         eight-page proposal initializes exactly as before. -->
+    <script src="quote-generator-workspace-template.js?v=20260811-comprehensive-a"></script>
+    <script src="quote-generator-config.js?v=20260811-comprehensive-a"></script>
+    <script src="quote-generator-content.js?v=20260811-comprehensive-a"></script>
+    <script src="quote-generator-bom-defaults.js?v=20260811-comprehensive-a"></script>
+    <script src="quote-generator-model.js?v=20260811-comprehensive-a"></script>
+    <script src="quote-generator-calc.js?v=20260811-comprehensive-a"></script>
+    <script src="quote-generator-storage.js?v=20260811-comprehensive-a"></script>
+    <script src="quote-generator-editors.js?v=20260811-comprehensive-a"></script>
+    <script src="quote-generator-comprehensive-pages.js?v=20260811-comprehensive-a"></script>
+    <script src="quote-generator-comprehensive-pages-a.js?v=20260811-comprehensive-a"></script>
+    <script src="quote-generator-comprehensive-pages-b.js?v=20260811-comprehensive-a"></script>
+    <script src="quote-generator-annexures.js?v=20260811-comprehensive-a"></script>
+    <script src="quote-generator-preview.js?v=20260811-comprehensive-a"></script>
+    <script src="quote-generator-form.js?v=20260811-comprehensive-a"></script>
 </body>
 
 </html>

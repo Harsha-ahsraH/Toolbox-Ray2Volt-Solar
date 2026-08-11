@@ -1,0 +1,216 @@
+/* ============================================
+   QUOTE GENERATOR - Comprehensive preview navigation
+   Ray2Volt Solar Toolbox
+
+   Thumbnail rail, the large A4 stage and the narrow-screen page selector.
+
+   The authoritative pages live in #qgComprehensivePages, which sits outside
+   .no-print-area so print and the PDF download read it directly. It is never
+   shown on screen; the rail and the stage display scaled clones of it. That
+   keeps one page model behind preview, print and PDF.
+   ============================================ */
+
+#qgComprehensivePages {
+    display: none;
+}
+
+.qg-preview-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-sm);
+}
+
+.qg-preview-position {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.qg-preview-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.qg-preview-actions button[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.qg-export-blocked {
+    padding: 0.65rem 0.85rem;
+    margin-bottom: 1rem;
+    font-size: 0.87rem;
+    font-weight: 500;
+    color: #B42318;
+    background: #FFF6F5;
+    border: 1px solid #E8A9A2;
+    border-left: 4px solid #B42318;
+    border-radius: var(--radius-sm);
+}
+
+/* Compact page selector. Replaces the rail below the split breakpoint. */
+.qg-preview-selector {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 1rem;
+}
+
+.qg-preview-selector .qg-input-field {
+    flex: 1;
+    min-width: 0;
+}
+
+.qg-preview-split {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    align-items: start;
+}
+
+/* --- Thumbnail rail --------------------------------------------------- */
+
+.qg-thumb-rail {
+    display: none;
+    flex-direction: column;
+    gap: 0.6rem;
+    max-height: calc(100vh - 12rem);
+    overflow-y: auto;
+    padding: 0.5rem;
+    background: var(--bg-body);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-sm);
+}
+
+.qg-thumb {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    padding: 0.35rem;
+    background: none;
+    border: 2px solid transparent;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-family: inherit;
+    text-align: left;
+}
+
+.qg-thumb:hover {
+    background: var(--bg-hover);
+}
+
+.qg-thumb.is-active {
+    border-color: var(--qp-navy, #1F4E79);
+    background: var(--bg-active);
+}
+
+.qg-thumb:focus-visible {
+    outline: 2px solid var(--qp-navy, #1F4E79);
+    outline-offset: 1px;
+}
+
+/* Fixed-ratio window that the scaled page clone is drawn into. 148px wide
+   holds a readable A4 miniature at the scale set below. */
+.qg-thumb-frame {
+    position: relative;
+    width: 148px;
+    height: 209px;
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid var(--border-light);
+    box-shadow: var(--shadow-sm);
+}
+
+.qg-thumb-frame .quote-page {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0 !important;
+    box-shadow: none !important;
+    transform: scale(0.1866);
+    transform-origin: top left;
+    zoom: 1 !important;
+    pointer-events: none;
+}
+
+.qg-thumb-caption {
+    display: flex;
+    gap: 0.35rem;
+    font-size: 0.72rem;
+    line-height: 1.3;
+    color: var(--text-secondary);
+    max-width: 148px;
+}
+
+.qg-thumb-number {
+    font-weight: 700;
+    color: var(--text-muted);
+    flex-shrink: 0;
+}
+
+.qg-thumb-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.qg-thumb.is-active .qg-thumb-caption {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+/* --- Stage ------------------------------------------------------------ */
+
+.qg-preview-stage {
+    min-height: 12rem;
+    padding: 1rem;
+    background: var(--bg-body);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-sm);
+    overflow-x: auto;
+}
+
+.qg-preview-stage:focus-visible {
+    outline: 2px solid var(--qp-navy, #1F4E79);
+    outline-offset: 2px;
+}
+
+/* The stage clone keeps the exact A4 box and is scaled, never reflowed, so
+   what is on screen is what prints. */
+.qg-preview-stage .quote-page {
+    margin: 0 auto !important;
+    zoom: var(--qg-stage-scale, 1);
+}
+
+.qg-preview-empty {
+    padding: 2rem 1rem;
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+/* --- Split layout on wider screens ------------------------------------ */
+
+@media screen and (min-width: 1024px) {
+    .qg-preview-selector {
+        display: none;
+    }
+
+    .qg-preview-split {
+        grid-template-columns: 180px minmax(0, 1fr);
+    }
+
+    .qg-thumb-rail {
+        display: flex;
+        position: sticky;
+        top: 1rem;
+    }
+}

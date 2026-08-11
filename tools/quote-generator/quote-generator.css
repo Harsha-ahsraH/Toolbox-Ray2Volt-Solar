@@ -7,3 +7,8 @@
 @import url('./quote-generator-preview-terms.css?v=20260725-roi-irr-b');
 @import url('./quote-generator-responsive.css?v=20260725-roi-irr-b');
 @import url('./quote-generator-print.css?v=20260725-roi-irr-b');
+/* Comprehensive mode. Loaded last so the Comprehensive workspace, preview
+   navigation and page styles win over the shared form and print rules. */
+@import url('./quote-generator-workspace.css?v=20260811-comprehensive-a');
+@import url('./quote-generator-preview-nav.css?v=20260811-comprehensive-a');
+@import url('./quote-generator-proposal-comprehensive.css?v=20260811-comprehensive-a');
