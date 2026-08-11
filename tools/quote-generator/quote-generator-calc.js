@@ -434,6 +434,19 @@
         if (!trimmed(project.quoteNumber)) {
             issues.push(missing('project', 'quoteNumber', 'Quotation number is required.'));
         }
+        // A negative capacity was typed, so it is an invalid entry rather than
+        // an omission and its panel reads Error rather than Incomplete.
+        [
+            ['dcCapacityKwp', 'Solar DC capacity'],
+            ['acCapacityKw', 'Inverter AC capacity'],
+            ['batteryEnergyKwh', 'Battery energy capacity'],
+            ['batteryPowerKw', 'Battery power rating']
+        ].forEach(([field, label]) => {
+            if (num(project[field]) < 0) {
+                issues.push(issue('critical', 'project', field, `${label} cannot be negative.`));
+            }
+        });
+
         if (num(project.dcCapacityKwp) <= 0) {
             issues.push(missing('project', 'dcCapacityKwp', 'Solar DC capacity (kWp) is required.'));
         }

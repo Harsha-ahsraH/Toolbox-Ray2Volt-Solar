@@ -28,6 +28,16 @@
         annexures: 'Annexures'
     };
 
+    /** Which row inputs an issue about a whole repeater should flag. */
+    const REPEATER_FIELDS = {
+        milestones: ['percent', 'name'],
+        discounts: ['amount', 'name'],
+        priceBreakdown: ['amount', 'description'],
+        futureCosts: ['amount', 'escalationPercent', 'startYear', 'endYear'],
+        mixedLocations: ['capacityKwp'],
+        monthlyRows: ['importedKwh', 'billAmount', 'maxDemandKva']
+    };
+
     const STATE_LABELS = {
         complete: 'Complete',
         incomplete: 'Incomplete',
@@ -79,8 +89,11 @@
             document.querySelectorAll('.qg-field-error[data-generated="true"]'),
             node => node.remove()
         );
+        // Clear by the class every flagged control carries, not by aria-invalid:
+        // a warning sets the class and the description without setting invalid,
+        // and would otherwise keep its styling and point at a deleted message.
         Array.prototype.forEach.call(
-            document.querySelectorAll('[aria-invalid="true"]'),
+            document.querySelectorAll('.has-error'),
             control => {
                 control.removeAttribute('aria-invalid');
                 control.removeAttribute('aria-describedby');
@@ -99,10 +112,13 @@
             }
         });
 
-        // Repeater rows are rendered from state and have no fixed control
-        // ID, so their inputs are found by the data-field they carry.
+        // Repeater rows are rendered from state and have no fixed control ID.
+        // An issue names the repeater as a whole ("milestones") while its inputs
+        // carry the leaf name they edit ("percent"), so the two are mapped here.
         Object.keys(byPanelField).forEach(field => {
-            const inputs = document.querySelectorAll(`[data-field="${field}"]`);
+            const leaves = REPEATER_FIELDS[field] || [field];
+            const selector = leaves.map(leaf => `[data-field="${leaf}"]`).join(',');
+            const inputs = document.querySelectorAll(selector);
             if (!inputs.length) return;
 
             const item = byPanelField[field];

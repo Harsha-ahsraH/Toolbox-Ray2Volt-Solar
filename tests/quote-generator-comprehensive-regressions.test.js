@@ -168,7 +168,7 @@ function fieldsOf(validation) {
     // Every row still reaches a page: the chunks tile the list exactly once.
     [
         ['payment-milestones', state.commercial.milestones.length],
-        ['commercial-offer', state.commercial.priceBreakdown.length],
+        ['commercial-offer', pagination.commercialOfferUnits(state).length],
         ['annexure-index', model.includedAnnexures(state).length]
     ].forEach(([sectionId, expected]) => {
         const chunks = pagination.sectionChunks(state, sectionId);
@@ -346,6 +346,37 @@ function fieldsOf(validation) {
     });
 }
 
+// --- No planned page may exceed its own height budget -------------------------
+// Producers split their own oversized items, so a chunk that overflows means a
+// clipped A4 page in preview, print and PDF alike.
+{
+    const state = validState();
+    model.selectAllSections(state);
+
+    // Deliberately awkward inputs: each is one item far taller than a page.
+    model.addClause(state, 'terms', `term `.repeat(1100));
+    model.addBreakdownRow(state, { description: 'scope '.repeat(334), amount: 1000 });
+    model.setNarrativeField(state, 'proposedSolution', 'word '.repeat(170));
+
+    const budgets = [
+        ['terms-conditions', () => pagination.clauseHeights(state, 'terms'),
+            config.PAGINATION.clause.budgetPx],
+        ['commercial-offer', () => pagination.commercialOfferHeights(state),
+            config.PAGINATION.breakdown.budgetPx],
+        ['proposed-solution', () => pagination.narrativeUnitHeights(state, 'proposed-solution'),
+            config.PAGINATION.narrative.budgetPx]
+    ];
+
+    budgets.forEach(([sectionId, heightsOf, budget]) => {
+        const heights = heightsOf();
+        pagination.sectionChunks(state, sectionId).forEach(chunk => {
+            const used = heights.slice(chunk.start, chunk.end).reduce((total, h) => total + h, 0);
+            assert.ok(used <= budget,
+                `${sectionId} planned a ${used}px page against a ${budget}px budget`);
+        });
+    });
+}
+
 // --- Author paragraphs survive pagination -------------------------------------
 {
     const state = validState();
@@ -410,8 +441,10 @@ function fieldsOf(validation) {
         'a newer-schema draft must switch autosave off rather than be overwritten');
     assert.match(form, /aria-invalid/,
         'field errors must be associated with their control, not only listed in the summary');
-    assert.match(form, /data-field="\$\{field\}"/,
-        'repeater rows carry their errors too, found by the data-field they render with');
+    assert.match(form, /REPEATER_FIELDS/,
+        'a repeater issue names the whole list, so it maps to the leaf inputs it should flag');
+    assert.match(form, /querySelectorAll\('\.has-error'\)/,
+        'stale styling is cleared by class, so a corrected warning does not keep its error look');
     assert.doesNotMatch(form, /if \(!settings\.silent\) autosave\.schedule\(state\);/,
         'every save path must go through the guard that protects a newer-schema draft');
     assert.match(form, /autosaveDisabled = false;/,

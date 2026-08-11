@@ -549,14 +549,9 @@
                 const current = readShortControl(field);
                 if (current === null) return;
 
-                if (!lastSync) {
-                    // First switch of the session: seed from whatever Short holds.
-                    if (hasValue(current)) field.set(state, current);
-                    return;
-                }
-
-                // Afterwards only a value the user actually changed in Short
-                // travels across, including one they deliberately cleared.
+                // Only a value the user actually changed in Short travels
+                // across, including one they deliberately cleared. The baseline
+                // is captured at boot, so this holds from the first switch.
                 if (lastSync.short[field.short] !== current) field.set(state, current);
             });
 
@@ -580,7 +575,6 @@
 
                 const value = readModelValue(field);
                 if (lastSync && lastSync.model[field.short] === value) return;
-                if (!lastSync && !hasValue(value)) return;
 
                 const previous = control.value;
                 control.value = value;
@@ -870,6 +864,12 @@
 
         if (Preview) Preview.init(api);
         if (Annexures) Annexures.init(api);
+
+        // Baseline for the mode bridge: what Short and the model each hold
+        // before the user has touched anything. Without it the first switch has
+        // to guess, and a value deliberately cleared in Short looks the same as
+        // one that was never filled in.
+        captureSync();
 
         setMode(state.mode, { silent: true });
         refresh();

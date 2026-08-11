@@ -403,7 +403,7 @@
         const chunk = page.chunk || { start: 0, end: units.length };
         const slice = units.slice(chunk.start, chunk.end);
         const narrative = slice.map(unit => `
-            ${unit.heading.indexOf('(continued)') === -1 ? '' : `<h3 class="cq-subtitle">${esc(unit.heading)}</h3>`}
+            ${unit.repeatHeading ? `<h3 class="cq-subtitle">${esc(unit.heading)}</h3>` : ''}
             <p class="cq-para">${escLines(unit.text)}</p>`).join('');
 
         if (page.isContinuation) {
@@ -417,8 +417,10 @@
         return {
             title: 'Proposed Solution',
             subtitle: 'System configuration and scope summary',
+            // The fixed blocks come first so that a narrative running onto a
+            // continuation page carries straight on rather than resuming after
+            // unrelated tables.
             body: `
-                ${narrative}
 
                 <div class="cq-metrics ${isHybrid ? '' : 'cq-metrics-3'}">
                     <div class="cq-metric">
@@ -479,7 +481,9 @@
                     <li>Testing, commissioning, handover and documentation.</li>
                 </ul>
                 <p class="cq-para">The binding scope is the combination of the bill of materials and the
-                    scope inclusions and exclusions sections of this proposal.</p>`
+                    scope inclusions and exclusions sections of this proposal.</p>
+
+                ${narrative}`
         };
     });
 

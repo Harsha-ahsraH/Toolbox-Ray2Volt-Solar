@@ -49,6 +49,19 @@
      * needs the number of years, so it does not pull in the whole financial
      * projection and the two modules stay independent.
      */
+    /**
+     * How many characters may sit in one unit for a given page budget.
+     *
+     * A whole line is held back on top of the row's own base height: the
+     * character-per-line figures are averages, so a unit measured to exactly
+     * fill its budget can still render one line taller than estimated. Losing a
+     * little space is free; overrunning an A4 page is not.
+     */
+    function maxCharsForBudget(budgetPx, basePx, linePx, charsPerLine) {
+        const usable = Math.max(linePx, budgetPx - basePx - linePx);
+        return Math.max(60, Math.floor(usable / linePx) * charsPerLine);
+    }
+
     function projectionYears(state) {
         return Math.max(1, Math.round(
             num(state.savings.projectionYears, Config.DEFAULTS.projectionYears)));
@@ -180,8 +193,9 @@
      */
     function clauseUnits(state, listName) {
         const metrics = Config.PAGINATION.clause;
-        const maxChars = Math.max(200, Math.floor(
-            (metrics.budgetPx - metrics.rowBasePx) / metrics.rowLinePx) * metrics.charsPerLine);
+        const maxChars = maxCharsForBudget(
+            Math.min(metrics.firstBudgetPx, metrics.budgetPx),
+            metrics.rowBasePx, metrics.rowLinePx, metrics.charsPerLine);
 
         const units = [];
 
@@ -377,10 +391,8 @@
         // The smallest page this section can offer, less the heading and gap
         // that every unit carries, is what one unit is allowed to fill.
         const smallestBudget = Math.min(narrativeFirstBudget(sectionId), metrics.budgetPx);
-        const textBudget = Math.max(metrics.linePx * 2,
-            smallestBudget - metrics.headingPx - metrics.paragraphGapPx);
-        const maxCharsPerUnit = Math.max(80,
-            Math.floor((textBudget / metrics.linePx) * metrics.charsPerLine));
+        const maxCharsPerUnit = maxCharsForBudget(smallestBudget,
+            metrics.headingPx + metrics.paragraphGapPx, metrics.linePx, metrics.charsPerLine);
 
         const units = [];
 
@@ -395,10 +407,17 @@
                 const cleaned = trimmed(paragraph);
                 if (!cleaned) return;
 
-                splitLongText(cleaned, maxCharsPerUnit).forEach(part => {
+                const parts = splitLongText(cleaned, maxCharsPerUnit);
+
+                parts.forEach((part, index) => {
+                    // "continued" means this paragraph was cut mid-way, not
+                    // merely that another paragraph came before it.
+                    const isSplit = index > 0;
                     units.push({
-                        heading: first ? block.heading : `${block.heading} (continued)`,
-                        text: part
+                        heading: isSplit ? `${block.heading} (continued)` : block.heading,
+                        text: part,
+                        isContinuation: isSplit,
+                        repeatHeading: !first && !isSplit
                     });
                     first = false;
                 });
@@ -424,13 +443,22 @@
      * each page.
      */
     function commercialOfferUnits(state) {
+        const metrics = Config.PAGINATION.breakdown;
+        const maxChars = maxCharsForBudget(metrics.budgetPx, metrics.rowBasePx,
+            metrics.rowLinePx, metrics.charsPerLine);
         const units = [];
 
+        function push(kind, row, text) {
+            splitLongText(text, maxChars).forEach((part, index) => {
+                units.push({ kind, row, text: part, isContinuation: index > 0 });
+            });
+        }
+
         (state.commercial.priceBreakdown || []).forEach(row =>
-            units.push({ kind: 'breakdown', row }));
+            push('breakdown', row, row.description));
         (state.commercial.discounts || [])
             .filter(row => num(row.amount) > 0 || trimmed(row.name))
-            .forEach(row => units.push({ kind: 'discount', row }));
+            .forEach(row => push('discount', row, row.name));
 
         return units;
     }
@@ -439,8 +467,7 @@
         const metrics = Config.PAGINATION.breakdown;
 
         return commercialOfferUnits(state).map(unit => metrics.rowBasePx
-            + (wrappedLines(unit.kind === 'breakdown' ? unit.row.description : unit.row.name,
-                metrics.charsPerLine) * metrics.rowLinePx));
+            + (wrappedLines(unit.text, metrics.charsPerLine) * metrics.rowLinePx));
     }
 
     function sectionChunks(state, sectionId) {

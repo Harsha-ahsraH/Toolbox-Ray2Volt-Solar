@@ -251,14 +251,24 @@
         });
     }
 
-    /** New Quotation: drop the draft and every stored annexure blob. */
+    /**
+     * New Quotation: drop every stored annexure blob and then the draft.
+     *
+     * Order matters. Clearing the draft first and failing on the blobs would
+     * destroy the quotation while leaving the customer's documents behind, so
+     * the draft is only removed once the blobs are actually gone.
+     */
     function clearAll() {
-        clearDraft();
-
-        if (!hasIndexedDb()) return Promise.resolve({ ok: true, annexures: false });
+        if (!hasIndexedDb()) {
+            const result = clearDraft();
+            return Promise.resolve({ ok: result.ok !== false, annexures: false });
+        }
 
         return clearAnnexureFiles()
-            .then(() => ({ ok: true, annexures: true }))
+            .then(() => {
+                const result = clearDraft();
+                return { ok: result.ok !== false, annexures: true };
+            })
             .catch(error => ({ ok: false, annexures: false, error }));
     }
 
