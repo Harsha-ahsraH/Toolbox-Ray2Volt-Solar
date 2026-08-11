@@ -117,6 +117,17 @@
             getValidation() {
                 return validation;
             },
+            /**
+             * Re-render and save. Used by callers that have already mutated
+             * state directly and asynchronously — the annexure module, whose
+             * uploads and PDF page counts resolve after the fact. `refresh`
+             * alone only redraws, so persisting has to be explicit here or the
+             * attachment metadata never reaches the saved draft.
+             */
+            persist() {
+                refresh();
+                autosave.schedule(state);
+            },
             refresh
         };
 

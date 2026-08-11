@@ -133,7 +133,7 @@
         const queue = Array.prototype.slice.call(files);
 
         queue.reduce((chain, file) => chain.then(() => addOneFile(file)), Promise.resolve())
-            .then(() => app.refresh());
+            .then(() => app.persist());
     }
 
     function addOneFile(file) {
@@ -320,7 +320,7 @@
                 countPdfPages(annexure.id, records[annexure.id].blob)
                     .then(pageCount => { annexure.pageCount = pageCount; })
                     .catch(() => null)
-            )).then(() => app.refresh());
+            )).then(() => app.persist());
         }).catch(() => null);
     }
 
