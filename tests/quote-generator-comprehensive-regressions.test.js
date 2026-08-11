@@ -303,7 +303,8 @@ function fieldsOf(validation) {
 // These are source assertions: the bridge is DOM code with no Node harness, and
 // the defects it carried were all in the guards below.
 {
-    const form = fs.readFileSync(path.join(toolRoot, 'quote-generator-form.js'), 'utf8');
+    const form = fs.readFileSync(path.join(toolRoot, 'quote-generator-form.js'), 'utf8')
+        + fs.readFileSync(path.join(toolRoot, 'quote-generator-validation-view.js'), 'utf8');
 
     assert.match(form, /let lastSync = null;/,
         'the bridge must remember what each side held, to tell an edit from its own write');

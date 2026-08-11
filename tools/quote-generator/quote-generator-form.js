@@ -23,8 +23,10 @@
         const Editors = window.QuoteGeneratorEditors;
         const Preview = window.QuoteGeneratorPreview;
         const Annexures = window.QuoteGeneratorAnnexures;
+        const ValidationView = window.QuoteGeneratorValidationView;
+        const PANEL_LABELS = ValidationView.PANEL_LABELS;
 
-        if (!Config || !Model || !Calc || !Storage || !Editors) {
+        if (!Config || !Model || !Calc || !Storage || !Editors || !ValidationView) {
             console.error('Comprehensive quote generator modules failed to load.');
             return;
         }
@@ -318,140 +320,8 @@
         // Validation display
         // -----------------------------------------------------------------
 
-        const PANEL_LABELS = {
-            sections: 'Proposal Sections',
-            customer: 'Customer Details',
-            project: 'Project Settings',
-            narrative: 'Project Description & Scope',
-            bom: 'Bill of Materials',
-            commercial: 'Commercial Offer',
-            savings: 'Savings Projections',
-            contract: 'Terms, Inclusions & Exclusions',
-            annexures: 'Annexures'
-        };
-
-        const STATE_LABELS = {
-            complete: 'Complete',
-            incomplete: 'Incomplete',
-            error: 'Error'
-        };
-
-        /**
-         * Maps a validation issue onto the control it belongs to, so the message
-         * can sit beside the field and be announced with it rather than only
-         * appearing in the summary at the top of the form.
-         */
-        const FIELD_CONTROLS = {
-            companyName: 'cqCompanyName',
-            contactPerson: 'cqContactPerson',
-            customerName: 'cqCustomerName',
-            phone: 'cqPhone',
-            email: 'cqEmail',
-            billingAddress: 'cqBillingAddress',
-            siteAddress: 'cqSiteAddress',
-            quoteDate: 'cqQuoteDate',
-            quoteNumber: 'cqQuoteNumber',
-            dcCapacityKwp: 'cqDcCapacity',
-            acCapacityKw: 'cqAcCapacity',
-            batteryEnergyKwh: 'cqBatteryEnergy',
-            batteryPowerKw: 'cqBatteryPower',
-            validityDays: 'cqValidityDays',
-            actualProjectCost: 'cqActualProjectCost',
-            gstRate: 'cqGstRate',
-            tariffRate: 'cqTariffRate',
-            annualGenerationPerKwp: 'cqAnnualGeneration',
-            tariffEscalationPercent: 'cqTariffEscalation',
-            degradationPercent: 'cqDegradation',
-            projectionYears: 'cqProjectionYears',
-            selfConsumptionPercent: 'cqSelfConsumption',
-            exportPercent: 'cqExportPercent'
-        };
-
-        function renderFieldMessages() {
-            // Clear last pass.
-            Array.prototype.forEach.call(
-                document.querySelectorAll('.qg-field-error[data-generated="true"]'),
-                node => node.remove()
-            );
-            Array.prototype.forEach.call(
-                document.querySelectorAll('[aria-invalid="true"]'),
-                control => {
-                    control.removeAttribute('aria-invalid');
-                    control.removeAttribute('aria-describedby');
-                    control.classList.remove('has-error');
-                }
-            );
-
-            const byField = {};
-            validation.issues.forEach(item => {
-                if (!FIELD_CONTROLS[item.field]) return;
-                if (!byField[item.field]) byField[item.field] = item;
-            });
-
-            Object.keys(byField).forEach(field => {
-                const control = byId(FIELD_CONTROLS[field]);
-                if (!control) return;
-
-                const item = byField[field];
-                const messageId = `${control.id}-error`;
-                const message = document.createElement('p');
-
-                message.className = 'qg-field-error';
-                message.id = messageId;
-                message.dataset.generated = 'true';
-                message.textContent = item.message;
-
-                control.insertAdjacentElement('afterend', message);
-                control.setAttribute('aria-describedby', messageId);
-                control.classList.add('has-error');
-
-                if (item.severity === 'critical') {
-                    control.setAttribute('aria-invalid', 'true');
-                }
-            });
-        }
-
         function renderValidation() {
-            Object.keys(validation.panels).forEach(panel => {
-                const badge = document.querySelector(`.qg-panel[data-panel="${panel}"] .qg-panel-state`);
-                if (!badge) return;
-
-                const value = validation.panels[panel];
-                badge.dataset.state = value;
-                badge.textContent = STATE_LABELS[value];
-            });
-
-            if (!refs.validationSummary || !refs.validationList) return;
-
-            const issues = validation.issues;
-
-            if (!issues.length) {
-                refs.validationSummary.hidden = true;
-                refs.validationList.innerHTML = '';
-                renderFieldMessages();
-                return;
-            }
-
-            refs.validationSummary.hidden = false;
-            refs.validationSummary.dataset.severity = validation.hasCriticalErrors ? 'critical' : 'warning';
-
-            const title = refs.validationSummary.querySelector('.qg-validation-title');
-            if (title) {
-                title.textContent = validation.hasCriticalErrors
-                    ? `${validation.criticalIssues.length} issue${validation.criticalIssues.length === 1 ? '' : 's'} must be fixed before exporting`
-                    : `${issues.length} thing${issues.length === 1 ? '' : 's'} to check`;
-            }
-
-            renderFieldMessages();
-
-            refs.validationList.innerHTML = issues.map(item => `
-                <li>
-                    <span class="qg-validation-badge" data-severity="${item.severity}">${
-                        item.severity === 'critical' ? 'Error' : 'Check'}</span>
-                    <button type="button" class="qg-validation-link" data-goto-panel="${Editors.esc(item.panel)}">
-                        ${Editors.esc(PANEL_LABELS[item.panel] || item.panel)}: ${Editors.esc(item.message)}
-                    </button>
-                </li>`).join('');
+            ValidationView.renderValidation({ validation, refs });
         }
 
         function renderDerivedReadouts() {
@@ -642,8 +512,12 @@
             }
         ];
 
-        function hasValue(value, numeric) {
-            if (numeric) return Number(value) > 0;
+        /**
+         * Whether a control holds anything at all. Zero is a value a user can
+         * legitimately mean - a nil GST rate, a nil discount - so only a blank
+         * counts as absent, including for numeric fields.
+         */
+        function hasValue(value) {
             return String(value === null || value === undefined ? '' : value).trim() !== '';
         }
 
@@ -669,13 +543,15 @@
         }
 
         function pullFromShortForm() {
+            const configurationBefore = state.project.systemConfiguration;
+
             SHARED_FIELDS.forEach(field => {
                 const current = readShortControl(field);
                 if (current === null) return;
 
                 if (!lastSync) {
                     // First switch of the session: seed from whatever Short holds.
-                    if (hasValue(current, field.numeric)) field.set(state, current);
+                    if (hasValue(current)) field.set(state, current);
                     return;
                 }
 
@@ -683,6 +559,15 @@
                 // travels across, including one they deliberately cleared.
                 if (lastSync.short[field.short] !== current) field.set(state, current);
             });
+
+            // A configuration change that arrives over the bridge has to run
+            // the same side effects as changing it inside Comprehensive:
+            // dropping sections that no longer apply, selecting the battery
+            // section, reloading untouched narrative and the BOM defaults.
+            if (state.project.systemConfiguration !== configurationBefore) {
+                onConfigurationChanged();
+                Model.resetBom(state);
+            }
 
             maybeRegenerateTitle();
             captureSync();
@@ -695,7 +580,7 @@
 
                 const value = readModelValue(field);
                 if (lastSync && lastSync.model[field.short] === value) return;
-                if (!lastSync && !hasValue(value, field.numeric)) return;
+                if (!lastSync && !hasValue(value)) return;
 
                 const previous = control.value;
                 control.value = value;
@@ -744,7 +629,7 @@
             document.body.classList.toggle('qg-print-short', !isComprehensive);
 
             if (isComprehensive) refresh();
-            if (!settings.silent) autosave.schedule(state);
+            if (!settings.silent) save();
         }
 
         /**
@@ -841,7 +726,21 @@
 
                 if (!confirmed) return;
 
-                Storage.clearAll().then(() => {
+                Storage.clearAll().then(result => {
+                    if (result && result.ok === false) {
+                        window.alert(
+                            'The stored annexure files could not be cleared, so some may remain on '
+                            + 'this device. The new quotation has not been started. Close other tabs '
+                            + 'using this tool and try again.'
+                        );
+                        return;
+                    }
+
+                    // Starting a new quotation is an explicit decision to
+                    // replace whatever was stored, including a newer-schema
+                    // draft that autosave was protecting.
+                    autosaveDisabled = false;
+
                     state = Model.createInitialState({
                         mode: Config.MODES.COMPREHENSIVE,
                         preset: state.preset,

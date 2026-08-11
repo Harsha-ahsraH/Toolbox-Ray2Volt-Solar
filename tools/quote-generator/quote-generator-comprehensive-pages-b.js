@@ -500,7 +500,9 @@
     function clauseSection(options) {
         return context => {
             const { state, page } = context;
-            const clauses = Model.enabledClauses(state, options.listName);
+            // Units rather than clauses: a clause too long for one page has
+            // already been broken into continuation rows by the page plan.
+            const clauses = Calc.clauseUnits(state, options.listName);
             const chunk = page.chunk || { start: 0, end: clauses.length };
             const slice = clauses.slice(chunk.start, chunk.end);
 
@@ -515,7 +517,7 @@
                         <ol class="cq-clause-list">
                             ${slice.map(clause => `
                                 <li>
-                                    <span class="cq-clause-num">${clause.number}.</span>
+                                    <span class="cq-clause-num">${clause.isContinuation ? '' : clause.number + '.'}</span>
                                     <span>${escLines(clause.text)}</span>
                                 </li>`).join('')}
                         </ol>`
@@ -695,14 +697,14 @@
     register('commercial-offer', context => {
         const { state, derived, page } = context;
         const commercial = derived.commercial;
-        const allBreakdown = state.commercial.priceBreakdown || [];
-        const chunk = page.chunk || { start: 0, end: allBreakdown.length };
-        const breakdown = allBreakdown.slice(chunk.start, chunk.end);
+        const allUnits = Calc.commercialOfferUnits(state);
+        const chunk = page.chunk || { start: 0, end: allUnits.length };
+        const slice = allUnits.slice(chunk.start, chunk.end);
+        const breakdown = slice.filter(unit => unit.kind === 'breakdown').map(unit => unit.row);
+        const pageDiscounts = slice.filter(unit => unit.kind === 'discount').map(unit => unit.row);
         // The offer summary and tax disclosure close the section, so they are
         // drawn once on the final page rather than repeated on every one.
         const isLast = page.part === page.partCount - 1;
-        const discounts = (state.commercial.discounts || [])
-            .filter(row => Number(row.amount) > 0);
         const halfRate = commercial.gstRate / 2;
 
         return {
@@ -744,7 +746,7 @@
                             <td>Actual project cost (incl. GST)</td>
                             <td class="cq-num">${money(commercial.actualProjectCost)}</td>
                         </tr>
-                        ${discounts.length ? discounts.map(row => `
+                        ${pageDiscounts.length ? pageDiscounts.map(row => `
                             <tr>
                                 <td>Less: ${esc(row.name || 'Discount')}</td>
                                 <td class="cq-num">- ${money(row.amount)}</td>

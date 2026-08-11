@@ -421,7 +421,10 @@
             issues.push(missing('customer', 'siteAddress', 'Project/site address is required.'));
         }
         if (trimmed(customer.email) && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed(customer.email))) {
-            issues.push(issue('warning', 'customer', 'email', 'Email address does not look valid.'));
+            // Entered but malformed, so the panel reads Error rather than
+            // Incomplete. It stays a warning: a bad address should not block a
+            // quotation going out.
+            issues.push(issue('warning', 'customer', 'email', 'Email address does not look valid.', 'entered'));
         }
 
         // --- Project ------------------------------------------------------
@@ -521,7 +524,10 @@
         });
 
         // --- Commercial ----------------------------------------------------
-        if (totals.actualProjectCost <= 0) {
+        if (num(state.commercial.actualProjectCost) < 0) {
+            issues.push(issue('critical', 'commercial', 'actualProjectCost',
+                'Actual Project Cost cannot be negative.'));
+        } else if (totals.actualProjectCost <= 0) {
             issues.push(missing('commercial', 'actualProjectCost', 'Actual Project Cost (incl. GST) is required.'));
         }
         if (num(state.commercial.gstRate) < 0) {
@@ -533,6 +539,12 @@
         (state.commercial.discounts || []).forEach(row => {
             if (num(row.amount) < 0) {
                 issues.push(issue('critical', 'commercial', 'discounts', 'Discount amount cannot be negative.'));
+            }
+        });
+        (state.commercial.priceBreakdown || []).forEach(row => {
+            if (num(row.amount) < 0) {
+                issues.push(issue('critical', 'commercial', 'priceBreakdown',
+                    'Price breakdown amounts cannot be negative.'));
             }
         });
         if (totals.hasBreakdown && !totals.breakdownMatches) {
@@ -565,9 +577,9 @@
         if (num(state.savings.projectionYears) <= 0 || Math.round(num(state.savings.projectionYears)) !== num(state.savings.projectionYears)) {
             issues.push(issue('critical', 'savings', 'projectionYears', 'Projection period must be a positive whole number of years.'));
         }
-        if (num(state.savings.tariffEscalationPercent) < -100) {
+        if (num(state.savings.tariffEscalationPercent) < 0) {
             issues.push(issue('critical', 'savings', 'tariffEscalationPercent',
-                'Tariff escalation below -100% would make future tariffs negative.'));
+                'Tariff escalation cannot be negative.'));
         }
         if (num(state.savings.tariffRate) < 0) {
             issues.push(issue('critical', 'savings', 'tariffRate', 'Electricity tariff cannot be negative.'));
@@ -586,9 +598,9 @@
             if (num(cost.amount) < 0) {
                 issues.push(issue('critical', 'savings', 'futureCosts', 'Future cost amount cannot be negative.'));
             }
-            if (num(cost.escalationPercent) < -100) {
+            if (num(cost.escalationPercent) < 0) {
                 issues.push(issue('critical', 'savings', 'futureCosts',
-                    'Cost escalation below -100% would make future costs negative.'));
+                    'Cost escalation cannot be negative.'));
             }
             if (num(cost.startYear) < 1 || num(cost.endYear) < 1) {
                 issues.push(issue('critical', 'savings', 'futureCosts', 'Future cost years must be 1 or greater.'));
@@ -632,7 +644,9 @@
 
         // Panels that do not exist in Short mode report as complete.
         issues.forEach(item => {
-            if (item.severity === 'critical' && item.kind !== 'missing') {
+            if (item.kind === 'entered') {
+                panels[item.panel] = 'error';
+            } else if (item.severity === 'critical' && item.kind !== 'missing') {
                 // An entered value that conflicts: Error, and it stays Error.
                 panels[item.panel] = 'error';
             } else if (panels[item.panel] === 'complete') {
@@ -689,6 +703,9 @@
         tocEntryHeights: Pagination.tocEntryHeights,
         milestoneRowHeights: Pagination.milestoneRowHeights,
         breakdownRowHeights: Pagination.breakdownRowHeights,
+        commercialOfferUnits: Pagination.commercialOfferUnits,
+        commercialOfferHeights: Pagination.commercialOfferHeights,
+        clauseUnits: Pagination.clauseUnits,
         annexureIndexHeights: Pagination.annexureIndexHeights,
         narrativeUnits: Pagination.narrativeUnits,
         narrativeUnitHeights: Pagination.narrativeUnitHeights,

@@ -173,11 +173,37 @@
         });
     }
 
+    /**
+     * Enabled clauses, with any single clause too tall for one page broken into
+     * continuation rows. Without this a pasted clause of several thousand
+     * characters would be given its own page and then run off the bottom of it.
+     */
+    function clauseUnits(state, listName) {
+        const metrics = Config.PAGINATION.clause;
+        const maxChars = Math.max(200, Math.floor(
+            (metrics.budgetPx - metrics.rowBasePx) / metrics.rowLinePx) * metrics.charsPerLine);
+
+        const units = [];
+
+        enabledClauses(state, listName).forEach(clause => {
+            splitLongText(clause.text, maxChars).forEach((part, index) => {
+                units.push({
+                    id: clause.id,
+                    number: clause.number,
+                    text: part,
+                    isContinuation: index > 0
+                });
+            });
+        });
+
+        return units;
+    }
+
     function clauseHeights(state, listName) {
         const metrics = Config.PAGINATION.clause;
 
-        return enabledClauses(state, listName).map(clause =>
-            metrics.rowBasePx + (wrappedLines(clause.text, metrics.charsPerLine) * metrics.rowLinePx));
+        return clauseUnits(state, listName).map(unit =>
+            metrics.rowBasePx + (wrappedLines(unit.text, metrics.charsPerLine) * metrics.rowLinePx));
     }
 
     /**
@@ -290,9 +316,10 @@
      * salesperson pastes in can be chunked across pages like any table instead
      * of being clipped at the bottom of a fixed A4 page.
      *
-     * A paragraph longer than a whole page is split at word boundaries. Both
-     * this module and the renderer build the list from the same function, so
-     * the page plan and what is drawn cannot disagree.
+     * Paragraph breaks are preserved: the text is split on blank lines first,
+     * and only a single paragraph too tall for a page is broken further, at
+     * word boundaries. Both this module and the renderer build the list from
+     * this one function, so the page plan and what is drawn cannot disagree.
      */
     const NARRATIVE_LAYOUT = {
         'project-objectives': [
@@ -301,8 +328,26 @@
             { heading: 'Site Conditions & Constraints', field: 'siteConditions' },
             { heading: 'Special Requirements', field: 'specialRequirements' },
             { heading: 'Project Notes', field: 'projectNotes' }
+        ],
+        // The proposed solution carries the fixed metrics, allocation and scope
+        // blocks on its first page, so that page gets a much smaller text
+        // budget; the rest of the narrative flows onto continuation pages.
+        'proposed-solution': [
+            { heading: 'Proposed Solution Summary', field: 'proposedSolution' }
         ]
     };
+
+    /** Budget available for narrative text on the first page of each section. */
+    const NARRATIVE_FIRST_BUDGET = {
+        'proposed-solution': 210
+    };
+
+    function narrativeFirstBudget(sectionId) {
+        const budget = Config.PAGINATION.narrative.firstBudgetPx;
+        return NARRATIVE_FIRST_BUDGET[sectionId] === undefined
+            ? budget
+            : NARRATIVE_FIRST_BUDGET[sectionId];
+    }
 
     function splitLongText(text, maxChars) {
         const words = trimmed(text).split(/\s+/).filter(Boolean);
@@ -328,18 +373,34 @@
         if (!layout) return [];
 
         const metrics = Config.PAGINATION.narrative;
-        const maxCharsPerPage = Math.floor(
-            (metrics.budgetPx / metrics.linePx) * metrics.charsPerLine);
+
+        // The smallest page this section can offer, less the heading and gap
+        // that every unit carries, is what one unit is allowed to fill.
+        const smallestBudget = Math.min(narrativeFirstBudget(sectionId), metrics.budgetPx);
+        const textBudget = Math.max(metrics.linePx * 2,
+            smallestBudget - metrics.headingPx - metrics.paragraphGapPx);
+        const maxCharsPerUnit = Math.max(80,
+            Math.floor((textBudget / metrics.linePx) * metrics.charsPerLine));
+
         const units = [];
 
         layout.forEach(block => {
             const text = trimmed(state.projectNarrative[block.field]);
             if (!text) return;
 
-            splitLongText(text, maxCharsPerPage).forEach((part, index) => {
-                units.push({
-                    heading: index === 0 ? block.heading : `${block.heading} (continued)`,
-                    text: part
+            let first = true;
+
+            // Author paragraphs survive: only an oversized one is broken up.
+            text.split(/\r?\n\s*\r?\n/).forEach(paragraph => {
+                const cleaned = trimmed(paragraph);
+                if (!cleaned) return;
+
+                splitLongText(cleaned, maxCharsPerUnit).forEach(part => {
+                    units.push({
+                        heading: first ? block.heading : `${block.heading} (continued)`,
+                        text: part
+                    });
+                    first = false;
                 });
             });
         });
@@ -356,6 +417,32 @@
             + (wrappedLines(unit.text, metrics.charsPerLine) * metrics.linePx));
     }
 
+    /**
+     * Commercial offer rows: the price breakdown followed by the named
+     * discounts. Both tables sit on the same page and both can grow, so they
+     * are chunked as one list and the renderer draws whichever slice lands on
+     * each page.
+     */
+    function commercialOfferUnits(state) {
+        const units = [];
+
+        (state.commercial.priceBreakdown || []).forEach(row =>
+            units.push({ kind: 'breakdown', row }));
+        (state.commercial.discounts || [])
+            .filter(row => num(row.amount) > 0 || trimmed(row.name))
+            .forEach(row => units.push({ kind: 'discount', row }));
+
+        return units;
+    }
+
+    function commercialOfferHeights(state) {
+        const metrics = Config.PAGINATION.breakdown;
+
+        return commercialOfferUnits(state).map(unit => metrics.rowBasePx
+            + (wrappedLines(unit.kind === 'breakdown' ? unit.row.description : unit.row.name,
+                metrics.charsPerLine) * metrics.rowLinePx));
+    }
+
     function sectionChunks(state, sectionId) {
         const pagination = Config.PAGINATION;
 
@@ -364,16 +451,16 @@
                 pagination.milestone.firstBudgetPx, pagination.milestone.budgetPx);
         }
         if (sectionId === 'commercial-offer') {
-            return chunkByHeight(breakdownRowHeights(state),
+            return chunkByHeight(commercialOfferHeights(state),
                 pagination.breakdown.budgetPx, pagination.breakdown.budgetPx);
         }
         if (sectionId === 'annexure-index') {
             return chunkByHeight(annexureIndexHeights(state),
                 pagination.annexureIndex.firstBudgetPx, pagination.annexureIndex.budgetPx);
         }
-        if (sectionId === 'project-objectives') {
+        if (sectionId === 'project-objectives' || sectionId === 'proposed-solution') {
             return chunkByHeight(narrativeUnitHeights(state, sectionId),
-                pagination.narrative.firstBudgetPx, pagination.narrative.budgetPx);
+                narrativeFirstBudget(sectionId), pagination.narrative.budgetPx);
         }
         if (sectionId === 'warranty-support') {
             return chunkByHeight(warrantyRowHeights(state),
@@ -517,6 +604,9 @@
         tocEntryHeights,
         milestoneRowHeights,
         breakdownRowHeights,
+        commercialOfferUnits,
+        commercialOfferHeights,
+        clauseUnits,
         annexureIndexHeights,
         narrativeUnits,
         narrativeUnitHeights,

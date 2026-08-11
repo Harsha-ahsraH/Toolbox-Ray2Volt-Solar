@@ -394,14 +394,31 @@
     // ---------------------------------------------------------------------
 
     register('proposed-solution', context => {
-        const { state, derived } = context;
+        const { state, derived, page } = context;
         const isHybrid = state.project.systemConfiguration === 'Hybrid';
+
+        // The narrative is carried in full across however many pages it needs;
+        // the fixed metric, allocation and scope blocks sit on the first.
+        const units = Calc.narrativeUnits(state, 'proposed-solution');
+        const chunk = page.chunk || { start: 0, end: units.length };
+        const slice = units.slice(chunk.start, chunk.end);
+        const narrative = slice.map(unit => `
+            ${unit.heading.indexOf('(continued)') === -1 ? '' : `<h3 class="cq-subtitle">${esc(unit.heading)}</h3>`}
+            <p class="cq-para">${escLines(unit.text)}</p>`).join('');
+
+        if (page.isContinuation) {
+            return {
+                title: 'Proposed Solution',
+                subtitle: `Continued — page ${page.part + 1} of ${page.partCount}`,
+                body: narrative
+            };
+        }
 
         return {
             title: 'Proposed Solution',
             subtitle: 'System configuration and scope summary',
             body: `
-                <p class="cq-lead">${escLines(excerpt(state.projectNarrative.proposedSolution, 620))}</p>
+                ${narrative}
 
                 <div class="cq-metrics ${isHybrid ? '' : 'cq-metrics-3'}">
                     <div class="cq-metric">

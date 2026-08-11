@@ -119,7 +119,7 @@
         { id: 'about-ray2volt', title: 'About Ray2Volt', group: 'Project Context', maintained: true },
         { id: 'ci-solar-benefits', title: 'Why C&I Solar', group: 'Project Context', maintained: true },
 
-        { id: 'proposed-solution', title: 'Proposed Solution', group: 'Technical Solution' },
+        { id: 'proposed-solution', title: 'Proposed Solution', group: 'Technical Solution', paginates: true },
         { id: 'system-architecture', title: 'System Architecture', group: 'Technical Solution' },
         { id: 'installation-approach', title: 'Installation Approach', group: 'Technical Solution' },
         { id: 'design-basis', title: 'Design Basis & Assumptions', group: 'Technical Solution' },
