@@ -541,8 +541,18 @@
                 const value = field.get(state);
                 if (!hasValue(value, field.numeric)) return;
 
+                const previous = control.value;
                 control.value = value;
-                control.dispatchEvent(new Event('change', { bubbles: true }));
+
+                // Only announce a genuine change. The Short generator rebuilds
+                // its bill of materials from defaults whenever Installation Type
+                // fires `change`, so firing it unconditionally on every mode
+                // switch would silently discard a salesperson's hand-edited
+                // Short BOM rows. When the value really did change, that rebuild
+                // is the Short form's own intended behaviour and should happen.
+                if (String(previous) !== String(control.value)) {
+                    control.dispatchEvent(new Event('change', { bubbles: true }));
+                }
             });
 
             const discount = byId('qgDiscountAmount');
