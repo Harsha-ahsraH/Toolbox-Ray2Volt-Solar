@@ -113,6 +113,18 @@
         );
     }
 
+    /**
+     * Percentage totals must land within 0.01 percentage point of 100.
+     *
+     * The comparison is inclusive and carries an epsilon: a total of 99.99 is
+     * exactly on the specified tolerance and must pass, but binary floating
+     * point makes |99.99 - 100| evaluate to 0.010000000000005, which a bare
+     * `<= 0.01` would reject.
+     */
+    function withinPercentTolerance(total) {
+        return Math.abs(num(total) - 100) <= Config.PERCENT_TOLERANCE + 1e-9;
+    }
+
     function reconcileCapacity(approved, derived) {
         const difference = derived - approved;
         const tolerance = capacityTolerance(approved);
@@ -137,6 +149,12 @@
             hasRatedModules: ratedRows(state, 'modules').length > 0,
             hasRatedInverters: ratedRows(state, 'inverters').length > 0,
             hasRatedBattery: ratedRows(state, 'battery').length > 0,
+            // Energy and power are reconciled separately, because a battery row
+            // carries one rating: a kWh row says nothing about kW and vice versa.
+            hasRatedBatteryEnergy: ratedRows(state, 'battery')
+                .filter(row => trimmed(row.ratingUnit).toLowerCase() === 'kwh').length > 0,
+            hasRatedBatteryPower: ratedRows(state, 'battery')
+                .filter(row => trimmed(row.ratingUnit).toLowerCase() === 'kw').length > 0,
             appliesBattery: isHybrid
         };
 
@@ -446,12 +464,23 @@
             }
 
             if (isHybrid && num(project.batteryEnergyKwh) > 0) {
-                if (!reconciliation.hasRatedBattery) {
-                    issues.push(issue('warning', 'bom', 'battery', 'No rated battery rows, so battery capacity cannot be reconciled.'));
+                if (!reconciliation.hasRatedBatteryEnergy) {
+                    issues.push(issue('warning', 'bom', 'battery', 'No kWh-rated battery rows, so battery energy cannot be reconciled.'));
                 } else if (reconciliation.batteryEnergy.mismatch) {
                     issues.push(issue('critical', 'bom', 'battery',
                         `BOM battery energy (${reconciliation.batteryEnergy.derived} kWh) does not match approved battery capacity (${reconciliation.batteryEnergy.approved} kWh).`));
                 }
+            }
+
+            // Battery power is only reconciled when the estimator has actually
+            // rated rows in kW. Most bills of materials itemise energy alone, so
+            // silence — rather than a standing warning on every hybrid quote —
+            // is the right answer when there is nothing to compare against.
+            if (isHybrid && num(project.batteryPowerKw) > 0
+                && reconciliation.hasRatedBatteryPower
+                && reconciliation.batteryPower.mismatch) {
+                issues.push(issue('critical', 'bom', 'battery',
+                    `BOM battery power (${reconciliation.batteryPower.derived} kW) does not match approved battery power rating (${reconciliation.batteryPower.approved} kW).`));
             }
         }
 
@@ -489,7 +518,7 @@
         if (isComprehensive) {
             if (!(state.commercial.milestones || []).length) {
                 issues.push(issue('critical', 'commercial', 'milestones', 'At least one payment milestone is required.'));
-            } else if (Math.abs(totals.milestonePercentTotal - 100) > Config.PERCENT_TOLERANCE) {
+            } else if (!withinPercentTolerance(totals.milestonePercentTotal)) {
                 issues.push(issue('critical', 'commercial', 'milestones',
                     `Payment milestones total ${round(totals.milestonePercentTotal, 2)}%. They must total 100%.`));
             }
@@ -504,7 +533,7 @@
         // --- Savings -------------------------------------------------------
         const utilizationTotal = num(state.savings.selfConsumptionPercent) + num(state.savings.exportPercent);
 
-        if (isComprehensive && Math.abs(utilizationTotal - 100) > Config.PERCENT_TOLERANCE) {
+        if (isComprehensive && !withinPercentTolerance(utilizationTotal)) {
             issues.push(issue('critical', 'savings', 'selfConsumptionPercent',
                 `Self-consumption and export split totals ${round(utilizationTotal, 2)}%. It must total 100%.`));
         }
@@ -922,6 +951,7 @@
         capacityReconciliation,
         reconcileCapacity,
         capacityTolerance,
+        withinPercentTolerance,
         commercialTotals,
         consumptionTotals,
         projection,

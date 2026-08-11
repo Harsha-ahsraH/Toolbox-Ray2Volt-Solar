@@ -93,6 +93,9 @@
                 recompute();
                 renderValidation();
                 renderDerivedReadouts();
+                Editors.refreshTotals(state, derived, api);
+                renderPageEstimate();
+                if (Preview) Preview.invalidate();
                 autosave.schedule(state);
             },
             confirm(message) {
@@ -354,7 +357,7 @@
             if (utilization) {
                 const total = Number(state.savings.selfConsumptionPercent)
                     + Number(state.savings.exportPercent);
-                const ok = Math.abs(total - 100) <= Config.PERCENT_TOLERANCE;
+                const ok = Calc.withinPercentTolerance(total);
 
                 utilization.textContent = `Self-consumption plus export totals ${Math.round(total * 100) / 100}%`
                     + (ok ? '.' : ' — it must total 100%.');

@@ -508,7 +508,7 @@
                 </div>
                 <div class="qg-row-field">
                     <label>Amount</label>
-                    <span class="qg-row-readonly">${money(amounts[row.id] || 0)}</span>
+                    <span class="qg-row-readonly" data-milestone-amount="${esc(row.id)}">${money(amounts[row.id] || 0)}</span>
                 </div>
                 <div class="qg-row-field" style="grid-column:span 3;">
                     <label for="ms-${esc(row.id)}-note">Note / Due Condition</label>
@@ -524,7 +524,7 @@
 
         if (total) {
             const sum = derived.commercial.milestonePercentTotal;
-            const ok = Math.abs(sum - 100) <= Config.PERCENT_TOLERANCE;
+            const ok = Calc.withinPercentTolerance(sum);
             total.textContent = `Milestones total ${sum}%${ok ? '.' : ' — they must total 100%.'}`;
             total.setAttribute('data-state', ok ? 'ok' : 'error');
         }
@@ -857,6 +857,69 @@
 
     // ---------------------------------------------------------------------
 
+    /**
+     * Updates only the derived read-outs inside the panels: the running totals,
+     * the calculated milestone amounts and the reconciliation cards.
+     *
+     * This is what runs while the user is typing. Rebuilding the whole panel on
+     * every keystroke would destroy the caret position, but the spec requires
+     * the running totals to track the input live, so they are refreshed in
+     * place instead.
+     */
+    function refreshTotals(state, derived, api) {
+        const commercial = derived.commercial;
+
+        commercial.milestones.forEach(row => {
+            const cell = document.querySelector(`[data-milestone-amount="${row.id}"]`);
+            if (cell) cell.textContent = money(row.amount);
+        });
+
+        const milestoneTotal = byId('qgMilestoneTotal');
+        if (milestoneTotal) {
+            const ok = Calc.withinPercentTolerance(commercial.milestonePercentTotal);
+            milestoneTotal.textContent = `Milestones total ${commercial.milestonePercentTotal}%`
+                + (ok ? '.' : ' — they must total 100%.');
+            milestoneTotal.setAttribute('data-state', ok ? 'ok' : 'error');
+        }
+
+        const discountTotal = byId('qgDiscountTotal');
+        if (discountTotal) {
+            discountTotal.textContent = `Total discount ${money(commercial.discountTotal)}. `
+                + `Final offered price ${money(commercial.finalPrice)}.`;
+            discountTotal.setAttribute('data-state',
+                commercial.discountTotal > commercial.actualProjectCost
+                    && commercial.actualProjectCost > 0 ? 'error' : 'ok');
+        }
+
+        const breakdownTotal = byId('qgBreakdownTotal');
+        if (breakdownTotal && commercial.hasBreakdown) {
+            breakdownTotal.textContent = `Breakdown total ${money(commercial.breakdownTotal)} `
+                + `against Actual Project Cost ${money(commercial.actualProjectCost)}.`;
+            breakdownTotal.setAttribute('data-state', commercial.breakdownMatches ? 'ok' : 'warning');
+        }
+
+        const consumptionTotals = byId('qgConsumptionTotals');
+        if (consumptionTotals) {
+            const consumption = derived.consumption;
+            consumptionTotals.textContent = `Annual import ${consumption.annualKwh.toLocaleString('en-IN')} kWh · `
+                + `annual bill ${money(consumption.annualBill)} · `
+                + `average tariff ₹${consumption.averageTariff}/kWh · `
+                + `peak demand ${consumption.maxDemandKva} kVA.`;
+        }
+
+        const locationTotal = byId('qgMixedLocationTotal');
+        if (locationTotal) {
+            const allocated = derived.mixedLocationTotalKwp;
+            const approved = Number(state.project.dcCapacityKwp) || 0;
+            const matches = approved > 0
+                && Math.abs(allocated - approved) <= Calc.capacityTolerance(approved);
+            locationTotal.textContent = `Allocated ${allocated} kWp of ${approved} kWp project capacity.`;
+            locationTotal.setAttribute('data-state', approved > 0 && !matches ? 'error' : 'ok');
+        }
+
+        renderReconciliation(state, derived, api);
+    }
+
     function renderAll(state, derived, api) {
         renderSectionChecklist(state, api);
         renderNarrative(state, api);
@@ -874,6 +937,7 @@
 
     return {
         renderAll,
+        refreshTotals,
         renderSectionChecklist,
         renderNarrative,
         renderBom,

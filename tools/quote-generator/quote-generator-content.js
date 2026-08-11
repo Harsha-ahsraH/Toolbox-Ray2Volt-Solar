@@ -522,12 +522,34 @@
      * loaded once, tracked as defaults, and never overwrite an edited field.
      * Deliberately factual and free of invented site facts.
      */
+    /**
+     * Where the plant sits, written as a prepositional phrase. Reading the
+     * Installation Location label straight into the sentence produces
+     * "installed on ground-mounted", so each location carries its own wording.
+     */
+    const LOCATION_PHRASES = {
+        'rcc-rooftop': 'on the reinforced concrete roof of the building',
+        'metal-sheet-rooftop': 'on the existing metal-sheet roof',
+        'ground-mounted': 'on open ground within the site boundary',
+        carport: 'on a purpose-built carport structure',
+        mixed: 'across more than one installation area at the site'
+    };
+
     function narrativeDefaults(context) {
         const settings = context || {};
         const configuration = settings.systemConfiguration === 'Hybrid' ? 'Hybrid' : 'On-Grid';
-        const locationLabel = settings.installationLocationLabel || 'the identified installation area';
-        const capacity = settings.dcCapacityKwp ? `${settings.dcCapacityKwp} kWp` : 'the proposed capacity';
         const isHybrid = configuration === 'Hybrid';
+        const locationPhrase = LOCATION_PHRASES[settings.installationLocation]
+            || 'at the identified installation area';
+
+        // Before a capacity is entered the sentence has to read correctly
+        // without one, rather than splicing a placeholder into the grammar.
+        const capacityValue = Number(settings.dcCapacityKwp);
+        const article = /^[aeiou]/i.test(configuration) ? 'an' : 'a';
+        const plantPhrase = capacityValue > 0
+            ? `a ${capacityValue} kWp ${configuration.toLowerCase()} solar photovoltaic plant`
+            : `${article} ${configuration.toLowerCase()} solar photovoltaic plant, sized to the `
+                + 'capacity stated elsewhere in this proposal,';
 
         return {
             objective: 'The customer intends to reduce the cost of grid electricity at the site by '
@@ -542,9 +564,8 @@
                 + 'are to be confirmed during the detailed site survey. The proposed plant is designed '
                 + 'to operate in parallel with the existing supply without interrupting normal site '
                 + 'operation.',
-            proposedSolution: `Ray2Volt proposes a ${capacity} ${configuration.toLowerCase()} solar `
-                + `photovoltaic plant installed on ${locationLabel}. The plant comprises the module `
-                + 'array, mounting structure, '
+            proposedSolution: `Ray2Volt proposes ${plantPhrase} installed ${locationPhrase}. `
+                + 'The plant comprises the module array, mounting structure, '
                 + (isHybrid ? 'hybrid inverter and battery energy storage, ' : 'grid-tied inverters, ')
                 + 'DC and AC distribution and protection, earthing and lightning protection, '
                 + 'monitoring, and the associated cabling and civil work as listed in the bill of '

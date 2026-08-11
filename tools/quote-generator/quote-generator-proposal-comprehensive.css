@@ -598,19 +598,26 @@
 }
 
 .cq-annexure-frame {
+    position: relative;
     flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     min-height: 0;
     overflow: hidden;
     background: #fff;
 }
 
-/* Aspect ratio is preserved and the artwork is bounded by the A4 text area, so
-   an annexure can never bleed off the page. */
+/* The artwork is taken out of flow and centred with auto margins, so a tall
+   portrait scan contributes no height of its own. If it were an in-flow flex
+   item its intrinsic height would push the frame — and with it the whole
+   page — past A4. max-width/max-height keep it inside the text area and
+   width/height auto preserve its aspect ratio. */
 .cq-annexure-frame img,
 .cq-annexure-frame canvas {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
     max-width: 100%;
     max-height: 100%;
     width: auto;
