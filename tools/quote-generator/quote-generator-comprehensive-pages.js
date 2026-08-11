@@ -138,8 +138,25 @@
             </table>`;
     }
 
+    /**
+     * Shortens narrative text for a summary block. An executive summary that
+     * reprints several pages of pasted background is not a summary, and the
+     * full text is already carried by its own section.
+     */
+    function excerpt(value, maxChars) {
+        const text = String(value === null || value === undefined ? '' : value).trim();
+        const limit = maxChars || 700;
+
+        if (text.length <= limit) return text;
+
+        const cut = text.slice(0, limit);
+        const lastStop = Math.max(cut.lastIndexOf('. '), cut.lastIndexOf('; '));
+        return (lastStop > limit * 0.6 ? cut.slice(0, lastStop + 1) : cut.trim() + '…');
+    }
+
     const helpers = {
         esc,
+        excerpt,
         escLines,
         fallback,
         money,

@@ -57,6 +57,11 @@
         let validation = null;
         let suspendBinding = false;
 
+        // Set when the stored draft came from a newer schema than this build
+        // understands. Autosave stays off for the session so the newer draft is
+        // genuinely left alone rather than overwritten by the first keystroke.
+        let autosaveDisabled = false;
+
         const autosave = Storage.createAutosave({
             onStatus(status) {
                 if (!refs.saveStatus) return;
@@ -81,7 +86,7 @@
             update(mutator) {
                 mutator(state);
                 refresh();
-                autosave.schedule(state);
+                save();
             },
             /**
              * Apply a mutation without rebuilding the panel that raised it, so
@@ -96,7 +101,7 @@
                 Editors.refreshTotals(state, derived, api);
                 renderPageEstimate();
                 if (Preview) Preview.invalidate();
-                autosave.schedule(state);
+                save();
             },
             confirm(message) {
                 return window.confirm(message);
@@ -126,10 +131,19 @@
              */
             persist() {
                 refresh();
-                autosave.schedule(state);
+                save();
             },
             refresh
         };
+
+        /**
+         * Schedules an autosave unless a newer draft is being protected, in
+         * which case writing would destroy it.
+         */
+        function save() {
+            if (autosaveDisabled) return;
+            autosave.schedule(state);
+        }
 
         function recompute() {
             derived = Calc.derived(state);
@@ -322,6 +336,81 @@
             error: 'Error'
         };
 
+        /**
+         * Maps a validation issue onto the control it belongs to, so the message
+         * can sit beside the field and be announced with it rather than only
+         * appearing in the summary at the top of the form.
+         */
+        const FIELD_CONTROLS = {
+            companyName: 'cqCompanyName',
+            contactPerson: 'cqContactPerson',
+            customerName: 'cqCustomerName',
+            phone: 'cqPhone',
+            email: 'cqEmail',
+            billingAddress: 'cqBillingAddress',
+            siteAddress: 'cqSiteAddress',
+            quoteDate: 'cqQuoteDate',
+            quoteNumber: 'cqQuoteNumber',
+            dcCapacityKwp: 'cqDcCapacity',
+            acCapacityKw: 'cqAcCapacity',
+            batteryEnergyKwh: 'cqBatteryEnergy',
+            batteryPowerKw: 'cqBatteryPower',
+            validityDays: 'cqValidityDays',
+            actualProjectCost: 'cqActualProjectCost',
+            gstRate: 'cqGstRate',
+            tariffRate: 'cqTariffRate',
+            annualGenerationPerKwp: 'cqAnnualGeneration',
+            tariffEscalationPercent: 'cqTariffEscalation',
+            degradationPercent: 'cqDegradation',
+            projectionYears: 'cqProjectionYears',
+            selfConsumptionPercent: 'cqSelfConsumption',
+            exportPercent: 'cqExportPercent'
+        };
+
+        function renderFieldMessages() {
+            // Clear last pass.
+            Array.prototype.forEach.call(
+                document.querySelectorAll('.qg-field-error[data-generated="true"]'),
+                node => node.remove()
+            );
+            Array.prototype.forEach.call(
+                document.querySelectorAll('[aria-invalid="true"]'),
+                control => {
+                    control.removeAttribute('aria-invalid');
+                    control.removeAttribute('aria-describedby');
+                    control.classList.remove('has-error');
+                }
+            );
+
+            const byField = {};
+            validation.issues.forEach(item => {
+                if (!FIELD_CONTROLS[item.field]) return;
+                if (!byField[item.field]) byField[item.field] = item;
+            });
+
+            Object.keys(byField).forEach(field => {
+                const control = byId(FIELD_CONTROLS[field]);
+                if (!control) return;
+
+                const item = byField[field];
+                const messageId = `${control.id}-error`;
+                const message = document.createElement('p');
+
+                message.className = 'qg-field-error';
+                message.id = messageId;
+                message.dataset.generated = 'true';
+                message.textContent = item.message;
+
+                control.insertAdjacentElement('afterend', message);
+                control.setAttribute('aria-describedby', messageId);
+                control.classList.add('has-error');
+
+                if (item.severity === 'critical') {
+                    control.setAttribute('aria-invalid', 'true');
+                }
+            });
+        }
+
         function renderValidation() {
             Object.keys(validation.panels).forEach(panel => {
                 const badge = document.querySelector(`.qg-panel[data-panel="${panel}"] .qg-panel-state`);
@@ -339,6 +428,7 @@
             if (!issues.length) {
                 refs.validationSummary.hidden = true;
                 refs.validationList.innerHTML = '';
+                renderFieldMessages();
                 return;
             }
 
@@ -351,6 +441,8 @@
                     ? `${validation.criticalIssues.length} issue${validation.criticalIssues.length === 1 ? '' : 's'} must be fixed before exporting`
                     : `${issues.length} thing${issues.length === 1 ? '' : 's'} to check`;
             }
+
+            renderFieldMessages();
 
             refs.validationList.innerHTML = issues.map(item => `
                 <li>
@@ -488,9 +580,14 @@
         // -----------------------------------------------------------------
 
         /**
-         * Fields that exist in both forms. On a mode switch these are copied
-         * from the mode being left to the mode being entered, so the last value
-         * typed follows the user across the toggle.
+         * Fields that exist in both forms. On a mode switch the value follows
+         * the user across the toggle.
+         *
+         * The bridge remembers what each side held at the previous switch, so
+         * it can tell a real edit apart from a value it wrote there itself.
+         * Without that memory, writing the model into Short and then reading
+         * Short back re-imports values the user never touched - which is how a
+         * two-row discount list used to compound into its own total.
          */
         const SHARED_FIELDS = [
             { short: 'qgCustomerName', get: s => s.customer.customerType === 'company' ? s.customer.companyName : s.customer.customerName, set: (s, v) => { if (s.customer.customerType === 'company') s.customer.companyName = v; else s.customer.customerName = v; } },
@@ -505,7 +602,44 @@
             { short: 'qgGstType', get: s => s.commercial.gstType, set: (s, v) => { s.commercial.gstType = v; } },
             { short: 'qgGstRate', get: s => s.commercial.gstRate, set: (s, v) => { s.commercial.gstRate = parseFloat(v) || 0; }, numeric: true },
             { short: 'qgTariffRate', get: s => s.savings.tariffRate, set: (s, v) => { s.savings.tariffRate = parseFloat(v) || 0; }, numeric: true },
-            { short: 'qgUnitsPerKwp', get: s => s.savings.annualGenerationPerKwp, set: (s, v) => { s.savings.annualGenerationPerKwp = parseFloat(v) || 0; }, numeric: true }
+            { short: 'qgUnitsPerKwp', get: s => s.savings.annualGenerationPerKwp, set: (s, v) => { s.savings.annualGenerationPerKwp = parseFloat(v) || 0; }, numeric: true },
+
+            // Short offers escalation as a yes/no choice worth a fixed 5%.
+            // Comprehensive carries the actual percentage, so the mapping is
+            // lossy in one direction and is only applied when the Short control
+            // has genuinely been changed.
+            {
+                short: 'qgTariffEscalation',
+                get: s => (Number(s.savings.tariffEscalationPercent) > 0 ? 'yes' : 'no'),
+                set: (s, v) => {
+                    if (v === 'no') {
+                        s.savings.tariffEscalationPercent = 0;
+                    } else if (Number(s.savings.tariffEscalationPercent) <= 0) {
+                        s.savings.tariffEscalationPercent = Config.DEFAULTS.tariffEscalationPercent;
+                    }
+                }
+            },
+
+            // The Short form has one discount box where Comprehensive has a
+            // named list, so this entry carries the list's total.
+            {
+                short: 'qgDiscountAmount',
+                numeric: true,
+                get: s => (s.commercial.discounts || [])
+                    .reduce((total, row) => total + Math.max(0, Number(row.amount) || 0), 0),
+                set: (s, v) => {
+                    const amount = parseFloat(v) || 0;
+                    const existing = (s.commercial.discounts || [])[0];
+
+                    // Collapse to a single row: the Short field expresses one
+                    // total, so keeping the other named rows would double-count.
+                    s.commercial.discounts = [{
+                        id: (existing && existing.id) || Model.makeId('discount'),
+                        name: (existing && existing.name) || (amount > 0 ? 'Discount' : ''),
+                        amount
+                    }];
+                }
+            }
         ];
 
         function hasValue(value, numeric) {
@@ -513,24 +647,45 @@
             return String(value === null || value === undefined ? '' : value).trim() !== '';
         }
 
+        function readShortControl(field) {
+            const control = byId(field.short);
+            return control ? String(control.value) : null;
+        }
+
+        function readModelValue(field) {
+            const value = field.get(state);
+            return value === null || value === undefined ? '' : String(value);
+        }
+
+        /** What both sides held at the last switch. Null before the first one. */
+        let lastSync = null;
+
+        function captureSync() {
+            lastSync = { short: {}, model: {} };
+            SHARED_FIELDS.forEach(field => {
+                lastSync.short[field.short] = readShortControl(field);
+                lastSync.model[field.short] = readModelValue(field);
+            });
+        }
+
         function pullFromShortForm() {
             SHARED_FIELDS.forEach(field => {
-                const control = byId(field.short);
-                if (!control) return;
-                if (hasValue(control.value, field.numeric)) field.set(state, control.value);
+                const current = readShortControl(field);
+                if (current === null) return;
+
+                if (!lastSync) {
+                    // First switch of the session: seed from whatever Short holds.
+                    if (hasValue(current, field.numeric)) field.set(state, current);
+                    return;
+                }
+
+                // Afterwards only a value the user actually changed in Short
+                // travels across, including one they deliberately cleared.
+                if (lastSync.short[field.short] !== current) field.set(state, current);
             });
 
-            // The Short discount field maps onto the first named discount row.
-            const discount = byId('qgDiscountAmount');
-            if (discount && Number(discount.value) > 0) {
-                if (!state.commercial.discounts.length) Model.addDiscount(state);
-                state.commercial.discounts[0].amount = parseFloat(discount.value) || 0;
-                if (!state.commercial.discounts[0].name) {
-                    state.commercial.discounts[0].name = 'Discount';
-                }
-            }
-
             maybeRegenerateTitle();
+            captureSync();
         }
 
         function pushToShortForm() {
@@ -538,16 +693,17 @@
                 const control = byId(field.short);
                 if (!control) return;
 
-                const value = field.get(state);
-                if (!hasValue(value, field.numeric)) return;
+                const value = readModelValue(field);
+                if (lastSync && lastSync.model[field.short] === value) return;
+                if (!lastSync && !hasValue(value, field.numeric)) return;
 
                 const previous = control.value;
                 control.value = value;
 
                 // Only announce a genuine change. The Short generator rebuilds
                 // its bill of materials from defaults whenever Installation Type
-                // fires `change`, so firing it unconditionally on every mode
-                // switch would silently discard a salesperson's hand-edited
+                // fires a change event, so firing it unconditionally on every
+                // mode switch would silently discard a salesperson's hand-edited
                 // Short BOM rows. When the value really did change, that rebuild
                 // is the Short form's own intended behaviour and should happen.
                 if (String(previous) !== String(control.value)) {
@@ -555,10 +711,7 @@
                 }
             });
 
-            const discount = byId('qgDiscountAmount');
-            if (discount && derived.commercial.discountTotal > 0) {
-                discount.value = derived.commercial.discountTotal;
-            }
+            captureSync();
         }
 
         function setMode(mode, options) {
@@ -592,6 +745,31 @@
 
             if (isComprehensive) refresh();
             if (!settings.silent) autosave.schedule(state);
+        }
+
+        /**
+         * Arrow-key navigation for the two tablists, as the WAI-ARIA tabs
+         * pattern expects. Click and Tab already worked; this adds the roving
+         * behaviour a keyboard user reaches for.
+         */
+        function setupTablistKeys(tabs, activate) {
+            tabs.forEach((tab, index) => {
+                if (!tab) return;
+
+                tab.addEventListener('keydown', event => {
+                    const keys = { ArrowLeft: -1, ArrowRight: 1, Home: 'first', End: 'last' };
+                    if (!(event.key in keys)) return;
+
+                    event.preventDefault();
+                    const step = keys[event.key];
+                    const target = step === 'first' ? 0
+                        : step === 'last' ? tabs.length - 1
+                            : (index + step + tabs.length) % tabs.length;
+
+                    activate(target);
+                    if (tabs[target]) tabs[target].focus();
+                });
+            });
         }
 
         function setWorkspace(workspace) {
@@ -728,10 +906,21 @@
             }
 
             if (stored.reason === 'future-version') {
-                window.alert(
+                const discard = window.confirm(
                     'The saved draft was written by a newer version of the Quote Generator and cannot '
-                    + 'be opened here. Starting a new draft; the saved one is left untouched.'
+                    + 'be opened here.\n\nStart a new draft and REPLACE the saved one?\n\n'
+                    + 'Cancel keeps the newer draft intact. You can still work in this tab, but nothing '
+                    + 'will be saved.'
                 );
+
+                if (!discard) {
+                    autosaveDisabled = true;
+
+                    if (refs.saveStatus) {
+                        refs.saveStatus.dataset.state = 'failed';
+                        refs.saveStatus.textContent = 'Saving off — newer draft preserved';
+                    }
+                }
             }
 
             // Reuse the number the Short generator already issued for this page
@@ -770,6 +959,15 @@
         }
         if (refs.inputsTab) refs.inputsTab.addEventListener('click', () => setWorkspace('inputs'));
         if (refs.previewTab) refs.previewTab.addEventListener('click', () => setWorkspace('preview'));
+
+        setupTablistKeys(
+            [refs.modeShort, refs.modeComprehensive],
+            index => setMode(index === 0 ? Config.MODES.SHORT : Config.MODES.COMPREHENSIVE)
+        );
+        setupTablistKeys(
+            [refs.inputsTab, refs.previewTab],
+            index => setWorkspace(index === 0 ? 'inputs' : 'preview')
+        );
 
         if (Preview) Preview.init(api);
         if (Annexures) Annexures.init(api);

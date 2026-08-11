@@ -693,9 +693,14 @@
     // ---------------------------------------------------------------------
 
     register('commercial-offer', context => {
-        const { state, derived } = context;
+        const { state, derived, page } = context;
         const commercial = derived.commercial;
-        const breakdown = state.commercial.priceBreakdown || [];
+        const allBreakdown = state.commercial.priceBreakdown || [];
+        const chunk = page.chunk || { start: 0, end: allBreakdown.length };
+        const breakdown = allBreakdown.slice(chunk.start, chunk.end);
+        // The offer summary and tax disclosure close the section, so they are
+        // drawn once on the final page rather than repeated on every one.
+        const isLast = page.part === page.partCount - 1;
         const discounts = (state.commercial.discounts || [])
             .filter(row => Number(row.amount) > 0);
         const halfRate = commercial.gstRate / 2;
@@ -713,7 +718,7 @@
                 </div>
 
                 ${breakdown.length ? `
-                    <h3 class="cq-subtitle">Price Breakdown</h3>
+                    <h3 class="cq-subtitle">Price Breakdown${page.isContinuation ? ' (continued)' : ''}</h3>
                     <table class="cq-table">
                         <thead><tr><th style="width:70%">Description</th><th class="cq-num">Amount (Incl. GST)</th></tr></thead>
                         <tbody>
@@ -722,13 +727,15 @@
                                     <td>${esc(row.description)}</td>
                                     <td class="cq-num">${money(row.amount)}</td>
                                 </tr>`).join('')}
+                            ${isLast ? `
                             <tr class="cq-total-row">
                                 <td>Breakdown total</td>
                                 <td class="cq-num">${money(commercial.breakdownTotal)}</td>
-                            </tr>
+                            </tr>` : ''}
                         </tbody>
                     </table>` : ''}
 
+                ${!isLast ? '' : `
                 <h3 class="cq-subtitle">Offer Summary</h3>
                 <table class="cq-table">
                     <thead><tr><th style="width:70%">Particulars</th><th class="cq-num">Amount</th></tr></thead>
@@ -780,7 +787,7 @@
 
                 <div class="cq-note">The offered price is inclusive of GST at
                     ${number(commercial.gstRate, 2)}%. Any statutory change in taxes or duties after the
-                    date of this offer will be charged at actuals.</div>`
+                    date of this offer will be charged at actuals.</div>`}`
         };
     });
 
@@ -789,14 +796,22 @@
     // ---------------------------------------------------------------------
 
     register('payment-milestones', context => {
+        const { page } = context;
         const commercial = context.derived.commercial;
+        const all = commercial.milestones;
+        const chunk = page.chunk || { start: 0, end: all.length };
+        const rows = all.slice(chunk.start, chunk.end);
+        const isLast = page.part === page.partCount - 1;
 
         return {
             title: 'Payment Milestones',
-            subtitle: 'Payment triggers and amounts',
+            subtitle: page.isContinuation
+                ? `Continued — page ${page.part + 1} of ${page.partCount}`
+                : 'Payment triggers and amounts',
             body: `
-                <p class="cq-lead">Payment is due against the milestones below. Material is despatched
-                    and work is scheduled against cleared payment for the corresponding milestone.</p>
+                ${page.isContinuation ? '' : `<p class="cq-lead">Payment is due against the milestones
+                    below. Material is despatched and work is scheduled against cleared payment for the
+                    corresponding milestone.</p>`}
                 <table class="cq-table">
                     <thead>
                         <tr>
@@ -808,25 +823,26 @@
                         </tr>
                     </thead>
                     <tbody>
-                        ${commercial.milestones.length ? commercial.milestones.map((row, index) => `
+                        ${rows.length ? rows.map((row, index) => `
                             <tr>
-                                <td class="cq-center">${index + 1}</td>
+                                <td class="cq-center">${chunk.start + index + 1}</td>
                                 <td>${esc(row.name || '—')}</td>
                                 <td class="cq-num">${number(row.percent, 2)}%</td>
                                 <td class="cq-num">${money(row.amount)}</td>
                                 <td>${esc(row.note || '—')}</td>
                             </tr>`).join('')
                             : '<tr><td colspan="5">No payment milestones have been entered.</td></tr>'}
+                        ${isLast ? `
                         <tr class="cq-total-row">
                             <td colspan="2">Total</td>
                             <td class="cq-num">${number(commercial.milestonePercentTotal, 2)}%</td>
                             <td class="cq-num">${money(commercial.finalPrice)}</td>
                             <td></td>
-                        </tr>
+                        </tr>` : ''}
                     </tbody>
                 </table>
-                <div class="cq-note">Amounts are calculated on the final offered price inclusive of GST
-                    and are rounded to the nearest rupee.</div>`
+                ${isLast ? `<div class="cq-note">Amounts are calculated on the final offered price
+                    inclusive of GST and are rounded to the nearest rupee.</div>` : ''}`
         };
     });
 
@@ -901,8 +917,10 @@
     // ---------------------------------------------------------------------
 
     register('annexure-index', context => {
-        const { state, pagePlan } = context;
-        const annexures = Model.includedAnnexures(state);
+        const { state, pagePlan, page } = context;
+        const allAnnexures = Model.includedAnnexures(state);
+        const chunk = page.chunk || { start: 0, end: allAnnexures.length };
+        const annexures = allAnnexures.slice(chunk.start, chunk.end);
 
         const firstPageOf = annexureId => {
             const match = pagePlan.filter(page => page.annexureId === annexureId)[0];
@@ -911,7 +929,9 @@
 
         return {
             title: 'Annexure Index',
-            subtitle: 'Supporting documents attached to this proposal',
+            subtitle: page.isContinuation
+                ? `Continued — page ${page.part + 1} of ${page.partCount}`
+                : 'Supporting documents attached to this proposal',
             body: `
                 <table class="cq-table">
                     <thead>
@@ -925,8 +945,8 @@
                     <tbody>
                         ${annexures.map((annexure, index) => `
                             <tr>
-                                <td class="cq-center">${index + 1}</td>
-                                <td>${esc(annexure.title || annexure.fileName || `Annexure ${index + 1}`)}</td>
+                                <td class="cq-center">${chunk.start + index + 1}</td>
+                                <td>${esc(annexure.title || annexure.fileName || `Annexure ${chunk.start + index + 1}`)}</td>
                                 <td>${esc(labelFor(Config.ANNEXURE_TYPES, annexure.type))}</td>
                                 <td class="cq-num">${firstPageOf(annexure.id)}</td>
                             </tr>`).join('')}

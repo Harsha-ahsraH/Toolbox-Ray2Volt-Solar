@@ -23,7 +23,7 @@
 
     const register = Pages.register;
     const {
-        esc, escLines, fallback, money, number, formatDate, labelFor,
+        esc, escLines, fallback, excerpt, money, number, formatDate, labelFor,
         customerName, siteAddress, capacityLine, proposalTitle, categoryRows, equipmentTable
     } = Pages.helpers;
 
@@ -211,10 +211,10 @@
                 </div>
 
                 <h3 class="cq-subtitle">Objective</h3>
-                <p class="cq-para">${escLines(state.projectNarrative.objective)}</p>
+                <p class="cq-para">${escLines(excerpt(state.projectNarrative.objective, 620))}</p>
 
                 <h3 class="cq-subtitle">Proposed Solution</h3>
-                <p class="cq-para">${escLines(state.projectNarrative.proposedSolution)}</p>
+                <p class="cq-para">${escLines(excerpt(state.projectNarrative.proposedSolution, 620))}</p>
 
                 <h3 class="cq-subtitle">Headline Figures</h3>
                 <table class="cq-table">
@@ -327,27 +327,23 @@
     // ---------------------------------------------------------------------
 
     register('project-objectives', context => {
-        const narrative = context.state.projectNarrative;
+        const { state, page } = context;
+        // Free text the salesperson pasted in is chunked across pages by the
+        // page plan, using the same unit list the plan measured.
+        const units = Calc.narrativeUnits(state, 'project-objectives');
+        const chunk = page.chunk || { start: 0, end: units.length };
+        const slice = units.slice(chunk.start, chunk.end);
 
         return {
             title: 'Project Objectives & Background',
-            subtitle: 'Why the project is being undertaken',
-            body: `
-                <h3 class="cq-subtitle">Customer Objective</h3>
-                <p class="cq-para">${escLines(narrative.objective)}</p>
-
-                <h3 class="cq-subtitle">Existing Electrical System</h3>
-                <p class="cq-para">${escLines(narrative.existingSystem)}</p>
-
-                <h3 class="cq-subtitle">Site Conditions & Constraints</h3>
-                <p class="cq-para">${escLines(narrative.siteConditions)}</p>
-
-                <h3 class="cq-subtitle">Special Requirements</h3>
-                <p class="cq-para">${escLines(narrative.specialRequirements)}</p>
-
-                ${String(narrative.projectNotes || '').trim() ? `
-                    <h3 class="cq-subtitle">Project Notes</h3>
-                    <p class="cq-para">${escLines(narrative.projectNotes)}</p>` : ''}`
+            subtitle: page.isContinuation
+                ? `Continued — page ${page.part + 1} of ${page.partCount}`
+                : 'Why the project is being undertaken',
+            body: slice.length
+                ? slice.map(unit => `
+                    <h3 class="cq-subtitle">${esc(unit.heading)}</h3>
+                    <p class="cq-para">${escLines(unit.text)}</p>`).join('')
+                : '<p class="cq-para">No project background has been recorded.</p>'
         };
     });
 
@@ -405,7 +401,7 @@
             title: 'Proposed Solution',
             subtitle: 'System configuration and scope summary',
             body: `
-                <p class="cq-lead">${escLines(state.projectNarrative.proposedSolution)}</p>
+                <p class="cq-lead">${escLines(excerpt(state.projectNarrative.proposedSolution, 620))}</p>
 
                 <div class="cq-metrics ${isHybrid ? '' : 'cq-metrics-3'}">
                     <div class="cq-metric">
@@ -534,7 +530,7 @@
 
                 ${String(state.projectNarrative.siteConditions || '').trim() ? `
                     <h3 class="cq-subtitle">Site Conditions Noted</h3>
-                    <p class="cq-para">${escLines(state.projectNarrative.siteConditions)}</p>` : ''}`
+                    <p class="cq-para">${escLines(excerpt(state.projectNarrative.siteConditions, 520))}</p>` : ''}`
         };
     });
 

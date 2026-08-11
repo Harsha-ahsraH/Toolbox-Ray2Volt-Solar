@@ -27,8 +27,11 @@
     const model = (typeof require === 'function' && typeof module === 'object')
         ? require('./quote-generator-model.js')
         : root.QuoteGeneratorModel;
+    const pagination = (typeof require === 'function' && typeof module === 'object')
+        ? require('./quote-generator-pagination.js')
+        : root.QuoteGeneratorPagination;
 
-    const api = factory(config, content, model);
+    const api = factory(config, content, model, pagination);
 
     if (typeof module === 'object' && module.exports) {
         module.exports = api;
@@ -37,7 +40,7 @@
     if (root) {
         root.QuoteGeneratorCalc = api;
     }
-}(typeof self !== 'undefined' ? self : this, function (Config, Content, Model) {
+}(typeof self !== 'undefined' ? self : this, function (Config, Content, Model, Pagination) {
     'use strict';
 
     // Selectors and numeric helpers borrowed from the state model, so the two
@@ -242,7 +245,15 @@
         const degradation = num(savings.degradationPercent) / 100;
         const selfShare = num(savings.selfConsumptionPercent) / 100;
         const exportShare = num(savings.exportPercent) / 100;
-        const baseTariff = num(savings.tariffRate);
+
+        // On Detailed C&I entry the tariff comes from the twelve months of bills
+        // the customer supplied, not from the Simple-mode tariff field, which is
+        // hidden in that mode and would otherwise silently drive the whole
+        // projection — leaving the savings inconsistent with the consumption
+        // page printed a few pages earlier. consumptionTotals falls back to the
+        // entered tariff when there is nothing to derive from.
+        const consumption = consumptionTotals(state);
+        const baseTariff = num(consumption.averageTariff);
         const baseExportRate = num(savings.exportCreditRate);
         const year1Generation = capacity * yieldPerKwp;
 
@@ -360,8 +371,19 @@
         'annexures'
     ];
 
-    function issue(severity, panel, field, message) {
-        return { severity, panel, field, message };
+    /**
+     * `kind` separates the two states specification section 8.1 asks for: a
+     * required input that is simply absent leaves its panel Incomplete, while a
+     * value that was entered and conflicts leaves it in Error. Both can still be
+     * critical and block export.
+     */
+    function issue(severity, panel, field, message, kind) {
+        return { severity, panel, field, message, kind: kind || 'invalid' };
+    }
+
+    /** A required input that has not been supplied yet. */
+    function missing(panel, field, message) {
+        return issue('critical', panel, field, message, 'missing');
     }
 
     /**
@@ -380,23 +402,23 @@
         // --- Customer -----------------------------------------------------
         if (customer.customerType === 'company') {
             if (!trimmed(customer.companyName)) {
-                issues.push(issue('critical', 'customer', 'companyName', 'Legal company name is required.'));
+                issues.push(missing('customer', 'companyName', 'Legal company name is required.'));
             }
             if (!trimmed(customer.contactPerson)) {
-                issues.push(issue('critical', 'customer', 'contactPerson', 'Contact person is required.'));
+                issues.push(missing('customer', 'contactPerson', 'Contact person is required.'));
             }
         } else if (!trimmed(customer.customerName)) {
-            issues.push(issue('critical', 'customer', 'customerName', 'Customer name is required.'));
+            issues.push(missing('customer', 'customerName', 'Customer name is required.'));
         }
 
         if (!trimmed(customer.phone)) {
-            issues.push(issue('critical', 'customer', 'phone', 'Phone number is required.'));
+            issues.push(missing('customer', 'phone', 'Phone number is required.'));
         }
         if (!trimmed(customer.billingAddress)) {
-            issues.push(issue('critical', 'customer', 'billingAddress', 'Registered/billing address is required.'));
+            issues.push(missing('customer', 'billingAddress', 'Registered/billing address is required.'));
         }
         if (!customer.sameAsBilling && !trimmed(customer.siteAddress)) {
-            issues.push(issue('critical', 'customer', 'siteAddress', 'Project/site address is required.'));
+            issues.push(missing('customer', 'siteAddress', 'Project/site address is required.'));
         }
         if (trimmed(customer.email) && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed(customer.email))) {
             issues.push(issue('warning', 'customer', 'email', 'Email address does not look valid.'));
@@ -404,22 +426,22 @@
 
         // --- Project ------------------------------------------------------
         if (!trimmed(project.quoteDate)) {
-            issues.push(issue('critical', 'project', 'quoteDate', 'Quote date is required.'));
+            issues.push(missing('project', 'quoteDate', 'Quote date is required.'));
         }
         if (!trimmed(project.quoteNumber)) {
-            issues.push(issue('critical', 'project', 'quoteNumber', 'Quotation number is required.'));
+            issues.push(missing('project', 'quoteNumber', 'Quotation number is required.'));
         }
         if (num(project.dcCapacityKwp) <= 0) {
-            issues.push(issue('critical', 'project', 'dcCapacityKwp', 'Solar DC capacity (kWp) is required.'));
+            issues.push(missing('project', 'dcCapacityKwp', 'Solar DC capacity (kWp) is required.'));
         }
         if (isComprehensive && num(project.acCapacityKw) <= 0) {
-            issues.push(issue('critical', 'project', 'acCapacityKw', 'Inverter AC capacity (kW) is required in Comprehensive mode.'));
+            issues.push(missing('project', 'acCapacityKw', 'Inverter AC capacity (kW) is required in Comprehensive mode.'));
         }
         if (isComprehensive && isHybrid && num(project.batteryEnergyKwh) <= 0) {
-            issues.push(issue('critical', 'project', 'batteryEnergyKwh', 'Battery energy capacity (kWh) is required for a Hybrid proposal.'));
+            issues.push(missing('project', 'batteryEnergyKwh', 'Battery energy capacity (kWh) is required for a Hybrid proposal.'));
         }
         if (isComprehensive && isHybrid && num(project.batteryPowerKw) <= 0) {
-            issues.push(issue('critical', 'project', 'batteryPowerKw', 'Battery power rating (kW) is required for a Hybrid proposal.'));
+            issues.push(missing('project', 'batteryPowerKw', 'Battery power rating (kW) is required for a Hybrid proposal.'));
         }
         if (num(project.validityDays) < 0) {
             issues.push(issue('critical', 'project', 'validityDays', 'Quotation validity cannot be negative.'));
@@ -430,7 +452,10 @@
             const approved = num(project.dcCapacityKwp);
 
             if (!(state.project.mixedLocations || []).length) {
-                issues.push(issue('warning', 'project', 'mixedLocations', 'Add at least one installation area for a mixed installation.'));
+                // Nothing allocated cannot reconcile against a real capacity, so
+                // this blocks export rather than merely warning.
+                issues.push(missing('project', 'mixedLocations',
+                    'A mixed installation needs at least one installation area with its allocated capacity.'));
             } else if (approved > 0 && Math.abs(allocated - approved) > capacityTolerance(approved)) {
                 issues.push(issue('critical', 'project', 'mixedLocations',
                     `Allocated capacity (${round(allocated, 2)} kWp) does not match project DC capacity (${round(approved, 2)} kWp).`));
@@ -497,7 +522,7 @@
 
         // --- Commercial ----------------------------------------------------
         if (totals.actualProjectCost <= 0) {
-            issues.push(issue('critical', 'commercial', 'actualProjectCost', 'Actual Project Cost (incl. GST) is required.'));
+            issues.push(missing('commercial', 'actualProjectCost', 'Actual Project Cost (incl. GST) is required.'));
         }
         if (num(state.commercial.gstRate) < 0) {
             issues.push(issue('critical', 'commercial', 'gstRate', 'GST percentage cannot be negative.'));
@@ -517,7 +542,7 @@
 
         if (isComprehensive) {
             if (!(state.commercial.milestones || []).length) {
-                issues.push(issue('critical', 'commercial', 'milestones', 'At least one payment milestone is required.'));
+                issues.push(missing('commercial', 'milestones', 'At least one payment milestone is required.'));
             } else if (!withinPercentTolerance(totals.milestonePercentTotal)) {
                 issues.push(issue('critical', 'commercial', 'milestones',
                     `Payment milestones total ${round(totals.milestonePercentTotal, 2)}%. They must total 100%.`));
@@ -540,6 +565,10 @@
         if (num(state.savings.projectionYears) <= 0 || Math.round(num(state.savings.projectionYears)) !== num(state.savings.projectionYears)) {
             issues.push(issue('critical', 'savings', 'projectionYears', 'Projection period must be a positive whole number of years.'));
         }
+        if (num(state.savings.tariffEscalationPercent) < -100) {
+            issues.push(issue('critical', 'savings', 'tariffEscalationPercent',
+                'Tariff escalation below -100% would make future tariffs negative.'));
+        }
         if (num(state.savings.tariffRate) < 0) {
             issues.push(issue('critical', 'savings', 'tariffRate', 'Electricity tariff cannot be negative.'));
         }
@@ -556,6 +585,10 @@
         (state.savings.futureCosts || []).forEach(cost => {
             if (num(cost.amount) < 0) {
                 issues.push(issue('critical', 'savings', 'futureCosts', 'Future cost amount cannot be negative.'));
+            }
+            if (num(cost.escalationPercent) < -100) {
+                issues.push(issue('critical', 'savings', 'futureCosts',
+                    'Cost escalation below -100% would make future costs negative.'));
             }
             if (num(cost.startYear) < 1 || num(cost.endYear) < 1) {
                 issues.push(issue('critical', 'savings', 'futureCosts', 'Future cost years must be 1 or greater.'));
@@ -599,9 +632,11 @@
 
         // Panels that do not exist in Short mode report as complete.
         issues.forEach(item => {
-            if (item.severity === 'critical') {
+            if (item.severity === 'critical' && item.kind !== 'missing') {
+                // An entered value that conflicts: Error, and it stays Error.
                 panels[item.panel] = 'error';
             } else if (panels[item.panel] === 'complete') {
+                // A required input not supplied yet, or a warning: Incomplete.
                 panels[item.panel] = 'incomplete';
             }
         });
@@ -617,332 +652,6 @@
             canExport: criticalIssues.length === 0,
             isComprehensive
         };
-    }
-
-    // ---------------------------------------------------------------------
-    // Page planning
-    // ---------------------------------------------------------------------
-
-    /**
-     * Splits `totalRows` across pages, allowing the first page a smaller budget
-     * because it also carries the section heading. Always returns at least one
-     * chunk so an empty table still gets its page.
-     */
-    function chunkRows(totalRows, firstPageRows, continuationRows) {
-        const chunks = [];
-        const total = Math.max(0, Math.round(totalRows));
-
-        if (total <= firstPageRows) {
-            return [{ start: 0, end: total }];
-        }
-
-        chunks.push({ start: 0, end: firstPageRows });
-        let cursor = firstPageRows;
-
-        while (cursor < total) {
-            const end = Math.min(total, cursor + continuationRows);
-            chunks.push({ start: cursor, end });
-            cursor = end;
-        }
-
-        return chunks;
-    }
-
-    /** Non-empty BOM categories, with their rows, in catalog order. */
-    function activeBomCategories(state) {
-        return Config.BOM_CATEGORIES
-            .filter(category => !category.configurations
-                || category.configurations.indexOf(state.project.systemConfiguration) !== -1)
-            .map(category => {
-                const stored = findCategory(state, category.id);
-                const rows = stored
-                    ? stored.rows.filter(row => trimmed(row.name) || trimmed(row.specification))
-                    : [];
-                return { id: category.id, label: category.label, rows };
-            })
-            .filter(category => category.rows.length > 0);
-    }
-
-    /**
-     * Splits items across pages by their estimated height rather than by a flat
-     * row count. An item taller than a whole page still gets its own chunk
-     * instead of looping forever.
-     */
-    function chunkByHeight(heights, firstBudget, budget) {
-        if (!heights.length) return [{ start: 0, end: 0 }];
-
-        const chunks = [];
-        let start = 0;
-        let used = 0;
-        let limit = firstBudget;
-
-        for (let index = 0; index < heights.length; index++) {
-            const height = heights[index];
-
-            if (used > 0 && used + height > limit) {
-                chunks.push({ start, end: index });
-                start = index;
-                used = 0;
-                limit = budget;
-            }
-
-            used += height;
-        }
-
-        chunks.push({ start, end: heights.length });
-        return chunks;
-    }
-
-    /** How many wrapped lines a cell of `text` takes in a column of that width. */
-    function wrappedLines(text, charsPerLine) {
-        const length = trimmed(text).length;
-        return Math.max(1, Math.ceil(length / charsPerLine));
-    }
-
-    /**
-     * The printed BOM as one flat list: a heading line per non-empty category,
-     * then one line per row. The renderer draws exactly this list, so the page
-     * plan's chunks and the drawn rows cannot drift apart.
-     */
-    function bomLines(state) {
-        const lines = [];
-
-        activeBomCategories(state).forEach(category => {
-            lines.push({ kind: 'category', label: category.label });
-            category.rows.forEach(row => lines.push({ kind: 'row', row }));
-        });
-
-        return lines;
-    }
-
-    /** Total printed lines for the BOM: one heading line per category plus rows. */
-    function bomRowCount(state) {
-        return bomLines(state).length;
-    }
-
-    function bomLineHeights(state) {
-        const metrics = Config.PAGINATION.bom;
-
-        return bomLines(state).map(line => {
-            if (line.kind === 'category') return metrics.categoryRowPx;
-
-            const row = line.row;
-            const lines = Math.max(
-                wrappedLines(row.name, metrics.charsPerLine.name),
-                wrappedLines(row.specification, metrics.charsPerLine.specification),
-                wrappedLines(row.make, metrics.charsPerLine.make),
-                wrappedLines(row.warranty, metrics.charsPerLine.warranty)
-            );
-
-            return metrics.rowBasePx + (lines * metrics.rowLinePx);
-        });
-    }
-
-    function clauseHeights(state, listName) {
-        const metrics = Config.PAGINATION.clause;
-
-        return enabledClauses(state, listName).map(clause =>
-            metrics.rowBasePx + (wrappedLines(clause.text, metrics.charsPerLine) * metrics.rowLinePx));
-    }
-
-    /**
-     * Table-of-contents entries, derived without reference to the page plan.
-     * The entry list depends only on which sections and annexures are present,
-     * so the contents section can be paginated in the same pass that lays out
-     * everything else rather than needing a second pass over the plan.
-     */
-    function tocEntryHeights(state) {
-        const metrics = Config.PAGINATION.contents;
-        const entries = [];
-
-        selectedSections(state).forEach(section => {
-            if (section.id !== 'contents') entries.push(section.group);
-        });
-
-        const annexures = includedAnnexures(state);
-        if (annexures.length) {
-            entries.push('Annexures');
-            annexures.forEach(() => entries.push('Annexures'));
-        }
-
-        let previousGroup = null;
-
-        return entries.map(group => {
-            const height = metrics.itemPx + (group === previousGroup ? 0 : metrics.groupPx);
-            previousGroup = group;
-            return height;
-        });
-    }
-
-    /**
-     * The warranty schedule: every distinct item/make/warranty combination in
-     * the bill of materials. Distinct rather than one line per BOM row, because
-     * a schedule listing the same warranty forty times tells the customer
-     * nothing and would run to pages of repetition.
-     */
-    function warrantyRows(state) {
-        const seen = {};
-        const rows = [];
-
-        (state.bom.categories || []).forEach(category => {
-            category.rows.forEach(row => {
-                const warranty = trimmed(row.warranty);
-                const name = trimmed(row.name);
-
-                if (!name || !warranty || warranty === '—') return;
-
-                const key = `${name} ${trimmed(row.make)} ${warranty}`;
-                if (seen[key]) return;
-
-                seen[key] = true;
-                rows.push({ name, make: trimmed(row.make), warranty });
-            });
-        });
-
-        return rows;
-    }
-
-    function warrantyRowHeights(state) {
-        const metrics = Config.PAGINATION.warranty;
-
-        return warrantyRows(state).map(row => {
-            const lines = Math.max(
-                wrappedLines(row.name, metrics.charsPerLine.name),
-                wrappedLines(row.make, metrics.charsPerLine.make),
-                wrappedLines(row.warranty, metrics.charsPerLine.warranty)
-            );
-
-            return metrics.rowBasePx + (lines * metrics.rowLinePx);
-        });
-    }
-
-    function sectionChunks(state, sectionId) {
-        const pagination = Config.PAGINATION;
-
-        if (sectionId === 'warranty-support') {
-            return chunkByHeight(warrantyRowHeights(state),
-                pagination.warranty.budgetPx, pagination.warranty.budgetPx);
-        }
-        if (sectionId === 'bill-of-materials') {
-            const budget = pagination.bom.budgetPx - pagination.bom.theadPx;
-            return chunkByHeight(bomLineHeights(state), budget, budget);
-        }
-        if (sectionId === 'terms-conditions' || sectionId === 'scope-inclusions'
-            || sectionId === 'scope-exclusions') {
-            const listName = sectionId === 'terms-conditions'
-                ? 'terms'
-                : (sectionId === 'scope-inclusions' ? 'inclusions' : 'exclusions');
-            return chunkByHeight(clauseHeights(state, listName),
-                pagination.clause.firstBudgetPx, pagination.clause.budgetPx);
-        }
-        if (sectionId === 'contents') {
-            return chunkByHeight(tocEntryHeights(state),
-                pagination.contents.firstBudgetPx, pagination.contents.budgetPx);
-        }
-        if (sectionId === 'savings-projection') {
-            return chunkRows(projection(state).years,
-                pagination.savings.firstPageRows, pagination.savings.continuationRows);
-        }
-
-        return [{ start: 0, end: 0 }];
-    }
-
-    function sectionPageCount(state, sectionId) {
-        const section = Config.getSection(sectionId);
-        return section && section.paginates ? sectionChunks(state, sectionId).length : 1;
-    }
-
-    /**
-     * The ordered list of pages the Comprehensive Proposal will produce.
-     * Everything downstream — thumbnails, the table of contents, "Page X of Y",
-     * print and the downloaded PDF — reads this one plan, so all four agree.
-     */
-    function planPages(state) {
-        const pages = [];
-        const sections = selectedSections(state);
-        const annexures = includedAnnexures(state);
-
-        sections.forEach(section => {
-            const chunks = sectionChunks(state, section.id);
-            const count = section.paginates ? chunks.length : 1;
-
-            for (let part = 0; part < count; part++) {
-                pages.push({
-                    sectionId: section.id,
-                    title: section.title,
-                    group: section.group,
-                    part,
-                    partCount: count,
-                    chunk: chunks[part] || { start: 0, end: 0 },
-                    isContinuation: part > 0,
-                    annexureId: null
-                });
-            }
-        });
-
-        if (annexures.length) {
-            pages.push({
-                sectionId: 'annexure-index',
-                title: 'Annexure Index',
-                group: 'Annexures',
-                part: 0,
-                partCount: 1,
-                chunk: { start: 0, end: 0 },
-                isContinuation: false,
-                annexureId: null
-            });
-
-            annexures.forEach((annexure, index) => {
-                const pageCount = Math.max(1, Math.round(num(annexure.pageCount, 1)));
-
-                for (let part = 0; part < pageCount; part++) {
-                    pages.push({
-                        sectionId: 'annexures',
-                        title: annexure.title
-                            ? `Annexure ${index + 1}: ${annexure.title}`
-                            : `Annexure ${index + 1}`,
-                        group: 'Annexures',
-                        part,
-                        partCount: pageCount,
-                        chunk: { start: part, end: part + 1 },
-                        isContinuation: part > 0,
-                        annexureId: annexure.id
-                    });
-                }
-            });
-        }
-
-        return pages.map((page, index) => Object.assign(page, {
-            pageNumber: index + 1,
-            totalPages: pages.length
-        }));
-    }
-
-    /** Table of contents entries: one line per section, at its first page. */
-    function tableOfContents(pagePlan) {
-        const entries = [];
-        let lastKey = null;
-
-        pagePlan.forEach(page => {
-            const key = page.annexureId || page.sectionId;
-
-            if (key !== lastKey) {
-                entries.push({
-                    sectionId: page.sectionId,
-                    title: page.title,
-                    group: page.group,
-                    pageNumber: page.pageNumber
-                });
-                lastKey = key;
-            }
-        });
-
-        return entries;
-    }
-
-    /** Pages a selection would produce, for the section picker's live estimate. */
-    function estimatedPageCount(state) {
-        return planPages(state).length;
     }
 
     return {
@@ -969,21 +678,27 @@
         validate,
         PANELS,
 
-        // pagination
-        chunkRows,
-        chunkByHeight,
-        activeBomCategories,
-        bomLines,
-        bomLineHeights,
-        clauseHeights,
-        tocEntryHeights,
-        warrantyRows,
-        warrantyRowHeights,
-        bomRowCount,
-        sectionPageCount,
-        sectionChunks,
-        planPages,
-        tableOfContents,
-        estimatedPageCount
+        // pagination, re-exported from quote-generator-pagination.js so callers
+        // and tests keep one entry point for the model's read-only half
+        chunkRows: Pagination.chunkRows,
+        chunkByHeight: Pagination.chunkByHeight,
+        activeBomCategories: Pagination.activeBomCategories,
+        bomLines: Pagination.bomLines,
+        bomLineHeights: Pagination.bomLineHeights,
+        clauseHeights: Pagination.clauseHeights,
+        tocEntryHeights: Pagination.tocEntryHeights,
+        milestoneRowHeights: Pagination.milestoneRowHeights,
+        breakdownRowHeights: Pagination.breakdownRowHeights,
+        annexureIndexHeights: Pagination.annexureIndexHeights,
+        narrativeUnits: Pagination.narrativeUnits,
+        narrativeUnitHeights: Pagination.narrativeUnitHeights,
+        warrantyRows: Pagination.warrantyRows,
+        warrantyRowHeights: Pagination.warrantyRowHeights,
+        bomRowCount: Pagination.bomRowCount,
+        sectionPageCount: Pagination.sectionPageCount,
+        sectionChunks: Pagination.sectionChunks,
+        planPages: Pagination.planPages,
+        tableOfContents: Pagination.tableOfContents,
+        estimatedPageCount: Pagination.estimatedPageCount
     };
 }));

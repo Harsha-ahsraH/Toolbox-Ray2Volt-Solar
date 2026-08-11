@@ -301,9 +301,22 @@
         if (printButton) {
             printButton.addEventListener('click', () => {
                 if (printButton.disabled) return;
+
                 ensureFresh();
                 setPrintMode();
-                window.print();
+
+                // Annexure pages fill in asynchronously. Printing before they
+                // resolve would send blank frames to the printer while the
+                // downloaded PDF contained the artwork - the two outputs have
+                // to agree.
+                const annexures = root.QuoteGeneratorAnnexures;
+                const ready = annexures ? annexures.whenReady() : Promise.resolve();
+
+                printButton.disabled = true;
+                ready.then(() => {
+                    printButton.disabled = false;
+                    window.print();
+                });
             });
         }
 

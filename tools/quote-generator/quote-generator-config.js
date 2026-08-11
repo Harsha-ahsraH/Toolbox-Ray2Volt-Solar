@@ -115,7 +115,7 @@
         { id: 'executive-summary', title: 'Executive Summary', group: 'Front Matter', core: true },
 
         { id: 'customer-project-profile', title: 'Customer & Project Profile', group: 'Project Context' },
-        { id: 'project-objectives', title: 'Project Objectives & Background', group: 'Project Context' },
+        { id: 'project-objectives', title: 'Project Objectives & Background', group: 'Project Context', paginates: true },
         { id: 'about-ray2volt', title: 'About Ray2Volt', group: 'Project Context', maintained: true },
         { id: 'ci-solar-benefits', title: 'Why C&I Solar', group: 'Project Context', maintained: true },
 
@@ -156,13 +156,13 @@
         { id: 'health-safety', title: 'Health & Safety', group: 'Scope & Execution', maintained: true },
         { id: 'warranty-support', title: 'Warranty & Support', group: 'Scope & Execution', paginates: true },
 
-        { id: 'commercial-offer', title: 'Commercial Offer', group: 'Commercial & Closing', core: true },
-        { id: 'payment-milestones', title: 'Payment Milestones', group: 'Commercial & Closing', core: true },
+        { id: 'commercial-offer', title: 'Commercial Offer', group: 'Commercial & Closing', core: true, paginates: true },
+        { id: 'payment-milestones', title: 'Payment Milestones', group: 'Commercial & Closing', core: true, paginates: true },
         { id: 'terms-conditions', title: 'Terms & Conditions', group: 'Commercial & Closing', core: true, paginates: true },
         { id: 'why-ray2volt', title: 'Why Ray2Volt', group: 'Commercial & Closing', maintained: true },
         { id: 'acceptance', title: 'Acceptance & Signature', group: 'Commercial & Closing' },
 
-        { id: 'annexure-index', title: 'Annexure Index', group: 'Annexures', auto: true },
+        { id: 'annexure-index', title: 'Annexure Index', group: 'Annexures', auto: true, paginates: true },
         { id: 'annexures', title: 'Annexures', group: 'Annexures', auto: true, paginates: true }
     ];
 
@@ -273,6 +273,9 @@
             // Header row plus the closing note, which only appears on the last
             // page but is reserved on every page so the budget stays uniform.
             budgetPx: 780,
+            // A continuation page also carries a "Continued from previous page"
+            // line that the first page does not, so it gets a smaller budget.
+            continuationBudgetPx: 740,
             theadPx: 40,
             categoryRowPx: 27,
             rowBasePx: 12,
@@ -281,11 +284,16 @@
         },
 
         clause: {
-            firstBudgetPx: 800,
-            budgetPx: 840,
+            // The last page carries a closing note, and continuation pages a
+            // "Continued" subtitle, so neither budget is the full body height.
+            firstBudgetPx: 730,
+            budgetPx: 760,
             rowBasePx: 11,
             rowLinePx: 17,
-            charsPerLine: 155
+            // Measured: the clause text column is 650px wide at 11.3px, which
+            // wraps at about 127 characters. 155 was optimistic and let a long
+            // terms list run past the bottom of its last page.
+            charsPerLine: 127
         },
 
         // Projection rows carry only numbers, so they never wrap.
@@ -295,10 +303,13 @@
         },
 
         contents: {
-            firstBudgetPx: 880,
-            budgetPx: 904,
-            itemPx: 28,
-            groupPx: 29
+            // Rounded up from the measured 28px row and 29px group header, so a
+            // long index with many annexures still breaks a page early rather
+            // than one row late.
+            firstBudgetPx: 830,
+            budgetPx: 860,
+            itemPx: 30,
+            groupPx: 33
         },
 
         // The warranty schedule shares its page with the workmanship and
@@ -309,6 +320,47 @@
             rowBasePx: 12,
             rowLinePx: 15,
             charsPerLine: { name: 40, make: 26, warranty: 30 }
+        },
+
+        milestone: {
+            firstBudgetPx: 700,
+            budgetPx: 800,
+            rowBasePx: 12,
+            rowLinePx: 15,
+            charsPerLine: { name: 30, note: 20 }
+        },
+
+        // The price breakdown shares its page with the offer summary and the
+        // tax disclosure, both reserved for on every page.
+        breakdown: {
+            // Small, because the closing page also carries the offer summary
+            // and the tax disclosure tables beneath these rows.
+            budgetPx: 280,
+            rowBasePx: 12,
+            rowLinePx: 15,
+            charsPerLine: 60
+        },
+
+        annexureIndex: {
+            firstBudgetPx: 740,
+            budgetPx: 790,
+            rowBasePx: 12,
+            rowLinePx: 15,
+            charsPerLine: { title: 46, type: 22 }
+        },
+
+        // Free-text narrative. A salesperson can paste an arbitrary amount into
+        // these fields, so they are chunked by estimated height like any table.
+        narrative: {
+            firstBudgetPx: 830,
+            budgetPx: 890,
+            headingPx: 30,
+            paragraphGapPx: 12,
+            // Measured in the browser: .cq-para resolves to an 18.6px line box
+            // about 102 characters wide in the 680px text column. Rounded to
+            // over-estimate height, so a paragraph never runs off the page.
+            linePx: 19,
+            charsPerLine: 96
         }
     };
 

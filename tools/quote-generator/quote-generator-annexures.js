@@ -29,6 +29,7 @@
     let app = null;
     let pdfLibPromise = null;
     let hydrateChain = Promise.resolve();
+    const pending = [];
 
     const objectUrls = {};
     const documentCache = {};
@@ -157,10 +158,18 @@
         const annexure = state.annexures[before];
 
         return Storage.saveAnnexureFile(annexure.id, file)
+            .then(() => true)
             .catch(error => {
-                showError(`"${file.name}" could not be stored on this device: ${error.message}`);
+                // Keeping the metadata for a blob that was never stored would
+                // leave the proposal claiming an annexure it cannot render, and
+                // the draft would report itself saved. Take the row back out.
+                Model.removeAnnexure(state, annexure.id);
+                showError(`"${file.name}" could not be stored on this device, so it was not added: `
+                    + `${error && error.message ? error.message : 'the annexure store is unavailable.'}`);
+                return false;
             })
-            .then(() => {
+            .then(stored => {
+                if (!stored) return null;
                 if (!isPdf(file)) return null;
 
                 return countPdfPages(annexure.id, file)
@@ -261,7 +270,7 @@
         const frames = Array.prototype.slice.call(scope.querySelectorAll('.cq-annexure-frame'));
         if (!frames.length) return Promise.resolve();
 
-        hydrateChain = Storage.loadAllAnnexureFiles()
+        const run = Storage.loadAllAnnexureFiles()
             .then(records => Promise.all(frames.map(frame => {
                 const record = records[frame.dataset.annexureId];
                 const pageNumber = parseInt(frame.dataset.annexurePage, 10) || 1;
@@ -284,11 +293,18 @@
                     'Annexures could not be loaded: ' + (error && error.message ? error.message : 'unknown error.')));
             });
 
-        return hydrateChain;
+        // Chain rather than replace. Hydrating the preview stage while the
+        // export container is still drawing must not let whenReady() resolve
+        // early and hand a half-rendered document to the PDF capture.
+        hydrateChain = hydrateChain.then(() => run, () => run);
+        pending.push(run);
+
+        return run;
     }
 
+    /** Resolves once every hydration started so far has finished. */
     function whenReady() {
-        return hydrateChain;
+        return Promise.all(pending.slice()).catch(() => null);
     }
 
     // ---------------------------------------------------------------------
@@ -303,6 +319,12 @@
             addFiles(input.files);
             input.value = '';
         });
+
+        // Drop blobs the current draft no longer references. Without this a
+        // discarded or corrupted draft leaves customer documents sitting in
+        // IndexedDB with nothing in the tool pointing at them.
+        Storage.pruneAnnexureFiles((app.getState().annexures || [])
+            .map(annexure => annexure.id)).catch(() => null);
 
         // Recount PDF pages for a restored draft: the page plan depends on it,
         // and a page count is cheap to re-derive but expensive to get wrong.
