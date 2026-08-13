@@ -4,11 +4,18 @@ const path = require('node:path');
 
 const repoRoot = path.resolve(__dirname, '..');
 const toolRoot = path.join(repoRoot, 'tools', 'warranty-card');
-const baseCss = fs.readFileSync(path.join(repoRoot, 'global', 'styles', 'base.css'), 'utf8');
-const componentsCss = fs.readFileSync(path.join(repoRoot, 'global', 'styles', 'components.css'), 'utf8');
-const html = fs.readFileSync(path.join(toolRoot, 'warranty-card.html'), 'utf8');
-const css = fs.readFileSync(path.join(toolRoot, 'warranty-card.css'), 'utf8');
-const js = fs.readFileSync(path.join(toolRoot, 'warranty-card.js'), 'utf8');
+
+// Git checks these files out with CRLF on Windows, so every pattern below
+// would have to spell out `\r?\n`. Normalise once instead.
+function read(...segments) {
+    return fs.readFileSync(path.join(...segments), 'utf8').replace(/\r\n/g, '\n');
+}
+
+const baseCss = read(repoRoot, 'global', 'styles', 'base.css');
+const componentsCss = read(repoRoot, 'global', 'styles', 'components.css');
+const html = read(toolRoot, 'warranty-card.html');
+const css = read(toolRoot, 'warranty-card.css');
+const js = read(toolRoot, 'warranty-card.js');
 
 function cssRule(selector, within = css) {
     const escaped = selector.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -79,7 +86,7 @@ assert.match(js, /window\.addEventListener\('orientationchange', updatePreviewSc
 // the certificate has to move with it.
 
 const shortProposalCss = ['quote-generator-preview-layout.css', 'quote-generator-preview-terms.css']
-    .map(file => fs.readFileSync(path.join(repoRoot, 'tools', 'quote-generator', file), 'utf8'))
+    .map(file => read(repoRoot, 'tools', 'quote-generator', file))
     .join('\n');
 
 /**
