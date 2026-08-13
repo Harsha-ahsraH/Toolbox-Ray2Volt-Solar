@@ -11,38 +11,9 @@
    FORM SECTION - BRUTALIST STYLING
    ============================================ */
 
-/* --- Page Header --- */
-.qg-page-header {
-    margin-bottom: 1.5rem;
-}
-.qg-page-header h1 {
-    font-size: 1.75rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin-bottom: 0.25rem;
-}
-
-.qg-page-header p {
-    font-size: 0.95rem;
-    color: var(--text-secondary);
-}
-
-/* Mobile-first header rhythm */
-@media screen and (max-width: 768px) {
-    .qg-page-header {
-        margin-bottom: 1rem;
-    }
-
-    .qg-page-header h1 {
-        font-size: 1.4rem;
-        line-height: 1.2;
-    }
-
-    .qg-page-header p {
-        font-size: 0.9rem;
-        line-height: 1.4;
-    }
-}
+/* The page heading lives in .qg-tool-header, styled in
+   quote-generator-workspace.css alongside the quotation-type chooser it
+   shares a row with. */
 
 /* --- Form Cards --- */
 .qg-form-grid {
@@ -342,14 +313,6 @@ select.qg-input-field {
 }
 
 @media screen and (min-width: 769px) {
-    .qg-page-header {
-        margin-bottom: 1.5rem;
-    }
-
-    .qg-page-header h1 {
-        font-size: 1.75rem;
-    }
-
     .qg-form-card,
     .qg-components-card {
         padding: 1.5rem;

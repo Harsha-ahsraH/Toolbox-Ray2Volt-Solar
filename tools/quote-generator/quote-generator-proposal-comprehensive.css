@@ -37,33 +37,50 @@
     color: var(--qp-navy);
 }
 
-/* --- Running header and footer ---------------------------------------- */
+/* --- Running header and footer ----------------------------------------
+
+   Geometry and type are taken from .qp-header and .qp-page-footer in the
+   Short Proposal, so a page from either document reads as the same
+   stationery: 170px logo on the right, uppercase ink title over a muted
+   subtitle, 2px navy rule, and a hairline footer 8mm from the bottom.
+
+   The header is slightly shorter than the one it replaces, so the body
+   height the pagination budgets are measured against does not shrink. */
 
 .cq-head {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: space-between;
-    gap: 8mm;
-    padding-bottom: 3mm;
-    margin-bottom: 5mm;
+    gap: 20px;
+    padding-bottom: 8px;
+    margin-bottom: 6mm;
     border-bottom: 2px solid var(--qp-navy);
     flex-shrink: 0;
 }
 
+.cq-head-title {
+    flex: 1;
+}
+
 .cq-head-title h1 {
-    font-size: 16pt;
+    font-size: 15pt;
     font-weight: 700;
     line-height: 1.15;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: var(--qp-ink);
 }
 
 .cq-head-title p {
-    margin-top: 1mm;
-    font-size: 8.5pt;
+    margin-top: 2px;
+    font-size: 9pt;
+    font-weight: 400;
+    letter-spacing: 0.4px;
     color: var(--qp-muted);
 }
 
 .cq-head-logo {
-    width: 30mm;
+    width: 170px;
     height: auto;
     flex-shrink: 0;
 }
@@ -76,9 +93,9 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding-top: 2mm;
+    padding-top: 6px;
     border-top: 1px solid var(--qp-line);
-    font-size: 7.5pt;
+    font-size: 8pt;
     color: var(--qp-muted);
 }
 
@@ -92,9 +109,11 @@
 
 /* --- Type ------------------------------------------------------------- */
 
+/* Body copy sits on the Short Proposal's type scale: 9.5pt lead, 9pt
+   paragraph, 8.5pt list and card copy. */
 .cq-lead {
     font-size: 9.5pt;
-    line-height: 1.55;
+    line-height: 1.6;
     color: var(--qp-gray);
     margin-bottom: 4mm;
 }
@@ -106,25 +125,37 @@
     margin-bottom: 3mm;
 }
 
+/* Section heading. Same rule, case and tracking as .qp-section h3. */
 .cq-subtitle {
-    font-size: 10.5pt;
+    font-size: 10pt;
     font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
     color: var(--qp-navy);
-    margin: 5mm 0 2.5mm;
+    margin: 4mm 0 3mm;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--qp-line);
 }
 
 .cq-subtitle:first-child {
     margin-top: 0;
 }
 
+/* Matches .qp-explainer-box. */
 .cq-note {
-    padding: 2.5mm 3mm;
+    padding: 9px 14px;
     margin-top: 4mm;
-    font-size: 8pt;
-    line-height: 1.45;
+    font-size: 9pt;
+    line-height: 1.5;
     color: var(--qp-gray);
     background: var(--qp-soft);
-    border-left: 2.5px solid var(--qp-navy);
+    border: 1px solid var(--qp-line);
+    border-left: 3px solid var(--qp-navy);
+    border-radius: 2px;
+}
+
+.cq-note strong {
+    color: var(--qp-navy);
 }
 
 .cq-placeholder {
@@ -146,21 +177,34 @@
     gap: 3mm;
 }
 
+/* Card and card label follow .qp-prep-card / .qp-prep-header: white body,
+   navy top rule, and an uppercase navy label separated by a hairline. */
 .cq-card {
     padding: 3mm;
-    background: var(--qp-soft);
+    background: #fff;
     border: 1px solid var(--qp-line);
-    border-radius: 1mm;
+    border-top: 3px solid var(--qp-navy);
+    border-radius: 2px;
 }
 
+/* The label is pulled back out to the card edges so it reads as the tinted
+   header bar .qp-prep-header draws, without every renderer having to emit a
+   separate header element. The negative margin must stay equal to .cq-card's
+   padding above — shrink one without the other and the bar hangs outside
+   the card, since nothing here clips. */
 .cq-card h4 {
-    font-size: 9pt;
+    margin: -3mm -3mm 2mm;
+    padding: 6px 11px;
+    font-size: 8pt;
     font-weight: 700;
-    margin-bottom: 1.5mm;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    background: var(--qp-tint);
+    border-bottom: 1px solid var(--qp-line);
 }
 
 .cq-card p {
-    font-size: 8.2pt;
+    font-size: 8.5pt;
     line-height: 1.45;
     color: var(--qp-gray);
 }
@@ -174,20 +218,28 @@
     font-size: 9pt;
 }
 
+/* Label/value pair styled like .qp-prep-label / .qp-prep-value: a small
+   tracked cap for the label, the value a size up in ink. */
 .cq-kv dt {
+    font-size: 8pt;
     font-weight: 600;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
     color: var(--qp-muted);
     white-space: nowrap;
 }
 
 .cq-kv dd {
+    font-weight: 500;
     color: var(--qp-ink);
+    overflow-wrap: anywhere;
 }
 
 .cq-kv-boxed {
     padding: 3mm;
     background: var(--qp-soft);
     border: 1px solid var(--qp-line);
+    border-radius: 2px;
 }
 
 /* --- Metric tiles -------------------------------------------------------- */
@@ -203,30 +255,32 @@
     grid-template-columns: repeat(3, 1fr);
 }
 
+/* Metric tile. Left-aligned white card with a gray label over a navy-dark
+   figure, the same reading order as .qp-metric-card. Type stays a step
+   smaller because the Comprehensive grid runs four across, not two. */
 .cq-metric {
     padding: 2.5mm;
-    text-align: center;
-    background: var(--qp-tint);
+    background: #fff;
     border: 1px solid var(--qp-line);
-    border-radius: 1mm;
+    border-radius: 2px;
 }
 
 .cq-metric-label {
     display: block;
     font-size: 7pt;
     font-weight: 600;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--qp-muted);
+    color: var(--qp-gray);
     margin-bottom: 1mm;
 }
 
 .cq-metric-value {
     display: block;
-    font-size: 12pt;
+    font-size: 13pt;
     font-weight: 700;
     line-height: 1.15;
-    color: var(--qp-navy);
+    color: var(--qp-navy-dark);
 }
 
 .cq-metric-sub {
@@ -256,17 +310,19 @@
     overflow-wrap: break-word;
 }
 
+/* Tint header on ink text, as in .qp-bom-table / .qp-savings-table. The
+   Short Proposal carries no zebra striping either: every cell is ruled, so
+   the stripe was doing no work the grid was not already doing. */
 .cq-table thead th {
-    background: var(--qp-navy);
-    color: #fff;
+    background-color: var(--qp-tint);
+    color: var(--qp-ink);
     font-size: 7.5pt;
     font-weight: 700;
     letter-spacing: 0.03em;
-    text-transform: uppercase;
 }
 
-.cq-table tbody tr:nth-child(even) td {
-    background: var(--qp-soft);
+.cq-table tbody td {
+    background-color: #fff;
 }
 
 .cq-table .cq-num {
@@ -278,25 +334,32 @@
     text-align: center;
 }
 
-.cq-table tfoot td,
+/* The total is the most-read line on a commercial page, so it takes the
+   tint fill and the size step up that .qp-grand-total-row uses. */
 .cq-table .cq-total-row td {
     background: var(--qp-tint) !important;
+    font-size: 9pt;
     font-weight: 700;
+    color: var(--qp-navy-dark);
 }
 
-/* Category heading row inside the bill of materials. */
+/* Category heading row inside the bill of materials. Mirrors the Short
+   Proposal's .bom-section-header: centred navy caps on the soft fill. */
 .cq-table .cq-cat-row td {
-    background: var(--qp-navy-dark) !important;
-    color: #fff;
+    background: var(--qp-soft) !important;
+    color: var(--qp-navy);
     font-weight: 700;
     font-size: 7.8pt;
-    letter-spacing: 0.03em;
+    letter-spacing: 0.5px;
     text-transform: uppercase;
+    text-align: center;
 }
 
 .cq-table-note {
     margin-top: 2mm;
-    font-size: 7.5pt;
+    font-size: 8pt;
+    line-height: 1.45;
+    font-style: italic;
     color: var(--qp-muted);
 }
 
@@ -309,6 +372,9 @@
     padding: 0;
 }
 
+/* Clause copy matches .qp-terms-ol: 8.5pt gray with emphasis in ink. The
+   separator rule is Comprehensive-only — these lists run to several pages
+   and the reader needs to see where one clause ends. */
 .cq-clause-list li {
     display: grid;
     grid-template-columns: 7mm 1fr;
@@ -316,7 +382,12 @@
     padding: 1.4mm 0;
     font-size: 8.5pt;
     line-height: 1.5;
+    color: var(--qp-gray);
     border-bottom: 1px solid var(--qp-line);
+}
+
+.cq-clause-list li strong {
+    color: var(--qp-ink);
 }
 
 .cq-clause-list li:last-child {
@@ -331,7 +402,7 @@
 .cq-bullets {
     margin: 0 0 3mm;
     padding-left: 5mm;
-    font-size: 8.8pt;
+    font-size: 8.5pt;
     line-height: 1.55;
 }
 
@@ -347,22 +418,24 @@
     gap: 2.5mm;
 }
 
+/* Matches .qp-flow-step / .qp-journey-step. */
 .cq-step {
     display: grid;
     grid-template-columns: 7mm 1fr;
     gap: 2mm;
     padding: 2.2mm;
-    background: var(--qp-soft);
+    background: #fff;
     border: 1px solid var(--qp-line);
+    border-radius: 2px;
 }
 
 .cq-step-num {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 6mm;
-    height: 6mm;
-    font-size: 8pt;
+    width: 20px;
+    height: 20px;
+    font-size: 8.5pt;
     font-weight: 700;
     color: #fff;
     background: var(--qp-navy);
@@ -372,7 +445,7 @@
 .cq-step strong {
     display: block;
     font-size: 8.5pt;
-    color: var(--qp-navy);
+    color: var(--qp-ink);
     margin-bottom: 0.8mm;
 }
 
@@ -384,49 +457,80 @@
 
 /* --- Cover page ------------------------------------------------------------ */
 
+/* The Short Proposal's cover opens on a 5px navy edge above a large logo,
+   a ruled masthead and a kicker/title/short-rule stack. The Comprehensive
+   cover follows the same sequence at the same weights; only the reference
+   block on the right differs, because this document is revision-controlled
+   and the Short one is not. */
 .cq-cover {
     justify-content: flex-start;
+    border-top: 5px solid var(--qp-navy);
+}
+
+/* The cover's own content column. Making it a flex column is what lets the
+   card grid below take margin-top:auto and sit on the baseline of the page,
+   the same trick .qp-cover-grid uses in the Short Proposal. */
+.cq-cover .cq-body {
+    display: flex;
+    flex-direction: column;
 }
 
 .cq-cover-head {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 10mm;
+    gap: 8mm;
+    padding-bottom: 4mm;
+    margin-bottom: 6mm;
+    border-bottom: 3px solid var(--qp-navy);
 }
 
 .cq-cover-logo {
-    width: 42mm;
+    width: 300px;
+    max-width: 45%;
     height: auto;
+    display: block;
 }
 
 .cq-cover-ref {
     text-align: right;
-    font-size: 8.5pt;
+    font-size: 9.5pt;
     color: var(--qp-muted);
     line-height: 1.5;
 }
 
-.cq-cover-kicker {
-    font-size: 9pt;
-    font-weight: 600;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--qp-navy);
+.cq-cover-ref strong {
+    font-weight: 700;
+    color: var(--qp-navy-dark);
 }
 
-.cq-cover-title {
-    margin: 3mm 0 4mm;
-    font-size: 26pt;
+.cq-cover-kicker {
+    display: block;
+    font-size: 8.5pt;
     font-weight: 700;
-    line-height: 1.15;
+    letter-spacing: 2px;
+    text-transform: uppercase;
     color: var(--qp-navy);
+    margin-bottom: 6px;
+}
+
+/* Tag-qualified to tie `.cq-page h1 { color: navy }` above on specificity
+   and win on source order; as a bare class it lost outright and the title
+   rendered mid-navy. Keep this rule below that one. */
+h1.cq-cover-title {
+    margin: 0 0 12px;
+    font-size: 30pt;
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: 0.2px;
+    color: var(--qp-navy-dark);
 }
 
 .cq-cover-rule {
-    width: 40mm;
-    height: 1.2mm;
+    width: 80px;
+    height: 4px;
     background: var(--qp-navy);
+    border-radius: 2px;
     margin-bottom: 8mm;
 }
 
@@ -434,6 +538,7 @@
     width: 100%;
     height: 68mm;
     object-fit: cover;
+    border-radius: 2px;
     border: 1px solid var(--qp-line);
     margin-bottom: 8mm;
 }
@@ -447,18 +552,22 @@
 
 .cq-cover-card {
     padding: 3.5mm;
-    background: var(--qp-soft);
+    background: #fff;
     border: 1px solid var(--qp-line);
-    border-top: 2.5px solid var(--qp-navy);
+    border-top: 3px solid var(--qp-navy);
+    border-radius: 2px;
 }
 
 .cq-cover-card h3 {
+    margin: -3.5mm -3.5mm 2.5mm;
+    padding: 6px 11px;
     font-size: 8pt;
     font-weight: 700;
-    letter-spacing: 0.08em;
+    letter-spacing: 1px;
     text-transform: uppercase;
     color: var(--qp-navy);
-    margin-bottom: 2mm;
+    background: var(--qp-tint);
+    border-bottom: 1px solid var(--qp-line);
 }
 
 .cq-cover-card p,
@@ -468,11 +577,12 @@
     display: block;
 }
 
+/* Matches .qp-cover-footer. */
 .cq-cover-footer {
     margin-top: 6mm;
-    padding-top: 3mm;
+    padding: 6px 0 0;
     border-top: 1px solid var(--qp-line);
-    font-size: 7.5pt;
+    font-size: 8pt;
     line-height: 1.5;
     color: var(--qp-muted);
     text-align: center;
@@ -547,6 +657,7 @@
     max-height: 105mm;
     object-fit: contain;
     border: 1px solid var(--qp-line);
+    border-radius: 2px;
     background: #fff;
     padding: 2mm;
     margin-bottom: 4mm;
@@ -562,6 +673,7 @@
     height: 42mm;
     padding: 2mm 2mm 0;
     border: 1px solid var(--qp-line);
+    border-radius: 2px;
     background: var(--qp-soft);
 }
 
@@ -636,6 +748,37 @@
 }
 
 /* ============================================
+   SCREEN GEOMETRY
+   ============================================ */
+
+/* global/styles/tool-responsive.css collapses every .quote-page to fluid
+   width, automatic height and visible overflow on screen, and only restores
+   A4 above 1200px. The Short Proposal escapes that through its own
+   `#quotePreview .quote-page` override; the Comprehensive pages sit outside
+   #quotePreview and had no equivalent, so below 1200px they lost the A4 box.
+   That is not only a preview problem: the PDF capture reads these nodes live
+   (quote-generator-preview.js), and the stage and thumbnail rail render
+   clones of them, so a narrow window produced wrongly shaped pages. */
+@media screen {
+
+    #qgComprehensivePages .quote-page,
+    .qg-preview-stage .quote-page,
+    .qg-thumb-frame .quote-page {
+        width: 210mm !important;
+        height: 297mm !important;
+        min-height: 297mm !important;
+        padding: 12mm 14mm 24mm 14mm !important;
+        overflow: hidden !important;
+    }
+
+    /* Margin is left to the rail and stage rules in
+       quote-generator-preview-nav.css, which position their own clones. */
+    #qgComprehensivePages .quote-page {
+        margin: 0 auto 20px auto !important;
+    }
+}
+
+/* ============================================
    PRINT
    ============================================ */
 
@@ -676,6 +819,13 @@
 
     .cq-page:last-child {
         page-break-after: auto;
+    }
+
+    /* The rule above strips every page border for print. The cover's navy
+       edge is part of the design, so it goes back on — the Short Proposal
+       restores .qp-cover the same way. */
+    .cq-cover {
+        border-top: 5px solid var(--qp-navy) !important;
     }
 
     .cq-foot {

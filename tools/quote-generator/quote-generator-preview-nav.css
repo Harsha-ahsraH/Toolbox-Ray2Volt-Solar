@@ -64,6 +64,14 @@
     margin-bottom: 1rem;
 }
 
+.qg-preview-selector label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
 .qg-preview-selector .qg-input-field {
     flex: 1;
     min-width: 0;

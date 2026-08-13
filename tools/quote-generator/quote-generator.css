@@ -1,14 +1,16 @@
 /* Quote Generator stylesheet manifest. Keep imports in this order.
    The ?v= query matches the one on the <link> in quote-generator.html —
    bump both together so imported sheets are never served stale. */
-@import url('./quote-generator-form.css?v=20260811-comprehensive-l');
-@import url('./quote-generator-preview-layout.css?v=20260811-comprehensive-l');
-@import url('./quote-generator-preview-details.css?v=20260811-comprehensive-l');
-@import url('./quote-generator-preview-terms.css?v=20260811-comprehensive-l');
-@import url('./quote-generator-responsive.css?v=20260811-comprehensive-l');
-@import url('./quote-generator-print.css?v=20260811-comprehensive-l');
+@import url('./quote-generator-form.css?v=20260813-house-parity-2');
+@import url('./quote-generator-preview-layout.css?v=20260813-house-parity-2');
+@import url('./quote-generator-preview-details.css?v=20260813-house-parity-2');
+@import url('./quote-generator-preview-terms.css?v=20260813-house-parity-2');
+@import url('./quote-generator-responsive.css?v=20260813-house-parity-2');
+@import url('./quote-generator-print.css?v=20260813-house-parity-2');
 /* Comprehensive mode. Loaded last so the Comprehensive workspace, preview
    navigation and page styles win over the shared form and print rules. */
-@import url('./quote-generator-workspace.css?v=20260811-comprehensive-l');
-@import url('./quote-generator-preview-nav.css?v=20260811-comprehensive-l');
-@import url('./quote-generator-proposal-comprehensive.css?v=20260811-comprehensive-l');
+@import url('./quote-generator-workspace.css?v=20260813-house-parity-2');
+/* Straight continuation of the sheet above — keep the two adjacent. */
+@import url('./quote-generator-workspace-editors.css?v=20260813-house-parity-2');
+@import url('./quote-generator-preview-nav.css?v=20260813-house-parity-2');
+@import url('./quote-generator-proposal-comprehensive.css?v=20260813-house-parity-2');

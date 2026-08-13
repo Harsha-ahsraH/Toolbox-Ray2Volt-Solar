@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="../../global/styles/components.css">
     <link rel="stylesheet" href="../../global/styles/responsive.css">
     <link rel="stylesheet" href="../../global/styles/tool-responsive.css">
-    <link rel="stylesheet" href="quote-generator.css?v=20260811-comprehensive-l">
+    <link rel="stylesheet" href="quote-generator.css?v=20260813-house-parity-2">
 </head>
 
 <body>
@@ -83,54 +83,33 @@
 
                 <div class="no-print-area">
                     <!-- ============================================
-                         Proposal mode + workspace controls
+                         Tool header and quotation-type chooser.
+                         The two document types are genuinely different
+                         deliverables, so each is a described choice rather
+                         than an unlabelled toggle.
                          ============================================ -->
-                    <div class="qg-mode-bar">
-                        <div class="qg-mode-group">
-                            <span class="qg-mode-label" id="qgModeLabel">Proposal Mode</span>
-                            <div class="qg-segmented" role="tablist" aria-labelledby="qgModeLabel">
-                                <button type="button" class="qg-segmented-btn is-active" id="qgModeShort" role="tab"
-                                    aria-selected="true" aria-controls="qgShortWorkspace">Short Quotation</button>
-                                <button type="button" class="qg-segmented-btn" id="qgModeComprehensive" role="tab"
-                                    aria-selected="false" aria-controls="qgComprehensiveWorkspace">Comprehensive
-                                    Quotation</button>
-                            </div>
+                    <header class="qg-tool-header">
+                        <div class="qg-tool-heading">
+                            <h1>Quote Generator</h1>
+                            <p id="qgToolSubtitle">Generate professional 8-page solar project proposals for customers.
+                            </p>
                         </div>
 
-                        <div class="qg-mode-group qg-comprehensive-only" id="qgPresetGroup" hidden>
-                            <label class="qg-mode-label" for="qgPreset">Preset</label>
-                            <select id="qgPreset" class="qg-input-field qg-preset-select">
-                                <option value="ci-on-grid-rooftop" selected>C&amp;I On-Grid Rooftop</option>
-                                <option value="ci-ground-mounted">C&amp;I Ground-Mounted</option>
-                                <option value="ci-hybrid">C&amp;I Hybrid</option>
-                            </select>
+                        <div class="qg-mode-choice" role="tablist" aria-label="Quotation type">
+                            <button type="button" class="qg-mode-card is-active" id="qgModeShort" role="tab"
+                                aria-selected="true" aria-controls="qgShortWorkspace">
+                                <span class="qg-mode-card-title">Short Quotation</span>
+                                <span class="qg-mode-card-desc">Fixed 8-page rooftop proposal</span>
+                            </button>
+                            <button type="button" class="qg-mode-card" id="qgModeComprehensive" role="tab"
+                                aria-selected="false" aria-controls="qgComprehensiveWorkspace">
+                                <span class="qg-mode-card-title">Comprehensive Quotation</span>
+                                <span class="qg-mode-card-desc">Modular C&amp;I EPC proposal</span>
+                            </button>
                         </div>
-
-                        <div class="qg-mode-group qg-mode-status">
-                            <span class="qg-save-status" id="qgSaveStatus" role="status" aria-live="polite"
-                                data-state="idle">Draft not saved yet</span>
-                            <button type="button" class="qg-btn-ghost qg-comprehensive-only" id="qgNewQuotation"
-                                hidden>New Quotation</button>
-                        </div>
-                    </div>
-
-                    <!-- Workspace tabs (Comprehensive mode only) -->
-                    <div class="qg-workspace-tabs qg-comprehensive-only" id="qgWorkspaceTabs" role="tablist"
-                        aria-label="Workspace" hidden>
-                        <button type="button" class="qg-workspace-tab is-active" id="qgWorkspaceInputsTab" role="tab"
-                            aria-selected="true" aria-controls="qgComprehensiveInputs">Inputs</button>
-                        <button type="button" class="qg-workspace-tab" id="qgWorkspacePreviewTab" role="tab"
-                            aria-selected="false" aria-controls="qgComprehensivePreviewWorkspace">Proposal
-                            Preview</button>
-                    </div>
+                    </header>
 
                     <div id="qgShortWorkspace" role="tabpanel" aria-labelledby="qgModeShort">
-                    <!-- Page Header -->
-                    <div class="qg-page-header">
-                        <h1>Quote Generator</h1>
-                        <p>Generate professional 8-page solar project proposals for customers.</p>
-                    </div>
-
                     <!-- Form Grid -->
                     <div class="qg-form-grid">
                         <!-- Customer Details Card -->
@@ -610,23 +589,23 @@
 
     <!-- Comprehensive mode. Loaded after the Short generator so the existing
          eight-page proposal initializes exactly as before. -->
-    <script src="quote-generator-workspace-template.js?v=20260811-comprehensive-l"></script>
-    <script src="quote-generator-config.js?v=20260811-comprehensive-l"></script>
-    <script src="quote-generator-content.js?v=20260811-comprehensive-l"></script>
-    <script src="quote-generator-bom-defaults.js?v=20260811-comprehensive-l"></script>
-    <script src="quote-generator-model.js?v=20260811-comprehensive-l"></script>
-    <script src="quote-generator-pagination.js?v=20260811-comprehensive-l"></script>
-    <script src="quote-generator-calc.js?v=20260811-comprehensive-l"></script>
-    <script src="quote-generator-storage.js?v=20260811-comprehensive-l"></script>
-    <script src="quote-generator-editors.js?v=20260811-comprehensive-l"></script>
-    <script src="quote-generator-validation-view.js?v=20260811-comprehensive-l"></script>
-    <script src="quote-generator-comprehensive-pages.js?v=20260811-comprehensive-l"></script>
-    <script src="quote-generator-comprehensive-pages-a.js?v=20260811-comprehensive-l"></script>
-    <script src="quote-generator-comprehensive-pages-b.js?v=20260811-comprehensive-l"></script>
-    <script src="quote-generator-comprehensive-pages-c.js?v=20260811-comprehensive-l"></script>
-    <script src="quote-generator-annexures.js?v=20260811-comprehensive-l"></script>
-    <script src="quote-generator-preview.js?v=20260811-comprehensive-l"></script>
-    <script src="quote-generator-form.js?v=20260811-comprehensive-l"></script>
+    <script src="quote-generator-workspace-template.js?v=20260813-house-parity-2"></script>
+    <script src="quote-generator-config.js?v=20260813-house-parity-2"></script>
+    <script src="quote-generator-content.js?v=20260813-house-parity-2"></script>
+    <script src="quote-generator-bom-defaults.js?v=20260813-house-parity-2"></script>
+    <script src="quote-generator-model.js?v=20260813-house-parity-2"></script>
+    <script src="quote-generator-pagination.js?v=20260813-house-parity-2"></script>
+    <script src="quote-generator-calc.js?v=20260813-house-parity-2"></script>
+    <script src="quote-generator-storage.js?v=20260813-house-parity-2"></script>
+    <script src="quote-generator-editors.js?v=20260813-house-parity-2"></script>
+    <script src="quote-generator-validation-view.js?v=20260813-house-parity-2"></script>
+    <script src="quote-generator-comprehensive-pages.js?v=20260813-house-parity-2"></script>
+    <script src="quote-generator-comprehensive-pages-a.js?v=20260813-house-parity-2"></script>
+    <script src="quote-generator-comprehensive-pages-b.js?v=20260813-house-parity-2"></script>
+    <script src="quote-generator-comprehensive-pages-c.js?v=20260813-house-parity-2"></script>
+    <script src="quote-generator-annexures.js?v=20260813-house-parity-2"></script>
+    <script src="quote-generator-preview.js?v=20260813-house-parity-2"></script>
+    <script src="quote-generator-form.js?v=20260813-house-parity-2"></script>
 </body>
 
 </html>

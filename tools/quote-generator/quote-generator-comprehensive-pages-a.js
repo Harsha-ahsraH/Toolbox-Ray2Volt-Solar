@@ -37,6 +37,7 @@
 
         return {
             chrome: 'none',
+            pageClass: 'cq-cover',
             body: `
                 <div class="cq-cover-head">
                     <img src="../../global/assets/logo.png" alt="Ray2Volt Solar" class="cq-cover-logo">

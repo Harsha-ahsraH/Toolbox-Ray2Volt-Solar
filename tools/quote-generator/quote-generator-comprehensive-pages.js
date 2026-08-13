@@ -7,11 +7,13 @@
  *
  * A renderer receives a context and returns a descriptor:
  *
- *   { title, subtitle, body, chrome, bodyClass }
+ *   { title, subtitle, body, chrome, bodyClass, pageClass }
  *
  * `body` is the inner HTML of the page; quote-generator-preview.js wraps it in
  * the A4 .quote-page shell with the running header and the "Page X of Y"
  * footer. `chrome: 'none'` opts out of the standard header (the cover uses it).
+ * `pageClass` lands on the .quote-page itself, for rules that have to reach the
+ * paper edge; `bodyClass` lands on the inner .cq-body.
  *
  * Renderers never calculate: every number arrives on `context.derived` from
  * quote-generator-calc.js, so preview, print and PDF cannot disagree.

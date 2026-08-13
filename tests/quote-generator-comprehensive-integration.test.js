@@ -54,13 +54,15 @@ function mediaBlock(css, query) {
 // Visible, keyboard-operable mode and workspace controls are present.
 assert.match(openingTagById(html, 'qgModeShort'), /role="tab"/);
 assert.match(openingTagById(html, 'qgModeShort'), /aria-selected="true"/);
-assert.match(html, /id="qgModeShort"[\s\S]*?>Short Quotation<\/button>/);
+// The label now sits in its own span so the card can carry a description
+// line beneath it; what matters is that the control is still labelled.
+assert.match(html, /id="qgModeShort"[\s\S]*?>Short\s+Quotation<\/span>/);
 assert.match(openingTagById(html, 'qgModeComprehensive'), /role="tab"/);
-assert.match(html, /id="qgModeComprehensive"[\s\S]*?>\s*Comprehensive\s+Quotation<\/button>/);
-assert.match(openingTagById(html, 'qgWorkspaceInputsTab'), /role="tab"/);
-assert.match(html, /id="qgWorkspaceInputsTab"[\s\S]*?>Inputs<\/button>/);
-assert.match(openingTagById(html, 'qgWorkspacePreviewTab'), /role="tab"/);
-assert.match(html, /id="qgWorkspacePreviewTab"[\s\S]*?>Proposal\s+Preview<\/button>/);
+assert.match(html, /id="qgModeComprehensive"[\s\S]*?>\s*Comprehensive\s+Quotation<\/span>/);
+assert.match(openingTagById(workspace, 'qgWorkspaceInputsTab'), /role="tab"/);
+assert.match(workspace, /id="qgWorkspaceInputsTab"[\s\S]*?>Inputs<\/button>/);
+assert.match(openingTagById(workspace, 'qgWorkspacePreviewTab'), /role="tab"/);
+assert.match(workspace, /id="qgWorkspacePreviewTab"[\s\S]*?>Proposal\s+Preview<\/button>/);
 
 // The legacy renderer remains exactly eight pages and no Comprehensive source
 // pages are mixed into that fixed Short Proposal surface.
@@ -99,7 +101,7 @@ const quotePageRule = cssRule('.quote-page', allCss);
 assert.match(quotePageRule, /width:\s*210mm/);
 assert.match(quotePageRule, /height:\s*297mm/);
 assert.match(quotePageRule, /min-height:\s*297mm/);
-assert.match(previewJs, /class="quote-page cq-page"/);
+assert.match(previewJs, /class="quote-page cq-page\b/);
 
 const comprehensivePrint = mediaBlock(comprehensiveCss, '@media print');
 const comprehensivePageRule = cssRule('.cq-page', comprehensivePrint);
@@ -110,7 +112,7 @@ assert.doesNotMatch(comprehensivePageRule, /100vh|width:\s*100%/);
 
 // Critical errors gate both final-output actions only. Preview remains an
 // enabled workspace action and renders from the page plan.
-assert.doesNotMatch(openingTagById(html, 'qgWorkspacePreviewTab'), /\bdisabled\b/);
+assert.doesNotMatch(openingTagById(workspace, 'qgWorkspacePreviewTab'), /\bdisabled\b/);
 assert.match(workspace, /id="qgComprehensivePrint"[\s\S]*?>Print \/ Save\s+as PDF<\/button>/);
 assert.match(workspace, /id="qgComprehensiveDownload">Download PDF<\/button>/);
 

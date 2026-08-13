@@ -21,18 +21,101 @@
         return;
     }
 
+    /**
+     * Panel icons, in the same stroked 24x24 family the Short form's card
+     * headings already use, so a Comprehensive panel reads as the same kind of
+     * object as a Short Quotation form card.
+     */
+    const ICONS = {
+        sections: '<polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>'
+            + '<polyline points="2 17 12 22 22 17"></polyline>'
+            + '<polyline points="2 12 12 17 22 12"></polyline>',
+        customer: '<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>'
+            + '<circle cx="12" cy="7" r="4"></circle>',
+        project: '<line x1="4" y1="21" x2="4" y2="14"></line>'
+            + '<line x1="4" y1="10" x2="4" y2="3"></line>'
+            + '<line x1="12" y1="21" x2="12" y2="12"></line>'
+            + '<line x1="12" y1="8" x2="12" y2="3"></line>'
+            + '<line x1="20" y1="21" x2="20" y2="16"></line>'
+            + '<line x1="20" y1="12" x2="20" y2="3"></line>'
+            + '<line x1="1" y1="14" x2="7" y2="14"></line>'
+            + '<line x1="9" y1="8" x2="15" y2="8"></line>'
+            + '<line x1="17" y1="16" x2="23" y2="16"></line>',
+        narrative: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>'
+            + '<polyline points="14 2 14 8 20 8"></polyline>'
+            + '<line x1="16" y1="13" x2="8" y2="13"></line>'
+            + '<line x1="16" y1="17" x2="8" y2="17"></line>',
+        bom: '<path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>'
+            + '<polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>'
+            + '<line x1="12" y1="22.08" x2="12" y2="12"></line>',
+        commercial: '<rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>'
+            + '<line x1="1" y1="10" x2="23" y2="10"></line>',
+        savings: '<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>',
+        contract: '<path d="M9 11l3 3L22 4"></path>'
+            + '<path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>',
+        annexures: '<path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path>'
+    };
+
+    /**
+     * One panel heading. Writing the nine headings from one function keeps the
+     * icon, the disclosure chevron and the aria wiring identical across panels
+     * — they only ever differ in name, icon and starting state.
+     */
+    function panelHead(panel, label, state, expanded) {
+        const stateLabel = state === 'complete' ? 'Complete' : 'Incomplete';
+
+        return `<h2 class="qg-panel-heading">
+                    <button type="button" class="qg-panel-toggle" id="qgPanelToggle-${panel}"
+                        aria-expanded="${expanded ? 'true' : 'false'}" aria-controls="qgPanel-${panel}">
+                        <svg class="qg-panel-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            ${ICONS[panel]}
+                        </svg>
+                        <span class="qg-panel-name">${label}</span>
+                        <span class="qg-panel-state" data-state="${state}">${stateLabel}</span>
+                        <svg class="qg-panel-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </button>
+                </h2>`;
+    }
+
     placeholder.outerHTML = `
 <!-- ============================================
      COMPREHENSIVE WORKSPACE
      ============================================ -->
 <div id="qgComprehensiveWorkspace" hidden>
 
+    <!-- ---------- Workspace bar ----------
+         Inputs/Preview switch on the left, draft-level controls on the right.
+         Everything here belongs to the Comprehensive draft, so it lives inside
+         this workspace and disappears with it in Short mode. -->
+    <div class="qg-workspace-bar">
+        <div class="qg-workspace-switch" id="qgWorkspaceTabs" role="tablist" aria-label="Workspace">
+            <button type="button" class="qg-workspace-tab is-active" id="qgWorkspaceInputsTab" role="tab"
+                aria-selected="true" aria-controls="qgComprehensiveInputs">Inputs</button>
+            <button type="button" class="qg-workspace-tab" id="qgWorkspacePreviewTab" role="tab"
+                aria-selected="false" aria-controls="qgComprehensivePreviewWorkspace">Proposal Preview</button>
+        </div>
+
+        <div class="qg-workspace-meta">
+            <div class="qg-preset-control" id="qgPresetGroup">
+                <label for="qgPreset">Preset</label>
+                <select id="qgPreset" class="qg-input-field qg-preset-select">
+                    <option value="ci-on-grid-rooftop" selected>C&amp;I On-Grid Rooftop</option>
+                    <option value="ci-ground-mounted">C&amp;I Ground-Mounted</option>
+                    <option value="ci-hybrid">C&amp;I Hybrid</option>
+                </select>
+            </div>
+            <span class="qg-save-status" id="qgSaveStatus" role="status" aria-live="polite"
+                data-state="idle">Draft not saved yet</span>
+            <button type="button" class="qg-btn-ghost" id="qgNewQuotation">New Quotation</button>
+        </div>
+    </div>
+
     <!-- ---------- Inputs workspace ---------- -->
     <div id="qgComprehensiveInputs" role="tabpanel" aria-labelledby="qgWorkspaceInputsTab">
-        <div class="qg-page-header">
-            <h1>Comprehensive Quotation</h1>
-            <p>Build a modular C&amp;I solar EPC techno-commercial proposal.</p>
-        </div>
 
         <!-- Validation summary -->
         <div class="qg-validation-summary" id="qgValidationSummary" role="region"
@@ -51,13 +134,7 @@
 
             <!-- 1. Proposal Sections -->
             <section class="qg-panel" data-panel="sections">
-                <h2 class="qg-panel-heading">
-                    <button type="button" class="qg-panel-toggle" id="qgPanelToggle-sections"
-                        aria-expanded="true" aria-controls="qgPanel-sections">
-                        <span class="qg-panel-name">Proposal Sections</span>
-                        <span class="qg-panel-state" data-state="complete">Complete</span>
-                    </button>
-                </h2>
+                ${panelHead('sections', 'Proposal Sections', 'complete', true)}
                 <div class="qg-panel-body" id="qgPanel-sections" role="region"
                     aria-labelledby="qgPanelToggle-sections">
                     <div class="qg-inline-actions">
@@ -74,13 +151,7 @@
 
             <!-- 2. Customer Details -->
             <section class="qg-panel" data-panel="customer">
-                <h2 class="qg-panel-heading">
-                    <button type="button" class="qg-panel-toggle" id="qgPanelToggle-customer"
-                        aria-expanded="true" aria-controls="qgPanel-customer">
-                        <span class="qg-panel-name">Customer Details</span>
-                        <span class="qg-panel-state" data-state="incomplete">Incomplete</span>
-                    </button>
-                </h2>
+                ${panelHead('customer', 'Customer Details', 'incomplete', true)}
                 <div class="qg-panel-body" id="qgPanel-customer" role="region"
                     aria-labelledby="qgPanelToggle-customer">
                     <div class="qg-input-group">
@@ -150,13 +221,7 @@
 
             <!-- 3. Project Settings -->
             <section class="qg-panel" data-panel="project">
-                <h2 class="qg-panel-heading">
-                    <button type="button" class="qg-panel-toggle" id="qgPanelToggle-project"
-                        aria-expanded="true" aria-controls="qgPanel-project">
-                        <span class="qg-panel-name">Project Settings</span>
-                        <span class="qg-panel-state" data-state="incomplete">Incomplete</span>
-                    </button>
-                </h2>
+                ${panelHead('project', 'Project Settings', 'incomplete', true)}
                 <div class="qg-panel-body" id="qgPanel-project" role="region"
                     aria-labelledby="qgPanelToggle-project">
                     <h3 class="qg-subheading">Document Identity</h3>
@@ -256,13 +321,7 @@
 
             <!-- 4. Project Description & Scope -->
             <section class="qg-panel" data-panel="narrative">
-                <h2 class="qg-panel-heading">
-                    <button type="button" class="qg-panel-toggle" id="qgPanelToggle-narrative"
-                        aria-expanded="false" aria-controls="qgPanel-narrative">
-                        <span class="qg-panel-name">Project Description &amp; Scope</span>
-                        <span class="qg-panel-state" data-state="complete">Complete</span>
-                    </button>
-                </h2>
+                ${panelHead('narrative', 'Project Description &amp; Scope', 'complete', false)}
                 <div class="qg-panel-body" id="qgPanel-narrative" role="region"
                     aria-labelledby="qgPanelToggle-narrative" hidden>
                     <div class="qg-inline-actions">
@@ -275,13 +334,7 @@
 
             <!-- 5. Bill of Materials -->
             <section class="qg-panel" data-panel="bom">
-                <h2 class="qg-panel-heading">
-                    <button type="button" class="qg-panel-toggle" id="qgPanelToggle-bom"
-                        aria-expanded="false" aria-controls="qgPanel-bom">
-                        <span class="qg-panel-name">Bill of Materials</span>
-                        <span class="qg-panel-state" data-state="complete">Complete</span>
-                    </button>
-                </h2>
+                ${panelHead('bom', 'Bill of Materials', 'complete', false)}
                 <div class="qg-panel-body" id="qgPanel-bom" role="region"
                     aria-labelledby="qgPanelToggle-bom" hidden>
                     <div class="qg-reconciliation" id="qgReconciliation"></div>
@@ -294,13 +347,7 @@
 
             <!-- 6. Commercial Offer -->
             <section class="qg-panel" data-panel="commercial">
-                <h2 class="qg-panel-heading">
-                    <button type="button" class="qg-panel-toggle" id="qgPanelToggle-commercial"
-                        aria-expanded="false" aria-controls="qgPanel-commercial">
-                        <span class="qg-panel-name">Commercial Offer</span>
-                        <span class="qg-panel-state" data-state="incomplete">Incomplete</span>
-                    </button>
-                </h2>
+                ${panelHead('commercial', 'Commercial Offer', 'incomplete', false)}
                 <div class="qg-panel-body" id="qgPanel-commercial" role="region"
                     aria-labelledby="qgPanelToggle-commercial" hidden>
                     <div class="qg-field-grid">
@@ -354,13 +401,7 @@
 
             <!-- 7. Savings Projections -->
             <section class="qg-panel" data-panel="savings">
-                <h2 class="qg-panel-heading">
-                    <button type="button" class="qg-panel-toggle" id="qgPanelToggle-savings"
-                        aria-expanded="false" aria-controls="qgPanel-savings">
-                        <span class="qg-panel-name">Savings Projections</span>
-                        <span class="qg-panel-state" data-state="complete">Complete</span>
-                    </button>
-                </h2>
+                ${panelHead('savings', 'Savings Projections', 'complete', false)}
                 <div class="qg-panel-body" id="qgPanel-savings" role="region"
                     aria-labelledby="qgPanelToggle-savings" hidden>
                     <div class="qg-input-group">
@@ -465,13 +506,7 @@
 
             <!-- 8. Terms, Inclusions & Exclusions -->
             <section class="qg-panel" data-panel="contract">
-                <h2 class="qg-panel-heading">
-                    <button type="button" class="qg-panel-toggle" id="qgPanelToggle-contract"
-                        aria-expanded="false" aria-controls="qgPanel-contract">
-                        <span class="qg-panel-name">Terms, Inclusions &amp; Exclusions</span>
-                        <span class="qg-panel-state" data-state="complete">Complete</span>
-                    </button>
-                </h2>
+                ${panelHead('contract', 'Terms, Inclusions &amp; Exclusions', 'complete', false)}
                 <div class="qg-panel-body" id="qgPanel-contract" role="region"
                     aria-labelledby="qgPanelToggle-contract" hidden>
                     <div id="qgClauseEditors"></div>
@@ -480,13 +515,7 @@
 
             <!-- 9. Annexures -->
             <section class="qg-panel" data-panel="annexures">
-                <h2 class="qg-panel-heading">
-                    <button type="button" class="qg-panel-toggle" id="qgPanelToggle-annexures"
-                        aria-expanded="false" aria-controls="qgPanel-annexures">
-                        <span class="qg-panel-name">Annexures</span>
-                        <span class="qg-panel-state" data-state="complete">Complete</span>
-                    </button>
-                </h2>
+                ${panelHead('annexures', 'Annexures', 'complete', false)}
                 <div class="qg-panel-body" id="qgPanel-annexures" role="region"
                     aria-labelledby="qgPanelToggle-annexures" hidden>
                     <div class="qg-inline-actions">
@@ -526,7 +555,7 @@
         </p>
 
         <div class="qg-preview-selector">
-            <label class="qg-mode-label" for="qgPageSelect">Page</label>
+            <label for="qgPageSelect">Page</label>
             <select id="qgPageSelect" class="qg-input-field"></select>
         </div>
 

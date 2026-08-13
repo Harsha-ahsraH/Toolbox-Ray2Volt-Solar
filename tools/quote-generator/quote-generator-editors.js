@@ -103,6 +103,15 @@
         const groups = Config.SECTION_GROUPS.filter(group =>
             available.some(section => section.group === group));
 
+        // Every toggle re-renders this list from state, which would otherwise
+        // drop focus to the body and leave a keyboard user tabbing back in from
+        // the top of the panel after each section. The box that had focus keeps
+        // it across the rebuild.
+        const active = document.activeElement;
+        const focusedId = active && container.contains(active) && active.dataset
+            ? active.dataset.sectionId
+            : null;
+
         container.innerHTML = groups.map(group => {
             const items = available.filter(section => section.group === group);
 
@@ -110,18 +119,26 @@
                 <div class="qg-section-group">
                     <h4 class="qg-section-group-title">${esc(group)}</h4>
                     <div class="qg-section-items">
-                        ${items.map(section => `
-                            <label class="qg-section-item">
+                        ${items.map(section => {
+                            const selected = Model.isSectionSelected(state, section.id);
+
+                            return `
+                            <label class="qg-section-item${selected ? ' is-selected' : ''}">
                                 <input type="checkbox" data-section-id="${esc(section.id)}"
-                                    ${Model.isSectionSelected(state, section.id) ? 'checked' : ''}>
+                                    ${selected ? 'checked' : ''}>
                                 <span>${esc(section.title)}${section.core
                                     ? ' <span class="qg-section-core">Core</span>'
                                     : ''}</span>
-                            </label>
-                        `).join('')}
+                            </label>`;
+                        }).join('')}
                     </div>
                 </div>`;
         }).join('');
+
+        if (focusedId) {
+            const restored = container.querySelector(`[data-section-id="${focusedId}"]`);
+            if (restored) restored.focus({ preventScroll: true });
+        }
 
         if (container.dataset.bound !== 'true') {
             container.dataset.bound = 'true';

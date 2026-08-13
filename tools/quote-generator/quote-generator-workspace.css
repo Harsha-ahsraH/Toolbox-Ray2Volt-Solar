@@ -2,100 +2,261 @@
    QUOTE GENERATOR - Comprehensive workspace controls
    Ray2Volt Solar Toolbox
 
-   Mode toggle, workspace tabs, the multi-open input accordion, the validation
-   summary and every repeater editor. Matches the brutalist/minimalist form
-   styling already used by the Short Quotation form.
+   Tool header and quotation-type chooser, the workspace switch, the multi-open
+   input accordion, the validation summary and every repeater editor. Matches
+   the brutalist/minimalist form styling already used by the Short Quotation
+   form.
    ============================================ */
 
-/* --- Mode bar ------------------------------------------------------- */
+/* `hidden` has to win over the layout rules in this sheet. A control given
+   `display: flex` here would otherwise stay on screen while JavaScript believes
+   it has hidden it — which is exactly how the Comprehensive-only controls used
+   to leak into Short mode. */
+.no-print-area [hidden] {
+    display: none !important;
+}
 
-.qg-mode-bar {
+/* --- Tool header and quotation type --------------------------------- */
+
+.qg-tool-header {
     display: flex;
-    flex-wrap: wrap;
-    align-items: flex-end;
-    gap: 1rem;
-    padding: 0.85rem 1rem;
-    margin-bottom: 1.25rem;
+    flex-direction: column;
+    gap: 1.1rem;
+    margin-bottom: var(--section-gap, 1.5rem);
+}
+
+.qg-tool-heading h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+}
+
+.qg-tool-heading p {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+}
+
+@media screen and (max-width: 768px) {
+    .qg-tool-header {
+        margin-bottom: 1.25rem;
+    }
+
+    .qg-tool-heading h1 {
+        font-size: 1.4rem;
+    }
+
+    .qg-tool-heading p {
+        font-size: 0.9rem;
+        line-height: 1.4;
+    }
+}
+
+/* The two modes produce genuinely different documents, so each is a described
+   choice rather than a bare label on a toggle: the salesperson picks a
+   deliverable, not a setting. */
+.qg-mode-choice {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.6rem;
+}
+
+@media screen and (min-width: 600px) {
+    .qg-mode-choice {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+.qg-mode-card {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: start;
+    column-gap: 0.7rem;
+    row-gap: 0.1rem;
+    padding: 0.8rem 0.95rem;
+    font-family: inherit;
+    text-align: left;
     background: var(--bg-card);
     border: 1px solid var(--border-medium);
     border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: background var(--transition-fast),
+        border-color var(--transition-fast),
+        box-shadow var(--transition-fast);
 }
 
-.qg-mode-group {
+/* Radio mark. The choice is exclusive, so it is drawn as one. */
+.qg-mode-card::before {
+    content: '';
+    grid-row: 1 / span 2;
+    width: 1rem;
+    height: 1rem;
+    margin-top: 0.15rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border-medium);
+    border-radius: 50%;
+    transition: border var(--transition-fast);
+}
+
+.qg-mode-card:hover {
+    background: var(--bg-hover);
+}
+
+/* The active card carries the accent on its edge and its mark, never as the
+   fill behind its text — --primary is 2.45:1 on white and cannot hold text. */
+.qg-mode-card.is-active {
+    background: var(--primary-light);
+    border-color: var(--primary);
+    box-shadow: inset 0 0 0 1px var(--primary);
+}
+
+.qg-mode-card.is-active::before {
+    border: 5px solid var(--primary);
+    background: #fff;
+}
+
+.qg-mode-card-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--text-primary);
+}
+
+.qg-mode-card-desc {
+    font-size: 0.82rem;
+    line-height: 1.35;
+    color: var(--text-muted);
+}
+
+.qg-mode-card.is-active .qg-mode-card-desc {
+    color: var(--text-secondary);
+}
+
+/* The interface accent is --primary across the toolbox. Navy is this repo's
+   printed-document accent and belongs in the proposal, not in the controls
+   that build it. */
+.qg-mode-card:focus-visible,
+.qg-workspace-tab:focus-visible,
+.qg-panel-toggle:focus-visible,
+.qg-btn-ghost:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+/* --- Workspace bar --------------------------------------------------- */
+
+/* Draft-level controls: which half of the workspace is open, which preset the
+   draft was built from, whether it is saved. It lives inside the Comprehensive
+   workspace, so Short mode never has to hide it piece by piece. */
+.qg-workspace-bar {
     display: flex;
-    flex-direction: column;
-    gap: 0.35rem;
-}
-
-.qg-mode-status {
-    margin-left: auto;
-    align-items: flex-end;
-    flex-direction: row;
+    flex-wrap: wrap;
     align-items: center;
-    gap: 0.75rem;
+    justify-content: space-between;
+    column-gap: var(--spacing-md);
+    row-gap: var(--spacing-sm);
+    padding-bottom: 0.9rem;
+    margin-bottom: 1.35rem;
+    border-bottom: 1px solid var(--border-light);
 }
 
-.qg-mode-label {
+.qg-workspace-switch {
+    display: inline-flex;
+    gap: 3px;
+    padding: 3px;
+    background: var(--bg-body);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-sm);
+}
+
+.qg-workspace-tab {
+    min-width: 0;
+    min-height: 2.25rem;
+    padding: 0 1.1rem;
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: background var(--transition-fast),
+        border-color var(--transition-fast),
+        color var(--transition-fast);
+}
+
+.qg-workspace-tab:hover {
+    color: var(--text-primary);
+}
+
+/* The open half is lifted out of the track rather than tinted, so the switch
+   reads at a glance without borrowing the accent the mode cards use. */
+.qg-workspace-tab.is-active {
+    color: var(--text-primary);
+    font-weight: 600;
+    background: var(--bg-card);
+    border-color: var(--border-medium);
+    box-shadow: var(--shadow-sm);
+}
+
+.qg-workspace-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.qg-preset-control {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 0;
+}
+
+.qg-preset-control label {
     font-size: 0.72rem;
     font-weight: 600;
+    line-height: 1;
     letter-spacing: 0.06em;
     text-transform: uppercase;
     color: var(--text-muted);
 }
 
-.qg-segmented {
-    display: inline-flex;
-    border: 1px solid var(--border-medium);
-    border-radius: var(--radius-sm);
-    overflow: hidden;
-}
-
-.qg-segmented-btn {
-    padding: 0.5rem 1rem;
-    font-family: inherit;
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: var(--text-secondary);
-    background: var(--bg-card);
-    border: none;
-    border-right: 1px solid var(--border-light);
-    cursor: pointer;
-    transition: background var(--transition-fast), color var(--transition-fast);
-}
-
-.qg-segmented-btn:last-child {
-    border-right: none;
-}
-
-.qg-segmented-btn:hover {
-    background: var(--bg-hover);
-}
-
-.qg-segmented-btn.is-active {
-    background: var(--qp-navy, #1F4E79);
-    color: #fff;
-    font-weight: 600;
-}
-
-.qg-segmented-btn:focus-visible,
-.qg-workspace-tab:focus-visible,
-.qg-panel-toggle:focus-visible,
-.qg-btn-ghost:focus-visible {
-    outline: 2px solid var(--qp-navy, #1F4E79);
-    outline-offset: 2px;
-}
-
 .qg-preset-select {
-    min-width: 220px;
+    width: auto;
+    min-width: 12.5rem;
+    height: 2.25rem;
+    padding: 0 0.6rem;
+    font-size: 0.875rem;
+}
+
+.qg-workspace-meta .qg-btn-ghost {
+    height: 2.25rem;
+    padding-top: 0;
+    padding-bottom: 0;
 }
 
 /* Save status. The state is carried in text as well as colour, so the status
    never depends on colour alone. */
 .qg-save-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
     font-size: 0.82rem;
     font-weight: 500;
     color: var(--text-muted);
     white-space: nowrap;
+}
+
+.qg-save-status::before {
+    content: '';
+    width: 0.5rem;
+    height: 0.5rem;
+    flex-shrink: 0;
+    background: currentColor;
+    border-radius: 50%;
 }
 
 .qg-save-status[data-state="saving"] {
@@ -108,34 +269,6 @@
 
 .qg-save-status[data-state="failed"] {
     color: #B42318;
-    font-weight: 600;
-}
-
-/* --- Workspace tabs ------------------------------------------------- */
-
-.qg-workspace-tabs {
-    display: flex;
-    gap: 0;
-    margin-bottom: 1.25rem;
-    border-bottom: 2px solid var(--border-light);
-}
-
-.qg-workspace-tab {
-    padding: 0.6rem 1.25rem;
-    font-family: inherit;
-    font-size: 0.95rem;
-    font-weight: 500;
-    color: var(--text-secondary);
-    background: none;
-    border: none;
-    border-bottom: 3px solid transparent;
-    margin-bottom: -2px;
-    cursor: pointer;
-}
-
-.qg-workspace-tab.is-active {
-    color: var(--qp-navy, #1F4E79);
-    border-bottom-color: var(--qp-navy, #1F4E79);
     font-weight: 600;
 }
 
@@ -194,27 +327,43 @@
     color: #B42318;
 }
 
+.qg-validation-link:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+}
+
+/* Bordered and tinted rather than a solid block, so the badges sit in the same
+   visual family as the panel-state chips instead of competing with the
+   summary's own error styling. The state stays in the text, never in the
+   colour alone, and min-width keeps the issue links aligned. */
 .qg-validation-badge {
     display: inline-block;
     min-width: 4.4rem;
-    margin-right: 0.5rem;
-    padding: 0.05rem 0.4rem;
+    margin-right: var(--spacing-xs);
+    padding: 0.08rem 0.4rem;
     font-size: 0.68rem;
     font-weight: 700;
     letter-spacing: 0.05em;
+    line-height: 1.2;
     text-transform: uppercase;
     text-align: center;
-    border-radius: 2px;
+    vertical-align: middle;
+    border: 1px solid;
+    border-radius: var(--radius-sm);
+    white-space: nowrap;
 }
 
 .qg-validation-badge[data-severity="critical"] {
-    background: #B42318;
-    color: #fff;
+    color: #B42318;
+    background: #FFF6F5;
+    border-color: #E8A9A2;
 }
 
 .qg-validation-badge[data-severity="warning"] {
-    background: #B7791F;
-    color: #fff;
+    color: #8A6100;
+    background: #FFFBEB;
+    border-color: #E4C580;
 }
 
 /* --- Accordion ------------------------------------------------------ */
@@ -237,10 +386,13 @@
 .qg-accordion {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 1rem;
     margin-bottom: var(--section-gap, 1.5rem);
 }
 
+/* A panel is a Short-Quotation form card that happens to collapse: same white
+   fill, same 1px edge, same icon-led heading — the difference is that the
+   heading is a disclosure button. */
 .qg-panel {
     background: var(--bg-card);
     border: 1px solid var(--border-medium);
@@ -254,12 +406,12 @@
 }
 
 .qg-panel-toggle {
-    display: flex;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto auto;
     align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
+    gap: 0.6rem;
     width: 100%;
-    padding: 0.85rem 1rem;
+    padding: 1rem;
     font-family: inherit;
     font-size: 1rem;
     font-weight: 600;
@@ -268,32 +420,41 @@
     background: var(--bg-card);
     border: none;
     cursor: pointer;
+    transition: background var(--transition-fast);
 }
 
 .qg-panel-toggle:hover {
     background: var(--bg-hover);
 }
 
-.qg-panel-name {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
+/* Drawn as an inset line rather than a border so opening a panel does not
+   shift the body down by a pixel. */
+.qg-panel-toggle[aria-expanded="true"] {
+    box-shadow: inset 0 -1px 0 var(--border-light);
 }
 
-/* Disclosure caret, rotated by aria-expanded so the control's visual state and
-   its accessible state can never disagree. */
-.qg-panel-name::before {
-    content: '';
-    width: 0;
-    height: 0;
-    border-left: 5px solid var(--text-muted);
-    border-top: 4px solid transparent;
-    border-bottom: 4px solid transparent;
+.qg-panel-icon {
+    width: 20px;
+    height: 20px;
+    color: var(--primary);
+}
+
+.qg-panel-name {
+    min-width: 0;
+    line-height: 1.3;
+}
+
+/* Disclosure chevron, rotated by aria-expanded so the control's visual state
+   and its accessible state can never disagree. */
+.qg-panel-chevron {
+    width: 18px;
+    height: 18px;
+    color: var(--text-muted);
     transition: transform var(--transition-base);
 }
 
-.qg-panel-toggle[aria-expanded="true"] .qg-panel-name::before {
-    transform: rotate(90deg);
+.qg-panel-toggle[aria-expanded="true"] .qg-panel-chevron {
+    transform: rotate(180deg);
 }
 
 .qg-panel-state {
@@ -326,9 +487,7 @@
 }
 
 .qg-panel-body {
-    padding: 0 1rem 1.15rem;
-    border-top: 1px solid var(--border-light);
-    padding-top: 1rem;
+    padding: 1.15rem 1rem 1.25rem;
 }
 
 /* --- Shared field furniture ----------------------------------------- */
@@ -336,7 +495,14 @@
 .qg-field-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 0.85rem;
+    gap: 1.25rem 1rem;
+}
+
+/* Inside a grid the gap sets the rhythm, so the field's own bottom margin
+   would double it. Cleared here so a Comprehensive field sits on the same
+   1.25rem spacing as one in a Short Quotation card. */
+.qg-field-grid>.qg-input-group {
+    margin-bottom: 0;
 }
 
 .qg-subheading {
@@ -431,10 +597,60 @@
     color: #8C1A12;
 }
 
+/* --- Checkboxes ------------------------------------------------------ */
+
+/* One checkbox for the whole tool: the same 2px-radius square with a 1px edge
+   that every input field here already uses, instead of the browser's default.
+   The tick is a background image rather than a pseudo-element — generated
+   content on a replaced <input> is not something a browser has to render. */
+.no-print-area input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    flex-shrink: 0;
+    width: 1.05rem;
+    height: 1.05rem;
+    margin: 0;
+    background-color: var(--bg-card);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 0.72rem;
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: background-color var(--transition-fast),
+        border-color var(--transition-fast);
+}
+
+.no-print-area input[type="checkbox"]:hover {
+    border-color: var(--primary-dark);
+}
+
+/* --primary is 2.45:1 on white and cannot hold a white tick at the 3:1 a
+   non-text control needs, so the filled state takes --primary-dark (3.68:1). */
+.no-print-area input[type="checkbox"]:checked {
+    background-color: var(--primary-dark);
+    border-color: var(--primary-dark);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23ffffff' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='2.5 8.5 6.5 12.5 13.5 3.5'/%3E%3C/svg%3E");
+}
+
+.no-print-area input[type="checkbox"]:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+.no-print-area input[type="checkbox"]:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
 /* --- Section checklist ---------------------------------------------- */
 
 .qg-section-group {
-    margin-bottom: 1rem;
+    margin-bottom: 1.25rem;
+}
+
+.qg-section-group:last-child {
+    margin-bottom: 0;
 }
 
 .qg-section-group-title {
@@ -449,479 +665,65 @@
 .qg-section-items {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 0.35rem;
+    gap: 0.4rem;
 }
 
+/* Each section is a tile that is plainly on or off. Selected tiles take the
+   card fill and an accent edge; the rest sit back on the page fill, so a
+   twenty-row list can be read down in one pass. */
 .qg-section-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.55rem;
-    padding: 0.4rem 0.5rem;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: start;
+    gap: 0.6rem;
+    padding: 0.55rem 0.65rem;
     font-size: 0.88rem;
+    font-weight: 500;
     line-height: 1.35;
-    border: 1px solid transparent;
+    color: var(--text-secondary);
+    background: var(--bg-body);
+    border: 1px solid var(--border-light);
     border-radius: var(--radius-sm);
     cursor: pointer;
-}
-
-.qg-section-item:hover {
-    background: var(--bg-hover);
+    transition: background var(--transition-fast),
+        border-color var(--transition-fast),
+        color var(--transition-fast);
 }
 
 .qg-section-item input {
-    margin-top: 0.15rem;
-    flex-shrink: 0;
+    margin-top: 0.1rem;
+}
+
+.qg-section-item:hover {
+    border-color: var(--border-medium);
+    background: var(--bg-hover);
+}
+
+.qg-section-item.is-selected {
+    color: var(--text-primary);
+    background: var(--bg-card);
+    border-color: var(--primary);
+}
+
+.qg-section-item.is-selected:hover {
+    background: var(--bg-card);
 }
 
 .qg-section-core {
-    font-size: 0.68rem;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: var(--text-muted);
-}
-
-/* --- Repeaters ------------------------------------------------------ */
-
-.qg-repeater {
-    margin-top: 1.25rem;
-    padding-top: 1rem;
-    border-top: 1px solid var(--border-light);
-}
-
-.qg-repeater-head {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    margin-bottom: 0.75rem;
-}
-
-.qg-repeater-head h4 {
-    font-size: 0.9rem;
-    font-weight: 700;
-    color: var(--text-primary);
-}
-
-.qg-repeater-rows {
-    display: flex;
-    flex-direction: column;
-    gap: 0.6rem;
-}
-
-.qg-repeater-row {
-    display: grid;
-    gap: 0.5rem;
-    padding: 0.65rem;
-    background: var(--bg-body);
-    border: 1px solid var(--border-light);
-    border-radius: var(--radius-sm);
-}
-
-.qg-repeater-row .qg-row-field {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-}
-
-.qg-repeater-row label {
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: var(--text-muted);
-}
-
-.qg-repeater-row .qg-input-field {
-    padding: 0.4rem 0.55rem;
-    font-size: 0.87rem;
-}
-
-.qg-row-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-    align-items: center;
-}
-
-.qg-row-readonly {
-    font-size: 0.87rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    padding: 0.4rem 0;
-}
-
-.qg-empty-note {
-    padding: 0.6rem;
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    background: var(--bg-body);
-    border: 1px dashed var(--border-light);
-    border-radius: var(--radius-sm);
-}
-
-/* --- BOM editor ------------------------------------------------------ */
-
-.qg-bom-category {
-    margin-bottom: 1rem;
-    border: 1px solid var(--border-light);
-    border-radius: var(--radius-sm);
-}
-
-.qg-bom-category-head {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    padding: 0.6rem 0.75rem;
-    background: var(--bg-body);
-    border-bottom: 1px solid var(--border-light);
-}
-
-.qg-bom-category-head h4 {
-    font-size: 0.88rem;
-    font-weight: 700;
-}
-
-.qg-bom-count {
-    font-size: 0.78rem;
-    color: var(--text-muted);
-}
-
-.qg-bom-rows {
-    padding: 0.65rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.6rem;
-}
-
-/* Reconciliation panel: approved and BOM-derived totals shown side by side so
-   neither silently wins. */
-.qg-reconciliation {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 0.6rem;
-    margin-bottom: 1rem;
-}
-
-.qg-recon-card {
-    padding: 0.65rem 0.75rem;
-    background: var(--bg-body);
-    border: 1px solid var(--border-light);
-    border-left: 3px solid #1B7F4B;
-    border-radius: var(--radius-sm);
-}
-
-.qg-recon-card[data-state="mismatch"] {
-    border-left-color: #B42318;
-    background: #FFF6F5;
-}
-
-.qg-recon-card[data-state="unrated"] {
-    border-left-color: #B7791F;
-    background: #FFFBEB;
-}
-
-.qg-recon-title {
-    font-size: 0.72rem;
+    display: inline-block;
+    margin-left: 0.35rem;
+    padding: 0.02rem 0.32rem;
+    font-size: 0.63rem;
     font-weight: 700;
     letter-spacing: 0.05em;
     text-transform: uppercase;
     color: var(--text-muted);
-    margin-bottom: 0.3rem;
-}
-
-.qg-recon-values {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    font-size: 0.87rem;
-}
-
-.qg-recon-values strong {
-    font-weight: 700;
-}
-
-.qg-recon-message {
-    margin-top: 0.35rem;
-    font-size: 0.8rem;
-    color: var(--text-secondary);
-}
-
-.qg-recon-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-    margin-top: 0.5rem;
-}
-
-/* --- Clause editors -------------------------------------------------- */
-
-.qg-clause-list {
-    margin-bottom: 1.5rem;
-}
-
-.qg-clause-head {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.75rem;
-    margin-bottom: 0.75rem;
-}
-
-.qg-clause-head h4 {
-    font-size: 0.9rem;
-    font-weight: 700;
-}
-
-.qg-clause-row {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    align-items: start;
-    gap: 0.6rem;
-    padding: 0.5rem 0.6rem;
     background: var(--bg-body);
     border: 1px solid var(--border-light);
     border-radius: var(--radius-sm);
-    margin-bottom: 0.5rem;
-}
-
-.qg-clause-row textarea {
-    resize: vertical;
-    min-height: 2.6rem;
-    font-size: 0.87rem;
-}
-
-.qg-clause-number {
-    padding-top: 0.45rem;
-    font-size: 0.8rem;
-    font-weight: 700;
-    color: var(--text-muted);
-    min-width: 1.6rem;
-}
-
-.qg-clause-row[data-included="false"] {
-    opacity: 0.6;
-}
-
-.qg-clause-toggle {
-    display: flex;
-    align-items: center;
-    gap: 0.35rem;
-    padding-top: 0.45rem;
-    font-size: 0.78rem;
     white-space: nowrap;
 }
 
-/* --- Narrative fields ------------------------------------------------ */
-
-.qg-narrative-field {
-    margin-bottom: 1.15rem;
-}
-
-.qg-narrative-head {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.5rem;
-    margin-bottom: 0.35rem;
-}
-
-.qg-narrative-head label {
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--text-primary);
-}
-
-.qg-narrative-flag {
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: var(--text-muted);
-}
-
-.qg-narrative-field textarea {
-    min-height: 6.5rem;
-    resize: vertical;
-    line-height: 1.5;
-}
-
-/* --- Annexures -------------------------------------------------------- */
-
-.qg-file-input {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
-}
-
-.qg-file-button {
-    display: inline-block;
-    padding: 0.4rem 0.8rem;
-    font-size: 0.82rem;
-    font-weight: 500;
-    color: var(--text-secondary);
-    background: var(--bg-card);
-    border: 1px solid var(--border-medium);
-    border-radius: var(--radius-sm);
-    cursor: pointer;
-}
-
-.qg-file-button:hover {
-    background: var(--bg-hover);
-    color: var(--text-primary);
-}
-
-.qg-file-input:focus-visible + .qg-file-button,
-.qg-file-button:focus-within {
-    outline: 2px solid var(--qp-navy, #1F4E79);
-    outline-offset: 2px;
-}
-
-.qg-annexure-error {
-    padding: 0.6rem 0.75rem;
-    margin-bottom: 0.75rem;
-    font-size: 0.85rem;
-    color: #B42318;
-    background: #FFF6F5;
-    border: 1px solid #E8A9A2;
-    border-radius: var(--radius-sm);
-}
-
-.qg-annexure-meta {
-    font-size: 0.78rem;
-    color: var(--text-muted);
-}
-
-/* --- Editor tables ---------------------------------------------------- */
-
-.qg-table-scroll {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-}
-
-.qg-editor-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.85rem;
-    min-width: 460px;
-}
-
-.qg-editor-table th,
-.qg-editor-table td {
-    padding: 0.4rem 0.5rem;
-    border: 1px solid var(--border-light);
-    text-align: left;
-}
-
-.qg-editor-table th {
+.qg-section-item.is-selected .qg-section-core {
     background: var(--bg-body);
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: var(--text-muted);
-}
-
-.qg-editor-table .qg-input-field {
-    padding: 0.3rem 0.4rem;
-    font-size: 0.85rem;
-}
-
-/* --- Wider viewports --------------------------------------------------- */
-
-@media screen and (min-width: 700px) {
-    .qg-field-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .qg-section-items {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .qg-reconciliation {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .qg-repeater-row {
-        grid-template-columns: repeat(4, 1fr);
-        align-items: end;
-    }
-
-    .qg-repeater-row .qg-row-actions {
-        grid-column: 1 / -1;
-    }
-}
-
-@media screen and (min-width: 1000px) {
-    .qg-field-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
-
-/* --- Narrow viewports --------------------------------------------------- */
-
-@media screen and (max-width: 700px) {
-    .qg-mode-bar {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 0.75rem;
-    }
-
-    .qg-mode-status {
-        margin-left: 0;
-        justify-content: space-between;
-    }
-
-    .qg-segmented {
-        width: 100%;
-    }
-
-    .qg-segmented-btn {
-        flex: 1;
-        padding: 0.55rem 0.5rem;
-        font-size: 0.85rem;
-    }
-
-    .qg-panel-toggle {
-        padding: 0.75rem 0.75rem;
-        font-size: 0.92rem;
-    }
-
-    .qg-panel-body {
-        padding-left: 0.75rem;
-        padding-right: 0.75rem;
-    }
-
-    .qg-clause-row {
-        grid-template-columns: auto 1fr;
-    }
-
-    .qg-clause-row .qg-row-actions {
-        grid-column: 1 / -1;
-        justify-content: flex-end;
-    }
-
-    .qg-accordion-controls .qg-page-estimate {
-        margin-left: 0;
-        width: 100%;
-    }
-}
-
-/* Reset Current Panel sits at the top of each panel body, injected by
-   quote-generator-form.js so the control and its confirmation live in one
-   place rather than being repeated nine times in the markup. */
-.qg-panel-reset {
-    justify-content: flex-end;
-    margin-bottom: 0.75rem;
-    padding-bottom: 0.65rem;
-    border-bottom: 1px dashed var(--border-light);
 }

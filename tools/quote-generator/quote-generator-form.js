@@ -34,13 +34,12 @@
         const byId = id => document.getElementById(id);
 
         const refs = {
+            toolSubtitle: byId('qgToolSubtitle'),
             modeShort: byId('qgModeShort'),
             modeComprehensive: byId('qgModeComprehensive'),
-            presetGroup: byId('qgPresetGroup'),
             preset: byId('qgPreset'),
             saveStatus: byId('qgSaveStatus'),
             newQuotation: byId('qgNewQuotation'),
-            workspaceTabs: byId('qgWorkspaceTabs'),
             inputsTab: byId('qgWorkspaceInputsTab'),
             previewTab: byId('qgWorkspacePreviewTab'),
             shortWorkspace: byId('qgShortWorkspace'),
@@ -612,12 +611,18 @@
                 refs.modeComprehensive.setAttribute('aria-selected', String(isComprehensive));
             }
 
+            // The workspace switch, the preset and the draft controls live
+            // inside #qgComprehensiveWorkspace, so hiding that one container is
+            // all it takes for Short mode to show only its own form.
             if (refs.shortWorkspace) refs.shortWorkspace.hidden = isComprehensive;
             if (refs.comprehensiveWorkspace) refs.comprehensiveWorkspace.hidden = !isComprehensive;
-            if (refs.presetGroup) refs.presetGroup.hidden = !isComprehensive;
-            if (refs.workspaceTabs) refs.workspaceTabs.hidden = !isComprehensive;
-            if (refs.newQuotation) refs.newQuotation.hidden = !isComprehensive;
             if (refs.shortPreview) refs.shortPreview.hidden = isComprehensive;
+
+            if (refs.toolSubtitle) {
+                refs.toolSubtitle.textContent = isComprehensive
+                    ? 'Build a modular C&I solar EPC techno-commercial proposal.'
+                    : 'Generate professional 8-page solar project proposals for customers.';
+            }
 
             document.body.classList.toggle('qg-print-comprehensive', isComprehensive);
             document.body.classList.toggle('qg-print-short', !isComprehensive);

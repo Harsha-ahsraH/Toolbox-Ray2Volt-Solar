@@ -68,13 +68,13 @@
             </div>`;
 
         return `
-            <div class="quote-page cq-page" data-page-index="${page.pageNumber - 1}"
+            <div class="quote-page cq-page ${esc(descriptor.pageClass || '')}"
+                data-page-index="${page.pageNumber - 1}"
                 data-section-id="${esc(page.sectionId)}">
                 ${head}
                 <div class="cq-body ${esc(descriptor.bodyClass || '')}">${descriptor.body}</div>
                 <div class="cq-foot">
                     <span>${esc(Content.COMPANY.legalName)}</span>
-                    <span>${esc(page.title)}</span>
                     <span>Page ${page.pageNumber} of ${page.totalPages}</span>
                 </div>
             </div>`;
