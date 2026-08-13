@@ -351,34 +351,13 @@
     min-height: 0;
     overscroll-behavior-y: contain;
     scrollbar-gutter: stable;
-    scrollbar-width: thin;
-    scrollbar-color: #82979E transparent;
 }
 
-.main-nav::-webkit-scrollbar {
-    width: 8px;
-}
-
+/* Everything else about this scrollbar - width, pill, hover reveal - is the
+   shared treatment in base.css. The tool list only insets its own track so
+   the thumb stops short of the header and the footer. */
 .main-nav::-webkit-scrollbar-track {
-    background: transparent;
     margin-block: var(--spacing-xs);
-}
-
-.main-nav::-webkit-scrollbar-thumb {
-    background: #E3EBED;
-    background-clip: padding-box;
-    border: 1px solid #82979E;
-    border-radius: 999px;
-}
-
-.main-nav::-webkit-scrollbar-thumb:hover {
-    background: #D6EEF2;
-    border-color: #6F9AA4;
-}
-
-.main-nav::-webkit-scrollbar-thumb:active {
-    background: #C7E5EA;
-    border-color: #5F8B95;
 }
 
 @media screen and (min-width: 769px) {
