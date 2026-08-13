@@ -67,6 +67,12 @@
     color: var(--primary);
 }
 
+.warranty-field-note {
+    font-size: 0.8125rem;
+    color: var(--text-secondary);
+    margin: -0.75rem 0 1.25rem;
+}
+
 /* --- Input Groups --- */
 .warranty-input-group {
     margin-bottom: 1.25rem;
@@ -165,8 +171,12 @@ textarea.warranty-input-field {
    Minimalist, Print-Friendly, Clean
    ============================================ */
 
+/* The full token set from the Short Proposal (`#quotePreview` in
+   quote-generator-preview-layout.css), name for name, so the certificate and
+   the quotation resolve to the same colours. */
 #warrantyPreview {
     --warranty-navy: #1F4E79;
+    --warranty-navy-dark: #17395A;
     --warranty-tint: #EDF3FA;
     --warranty-ink: #1A1A1A;
     --warranty-gray: #555555;
@@ -183,6 +193,24 @@ textarea.warranty-input-field {
 }
 
 #warrantyPreview.visible {
+    display: block;
+}
+
+/* base.css points headings at Google Sans for the toolbox UI; the document
+   pins Flex back, exactly as the proposal does. */
+#warrantyPreview h1,
+#warrantyPreview h2,
+#warrantyPreview h3,
+#warrantyPreview h4 {
+    font-family: 'Google Sans Flex', Arial, sans-serif;
+}
+
+/* Document icons are the proposal's Feather set: 24-unit stroke marks that
+   inherit `currentColor`, never an icon font. Material Symbols stays on the
+   toolbox UI around the document. */
+#warrantyPreview svg {
+    width: 100%;
+    height: 100%;
     display: block;
 }
 
@@ -225,7 +253,7 @@ textarea.warranty-input-field {
 .cover-logo-small {
     width: 170px;
     height: auto;
-    order: 2;
+    order: 0;
 }
 
 .combined-title-section {
@@ -246,89 +274,116 @@ textarea.warranty-input-field {
     font-weight: 400;
     color: var(--warranty-muted);
     margin: 2px 0 0 0;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.4px;
 }
 
-/* --- Project Banner --- */
+/* --- Project Banner ---
+   Takes the proposal's `.qp-dashboard-hero` treatment: tint panel, hairline
+   border, 4px navy edge, uppercase label over a navy-dark value. */
 .combined-project-id-banner {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     background: var(--warranty-tint);
     border: 1px solid var(--warranty-line);
+    border-left: 4px solid var(--warranty-navy);
     border-radius: 2px;
-    padding: 8px 15px;
-    /* Compact padding */
-    margin-bottom: 15px;
-    /* Reduced margin */
-    font-size: 10.5pt;
-    color: var(--warranty-ink);
+    padding: 5mm 6mm;
+    margin-bottom: 6mm;
+    font-size: 8pt;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--warranty-navy);
 }
 
 .combined-project-id-banner strong {
-    color: var(--warranty-navy);
+    display: block;
+    margin-top: 3px;
+    font-size: 11pt;
     font-weight: 700;
+    letter-spacing: 0.2px;
+    text-transform: none;
+    color: var(--warranty-navy-dark);
+}
+
+.combined-project-id-banner span:last-child {
+    text-align: right;
 }
 
 /* --- Sections --- */
 .warranty-section {
-    margin-bottom: 15px;
-    /* Reduced margin */
+    margin-bottom: 6mm;
 }
 
+/* Character for character the Short Proposal's `.qp-section h3`: uppercase
+   navy over a hairline rule, with no fill. The old grey band was a third light
+   surface competing with the tint used by the banner and the terms headers,
+   which is what made the pages read as two different documents. */
 .warranty-section h3 {
-    font-size: 11pt;
+    font-size: 10pt;
     font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
     color: var(--warranty-navy);
-    margin-bottom: 8px;
+    margin: 0 0 3mm 0;
     padding-bottom: 4px;
     border-bottom: 1px solid var(--warranty-line);
-    background: var(--warranty-soft);
-    padding: 6px 10px;
 }
 
-/* --- Info Grid --- */
+/* --- Info Grid: the proposal's `.qp-prep-meta` label/value pair --- */
 .warranty-info-grid {
     display: grid;
-    grid-template-columns: 160px 1fr;
-    /* adjusted column width */
-    gap: 5px 15px;
-    /* tighter gap */
-    font-size: 10pt;
-    line-height: 1.5;
-    padding: 0 10px;
+    grid-template-columns: 130px minmax(0, 1fr);
+    gap: 5px 10px;
+    align-items: baseline;
+    line-height: 1.45;
 }
 
 .warranty-info-grid .info-label {
+    font-size: 8pt;
     font-weight: 600;
-    color: var(--warranty-gray);
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    color: var(--warranty-muted);
 }
 
 .warranty-info-grid .info-value {
-    color: var(--warranty-ink);
+    font-size: 9pt;
     font-weight: 500;
+    color: var(--warranty-ink);
+    overflow-wrap: anywhere;
 }
 
-/* --- Specs Table --- */
+/* `.qp-about-text` — the proposal sets body copy ragged-right, not justified. */
+.warranty-about-copy {
+    font-size: 9.5pt;
+    line-height: 1.6;
+    color: var(--warranty-gray);
+    margin: 0;
+}
+
+/* --- Specs Table: identical geometry and colour to `.qp-specs-table` --- */
 .warranty-specs-table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 5px;
     border: 1px solid var(--warranty-line);
 }
 
 .warranty-specs-table th,
 .warranty-specs-table td {
-    padding: 6px 10px;
-    /* Compact padding */
+    padding: 7px 10px;
     text-align: left;
     font-size: 9.5pt;
     border: 1px solid var(--warranty-line);
 }
 
+/* Tinted header cell with ink text — never a dark fill, and never navy text
+   that would read as a second heading level inside the table. */
 .warranty-specs-table th {
     background-color: var(--warranty-tint);
     font-weight: 600;
-    color: var(--warranty-navy);
+    color: var(--warranty-ink);
     width: 40%;
 }
 
@@ -337,45 +392,44 @@ textarea.warranty-input-field {
     color: var(--warranty-ink);
 }
 
-/* --- Overview Grid --- */
+/* --- Overview Grid: the proposal's `.qp-benefit-item` card, two up ---
+   Bare navy stroke icon beside the label, hairline border, no fill. */
 .warranty-overview-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-top: 5px;
+    gap: 3mm;
 }
 
 .warranty-overview-item {
     display: flex;
     align-items: flex-start;
-    gap: 10px;
-    padding: 10px;
-    /* Compact padding */
+    gap: 9px;
+    padding: 9px 10px;
     background: #fff;
     border: 1px solid var(--warranty-line);
     border-radius: 2px;
 }
 
 .warranty-overview-item .overview-icon {
-    width: 20px;
-    height: 20px;
-    font-size: 20px;
     flex-shrink: 0;
+    width: 17px;
+    height: 17px;
+    margin-top: 1px;
     color: var(--warranty-navy);
 }
 
 .warranty-overview-item .overview-details strong {
     display: block;
-    font-size: 9.5pt;
+    font-size: 9pt;
     color: var(--warranty-ink);
     margin-bottom: 2px;
 }
 
 .warranty-overview-item .overview-details p {
-    font-size: 9pt;
+    font-size: 8pt;
     color: var(--warranty-gray);
     margin: 0;
-    line-height: 1.3;
+    line-height: 1.4;
 }
 
 /* --- Serial Numbers Grid --- */
@@ -391,8 +445,10 @@ textarea.warranty-input-field {
 }
 
 .serial-number-item {
-    font-family: 'Courier New', monospace;
-    font-size: 9pt;
+    font-family: 'Google Sans Flex', Arial, sans-serif;
+    font-size: 8pt;
+    letter-spacing: 0.3px;
+    font-variant-numeric: tabular-nums;
     color: var(--warranty-ink);
     background: #fff;
     border: 1px solid var(--warranty-line);
@@ -401,18 +457,56 @@ textarea.warranty-input-field {
     border-radius: 2px;
 }
 
+/* The page is a fixed A4 with `overflow: hidden`, so a long serial list used to
+   be clipped without a trace. Comfortable density holds 24 chips; past that the
+   grid steps down one tier rather than losing rows off the bottom edge. */
+.serial-numbers-grid.is-dense {
+    grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+    gap: 5px;
+    padding: 8px;
+}
+
+.serial-numbers-grid.is-dense .serial-number-item {
+    font-size: 7.5pt;
+    letter-spacing: 0.1px;
+    padding: 3px 4px;
+}
+
+.serial-empty {
+    grid-column: 1 / -1;
+    font-size: 9pt;
+    font-style: italic;
+    color: var(--warranty-muted);
+}
+
+.serial-overflow-note {
+    grid-column: 1 / -1;
+    margin-top: 2px;
+    font-size: 8pt;
+    font-style: italic;
+    color: var(--warranty-muted);
+}
+
 /* --- Footer Area --- */
+/* `.qp-cover-footer` from the Short Proposal: centred 8pt muted lines over a
+   hairline rule, no fill. Two stacked grey bands at the foot of page 1 — this
+   one and the running footer below it — read as a mistake. */
 .cover-footer {
     position: absolute;
-    bottom: 20mm;
-    left: 0;
-    right: 0;
+    bottom: 19mm;
+    left: 14mm;
+    right: 14mm;
     text-align: center;
-    font-size: 9pt;
-    color: var(--warranty-gray);
-    background: var(--warranty-soft);
-    padding: 8px;
+    font-size: 8pt;
+    line-height: 1.5;
+    color: var(--warranty-muted);
+    padding: 6px 0 0;
+    background: none;
     border-top: 1px solid var(--warranty-line);
+}
+
+.cover-footer p {
+    margin: 0;
 }
 
 .warranty-page-footer {
@@ -430,79 +524,119 @@ textarea.warranty-input-field {
     color: var(--warranty-muted);
 }
 
-/* --- Terms Pages --- */
+/* --- Terms Pages ---
+   The headline warranty period is the proposal's `.qp-metric-primary`: soft
+   panel inside a navy hairline, uppercase navy label, navy-dark value. */
 .warranty-highlight-box {
-    background: var(--warranty-tint);
-    border: 1px solid var(--warranty-line);
+    background: var(--warranty-soft);
+    border: 1px solid var(--warranty-navy);
     border-radius: 2px;
-    padding: 15px;
-    /* Compact padding */
-    margin: 15px 0;
+    padding: 4mm 5mm;
+    margin: 0 0 6mm 0;
     text-align: center;
 }
 
 .warranty-highlight-box .highlight-label {
-    font-size: 10pt;
-    color: var(--warranty-gray);
-    margin-bottom: 4px;
+    font-size: 8pt;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--warranty-navy);
+    margin: 0;
 }
 
 .warranty-highlight-box .highlight-value {
-    font-size: 18pt;
+    font-size: 17pt;
     font-weight: 700;
-    color: var(--warranty-navy);
+    line-height: 1.1;
+    color: var(--warranty-navy-dark);
+    margin: 6px 0;
 }
 
-.warranty-terms-box {
+.warranty-highlight-box .highlight-label strong {
+    font-weight: 700;
+    color: var(--warranty-navy-dark);
+}
+
+/* Terms and contact panels are the proposal's `.qp-prep-card`. */
+.warranty-terms-box,
+.warranty-contact-section {
     border: 1px solid var(--warranty-line);
+    border-top: 3px solid var(--warranty-navy);
     border-radius: 2px;
-    margin-bottom: 15px;
+    overflow: hidden;
+    background: #fff;
+    margin-bottom: 6mm;
 }
 
+/* Card headers are `.qp-prep-header`: tint bar, 8pt uppercase navy on 1px
+   tracking, 12px stroke icon. */
 .warranty-terms-box .terms-header,
 .warranty-contact-section .contact-header {
     display: flex;
     align-items: center;
     gap: 7px;
-}
-
-.warranty-terms-box .terms-header {
     background-color: var(--warranty-tint);
-    padding: 10px 15px;
-    font-size: 10.5pt;
-    font-weight: 600;
+    padding: 6px 11px;
+    font-size: 8pt;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
     color: var(--warranty-navy);
     border-bottom: 1px solid var(--warranty-line);
 }
 
 .terms-header-icon,
 .contact-header-icon {
-    width: 16px;
-    height: 16px;
-    font-size: 16px;
-    flex: 0 0 16px;
+    width: 12px;
+    height: 12px;
+    flex: 0 0 12px;
+    color: var(--warranty-navy);
+}
+
+/* The product name inside a header bar keeps its own case — a model number is
+   not a label and should not be flattened to uppercase tracking. */
+.warranty-terms-box .terms-header .terms-header-value {
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    text-transform: none;
+    color: var(--warranty-navy-dark);
 }
 
 .warranty-terms-box .terms-content {
-    padding: 15px;
-    font-size: 9.5pt;
-    line-height: 1.6;
+    padding: 9px 12px;
+    font-size: 9pt;
+    line-height: 1.45;
     color: var(--warranty-ink);
 }
 
+/* Sub-heading inside a card, styled like `.qp-prep-body strong` / the
+   proposal's card `strong`: navy-dark and heavier, but not a second uppercase
+   level competing with the section rules above it. Underlining it was the one
+   piece of styling in this document that came from nowhere else in the set. */
 .warranty-terms-box .terms-content h4 {
-    font-size: 10.5pt;
-    font-weight: 600;
-    color: var(--warranty-navy);
-    margin: 12px 0 6px 0;
-    text-decoration: underline;
-    text-underline-offset: 3px;
+    font-size: 9.5pt;
+    font-weight: 700;
+    color: var(--warranty-navy-dark);
+    margin: 10px 0 4px 0;
+}
+
+.warranty-terms-box .terms-content h4:first-child {
+    margin-top: 0;
 }
 
 .warranty-terms-box .terms-content ul {
     margin: 8px 0;
     padding-left: 20px;
-    color: #333;
+    color: var(--warranty-gray);
+}
+
+.warranty-terms-box .terms-content li {
+    margin-bottom: 3px;
+}
+
+.warranty-terms-box .terms-content li strong {
+    color: var(--warranty-ink);
 }
 
 .warranty-terms-box .terms-content p {
@@ -510,43 +644,86 @@ textarea.warranty-input-field {
     text-align: justify;
 }
 
-/* --- Final Page --- */
+/* --- Final Page ---
+   Same tint-panel-with-navy-edge idiom as the project banner. */
 .warranty-dcr-section {
-    background: #fff;
+    background: var(--warranty-tint);
     border: 1px solid var(--warranty-line);
     border-left: 4px solid var(--warranty-navy);
     border-radius: 2px;
-    padding: 12px;
-    margin-bottom: 15px;
+    padding: 5mm 6mm;
+    margin-bottom: 6mm;
+    font-size: 9pt;
+    line-height: 1.45;
+    color: var(--warranty-ink);
 }
 
 .warranty-dcr-section h4 {
-    font-size: 10.5pt;
-    font-weight: 600;
+    font-size: 8pt;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
     color: var(--warranty-navy);
-    margin: 0 0 8px 0;
-}
-
-.warranty-contact-section {
-    border: 1px solid var(--warranty-line);
-    border-radius: 2px;
-    margin-bottom: 15px;
-}
-
-.warranty-contact-section .contact-header {
-    background-color: var(--warranty-tint);
-    padding: 8px 15px;
-    font-size: 10.5pt;
-    font-weight: 600;
-    color: var(--warranty-navy);
-    border-bottom: 1px solid var(--warranty-line);
+    margin: 0 0 6px 0;
 }
 
 .warranty-contact-section .contact-content {
-    padding: 12px;
-    font-size: 9.5pt;
-    line-height: 1.5;
+    padding: 9px 12px;
+    font-size: 9pt;
+    line-height: 1.45;
     color: var(--warranty-ink);
+}
+
+/* `.qp-prep-body strong` — the card's subject line. */
+.warranty-contact-section .contact-company {
+    font-size: 10.5pt;
+    font-weight: 700;
+    color: var(--warranty-ink);
+    margin: 0 0 7px 0;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--warranty-line);
+}
+
+/* Phone, mail and address each get their own labelled row so the customer can
+   find the one they need without reading a run-on line. */
+.warranty-contact-section .contact-list {
+    display: grid;
+    gap: 6px;
+    margin: 0;
+}
+
+.warranty-contact-section .contact-row {
+    display: grid;
+    grid-template-columns: 110px minmax(0, 1fr);
+    gap: 12px;
+    align-items: start;
+}
+
+/* Label column matches `.qp-prep-label`, value column `.qp-prep-value`. */
+.warranty-contact-section .contact-row dt {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 8pt;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    color: var(--warranty-muted);
+}
+
+.warranty-contact-section .contact-row dd {
+    margin: 0;
+    font-size: 9pt;
+    font-weight: 500;
+    color: var(--warranty-ink);
+    overflow-wrap: anywhere;
+}
+
+.contact-row-icon {
+    width: 12px;
+    height: 12px;
+    flex: 0 0 12px;
+    color: var(--warranty-navy);
 }
 
 .warranty-signature-section {
@@ -579,16 +756,15 @@ textarea.warranty-input-field {
 }
 
 .warranty-disclaimer {
-    margin-top: 25px;
-    /* Reduced margin */
-    padding: 8px;
+    margin-top: 6mm;
+    padding: 8px 10px;
     background: var(--warranty-soft);
     border: 1px solid var(--warranty-line);
     border-radius: 2px;
-    font-size: 8.5pt;
+    font-size: 8pt;
+    line-height: 1.5;
     color: var(--warranty-muted);
     text-align: center;
-    font-style: italic;
 }
 
 
@@ -652,6 +828,22 @@ textarea.warranty-input-field {
         grid-template-columns: 1fr 1fr;
         gap: 2rem;
         margin-bottom: 2rem;
+    }
+
+    /* Contact details apply to the whole certificate, not to one column's
+       worth of it, so the card runs the full width under the other two. */
+    .warranty-form-card-wide {
+        grid-column: 1 / -1;
+    }
+
+    .warranty-contact-fields {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 0 2rem;
+    }
+
+    .warranty-contact-fields .warranty-input-group {
+        margin-bottom: 0;
     }
 }
 
@@ -760,10 +952,11 @@ textarea.warranty-input-field {
         page-break-after: auto;
     }
 
-    /* Force background colors for headers */
+    /* Force the two document fills through: tint for panels and header bars,
+       soft for the recessed surfaces. */
     .combined-project-id-banner,
     .warranty-specs-table th,
-    .warranty-highlight-box,
+    .warranty-dcr-section,
     .warranty-terms-box .terms-header,
     .warranty-contact-section .contact-header {
         background-color: var(--warranty-tint) !important;
@@ -771,8 +964,12 @@ textarea.warranty-input-field {
         print-color-adjust: exact !important;
     }
 
-    .warranty-section h3 {
-        background: var(--warranty-soft) !important;
+    .warranty-highlight-box,
+    .serial-numbers-grid,
+    .warranty-disclaimer {
+        background-color: var(--warranty-soft) !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
     }
 
     .no-print-area {

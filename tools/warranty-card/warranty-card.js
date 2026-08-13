@@ -20,6 +20,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const warrantyInverterSerials = document.getElementById('warrantyInverterSerials');
     const warrantyDcrCertificate = document.getElementById('warrantyDcrCertificate');
     const warrantyInstallDate = document.getElementById('warrantyInstallDate');
+    const warrantyContactPhone = document.getElementById('warrantyContactPhone');
+    const warrantyContactEmail = document.getElementById('warrantyContactEmail');
+    const warrantyContactAddress = document.getElementById('warrantyContactAddress');
+
+    /** Printed on the certificate when a contact field is left blank. */
+    const CONTACT_DEFAULTS = {
+        phone: '+91 96 6606 8140',
+        email: 'ray2voltsolar@gmail.com',
+        address: '1-278, Pichatur Road, Srikalahasti, 517640, Andhra Pradesh'
+    };
 
     const generateWarrantyBtn = document.getElementById('generateWarrantyBtn');
     const printWarrantyBtn = document.getElementById('printWarrantyBtn');
@@ -56,19 +66,41 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- HELPER: Generate Serial Number Grid ---
-    function generateSerialGrid(serialText) {
-        if (!serialText || !serialText.trim()) {
-            return '<p style="color: #666; font-style: italic; grid-column: 1 / -1;">No serial numbers provided.</p>';
-        }
-        // Split by comm or newline, filter empty
-        const serials = serialText.split(/[\n,]+/).map(s => s.trim()).filter(s => s.length > 0);
+    /**
+     * How many chips the serial grid holds before it has to step down a
+     * density tier, and the hard ceiling past which the remainder is
+     * summarised instead of silently clipped by the fixed A4 page.
+     * Both measured against the live page, not guessed.
+     */
+    const SERIALS_COMFORTABLE = 24;
+    const SERIALS_MAX = 44;
+
+    function parseSerials(serialText) {
+        return String(serialText || '')
+            .split(/[\n,]+/)
+            .map(value => value.trim())
+            .filter(value => value.length > 0);
+    }
+
+    // --- HELPER: Fill a Serial Number Grid ---
+    function renderSerialGrid(container, serialText) {
+        if (!container) return;
+
+        const serials = parseSerials(serialText);
+        container.classList.toggle('is-dense', serials.length > SERIALS_COMFORTABLE);
 
         if (serials.length === 0) {
-            return '<p style="color: #666; font-style: italic; grid-column: 1 / -1;">No serial numbers provided.</p>';
+            container.innerHTML = '<p class="serial-empty">No serial numbers provided.</p>';
+            return;
         }
 
-        return serials.map(sn => `<div class="serial-number-item">${sn}</div>`).join('');
+        const shown = serials.slice(0, SERIALS_MAX);
+        const hidden = serials.length - shown.length;
+
+        container.innerHTML = shown.map(sn => `<div class="serial-number-item">${sn}</div>`).join('')
+            + (hidden > 0
+                ? `<p class="serial-overflow-note">+ ${hidden} further serial number${hidden === 1 ? '' : 's'} recorded in the project file.</p>`
+                : '');
     }
 
     // --- GENERATE WARRANTY CARD ---
@@ -92,6 +124,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const dcrCertificate = warrantyDcrCertificate?.value || 'N/A';
             const installDate = warrantyInstallDate?.value;
+
+            const contactPhone = warrantyContactPhone?.value.trim() || CONTACT_DEFAULTS.phone;
+            const contactEmail = warrantyContactEmail?.value.trim() || CONTACT_DEFAULTS.email;
+            const contactAddress = warrantyContactAddress?.value.trim() || CONTACT_DEFAULTS.address;
 
             const formattedDate = formatDate(installDate);
 
@@ -132,7 +168,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('modulePerformanceWarrantyYearsText3').textContent = modulePerformanceWarranty;
 
             // Inject Module Serials
-            document.getElementById('moduleSerialNumbersContainer').innerHTML = generateSerialGrid(moduleSerials);
+            renderSerialGrid(document.getElementById('moduleSerialNumbersContainer'), moduleSerials);
 
             // Populate Page 3: Inverter Warranty
             document.getElementById('inverterWarrantyPeriod').textContent = inverterWarranty + ' Years';
@@ -140,11 +176,19 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('inverterBrandName').textContent = inverterName;
 
             // Inject Inverter Serials
-            document.getElementById('inverterSerialNumbersContainer').innerHTML = generateSerialGrid(inverterSerials);
+            renderSerialGrid(document.getElementById('inverterSerialNumbersContainer'), inverterSerials);
 
             // Populate Page 4: General Terms
             document.getElementById('dcrCertNumber').textContent = dcrCertificate;
             document.getElementById('warrantyIssueDate').textContent = formattedDate;
+
+            // Contact details print on page 4 and, in short form, on the cover.
+            document.getElementById('contactPhone').textContent = contactPhone;
+            document.getElementById('contactEmail').textContent = contactEmail;
+            document.getElementById('contactAddress').textContent = contactAddress;
+            document.getElementById('coverFooterAddress').textContent = contactAddress;
+            document.getElementById('coverFooterPhone').textContent = contactPhone;
+            document.getElementById('coverFooterEmail').textContent = contactEmail;
 
             // Update all page footers
             const pageNumbers = document.querySelectorAll('.warranty-page-number');
