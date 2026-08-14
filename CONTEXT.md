@@ -90,6 +90,14 @@ _Avoid_: Local file, internal file
 A Resource Library entry that points at a file in Drive or SharePoint (`place: 'link'`). Access is governed by whoever owns that folder, and staff without repository access can add them. Required for anything internal — price lists showing margin, contracts, or documents holding real figures or personal details.
 _Avoid_: External file, remote file
 
+**Chrome**:
+Everything the toolbox draws around a document — sidebar, forms, buttons, tables, validation blocks, preview surrounds. Chrome takes its colours from the tokens in `global/styles/base.css` and follows the Theme. A literal colour written into chrome is a bug waiting for the theme to flip.
+_Avoid_: Shell, UI, wrapper
+
+**Theme**:
+Light or dark, chosen once for the whole toolbox from the toggle beside the signed-in name and remembered on that device. It applies to Chrome only: Artifacts, the A4 previews and everything that prints keep their own palettes and stay on paper white in both themes. Held in `global/scripts/theme.js`, stamped on `<html>` as `data-theme` before the first paint.
+_Avoid_: Dark mode, skin, colour scheme
+
 **Access Level**:
 One of the four nesting tiers deciding which Tool Operations a person may open — Everyone, Sales, Admin, Owner, in rising order. Each tier can do everything the tier below it can, so a tool names only the lowest level allowed to open it. Held in `global/scripts/auth.js`; a tool absent from that list is Owner-only.
 _Avoid_: Permission, group, tier

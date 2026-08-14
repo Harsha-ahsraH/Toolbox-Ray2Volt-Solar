@@ -28,7 +28,7 @@
 }
 
 .ssc-modal-content {
-    background: #e8ecf0;
+    background: var(--viewer-bg);
     width: 96%;
     max-width: 920px;
     border-radius: var(--radius-lg);
@@ -47,7 +47,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #fff;
+    background: var(--bg-card);
     flex-shrink: 0;
 }
 
@@ -83,7 +83,7 @@
 }
 
 .ssc-close-modal-btn:hover {
-    color: #ef4444;
+    color: var(--danger-text);
 }
 
 .ssc-modal-body {

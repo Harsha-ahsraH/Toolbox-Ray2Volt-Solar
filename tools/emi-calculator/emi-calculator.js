@@ -202,11 +202,26 @@ document.addEventListener('DOMContentLoaded', () => {
         if (emiChart) { emiChart.destroy(); emiChart = null; }
     }
 
+    // The gap between the two arcs is the card showing through, so it has to
+    // be read from the theme rather than assumed to be white.
+    function cardColour() {
+        return getComputedStyle(document.documentElement)
+            .getPropertyValue('--bg-card').trim() || '#FFFFFF';
+    }
+
     function updateEMIChart(principal, interest) {
         if (!emiChartCtx) return;
-        const data = { labels: ['Principal Amount', 'Total Interest'], datasets: [{ data: [principal, interest], backgroundColor: ['#06B6D4', '#FBBF24'], borderColor: '#FFFFFF', borderWidth: 3 }] };
+        const data = { labels: ['Principal Amount', 'Total Interest'], datasets: [{ data: [principal, interest], backgroundColor: ['#06B6D4', '#FBBF24'], borderColor: cardColour(), borderWidth: 3 }] };
         if (emiChart) { emiChart.data = data; emiChart.update(); }
         else { emiChart = new Chart(emiChartCtx, { type: 'doughnut', data: data, options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { display: false } }, cutout: '65%' } }); }
+    }
+
+    if (window.Ray2VoltTheme) {
+        window.Ray2VoltTheme.onChange(() => {
+            if (!emiChart) return;
+            emiChart.data.datasets[0].borderColor = cardColour();
+            emiChart.update();
+        });
     }
 
     function generateAmortizationSchedule(principal, emi, monthlyRate, tenure) {

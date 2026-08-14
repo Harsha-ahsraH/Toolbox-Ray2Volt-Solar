@@ -241,7 +241,7 @@
 .btn.active {
     background: var(--primary);
     border-color: var(--primary);
-    color: #fff;
+    color: var(--on-primary);
 }
 
 .input-help {
@@ -357,13 +357,13 @@
 .btn-primary {
     background: var(--primary);
     border-color: var(--primary);
-    color: #fff;
+    color: var(--on-primary);
 }
 
 .btn-primary:hover {
     background: var(--primary-dark);
     border-color: var(--primary-dark);
-    color: #fff;
+    color: var(--on-primary);
 }
 
 .btn-secondary {

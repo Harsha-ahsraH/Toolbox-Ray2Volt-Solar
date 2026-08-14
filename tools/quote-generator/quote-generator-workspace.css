@@ -113,7 +113,7 @@
 
 .qg-mode-card.is-active::before {
     border: 5px solid var(--primary);
-    background: #fff;
+    background: var(--bg-card);
 }
 
 .qg-mode-card-title {
@@ -277,11 +277,11 @@
 }
 
 .qg-save-status[data-state="saved"] {
-    color: #1B7F4B;
+    color: var(--success-text);
 }
 
 .qg-save-status[data-state="failed"] {
-    color: #B42318;
+    color: var(--danger-text);
     font-weight: 600;
 }
 
@@ -290,16 +290,16 @@
 .qg-validation-summary {
     padding: 1rem 1.15rem;
     margin-bottom: 1.25rem;
-    background: #FFF6F5;
-    border: 1px solid #E8A9A2;
-    border-left: 4px solid #B42318;
+    background: var(--danger-bg);
+    border: 1px solid var(--danger-border);
+    border-left: 4px solid var(--danger-text);
     border-radius: var(--radius-sm);
 }
 
 .qg-validation-summary[data-severity="warning"] {
-    background: #FFFBEB;
-    border-color: #E4C580;
-    border-left-color: #B7791F;
+    background: var(--warning-bg);
+    border-color: var(--warning-border);
+    border-left-color: var(--warning-text);
 }
 
 .qg-validation-title {
@@ -337,7 +337,7 @@
 }
 
 .qg-validation-link:hover {
-    color: #B42318;
+    color: var(--danger-text);
 }
 
 .qg-validation-link:focus-visible {
@@ -368,15 +368,15 @@
 }
 
 .qg-validation-badge[data-severity="critical"] {
-    color: #B42318;
-    background: #FFF6F5;
-    border-color: #E8A9A2;
+    color: var(--danger-text);
+    background: var(--danger-bg);
+    border-color: var(--danger-border);
 }
 
 .qg-validation-badge[data-severity="warning"] {
-    color: #8A6100;
-    background: #FFFBEB;
-    border-color: #E4C580;
+    color: var(--warning-text);
+    background: var(--warning-bg);
+    border-color: var(--warning-border);
 }
 
 /* --- Accordion ------------------------------------------------------ */
@@ -482,21 +482,21 @@
 }
 
 .qg-panel-state[data-state="complete"] {
-    color: #1B7F4B;
-    border-color: #9BD5B4;
-    background: #F1FAF5;
+    color: var(--success-text);
+    border-color: var(--success-border);
+    background: var(--success-bg);
 }
 
 .qg-panel-state[data-state="incomplete"] {
-    color: #8A6100;
-    border-color: #E4C580;
-    background: #FFFBEB;
+    color: var(--warning-text);
+    border-color: var(--warning-border);
+    background: var(--warning-bg);
 }
 
 .qg-panel-state[data-state="error"] {
-    color: #B42318;
-    border-color: #E8A9A2;
-    background: #FFF6F5;
+    color: var(--danger-text);
+    border-color: var(--danger-border);
+    background: var(--danger-bg);
 }
 
 .qg-panel-body {
@@ -542,11 +542,11 @@
     margin-top: 0.3rem;
     font-size: 0.8rem;
     font-weight: 500;
-    color: #B42318;
+    color: var(--danger-text);
 }
 
 .qg-input-field.has-error {
-    border-color: #B42318;
+    border-color: var(--danger-text);
 }
 
 .qg-checkbox-row label {
@@ -565,12 +565,12 @@
 }
 
 .qg-derived-line[data-state="error"] {
-    color: #B42318;
+    color: var(--danger-text);
     font-weight: 600;
 }
 
 .qg-derived-line[data-state="warning"] {
-    color: #8A6100;
+    color: var(--warning-text);
     font-weight: 600;
 }
 
@@ -601,13 +601,13 @@
 }
 
 .qg-btn-danger {
-    color: #B42318;
-    border-color: #E8A9A2;
+    color: var(--danger-text);
+    border-color: var(--danger-border);
 }
 
 .qg-btn-danger:hover {
-    background: #FFF6F5;
-    color: #8C1A12;
+    background: var(--danger-bg);
+    color: var(--danger-strong);
 }
 
 /* --- Checkboxes ------------------------------------------------------ */

@@ -67,6 +67,13 @@
     /* Alternating rows in a UI table (a document's own striping is its own) */
     --row-stripe: #F9FAFB;
 
+    /* The pale band behind a UI table's header row */
+    --table-head-bg: #E8F4FA;
+
+    /* The surface a document preview is laid on, a shade below the page so
+       the paper reads as paper. The paper itself never themes. */
+    --viewer-bg: #E8ECF0;
+
     /* Status colours for the app chrome - validation blocks, save states,
        destructive buttons. Each is a text/fill/edge trio so a block can be
        built from one family and still flip cleanly with the theme. */
@@ -148,7 +155,9 @@
 
     --text-primary: #E6E8EA;
     --text-secondary: #B0B6BC;
-    --text-muted: #878E95;
+    /* Muted has to clear 4.5:1 on the *hover* surface, not just the card -
+       captions and icon buttons live there. #878E95 was 4.18:1 on it. */
+    --text-muted: #959CA3;
 
     /* The accent is bright enough that white on it is 1.9:1; near-black is
        12:1, so filled buttons keep their contrast when the theme flips. */
@@ -158,6 +167,8 @@
     --border-medium: #464C52;
 
     --row-stripe: #24282C;
+    --table-head-bg: #22343A;
+    --viewer-bg: #101214;
 
     --danger-text: #FCA5A5;
     --danger-strong: #FECACA;
@@ -209,6 +220,8 @@
         --border-light: #D1D5DB;
         --border-medium: #9CA3AF;
         --row-stripe: #F9FAFB;
+        --table-head-bg: #E8F4FA;
+        --viewer-bg: #FFFFFF;
 
         --primary: #06B6D4;
         --primary-light: #CFFAFE;

@@ -54,7 +54,7 @@
 .mode-btn.active {
     background: var(--primary);
     border-color: var(--primary);
-    color: #fff;
+    color: var(--on-primary);
 }
 
 /* --- Calculator Main Card --- */
@@ -133,7 +133,7 @@
     width: 22px;
     height: 22px;
     background: var(--primary);
-    border: 3px solid #fff;
+    border: 3px solid var(--bg-card);
     border-radius: 50%;
     cursor: pointer;
     box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
@@ -149,7 +149,7 @@
     width: 22px;
     height: 22px;
     background: var(--primary);
-    border: 3px solid #fff;
+    border: 3px solid var(--bg-card);
     border-radius: 50%;
     cursor: pointer;
     box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
@@ -172,7 +172,7 @@
     outline: none;
     border-color: var(--primary);
     box-shadow: 0 0 0 3px var(--primary-light);
-    background: #fff;
+    background: var(--bg-card);
 }
 
 .emi-input-highlight {
@@ -240,7 +240,7 @@
 .toggle-btn.active {
     background: var(--primary);
     border-color: var(--primary);
-    color: #fff;
+    color: var(--on-primary);
 }
 
 /* --- Results Section --- */
@@ -252,7 +252,7 @@
 /* --- Primary Result Card --- */
 .emi-primary-result {
     background: var(--primary);
-    color: #fff;
+    color: var(--on-primary);
     padding: 1.5rem;
     border-radius: 2px;
     margin-bottom: 1rem;
@@ -393,7 +393,7 @@
 
 .emi-table th {
     background: var(--primary);
-    color: #fff;
+    color: var(--on-primary);
     padding: 0.875rem 1rem;
     font-weight: 600;
     text-align: left;

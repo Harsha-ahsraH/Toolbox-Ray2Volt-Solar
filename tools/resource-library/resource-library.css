@@ -41,10 +41,10 @@
 
 /* --- Catalogue problems --- */
 .rl-problems {
-    border: 1px solid #DC2626;
+    border: 1px solid var(--danger-text);
     border-left-width: 3px;
     border-radius: 2px;
-    background: #FEF2F2;
+    background: var(--danger-bg);
     padding: 0.9rem 1rem;
     margin-bottom: var(--section-gap, 1.5rem);
 }
@@ -52,7 +52,7 @@
 .rl-problems-title {
     font-size: 0.9rem;
     font-weight: 600;
-    color: #991B1B;
+    color: var(--danger-text);
     margin-bottom: 0.4rem;
 }
 
@@ -64,7 +64,7 @@
 .rl-problems li {
     font-size: 0.875rem;
     line-height: 1.5;
-    color: #991B1B;
+    color: var(--danger-text);
 }
 
 /* --- Search and filters --- */
@@ -116,7 +116,7 @@
     outline: none;
     border-color: var(--primary);
     box-shadow: 0 0 0 3px var(--primary-light);
-    background: #fff;
+    background: var(--bg-card);
 }
 
 /* The browser's own clear affordance would sit on top of ours. */
@@ -245,15 +245,15 @@
 /* Where the file lives. Not a verdict, so no red or green — those are reserved
    for good and bad elsewhere in the toolbox. */
 .rl-badge-toolbox {
-    background: #EDF3FA;
-    border-color: #B8C4D2;
-    color: #1F4E79;
+    background: var(--info-bg);
+    border-color: var(--info-border);
+    color: var(--info-text);
 }
 
 .rl-badge-link {
-    background: #F3F4F6;
-    border-color: #D1D5DB;
-    color: #4B5563;
+    background: var(--bg-hover);
+    border-color: var(--border-light);
+    color: var(--text-secondary);
 }
 
 .rl-badge-format {
@@ -317,13 +317,13 @@
 
 .rl-btn-primary {
     background: var(--primary);
-    color: #fff;
+    color: var(--on-primary);
 }
 
 .rl-btn-primary:hover {
     background: var(--primary-dark);
     border-color: var(--primary-dark);
-    color: #fff;
+    color: var(--on-primary);
 }
 
 .rl-btn-secondary {
@@ -333,7 +333,7 @@
 
 .rl-btn-secondary:hover {
     background: var(--primary);
-    color: #fff;
+    color: var(--on-primary);
 }
 
 /* --- Empty state --- */

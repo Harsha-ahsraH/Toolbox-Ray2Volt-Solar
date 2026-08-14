@@ -116,10 +116,20 @@
         if (event.key === STORAGE_KEY) apply(resolve());
     });
 
+    /**
+     * Run a callback on every theme change, for the few things CSS cannot
+     * repaint on its own — a canvas chart, say. Returns an unsubscribe.
+     */
+    function onChange(listener) {
+        listeners.add(listener);
+        return () => listeners.delete(listener);
+    }
+
     window.Ray2VoltTheme = {
         current: () => root.getAttribute('data-theme'),
         set,
         toggle,
-        attachToggle
+        attachToggle,
+        onChange
     };
 })();

@@ -154,7 +154,7 @@
 
 .pkg-table th {
     padding: 0.8rem 1rem;
-    color: #fff;
+    color: var(--on-primary);
     font-size: 0.72rem;
     font-weight: 650;
     letter-spacing: 0.045em;
@@ -165,11 +165,11 @@
 .pkg-table td {
     padding: 0.75rem 1rem;
     color: var(--text-secondary);
-    border-bottom: 1px solid #E9EDF0;
+    border-bottom: 1px solid var(--border-light);
 }
 
 .pkg-table tbody tr:nth-child(even) {
-    background: #F9FAFB;
+    background: var(--row-stripe);
 }
 
 .pkg-table tbody tr:hover {
@@ -193,10 +193,10 @@
 .pkg-note {
     margin-top: 0.9rem;
     padding: 0.85rem 1rem;
-    color: #78350F;
-    background: #FFFBEB;
-    border: 1px solid #FDE68A;
-    border-left: 3px solid #F59E0B;
+    color: var(--warning-text);
+    background: var(--warning-bg);
+    border: 1px solid var(--warning-border);
+    border-left: 3px solid var(--warning-text);
     font-size: 0.81rem;
     line-height: 1.55;
 }
@@ -256,7 +256,7 @@
     place-items: center;
     width: 26px;
     height: 26px;
-    color: #fff;
+    color: var(--on-primary);
     background: var(--primary);
     border-radius: 50%;
     font-size: 0.72rem;
@@ -321,7 +321,7 @@
     }
 
     .pkg-table tbody tr:nth-child(even) td:first-child {
-        background: #F9FAFB;
+        background: var(--row-stripe);
     }
 }
 

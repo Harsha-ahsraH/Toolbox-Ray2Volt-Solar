@@ -83,7 +83,7 @@
     outline: none;
     border-color: var(--primary);
     box-shadow: 0 0 0 3px var(--primary-light);
-    background: #fff;
+    background: var(--bg-card);
 }
 
 /* --- GST Rate Buttons --- */
@@ -118,7 +118,7 @@
 .gst-rate-btn.active {
     background: var(--primary);
     border-color: var(--primary);
-    color: #fff;
+    color: var(--on-primary);
 }
 
 /* --- Control Groups --- */
@@ -162,7 +162,7 @@
 .gst-toggle-btn.active {
     background: var(--primary);
     border-color: var(--primary);
-    color: #fff;
+    color: var(--on-primary);
 }
 
 /* --- Results Section --- */
@@ -189,7 +189,7 @@
 }
 
 .gst-table th {
-    color: #fff;
+    color: var(--on-primary);
     padding: 0.875rem 1rem;
     font-weight: 600;
     text-align: left;
@@ -226,13 +226,13 @@
 }
 
 .gst-table-total td {
-    color: #fff !important;
+    color: var(--on-primary) !important;
     font-weight: 600;
     border-bottom: none;
 }
 
 .gst-table-total td:last-child {
-    color: #fff !important;
+    color: var(--on-primary) !important;
     font-size: 1.1rem;
 }
 

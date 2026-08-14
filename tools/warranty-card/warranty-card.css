@@ -108,7 +108,7 @@
     outline: none;
     border-color: var(--primary);
     box-shadow: 0 0 0 3px var(--primary-light);
-    background: #fff;
+    background: var(--bg-card);
 }
 
 textarea.warranty-input-field {
@@ -135,7 +135,7 @@ textarea.warranty-input-field {
     border: 1px solid var(--primary);
     border-radius: 2px;
     background: var(--primary);
-    color: #fff;
+    color: var(--on-primary);
     cursor: pointer;
     transition: all 0.1s ease;
     width: 100%;
@@ -162,7 +162,7 @@ textarea.warranty-input-field {
 
 .warranty-btn-secondary:hover {
     background: var(--primary);
-    color: #fff;
+    color: var(--on-primary);
 }
 
 

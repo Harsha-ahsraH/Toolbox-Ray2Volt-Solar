@@ -38,18 +38,29 @@ assert.match(
     'the resting thumb should be filled, not transparent'
 );
 
-// The pill is a solid dark grey, so it has to be dark enough to read against
-// the light surfaces it sits on rather than tinted to match them.
-const thumbColour = baseCss.match(/--scrollbar-thumb:\s*#([0-9A-Fa-f]{6});/);
+// The pill is a solid grey that has to separate from whichever surface it sits
+// on: a mid grey under the light theme, a lighter one under the dark theme.
+const brightness = (hex) => {
+    const [r, g, b] = [0, 2, 4].map((i) => parseInt(hex.slice(i, i + 2), 16));
+    return (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+};
 
-assert.ok(thumbColour, 'the resting thumb colour should live in a token');
+const thumbs = [...baseCss.matchAll(/--scrollbar-thumb:\s*#([0-9A-Fa-f]{6});/g)].map(
+    (match) => match[1]
+);
 
-const [r, g, b] = [0, 2, 4].map((i) => parseInt(thumbColour[1].slice(i, i + 2), 16));
-const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+assert.equal(thumbs.length, 2, 'both themes should name their own resting thumb');
+
+const [lightThumb, darkThumb] = thumbs;
 
 assert.ok(
-    luminance < 0.45,
-    `--scrollbar-thumb: #${thumbColour[1]} is too light for the dark pill the toolbox uses`
+    brightness(lightThumb) > 0.25 && brightness(lightThumb) < 0.55,
+    `--scrollbar-thumb: #${lightThumb} should be a mid grey on the light theme`
+);
+
+assert.ok(
+    brightness(darkThumb) > 0.15 && brightness(darkThumb) < brightness(lightThumb),
+    `--scrollbar-thumb: #${darkThumb} should lift off the dark theme's surfaces`
 );
 
 assert.doesNotMatch(

@@ -96,7 +96,7 @@
     outline: none;
     border-color: var(--primary);
     box-shadow: 0 0 0 3px var(--primary-light);
-    background: #fff;
+    background: var(--bg-card);
 }
 
 textarea.rfq-input-field {
@@ -139,7 +139,7 @@ textarea.rfq-input-field {
     border: 1px solid var(--primary);
     border-radius: 2px;
     background: var(--primary);
-    color: #fff;
+    color: var(--on-primary);
     cursor: pointer;
     transition: all 0.1s ease;
 }

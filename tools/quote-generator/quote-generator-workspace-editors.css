@@ -141,18 +141,18 @@
     padding: 0.65rem 0.75rem;
     background: var(--bg-body);
     border: 1px solid var(--border-light);
-    border-left: 3px solid #1B7F4B;
+    border-left: 3px solid var(--success-text);
     border-radius: var(--radius-sm);
 }
 
 .qg-recon-card[data-state="mismatch"] {
-    border-left-color: #B42318;
-    background: #FFF6F5;
+    border-left-color: var(--danger-text);
+    background: var(--danger-bg);
 }
 
 .qg-recon-card[data-state="unrated"] {
-    border-left-color: #B7791F;
-    background: #FFFBEB;
+    border-left-color: var(--warning-text);
+    background: var(--warning-bg);
 }
 
 .qg-recon-title {
@@ -323,9 +323,9 @@
     padding: 0.6rem 0.75rem;
     margin-bottom: 0.75rem;
     font-size: 0.85rem;
-    color: #B42318;
-    background: #FFF6F5;
-    border: 1px solid #E8A9A2;
+    color: var(--danger-text);
+    background: var(--danger-bg);
+    border: 1px solid var(--danger-border);
     border-radius: var(--radius-sm);
 }
 

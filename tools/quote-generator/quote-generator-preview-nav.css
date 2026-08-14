@@ -49,10 +49,10 @@
     margin-bottom: 1rem;
     font-size: 0.87rem;
     font-weight: 500;
-    color: #B42318;
-    background: #FFF6F5;
-    border: 1px solid #E8A9A2;
-    border-left: 4px solid #B42318;
+    color: var(--danger-text);
+    background: var(--danger-bg);
+    border: 1px solid var(--danger-border);
+    border-left: 4px solid var(--danger-text);
     border-radius: var(--radius-sm);
 }
 

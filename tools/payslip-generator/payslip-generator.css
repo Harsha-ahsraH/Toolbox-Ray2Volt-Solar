@@ -99,12 +99,12 @@
 }
 
 .ps-input-field::placeholder {
-    color: #999;
+    color: var(--text-muted);
 }
 
 .ps-input-field:disabled {
-    background: #f8f8f8;
-    color: #888;
+    background: var(--bg-hover);
+    color: var(--text-muted);
 }
 
 /* ============================================
@@ -186,9 +186,9 @@
 }
 
 .ps-btn-remove:hover {
-    background: #fee2e2;
-    border-color: #ef4444;
-    color: #ef4444;
+    background: var(--danger-bg);
+    border-color: var(--danger-border);
+    color: var(--danger-text);
 }
 
 /* Item Fields Grid */
@@ -228,7 +228,7 @@
 
 .ps-btn-add:hover {
     background: var(--primary);
-    color: #fff;
+    color: var(--on-primary);
     border-style: solid;
 }
 
@@ -251,7 +251,7 @@
     border: 1px solid var(--primary);
     border-radius: 2px;
     background: var(--primary);
-    color: #fff;
+    color: var(--on-primary);
     cursor: pointer;
     transition: all 0.1s ease;
 }
@@ -275,7 +275,7 @@
 }
 
 .ps-btn-secondary:hover {
-    background: #f5f5f5;
+    background: var(--bg-hover);
     border-color: var(--text-primary);
 }
 
