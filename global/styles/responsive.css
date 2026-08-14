@@ -39,8 +39,9 @@
         max-height: 100dvh;
     }
 
-    /* The tool list scrolls by touch alone - base.css draws no bar here
-       either, so the list keeps the full width of the drawer. */
+    /* The drawer's tool list carries the same pill as everywhere else, drawn
+       at rest, which is what a touch device needs: there is no hover to
+       reveal it with. This block only adds the touch-scrolling properties. */
     .main-nav {
         -webkit-overflow-scrolling: touch;
         touch-action: pan-y pinch-zoom;

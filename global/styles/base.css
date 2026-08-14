@@ -83,19 +83,57 @@
 
     /* Vertical gap between a tool's top-level sections (cards, grids, tables) */
     --section-gap: 1.5rem;
+
+    /* Scrollbars - one dark grey pill, shared by every scrolling area */
+    --scrollbar-size: 6px;
+    --scrollbar-thumb: #4B5563;
+    --scrollbar-thumb-hover: #374151;
+    --scrollbar-thumb-active: #1F2937;
 }
 
 /* --- Scrollbars ---
-   No scrollbars anywhere in the toolbox. Every scrolling area still scrolls
-   by wheel, trackpad, touch, keyboard and drag; it just never draws a bar,
-   and never reserves width for one. The standard property covers Firefox and
-   current Chromium, the pseudo-element covers older WebKit. */
-* {
-    scrollbar-width: none;
+   One scrollbar for the whole toolbox: a solid dark grey pill, the same
+   neutral as the body text. Wherever an area can scroll, its bar is drawn -
+   at rest, not on hover - so a scrollable area always looks scrollable and
+   never changes appearance under the pointer. The track is transparent and
+   always reserves its width, so the content underneath never reflows. */
+::-webkit-scrollbar {
+    width: var(--scrollbar-size);
+    height: var(--scrollbar-size);
 }
 
-::-webkit-scrollbar {
-    display: none;
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-corner {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border-radius: 999px;
+    transition: background-color var(--transition-base);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-thumb-hover);
+}
+
+::-webkit-scrollbar-thumb:active {
+    background: var(--scrollbar-thumb-active);
+}
+
+/* Firefox has no ::-webkit-scrollbar, so it gets the same bar through the
+   standard properties. They are scoped to browsers without the WebKit
+   pseudo-elements on purpose: setting scrollbar-width or scrollbar-color in
+   Chromium makes it drop the styled scrollbar above and fall back to its own
+   thin one, which is both fatter and a different shape. */
+@supports not selector(::-webkit-scrollbar) {
+    * {
+        scrollbar-width: thin;
+        scrollbar-color: var(--scrollbar-thumb) transparent;
+    }
 }
 
 /* --- Reset & Base Styles --- */

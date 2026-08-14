@@ -353,6 +353,13 @@
     scrollbar-gutter: stable;
 }
 
+/* Everything else about this scrollbar - width, pill, colours - is the shared
+   treatment in base.css. The tool list only insets its own track so the thumb
+   stops short of the header and the footer. */
+.main-nav::-webkit-scrollbar-track {
+    margin-block: var(--spacing-xs);
+}
+
 @media screen and (min-width: 769px) {
     .sidebar.collapsed {
         width: var(--sidebar-collapsed-width);
