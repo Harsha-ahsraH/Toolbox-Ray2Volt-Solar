@@ -85,16 +85,29 @@ for (const page of pages) {
     );
 }
 
-// The toggle lives in the signed-in badge, beside the sign-out button.
-assert.match(
-    authJs,
-    /class="nav-session-theme"/,
-    'the session badge should carry the theme toggle'
+// The toggle lives in the compact navigation controls beside sign out. Account
+// identity is deliberately not repeated in a persistent sidebar badge.
+const controlsStart = authJs.indexOf('function renderSessionControls');
+const controlsEnd = authJs.indexOf('\n    const session =', controlsStart);
+assert.notEqual(controlsStart, -1, 'auth.js should render navigation controls');
+assert.notEqual(controlsEnd, -1, 'the navigation controls function should be bounded');
+const controlsSource = authJs.slice(controlsStart, controlsEnd);
+
+assert.doesNotMatch(
+    controlsSource,
+    /nav-session-(?:avatar|text|label|role)|Signed in as/,
+    'navigation controls should not render a signed-in identity badge'
 );
 
 assert.match(
     authJs,
-    /Ray2VoltTheme\.attachToggle\(badge\.querySelector\('\.nav-session-theme'\)\)/,
+    /class="nav-session-theme"/,
+    'the navigation controls should carry the theme toggle'
+);
+
+assert.match(
+    authJs,
+    /Ray2VoltTheme\.attachToggle\(controls\.querySelector\('\.nav-session-theme'\)\)/,
     'theme.js should own the toggle button once auth.js has built it'
 );
 
@@ -106,7 +119,7 @@ assert.ok(
 assert.match(
     navigationCss,
     /\.nav-session-theme[\s\S]{0,200}\.nav-session-out\s*{/,
-    'both badge buttons should share one set of styles'
+    'both navigation-control buttons should share one set of styles'
 );
 
 assert.match(themeJs, /localStorage/, 'a chosen theme should survive a reload');

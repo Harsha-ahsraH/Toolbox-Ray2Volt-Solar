@@ -95,7 +95,7 @@ Everything the toolbox draws around a document — sidebar, forms, buttons, tabl
 _Avoid_: Shell, UI, wrapper
 
 **Theme**:
-Light or dark, defaulting to light and chosen once for the whole toolbox from the toggle beside the signed-in name and remembered on that device. It applies to Chrome only: Artifacts, the A4 previews and everything that prints keep their own palettes and stay on paper white in both themes. Held in `global/scripts/theme.js`, stamped on `<html>` as `data-theme` before the first paint.
+Light or dark, defaulting to light and chosen once for the whole toolbox from the sidebar Theme control and remembered on that device. It applies to Chrome only: Artifacts, the A4 previews and everything that prints keep their own palettes and stay on paper white in both themes. Held in `global/scripts/theme.js`, stamped on `<html>` as `data-theme` before the first paint.
 _Avoid_: Dark mode, skin, colour scheme
 
 **Access Level**:
@@ -107,7 +107,7 @@ One entry in the toolbox sign-in list, holding a display name, its own password,
 _Avoid_: User, login, profile
 
 **Sign-in**:
-Entering an Account's password once for the whole toolbox, which then hides every tool above that Account's Access Level for 12 hours and shows its name in the sidebar. Everyone signs in with a blank password. **The repository is public**, so a Sign-in decides what a person is shown; it does not stop anyone fetching a tool's files directly by URL — see **Toolbox-hosted resource**.
+Entering an Account's password once for the whole toolbox, which then hides every tool above that Account's Access Level for 12 hours. Everyone signs in with a blank password. **The repository is public**, so a Sign-in decides what a person is shown; it does not stop anyone fetching a tool's files directly by URL — see **Toolbox-hosted resource**.
 _Avoid_: Login, authentication, security
 
 **Earth Pit Schedule**:

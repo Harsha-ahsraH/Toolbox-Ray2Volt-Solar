@@ -23,10 +23,10 @@
 
     /** The four access levels, each nesting inside the one above it. */
     const LEVELS = [
-        { level: 0, label: 'Everyone', icon: 'group' },
-        { level: 1, label: 'Sales', icon: 'handshake' },
-        { level: 2, label: 'Admin', icon: 'admin_panel_settings' },
-        { level: 3, label: 'Owner', icon: 'workspace_premium' }
+        { level: 0, label: 'Everyone' },
+        { level: 1, label: 'Sales' },
+        { level: 2, label: 'Admin' },
+        { level: 3, label: 'Owner' }
     ];
 
     /**
@@ -367,44 +367,29 @@
         });
     }
 
-    function renderSessionBadge(account) {
+    function renderSessionControls() {
         const mainNav = document.querySelector('.sidebar .main-nav');
         if (!mainNav) return;
 
-        const level = levelInfo(account.level);
-        // A named account shows whose access it carries; the plain level
-        // accounts would only repeat their own name, so they say "Signed in as".
-        const named = account.name !== level.label;
-
-        const badge = document.createElement('div');
-        badge.className = 'nav-session';
-        badge.title = named
-            ? `${account.name} — ${level.label} access`
-            : `Signed in as ${account.name}`;
-        badge.innerHTML =
-            `<span class="nav-session-avatar material-symbols-rounded" aria-hidden="true">${level.icon}</span>` +
-            '<span class="nav-session-text">' +
-            `<span class="nav-session-label">${named ? level.label : 'Signed in as'}</span>` +
-            `<span class="nav-session-role">${account.name}</span>` +
-            '</span>' +
-            '<span class="nav-session-actions">' +
+        const controls = document.createElement('div');
+        controls.className = 'nav-session-controls';
+        controls.innerHTML =
             '<button type="button" class="nav-session-theme" aria-pressed="false" ' +
             'aria-label="Switch to dark theme">' +
             '<span class="material-symbols-rounded" aria-hidden="true">dark_mode</span>' +
             '</button>' +
             '<button type="button" class="nav-session-out" aria-label="Sign out">' +
             '<span class="material-symbols-rounded" aria-hidden="true">logout</span>' +
-            '</button>' +
-            '</span>';
-        mainNav.parentNode.insertBefore(badge, mainNav.nextSibling);
+            '</button>';
+        mainNav.parentNode.insertBefore(controls, mainNav.nextSibling);
 
         // theme.js owns the icon and the pressed state from here; it loads in
-        // the head, so it is always there by the time the badge is built.
+        // the head, so it is always there by the time the controls are built.
         if (window.Ray2VoltTheme) {
-            window.Ray2VoltTheme.attachToggle(badge.querySelector('.nav-session-theme'));
+            window.Ray2VoltTheme.attachToggle(controls.querySelector('.nav-session-theme'));
         }
 
-        badge.querySelector('.nav-session-out').addEventListener('click', () => {
+        controls.querySelector('.nav-session-out').addEventListener('click', () => {
             clearSession();
             window.location.reload();
         });
@@ -418,6 +403,6 @@
         showNoAccess(session);
     } else {
         pruneNavigation(session.level);
-        renderSessionBadge(session);
+        renderSessionControls();
     }
 })();

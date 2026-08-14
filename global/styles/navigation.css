@@ -429,23 +429,13 @@
         display: none;
     }
 
-    /* 76px fits the avatar or the label, not both — so the avatar sits above
-       its buttons and the role name falls back to the badge's tooltip. The
-       two 32px buttons still fit side by side under it. */
-    .sidebar.collapsed .nav-session {
-        flex-direction: column;
-        gap: 6px;
+    /* The two 32px controls fit side by side in the 76px collapsed sidebar. */
+    .sidebar.collapsed .nav-session-controls {
+        justify-content: center;
         /* 76px collapsed, less 2 x 4px, leaves 68px for a 66px button row. */
         padding: var(--spacing-sm) 4px;
     }
 
-    .sidebar.collapsed .nav-session-text {
-        display: none;
-    }
-
-    .sidebar.collapsed .nav-session-actions {
-        margin-left: 0;
-    }
 }
 
 .main-nav ul {
@@ -626,64 +616,18 @@
     color: var(--primary-text);
 }
 
-/* --- Signed-in badge ---
-   Sits below the scrolling nav, so it stays put while the tool list moves.
-   auth.js builds it once a role is known; signed out, there is no sidebar. */
-.nav-session {
+/* --- Session controls ---
+   Theme and sign out sit below the scrolling nav without repeating Account
+   identity. auth.js builds them only after a successful Sign-in. */
+.nav-session-controls {
     flex-shrink: 0;
     display: flex;
     align-items: center;
-    gap: var(--spacing-xs);
+    justify-content: flex-end;
+    gap: 2px;
     padding: var(--spacing-sm) var(--spacing-md);
     border-top: 1px solid var(--border-light);
     background: var(--bg-sidebar);
-}
-
-.nav-session-avatar {
-    width: 34px;
-    height: 34px;
-    flex: 0 0 34px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    background: var(--bg-active);
-    color: var(--primary-text);
-    font-size: 19px;
-}
-
-.nav-session-text {
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-    line-height: 1.25;
-}
-
-.nav-session-label {
-    font-size: 0.68rem;
-    font-weight: 500;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: var(--text-muted);
-}
-
-.nav-session-role {
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-/* Theme toggle and sign out, in that order: the one used often sits next to
-   the name, the one used once sits at the edge. */
-.nav-session-actions {
-    margin-left: auto;
-    flex: 0 0 auto;
-    display: flex;
-    align-items: center;
-    gap: 2px;
 }
 
 .nav-session-theme,
