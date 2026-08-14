@@ -73,6 +73,26 @@ assert.match(css, /QUOTE PREVIEW - 8 Page A4 Document/);
 assert.match(js, /Generate the 8-page preview/);
 assert.match(js, /function generatePreview\(\)/);
 
+// A new On-Grid Proposal starts with the approved editable BOM shown to Sales.
+const approvedOnGridBom = [
+    "{ item: 'Solar PV Module (Mono PERC DCR/Non-DCR) 540/550 Wp', qty: 6, unit: 'Nos', make: 'Adani/Vikram/Waaree' }",
+    "{ item: 'On-Grid Inverter', qty: 1, unit: 'Nos', make: 'Polycab/Growatt/Deye' }",
+    "{ item: 'Module Mounting Structure (HDG/GI)', qty: 1, unit: 'Set', make: 'JSW/Custom' }",
+    "{ item: 'AC Distribution Box (ACDB)', qty: 1, unit: 'Nos', make: 'Havells/Schnider/Reputed' }",
+    "{ item: 'DC Distribution Box (DCDB)', qty: 1, unit: 'Nos', make: 'Havells/Schnider/Reputed' }",
+    "{ item: 'DC Cable (4 sq mm)', qty: 50, unit: 'Mtrs', make: 'Polycab/Reputed' }",
+    "{ item: 'Lightning Arrester (LA)', qty: 1, unit: 'Nos', make: 'Reputed' }",
+    "{ item: 'Earthing Kit (Chemical/Rod)', qty: 3, unit: 'Set', make: 'Reputed' }",
+    "{ item: 'MC4 Connectors', qty: 4, unit: 'Pairs', make: 'Reputed' }",
+    "{ item: 'AC Cable (Service Wire)', qty: 20, unit: 'Mtrs', make: 'Polycab/Reputed' }",
+    "{ item: 'Installation & Commissioning', qty: 1, unit: 'Job', make: 'Ray2Volt Solar' }",
+    "{ item: 'Transportation & Handling', qty: 1, unit: 'Trip', make: 'Ray2Volt Solar' }"
+];
+
+approvedOnGridBom.forEach(row => {
+    assert.ok(js.includes(row), `Missing approved On-Grid BOM default: ${row}`);
+});
+
 // Module warranty is 30 years, so all proposal lifetime savings and impact
 // projections use a 30-year horizon.
 assert.match(markup, /System Warranty[\s\S]*30 Years/);

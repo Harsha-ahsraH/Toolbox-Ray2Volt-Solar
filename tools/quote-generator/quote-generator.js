@@ -111,11 +111,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!tbody) return;
 
         const onGridDefaults = [
-            { item: 'Solar PV Module (Mono PERC DCR/Non-DCR) 540/550 Wp', qty: 6, unit: 'Nos', make: 'Adani' },
+            { item: 'Solar PV Module (Mono PERC DCR/Non-DCR) 540/550 Wp', qty: 6, unit: 'Nos', make: 'Adani/Vikram/Waaree' },
             { item: 'On-Grid Inverter', qty: 1, unit: 'Nos', make: 'Polycab/Growatt/Deye' },
             { item: 'Module Mounting Structure (HDG/GI)', qty: 1, unit: 'Set', make: 'JSW/Custom' },
-            { item: 'AC Distribution Box (ACDB)', qty: 1, unit: 'Nos', make: 'Polycab' },
-            { item: 'DC Distribution Box (DCDB)', qty: 1, unit: 'Nos', make: 'Polycab' },
+            { item: 'AC Distribution Box (ACDB)', qty: 1, unit: 'Nos', make: 'Havells/Schnider/Reputed' },
+            { item: 'DC Distribution Box (DCDB)', qty: 1, unit: 'Nos', make: 'Havells/Schnider/Reputed' },
             { item: 'DC Cable (4 sq mm)', qty: 50, unit: 'Mtrs', make: 'Polycab/Reputed' }
         ];
 
