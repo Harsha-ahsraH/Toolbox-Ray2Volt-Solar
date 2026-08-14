@@ -95,7 +95,7 @@ Everything the toolbox draws around a document — sidebar, forms, buttons, tabl
 _Avoid_: Shell, UI, wrapper
 
 **Theme**:
-Light or dark, chosen once for the whole toolbox from the toggle beside the signed-in name and remembered on that device. It applies to Chrome only: Artifacts, the A4 previews and everything that prints keep their own palettes and stay on paper white in both themes. Held in `global/scripts/theme.js`, stamped on `<html>` as `data-theme` before the first paint.
+Light or dark, defaulting to light and chosen once for the whole toolbox from the toggle beside the signed-in name and remembered on that device. It applies to Chrome only: Artifacts, the A4 previews and everything that prints keep their own palettes and stay on paper white in both themes. Held in `global/scripts/theme.js`, stamped on `<html>` as `data-theme` before the first paint.
 _Avoid_: Dark mode, skin, colour scheme
 
 **Access Level**:

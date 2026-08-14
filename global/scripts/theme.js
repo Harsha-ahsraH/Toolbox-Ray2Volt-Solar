@@ -13,9 +13,8 @@
  * their own local palettes and stay on paper white in both themes; only the
  * chrome around them follows this.
  *
- * With no stored choice the toolbox follows the operating system, and keeps
- * following it as it changes. Using the toggle stores a choice, and a stored
- * choice wins from then on, on this device, until it is toggled back.
+ * With no stored choice the toolbox starts in light mode. Using the toggle
+ * stores a choice, and that choice wins from then on on this device.
  */
 (function () {
     'use strict';
@@ -23,9 +22,6 @@
     const STORAGE_KEY = 'ray2volt_toolbox_theme';
     const THEMES = ['light', 'dark'];
     const root = document.documentElement;
-    const system = window.matchMedia
-        ? window.matchMedia('(prefers-color-scheme: dark)')
-        : null;
 
     // A browser with storage blocked still themes, it just cannot remember.
     function readChoice() {
@@ -46,12 +42,8 @@
         }
     }
 
-    function systemTheme() {
-        return system && system.matches ? 'dark' : 'light';
-    }
-
     function resolve() {
-        return readChoice() || systemTheme();
+        return readChoice() || 'light';
     }
 
     const listeners = new Set();
@@ -100,15 +92,6 @@
         button.addEventListener('click', toggle);
         listeners.add(sync);
         sync(root.getAttribute('data-theme'));
-    }
-
-    // Only while the theme is still the system's to decide.
-    if (system) {
-        const follow = () => {
-            if (!readChoice()) apply(systemTheme());
-        };
-        if (system.addEventListener) system.addEventListener('change', follow);
-        else if (system.addListener) system.addListener(follow);
     }
 
     // Toggling in one tab moves every other open tab with it.

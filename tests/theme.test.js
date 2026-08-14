@@ -112,8 +112,13 @@ assert.match(
 assert.match(themeJs, /localStorage/, 'a chosen theme should survive a reload');
 assert.match(
     themeJs,
-    /prefers-color-scheme: dark/,
-    'with no choice stored the toolbox should follow the system'
+    /return readChoice\(\) \|\| 'light';/,
+    'with no choice stored the toolbox should default to light'
+);
+assert.doesNotMatch(
+    themeJs,
+    /prefers-color-scheme/,
+    'the operating-system preference should not override the light default'
 );
 
 // Documents are not themed: they carry their own palettes and print on paper.
