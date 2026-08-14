@@ -1,14 +1,13 @@
 /**
- * Quote Generator - Comprehensive preview, print and PDF
+ * Quote Generator - Comprehensive preview and print
  * Ray2Volt Solar Toolbox
  *
  * Builds the Comprehensive Proposal from the page plan, drives the thumbnail
- * rail and the large A4 stage, and wires Print and Download PDF.
+ * rail and the large A4 stage, and wires Print / Save as PDF.
  *
- * One page plan feeds all four outputs. The pages are built once into
- * #qgComprehensivePages, which is what print and Ray2VoltPdfDownload read; the
- * rail and the stage show scaled clones of those same nodes. Preview, browser
- * print and the downloaded PDF therefore cannot disagree on page order,
+ * One page plan feeds preview and browser print. The pages are built once into
+ * #qgComprehensivePages; the rail and stage show scaled clones of those same
+ * nodes, so the preview and printed Proposal cannot disagree on page order,
  * content or numbering.
  */
 (function (root) {
@@ -29,7 +28,6 @@
     let pageSelect = null;
     let exportBlocked = null;
     let printButton = null;
-    let downloadButton = null;
 
     let currentPlan = [];
     let selectedIndex = 0;
@@ -210,35 +208,39 @@
     // Export
     // ---------------------------------------------------------------------
 
-    function sanitizeFilenamePart(value) {
-        return String(value || '')
-            .replace(/[\\/:*?"<>|]+/g, '-')
-            .replace(/\s+/g, ' ')
-            .trim()
-            .replace(/\s/g, '-')
-            || 'Draft';
-    }
-
-    function downloadFilename(state) {
-        return 'Ray2Volt-Comprehensive-Proposal-'
-            + sanitizeFilenamePart(state.customer.customerType === 'company'
-                ? state.customer.companyName
-                : state.customer.customerName)
-            + '-'
-            + sanitizeFilenamePart(state.project.quoteNumber);
-    }
-
     function applyExportGate(validation) {
         const blocked = validation ? validation.hasCriticalErrors : true;
 
         if (printButton) printButton.disabled = blocked;
-        if (downloadButton) downloadButton.disabled = blocked;
         if (exportBlocked) exportBlocked.hidden = !blocked;
     }
 
     function setPrintMode() {
         document.body.classList.add('qg-print-comprehensive');
         document.body.classList.remove('qg-print-short');
+    }
+
+    function printWhenFreshAndReady() {
+        ensureFresh();
+        if (printButton.disabled) return;
+        setPrintMode();
+
+        const annexures = root.QuoteGeneratorAnnexures;
+        const ready = annexures ? annexures.whenReady() : Promise.resolve();
+
+        printButton.disabled = true;
+        ready.then(() => {
+            printButton.disabled = false;
+
+            // Inputs may change while annexures render. Rebuilding starts a new
+            // hydration cycle, so wait again rather than printing empty frames.
+            if (stale) {
+                printWhenFreshAndReady();
+                return;
+            }
+
+            window.print();
+        });
     }
 
     // ---------------------------------------------------------------------
@@ -273,7 +275,6 @@
         pageSelect = byId('qgPageSelect');
         exportBlocked = byId('qgExportBlocked');
         printButton = byId('qgComprehensivePrint');
-        downloadButton = byId('qgComprehensiveDownload');
 
         if (!container) return;
 
@@ -301,52 +302,7 @@
         if (printButton) {
             printButton.addEventListener('click', () => {
                 if (printButton.disabled) return;
-
-                ensureFresh();
-                setPrintMode();
-
-                // Annexure pages fill in asynchronously. Printing before they
-                // resolve would send blank frames to the printer while the
-                // downloaded PDF contained the artwork - the two outputs have
-                // to agree.
-                const annexures = root.QuoteGeneratorAnnexures;
-                const ready = annexures ? annexures.whenReady() : Promise.resolve();
-
-                printButton.disabled = true;
-                ready.then(() => {
-                    printButton.disabled = false;
-                    window.print();
-                });
-            });
-        }
-
-        if (downloadButton) {
-            downloadButton.addEventListener('click', () => {
-                if (downloadButton.disabled) return;
-
-                ensureFresh();
-                setPrintMode();
-
-                const state = app.getState();
-                const annexures = root.QuoteGeneratorAnnexures;
-
-                // Wait for annexure artwork to be on the page, or the capture
-                // would photograph empty frames.
-                const ready = annexures ? annexures.whenReady() : Promise.resolve();
-
-                ready.then(() => {
-                    root.Ray2VoltPdfDownload?.downloadPages({
-                        pages: container.querySelectorAll('.quote-page'),
-                        button: downloadButton,
-                        filename: downloadFilename(state),
-                        beforeCapture: () => {
-                            container.style.display = 'block';
-                        },
-                        afterCapture: () => {
-                            container.style.display = '';
-                        }
-                    });
-                });
+                printWhenFreshAndReady();
             });
         }
 
@@ -369,8 +325,6 @@
         selectPage,
         getPlan() {
             return currentPlan;
-        },
-        downloadFilename,
-        sanitizeFilenamePart
+        }
     };
 }(typeof self !== 'undefined' ? self : this));

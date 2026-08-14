@@ -72,6 +72,8 @@ assert.match(html, /<script src="quote-generator\.js(?:\?[^"]+)?"><\/script>/);
 assert.match(css, /QUOTE PREVIEW - 8 Page A4 Document/);
 assert.match(js, /Generate the 8-page preview/);
 assert.match(js, /function generatePreview\(\)/);
+assert.doesNotMatch(html, /id="qgDownloadBtn"|>Download PDF<|pdf-download\.js/);
+assert.doesNotMatch(js, /qgDownloadBtn|Ray2VoltPdfDownload/);
 
 // A new On-Grid Proposal starts with the approved editable BOM shown to Sales.
 const approvedOnGridBom = [

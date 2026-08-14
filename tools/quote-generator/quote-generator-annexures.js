@@ -9,8 +9,7 @@
  * Files are held in IndexedDB on this device and are never uploaded anywhere.
  *
  * PDF.js is fetched from cdnjs only when a PDF annexure actually needs
- * rendering, matching how global/scripts/pdf-download.js lazy-loads html2canvas
- * and jsPDF. If it cannot load, the main Proposal stays fully usable and the
+ * rendering. If it cannot load, the main Proposal stays fully usable and the
  * affected annexure pages carry a clear, annexure-specific error.
  */
 (function (root) {

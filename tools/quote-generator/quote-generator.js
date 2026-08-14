@@ -74,25 +74,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        // Direct PDF download button
-        const downloadBtn = document.getElementById('qgDownloadBtn');
-        if (downloadBtn) {
-            downloadBtn.addEventListener('click', () => {
-                if (quotePreview && !quotePreview.classList.contains('visible')) {
-                    generatePreview();
-                }
-
-                const customerName = document.getElementById('qgCustomerName')?.value?.trim();
-                window.Ray2VoltPdfDownload?.downloadPages({
-                    pages: quotePreview?.querySelectorAll('.quote-page'),
-                    button: downloadBtn,
-                    filename: `Ray2Volt-Quotation-${customerName || 'Draft'}`,
-                    beforeCapture: () => quotePreview?.style.setProperty('--qp-preview-scale', '1'),
-                    afterCapture: () => updatePreviewScale()
-                });
-            });
-        }
-
         // Installation Type change to update BOM table
         if (qgInstallationType) {
             qgInstallationType.addEventListener('change', updateBomTable);

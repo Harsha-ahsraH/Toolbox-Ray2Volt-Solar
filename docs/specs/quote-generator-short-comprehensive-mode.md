@@ -43,9 +43,9 @@ The Toolbox remains the source of truth for inputs, templates, preview, and PDF 
   7. Savings & ROI
   8. Terms & Conditions
 - Installation Type continues to support exactly **On-Grid** and **Hybrid**. Do not restore Off-Grid.
-- Preserve the existing Short Proposal content, calculations, quotation numbering, print styling, and PDF output unless this specification explicitly changes an input shared with Comprehensive mode.
+- Preserve the existing Short Proposal content, calculations, quotation numbering, and print styling unless this specification explicitly changes an input shared with Comprehensive mode.
 - Preserve the fixed 210 mm × 297 mm `.quote-page` preview/print contract.
-- Preserve the shared `Ray2VoltPdfDownload.downloadPages` integration.
+- Use browser Print / Save as PDF as the only final-output action; the direct Download PDF integration was removed by product decision on 2026-08-15.
 - Existing `tests/quote-generator.test.js` assertions for the eight-page Short Proposal must continue to pass after being updated only where labels or script organization necessarily change.
 
 ## 4. Information Architecture
@@ -84,7 +84,7 @@ Each panel header shows one state: **Incomplete**, **Complete**, or **Error**. P
 - Main area: one large A4 page selected from the thumbnails.
 - No page reordering.
 - Show current dynamic page number and total.
-- Provide Print / Save as PDF and Download PDF here.
+- Provide Generate Preview and Print / Save as PDF here.
 - On narrow screens, replace the persistent thumbnail sidebar with a compact page selector.
 - Preview may render placeholders for missing inputs.
 
@@ -423,7 +423,7 @@ At minimum:
 - Self-consumption/export split not totalling 100%
 - Invalid negative amounts, quantities, percentages, or years
 
-Preview remains available with explicit placeholders. Print/Save as PDF and Download PDF must be disabled when critical errors exist. Optional fields never block final output.
+Preview remains available with explicit placeholders. Print / Save as PDF must be disabled when critical errors exist. Optional fields never block final output.
 
 ## 9. Comprehensive Proposal Section Library
 
@@ -524,10 +524,7 @@ Use the current page-template insertion pattern or replace it with an equally de
 - Repeatable tables create continuation pages rather than overflowing or shrinking text to illegibility.
 - BOM starts on a new page and receives at least one complete page.
 - Annexure images/PDF pages preserve aspect ratio and remain inside A4 bounds.
-- Preview, browser print, and downloaded PDF must contain the same page order and content.
-- Filename format:
-  - Short: preserve current naming.
-  - Comprehensive: `Ray2Volt-Comprehensive-Proposal-{Customer}-{QuotationNumber}.pdf` with unsafe characters sanitized.
+- Preview and browser print must contain the same page order and content.
 
 ## 14. Testing Requirements
 
@@ -575,7 +572,7 @@ Verify at minimum:
 8. Image and multi-page PDF annexures
 9. Reload with autosaved data and annexures
 10. Narrow-screen Inputs and Preview navigation
-11. Browser Print and Download PDF page parity
+11. Browser preview and print page parity
 
 ## 15. Acceptance Criteria
 

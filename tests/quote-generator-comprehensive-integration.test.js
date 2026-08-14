@@ -8,6 +8,11 @@ const html = fs.readFileSync(path.join(toolRoot, 'quote-generator.html'), 'utf8'
 const workspace = fs.readFileSync(path.join(toolRoot, 'quote-generator-workspace-template.js'), 'utf8');
 const formJs = fs.readFileSync(path.join(toolRoot, 'quote-generator-form.js'), 'utf8');
 const previewJs = fs.readFileSync(path.join(toolRoot, 'quote-generator-preview.js'), 'utf8');
+const previewModule = require(path.join(toolRoot, 'quote-generator-preview.js'));
+assert.ok(
+    previewModule.QuoteGeneratorPreview,
+    'the Comprehensive preview module must evaluate and install its public API'
+);
 const comprehensiveCss = fs.readFileSync(
     path.join(toolRoot, 'quote-generator-proposal-comprehensive.css'),
     'utf8'
@@ -110,11 +115,11 @@ assert.match(comprehensivePageRule, /height:\s*297mm\s*!important/);
 assert.match(comprehensivePageRule, /min-height:\s*297mm\s*!important/);
 assert.doesNotMatch(comprehensivePageRule, /100vh|width:\s*100%/);
 
-// Critical errors gate both final-output actions only. Preview remains an
-// enabled workspace action and renders from the page plan.
+// Critical errors gate the final print action only. Preview remains an enabled
+// workspace action and renders from the page plan.
 assert.doesNotMatch(openingTagById(workspace, 'qgWorkspacePreviewTab'), /\bdisabled\b/);
 assert.match(workspace, /id="qgComprehensivePrint"[\s\S]*?>Print \/ Save\s+as PDF<\/button>/);
-assert.match(workspace, /id="qgComprehensiveDownload">Download PDF<\/button>/);
+assert.doesNotMatch(workspace, /qgComprehensiveDownload|>Download PDF<\/button>/);
 
 const exportGateBody = previewJs.slice(
     previewJs.indexOf('function applyExportGate(validation)'),
@@ -122,7 +127,23 @@ const exportGateBody = previewJs.slice(
 );
 assert.match(exportGateBody, /const blocked = validation \? validation\.hasCriticalErrors : true/);
 assert.match(exportGateBody, /printButton\.disabled = blocked/);
-assert.match(exportGateBody, /downloadButton\.disabled = blocked/);
+assert.doesNotMatch(exportGateBody, /downloadButton/);
+assert.doesNotMatch(previewJs, /qgComprehensiveDownload|Ray2VoltPdfDownload|downloadButton/);
+
+const printReadyBody = previewJs.slice(
+    previewJs.indexOf('function printWhenFreshAndReady()'),
+    previewJs.indexOf('// Public interface', previewJs.indexOf('function printWhenFreshAndReady()'))
+);
+assert.match(
+    printReadyBody,
+    /ensureFresh\(\);[\s\S]*if \(printButton\.disabled\) return;[\s\S]*setPrintMode\(\);/,
+    'fresh validation must be allowed to stop printing a stale invalid Proposal'
+);
+assert.match(
+    printReadyBody,
+    /ready\.then\(\(\) => \{[\s\S]*if \(stale\) \{[\s\S]*printWhenFreshAndReady\(\);[\s\S]*return;[\s\S]*\}[\s\S]*window\.print\(\);/,
+    'printing must repeat refresh and annexure readiness when inputs change during rendering'
+);
 assert.doesNotMatch(exportGateBody, /preview[^\n]*disabled|disabled[^\n]*preview/i);
 assert.match(formJs, /refs\.previewTab\.addEventListener\('click', \(\) => setWorkspace\('preview'\)\)/);
 assert.match(previewJs, /<span>Page \$\{page\.pageNumber\} of \$\{page\.totalPages\}<\/span>/);

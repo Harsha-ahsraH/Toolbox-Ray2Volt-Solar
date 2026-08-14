@@ -546,8 +546,6 @@
                     Preview</button>
                 <button type="button" class="qg-btn-secondary" id="qgComprehensivePrint">Print / Save
                     as PDF</button>
-                <button type="button" class="qg-btn-secondary"
-                    id="qgComprehensiveDownload">Download PDF</button>
             </div>
         </div>
         <p class="qg-export-blocked" id="qgExportBlocked" role="status" hidden>
