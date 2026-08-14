@@ -387,10 +387,22 @@
             `<span class="nav-session-label">${named ? level.label : 'Signed in as'}</span>` +
             `<span class="nav-session-role">${account.name}</span>` +
             '</span>' +
+            '<span class="nav-session-actions">' +
+            '<button type="button" class="nav-session-theme" aria-pressed="false" ' +
+            'aria-label="Switch to dark theme">' +
+            '<span class="material-symbols-rounded" aria-hidden="true">dark_mode</span>' +
+            '</button>' +
             '<button type="button" class="nav-session-out" aria-label="Sign out">' +
             '<span class="material-symbols-rounded" aria-hidden="true">logout</span>' +
-            '</button>';
+            '</button>' +
+            '</span>';
         mainNav.parentNode.insertBefore(badge, mainNav.nextSibling);
+
+        // theme.js owns the icon and the pressed state from here; it loads in
+        // the head, so it is always there by the time the badge is built.
+        if (window.Ray2VoltTheme) {
+            window.Ray2VoltTheme.attachToggle(badge.querySelector('.nav-session-theme'));
+        }
 
         badge.querySelector('.nav-session-out').addEventListener('click', () => {
             clearSession();

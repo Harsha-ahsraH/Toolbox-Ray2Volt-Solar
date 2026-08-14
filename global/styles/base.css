@@ -22,8 +22,16 @@
     font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
 }
 
-/* --- CSS Custom Properties --- */
+/* --- CSS Custom Properties ---
+   Everything below is the light theme. The dark theme further down re-declares
+   the colour tokens only; sizes, spacing and radii are shared. Anything in the
+   app chrome should reach for a token rather than a literal colour, so it
+   follows the theme. Documents - the A4 previews and everything that prints -
+   deliberately do not: they carry their own local palettes and stay on paper
+   white in both themes. */
 :root {
+    color-scheme: light;
+
     /* Primary Colors - Light Cyan Accent */
     --primary: #06B6D4;
     --primary-light: #CFFAFE;
@@ -49,9 +57,35 @@
     --text-secondary: #4B5563;
     --text-muted: #6B7280;
 
+    /* Text that sits on a --primary fill, never on the page */
+    --on-primary: #FFFFFF;
+
     /* Border Colors - Stronger for brutalist */
     --border-light: #D1D5DB;
     --border-medium: #9CA3AF;
+
+    /* Alternating rows in a UI table (a document's own striping is its own) */
+    --row-stripe: #F9FAFB;
+
+    /* Status colours for the app chrome - validation blocks, save states,
+       destructive buttons. Each is a text/fill/edge trio so a block can be
+       built from one family and still flip cleanly with the theme. */
+    --danger-text: #B42318;
+    --danger-strong: #8C1A12;
+    --danger-bg: #FFF6F5;
+    --danger-border: #E8A9A2;
+
+    --warning-text: #8A6100;
+    --warning-bg: #FFFBEB;
+    --warning-border: #E4C580;
+
+    --success-text: #1B7F4B;
+    --success-bg: #F1FAF5;
+    --success-border: #9BD5B4;
+
+    --info-text: #1D4ED8;
+    --info-bg: #EFF6FF;
+    --info-border: #BFDBFE;
 
     /* Shadows - Minimal for brutalist */
     --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
@@ -84,11 +118,103 @@
     /* Vertical gap between a tool's top-level sections (cards, grids, tables) */
     --section-gap: 1.5rem;
 
-    /* Scrollbars - one dark grey pill, shared by every scrolling area */
+    /* Scrollbars - one grey pill, shared by every scrolling area */
     --scrollbar-size: 6px;
-    --scrollbar-thumb: #4B5563;
-    --scrollbar-thumb-hover: #374151;
-    --scrollbar-thumb-active: #1F2937;
+    --scrollbar-thumb: #6B7280;
+    --scrollbar-thumb-hover: #4B5563;
+    --scrollbar-thumb-active: #374151;
+}
+
+/* --- Dark theme ---
+   theme.js stamps data-theme on <html> before the first paint. Only colours
+   change; every size, radius and transition is shared with the light theme
+   above. The neutrals are warm-free greys so the cyan accent stays the only
+   colour on the page, and the accent itself brightens because #0891B2 sinks
+   into a dark surface. */
+:root[data-theme="dark"] {
+    color-scheme: dark;
+
+    --primary: #22D3EE;
+    --primary-light: #0E3A44;
+    --primary-dark: #06B6D4;
+    /* 8.9:1 on --bg-card. The light theme's #0E7490 is 2.1:1 there. */
+    --primary-text: #67E8F9;
+
+    --bg-body: #17191C;
+    --bg-card: #1F2225;
+    --bg-sidebar: #1B1E21;
+    --bg-hover: #292D31;
+    --bg-active: #0E3239;
+
+    --text-primary: #E6E8EA;
+    --text-secondary: #B0B6BC;
+    --text-muted: #878E95;
+
+    /* The accent is bright enough that white on it is 1.9:1; near-black is
+       12:1, so filled buttons keep their contrast when the theme flips. */
+    --on-primary: #06222A;
+
+    --border-light: #2F3438;
+    --border-medium: #464C52;
+
+    --row-stripe: #24282C;
+
+    --danger-text: #FCA5A5;
+    --danger-strong: #FECACA;
+    --danger-bg: #3A1E1B;
+    --danger-border: #7A3B34;
+
+    --warning-text: #F0C46A;
+    --warning-bg: #33280F;
+    --warning-border: #6E5A28;
+
+    --success-text: #6EE7A8;
+    --success-bg: #12301F;
+    --success-border: #2E6A47;
+
+    --info-text: #93C5FD;
+    --info-bg: #16263C;
+    --info-border: #2C4E7C;
+
+    /* A shadow has nothing to darken on a dark surface, so it deepens
+       instead of softening. */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+    --shadow-md: 0 2px 6px rgba(0, 0, 0, 0.5);
+    --shadow-lg: 0 4px 14px rgba(0, 0, 0, 0.6);
+
+    --scrollbar-thumb: #4A5058;
+    --scrollbar-thumb-hover: #5E656D;
+    --scrollbar-thumb-active: #737B84;
+}
+
+/* Printing is always on paper. Documents carry their own palettes and are
+   unaffected either way, but any chrome that reaches the page - a header, a
+   note, a table rule - has to come back to ink on white. */
+@media print {
+    :root,
+    :root[data-theme="dark"] {
+        color-scheme: light;
+
+        --bg-body: #FFFFFF;
+        --bg-card: #FFFFFF;
+        --bg-sidebar: #FFFFFF;
+        --bg-hover: #F3F4F6;
+        --bg-active: #E0F7FA;
+
+        --text-primary: #111827;
+        --text-secondary: #4B5563;
+        --text-muted: #6B7280;
+        --on-primary: #FFFFFF;
+
+        --border-light: #D1D5DB;
+        --border-medium: #9CA3AF;
+        --row-stripe: #F9FAFB;
+
+        --primary: #06B6D4;
+        --primary-light: #CFFAFE;
+        --primary-dark: #0891B2;
+        --primary-text: #0E7490;
+    }
 }
 
 /* --- Scrollbars ---

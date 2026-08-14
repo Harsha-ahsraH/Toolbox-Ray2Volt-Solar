@@ -429,8 +429,9 @@
         display: none;
     }
 
-    /* 76px fits the avatar or the label, not both — so the two controls
-       stack and the role name falls back to the badge's tooltip. */
+    /* 76px fits the avatar or the label, not both — so the avatar sits above
+       its buttons and the role name falls back to the badge's tooltip. The
+       two 32px buttons still fit side by side under it. */
     .sidebar.collapsed .nav-session {
         flex-direction: column;
         gap: 6px;
@@ -441,7 +442,7 @@
         display: none;
     }
 
-    .sidebar.collapsed .nav-session-out {
+    .sidebar.collapsed .nav-session-actions {
         margin-left: 0;
     }
 }
@@ -674,8 +675,18 @@
     text-overflow: ellipsis;
 }
 
-.nav-session-out {
+/* Theme toggle and sign out, in that order: the one used often sits next to
+   the name, the one used once sits at the edge. */
+.nav-session-actions {
     margin-left: auto;
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.nav-session-theme,
+.nav-session-out {
     flex: 0 0 auto;
     width: 32px;
     height: 32px;
@@ -690,20 +701,24 @@
     transition: all var(--transition-fast);
 }
 
+.nav-session-theme .material-symbols-rounded,
 .nav-session-out .material-symbols-rounded {
     font-size: 19px;
 }
 
+.nav-session-theme:hover,
 .nav-session-out:hover {
     background: var(--bg-hover);
     border-color: var(--border-light);
     color: var(--primary-text);
 }
 
+.nav-session-theme:active,
 .nav-session-out:active {
     background: var(--bg-active);
 }
 
+.nav-session-theme:focus-visible,
 .nav-session-out:focus-visible {
     outline: 2px solid var(--primary);
     outline-offset: 1px;
