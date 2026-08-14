@@ -8,73 +8,57 @@ const readCss = (...segments) =>
 
 const baseCss = readCss('global', 'styles', 'base.css');
 const navigationCss = readCss('global', 'styles', 'navigation.css');
+const responsiveCss = readCss('global', 'styles', 'responsive.css');
+const toolStylesheets = fs
+    .readdirSync(path.join(repoRoot, 'tools'))
+    .map((tool) => path.join(repoRoot, 'tools', tool, `${tool}.css`))
+    .filter((stylesheet) => fs.existsSync(stylesheet));
 
 assert.match(
     baseCss,
-    /--scrollbar-size:\s*\d+px;/,
-    'the shared scrollbar width should live in a token'
+    /\*\s*{\s*scrollbar-width:\s*none;\s*}/,
+    'no scrolling area should draw a scrollbar in Firefox or current Chromium'
 );
 
 assert.match(
     baseCss,
-    /::-webkit-scrollbar\s*{[^}]*width:\s*var\(--scrollbar-size\);[^}]*height:\s*var\(--scrollbar-size\);/,
-    'every scrollbar should take its width and height from the shared token'
+    /::-webkit-scrollbar\s*{\s*display:\s*none;\s*}/,
+    'older WebKit should hide its scrollbar too'
 );
 
-assert.match(
-    baseCss,
-    /::-webkit-scrollbar-thumb\s*{[^}]*background:\s*transparent;[^}]*border-radius:\s*999px;/,
-    'the resting thumb should be an invisible pill'
-);
+// A single element re-declaring either property brings its scrollbar back,
+// which is exactly the inconsistency this treatment exists to remove.
+const stylesheets = [
+    ['global/styles/base.css', baseCss],
+    ['global/styles/navigation.css', navigationCss],
+    ['global/styles/responsive.css', responsiveCss],
+    ...toolStylesheets.map((stylesheet) => [
+        path.relative(repoRoot, stylesheet).replace(/\\/g, '/'),
+        readCss(path.relative(repoRoot, stylesheet))
+    ])
+];
 
-assert.match(
-    baseCss,
-    /:hover::-webkit-scrollbar-thumb,\s*:focus-within::-webkit-scrollbar-thumb\s*{[^}]*background:\s*var\(--scrollbar-thumb\);[^}]*border-color:\s*var\(--scrollbar-thumb-border\);/,
-    'the thumb should appear when the pointer or focus is inside the scrolling area'
-);
+for (const [name, css] of stylesheets) {
+    const scrollbarWidths = css.match(/scrollbar-width:\s*[^;]+;/g) || [];
+    const unhidden = scrollbarWidths.filter((rule) => !/none/.test(rule));
 
-assert.match(
-    baseCss,
-    /@media \(hover: none\)\s*{\s*::-webkit-scrollbar-thumb\s*{[^}]*background:\s*var\(--scrollbar-thumb\);/,
-    'touch devices cannot hover, so their thumb should stay visible'
-);
+    assert.deepEqual(
+        unhidden,
+        [],
+        `${name} should not re-enable a scrollbar with ${unhidden.join(' ')}`
+    );
 
-assert.match(
-    baseCss,
-    /@supports not selector\(::-webkit-scrollbar\)\s*{[\s\S]*?\*\s*{[^}]*scrollbar-width:\s*thin;[^}]*scrollbar-color:\s*transparent transparent;/,
-    'browsers without the WebKit scrollbar pseudo-elements should hide the thumb through the standard properties'
-);
+    assert.doesNotMatch(
+        css,
+        /scrollbar-color:/,
+        `${name} should not colour a scrollbar that is never drawn`
+    );
 
-// Chromium abandons the styled scrollbar above the moment either standard
-// property is set, so both may only appear inside the @supports guard.
-const supportsGuardStart = baseCss.indexOf('@supports not selector(::-webkit-scrollbar)');
-
-assert.notEqual(supportsGuardStart, -1, 'the @supports guard should exist');
-
-for (const property of ['scrollbar-width:', 'scrollbar-color:']) {
-    const firstUse = baseCss.indexOf(property);
-    assert.ok(
-        firstUse === -1 || firstUse > supportsGuardStart,
-        `${property} should only be used inside the @supports guard, so Chromium keeps the styled scrollbar`
+    assert.doesNotMatch(
+        css,
+        /::-webkit-scrollbar(-track|-thumb|-corner)/,
+        `${name} should not style the parts of a hidden WebKit scrollbar`
     );
 }
-
-assert.match(
-    navigationCss,
-    /\.main-nav\s*{[^}]*scrollbar-gutter:\s*stable;/,
-    'the tool list should still reserve its scrollbar gutter'
-);
-
-assert.doesNotMatch(
-    navigationCss,
-    /\.main-nav[^{]*::-webkit-scrollbar-thumb/,
-    'the sidebar should inherit the shared thumb rather than restyle it'
-);
-
-assert.doesNotMatch(
-    navigationCss,
-    /\.main-nav\s*{[^}]*scrollbar-color:/,
-    'pinning scrollbar-color on the sidebar would keep its scrollbar permanently visible'
-);
 
 console.log('scrollbar tests passed');

@@ -39,29 +39,11 @@
         max-height: 100dvh;
     }
 
+    /* The tool list scrolls by touch alone - base.css draws no bar here
+       either, so the list keeps the full width of the drawer. */
     .main-nav {
-        --mobile-scrollbar-track: #E6F0F2;
         -webkit-overflow-scrolling: touch;
         touch-action: pan-y pinch-zoom;
-        scrollbar-width: auto;
-        scrollbar-color: var(--primary-dark) var(--mobile-scrollbar-track);
-    }
-
-    .main-nav::-webkit-scrollbar {
-        width: 10px;
-    }
-
-    .main-nav::-webkit-scrollbar-track {
-        background: var(--mobile-scrollbar-track);
-        border-left: 1px solid #D1E3E6;
-        margin-block: 4px;
-    }
-
-    .main-nav::-webkit-scrollbar-thumb {
-        min-height: 44px;
-        background: var(--primary-dark);
-        border: 2px solid var(--mobile-scrollbar-track);
-        border-radius: 999px;
     }
 
     .sidebar-collapse-btn {

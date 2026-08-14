@@ -83,90 +83,19 @@
 
     /* Vertical gap between a tool's top-level sections (cards, grids, tables) */
     --section-gap: 1.5rem;
-
-    /* Scrollbars - the sidebar's outlined pill, shared by every scrolling area */
-    --scrollbar-size: 6px;
-    --scrollbar-thumb: #E3EBED;
-    --scrollbar-thumb-border: #82979E;
-    --scrollbar-thumb-hover: #D6EEF2;
-    --scrollbar-thumb-border-hover: #6F9AA4;
-    --scrollbar-thumb-active: #C7E5EA;
-    --scrollbar-thumb-border-active: #5F8B95;
 }
 
-/* --- Custom Scrollbars ---
-   One scrollbar for the whole toolbox: the sidebar's outlined pill, slimmed
-   down. The thumb is transparent until the pointer is inside the scrolling
-   area (or something in it holds focus), so a resting page shows no rails.
-   The track always reserves its width, so revealing the thumb never reflows
-   the content underneath it. */
+/* --- Scrollbars ---
+   No scrollbars anywhere in the toolbox. Every scrolling area still scrolls
+   by wheel, trackpad, touch, keyboard and drag; it just never draws a bar,
+   and never reserves width for one. The standard property covers Firefox and
+   current Chromium, the pseudo-element covers older WebKit. */
+* {
+    scrollbar-width: none;
+}
+
 ::-webkit-scrollbar {
-    width: var(--scrollbar-size);
-    height: var(--scrollbar-size);
-}
-
-::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-::-webkit-scrollbar-corner {
-    background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-    background: transparent;
-    background-clip: padding-box;
-    border: 1px solid transparent;
-    border-radius: 999px;
-    transition: background-color var(--transition-base), border-color var(--transition-base);
-}
-
-:hover::-webkit-scrollbar-thumb,
-:focus-within::-webkit-scrollbar-thumb {
-    background: var(--scrollbar-thumb);
-    border-color: var(--scrollbar-thumb-border);
-}
-
-:hover::-webkit-scrollbar-thumb:hover {
-    background: var(--scrollbar-thumb-hover);
-    border-color: var(--scrollbar-thumb-border-hover);
-}
-
-:hover::-webkit-scrollbar-thumb:active {
-    background: var(--scrollbar-thumb-active);
-    border-color: var(--scrollbar-thumb-border-active);
-}
-
-/* Touch devices never hover, so the thumb would never appear and a sideways
-   scrolling table would look like a cut-off one. There the pill stays on. */
-@media (hover: none) {
-    ::-webkit-scrollbar-thumb {
-        background: var(--scrollbar-thumb);
-        border-color: var(--scrollbar-thumb-border);
-    }
-}
-
-/* Firefox has no ::-webkit-scrollbar, so it gets the same behaviour through
-   the standard properties. They are scoped to browsers without the WebKit
-   pseudo-elements on purpose: setting scrollbar-width or scrollbar-color in
-   Chromium makes it drop the styled scrollbar above and fall back to its own
-   thin one, which is both fatter and a different shape. */
-@supports not selector(::-webkit-scrollbar) {
-    * {
-        scrollbar-width: thin;
-        scrollbar-color: transparent transparent;
-    }
-
-    *:hover,
-    *:focus-within {
-        scrollbar-color: var(--scrollbar-thumb-border) transparent;
-    }
-
-    @media (hover: none) {
-        * {
-            scrollbar-color: var(--scrollbar-thumb-border) transparent;
-        }
-    }
+    display: none;
 }
 
 /* --- Reset & Base Styles --- */
