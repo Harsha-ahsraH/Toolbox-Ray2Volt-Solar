@@ -367,29 +367,36 @@
         });
     }
 
-    function renderSessionControls() {
+    function renderSessionInfo(account) {
         const mainNav = document.querySelector('.sidebar .main-nav');
         if (!mainNav) return;
 
-        const controls = document.createElement('div');
-        controls.className = 'nav-session-controls';
-        controls.innerHTML =
+        const sessionInfo = document.createElement('div');
+        sessionInfo.className = 'nav-session';
+        sessionInfo.title = `Signed in as ${account.name}`;
+        sessionInfo.innerHTML =
+            '<span class="nav-session-text">' +
+            '<span class="nav-session-label">Signed in as</span>' +
+            `<span class="nav-session-account-name">${account.name}</span>` +
+            '</span>' +
+            '<span class="nav-session-actions">' +
             '<button type="button" class="nav-session-theme" aria-pressed="false" ' +
             'aria-label="Switch to dark theme">' +
             '<span class="material-symbols-rounded" aria-hidden="true">dark_mode</span>' +
             '</button>' +
             '<button type="button" class="nav-session-out" aria-label="Sign out">' +
             '<span class="material-symbols-rounded" aria-hidden="true">logout</span>' +
-            '</button>';
-        mainNav.parentNode.insertBefore(controls, mainNav.nextSibling);
+            '</button>' +
+            '</span>';
+        mainNav.parentNode.insertBefore(sessionInfo, mainNav.nextSibling);
 
         // theme.js owns the icon and the pressed state from here; it loads in
-        // the head, so it is always there by the time the controls are built.
+        // the head, so it is always there by the time this section is built.
         if (window.Ray2VoltTheme) {
-            window.Ray2VoltTheme.attachToggle(controls.querySelector('.nav-session-theme'));
+            window.Ray2VoltTheme.attachToggle(sessionInfo.querySelector('.nav-session-theme'));
         }
 
-        controls.querySelector('.nav-session-out').addEventListener('click', () => {
+        sessionInfo.querySelector('.nav-session-out').addEventListener('click', () => {
             clearSession();
             window.location.reload();
         });
@@ -403,6 +410,6 @@
         showNoAccess(session);
     } else {
         pruneNavigation(session.level);
-        renderSessionControls();
+        renderSessionInfo(session);
     }
 })();

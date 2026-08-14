@@ -429,11 +429,19 @@
         display: none;
     }
 
-    /* The two 32px controls fit side by side in the 76px collapsed sidebar. */
-    .sidebar.collapsed .nav-session-controls {
+    /* The signed-in text hides when the 76px sidebar only fits its controls. */
+    .sidebar.collapsed .nav-session {
         justify-content: center;
         /* 76px collapsed, less 2 x 4px, leaves 68px for a 66px button row. */
         padding: var(--spacing-sm) 4px;
+    }
+
+    .sidebar.collapsed .nav-session-text {
+        display: none;
+    }
+
+    .sidebar.collapsed .nav-session-actions {
+        margin-left: 0;
     }
 
 }
@@ -616,18 +624,49 @@
     color: var(--primary-text);
 }
 
-/* --- Session controls ---
-   Theme and sign out sit below the scrolling nav without repeating Account
-   identity. auth.js builds them only after a successful Sign-in. */
-.nav-session-controls {
+/* --- Signed-in information ---
+   Account identity, Theme and sign out sit below the scrolling nav. The
+   decorative avatar badge has deliberately been removed. */
+.nav-session {
     flex-shrink: 0;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
-    gap: 2px;
+    gap: var(--spacing-xs);
     padding: var(--spacing-sm) var(--spacing-md);
     border-top: 1px solid var(--border-light);
     background: var(--bg-sidebar);
+}
+
+.nav-session-text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    line-height: 1.25;
+}
+
+.nav-session-label {
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+.nav-session-account-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.nav-session-actions {
+    margin-left: auto;
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 2px;
 }
 
 .nav-session-theme,

@@ -85,29 +85,39 @@ for (const page of pages) {
     );
 }
 
-// The toggle lives in the compact navigation controls beside sign out. Account
-// identity is deliberately not repeated in a persistent sidebar badge.
-const controlsStart = authJs.indexOf('function renderSessionControls');
-const controlsEnd = authJs.indexOf('\n    const session =', controlsStart);
-assert.notEqual(controlsStart, -1, 'auth.js should render navigation controls');
-assert.notEqual(controlsEnd, -1, 'the navigation controls function should be bounded');
-const controlsSource = authJs.slice(controlsStart, controlsEnd);
+// The signed-in identity remains beside the Theme and sign-out controls; only
+// the decorative icon badge to its left is removed.
+const sessionInfoStart = authJs.indexOf('function renderSessionInfo');
+const sessionInfoEnd = authJs.indexOf('\n    const session =', sessionInfoStart);
+assert.notEqual(sessionInfoStart, -1, 'auth.js should render signed-in information');
+assert.notEqual(sessionInfoEnd, -1, 'the signed-in information function should be bounded');
+const sessionInfoSource = authJs.slice(sessionInfoStart, sessionInfoEnd);
 
 assert.doesNotMatch(
-    controlsSource,
-    /nav-session-(?:avatar|text|label|role)|Signed in as/,
-    'navigation controls should not render a signed-in identity badge'
+    sessionInfoSource,
+    /nav-session-avatar/,
+    'the signed-in section should not render the decorative icon badge'
+);
+assert.match(
+    sessionInfoSource,
+    /nav-session-label">Signed in as<\/span>[\s\S]*nav-session-account-name/,
+    'the signed-in label and Account name should remain visible'
+);
+assert.doesNotMatch(
+    sessionInfoSource,
+    /nav-session-role|named \?|level\.label/,
+    'the signed-in section should not substitute an Access Level for its label or Account name'
 );
 
 assert.match(
     authJs,
     /class="nav-session-theme"/,
-    'the navigation controls should carry the theme toggle'
+    'the signed-in section should carry the theme toggle'
 );
 
 assert.match(
     authJs,
-    /Ray2VoltTheme\.attachToggle\(controls\.querySelector\('\.nav-session-theme'\)\)/,
+    /Ray2VoltTheme\.attachToggle\(sessionInfo\.querySelector\('\.nav-session-theme'\)\)/,
     'theme.js should own the toggle button once auth.js has built it'
 );
 
