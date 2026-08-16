@@ -392,21 +392,5 @@ document.addEventListener('DOMContentLoaded', () => {
         window.print();
     });
 
-    const rfqDownloadBtn = document.getElementById('rfqDownloadBtn');
-    rfqDownloadBtn?.addEventListener('click', async () => {
-        if (!rfqPreview.classList.contains('visible')) {
-            await generateRfqPreview({ scroll: false });
-        }
-
-        const rfqNo = rfqPreview.querySelector('[data-rfq-footer-number]')?.textContent?.trim();
-        window.Ray2VoltPdfDownload?.downloadPages({
-            pages: rfqPreview.querySelectorAll('.rfq-page'),
-            button: rfqDownloadBtn,
-            filename: `Ray2Volt-RFQ-${rfqNo || 'Draft'}`,
-            beforeCapture: () => rfqPreview.style.setProperty('--rfq-preview-scale', '1'),
-            afterCapture: () => updatePreviewScale()
-        });
-    });
-
     window.addEventListener('resize', updatePreviewScale);
 });

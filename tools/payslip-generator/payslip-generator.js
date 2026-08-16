@@ -23,24 +23,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Direct PDF download
-    const downloadPayslipBtn = document.getElementById('downloadPayslipBtn');
-    if (downloadPayslipBtn) {
-        downloadPayslipBtn.addEventListener('click', function () {
-            const payslipPreview = document.getElementById('payslipPreview');
-            if (payslipPreview && !payslipPreview.classList.contains('visible')) {
-                generatePayslipBtn?.click();
-            }
-
-            const employeeName = document.getElementById('payslipEmployeeName')?.value?.trim();
-            window.Ray2VoltPdfDownload?.downloadElement({
-                element: payslipPreview,
-                button: downloadPayslipBtn,
-                filename: `Ray2Volt-Payslip-${employeeName || 'Employee'}`
-            });
-        });
-    }
-
     // Add Earning Button
     const addEarningBtn = document.getElementById('addEarningBtn');
     if (addEarningBtn) {

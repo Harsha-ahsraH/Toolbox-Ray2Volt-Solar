@@ -137,4 +137,32 @@ for (const tool of toolDirs) {
     );
 }
 
+// Saving is the browser's job. A tool offers Generate Preview and
+// Print / Save as PDF; the html2canvas/jsPDF capture route is gone, and with it
+// the shared helper that loaded those two libraries from a CDN. Letterheadify is
+// exempt — its output *is* a file it hands back, so it has no preview to print.
+for (const tool of toolDirs) {
+    if (tool === 'letterheadify') continue;
+
+    const htmlPath = path.join(repoRoot, 'tools', tool, `${tool}.html`);
+    if (!fs.existsSync(htmlPath)) continue;
+
+    const html = fs.readFileSync(htmlPath, 'utf8');
+    assert.doesNotMatch(
+        html,
+        />Download PDF</,
+        `${tool} must not offer a Download PDF action`
+    );
+    assert.doesNotMatch(
+        html,
+        /pdf-download\.js/,
+        `${tool} must not load the removed shared PDF helper`
+    );
+}
+
+assert.ok(
+    !fs.existsSync(path.join(repoRoot, 'global', 'scripts', 'pdf-download.js')),
+    'the shared PDF download helper should stay deleted'
+);
+
 console.log('tool shell tests passed');

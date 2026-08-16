@@ -260,8 +260,7 @@
 
     /**
      * Fills every annexure frame under `scope` from the stored files. Returns a
-     * promise so the PDF download can wait for the artwork to be on the page
-     * before it captures.
+     * promise so printing can wait for the artwork to be on the page first.
      */
     function hydrate(scope, state) {
         if (!scope || !state) return Promise.resolve();

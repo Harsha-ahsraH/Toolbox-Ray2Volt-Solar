@@ -8,10 +8,10 @@
  *   1. What do the numbers come to?  (capacity reconciliation, commercial
  *      totals, the year-by-year projection, payback, environmental impact)
  *   2. Is the quotation fit to export?  (panel states, warnings, and the
- *      critical errors that disable Print and Download but never the Preview)
+ *      critical errors that disable Print but never the Preview)
  *   3. What pages will it produce?  (the page plan that the thumbnails, the
- *      table of contents, the "Page X of Y" footers, print and the downloaded
- *      PDF all read, so that all four always agree)
+ *      table of contents, the "Page X of Y" footers and print all read, so
+ *      that they always agree)
  *
  * Derived totals are computed here on demand and never written back into state
  * as a competing authoritative value. No DOM access anywhere in this file.
@@ -387,8 +387,8 @@
     }
 
     /**
-     * Full validation pass. `critical` issues block Print and Download but never
-     * block the Preview, which renders placeholders instead.
+     * Full validation pass. `critical` issues block Print but never block the
+     * Preview, which renders placeholders instead.
      */
     function validate(state) {
         const issues = [];

@@ -94,18 +94,4 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    const poDownloadBtn = byId('poDownloadBtn');
-    if (poDownloadBtn) {
-        poDownloadBtn.addEventListener('click', () => {
-            if (!poPreview?.classList.contains('visible')) {
-                poGenerateBtn?.click();
-            }
-
-            window.Ray2VoltPdfDownload?.downloadElement({
-                element: poPreview,
-                button: poDownloadBtn,
-                filename: `Ray2Volt-Purchase-Order-${byId('poDispOrderNo')?.textContent || 'Draft'}`
-            });
-        });
-    }
 });

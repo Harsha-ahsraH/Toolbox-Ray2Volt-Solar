@@ -358,7 +358,11 @@ assert.match(
 // --- Page wiring --------------------------------------------------------
 assert.match(html, /family=Google\+Sans:/, 'the page loads Google Sans for its headings');
 assert.match(html, /data-tool-id="comparison-sheet"/, 'the page is password gated');
-assert.match(html, /global\/scripts\/pdf-download\.js/, 'the shared PDF helper is loaded');
+assert.doesNotMatch(
+    html,
+    /global\/scripts\/pdf-download\.js|>Download PDF</,
+    'the sheet leaves saving to the browser: Preview and Print / Save as PDF only'
+);
 
 for (const script of ['content', 'model', 'copy', 'render']) {
     assert.ok(

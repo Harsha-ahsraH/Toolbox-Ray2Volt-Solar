@@ -9,8 +9,8 @@
  * and `Reset to template` is the way back.
  *
  * Two A4 pages is a hard limit. The preview measures its own rendered height
- * and refuses to print or download when either page overflows, rather than
- * shrinking type or spilling a stray row onto a third page.
+ * and refuses to print when either page overflows, rather than shrinking type
+ * or spilling a stray row onto a third page.
  */
 (function () {
     'use strict';
@@ -39,7 +39,6 @@
     const validationPanel = document.getElementById('csValidation');
     const previewBtn = document.getElementById('csPreviewBtn');
     const printBtn = document.getElementById('csPrintBtn');
-    const downloadBtn = document.getElementById('csDownloadBtn');
 
     const sheet = document.getElementById('comparisonSheet');
     const pageOne = document.getElementById('csPageOne');
@@ -385,22 +384,6 @@
         sheet.style.setProperty('--cs-preview-scale', '1');
         window.print();
         updatePreviewScale();
-    });
-
-    downloadBtn.addEventListener('click', () => {
-        if (!ensurePreview()) return;
-
-        const inputs = currentInputs();
-        const capacity = String(inputs.capacityKwp).replace(/\.0+$/, '');
-        const label = inputs.systemType === 'hybrid' ? 'Hybrid' : 'On-Grid';
-
-        window.Ray2VoltPdfDownload?.downloadPages({
-            pages: [pageOne, pageTwo],
-            button: downloadBtn,
-            filename: `Ray2Volt-Comparison-Sheet-${capacity}kWp-${label}`,
-            beforeCapture: () => sheet.style.setProperty('--cs-preview-scale', '1'),
-            afterCapture: () => updatePreviewScale()
-        });
     });
 
     window.addEventListener('resize', updatePreviewScale);

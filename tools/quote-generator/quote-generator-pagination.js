@@ -4,8 +4,8 @@
  *
  * Decides how many A4 pages each selected section produces and where its
  * content is cut. The resulting plan is the single source the thumbnails, the
- * table of contents, the "Page X of Y" footers, browser print and the
- * downloaded PDF all read, so those four cannot disagree.
+ * table of contents, the "Page X of Y" footers and browser print all read,
+ * so those cannot disagree.
  *
  * Rows whose text wraps are measured from their content rather than counted,
  * because a bill of materials row is one, two or three lines tall depending on
@@ -527,8 +527,8 @@
 
     /**
      * The ordered list of pages the Comprehensive Proposal will produce.
-     * Everything downstream — thumbnails, the table of contents, "Page X of Y",
-     * print and the downloaded PDF — reads this one plan, so all four agree.
+     * Everything downstream — thumbnails, the table of contents, "Page X of Y"
+     * and print — reads this one plan, so they all agree.
      */
     function planPages(state) {
         const pages = [];

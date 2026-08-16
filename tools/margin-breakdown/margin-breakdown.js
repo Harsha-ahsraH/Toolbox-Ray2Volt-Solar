@@ -42,7 +42,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const validationPanel = document.getElementById('mbValidation');
     const previewBtn = document.getElementById('mbPreviewBtn');
     const printBtn = document.getElementById('mbPrintBtn');
-    const downloadBtn = document.getElementById('mbDownloadBtn');
 
     const preview = document.getElementById('marginBreakdown');
     const pageTemplate = document.getElementById('mbPageTemplate');
@@ -384,18 +383,6 @@ document.addEventListener('DOMContentLoaded', () => {
         preview.style.setProperty('--mb-preview-scale', '1');
         window.print();
         updatePreviewScale();
-    });
-
-    downloadBtn.addEventListener('click', async () => {
-        if (!await ensurePreview()) return;
-
-        window.Ray2VoltPdfDownload?.downloadPages({
-            pages: preview.querySelectorAll('.mb-page'),
-            button: downloadBtn,
-            filename: filename(buildData()),
-            beforeCapture: () => preview.style.setProperty('--mb-preview-scale', '1'),
-            afterCapture: () => updatePreviewScale()
-        });
     });
 
     window.addEventListener('resize', updatePreviewScale);
