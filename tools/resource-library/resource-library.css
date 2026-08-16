@@ -37,6 +37,17 @@
         font-size: 0.9rem;
         line-height: 1.4;
     }
+
+    /* The category filters are 33px tall; a thumb needs 44. They sit in a
+       wrapping row, so the height is the only thing that changes.
+       (.rl-btn is handled at the foot of this file — its base rule is
+       declared later than this block and would win here.) */
+    .rl-filter {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
 }
 
 /* --- Catalogue problems --- */
@@ -454,5 +465,18 @@
     .rl-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 1.25rem;
+    }
+}
+
+/* The download buttons are 40px tall and a thumb needs 44. This sits at the
+   foot of the sheet on purpose: `.rl-btn`'s base rule is declared further up
+   than the mobile block near the top of this file, so an override there lost
+   its `display` and left the label sitting off-centre in a 44px box. */
+@media screen and (max-width: 768px) {
+    .rl-btn {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
     }
 }

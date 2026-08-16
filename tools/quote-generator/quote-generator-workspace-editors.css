@@ -433,9 +433,11 @@
     }
 }
 
-/* --- Narrow viewports --------------------------------------------------- */
+/* --- Narrow viewports ---------------------------------------------------
+   699, not 700: the wider-viewport block above opens at min-width 700, and at
+   exactly 700px both regimes were applying at once. */
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 699px) {
     .qg-workspace-bar {
         align-items: stretch;
     }

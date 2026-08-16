@@ -1,16 +1,59 @@
 /* Quote Generator stylesheet manifest. Keep imports in this order.
    The ?v= query matches the one on the <link> in quote-generator.html —
    bump both together so imported sheets are never served stale. */
-@import url('./quote-generator-form.css?v=20260813-house-parity-2');
-@import url('./quote-generator-preview-layout.css?v=20260813-house-parity-2');
-@import url('./quote-generator-preview-details.css?v=20260813-house-parity-2');
-@import url('./quote-generator-preview-terms.css?v=20260813-house-parity-2');
-@import url('./quote-generator-responsive.css?v=20260813-house-parity-2');
-@import url('./quote-generator-print.css?v=20260813-house-parity-2');
+@import url('./quote-generator-form.css?v=20260815-touch');
+@import url('./quote-generator-preview-layout.css?v=20260815-touch');
+@import url('./quote-generator-preview-details.css?v=20260815-touch');
+@import url('./quote-generator-preview-terms.css?v=20260815-touch');
+@import url('./quote-generator-responsive.css?v=20260815-touch');
+@import url('./quote-generator-print.css?v=20260815-touch');
 /* Comprehensive mode. Loaded last so the Comprehensive workspace, preview
    navigation and page styles win over the shared form and print rules. */
-@import url('./quote-generator-workspace.css?v=20260813-house-parity-2');
+@import url('./quote-generator-workspace.css?v=20260815-touch');
 /* Straight continuation of the sheet above — keep the two adjacent. */
-@import url('./quote-generator-workspace-editors.css?v=20260813-house-parity-2');
-@import url('./quote-generator-preview-nav.css?v=20260813-house-parity-2');
-@import url('./quote-generator-proposal-comprehensive.css?v=20260813-house-parity-2');
+@import url('./quote-generator-workspace-editors.css?v=20260815-touch');
+@import url('./quote-generator-preview-nav.css?v=20260815-touch');
+@import url('./quote-generator-proposal-comprehensive.css?v=20260815-touch');
+
+/* iOS Safari zooms the whole page when a field under 16px takes focus, and
+   never zooms back out. The workspace editors and the BOM table set their
+   fields smaller than that, so on a phone they are lifted to 16px here —
+   after every import, so no editor rule can undercut it again. Scoped to
+   .no-print-area: that is the chrome. The Proposal sits outside it and keeps
+   its own paper sizes. The class is doubled to carry two-class weight,
+   because some editor fields are named with two classes of their own. */
+@media screen and (max-width: 768px) {
+    .no-print-area.no-print-area input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+    .no-print-area.no-print-area select,
+    .no-print-area.no-print-area textarea {
+        font-size: 16px;
+    }
+
+    /* The workspace's small controls — the mode tabs, the ghost buttons that
+       add and remove rows, and the links that jump to a failed field — are all
+       drawn between 18px and 36px tall. Each takes 44px on a phone; they sit
+       in wrapping rows, so growing them costs a little height and no layout. */
+    .qg-workspace-tab,
+    .qg-btn-ghost,
+    .qg-validation-link {
+        min-height: 44px;
+    }
+
+    /* A 17px box is half a thumb, and there are dozens of them down the
+       annexure and clause lists. */
+    .no-print-area input[type="checkbox"],
+    .no-print-area input[type="radio"] {
+        width: 22px;
+        height: 22px;
+    }
+
+    /* Each of those boxes is wrapped in its own label, so the label is what a
+       thumb actually hits — and at 42px it landed two pixels short. The row is
+       full-width already; only its height changes. */
+    .qg-section-item,
+    .no-print-area label:has(> input[type="checkbox"]),
+    .no-print-area label:has(> input[type="radio"]) {
+        min-height: 44px;
+        align-items: center;
+    }
+}

@@ -264,6 +264,13 @@
         padding: 1rem;
     }
 
+    /* The rate chips and the inclusive/exclusive toggle are 38px and 43px
+       tall. On a phone they each take the 44px a thumb needs. */
+    .gst-rate-btn,
+    .gst-toggle-btn {
+        min-height: 44px;
+    }
+
     .section-title {
         font-size: 0.9rem;
         margin-bottom: 1rem;

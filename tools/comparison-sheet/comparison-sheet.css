@@ -1,6 +1,52 @@
 /* Comparison Sheet stylesheet manifest. Keep imports in this order.
    The ?v= query matches the one on the <link> in comparison-sheet.html —
    bump both together so imported sheets are never served stale. */
-@import url('./comparison-sheet-form.css?v=20260727-a');
-@import url('./comparison-sheet-document.css?v=20260727-a');
-@import url('./comparison-sheet-print.css?v=20260727-a');
+@import url('./comparison-sheet-form.css?v=20260815-touch');
+@import url('./comparison-sheet-document.css?v=20260815-touch');
+@import url('./comparison-sheet-print.css?v=20260815-touch');
+
+/* iOS Safari zooms the whole page when a field under 16px takes focus, and
+   never zooms back out. The spec table's cells are set smaller than that, so
+   on a phone they are lifted to 16px here — after every import, so no form
+   rule can undercut it again. Scoped to .no-print-area: that is the chrome.
+   The Comparison Sheet itself sits outside it and keeps its paper sizes. The
+   class is doubled to carry two-class weight, because the cells it has to
+   beat are named with two classes of their own. */
+@media screen and (max-width: 768px) {
+    .no-print-area.no-print-area input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+    .no-print-area.no-print-area select,
+    .no-print-area.no-print-area textarea {
+        font-size: 16px;
+    }
+
+    /* The disc that removes a specification row is 28px, and it is the one
+       destructive control in the table. The tap area grows to 44px under it;
+       the disc itself stays 28px so the row keeps its proportions. */
+    .cs-row-remove {
+        position: relative;
+    }
+
+    .cs-row-remove::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 44px;
+        height: 44px;
+        transform: translate(-50%, -50%);
+    }
+
+    /* A 13px box is half a thumb. The box grows, and so does the label that
+       wraps it — the label is what a thumb actually hits. */
+    .no-print-area input[type="checkbox"],
+    .no-print-area input[type="radio"] {
+        width: 22px;
+        height: 22px;
+    }
+
+    .no-print-area label:has(> input[type="checkbox"]),
+    .no-print-area label:has(> input[type="radio"]) {
+        min-height: 44px;
+        align-items: center;
+    }
+}

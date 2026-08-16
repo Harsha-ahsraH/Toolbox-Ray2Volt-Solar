@@ -1,6 +1,42 @@
 /* Margin Breakdown stylesheet manifest. Keep imports in this order.
    The ?v= query matches the one on the <link> in margin-breakdown.html —
    bump both together so imported sheets are never served stale. */
-@import url('./margin-breakdown-form.css?v=20260801-a');
-@import url('./margin-breakdown-document.css?v=20260801-a');
-@import url('./margin-breakdown-print.css?v=20260801-a');
+@import url('./margin-breakdown-form.css?v=20260815-touch');
+@import url('./margin-breakdown-document.css?v=20260815-touch');
+@import url('./margin-breakdown-print.css?v=20260815-touch');
+
+/* iOS Safari zooms the whole page when a field under 16px takes focus, and
+   never zooms back out. The Add-on Line rows and the markdown editor are set
+   smaller than that, so on a phone they are lifted to 16px here — after every
+   import, so no form rule can undercut it again. Scoped to .no-print-area:
+   that is the chrome. The Margin Breakdown sits outside it and keeps its
+   paper sizes. The class is doubled to carry two-class weight, because the
+   fields it has to beat are named with two classes of their own. */
+@media screen and (max-width: 768px) {
+    .no-print-area.no-print-area input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+    .no-print-area.no-print-area select,
+    .no-print-area.no-print-area textarea {
+        font-size: 16px;
+    }
+
+    /* The disc that removes an Add-on Line is 28px, and it is the one
+       destructive control in the table. The tap area grows to 44px under it;
+       the disc itself stays 28px so the row keeps its proportions. */
+    .mb-row-remove {
+        position: relative;
+    }
+
+    .mb-row-remove::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 44px;
+        height: 44px;
+        transform: translate(-50%, -50%);
+    }
+
+    .mb-btn-secondary {
+        min-height: 44px;
+    }
+}

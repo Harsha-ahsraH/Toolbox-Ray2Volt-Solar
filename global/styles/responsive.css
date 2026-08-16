@@ -170,6 +170,50 @@
         max-width: 400px;
         margin: 0 auto;
     }
+
+    /* --- Touch targets ---
+       A finger needs 44px. Where the control has room, it simply takes 44px
+       on its own box, which also means the layout keeps them apart. */
+    .mobile-nav-toggle,
+    .mobile-search-toggle {
+        width: 44px;
+        height: 44px;
+    }
+
+    .sidebar-close-btn {
+        width: 44px;
+        height: 44px;
+    }
+
+    /* These two sit 2px apart in a flex row. Hanging a 44px tap area under
+       each 32px disc made the two areas overlap by 10px, and the overlap
+       resolved to the later element — so aiming at the right edge of the
+       theme toggle signed you out. Real 44px boxes cannot overlap: the flex
+       row lays them out side by side. The row has 279px for 94px of button. */
+    .nav-session-theme,
+    .nav-session-out {
+        width: 44px;
+        height: 44px;
+    }
+
+    /* The clear button is the one control with no room to grow — it sits in
+       the search field's right padding, and a 44px-wide area reached 15px
+       back over the text, so tapping the end of what you typed wiped it. The
+       tap area takes the field's full 44px height and exactly its 32px of
+       right padding, which is where the button already lives. */
+    .nav-search-clear {
+        position: relative;
+    }
+
+    .nav-search-clear::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 32px;
+        height: 44px;
+        transform: translate(-50%, -50%);
+    }
 }
 
 @media screen and (max-width: 480px) {

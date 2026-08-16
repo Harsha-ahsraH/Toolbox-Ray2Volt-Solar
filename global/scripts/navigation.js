@@ -78,24 +78,60 @@ document.addEventListener('DOMContentLoaded', () => {
         sidebar?.classList.add('open');
         overlay?.classList.add('active');
         document.body.style.overflow = 'hidden';
+        mobileNavToggle?.setAttribute('aria-expanded', 'true');
+        // The drawer covers the page and the overlay blocks what is behind it,
+        // so the keyboard belongs inside it from the moment it opens.
+        sidebarCloseBtn?.focus();
     }
 
     function closeSidebar() {
+        const wasOpen = sidebar?.classList.contains('open');
+
         sidebar?.classList.remove('open');
         overlay?.classList.remove('active');
         document.body.style.overflow = '';
+        mobileNavToggle?.setAttribute('aria-expanded', 'false');
         clearToolSearch();
+
+        // Hand the keyboard back to the button that opened the drawer, but
+        // only if the drawer was actually open — a resize past the desktop
+        // threshold calls this too, and must not steal focus from the page.
+        if (wasOpen && document.activeElement !== document.body) {
+            const insideDrawer = sidebar?.contains(document.activeElement);
+            if (insideDrawer) mobileNavToggle?.focus();
+        }
     }
 
     if (mobileNavToggle && sidebarCloseBtn && overlay) {
+        mobileNavToggle.setAttribute('aria-expanded', 'false');
         mobileNavToggle.addEventListener('click', openSidebar);
         sidebarCloseBtn.addEventListener('click', closeSidebar);
         overlay.addEventListener('click', closeSidebar);
+
+        // The drawer reads as a modal — it covers the page and the overlay
+        // blocks what is behind it — so Escape has to be a way out of it.
+        // Escape inside a filled search box means "clear the query", and that
+        // handler marks the event handled; one press should not both clear the
+        // search and shut the drawer the user is still searching in.
+        document.addEventListener('keydown', (event) => {
+            if (event.defaultPrevented) return;
+            if (event.key === 'Escape' && sidebar?.classList.contains('open')) {
+                closeSidebar();
+            }
+        });
     }
 
-    // Close sidebar when window resizes to desktop
+    // Close the drawer once the sidebar goes back to its desktop position.
+    // The threshold has to be the one the stylesheets use — responsive.css
+    // stops drawing the drawer above 768px. Closing at 992 instead left a
+    // 769-992px band where the sidebar had already returned to the page but
+    // .open, the overlay and the body scroll lock were all still set: an
+    // invisible overlay sitting at pointer-events:auto over a desktop layout,
+    // swallowing every click, with the page unable to scroll.
+    const DESKTOP_MIN_WIDTH = 769;
+
     window.addEventListener('resize', () => {
-        if (window.innerWidth > 992) {
+        if (window.innerWidth >= DESKTOP_MIN_WIDTH) {
             closeSidebar();
         }
     });

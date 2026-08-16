@@ -57,6 +57,31 @@
     color: var(--on-primary);
 }
 
+/* The print and download pair. These carried their fill and their ink as
+   inline styles, and the ink was a literal white — 1.8:1 once the accent
+   brightens for the dark theme. --on-primary is the ink that belongs on an
+   accent fill in either theme. */
+.emi-action-row {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.emi-action-btn {
+    gap: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    background: var(--primary);
+    border: 1px solid var(--primary);
+    color: var(--on-primary);
+    font-weight: 600;
+}
+
+.emi-action-btn:hover {
+    background: var(--primary-dark);
+    border-color: var(--primary-dark);
+    color: var(--on-primary);
+}
+
 /* --- Calculator Main Card --- */
 .emi-calculator-card {
     background: var(--bg-card);
@@ -464,11 +489,18 @@
         margin-bottom: 1rem;
     }
 
+    /* Every button on this page is a full-width row on a phone, so the 44px a
+       thumb needs costs height only. */
     .mode-btn {
         flex: 1;
         min-width: calc(50% - 0.25rem);
+        min-height: 44px;
         padding: 0.625rem 0.75rem;
         justify-content: center;
+    }
+
+    .toggle-btn {
+        min-height: 44px;
     }
 
     .mode-icon {

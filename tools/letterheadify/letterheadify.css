@@ -22,11 +22,17 @@
     line-height: 1.45;
 }
 
+/* The tool is one upload control, so it does not spend the full content
+   column on a single dashed box — at 1920px that left a 1050px drop zone with
+   its content centred in the middle of it. It keeps a comfortable width and
+   sits in the middle of the column instead. */
 .lhd-upload-card {
     background: var(--bg-card);
     border: 1px solid var(--border-medium);
     border-radius: 2px;
     padding: 1.5rem;
+    max-width: 720px;
+    margin-inline: auto;
 }
 
 .lhd-section-title {

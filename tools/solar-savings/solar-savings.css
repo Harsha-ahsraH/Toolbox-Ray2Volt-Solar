@@ -500,6 +500,12 @@ select.ssc-input-field {
         max-width: 100%;
     }
 
+    /* The two mode buttons are 36px tall; a thumb needs 44. They share one
+       row, so the height is the only thing that changes. */
+    .ssc-mode-btn {
+        min-height: 44px;
+    }
+
     .ssc-results-card {
         padding: 1rem;
     }

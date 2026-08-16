@@ -402,6 +402,38 @@
     }
 }
 
+/* --- Touch targets ---
+   The disc that removes an item row is drawn at 24px, which is fine for a
+   pointer and too small for a thumb — and it is the one destructive control
+   on the form. On a phone the row has the height to give it 44px outright, so
+   it takes it rather than hiding a larger tap area under a small disc. */
+@media screen and (max-width: 768px) {
+    .rcpt-btn-remove,
+    .inv-btn-remove,
+    .pi-btn-remove,
+    .po-btn-remove,
+    .ps-btn-remove {
+        width: 44px;
+        height: 44px;
+        min-width: 44px;
+        min-height: 44px;
+    }
+
+    /* A select is a tap target too — the GST rate on an item row and the
+       preset chooser both land a couple of pixels short of 44. */
+    .rcpt-input-field,
+    .inv-input-field,
+    .pi-input-field,
+    .po-input-field,
+    .ps-input-field,
+    .warranty-input-field,
+    .qg-input-field,
+    .rfq-input-field,
+    .ssc-input-field {
+        min-height: 44px;
+    }
+}
+
 @media screen and (min-width: 600px) {
     .rcpt-actions,
     .inv-actions,

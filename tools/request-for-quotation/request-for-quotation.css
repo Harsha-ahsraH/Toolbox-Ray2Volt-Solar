@@ -507,6 +507,19 @@ textarea.rfq-input-field {
         margin: 1rem auto;
         overflow: visible;
     }
+
+    /* iOS Safari zooms the whole page when a field under 16px takes focus, and
+       never zooms back out. tool-responsive.css asks for 16px, but this sheet
+       loads after it and .rfq-input-field's own 0.95rem was winning, so the
+       guard is restated here where it holds. Scoped to .no-print-area: that is
+       the chrome; the preview sits outside it and keeps its paper sizes. The
+       class is doubled to carry two-class weight, because the markdown editor
+       it has to beat is named with two classes of its own. */
+    .no-print-area.no-print-area input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+    .no-print-area.no-print-area select,
+    .no-print-area.no-print-area textarea {
+        font-size: 16px;
+    }
 }
 
 /* Small Mobile */
