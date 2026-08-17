@@ -84,31 +84,13 @@
      */
     const RESOURCES = [
         {
-            title: 'Ray2Volt Solar prices',
-            description: 'Package price sheet, opens in the browser. Already published with the toolbox.',
-            category: 'Price lists',
+            title: 'Sales requirements and project commissioning form',
+            description: 'Blank customer onboarding and project commissioning checklist with on-grid and hybrid schematics.',
+            category: 'Templates',
             place: 'toolbox',
-            path: 'Samples/Ray2Volt Solar Prices.html',
-            format: 'HTML',
-            updated: '2026-04-13'
-        },
-        {
-            title: 'Prices and packages notes',
-            description: 'Working notes behind the package prices, in plain text.',
-            category: 'Price lists',
-            place: 'toolbox',
-            path: 'MarkDown Files/prices and packages.md',
-            format: 'MD',
-            updated: '2026-04-13'
-        },
-        {
-            title: 'Ray2Volt Solar sales SOP',
-            description: 'The full sales standard operating procedure, opens in the browser.',
-            category: 'Process and SOP',
-            place: 'toolbox',
-            path: 'Samples/Ray2Volt Solar Sales SOP.html',
-            format: 'HTML',
-            updated: '2026-04-13'
+            path: 'downloads/templates/sales-requirements-project-commissioning-form.pdf',
+            format: 'PDF',
+            updated: '2026-07-23'
         }
     ];
 
