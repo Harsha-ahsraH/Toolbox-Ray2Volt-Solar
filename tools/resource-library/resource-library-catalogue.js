@@ -84,6 +84,24 @@
      */
     const RESOURCES = [
         {
+            title: 'Price card and packages',
+            description: 'Customer-facing on-grid price card. Subsidy, four packages, down payments and EMI from 2 kWp to 10 kWp.',
+            category: 'Price lists',
+            place: 'toolbox',
+            path: 'downloads/price-lists/ray2volt-price-card-and-packages.pdf',
+            format: 'PDF',
+            updated: '2026-08-24'
+        },
+        {
+            title: 'Price card and packages (Telugu)',
+            description: 'Telugu edition of the customer-facing on-grid price card. Same capacities, packages and EMI figures.',
+            category: 'Price lists',
+            place: 'toolbox',
+            path: 'downloads/price-lists/ray2volt-price-card-and-packages-telugu.pdf',
+            format: 'PDF',
+            updated: '2026-08-24'
+        },
+        {
             title: 'Sales requirements and project commissioning form',
             description: 'Blank customer onboarding and project commissioning checklist with on-grid and hybrid schematics.',
             category: 'Templates',
