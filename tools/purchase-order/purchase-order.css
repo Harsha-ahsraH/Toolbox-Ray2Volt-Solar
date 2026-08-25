@@ -198,7 +198,17 @@ textarea.po-input-field {
     display: grid;
     grid-template-columns: 1fr 70px 130px 80px;
     gap: 1rem;
-    align-items: end;
+    align-items: start;
+}
+
+.po-item-fields .po-input-group:first-child {
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+}
+
+.po-item-fields .po-input-group:first-child textarea.po-input-field {
+    flex: 1;
 }
 
 .po-item-fields .po-input-group {

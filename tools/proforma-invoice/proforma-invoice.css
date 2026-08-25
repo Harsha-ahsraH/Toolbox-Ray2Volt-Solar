@@ -198,7 +198,17 @@ textarea.pi-input-field {
     display: grid;
     grid-template-columns: 1fr 80px 70px 130px 80px;
     gap: 1rem;
-    align-items: end;
+    align-items: start;
+}
+
+.pi-item-fields .pi-input-group:first-child {
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+}
+
+.pi-item-fields .pi-input-group:first-child textarea.pi-input-field {
+    flex: 1;
 }
 
 .pi-item-fields .pi-input-group {

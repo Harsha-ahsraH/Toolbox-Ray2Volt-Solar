@@ -197,7 +197,17 @@ textarea.rcpt-input-field {
     display: grid;
     grid-template-columns: 1fr 80px 150px 100px;
     gap: 1rem;
-    align-items: end;
+    align-items: start;
+}
+
+.rcpt-item-fields .rcpt-input-group:first-child {
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+}
+
+.rcpt-item-fields .rcpt-input-group:first-child textarea.rcpt-input-field {
+    flex: 1;
 }
 
 .rcpt-item-fields .rcpt-input-group {
