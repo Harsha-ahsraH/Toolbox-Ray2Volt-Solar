@@ -614,4 +614,52 @@ textarea.input-field {
     }
 }
 
+/* --- Card lift ---------------------------------------------------------
+   Every panel a person fills in sits one step above the page, and they all sit
+   at the same step. Listing them in one place is what keeps that true: a tool
+   that grows a new card gets the height by naming it here, not by inventing a
+   shadow of its own.
+
+   This is chrome only. Nothing that prints, and no wrapper that holds an A4
+   preview, appears below - paper is flat, and the page it is laid on gets its
+   depth from --viewer-bg instead. The token itself resolves to `none` inside
+   @media print, so a stray match cannot reach the paper either. */
+.tool-card,
+.form-section,
+.calculator-inputs,
+.calculator-results,
+.result-card,
+.pricing-inputs,
+.pricing-output,
+.amortization-table-container,
+.cs-form-card,
+.cs-spec-card,
+.emi-calculator-card,
+.emi-amortization-card,
+.gst-calculator-card,
+.inv-form-card,
+.inv-items-card,
+.lhd-upload-card,
+.mb-form-card,
+.mb-repeat-card,
+.pi-form-card,
+.pi-items-card,
+.pkg-card,
+.po-form-card,
+.po-items-card,
+.ps-form-card,
+.ps-items-card,
+.qg-form-card,
+.qg-components-card,
+.qg-panel,
+.rcpt-form-card,
+.rcpt-items-card,
+.rfq-form-card,
+.rl-card,
+.rl-controls-card,
+.ssc-form-card,
+.warranty-form-card {
+    box-shadow: var(--lift);
+}
+
 /* --- Mobile Overlay --- */

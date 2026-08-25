@@ -99,6 +99,14 @@
     --shadow-md: 0 2px 4px rgba(0, 0, 0, 0.08);
     --shadow-lg: 0 4px 8px rgba(0, 0, 0, 0.1);
 
+    /* The lift under a card. Every panel a person fills in - form cards, item
+       cards, calculator panels, result cards - carries this and nothing else,
+       so the whole toolbox sits at one height above the page. It is deliberately
+       faint: the card already has a --border-medium edge doing most of the work,
+       and the sharp 2px corners this toolbox is built on turn muddy under a
+       heavy shadow. Documents never take it - paper is flat. */
+    --lift: 0 1px 1px rgba(17, 24, 39, 0.03), 0 3px 8px -2px rgba(17, 24, 39, 0.07);
+
     /* Transitions */
     --transition-fast: 0.1s ease;
     --transition-base: 0.2s ease;
@@ -193,6 +201,11 @@
     --shadow-md: 0 2px 6px rgba(0, 0, 0, 0.5);
     --shadow-lg: 0 4px 14px rgba(0, 0, 0, 0.6);
 
+    /* A drop shadow has little to darken here, so the lift is carried mostly by
+       a one-pixel highlight along the card's top edge - the way a raised surface
+       catches the light - with the shadow underneath only deepening the gap. */
+    --lift: inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 1px 2px rgba(0, 0, 0, 0.45), 0 4px 12px -3px rgba(0, 0, 0, 0.55);
+
     --scrollbar-thumb: #4A5058;
     --scrollbar-thumb-hover: #5E656D;
     --scrollbar-thumb-active: #737B84;
@@ -227,6 +240,9 @@
         --primary-light: #CFFAFE;
         --primary-dark: #0891B2;
         --primary-text: #0E7490;
+
+        /* Paper is flat. */
+        --lift: none;
     }
 }
 
