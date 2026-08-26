@@ -385,14 +385,14 @@
         validityDays: 15,
         revision: 'Rev 0',
         gstRate: 5,
-        annualGenerationPerKwp: 1440,
-        tariffEscalationPercent: 5,
+        annualGenerationPerKwp: 1533,
+        tariffEscalationPercent: 4,
         degradationPercent: 0.5,
         projectionYears: 30,
         selfConsumptionPercent: 80,
         exportPercent: 20,
         exportCreditRate: 3,
-        tariffRate: 7,
+        tariffRate: 8,
         dcAcRatioTarget: 1.2
     };
 

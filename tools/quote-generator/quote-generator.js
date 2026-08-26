@@ -181,9 +181,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const gstRateVal = parseFloat(val(qgGstRate));
         const gstRate = isNaN(gstRateVal) ? 5 : gstRateVal;
         const subsidyEligible = qgSubsidyEligible ? qgSubsidyEligible.checked : true;
-        const tariffRate = parseFloat(val(qgTariffRate)) || 7;
-        const unitsPerKwp = parseFloat(val(qgUnitsPerKwp)) || 1440;
-        const escalation = qgTariffEscalation ? (qgTariffEscalation.value === 'yes' ? 5 : 0) : 5;
+        const tariffRate = parseFloat(val(qgTariffRate)) || 8;
+        const unitsPerKwp = parseFloat(val(qgUnitsPerKwp)) || 1533;
+        const escalation = qgTariffEscalation ? (qgTariffEscalation.value === 'yes' ? 4 : 0) : 4;
         const advancePct = parseFloat(val(qgAdvancePercent)) || 80;
         const finalPct = parseFloat(val(qgFinalPercent)) || 20;
 
