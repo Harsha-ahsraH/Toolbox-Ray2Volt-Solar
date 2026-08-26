@@ -14,7 +14,7 @@ window.QuoteGeneratorPageTemplates.push(`                    <!-- ========== PAG
                             <div class="qp-addr-card qp-addr-from">
                                 <div class="qp-addr-header">From</div>
                                 <div class="qp-addr-body">
-                                    <strong>Ray2Volt Solar Pvt Ltd</strong>
+                                    <strong>Ray2Volt Solar Private Limited</strong>
                                     <p>1-278, Pichatur Road, Srikalahasti<br>Andhra Pradesh, 517640</p>
                                     <p>+91 96 6606 8140</p>
                                     <p>ray2voltsolar@gmail.com</p>
