@@ -196,13 +196,12 @@
         height: 44px;
     }
 
-    /* The clear button is the one control with no room to grow — it sits in
-       the search field's right padding, and a 44px-wide area reached 15px
-       back over the text, so tapping the end of what you typed wiped it. The
-       tap area takes the field's full 44px height and exactly its 32px of
-       right padding, which is where the button already lives. */
+    /* Keep the clear control pinned inside the field. Its tap area takes the
+       field's full 44px height and exactly its 32px of right padding. */
     .nav-search-clear {
-        position: relative;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
     }
 
     .nav-search-clear::after {

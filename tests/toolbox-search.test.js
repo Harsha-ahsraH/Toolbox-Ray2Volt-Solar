@@ -96,6 +96,18 @@ assert.match(
     'filtered results must not replay the staggered drawer animation on each keystroke'
 );
 
+const mobileRulesStart = responsiveCss.indexOf('@media screen and (max-width: 768px)');
+const narrowMobileRulesStart = responsiveCss.indexOf('@media screen and (max-width: 480px)');
+assert.notEqual(mobileRulesStart, -1, 'the mobile breakpoint should exist');
+assert.notEqual(narrowMobileRulesStart, -1, 'the narrow mobile breakpoint should exist');
+const mobileRules = responsiveCss.slice(mobileRulesStart, narrowMobileRulesStart);
+
+assert.match(
+    mobileRules,
+    /\.nav-search-clear\s*{[^}]*position:\s*absolute;[^}]*top:\s*50%;[^}]*transform:\s*translateY\(-50%\);/,
+    'the mobile search clear button should stay pinned and vertically centred inside the field'
+);
+
 /* --- Collapsed desktop sidebar keeps a usable search --- */
 
 const desktopRulesStart = navigationCss.indexOf('@media screen and (min-width: 769px)');
