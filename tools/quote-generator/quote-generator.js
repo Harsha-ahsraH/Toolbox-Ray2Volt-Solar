@@ -213,11 +213,11 @@ document.addEventListener('DOMContentLoaded', () => {
             gst2Amt = gstAmount / 2;
         }
 
-        // --- Subsidy ---
+        // --- Subsidy (PM Surya Ghar: ₹30,000/kW for first 2 kW + ₹18,000 for 3rd kW, max ₹78,000) ---
         let subsidyAmount = 0;
         if (subsidyEligible) {
-            if (capacity <= 2) subsidyAmount = 60000;
-            else if (capacity <= 3) subsidyAmount = 78000;
+            if (capacity <= 2) subsidyAmount = capacity * 30000;
+            else if (capacity <= 3) subsidyAmount = 60000 + (capacity - 2) * 18000;
             else subsidyAmount = 78000;
         }
         const netCost = Math.max(0, grandTotal - subsidyAmount);

@@ -227,7 +227,7 @@ assert.equal(copy.batteryCell(onGridResult, 0), '—', 'an on-grid sheet shows n
 // --- Basis of calculation states the assumptions we chose ---------------
 const basis = copy.basisParagraph(hybridResult, model);
 assert.match(basis, /30 years/, 'the horizon is stated');
-assert.match(basis, /beyond the 25-year module performance warranty/, 'and flagged as beyond the warranty');
+assert.match(basis, /beyond the 30-year module performance warranty/, 'and flagged as beyond the warranty');
 assert.match(basis, /three inverter replacements/, 'Option 1 repair basis is stated');
 assert.match(basis, /two inverter replacements/, 'Options 2 and 3 repair basis is stated');
 assert.match(basis, /Battery replacement is assumed once/, 'the single battery replacement is disclosed');

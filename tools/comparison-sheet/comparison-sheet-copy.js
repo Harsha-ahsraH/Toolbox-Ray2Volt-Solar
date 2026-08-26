@@ -118,7 +118,7 @@
         const parts = [
             `Basis of calculation. Specific yield ${model.SPECIFIC_YIELD[1]} kWh per kWp per year for fixed-tilt ground mount at this location.`,
             `Grid tariff ${money(model.TARIFF)} per kWh, held flat with no escalation assumed.`,
-            `Analysis period ${result.years} years, which runs beyond the 25-year module performance warranty.`,
+            `Analysis period ${result.years} years, which runs beyond the 30-year module performance warranty.`,
             `Rear-side gain taken at ${model.BIFACIAL_GAIN[0]}% for Options 1 and 2 and ${model.BIFACIAL_GAIN[2]}% for Option 3, reflecting the lower bifaciality factor of PERC cells.`,
             `Module degradation: TopCon ${model.DEGRADATION_YEAR_1[2]}% in year one then ${model.DEGRADATION_ANNUAL[2]}% per year; Mono PERC ${model.DEGRADATION_YEAR_1[1]}% then ${model.DEGRADATION_ANNUAL[1]}% per year; Option 1 modelled at ${model.DEGRADATION_ANNUAL[0]}% per year to reflect reduced maintenance.`,
             `Expected repairs assume three inverter replacements and structure remediation for Option 1, and two inverter replacements for Options 2 and 3.`

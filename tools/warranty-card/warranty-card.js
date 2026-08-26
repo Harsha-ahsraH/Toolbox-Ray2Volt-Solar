@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const moduleSerials = warrantyModuleSerials?.value || '';
 
             const inverterName = warrantyInverterName?.value || 'Grid-Tie Inverter';
-            const inverterWarranty = warrantyInverterWarranty?.value || '5';
+            const inverterWarranty = warrantyInverterWarranty?.value || '7';
             const inverterSerials = warrantyInverterSerials?.value || '';
 
             const dcrCertificate = warrantyDcrCertificate?.value || 'N/A';
@@ -135,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Performance warranty determines the "Valid Until" for modules usually, or product? 
             // Typically performance is the longer one. Let's use Performance for the main highlight.
             const moduleWarrantyEnd = calculateWarrantyEnd(installDate, parseInt(modulePerformanceWarranty) || 30);
-            const inverterWarrantyEnd = calculateWarrantyEnd(installDate, parseInt(inverterWarranty) || 5);
+            const inverterWarrantyEnd = calculateWarrantyEnd(installDate, parseInt(inverterWarranty) || 7);
 
             // Populate Page 1: Cover & Project Details
             document.getElementById('coverProjectId').textContent = projectId;

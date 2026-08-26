@@ -376,7 +376,7 @@
                     make: 'Ray2Volt Solar',
                     quantity: 1,
                     unit: 'Job',
-                    warranty: '1 Year workmanship',
+                    warranty: '5 Years workmanship',
                     remarks: ''
                 },
                 {
