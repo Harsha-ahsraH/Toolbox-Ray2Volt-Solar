@@ -559,7 +559,7 @@
 
 .main-nav .nav-link[href$="quotation.html"]::before,
 .tool-card[href$="quotation.html"] h3::before {
-    content: "summarize";
+    content: "draft";
 }
 
 .main-nav .nav-link[href$="purchase-order.html"]::before,
