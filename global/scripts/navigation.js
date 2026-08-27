@@ -5,8 +5,8 @@
 
 /**
  * Extra words a tool answers to. The visible label is always searched; these
- * cover what someone actually types — "bill" for the Invoice Generator,
- * "tax" for GST, "rfq" for Request For Quotation.
+ * cover what someone actually types — "bill" for the Tax Invoice,
+ * "tax" for GST, "rfq" for Request for Quotation.
  */
 const TOOL_SEARCH_KEYWORDS = {
     'index.html': 'dashboard home overview all tools',
@@ -16,7 +16,7 @@ const TOOL_SEARCH_KEYWORDS = {
     'sales-sop.html': 'sop sales process pitch script subsidy financing training faq',
     'solar-savings.html': 'savings roi irr payback breakeven capex resco returns bill units',
     'receipt-generator.html': 'receipt payment paid advance acknowledgement money',
-    'invoice-generator.html': 'invoice bill billing tax gst supply',
+    'invoice-generator.html': 'invoice generator bill billing tax gst supply',
     'proforma-invoice.html': 'proforma invoice advance estimate pi',
     'quotation.html': 'quotation quote 1-page one page customer gst',
     'purchase-order.html': 'po purchase order vendor supplier procurement buy',
