@@ -13,6 +13,7 @@ const toolNames = [
     'receipt-generator',
     'invoice-generator',
     'proforma-invoice',
+    'quotation',
     'purchase-order',
     'payslip-generator',
     'warranty-card',

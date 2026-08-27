@@ -18,6 +18,7 @@ const TOOL_SEARCH_KEYWORDS = {
     'receipt-generator.html': 'receipt payment paid advance acknowledgement money',
     'invoice-generator.html': 'invoice bill billing tax gst supply',
     'proforma-invoice.html': 'proforma invoice advance estimate pi',
+    'quotation.html': 'quotation quote 1-page one page customer gst',
     'purchase-order.html': 'po purchase order vendor supplier procurement buy',
     'payslip-generator.html': 'payslip salary payroll employee wages commission staff',
     'warranty-card.html': 'warranty certificate guarantee card cover',

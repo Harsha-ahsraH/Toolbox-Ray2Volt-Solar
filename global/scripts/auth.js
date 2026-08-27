@@ -55,6 +55,7 @@
         'comparison-sheet': 1,
         'letterhead-documents': 1,
         'proforma-invoice': 1,
+        'quotation': 1,
         'quote-generator': 1,
         'resource-library': 1,
         'invoice-generator': 2,

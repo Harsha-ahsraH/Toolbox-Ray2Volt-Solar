@@ -557,6 +557,11 @@
     content: "article";
 }
 
+.main-nav .nav-link[href$="quotation.html"]::before,
+.tool-card[href$="quotation.html"] h3::before {
+    content: "summarize";
+}
+
 .main-nav .nav-link[href$="purchase-order.html"]::before,
 .tool-card[href$="purchase-order.html"] h3::before {
     content: "shopping_cart";
