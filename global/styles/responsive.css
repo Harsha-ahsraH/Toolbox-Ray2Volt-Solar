@@ -121,7 +121,9 @@
 
     /* Improve nav links on mobile for touch */
     .main-nav .nav-link {
-        padding: 14px 20px;
+        /* 11px each side of the 22px icon is exactly the 44px tap target - the
+           floor for touch, so the rows tighten no further here. */
+        padding: 11px 20px;
         font-size: 0.95rem;
         border-left-width: 3px;
         border-radius: 0 8px 8px 0;

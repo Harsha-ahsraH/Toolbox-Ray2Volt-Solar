@@ -454,7 +454,9 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: var(--spacing-sm) var(--spacing-lg);
+    /* 8px block padding makes a 40px row: tight enough that the tool list
+       reads as one block, still a comfortable mouse target. */
+    padding: 8px var(--spacing-lg);
     color: var(--text-secondary);
     font-size: 0.95rem;
     font-weight: 500;
