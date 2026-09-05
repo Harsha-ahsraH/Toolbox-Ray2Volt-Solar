@@ -121,9 +121,9 @@
 
     /* Improve nav links on mobile for touch */
     .main-nav .nav-link {
-        /* 11px each side of the 22px icon is exactly the 44px tap target - the
-           floor for touch, so the rows tighten no further here. */
-        padding: 11px 20px;
+        /* 40px rows: under the 44px tap target the rest of the mobile chrome
+           keeps, traded deliberately for a tool list that scrolls less. */
+        padding: 9px 20px;
         font-size: 0.95rem;
         border-left-width: 3px;
         border-radius: 0 8px 8px 0;

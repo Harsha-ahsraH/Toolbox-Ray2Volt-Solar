@@ -454,11 +454,13 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    /* 8px block padding makes a 40px row: tight enough that the tool list
-       reads as one block, still a comfortable mouse target. */
-    padding: 8px var(--spacing-lg);
+    /* The row is sized off the 22px icon, not the label's natural line box:
+       22px + 2 x 7px of padding is a 36px row, tight enough that the tool
+       list reads as one block. */
+    padding: 7px var(--spacing-lg);
     color: var(--text-secondary);
     font-size: 0.95rem;
+    line-height: 22px;
     font-weight: 500;
     border-left: 3px solid transparent;
     transition: all var(--transition-fast);
