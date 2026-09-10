@@ -28,7 +28,7 @@
         if (rated) columns.push({ label: 'Rating', width: '10%', className: 'cq-center', value: ratingCell });
         columns.push({ label: 'Qty', width: widths[3], className: 'cq-center',
             value: row => `${esc(row.quantity)} ${esc(row.unit)}` });
-        if (rated) columns.push({ label: 'Warranty', width: '15%', value: row => esc(row.warranty) });
+        if (rated) columns.push({ label: 'Warranty', width: '15%', value: row => esc(Pages.helpers.warrantyText(row.warranty)) });
         return columns;
     }
 
@@ -45,7 +45,9 @@
             }));
             const state = Object.assign({}, context.state, { bom: Object.assign({}, context.state.bom, { categories }) });
 
-            if (!context.page.isContinuation) return original(Object.assign({}, context, { state }));
+            if (!context.page.isContinuation) return original(Object.assign({}, context, {
+                state, photoState: context.state
+            }));
 
             const groups = [];
             slice.forEach(unit => {

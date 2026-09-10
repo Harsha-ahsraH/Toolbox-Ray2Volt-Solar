@@ -376,7 +376,7 @@
         // -----------------------------------------------------------------
 
         /**
-         * Adds a Reset Panel control to the top of every panel body. Injected
+         * Adds a reset control to each panel; input navigation positions it at the foot. Injected
          * here rather than written into the markup nine times, so the control
          * and its confirmation stay in one place.
          */
@@ -391,7 +391,7 @@
                 const bar = document.createElement('div');
                 bar.className = 'qg-inline-actions qg-panel-reset';
                 bar.innerHTML = `<button type="button" class="qg-btn-ghost qg-btn-danger"
-                    data-reset-panel="${Editors.esc(name)}">Reset Current Panel</button>`;
+                    data-reset-panel="${Editors.esc(name)}">Reset This Section</button>`;
                 body.insertBefore(bar, body.firstChild);
             });
 

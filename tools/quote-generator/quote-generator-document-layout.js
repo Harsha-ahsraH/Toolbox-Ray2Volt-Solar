@@ -2,7 +2,7 @@
 (function (root) {
     'use strict';
 
-    function compose(container, sourcePlan) {
+    function composePass(container, sourcePlan, compact) {
         const sources = Array.from(container.children);
         const output = [];
         const plan = [];
@@ -10,7 +10,12 @@
         let body;
         let currentSection = '';
         let contentsPage;
-        let attachmentIndex;
+        const sectionHeaders = new Map();
+        sourcePlan.forEach((source, index) => {
+            if (!sectionHeaders.has(source.sectionId)) {
+                sectionHeaders.set(source.sectionId, sources[index].querySelector('.cq-head-title'));
+            }
+        });
         container.classList.add('cq-measuring');
         container.replaceChildren();
 
@@ -25,6 +30,7 @@
         function start(source, original) {
             page = original.cloneNode(false);
             page.classList.add('cq-flow-page');
+            if (compact.has(source.sectionId)) page.classList.add('cq-compact-page');
             const head = original.querySelector('.cq-head');
             if (head) {
                 const clone = head.cloneNode(true);
@@ -96,18 +102,6 @@
                 });
                 return part;
             });
-        }
-
-        function sectionHeading(source, original) {
-            const heading = document.createElement('div');
-            heading.className = 'cq-flow-heading';
-            heading.dataset.sectionId = source.sectionId;
-            const title = document.createElement('h2');
-            title.textContent = source.title;
-            heading.append(title);
-            const subtitle = original.querySelector('.cq-head-title p');
-            if (subtitle) heading.append(subtitle.cloneNode(true));
-            return heading;
         }
 
         function continuePage(source, original, pending) {
@@ -213,7 +207,10 @@
         }
 
         function grid(node, source, original) {
-            const columns = node.classList.contains('cq-grid-3') ? 3
+            const single = ['execution-methodology', 'quality-assurance', 'health-safety', 'why-ray2volt']
+                .includes(source.sectionId);
+            if (single) node.classList.add('cq-reading-stack');
+            const columns = single ? 1 : node.classList.contains('cq-grid-3') ? 3
                 : node.classList.contains('cq-steps-1') ? 1 : 2;
             const children = Array.from(node.children);
             for (let index = 0; index < children.length; index += columns) {
@@ -232,11 +229,15 @@
                 pair.forEach(child => fragment.append(child));
                 if (!fits()) {
                     pair.forEach(child => child.remove());
+                    // Keep at least two pairs together when the final pair carries over.
+                    const carry = index === pairs.length - 2 && fragment.children.length >= 4
+                        ? Array.from(fragment.children).slice(-2) : [];
+                    carry.forEach(child => child.remove());
                     if (!fragment.children.length) fragment.remove();
                     if (body.children.length) continuePage(source, original);
                     fragment = node.cloneNode(false);
                     body.append(fragment);
-                    pair.forEach(child => fragment.append(child));
+                    carry.concat(pair).forEach(child => fragment.append(child));
                 }
                 remember(source);
             }
@@ -253,34 +254,18 @@
                 page = body = null;
                 return;
             }
-            if (source.sectionId === 'annexure-index' && source.partCount === 1
-                && original.querySelectorAll('tbody tr').length <= 6) {
-                attachmentIndex = original;
-                return;
-            }
             if (['cover', 'annexures', 'acceptance'].includes(source.sectionId)) {
                 if (source.sectionId === 'acceptance') original.classList.add('cq-acceptance-page');
                 container.append(original);
                 output.push(original);
                 plan.push(Object.assign({}, source, { sectionIds: [source.sectionId] }));
-                if (source.sectionId === 'annexures' && attachmentIndex) {
-                    const target = original.querySelector('.cq-body');
-                    const blocks = Array.from(attachmentIndex.querySelector('.cq-body').children);
-                    blocks.forEach(block => { block.dataset.contentSection = 'annexure-index'; });
-                    const note = blocks.find(block => block.classList.contains('cq-note'));
-                    if (note) note.textContent = 'Supporting documents are presented below and on the following pages in upload order.';
-                    target.prepend(...blocks);
-                    plan[plan.length - 1].sectionIds.unshift('annexure-index');
-                    attachmentIndex = null;
-                }
                 remember(source);
                 page = body = null;
                 return;
             }
             if (!page) start(source, original);
             else if (currentSection !== source.sectionId) {
-                if (body.clientHeight - used() < 170) start(source, original);
-                else add(sectionHeading(source, original), source, original);
+                start(source, original);
                 currentSection = source.sectionId;
             }
             const children = Array.from(original.querySelector('.cq-body').children);
@@ -296,21 +281,6 @@
                 else if (node.matches('p.cq-para,p.cq-lead')) textParts(node, 700).forEach(part => add(part, source, original));
                 else add(node, source, original);
             });
-        });
-
-        // Keep a short closing continuation together as one complete closing section.
-        output.forEach((node, index) => {
-            const flow = node.querySelector('.cq-flow-body');
-            if (!flow || node.dataset.sectionId !== 'why-ray2volt' || !index) return;
-            const bounds = flow.getBoundingClientRect();
-            if (!flow.lastElementChild || flow.lastElementChild.getBoundingClientRect().bottom - bounds.top
-                >= flow.clientHeight * 0.75) return;
-            const previous = output[index - 1].querySelector('.cq-flow-body');
-            if (!previous) return;
-            const closing = Array.from(previous.children).filter(block => block.dataset.contentSection === 'why-ray2volt');
-            previous.querySelector('.cq-flow-heading[data-section-id="why-ray2volt"]')?.remove();
-            flow.prepend(...closing);
-            node.classList.add('cq-closing-page');
         });
 
         // Determine references from where the content actually landed, after orphan headings moved.
@@ -378,25 +348,42 @@
             if (flow) {
                 const bounds = flow.getBoundingClientRect();
                 const bottom = flow.lastElementChild ? flow.lastElementChild.getBoundingClientRect().bottom - bounds.top : 0;
-                const gap = Math.max(0, flow.clientHeight - bottom - 12);
-                const clauses = flow.querySelectorAll(':scope > .cq-clause-list > li');
-                if (gap > 80 && flow.children.length <= 3 && clauses.length > 4) {
-                    const extra = Math.min(14, gap / clauses.length);
-                    clauses.forEach(clause => {
-                        const style = getComputedStyle(clause);
-                        clause.style.paddingTop = `${parseFloat(style.paddingTop) + extra / 2}px`;
-                        clause.style.paddingBottom = `${parseFloat(style.paddingBottom) + extra / 2}px`;
-                    });
-                }
-                // Share modest remaining space across blocks instead of leaving a stranded bottom note.
-                if (gap < 260 && flow.children.length > 2) {
-                    const extra = Math.min(22, gap / flow.children.length);
-                    Array.from(flow.children).slice(0,-1).forEach(child => {
-                        child.style.marginBottom = `${parseFloat(getComputedStyle(child).marginBottom) + extra}px`;
-                    });
-                }
                 node.dataset.contentFill = Math.round(bottom / flow.clientHeight * 100);
             }
+        });
+        // Running headers describe the section that occupies most of the page.
+        output.forEach((node, index) => {
+            const flow = node.querySelector('.cq-flow-body');
+            if (!flow) return;
+            const areas = new Map();
+            Array.from(flow.children).forEach(block => {
+                const id = block.dataset.contentSection || block.dataset.sectionId;
+                if (!id) return;
+                const style = getComputedStyle(block);
+                const height = block.getBoundingClientRect().height
+                    + parseFloat(style.marginTop) + parseFloat(style.marginBottom);
+                areas.set(id, (areas.get(id) || 0) + height);
+            });
+            const dominant = [...areas].sort((a, b) => b[1] - a[1])[0]?.[0];
+            const sourceHeader = sectionHeaders.get(dominant);
+            const header = node.querySelector('.cq-head-title');
+            if (!sourceHeader || !header) return;
+            header.replaceChildren(...Array.from(sourceHeader.children, child => child.cloneNode(true)));
+            // The running title follows the dominant section; its subtitle identifies
+            // opening content when a different section or a continuation starts here.
+            const opening = plan[index].sectionIds[0];
+            const previous = plan.slice(0, index).findLastIndex(entry => entry.sectionIds.includes(opening));
+            const subtitle = header.querySelector('p');
+            const openingTitle = sourcePlan.find(source => source.sectionId === opening)?.title;
+            if (subtitle && opening !== dominant) {
+                subtitle.textContent = previous >= 0
+                    ? `${openingTitle} · Continued from page ${previous + 1}`
+                    : `${openingTitle} starts below`;
+            } else if (subtitle && previous >= 0) {
+                subtitle.textContent = `Continued from page ${previous + 1}`;
+            }
+            node.dataset.headerSection = dominant;
+            plan[index].headerSectionId = dominant;
         });
         const annexureIds = [...new Set(sourcePlan.filter(source => source.annexureId).map(source => source.annexureId))];
         container.querySelectorAll('[data-content-section="annexure-index"] tbody tr').forEach(row => {
@@ -404,6 +391,38 @@
             row.lastElementChild.textContent = plan.findIndex(entry => entry.annexureId === id) + 1;
         });
         container.classList.remove('cq-measuring');
+        return plan;
+    }
+
+    function compose(container, sourcePlan) {
+        const originals = Array.from(container.children, node => node.cloneNode(true));
+        const compact = new Set();
+        let plan;
+        // Recompose from pristine source nodes: repeated passes cannot lose content
+        // or accumulate inline spacing. Only continuation sections need balancing.
+        for (let pass = 0; pass < 2; pass += 1) {
+            if (pass) container.replaceChildren(...originals.map(node => node.cloneNode(true)));
+            plan = composePass(container, sourcePlan, compact);
+            const groups = new Map();
+            Array.from(container.children).forEach(page => {
+                if (!page.classList.contains('cq-flow-page')) return;
+                const id = page.dataset.sectionId;
+                if (!groups.has(id)) groups.set(id, []);
+                groups.get(id).push(Number(page.dataset.contentFill) / 100);
+            });
+            let changed = false;
+            groups.forEach((fills, id) => {
+                if (fills.length < 2 || fills.at(-1) >= 0.8) return;
+                const total = fills.reduce((sum, value) => sum + value, 0);
+                if (!compact.has(id) && total / (fills.length - 1) < 1.2) {
+                    compact.add(id);
+                    changed = true;
+                }
+            });
+            if (!changed) break;
+        }
+        root.QuoteGeneratorSectionSpacing.balance(container);
+        root.QuoteGeneratorSectionSpacing.finish(container);
         return plan;
     }
 

@@ -2,11 +2,11 @@
  * Quote Generator - Comprehensive preview and print
  * Ray2Volt Solar Toolbox
  *
- * Builds the Comprehensive Proposal from the page plan, drives the thumbnail
- * rail and the large A4 stage, and wires Print / Save as PDF.
+ * Builds the Comprehensive Proposal from the page plan, displays every A4 page
+ * in a continuous preview, and wires Print / Save as PDF.
  *
  * One page plan feeds preview and browser print. The pages are built once into
- * #qgComprehensivePages; the rail and stage show scaled clones of those same
+ * #qgComprehensivePages; the preview shows scaled clones of those same
  * nodes, so the preview and printed Proposal cannot disagree on page order,
  * content or numbering.
  */
@@ -22,15 +22,12 @@
 
     let app = null;
     let container = null;
-    let rail = null;
     let stage = null;
     let position = null;
-    let pageSelect = null;
     let exportBlocked = null;
     let printButton = null;
 
     let currentPlan = [];
-    let selectedIndex = 0;
     let stale = true;
     let waitingForAssets = false;
 
@@ -113,112 +110,25 @@
     }
 
     // ---------------------------------------------------------------------
-    // Rail, stage and selection
+    // Continuous document preview
     // ---------------------------------------------------------------------
-
-    function pageNodes() {
-        return Array.prototype.slice.call(container.querySelectorAll('.quote-page'));
-    }
-
-    function buildRail() {
-        if (!rail) return;
-
-        rail.innerHTML = '';
-
-        pageNodes().forEach((node, index) => {
-            const plan = currentPlan[index];
-            const button = document.createElement('button');
-
-            button.type = 'button';
-            button.className = 'qg-thumb';
-            button.dataset.pageIndex = String(index);
-            button.setAttribute('aria-label',
-                `Page ${index + 1} of ${currentPlan.length}: ${plan ? plan.title : ''}`);
-
-            const frame = document.createElement('div');
-            frame.className = 'qg-thumb-frame';
-            frame.setAttribute('aria-hidden', 'true');
-
-            const clone = node.cloneNode(true);
-            clone.removeAttribute('id');
-            frame.appendChild(clone);
-
-            const caption = document.createElement('span');
-            caption.className = 'qg-thumb-caption';
-            caption.innerHTML = `<span class="qg-thumb-number">${index + 1}</span>`
-                + `<span class="qg-thumb-title">${esc(plan ? plan.title : '')}</span>`;
-
-            button.appendChild(frame);
-            button.appendChild(caption);
-            rail.appendChild(button);
-        });
-    }
-
-    function buildPageSelect() {
-        if (!pageSelect) return;
-
-        pageSelect.innerHTML = currentPlan.map((page, index) =>
-            `<option value="${index}">Page ${index + 1} of ${currentPlan.length} — ${esc(page.title)}</option>`
-        ).join('');
-        pageSelect.value = String(selectedIndex);
-    }
 
     function fitStage() {
         if (!stage) return;
-
-        const available = stage.clientWidth - 32;
+        const style = getComputedStyle(stage);
+        const available = stage.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
         if (available <= 0) return;
         const scale = Math.max(0.2, Math.min(1, available / A4_WIDTH_PX));
         stage.style.setProperty('--qg-stage-scale', scale.toFixed(4));
     }
 
-    function selectPage(index, options) {
-        const settings = options || {};
-
-        if (!currentPlan.length) {
-            selectedIndex = 0;
-            if (stage) stage.innerHTML = '<p class="qg-preview-empty">No pages selected.</p>';
-            if (position) position.textContent = 'No pages';
-            return;
-        }
-
-        selectedIndex = Math.max(0, Math.min(index, currentPlan.length - 1));
-
-        const nodes = pageNodes();
-        const node = nodes[selectedIndex];
-
-        if (stage && node) {
-            stage.innerHTML = '';
-            const clone = node.cloneNode(true);
-            clone.removeAttribute('id');
-            stage.appendChild(clone);
-            fitStage();
-
-            // Annexure artwork lives in the source node; refill the clone.
-            if (root.QuoteGeneratorAnnexures) {
-                root.QuoteGeneratorAnnexures.hydrate(stage, app ? app.getState() : null);
-            }
-        }
-
-        if (rail) {
-            Array.prototype.forEach.call(rail.querySelectorAll('.qg-thumb'), button => {
-                const active = Number(button.dataset.pageIndex) === selectedIndex;
-                button.classList.toggle('is-active', active);
-                button.setAttribute('aria-current', active ? 'page' : 'false');
-                if (active && settings.scrollRail !== false) {
-                    button.scrollIntoView({ block: 'nearest' });
-                }
-            });
-        }
-
-        if (pageSelect) pageSelect.value = String(selectedIndex);
-
-        if (position) {
-            const plan = currentPlan[selectedIndex];
-            position.textContent = `Page ${selectedIndex + 1} of ${currentPlan.length} — ${plan.title}`;
-        }
-
-        if (settings.focus && stage) stage.focus();
+    function buildFullPreview(state) {
+        if (!stage) return;
+        stage.replaceChildren(...Array.from(container.children, node => node.cloneNode(true)));
+        if (!currentPlan.length) stage.innerHTML = '<p class="qg-preview-empty">No pages selected.</p>';
+        if (position) position.textContent = currentPlan.length ? currentPlan.length + ' pages · A4 proposal' : 'No pages';
+        fitStage();
+        if (root.QuoteGeneratorAnnexures) root.QuoteGeneratorAnnexures.hydrate(stage, state);
     }
 
     // ---------------------------------------------------------------------
@@ -267,19 +177,8 @@
     function render(state, derived, validation) {
         if (!container) return;
 
-        const previous = currentPlan[selectedIndex];
         buildPages(state, derived, validation);
-        if (previous) {
-            const match = currentPlan.findIndex(page => (page.sectionIds || [page.sectionId]).includes(previous.sectionId)
-                && page.annexureId === previous.annexureId && page.part === previous.part);
-            if (match !== -1) selectedIndex = match;
-        }
-        buildRail();
-
-        if (selectedIndex >= currentPlan.length) selectedIndex = 0;
-
-        buildPageSelect();
-        selectPage(selectedIndex, { scrollRail: false });
+        buildFullPreview(state);
         applyExportGate(validation);
         stale = false;
     }
@@ -292,27 +191,12 @@
     function init(appApi) {
         app = appApi;
         container = byId('qgComprehensivePages');
-        rail = byId('qgThumbRail');
         stage = byId('qgPreviewStage');
         position = byId('qgPreviewPosition');
-        pageSelect = byId('qgPageSelect');
         exportBlocked = byId('qgExportBlocked');
         printButton = byId('qgComprehensivePrint');
 
         if (!container) return;
-
-        if (rail) {
-            rail.addEventListener('click', event => {
-                const button = event.target.closest('.qg-thumb');
-                if (button) selectPage(Number(button.dataset.pageIndex), { focus: true });
-            });
-        }
-
-        if (pageSelect) {
-            pageSelect.addEventListener('change', () => {
-                selectPage(Number(pageSelect.value), { focus: true });
-            });
-        }
 
         const generate = byId('qgComprehensiveGenerate');
         if (generate) {
@@ -326,17 +210,6 @@
             printButton.addEventListener('click', () => {
                 if (printButton.disabled) return;
                 printWhenFreshAndReady();
-            });
-        }
-
-        if (stage) {
-            stage.addEventListener('keydown', event => {
-                if (event.target !== stage) return;
-                const pages = { ArrowLeft: selectedIndex - 1, ArrowRight: selectedIndex + 1,
-                    PageUp: selectedIndex - 1, PageDown: selectedIndex + 1, Home: 0, End: currentPlan.length - 1 };
-                if (!(event.key in pages)) return;
-                event.preventDefault();
-                selectPage(pages[event.key], { focus: true });
             });
         }
 
@@ -360,7 +233,6 @@
             render(state, derived, validation);
         },
         invalidate,
-        selectPage,
         getPlan() {
             return currentPlan;
         }

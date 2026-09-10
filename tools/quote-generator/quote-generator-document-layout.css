@@ -4,7 +4,36 @@
 .cq-flow-body > * { break-inside: avoid; }
 .cq-flow-body > :first-child { margin-top: 0; }
 .cq-flow-body > :last-child { margin-bottom: 0 !important; }
-.cq-flow-body .cq-figure .cq-schematic { max-height: 62mm; }
+.cq-reading-block { margin: 5mm 0; }
+.cq-reading-block .cq-subtitle { margin-top: 0; }
+.cq-reading-block .cq-para { margin-bottom: 0; }
+.cq-flow-body .cq-reading-stack { grid-template-columns: 1fr; }
+.cq-compact-page .cq-flow-body .cq-subtitle { margin-top: 2mm; margin-bottom: 2mm; }
+.cq-compact-page .cq-flow-body .cq-para,
+.cq-compact-page .cq-flow-body .cq-lead { margin-bottom: 2mm; }
+.cq-compact-page .cq-flow-body .cq-table td,
+.cq-compact-page .cq-flow-body .cq-table th { padding-top: 1mm; padding-bottom: 1mm; }
+.cq-compact-page .cq-flow-body .cq-component-photo img { height: 36mm; }
+.cq-compact-page .cq-flow-body .cq-card { padding-bottom: 2mm; }
+.cq-compact-page .cq-flow-body .cq-note { margin-top: 2mm; }
+/* Longer reading measures and larger diagrams complete concise sections. */
+.cq-page[data-section-id="execution-methodology"] .cq-steps { grid-template-columns: 1fr; }
+.cq-page[data-section-id="execution-methodology"] .cq-step { padding: 3mm; }
+.cq-page[data-section-id="inverter-technology"] .cq-component-photo img { height: 38mm; }
+.cq-page[data-section-id="inverter-technology"] .cq-component-photo { margin-bottom: 3mm; }
+.cq-page[data-section-id="inverter-technology"] .cq-subtitle { margin-top: 3mm; margin-bottom: 2mm; }
+.cq-page[data-section-id="savings-projection"] .cq-table th,
+.cq-page[data-section-id="savings-projection"] .cq-table td { padding-top: 1.05mm; padding-bottom: 1.05mm; }
+.cq-page[data-section-id="battery-technology"] .cq-component-photo { display: block; }
+.cq-page[data-section-id="battery-technology"] .cq-component-photo img { height: 72mm; margin-bottom: 4mm; }
+.cq-flow-body .cq-grid-2 + .cq-grid-2,
+.cq-flow-body .cq-grid-3 + .cq-grid-3 { margin-top: 3mm; }
+.cq-flow-body .cq-steps + .cq-steps { margin-top: 2.5mm; }
+.cq-flow-body .cq-figure .cq-schematic { max-height: 108mm; }
+.cq-flow-body .cq-figure .cq-schematic { width: 100%; height: auto; max-width: 100%; }
+.cq-card.cq-card-plain { border-top: 1px solid var(--qp-line); }
+.cq-value-table th:nth-child(2), .cq-value-table td:nth-child(2) { text-align: right; }
+.cq-savings-table .cq-total-row td:first-child { white-space: nowrap; }
 .cq-flow-heading { margin: 7mm 0 4mm; padding-top: 5mm; border-top: 2px solid var(--qp-navy); }
 .cq-flow-heading h2 { font-size: 14pt; line-height: 1.2; font-weight: 700; color: var(--qp-ink); }
 .cq-flow-heading p { margin-top: 1.5mm; font-size: 8.5pt; line-height: 1.5; color: var(--qp-muted); }
@@ -19,6 +48,8 @@
 .cq-page[data-section-id="document-control"] .cq-kv dt,
 .cq-page[data-section-id="document-control"] .cq-kv dd { padding-top: 3mm; padding-bottom: 3mm; }
 .cq-page[data-section-id="document-control"] .cq-card { padding-bottom: 5mm; }
+.cq-page[data-section-id="document-control"] .cq-kv { column-gap: 0; }
+.cq-page[data-section-id="document-control"] .cq-kv dt { padding-right: 3mm; }
 .cq-cover-image { flex: 1; min-height: 68mm; max-height: 105mm; object-fit: contain; }
 .cq-closing-page .cq-body { display: flex; flex-direction: column; gap: 3mm; }
 .cq-closing-page .cq-grid-2 { display: contents; }
@@ -28,6 +59,8 @@
 .cq-closing-page .cq-step p { font-size: 9.5pt; }
 .cq-acceptance-page .cq-kv dt,
 .cq-acceptance-page .cq-kv dd { padding-top: 3mm; padding-bottom: 3mm; }
-.cq-acceptance-page .cq-sign-grid { flex: 1; min-height: 58mm; align-items: end; padding-bottom: 7mm; }
-.cq-acceptance-page .cq-sign-box { padding-top: 6mm; }
-.cq-acceptance-page .cq-sign-note { line-height: 2.1; }
+.cq-acceptance-page .cq-sign-grid { flex: 1; min-height: 64mm; align-items: start; margin-top: 5mm; }
+.cq-acceptance-page .cq-sign-box { border-top: 0; padding-top: 0; }
+.cq-signature-area { height: 18mm; margin-top: 4mm; border-bottom: 1px solid var(--qp-line); font-size: 7.5pt; color: var(--qp-muted); }
+.cq-sign-fields { display: grid; grid-template-columns: auto 1fr; gap: 3mm; margin-top: 4mm; font-size: 8pt; color: var(--qp-gray); }
+.cq-sign-fields .cq-sign-line { min-height: 5mm; border-bottom: 1px solid var(--qp-line); }

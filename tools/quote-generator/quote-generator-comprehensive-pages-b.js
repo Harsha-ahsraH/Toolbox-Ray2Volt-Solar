@@ -174,10 +174,10 @@
                     <div class="cq-bars">
                         ${rows.map(row => {
                             const value = Number(row.importedKwh) || 0;
-                            const height = Math.max(1, (value / peak) * 100);
+                            const height = (value / peak) * 28;
                             return `<div class="cq-bar">
                                 <span class="cq-bar-value">${value ? number(value) : ''}</span>
-                                <div class="cq-bar-fill" style="height:${number(height, 1)}%"></div>
+                                <div class="cq-bar-fill" style="height:${height.toFixed(2)}mm"></div>
                                 <span class="cq-bar-label">${esc(String(row.month).slice(0, 3))}</span>
                             </div>`;
                         }).join('')}
@@ -334,17 +334,17 @@
                     <p class="cq-lead">Gross savings are the value of self-consumed energy plus export
                         credits. Net savings are gross savings less the future costs entered for the
                         project.</p>`}
-                <table class="cq-table">
+                <table class="cq-table cq-savings-table">
                     <thead>
                         <tr>
                             <th style="width:8%">Year</th>
-                            <th class="cq-num">Generation (kWh)</th>
-                            <th class="cq-num">Tariff</th>
-                            <th class="cq-num">Self-Use Saving</th>
-                            <th class="cq-num">Export Credit</th>
-                            <th class="cq-num">Costs</th>
-                            <th class="cq-num">Net Saving</th>
-                            <th class="cq-num">Cumulative</th>
+                            <th class="cq-num" style="width:14%">Generation (kWh)</th>
+                            <th class="cq-num" style="width:10%">Tariff (₹/kWh)</th>
+                            <th class="cq-num" style="width:14%">Self-Use Saving</th>
+                            <th class="cq-num" style="width:12%">Export Credit</th>
+                            <th class="cq-num" style="width:11%">Costs</th>
+                            <th class="cq-num" style="width:15%">Net Saving</th>
+                            <th class="cq-num" style="width:16%">Cumulative</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -355,7 +355,7 @@
                                 <td class="cq-num">${number(row.tariff, 2)}</td>
                                 <td class="cq-num">${money(row.selfSavings)}</td>
                                 <td class="cq-num">${money(row.exportCredit)}</td>
-                                <td class="cq-num">${row.costs ? money(row.costs) : '—'}</td>
+                                <td class="cq-num">${money(row.costs)}</td>
                                 <td class="cq-num">${money(row.netSavings)}</td>
                                 <td class="cq-num">${money(row.cumulativeNet)}</td>
                             </tr>`).join('')}
@@ -364,8 +364,8 @@
                                 <td>Total</td>
                                 <td class="cq-num">${number(projection.totalGenerationKwh)}</td>
                                 <td class="cq-num">—</td>
-                                <td class="cq-num">—</td>
-                                <td class="cq-num">—</td>
+                                <td class="cq-num">${money(projection.rows.reduce((sum, row) => sum + row.selfSavings, 0))}</td>
+                                <td class="cq-num">${money(projection.rows.reduce((sum, row) => sum + row.exportCredit, 0))}</td>
                                 <td class="cq-num">${money(projection.totalCosts)}</td>
                                 <td class="cq-num">${money(projection.totalNetSavings)}</td>
                                 <td class="cq-num">${money(projection.totalNetSavings)}</td>
@@ -434,7 +434,7 @@
                 </div>
 
                 <h3 class="cq-subtitle">Basis of Calculation</h3>
-                <table class="cq-table">
+                <table class="cq-table cq-value-table">
                     <thead><tr><th style="width:44%">Input</th><th>Value</th><th>Source</th></tr></thead>
                     <tbody>
                         <tr>
@@ -521,7 +521,7 @@
                         <span class="cq-metric-sub">MWh generated</span>
                     </div>
                     <div class="cq-metric">
-                        <span class="cq-metric-label">CO2 Avoided</span>
+                        <span class="cq-metric-label">CO₂ Avoided</span>
                         <span class="cq-metric-value">${number(environmental.co2Tonnes, 1)}</span>
                         <span class="cq-metric-sub">tonnes</span>
                     </div>
@@ -533,7 +533,7 @@
                 </div>
 
                 <h3 class="cq-subtitle">How These Are Calculated</h3>
-                <table class="cq-table">
+                <table class="cq-table cq-value-table">
                     <thead><tr><th style="width:46%">Step</th><th>Value</th></tr></thead>
                     <tbody>
                         <tr>
@@ -542,15 +542,15 @@
                         </tr>
                         <tr>
                             <td>Grid emission factor applied</td>
-                            <td>${Content.ENVIRONMENTAL.gridEmissionFactorKgPerKwh} kg CO2 per kWh</td>
+                            <td>${Content.ENVIRONMENTAL.gridEmissionFactorKgPerKwh} kg CO₂ per kWh</td>
                         </tr>
                         <tr>
                             <td>Emissions avoided</td>
-                            <td>${number(environmental.co2Tonnes, 1)} tonnes CO2</td>
+                            <td>${number(environmental.co2Tonnes, 1)} tonnes CO₂</td>
                         </tr>
                         <tr>
                             <td>Tree equivalence conversion</td>
-                            <td>${Content.ENVIRONMENTAL.treesPerTonneCo2} trees per tonne CO2</td>
+                            <td>${Content.ENVIRONMENTAL.treesPerTonneCo2} trees per tonne CO₂</td>
                         </tr>
                     </tbody>
                 </table>
@@ -741,7 +741,7 @@
                                 <tr>
                                     <td>${esc(row.name)}</td>
                                     <td>${esc(row.make)}</td>
-                                    <td>${esc(row.warranty)}</td>
+                                    <td>${esc(Pages.helpers.warrantyText(row.warranty))}</td>
                                 </tr>`).join('')}
                         </tbody>
                     </table>`
@@ -832,9 +832,9 @@
                             <td class="cq-num">${money(commercial.actualProjectCost)}</td>
                         </tr>
                         <tr>
-                            <td>Less: total discount${commercial.discountTotal > 0 ? '' : ' (none)'}</td>
+                            <td>Less: total discount</td>
                             <td class="cq-num">${commercial.discountTotal > 0
-                                ? '- ' + money(commercial.discountTotal) : '—'}</td>
+                                ? '- ' + money(commercial.discountTotal) : money(0)}</td>
                         </tr>
                         <tr class="cq-total-row">
                             <td>Final offered price (incl. GST)</td>

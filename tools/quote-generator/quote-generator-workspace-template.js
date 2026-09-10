@@ -283,6 +283,7 @@
                         <div class="qg-input-group">
                             <label for="cqDcAcRatio">DC / AC Ratio</label>
                             <input type="text" id="cqDcAcRatio" class="qg-input-field" readonly tabindex="-1">
+                            <p class="qg-field-hint">Calculated from solar DC capacity ÷ inverter AC capacity.</p>
                         </div>
                         <div class="qg-input-group qg-hybrid-only" hidden>
                             <label for="cqBatteryEnergy">Battery Energy (kWh) *</label>
@@ -296,7 +297,7 @@
                         </div>
                     </div>
 
-                    <h3 class="qg-subheading">Installation Location</h3>
+                    <h3 class="qg-subheading">Site Details</h3>
                     <div class="qg-input-group">
                         <label for="cqInstallationLocation">Installation Location</label>
                         <select id="cqInstallationLocation" class="qg-input-field"
@@ -325,8 +326,7 @@
                 <div class="qg-panel-body" id="qgPanel-narrative" role="region"
                     aria-labelledby="qgPanelToggle-narrative" hidden>
                     <div class="qg-inline-actions">
-                        <button type="button" class="qg-btn-ghost" id="qgRestoreAllNarrative">Restore All
-                            Defaults</button>
+                        <button type="button" class="qg-btn-ghost" id="qgRestoreAllNarrative">Reset All Descriptions</button>
                     </div>
                     <div id="qgNarrativeFields"></div>
                 </div>
@@ -339,7 +339,7 @@
                     aria-labelledby="qgPanelToggle-bom" hidden>
                     <div class="qg-reconciliation" id="qgReconciliation"></div>
                     <div class="qg-inline-actions">
-                        <button type="button" class="qg-btn-ghost" id="qgResetBom">Reset to Defaults</button>
+                        <button type="button" class="qg-btn-ghost" id="qgResetBom">Reset Bill of Materials</button>
                     </div>
                     <div id="qgBomCategories"></div>
                 </div>
@@ -445,7 +445,7 @@
                     <h4 class="qg-subheading">Generation &amp; Utilization Assumptions</h4>
                     <div class="qg-field-grid">
                         <div class="qg-input-group">
-                            <label for="cqAnnualGeneration">Annual Generation (kWh/kWp)</label>
+                            <label for="cqAnnualGeneration">Specific Yield (kWh/kWp/year)</label>
                             <input type="number" id="cqAnnualGeneration" class="qg-input-field" min="0" step="1"
                                 data-bind="savings.annualGenerationPerKwp">
                         </div>
@@ -539,7 +539,7 @@
         <div class="qg-preview-toolbar">
             <div class="qg-preview-meta">
                 <span class="qg-preview-position" id="qgPreviewPosition" role="status"
-                    aria-live="polite">Page 1 of 1</span>
+                    aria-live="polite">Proposal preview</span>
             </div>
             <div class="qg-preview-actions">
                 <button type="button" class="qg-btn-primary" id="qgComprehensiveGenerate">Generate
@@ -552,16 +552,8 @@
             Fix the critical errors listed in Inputs before exporting.
         </p>
 
-        <div class="qg-preview-selector">
-            <label for="qgPageSelect">Page</label>
-            <select id="qgPageSelect" class="qg-input-field"></select>
-        </div>
-
-        <div class="qg-preview-split">
-            <nav class="qg-thumb-rail" id="qgThumbRail" aria-label="Proposal pages"></nav>
-            <div class="qg-preview-stage" id="qgPreviewStage" tabindex="-1"
-                aria-label="Selected proposal page"></div>
-        </div>
+        <div class="qg-preview-stage" id="qgPreviewStage" role="region"
+            aria-label="Full proposal preview"></div>
     </div>
 </div>
 `;

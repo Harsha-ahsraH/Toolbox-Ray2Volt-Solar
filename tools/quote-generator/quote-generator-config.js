@@ -93,7 +93,7 @@
         { id: 'protection', label: 'DCDB, ACDB and protection devices' },
         { id: 'earthing', label: 'Earthing and lightning protection' },
         { id: 'monitoring', label: 'Monitoring, communication and SCADA' },
-        { id: 'metering', label: 'Metering and synchronization' },
+        { id: 'metering', label: 'Metering and synchronisation' },
         { id: 'safety', label: 'Safety equipment and signage' },
         { id: 'civil', label: 'Civil and miscellaneous works' },
         { id: 'installation', label: 'Installation, testing and commissioning' },

@@ -302,7 +302,7 @@
                 },
                 {
                     name: 'Fire Safety Equipment',
-                    specification: 'CO2 / DCP extinguisher at inverter room location',
+                    specification: 'CO₂ / DCP extinguisher at inverter room location',
                     make: 'Reputed',
                     quantity: 2,
                     unit: 'Nos',

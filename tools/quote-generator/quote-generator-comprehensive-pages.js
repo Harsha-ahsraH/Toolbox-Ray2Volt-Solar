@@ -125,6 +125,12 @@
             String(row.name || '').trim() || String(row.specification || '').trim());
     }
 
+    /** Consistent printed units without changing stored warranty wording or periods. */
+    function warrantyText(value) {
+        return String(value || '').replace(/\b(\d+)\s*(?:yrs?|years?)\b/gi,
+            (_, count) => `${count} ${Number(count) === 1 ? 'year' : 'years'}`);
+    }
+
     function equipmentTable(rows, columns) {
         if (!rows.length) {
             return '<p class="cq-para">No equipment of this type is listed in the bill of materials.</p>';
@@ -133,7 +139,7 @@
         return `
             <table class="cq-table">
                 <thead><tr>${columns.map(column =>
-                    `<th${column.width ? ` style="width:${column.width}"` : ''}>${esc(column.label)}</th>`).join('')}</tr></thead>
+                    `<th${column.className ? ` class="${column.className}"` : ''}${column.width ? ` style="width:${column.width}"` : ''}>${esc(column.label)}</th>`).join('')}</tr></thead>
                 <tbody>${rows.map(row =>
                     `<tr>${columns.map(column =>
                         `<td${column.className ? ` class="${column.className}"` : ''}>${column.value(row)}</td>`).join('')}</tr>`).join('')}</tbody>
@@ -156,7 +162,32 @@
         return (lastStop > limit * 0.6 ? cut.slice(0, lastStop + 1) : cut.trim() + '…');
     }
 
+    /** Local photographs and credits are paired so each printed image stays attributable. */
+    function componentPhoto(key, compact) {
+        const photo = root.QuoteGeneratorComponentImages && root.QuoteGeneratorComponentImages[key];
+        if (!photo) return '';
+        return `<figure class="cq-component-photo${compact ? ' cq-component-photo-compact' : ''}">
+            <img src="assets/components/${esc(photo.file)}" alt="${esc(photo.alt)}"
+                width="${photo.width}" height="${photo.height}">
+            <figcaption>
+                <strong class="cq-component-title">${esc(photo.label)}</strong>
+                <p>${esc(photo.description)}</p>
+                <p class="cq-component-example">Representative photograph; offered equipment follows the schedule.</p>
+                <p class="cq-component-credit">Photo: ${esc(photo.author)} ·
+                    <a href="${esc(photo.source)}">Wikimedia Commons</a> ·
+                    <a href="${esc(photo.licenseUrl)}">${esc(photo.license)}</a></p>
+            </figcaption>
+        </figure>`;
+    }
+
+    function componentPhotos(keys) {
+        const photos = keys.map(key => componentPhoto(key, true)).filter(Boolean);
+        return photos.length ? `<div class="cq-grid-2 cq-component-gallery">${photos.join('')}</div>` : '';
+    }
+
     const helpers = {
+        componentPhoto,
+        componentPhotos,
         esc,
         excerpt,
         escLines,
@@ -170,6 +201,7 @@
         capacityLine,
         proposalTitle,
         categoryRows,
+        warrantyText,
         equipmentTable
     };
 

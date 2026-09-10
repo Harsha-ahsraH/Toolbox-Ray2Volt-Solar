@@ -60,6 +60,7 @@
                 <p class="cq-lead">The array is carried on a structure selected for the installation
                     surface and designed against the site wind loading. Structural design is confirmed
                     after the detailed site survey.</p>
+                ${Pages.helpers.componentPhoto('mounting')}
                 <h3 class="cq-subtitle">Structure Supplied</h3>
                 ${equipmentTable(rows, [
                     { label: 'Item', width: '26%', value: row => esc(row.name) },
@@ -83,7 +84,7 @@
                     <dd>Selected to suit the surveyed surface condition</dd>
                 </div>
 
-                <div class="cq-note cq-fill-end">Quantities above follow the bill of materials. The
+                <div class="cq-note cq-fill-end">The structure quantities follow the bill of materials. The
                     installation method for this surface is set out in the installation approach
                     section.</div>`
         };
@@ -102,7 +103,7 @@
             { id: 'protection', label: 'DCDB, ACDB and protection devices' },
             { id: 'earthing', label: 'Earthing and lightning protection' },
             { id: 'metering', label: 'Metering and synchronization' }
-        ].map(group => ({ label: group.label, rows: categoryRows(state, group.id) }))
+        ].map(group => ({ id: group.id, label: group.label, rows: categoryRows(state, group.id) }))
             .filter(group => group.rows.length);
 
         return {
@@ -113,6 +114,9 @@
                 <p class="cq-lead">The balance of system carries generated power from the array to the
                     interconnection point safely and within the design voltage-drop limit, and protects
                     the plant and the site installation.</p>
+                ${Pages.helpers.componentPhotos(['connectors', 'dcdb', 'acdb', 'metering'].filter(key =>
+                    categoryRows(context.photoState || state, ({ connectors: 'dc-cables', dcdb: 'protection',
+                        acdb: 'protection', metering: 'metering' })[key]).length))}
                 ${groups.length ? groups.map(group => `
                     <h3 class="cq-subtitle">${esc(group.label)}</h3>
                     ${equipmentTable(group.rows, [
@@ -147,9 +151,9 @@
                 <h3 class="cq-subtitle">Capabilities</h3>
                 <div class="cq-grid-2">
                     ${monitoring.capabilities.map(item => `
-                        <div class="cq-card"><p>${esc(item)}</p></div>`).join('')}
+                        <div class="cq-card cq-card-plain"><p>${esc(item)}</p></div>`).join('')}
                 </div>
-                <h3 class="cq-subtitle">Equipment Supplied</h3>
+                <h3 class="cq-subtitle">Equipment Offered</h3>
                 ${equipmentTable(rows, [
                     { label: 'Item', width: '28%', value: row => esc(row.name) },
                     { label: 'Specification', width: '42%', value: specCell },
@@ -168,7 +172,6 @@
         title: 'Why Ray2Volt',
         subtitle: 'What the customer gets, and what happens next',
         body: `
-            <p class="cq-lead">${esc(Content.WHY_RAY2VOLT.lead)}</p>
             <div class="cq-grid-2">
                 ${Content.WHY_RAY2VOLT.differentiators.map(item => `
                     <div class="cq-card">
@@ -194,7 +197,7 @@
         const { state, derived } = context;
 
         return {
-            title: 'Acceptance',
+            title: 'Acceptance & Signature',
             subtitle: 'Confirmation of this offer',
             bodyClass: 'cq-body-fill',
             body: `
@@ -219,12 +222,12 @@
                     <div class="cq-sign-box">
                         <strong>For the Customer</strong>
                         ${fallback(customerName(state), 'customer name')}
-                        <span class="cq-sign-note">Name<br>Designation<br>Date<br>Seal</span>
+                        <div class="cq-signature-area">Signature</div><div class="cq-sign-fields"><span>Name</span><span class="cq-sign-line" aria-hidden="true"></span><span>Designation</span><span class="cq-sign-line" aria-hidden="true"></span><span>Date</span><span class="cq-sign-line" aria-hidden="true"></span><span>Seal</span><span class="cq-sign-line" aria-hidden="true"></span></div>
                     </div>
                     <div class="cq-sign-box">
                         <strong>For ${esc(Content.COMPANY.legalName)}</strong>
                         ${esc(state.project.preparedBy || Content.COMPANY.legalName)}
-                        <span class="cq-sign-note">Name<br>Designation<br>Date<br>Seal</span>
+                        <div class="cq-signature-area">Signature</div><div class="cq-sign-fields"><span>Name</span><span class="cq-sign-line" aria-hidden="true"></span><span>Designation</span><span class="cq-sign-line" aria-hidden="true"></span><span>Date</span><span class="cq-sign-line" aria-hidden="true"></span><span>Seal</span><span class="cq-sign-line" aria-hidden="true"></span></div>
                     </div>
                 </div>
 

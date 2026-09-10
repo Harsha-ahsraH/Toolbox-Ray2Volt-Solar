@@ -635,6 +635,23 @@
         if (isComprehensive && !enabledClauses(state, 'terms').length) {
             issues.push(issue('warning', 'contract', 'terms', 'No terms and conditions are enabled.'));
         }
+        if (isComprehensive) {
+            const years = value => {
+                const words = { one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10 };
+                const match = String(value).match(/\b(\d+|one|two|three|four|five|six|seven|eight|nine|ten)\s*(?:years?|yrs?)\b/i);
+                return match ? Number(words[match[1].toLowerCase()] || match[1]) : null;
+            };
+            const warranties = (findCategory(state, 'installation')?.rows || [])
+                .filter(row => /installation|workmanship/i.test(`${row.name} ${row.warranty}`))
+                .map(row => years(row.warranty)).filter(value => value !== null);
+            const conflicting = enabledClauses(state, 'terms').some(clause => {
+                if (!/workmanship/i.test(clause.text)) return false;
+                const period = years(clause.text);
+                return period !== null && warranties.some(value => value !== period);
+            });
+            if (conflicting) issues.push(issue('warning', 'contract', 'terms',
+                'The workmanship warranty period in Terms differs from the installation warranty in the Bill of Materials. Review both before issuing this quotation.'));
+        }
 
         // --- Sections ------------------------------------------------------
         if (isComprehensive && !selectedSections(state).length) {

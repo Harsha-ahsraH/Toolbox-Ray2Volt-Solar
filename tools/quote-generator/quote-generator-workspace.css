@@ -12,7 +12,8 @@
    `display: flex` here would otherwise stay on screen while JavaScript believes
    it has hidden it — which is exactly how the Comprehensive-only controls used
    to leak into Short mode. */
-.no-print-area [hidden] {
+.no-print-area [hidden],
+#quotePreview[hidden] {
     display: none !important;
 }
 

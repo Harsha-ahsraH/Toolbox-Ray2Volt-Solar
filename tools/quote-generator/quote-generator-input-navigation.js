@@ -10,8 +10,8 @@
         ['commercial', 'Commercials', 'Commercial offer', 'Set the price, discounts and payment milestones.'],
         ['savings', 'Savings', 'Savings projections', 'Review generation, consumption and financial assumptions.'],
         ['contract', 'Terms & scope', 'Terms, inclusions & exclusions', 'Review the clauses included in this quotation.'],
-        ['sections', 'Proposal pages', 'Proposal sections', 'Choose the sections to include in the final document.'],
-        ['annexures', 'Attachments', 'Annexures', 'Add drawings, datasheets and supporting documents.']
+        ['sections', 'Proposal sections', 'Proposal sections', 'Choose the sections to include in the final document.'],
+        ['annexures', 'Annexures', 'Annexures', 'Add drawings, datasheets and supporting documents.']
     ];
 
     let active = 'customer';

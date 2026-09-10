@@ -122,6 +122,38 @@
     color: var(--qp-muted);
 }
 
+/* Component photographs stay attached to their explanation and source in print. */
+.cq-component-photo {
+    display: grid;
+    grid-template-columns: 66mm minmax(0, 1fr);
+    align-items: center;
+    gap: 5mm;
+    margin: 0 0 5mm;
+    padding: 3mm;
+    border: 1px solid var(--qp-line);
+    background: #fff;
+    break-inside: avoid;
+}
+
+.cq-component-photo img {
+    display: block;
+    width: 100%;
+    height: 46mm;
+    object-fit: contain;
+    background: var(--qp-off-white, #f8fafc);
+}
+
+.cq-component-photo figcaption { min-width: 0; }
+.cq-component-title { display: block; font-size: 10pt; line-height: 1.3; color: var(--qp-navy); }
+.cq-component-photo p { margin: 2mm 0 0; font-size: 9pt; line-height: 1.5; color: var(--qp-ink); }
+.cq-component-photo .cq-component-example { font-size: 8pt; color: var(--qp-muted); }
+.cq-component-photo .cq-component-credit { font-size: 7.5pt; color: var(--qp-muted); }
+.cq-component-credit a { color: inherit; text-decoration: underline; text-underline-offset: 1px; }
+.cq-component-photo-compact { display: block; margin-bottom: 0; }
+.cq-component-photo-compact img { height: 35mm; margin-bottom: 3mm; }
+.cq-component-photo-compact .cq-component-title { font-size: 9.5pt; }
+.cq-component-gallery { margin-bottom: 5mm; }
+
 /* --- Equipment tables ------------------------------------------------------
 
    The scope note a salesperson types against a bill-of-materials row is the

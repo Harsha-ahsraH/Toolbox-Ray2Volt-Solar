@@ -180,7 +180,7 @@
                         data-narrative="${esc(field)}">${esc(state.projectNarrative[field])}</textarea>
                     <div class="qg-inline-actions" style="margin-top:0.4rem;margin-bottom:0;">
                         <button type="button" class="qg-btn-ghost" data-restore-narrative="${esc(field)}"
-                            ${dirty ? '' : 'disabled'}>Restore Default</button>
+                            ${dirty ? '' : 'disabled'}>Reset Description</button>
                     </div>
                 </div>`;
         }).join('');
@@ -368,7 +368,7 @@
                 ? 'No rated rows in this category, so there is nothing to reconcile against.'
                 : (card.data.mismatch
                     ? `Difference of ${card.data.difference} ${card.unit} exceeds the ${card.data.tolerance} ${card.unit} tolerance.`
-                    : 'Approved and BOM-derived capacities agree.');
+                    : `Within the ±${card.data.tolerance} ${card.unit} capacity tolerance.`);
 
             return `
                 <div class="qg-recon-card" data-state="${state_}">
@@ -617,7 +617,7 @@
                         data-row-id="${esc(row.id)}" data-field="amount" value="${esc(row.amount)}">
                 </div>
                 <div class="qg-row-field">
-                    <label for="fc-${esc(row.id)}-esc">Escalation (%/yr)</label>
+                    <label for="fc-${esc(row.id)}-esc">Escalation (%/year)</label>
                     <input type="number" id="fc-${esc(row.id)}-esc" class="qg-input-field" step="0.1"
                         data-row-id="${esc(row.id)}" data-field="escalationPercent" value="${esc(row.escalationPercent)}">
                 </div>
@@ -733,7 +733,7 @@
                         <h4>${esc(list.title)}</h4>
                         <div class="qg-inline-actions" style="margin-bottom:0;">
                             <button type="button" class="qg-btn-ghost" data-clause-add="${esc(list.key)}">Add Clause</button>
-                            <button type="button" class="qg-btn-ghost" data-clause-restore="${esc(list.key)}">Restore Standard Defaults</button>
+                            <button type="button" class="qg-btn-ghost" data-clause-restore="${esc(list.key)}">Reset Clause Group</button>
                         </div>
                     </div>
                     ${clauses.map(clause => {

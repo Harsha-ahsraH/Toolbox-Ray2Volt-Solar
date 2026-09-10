@@ -262,7 +262,7 @@
             + 'model. Warranty documentation is registered in the customer\'s name and handed over '
             + 'at commissioning.',
         workmanship: 'Ray2Volt warrants its installation workmanship against defective execution '
-            + 'for the period stated in the terms and conditions of this proposal.',
+            + 'for the period listed against installation in the Bill of Materials, subject to the terms and conditions of this proposal.',
         support: [
             'Warranty claims with manufacturers are coordinated by Ray2Volt on the customer\'s behalf.',
             'Monitoring access is configured at commissioning so plant output can be reviewed remotely.',
@@ -463,21 +463,21 @@
         gridEmissionFactorKgPerKwh: 0.82,
         treesPerTonneCo2: 45,
         note: 'Emission avoidance is calculated from the projected generation using a grid emission '
-            + 'factor of 0.82 kg CO2 per kWh. The tree equivalence is an illustrative conversion at '
-            + '45 trees per tonne of CO2 and is not a measured sequestration figure. Both are '
+            + 'factor of 0.82 kg CO₂ per kWh. The tree equivalence is an illustrative conversion at '
+            + '45 trees per tonne of CO₂ and is not a measured sequestration figure. Both are '
             + 'presented as indicative only.'
     };
 
     /** Standard clause libraries. Sales edits these per quotation in the clause editors. */
     const CLAUSES = {
         terms: [
-            'This quotation is valid for the number of days stated on the cover of this proposal from the date of issue.',
+            'This quotation is valid for the number of days stated in Document Control from the date of issue.',
             'Prices are inclusive of GST at the rate shown in the commercial offer. Any statutory change in taxes or duties after the date of this offer will be charged at actuals.',
             'Payment is due against the milestones stated in this proposal. Material is despatched and work is scheduled only against cleared payment for the corresponding milestone.',
             'The offered price is based on the capacity, specification and site conditions stated in this proposal. A change in capacity, specification, site condition or scope will be re-quoted before execution.',
             'Supply of equipment is subject to availability at the time of order confirmation. Where an offered make or model is unavailable, an equivalent or superior alternative will be offered for the customer\'s written approval.',
             'Equipment warranties are those of the respective manufacturers and are passed through to the customer. Ray2Volt coordinates warranty claims but does not extend the manufacturer\'s warranty period.',
-            'Ray2Volt warrants installation workmanship against defective execution for one year from the date of commissioning.',
+            'Ray2Volt warrants installation workmanship for the period stated in the Bill of Materials, from commissioning.',
             'Project timelines are indicative and are confirmed after the detailed site survey. Delays caused by DISCOM processing, statutory approvals, site unavailability or customer-side dependencies are excluded from the committed schedule.',
             'The customer provides safe access to the site and the work area, together with unobstructed working space for the duration of the works.',
             'The customer provides power and water at site free of cost for construction, installation, testing and cleaning.',

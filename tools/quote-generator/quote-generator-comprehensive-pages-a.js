@@ -101,15 +101,15 @@
             <div class="cq-recon">
                 <div class="cq-recon-item">
                     <span class="cq-recon-label">Approved ${esc(label)}</span>
-                    <span class="cq-recon-value">${number(entry.approved, 2)} ${esc(unit)}</span>
+                    <span class="cq-recon-value">${number(entry.approved, 3)} ${esc(unit)}</span>
                 </div>
                 <div class="cq-recon-item">
                     <span class="cq-recon-label">Listed in bill of materials</span>
-                    <span class="cq-recon-value">${number(entry.derived, 2)} ${esc(unit)}</span>
+                    <span class="cq-recon-value">${number(entry.derived, 3)} ${esc(unit)}</span>
                 </div>
                 <div class="cq-recon-item">
-                    <span class="cq-recon-label">Difference</span>
-                    <span class="cq-recon-value">${sign}${number(entry.difference, 2)} ${esc(unit)}</span>
+                    <span class="cq-recon-label">Difference (${entry.mismatch ? 'outside' : 'within'} tolerance)</span>
+                    <span class="cq-recon-value">${sign}${number(entry.difference, 3)} ${esc(unit)}</span>
                 </div>
             </div>`;
     }
@@ -143,10 +143,6 @@
                         <dd>${fallback(state.project.quoteNumber, 'number pending')}</dd>
                         <dt>Date</dt>
                         <dd>${fallback(formatDate(state.project.quoteDate), 'date pending')}</dd>
-                        <dt>Revision</dt>
-                        <dd>${esc(state.project.revision || 'Rev 0')}</dd>
-                        <dt>Valid for</dt>
-                        <dd>${esc(state.project.validityDays)} days</dd>
                     </dl>
                 </div>
 
@@ -205,7 +201,7 @@
             // text area so the space above it reads as margin, not omission.
             bodyClass: 'cq-body-fill',
             body: `
-                <div class="cq-grid-2">
+                <div class="cq-grid-2 cq-document-parties">
                     <div class="cq-card">
                         <h4>${icon('customer')}Prepared For</h4>
                         <dl class="cq-kv">
@@ -227,7 +223,7 @@
                             <dt>CIN</dt><dd>${esc(Content.COMPANY.cin)}</dd>
                             <dt>Address</dt><dd>${esc(Content.COMPANY.address)}</dd>
                             ${state.project.preparedBy
-                                ? `<dt>Prepared by</dt><dd>${esc(state.project.preparedBy)}</dd>` : ''}
+                                ? `<dt>Project team</dt><dd>${esc(state.project.preparedBy)}</dd>` : ''}
                         </dl>
                     </div>
                 </div>
@@ -328,7 +324,7 @@
                 ${block('Proposed Solution', excerpt(state.projectNarrative.proposedSolution, 620))}
 
                 <h3 class="cq-subtitle">Headline Figures</h3>
-                <table class="cq-table">
+                <table class="cq-table cq-value-table">
                     <thead>
                         <tr><th style="width:46%">Item</th><th>Value</th><th>Basis</th></tr>
                     </thead>
@@ -498,7 +494,7 @@
         const { state } = context;
 
         return {
-            title: 'Why Commercial & Industrial Solar',
+            title: 'Why C&I Solar',
             subtitle: 'The case for on-site generation',
             bodyClass: 'cq-body-fill',
             body: `
@@ -609,7 +605,7 @@
                         </tbody>
                     </table>`
                     : `<p class="cq-para">The full ${number(state.project.dcCapacityKwp, 2)} kWp is installed on
-                        ${esc(labelFor(Config.INSTALLATION_LOCATIONS, state.project.installationLocation).toLowerCase())}.</p>`}
+                        ${esc(labelFor(Config.INSTALLATION_LOCATIONS, state.project.installationLocation))}.</p>`}
 
                 <h3 class="cq-subtitle">Scope Summary</h3>
                 <ul class="cq-bullets">
@@ -637,8 +633,8 @@
         const isHybrid = state.project.systemConfiguration === 'Hybrid';
         const architecture = Content.SYSTEM_ARCHITECTURE[isHybrid ? 'Hybrid' : 'On-Grid'];
         const schematic = isHybrid
-            ? 'assets/Hybrid Solar Schemartic Diagram.png'
-            : 'assets/On-Grid Schematic Diagram.png';
+            ? 'assets/commercial-hybrid-architecture.png'
+            : 'assets/commercial-ongrid-architecture.png';
 
         return {
             title: 'System Architecture',
@@ -647,11 +643,12 @@
             body: `
                 <p class="cq-lead">${esc(architecture.lead)}</p>
                 <figure class="cq-figure">
-                    <img src="${schematic}" alt="${esc(state.project.systemConfiguration)} system schematic"
+                    <img src="${schematic}" width="1536" height="1024"
+                        alt="Commercial and industrial ${esc(state.project.systemConfiguration)} solar energy flow"
                         class="cq-schematic">
-                    <figcaption class="cq-figure-caption">Indicative energy flow for a
-                        ${esc(state.project.systemConfiguration)} system. Component counts and
-                        positions on this diagram are illustrative.</figcaption>
+                    <figcaption class="cq-figure-caption">Illustrative C&amp;I ${esc(state.project.systemConfiguration)}
+                        energy flow. AI-generated concept; building, equipment and metering are indicative.
+                        ${isHybrid ? 'Backup applies only to the designated backup circuits.' : ''}</figcaption>
                 </figure>
                 <div class="cq-steps">
                     ${architecture.steps.map((step, index) => `
@@ -733,7 +730,7 @@
                 <p class="cq-lead">The projections in this proposal are produced from the inputs below.
                     They are disclosed in full so the customer can test the numbers against their own view.</p>
 
-                <table class="cq-table">
+                <table class="cq-table cq-value-table">
                     <thead><tr><th style="width:46%">Assumption</th><th>Value</th><th>Note</th></tr></thead>
                     <tbody>
                         <tr>
@@ -790,7 +787,7 @@
                         </tr>
                         <tr>
                             <td>Grid emission factor</td>
-                            <td>${Content.ENVIRONMENTAL.gridEmissionFactorKgPerKwh} kg CO2/kWh</td>
+                            <td>${Content.ENVIRONMENTAL.gridEmissionFactorKgPerKwh} kg CO₂ per kWh</td>
                             <td>Used for the environmental estimate only</td>
                         </tr>
                     </tbody>
@@ -817,6 +814,7 @@
                 subtitle: options.subtitle,
                 body: `
                     <p class="cq-lead">${esc(options.content.lead)}</p>
+                    ${Pages.helpers.componentPhoto(options.categoryId)}
                     <h3 class="cq-subtitle">Equipment Offered</h3>
                     ${recon}
                     ${equipmentTable(rows, [
@@ -825,7 +823,7 @@
                         { label: 'Make', width: '15%', value: row => esc(row.make) },
                         { label: 'Rating', width: '10%', className: 'cq-center', value: ratingCell },
                         { label: 'Qty', width: '9%', className: 'cq-center', value: row => `${esc(row.quantity)} ${esc(row.unit)}` },
-                        { label: 'Warranty', width: '15%', value: row => esc(row.warranty) }
+                        { label: 'Warranty', width: '15%', value: row => esc(Pages.helpers.warrantyText(row.warranty)) }
                     ])}
                     <h3 class="cq-subtitle">Technology Notes</h3>
                     <div class="cq-grid-2">
@@ -944,7 +942,7 @@
                     <td>${esc(row.make)}</td>
                     <td class="cq-center">${esc(row.quantity)}</td>
                     <td class="cq-center">${esc(row.unit)}</td>
-                    <td>${esc(row.warranty)}</td>
+                    <td>${esc(Pages.helpers.warrantyText(row.warranty))}</td>
                 </tr>`;
         }).join('');
 
@@ -960,12 +958,12 @@
                 <table class="cq-table">
                     <thead>
                         <tr>
-                            <th style="width:6%">S.No</th>
+                            <th class="cq-center" style="width:6%">S.No</th>
                             <th style="width:22%">Item</th>
                             <th style="width:26%">Specification / Model</th>
                             <th style="width:14%">Make</th>
-                            <th style="width:8%">Qty</th>
-                            <th style="width:8%">Unit</th>
+                            <th class="cq-center" style="width:8%">Qty</th>
+                            <th class="cq-center" style="width:8%">Unit</th>
                             <th style="width:16%">Warranty</th>
                         </tr>
                     </thead>

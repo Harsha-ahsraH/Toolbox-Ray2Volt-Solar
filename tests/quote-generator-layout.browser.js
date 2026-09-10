@@ -10,6 +10,16 @@
         const container = document.getElementById('qgComprehensivePages');
         const nodes = Array.from(container.children);
         const failures = [];
+        container.querySelectorAll('.cq-component-photo img, .cq-figure img').forEach(img => {
+            if (!img.complete || !img.naturalWidth) failures.push(`Unloaded proposal image: ${img.getAttribute('src')}`);
+        });
+        const preview = document.getElementById('qgPreviewStage');
+        if (preview && preview.querySelectorAll('.quote-page').length !== nodes.length) {
+            failures.push('Continuous preview does not contain every document page');
+        }
+        if (document.getElementById('qgPageSelect') || document.getElementById('qgThumbRail')) {
+            failures.push('Obsolete page picker remains in the preview');
+        }
         const actualText = nodes.map(node => node.querySelector('.cq-body').textContent).join(' ')
             .replace(/\s+/g, ' ');
         let checkedTextRuns = 0;
@@ -49,15 +59,59 @@
             const bounds = body.getBoundingClientRect();
             const bottom = Math.max(bounds.top, ...Array.from(body.children).map(child => child.getBoundingClientRect().bottom));
             const fill = Math.round((bottom - bounds.top) / bounds.height * 100);
+            const sectionId = actualPlan[index].sectionId;
+            const lastOfSection = !actualPlan[index + 1]
+                || actualPlan[index + 1].sectionId !== sectionId;
+            if (lastOfSection && (bottom - bounds.top) / bounds.height < 0.8) {
+                failures.push(`Section ends below 80% on page ${index + 1}: ${sectionId}`);
+            }
+            if (actualPlan[index].sectionIds.length !== 1) {
+                failures.push(`Sections share page ${index + 1}`);
+            }
             if (body.scrollHeight > body.clientHeight + 2 || body.scrollWidth > body.clientWidth + 2) {
                 failures.push(`Overflow on page ${index + 1}`);
             }
             const expectedFooter = `Page ${index + 1} of ${nodes.length}`;
+            node.querySelectorAll('th,td').forEach(cell => {
+                const range = document.createRange();
+                range.selectNodeContents(cell);
+                const cellBounds = cell.getBoundingClientRect();
+                if (Array.from(range.getClientRects()).some(rect => rect.width > 0
+                    && (rect.left < cellBounds.left - 1 || rect.right > cellBounds.right + 1))) {
+                    failures.push(`Table text crosses a cell boundary on page ${index + 1}: ${cell.textContent.trim().slice(0, 55)}`);
+                }
+            });
+            const opening = actualPlan[index].sectionIds?.[0];
+            const openingTitle = originalPlan.find(entry => entry.sectionId === opening)?.title;
+            if (body.classList.contains('cq-flow-body') && openingTitle
+                && node.dataset.headerSection !== opening
+                && !node.querySelector('.cq-head-title').textContent.includes(openingTitle)) {
+                failures.push(`Opening section is unidentified on page ${index + 1}: ${openingTitle}`);
+            }
             if (node.querySelector('.cq-foot span:last-child').textContent !== expectedFooter) {
                 failures.push(`Incorrect footer on page ${index + 1}`);
             }
             if (actualPlan[index].pageNumber !== index + 1) failures.push(`Incorrect plan number ${index + 1}`);
-            return { page: index + 1, title: actualPlan[index].title, fill };
+            body.querySelectorAll(':scope > .cq-flow-heading').forEach(heading => {
+                const previous = heading.previousElementSibling;
+                if (previous && (previous.getBoundingClientRect().bottom - bounds.top) / bounds.height > 0.755) {
+                    failures.push(`New section starts after 75% on page ${index + 1}`);
+                }
+            });
+            const sectionAreas = new Map();
+            Array.from(body.children).forEach(block => {
+                const id = block.dataset.contentSection || block.dataset.sectionId;
+                if (!id) return;
+                const style = getComputedStyle(block);
+                const occupied = block.getBoundingClientRect().height
+                    + parseFloat(style.marginTop) + parseFloat(style.marginBottom);
+                sectionAreas.set(id, (sectionAreas.get(id) || 0) + occupied);
+            });
+            const dominant = [...sectionAreas].sort((a, b) => b[1] - a[1])[0]?.[0];
+            if (body.classList.contains('cq-flow-body') && node.dataset.headerSection !== dominant) {
+                failures.push(`Header does not name the dominant section on page ${index + 1}`);
+            }
+            return { page: index + 1, title: actualPlan[index].title, header: node.dataset.headerSection, fill };
         });
         container.classList.remove('cq-measuring');
 

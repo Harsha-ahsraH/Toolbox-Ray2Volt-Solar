@@ -20,7 +20,7 @@
    quote-generator.css.
    ============================================ */
 
-@import url('./quote-generator-proposal-comprehensive-blocks.css?v=20260910-visual-redesign-18');
+@import url('./quote-generator-proposal-comprehensive-blocks.css?v=20260911-section-fill-8');
 
 .cq-page {
     /* Same palette as the Short Proposal so both documents look like one house. */
@@ -133,7 +133,7 @@
 .cq-lead {
     font-size: 9.5pt;
     line-height: 1.6;
-    color: var(--qp-gray);
+    color: var(--qp-ink);
     margin-bottom: 4mm;
 }
 
@@ -241,7 +241,7 @@
 .cq-kv {
     display: grid;
     grid-template-columns: auto minmax(0, 1fr);
-    gap: 0 4mm;
+    gap: 0;
     font-size: 9pt;
 }
 
@@ -250,6 +250,7 @@
     padding: 1mm 0;
     border-bottom: 1px solid var(--qp-line);
 }
+.cq-kv dt { padding-right: 4mm; }
 
 /* dt and dd alternate, so the final pair is the last of each type. */
 .cq-kv dt:last-of-type,
@@ -372,6 +373,9 @@
 .cq-table .cq-center {
     text-align: center;
 }
+.cq-table th.cq-num { white-space: normal; }
+.cq-table .cq-value { text-align: right; }
+.cq-table.cq-savings-table .cq-total-row td { font-size: 8.2pt; }
 
 /* The total is the most-read line on a commercial page, so it takes the
    tint fill and the size step up that .qp-grand-total-row uses. */
@@ -758,7 +762,8 @@ h1.cq-cover-title {
 .cq-bar-fill {
     width: 100%;
     background: var(--qp-navy);
-    min-height: 0.5mm;
+    min-height: 0;
+    flex-shrink: 0;
 }
 
 .cq-bar-label {
