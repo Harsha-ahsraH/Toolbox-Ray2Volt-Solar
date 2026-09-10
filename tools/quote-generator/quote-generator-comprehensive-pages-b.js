@@ -584,7 +584,7 @@
                             ${slice.map(clause => `
                                 <li>
                                     <span class="cq-clause-num">${clause.isContinuation
-                                        ? clause.number + '.&nbsp;cont'
+                                        ? clause.number + '.<br>cont'
                                         : clause.number + '.'}</span>
                                     <span>${escLines(clause.text)}</span>
                                 </li>`).join('')}

@@ -219,8 +219,8 @@
                 </div>
                 <div class="qg-row-field" style="grid-column:span 2;">
                     <label for="bom-${esc(row.id)}-spec">Specification / Model</label>
-                    <input type="text" id="bom-${esc(row.id)}-spec" class="qg-input-field"
-                        data-row-id="${esc(row.id)}" data-field="specification" value="${esc(row.specification)}">
+                    <textarea id="bom-${esc(row.id)}-spec" class="qg-input-field" rows="2"
+                        data-row-id="${esc(row.id)}" data-field="specification">${esc(row.specification)}</textarea>
                 </div>
                 <div class="qg-row-field">
                     <label for="bom-${esc(row.id)}-make">Make</label>
@@ -255,8 +255,8 @@
                 </div>` : ''}
                 <div class="qg-row-field" style="grid-column:span 2;">
                     <label for="bom-${esc(row.id)}-remarks">Remarks / Scope Note</label>
-                    <input type="text" id="bom-${esc(row.id)}-remarks" class="qg-input-field"
-                        data-row-id="${esc(row.id)}" data-field="remarks" value="${esc(row.remarks)}">
+                    <textarea id="bom-${esc(row.id)}-remarks" class="qg-input-field" rows="2"
+                        data-row-id="${esc(row.id)}" data-field="remarks">${esc(row.remarks)}</textarea>
                 </div>
                 <div class="qg-row-actions">
                     <button type="button" class="qg-btn-ghost" data-bom-action="duplicate"

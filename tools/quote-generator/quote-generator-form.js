@@ -156,6 +156,7 @@
             syncConditionalVisibility();
             writeFieldsFromState();
             Editors.renderAll(state, derived, api);
+            if (window.QuoteGeneratorInputNavigation) window.QuoteGeneratorInputNavigation.refresh();
             renderValidation();
             renderDerivedReadouts();
             renderPageEstimate();
@@ -242,6 +243,7 @@
                         if (path === 'project.systemConfiguration') {
                             onConfigurationChanged();
                         }
+                        maybeRegenerateTitle();
                         api.update(() => state);
                     } else {
                         maybeRegenerateTitle();
@@ -346,9 +348,9 @@
             const pages = Calc.planPages(state);
             const annexurePages = pages.filter(page => page.group === 'Annexures').length;
 
-            refs.pageEstimate.textContent = annexurePages
-                ? `${pages.length} pages (${pages.length - annexurePages} + ${annexurePages} annexure)`
-                : `${pages.length} pages`;
+            const sections = Model.selectedSections(state).length;
+            refs.pageEstimate.textContent = `${sections} sections selected`
+                + (annexurePages ? ` · ${annexurePages} annexure pages` : '');
         }
 
         function openPanel(panelName, focus) {
@@ -356,6 +358,10 @@
             const body = byId(`qgPanel-${panelName}`);
             if (!toggle || !body) return;
 
+            if (window.QuoteGeneratorInputNavigation) {
+                window.QuoteGeneratorInputNavigation.select(panelName, false);
+                window.QuoteGeneratorInputNavigation.revealGroups(panelName);
+            }
             toggle.setAttribute('aria-expanded', 'true');
             body.hidden = false;
 
@@ -620,7 +626,7 @@
 
             if (refs.toolSubtitle) {
                 refs.toolSubtitle.textContent = isComprehensive
-                    ? 'Build a modular C&I solar EPC techno-commercial proposal.'
+                    ? 'Create a detailed solar proposal for your customer.'
                     : 'Generate professional 8-page solar project proposals for customers.';
             }
 
@@ -845,6 +851,7 @@
         bindFixedFields();
         setupPanelReset();
         setupAccordion();
+        if (window.QuoteGeneratorInputNavigation) window.QuoteGeneratorInputNavigation.init();
         setupPresets();
         setupNewQuotation();
         setupPanelActions();

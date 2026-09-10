@@ -32,6 +32,7 @@
     let currentPlan = [];
     let selectedIndex = 0;
     let stale = true;
+    let waitingForAssets = false;
 
     function byId(id) {
         return document.getElementById(id);
@@ -90,6 +91,20 @@
         };
 
         container.innerHTML = currentPlan.map(page => renderPage(page, context)).join('');
+        const unloaded = Array.from(container.querySelectorAll('img')).filter(img => !img.complete);
+        if (!waitingForAssets && (unloaded.length || document.fonts.status !== 'loaded')) {
+            waitingForAssets = true;
+            Promise.all([document.fonts.ready, ...unloaded.map(img => img.decode().catch(() => null))])
+                .then(() => {
+                    waitingForAssets = false;
+                    if (app) render(app.getState(), app.getDerived(), app.getValidation());
+                });
+        }
+        if (root.QuoteGeneratorDocumentLayout) {
+            currentPlan = root.QuoteGeneratorDocumentLayout.compose(container, currentPlan);
+        }
+        const estimate = byId('qgPageEstimate');
+        if (estimate) estimate.textContent = `${currentPlan.length} pages`;
 
         // Annexure frames are filled asynchronously from IndexedDB.
         if (root.QuoteGeneratorAnnexures) {
@@ -213,7 +228,7 @@
     function applyExportGate(validation) {
         const blocked = validation ? validation.hasCriticalErrors : true;
 
-        if (printButton) printButton.disabled = blocked;
+        if (printButton) printButton.disabled = blocked || waitingForAssets;
         if (exportBlocked) exportBlocked.hidden = !blocked;
     }
 
@@ -255,7 +270,7 @@
         const previous = currentPlan[selectedIndex];
         buildPages(state, derived, validation);
         if (previous) {
-            const match = currentPlan.findIndex(page => page.sectionId === previous.sectionId
+            const match = currentPlan.findIndex(page => (page.sectionIds || [page.sectionId]).includes(previous.sectionId)
                 && page.annexureId === previous.annexureId && page.part === previous.part);
             if (match !== -1) selectedIndex = match;
         }

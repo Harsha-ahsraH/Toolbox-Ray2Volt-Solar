@@ -1,0 +1,33 @@
+/* Physical A4 measurement uses the same nodes that go to preview and print. */
+#qgComprehensivePages.cq-measuring { display: block !important; visibility: hidden; position: absolute; left: -20000px; top: 0; width: 210mm; }
+.cq-flow-body { display: block; }
+.cq-flow-body > * { break-inside: avoid; }
+.cq-flow-body > :first-child { margin-top: 0; }
+.cq-flow-body > :last-child { margin-bottom: 0 !important; }
+.cq-flow-body .cq-figure .cq-schematic { max-height: 62mm; }
+.cq-flow-heading { margin: 7mm 0 4mm; padding-top: 5mm; border-top: 2px solid var(--qp-navy); }
+.cq-flow-heading h2 { font-size: 14pt; line-height: 1.2; font-weight: 700; color: var(--qp-ink); }
+.cq-flow-heading p { margin-top: 1.5mm; font-size: 8.5pt; line-height: 1.5; color: var(--qp-muted); }
+.cq-flow-body .cq-note { margin-top: 4mm; }
+.cq-flow-body .cq-table { margin-bottom: 4mm; }
+.cq-contents-columns { columns: 2; column-gap: 9mm; }
+.cq-contents-columns > section { break-inside: avoid; margin-bottom: 6mm; }
+.cq-contents-columns .cq-subtitle { margin-top: 0; font-size: 9pt; }
+.cq-contents-columns .cq-toc-list li { padding: 2mm 0; font-size: 9pt; line-height: 1.45; }
+.cq-contents-body { padding-top: 2mm; }
+.cq-contents-columns .cq-toc-list li { padding: var(--cq-toc-row-padding, 3mm) 0; }
+.cq-page[data-section-id="document-control"] .cq-kv dt,
+.cq-page[data-section-id="document-control"] .cq-kv dd { padding-top: 3mm; padding-bottom: 3mm; }
+.cq-page[data-section-id="document-control"] .cq-card { padding-bottom: 5mm; }
+.cq-cover-image { flex: 1; min-height: 68mm; max-height: 105mm; object-fit: contain; }
+.cq-closing-page .cq-body { display: flex; flex-direction: column; gap: 3mm; }
+.cq-closing-page .cq-grid-2 { display: contents; }
+.cq-closing-page .cq-card { flex: 1; }
+.cq-closing-page .cq-card p { font-size: 9.5pt; line-height: 1.6; }
+.cq-closing-page .cq-step { padding: 3mm; }
+.cq-closing-page .cq-step p { font-size: 9.5pt; }
+.cq-acceptance-page .cq-kv dt,
+.cq-acceptance-page .cq-kv dd { padding-top: 3mm; padding-bottom: 3mm; }
+.cq-acceptance-page .cq-sign-grid { flex: 1; min-height: 58mm; align-items: end; padding-bottom: 7mm; }
+.cq-acceptance-page .cq-sign-box { padding-top: 6mm; }
+.cq-acceptance-page .cq-sign-note { line-height: 2.1; }
