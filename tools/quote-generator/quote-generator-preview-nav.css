@@ -115,13 +115,17 @@
     background: var(--bg-hover);
 }
 
+/* The rail is application chrome, not paper, so the selected and focused
+   states take the toolbox accent rather than the document navy: --qp-navy is
+   declared on .cq-page and never reaches here, so the literal fallback was
+   being used in both themes and sat badly on a dark rail. */
 .qg-thumb.is-active {
-    border-color: var(--qp-navy, #1F4E79);
+    border-color: var(--primary);
     background: var(--bg-active);
 }
 
 .qg-thumb:focus-visible {
-    outline: 2px solid var(--qp-navy, #1F4E79);
+    outline: 2px solid var(--primary);
     outline-offset: 1px;
 }
 
@@ -187,7 +191,7 @@
 }
 
 .qg-preview-stage:focus-visible {
-    outline: 2px solid var(--qp-navy, #1F4E79);
+    outline: 2px solid var(--primary);
     outline-offset: 2px;
 }
 

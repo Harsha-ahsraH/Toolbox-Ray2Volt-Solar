@@ -41,9 +41,18 @@
         const milestoneYears = [1, 5, 10, 15, 20, 25, projection.years]
             .filter((year, index, list) => year <= projection.years && list.indexOf(year) === index);
 
+        // Year-1 output against the consumption the customer advised. Printed
+        // only when a consumption figure has actually been entered; nothing is
+        // assumed about the site's load if none has.
+        const annualImport = derived.consumption.annualKwh;
+        const coverage = annualImport > 0
+            ? (projection.year1GenerationKwh / annualImport) * 100
+            : null;
+
         return {
             title: 'Generation Assessment',
             subtitle: 'Expected output over the analysis period',
+            bodyClass: 'cq-body-fill',
             body: `
                 <div class="cq-metrics">
                     <div class="cq-metric">
@@ -56,7 +65,7 @@
                         <span class="cq-metric-value">${number(projection.specificYield)}</span>
                         <span class="cq-metric-sub">kWh/kWp/yr</span>
                     </div>
-                    <div class="cq-metric">
+                    <div class="cq-metric cq-metric-primary">
                         <span class="cq-metric-label">Year-1 Output</span>
                         <span class="cq-metric-value">${number(projection.year1GenerationKwh)}</span>
                         <span class="cq-metric-sub">kWh</span>
@@ -105,10 +114,18 @@
                     </tbody>
                 </table>
 
-                <div class="cq-note">Output is modelled at the specific yield stated in the design basis,
-                    reduced by ${number(state.savings.degradationPercent, 2)}% each year for module
-                    degradation. Actual generation varies with irradiance, temperature, soiling, shading
-                    and grid availability, and is subject to detailed site verification.</div>`
+                ${coverage === null ? '' : `
+                    <div class="cq-headline">
+                        <span class="cq-headline-label">Year-1 output against site consumption
+                            <span class="cq-headline-sub">${number(projection.year1GenerationKwh)} kWh
+                                generated against ${number(annualImport)} kWh imported</span></span>
+                        <span class="cq-headline-value">${number(coverage, 1)}%</span>
+                    </div>`}
+
+                <div class="cq-note cq-fill-end">Output is modelled at the specific yield stated in the
+                    design basis, reduced by ${number(state.savings.degradationPercent, 2)}% each year for
+                    module degradation. Actual generation varies with irradiance, temperature, soiling,
+                    shading and grid availability, and is subject to detailed site verification.</div>`
         };
     });
 
@@ -126,6 +143,7 @@
         return {
             title: 'Consumption Profile',
             subtitle: isDetailed ? 'Twelve-month billed consumption' : 'Summary consumption',
+            bodyClass: 'cq-body-fill',
             body: `
                 <div class="cq-metrics ${isDetailed ? '' : 'cq-metrics-3'}">
                     <div class="cq-metric">
@@ -204,8 +222,8 @@
                         billing history allows the plant to be sized more closely against the actual
                         load pattern and is recommended before the design is finalised.</p>`}
 
-                <div class="cq-note">Consumption figures are as advised by the customer. Ray2Volt has not
-                    independently verified them.</div>`
+                <div class="cq-note cq-fill-end">Consumption figures are as advised by the customer.
+                    Ray2Volt has not independently verified them.</div>`
         };
     });
 
@@ -225,12 +243,23 @@
         return {
             title: 'Energy Utilization',
             subtitle: 'How generated energy is used and valued',
+            bodyClass: 'cq-body-fill',
             body: `
                 <p class="cq-lead">Generation serves the site load first. The share that cannot be used
                     on site at the moment it is generated is exported and credited under the metering
                     arrangement sanctioned by the distribution licensee.</p>
 
                 <h3 class="cq-subtitle">Year-1 Energy Split</h3>
+                <div class="cq-split-bar">
+                    <span class="cq-split-self" style="width:${number(selfShare, 2)}%"></span>
+                    <span class="cq-split-export" style="width:${number(exportShare, 2)}%"></span>
+                </div>
+                <div class="cq-split-legend">
+                    <span class="cq-legend-self">Self-consumed ${number(selfShare, 0)}% —
+                        ${number(selfKwh)} kWh</span>
+                    <span class="cq-legend-export">Exported ${number(exportShare, 0)}% —
+                        ${number(exportKwh)} kWh</span>
+                </div>
                 <table class="cq-table">
                     <thead>
                         <tr>
@@ -277,9 +306,10 @@
                     <dd>Subject to approval by the distribution licensee</dd>
                 </div>
 
-                <div class="cq-note">The self-consumption share is an assumption based on the load
-                    information available at the time of offer. The actual split depends on the site load
-                    at the time of generation and on the terms of the sanctioned metering arrangement.</div>`
+                <div class="cq-note cq-fill-end">The self-consumption share is an assumption based on the
+                    load information available at the time of offer. The actual split depends on the site
+                    load at the time of generation and on the terms of the sanctioned metering
+                    arrangement.</div>`
         };
     });
 
@@ -369,9 +399,16 @@
 
         const payback = derived.payback;
 
+        // The same milestone years the generation assessment uses, so a reader
+        // can hold the two pages side by side. Every figure is read off the
+        // projection already shown year by year in the savings section.
+        const milestoneYears = [1, 5, 10, 15, 20, 25, projection.years]
+            .filter((year, index, list) => year <= projection.years && list.indexOf(year) === index);
+
         return {
             title: 'Returns Analysis',
             subtitle: 'Payback, ROI and IRR on the offered price',
+            bodyClass: 'cq-body-fill',
             body: `
                 <div class="cq-metrics">
                     <div class="cq-metric">
@@ -379,7 +416,7 @@
                         <span class="cq-metric-value">${money(investment)}</span>
                         <span class="cq-metric-sub">offered price incl. GST</span>
                     </div>
-                    <div class="cq-metric">
+                    <div class="cq-metric cq-metric-primary">
                         <span class="cq-metric-label">Simple Payback</span>
                         <span class="cq-metric-value">${payback === null ? '—' : number(payback, 1)}</span>
                         <span class="cq-metric-sub">years</span>
@@ -428,7 +465,35 @@
                     </tbody>
                 </table>
 
-                <div class="cq-note">Payback is the year in which cumulative net savings first equal the
+                <h3 class="cq-subtitle">Cumulative Position</h3>
+                <table class="cq-table">
+                    <thead>
+                        <tr>
+                            <th style="width:16%">Year</th>
+                            <th class="cq-num">Net Saving In Year</th>
+                            <th class="cq-num">Cumulative Net Saving</th>
+                            <th class="cq-num">Position Against Investment</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${milestoneYears.map(year => {
+                            const row = projection.rows[year - 1];
+                            if (!row) return '';
+                            const position = row.cumulativeNet - investment;
+
+                            return `<tr>
+                                <td>Year ${year}</td>
+                                <td class="cq-num">${money(row.netSavings)}</td>
+                                <td class="cq-num">${money(row.cumulativeNet)}</td>
+                                <td class="cq-num">${position < 0 ? `(${money(Math.abs(position))})` : money(position)}</td>
+                            </tr>`;
+                        }).join('')}
+                    </tbody>
+                </table>
+                <p class="cq-table-note">A figure in brackets is the amount of the investment still to be
+                    recovered at the end of that year.</p>
+
+                <div class="cq-note cq-fill-end">Payback is the year in which cumulative net savings first equal the
                     investment. ROI and IRR are computed on the same annual net-saving series shown in the
                     savings projection. No subsidy, accelerated depreciation or tax effect is included
                     unless stated elsewhere in this proposal. These are projections, not guaranteed
@@ -447,9 +512,10 @@
         return {
             title: 'Environmental Impact',
             subtitle: `Indicative effect over ${years} years`,
+            bodyClass: 'cq-body-fill',
             body: `
                 <div class="cq-metrics cq-metrics-3">
-                    <div class="cq-metric">
+                    <div class="cq-metric cq-metric-primary">
                         <span class="cq-metric-label">Clean Energy</span>
                         <span class="cq-metric-value">${number(environmental.cleanEnergyMwh, 1)}</span>
                         <span class="cq-metric-sub">MWh generated</span>
@@ -489,7 +555,7 @@
                     </tbody>
                 </table>
 
-                <div class="cq-note">${esc(Content.ENVIRONMENTAL.note)}</div>`
+                <div class="cq-note cq-fill-end">${esc(Content.ENVIRONMENTAL.note)}</div>`
         };
     });
 
@@ -583,6 +649,7 @@
     register('project-schedule', () => ({
         title: 'Project Schedule',
         subtitle: 'Standard execution sequence',
+        bodyClass: 'cq-body-fill',
         body: `
             <p class="cq-lead">${esc(Content.PROJECT_SCHEDULE.lead)}</p>
             <table class="cq-table">
@@ -602,8 +669,9 @@
                         </tr>`).join('')}
                 </tbody>
             </table>
-            <div class="cq-note">${esc(Content.PROJECT_SCHEDULE.note)} Indicative durations are confirmed
-                in writing after the detailed site survey and material lead times are known.</div>`
+            <div class="cq-note cq-fill-end">${esc(Content.PROJECT_SCHEDULE.note)} Indicative durations
+                are confirmed in writing after the detailed site survey and material lead times are
+                known.</div>`
     }));
 
     function checklistSection(options) {
@@ -803,9 +871,14 @@
                     </tbody>
                 </table>
 
-                <div class="cq-note">The offered price is inclusive of GST at
-                    ${number(commercial.gstRate, 2)}%. Any statutory change in taxes or duties after the
-                    date of this offer will be charged at actuals.</div>`}`
+                <div class="cq-headline">
+                    <span class="cq-headline-label">Final offered price
+                        <span class="cq-headline-sub">Inclusive of GST at
+                            ${number(commercial.gstRate, 2)}% and valid for
+                            ${esc(state.project.validityDays)} days from the date of issue. Any statutory
+                            change in taxes or duties after that date will be charged at actuals.</span></span>
+                    <span class="cq-headline-value">${money(commercial.finalPrice)}</span>
+                </div>`}`
         };
     });
 

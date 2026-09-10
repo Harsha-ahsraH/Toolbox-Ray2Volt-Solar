@@ -123,17 +123,18 @@
         { id: 'system-architecture', title: 'System Architecture', group: 'Technical Solution' },
         { id: 'installation-approach', title: 'Installation Approach', group: 'Technical Solution' },
         { id: 'design-basis', title: 'Design Basis & Assumptions', group: 'Technical Solution' },
-        { id: 'pv-module-technology', title: 'PV Module Technology', group: 'Technical Solution' },
-        { id: 'inverter-technology', title: 'Inverter Technology', group: 'Technical Solution' },
+        { id: 'pv-module-technology', title: 'PV Module Technology', group: 'Technical Solution', paginates: true },
+        { id: 'inverter-technology', title: 'Inverter Technology', group: 'Technical Solution', paginates: true },
         {
             id: 'battery-technology',
             title: 'Battery Energy Storage',
             group: 'Technical Solution',
+            paginates: true,
             configurations: ['Hybrid']
         },
-        { id: 'mounting-structure', title: 'Mounting Structure', group: 'Technical Solution' },
-        { id: 'balance-of-system', title: 'Balance of System', group: 'Technical Solution' },
-        { id: 'monitoring-scada', title: 'Monitoring & SCADA', group: 'Technical Solution' },
+        { id: 'mounting-structure', title: 'Mounting Structure', group: 'Technical Solution', paginates: true },
+        { id: 'balance-of-system', title: 'Balance of System', group: 'Technical Solution', paginates: true },
+        { id: 'monitoring-scada', title: 'Monitoring & SCADA', group: 'Technical Solution', paginates: true },
         { id: 'bill-of-materials', title: 'Bill of Materials', group: 'Technical Solution', core: true, paginates: true },
 
         { id: 'generation-assessment', title: 'Generation Assessment', group: 'Energy & Financial Analysis' },

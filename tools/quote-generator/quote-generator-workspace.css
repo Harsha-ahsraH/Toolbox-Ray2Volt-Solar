@@ -123,11 +123,10 @@
     color: var(--text-primary);
 }
 
-/* Comprehensive mode is still being built. The card stays selectable so the
-   half-finished workspace can be worked on, but it says so on its face. The
-   flag leads the description line rather than sitting beside the title: a
-   chip there would push the title onto a second line and make the card
-   taller, which is the opposite of what this row is for. */
+/* A short qualifier leading the description line, for when a mode has
+   something to declare about itself. It sits there rather than beside the
+   title because a chip next to the title pushes it onto a second line and
+   makes the card taller, which is the opposite of what this row is for. */
 .qg-mode-card-flag {
     font-size: 0.7rem;
     font-weight: 700;

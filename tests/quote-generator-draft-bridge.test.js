@@ -1,0 +1,46 @@
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
+const vm = require('node:vm');
+const folder = path.resolve(__dirname, '../tools/quote-generator');
+const Model = require(path.join(folder, 'quote-generator-model.js'));
+const Config = require(path.join(folder, 'quote-generator-config.js'));
+const source = fs.readFileSync(path.join(folder, 'quote-generator-form.js'), 'utf8');
+const bridgeSource = source.slice(source.indexOf('const SHARED_FIELDS = ['), source.indexOf('function setMode(mode, options)'));
+const state = Model.createInitialState({ mode: 'comprehensive', quoteNumber: 'SAVED-QUOTE' });
+Object.assign(state.customer, { companyName: 'Example Industries', phone: '9000000000', billingAddress: 'Example site' });
+state.project.dcCapacityKwp = 250;
+state.commercial.actualProjectCost = 11500000;
+state.commercial.discounts = [{ id: 'a', name: 'First', amount: 1000 }, { id: 'b', name: 'Second', amount: 2000 }];
+const controls = {};
+const env = { state, Config, Model, byId: id => controls[id],
+    maybeRegenerateTitle() {}, onConfigurationChanged() {}, Event: class { constructor(type) { this.type = type; } } };
+vm.runInNewContext(bridgeSource + `
+SHARED_FIELDS.forEach(field => { controls[field.short] = {value: '', changes: 0, dispatchEvent() { this.changes++; }}; });
+this.bridge = { captureSync, pushToShortForm, pullFromShortForm };
+`, Object.assign(env, { controls }));
+env.bridge.captureSync();
+env.bridge.pushToShortForm(true);
+assert.equal(controls.qgCustomerName.value, 'Example Industries');
+assert.equal(controls.qgSystemCapacity.value, '250');
+assert.equal(controls.qgQuoteNumber.value, 'SAVED-QUOTE');
+assert.equal(controls.qgTotalPrice.value, '11500000');
+assert.equal(controls.qgDiscountAmount.value, '3000');
+const discounts = JSON.stringify(state.commercial.discounts);
+env.bridge.pullFromShortForm();
+assert.equal(JSON.stringify(state.commercial.discounts), discounts, 'restored named discounts must survive an unedited round trip');
+const changes = controls.qgInstallationType.changes;
+env.bridge.pushToShortForm();
+assert.equal(controls.qgInstallationType.changes, changes, 'a round trip must not reset the hand-edited Short BOM');
+controls.qgCustomerName.value = '';
+env.bridge.pullFromShortForm();
+assert.equal(state.customer.companyName, '', 'an intentional clear must still cross the bridge');
+
+controls.qgSystemCapacity.value = '3';
+controls.qgCustomerName.value = 'New short customer';
+env.bridge.captureSync();
+env.bridge.pullFromShortForm(true);
+assert.equal(state.project.dcCapacityKwp, 3, 'a fresh draft must import the visible Short defaults even before an edit');
+assert.equal(state.customer.companyName, 'New short customer');
+assert.match(source, /if \(restoredDraft\)\s*\{\s*pushToShortForm\(true\);/);
+console.log('Restored quotation shared-input tests passed');

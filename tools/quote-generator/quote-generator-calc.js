@@ -712,6 +712,7 @@
         activeBomCategories: Pagination.activeBomCategories,
         bomLines: Pagination.bomLines,
         bomLineHeights: Pagination.bomLineHeights,
+        equipmentUnits: Pagination.equipmentUnits,
         clauseHeights: Pagination.clauseHeights,
         tocEntryHeights: Pagination.tocEntryHeights,
         milestoneRowHeights: Pagination.milestoneRowHeights,

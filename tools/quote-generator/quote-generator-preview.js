@@ -152,6 +152,7 @@
         if (!stage) return;
 
         const available = stage.clientWidth - 32;
+        if (available <= 0) return;
         const scale = Math.max(0.2, Math.min(1, available / A4_WIDTH_PX));
         stage.style.setProperty('--qg-stage-scale', scale.toFixed(4));
     }
@@ -188,6 +189,7 @@
             Array.prototype.forEach.call(rail.querySelectorAll('.qg-thumb'), button => {
                 const active = Number(button.dataset.pageIndex) === selectedIndex;
                 button.classList.toggle('is-active', active);
+                button.setAttribute('aria-current', active ? 'page' : 'false');
                 if (active && settings.scrollRail !== false) {
                     button.scrollIntoView({ block: 'nearest' });
                 }
@@ -250,7 +252,13 @@
     function render(state, derived, validation) {
         if (!container) return;
 
+        const previous = currentPlan[selectedIndex];
         buildPages(state, derived, validation);
+        if (previous) {
+            const match = currentPlan.findIndex(page => page.sectionId === previous.sectionId
+                && page.annexureId === previous.annexureId && page.part === previous.part);
+            if (match !== -1) selectedIndex = match;
+        }
         buildRail();
 
         if (selectedIndex >= currentPlan.length) selectedIndex = 0;
@@ -306,8 +314,23 @@
             });
         }
 
+        if (stage) {
+            stage.addEventListener('keydown', event => {
+                if (event.target !== stage) return;
+                const pages = { ArrowLeft: selectedIndex - 1, ArrowRight: selectedIndex + 1,
+                    PageUp: selectedIndex - 1, PageDown: selectedIndex + 1, Home: 0, End: currentPlan.length - 1 };
+                if (!(event.key in pages)) return;
+                event.preventDefault();
+                selectPage(pages[event.key], { focus: true });
+            });
+        }
+
         window.addEventListener('resize', fitStage);
         window.addEventListener('orientationchange', fitStage);
+        if (root.ResizeObserver && stage) {
+            const observer = new root.ResizeObserver(() => window.requestAnimationFrame(fitStage));
+            observer.observe(stage);
+        }
     }
 
     /** Marks the built document stale so the next preview view rebuilds it. */

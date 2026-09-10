@@ -10,7 +10,17 @@
    Design tokens are declared on .cq-page rather than on the container, because
    the preview rail and stage render *clones* of these pages outside
    #qgComprehensivePages and must style identically.
+
+   The composition blocks the sections are assembled from — cover meta grids,
+   the figure, the energy-split bar, the headline band, the page-foot anchor —
+   live in the companion sheet imported below, which carries only class names
+   of its own. Nothing in it overrides anything here, so the order between the
+   two does not matter; the split exists to keep both files inside the
+   repository's per-file budget. Bump its ?v= with the rest of the manifest in
+   quote-generator.css.
    ============================================ */
+
+@import url('./quote-generator-proposal-comprehensive-blocks.css?v=20260910-long-complete-2');
 
 .cq-page {
     /* Same palette as the Short Proposal so both documents look like one house. */
@@ -97,6 +107,15 @@
     border-top: 1px solid var(--qp-line);
     font-size: 8pt;
     color: var(--qp-muted);
+}
+
+/* Page numbers are what a reader of a twenty-page document actually navigates
+   by, so the count is set in ink weight against the muted imprint beside it.
+   The footer's two spans are written by quote-generator-preview.js. */
+.cq-foot span:last-child {
+    font-weight: 600;
+    color: var(--qp-navy-dark);
+    white-space: nowrap;
 }
 
 /* Everything between header and footer. Scrolling is impossible on paper, so
@@ -193,6 +212,9 @@
    padding above — shrink one without the other and the bar hangs outside
    the card, since nothing here clips. */
 .cq-card h4 {
+    display: flex;
+    align-items: center;
+    gap: 7px;
     margin: -3mm -3mm 2mm;
     padding: 6px 11px;
     font-size: 8pt;
@@ -211,11 +233,28 @@
 
 /* --- Key/value blocks --------------------------------------------------- */
 
+/* Key/value block. Ruled row by row, like the Short Proposal's .qp-specs-table:
+   these lists run to a dozen entries on the profile and document-control pages
+   and a reader checking one fact against another needs the eye guided across.
+   The rule is drawn on the cells rather than on a wrapper, because a definition
+   list laid out on a grid has no per-row element to hang it from. */
 .cq-kv {
     display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 1.2mm 4mm;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0 4mm;
     font-size: 9pt;
+}
+
+.cq-kv dt,
+.cq-kv dd {
+    padding: 1mm 0;
+    border-bottom: 1px solid var(--qp-line);
+}
+
+/* dt and dd alternate, so the final pair is the last of each type. */
+.cq-kv dt:last-of-type,
+.cq-kv dd:last-of-type {
+    border-bottom: none;
 }
 
 /* Label/value pair styled like .qp-prep-label / .qp-prep-value: a small
@@ -338,6 +377,7 @@
    tint fill and the size step up that .qp-grand-total-row uses. */
 .cq-table .cq-total-row td {
     background: var(--qp-tint) !important;
+    border-top: 2px solid var(--qp-navy);
     font-size: 9pt;
     font-weight: 700;
     color: var(--qp-navy-dark);
@@ -492,16 +532,36 @@
     display: block;
 }
 
+/* Masthead reference block. The Short cover sets one "DATE:" pair as a tracked
+   muted cap against a navy value; this document is revision-controlled and
+   carries four such pairs, so they are set on a grid to keep the labels and the
+   values in two clean columns rather than as ragged sentences. */
 .cq-cover-ref {
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: end;
+    align-items: baseline;
+    gap: 1.6mm 4mm;
+    margin: 0;
     text-align: right;
-    font-size: 9.5pt;
-    color: var(--qp-muted);
-    line-height: 1.5;
 }
 
-.cq-cover-ref strong {
+.cq-cover-ref dt {
+    font-size: 7.5pt;
     font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--qp-muted);
+    white-space: nowrap;
+}
+
+.cq-cover-ref dd {
+    margin: 0;
+    font-size: 10pt;
+    font-weight: 600;
+    line-height: 1.2;
     color: var(--qp-navy-dark);
+    white-space: nowrap;
 }
 
 .cq-cover-kicker {
@@ -559,6 +619,9 @@ h1.cq-cover-title {
 }
 
 .cq-cover-card h3 {
+    display: flex;
+    align-items: center;
+    gap: 7px;
     margin: -3.5mm -3.5mm 2.5mm;
     padding: 6px 11px;
     font-size: 8pt;
@@ -622,9 +685,15 @@ h1.cq-cover-title {
     flex: 1;
 }
 
+/* Page numbers in a contents list are read as a column, so they are given a
+   fixed measure and set flush right. Without it a run of single- and
+   double-digit numbers steps in and out along the right margin. */
 .cq-toc-page {
+    min-width: 7mm;
     font-weight: 700;
+    text-align: right;
     color: var(--qp-navy);
+    font-variant-numeric: tabular-nums;
 }
 
 /* --- Signature / acceptance -------------------------------------------------- */

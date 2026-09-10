@@ -1,0 +1,373 @@
+/* ============================================
+   QUOTE GENERATOR - Comprehensive proposal composition blocks
+   Ray2Volt Solar Toolbox
+
+   Continues quote-generator-proposal-comprehensive.css, which holds the page
+   shell, the type scale, the tables and the cover. This sheet holds the blocks
+   the individual sections are composed from: cover meta grids, figures,
+   equipment-table cell notes, the reconciliation strip, the energy-split bar,
+   the headline band and the page-foot anchor.
+
+   @import places these rules *before* everything in the importing sheet, so a
+   modifier here that has to beat a base rule there carries its base class as
+   well — .cq-metric.cq-metric-primary rather than .cq-metric-primary. Every
+   other selector is a class of its own and collides with nothing. The split
+   exists only to keep both files inside the repository's per-file line budget.
+
+   Same rules as its parent: the printed palette is local (navy, tint, soft,
+   line, ink, gray, muted declared on .cq-page) and never a themed chrome token,
+   because an A4 page stays on paper white in both themes.
+   ============================================ */
+
+/* --- Page foot anchor ---------------------------------------------------
+
+   A section that ends two thirds down the page should look composed, not
+   truncated. Opting a page's body into a flex column lets its closing
+   qualification sit on the baseline of the text area, above the running
+   footer, so the space between reads as margin rather than as an accident.
+
+   Only non-paginated sections take this class. Flex suppresses margin
+   collapsing between siblings, which lifts a page's measured height by a few
+   millimetres per heading; the sections that carry it all end well short of
+   the page, while the paginated ones are budgeted to the pixel in
+   quote-generator-pagination.js and are deliberately left in normal flow. */
+
+.cq-body-fill {
+    display: flex;
+    flex-direction: column;
+}
+
+.cq-body-fill .cq-fill-end {
+    margin-top: auto;
+}
+
+/* --- Card grids ----------------------------------------------------------
+
+   A card grid holding an odd number of cards leaves its last row half empty,
+   which reads as a missing card rather than as a deliberate stop. The last
+   card takes the full measure instead. */
+
+.cq-grid-2 > :last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+}
+
+/* Icon in a card header, matching .qp-prep-header svg in the Short Proposal:
+   a 12px stroked glyph ahead of the tracked navy cap. */
+.cq-card h4 svg,
+.cq-cover-card h3 svg {
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
+}
+
+/* --- Cover blocks --------------------------------------------------------
+
+   The two cover cards carry the facts a reader checks first — who the offer is
+   for, and what is being offered. Both are set as label/value pairs on one
+   fixed label column, the same treatment .qp-prep-meta gives the Short cover,
+   so the two cards align with each other line for line. */
+
+.cq-cover-name {
+    display: block;
+    margin-bottom: 2mm;
+    font-size: 11.5pt;
+    font-weight: 700;
+    line-height: 1.25;
+    color: var(--qp-navy-dark);
+}
+
+.cq-cover-meta {
+    display: grid;
+    grid-template-columns: 24mm minmax(0, 1fr);
+    align-items: baseline;
+    gap: 1.3mm 3mm;
+    margin: 0;
+}
+
+.cq-cover-meta dt {
+    font-size: 7.5pt;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    color: var(--qp-muted);
+}
+
+.cq-cover-meta dd {
+    margin: 0;
+    font-size: 9pt;
+    font-weight: 500;
+    line-height: 1.4;
+    color: var(--qp-ink);
+    overflow-wrap: anywhere;
+}
+
+/* --- Figures --------------------------------------------------------------
+
+   Matches .qp-schematic-figure / .qp-schematic-caption: the artwork in a ruled
+   white frame with an italic muted caption beneath it. */
+
+.cq-figure {
+    margin: 0 0 4mm;
+    text-align: center;
+}
+
+.cq-figure .cq-schematic {
+    margin-bottom: 2mm;
+}
+
+.cq-figure-caption {
+    font-size: 8pt;
+    font-style: italic;
+    line-height: 1.4;
+    color: var(--qp-muted);
+}
+
+/* --- Equipment tables ------------------------------------------------------
+
+   The scope note a salesperson types against a bill-of-materials row is the
+   sentence that says what the quantity actually covers, so it is printed —
+   set under the specification it qualifies rather than given a column of its
+   own, which on a 683px measure would squeeze every other column.
+
+   The bill of materials uses the same note, keeping its "Remarks:" label: the
+   row heights it is paginated against budget a full-size line per wrapped
+   remark, so setting the note smaller can only leave a page shorter than
+   planned, never longer. */
+
+.cq-cell-note {
+    display: block;
+    margin-top: 0.7mm;
+    font-size: 7.2pt;
+    font-style: italic;
+    line-height: 1.3;
+    color: var(--qp-muted);
+}
+
+/* Category heading inside a consolidated equipment table. Same treatment as
+   .cq-cat-row in the bill of materials, but left-aligned: this table has a
+   narrow leading column and centring the heading over it reads as a stray
+   caption rather than as a band. */
+.cq-table .cq-group-row td {
+    background: var(--qp-soft) !important;
+    color: var(--qp-navy);
+    font-weight: 700;
+    font-size: 7.8pt;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+/* --- Metric tiles ----------------------------------------------------------
+
+   The leading figure on a page takes the soft fill and the navy edge, exactly
+   as .qp-metric-primary does on the Short Proposal's overview, so the eye has
+   somewhere to land in a row of four. */
+
+.cq-metric.cq-metric-primary {
+    background: var(--qp-soft);
+    border-color: var(--qp-navy);
+}
+
+.cq-metric.cq-metric-primary .cq-metric-label {
+    color: var(--qp-navy);
+}
+
+/* --- Reconciliation strip ---------------------------------------------------
+
+   Approved capacity beside the capacity the listed equipment actually adds up
+   to. Both are shown; neither is presented as correcting the other. */
+
+.cq-recon {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    margin-bottom: 3mm;
+    padding: 2.5mm 3mm;
+    background: var(--qp-soft);
+    border: 1px solid var(--qp-line);
+    border-radius: 2px;
+}
+
+.cq-recon-item {
+    padding: 0 3mm;
+    text-align: center;
+}
+
+.cq-recon-item + .cq-recon-item {
+    border-left: 1px solid var(--qp-line);
+}
+
+.cq-recon-label {
+    display: block;
+    margin-bottom: 1mm;
+    font-size: 7pt;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: var(--qp-muted);
+}
+
+.cq-recon-value {
+    display: block;
+    font-size: 11pt;
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--qp-navy-dark);
+}
+
+/* --- Energy split bar --------------------------------------------------------
+
+   One band showing what share of generation is used on site and what share is
+   exported. Navy against grey, the same two-tone pairing .qp-bar-green and
+   .qp-bar-red use on the Short Proposal's bill comparison — no third hue
+   enters the document for the sake of a chart. */
+
+.cq-split-bar {
+    display: flex;
+    height: 8px;
+    margin: 2mm 0 2mm;
+    overflow: hidden;
+    background: #EEF0F3;
+    border-radius: 4px;
+}
+
+.cq-split-bar span {
+    display: block;
+    height: 100%;
+}
+
+.cq-split-self {
+    background: var(--qp-navy);
+}
+
+.cq-split-export {
+    background: #9CA3AF;
+}
+
+.cq-split-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2mm 7mm;
+    font-size: 8pt;
+    color: var(--qp-gray);
+}
+
+.cq-split-legend span::before {
+    content: '';
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    margin-right: 5px;
+    border-radius: 2px;
+    vertical-align: baseline;
+}
+
+.cq-split-legend .cq-legend-self::before {
+    background: var(--qp-navy);
+}
+
+.cq-split-legend .cq-legend-export::before {
+    background: #9CA3AF;
+}
+
+/* --- Headline band -------------------------------------------------------------
+
+   The single figure a commercial page exists to state. Follows
+   .qp-highlight-box: tint fill, hairline edge, navy left rule. */
+
+.cq-headline {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 4mm;
+    margin-top: 4mm;
+    padding: 2.5mm 4mm;
+    background: var(--qp-tint);
+    border: 1px solid var(--qp-line);
+    border-left: 3px solid var(--qp-navy);
+    border-radius: 2px;
+}
+
+.cq-headline-label {
+    flex: 1;
+    min-width: 0;
+    font-size: 8pt;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--qp-navy);
+}
+
+.cq-headline-value {
+    font-size: 15pt;
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--qp-navy-dark);
+    white-space: nowrap;
+}
+
+.cq-headline-sub {
+    display: block;
+    margin-top: 1mm;
+    font-size: 7.5pt;
+    font-weight: 400;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--qp-gray);
+}
+
+/* --- Numbered steps ------------------------------------------------------------ */
+
+/* One step to a row, for sequences that are read in order rather than scanned
+   as a set. Matches .qp-journey-grid on the Short Proposal. */
+.cq-steps.cq-steps-1 {
+    grid-template-columns: 1fr;
+}
+
+/* A step with no title of its own is a sentence, not a caption, so it takes
+   the body size and ink rather than the smaller grey of a card's supporting
+   line. Nothing is invented to give it a heading it never had. */
+.cq-step.cq-step-plain p {
+    font-size: 8.5pt;
+    line-height: 1.45;
+    color: var(--qp-ink);
+}
+
+/* --- Consumption chart baseline -------------------------------------------------
+
+   The bars are drawn on the soft fill with no axis furniture; a single navy
+   baseline is enough to say the columns are measured from somewhere. */
+
+.cq-page .cq-bars {
+    border-bottom: 2px solid var(--qp-navy);
+}
+
+.cq-bar-fill {
+    border-radius: 1px 1px 0 0;
+}
+
+/* --- Signature block -------------------------------------------------------------
+
+   The line a name is written on, and the muted caption beneath it saying what
+   goes there. */
+
+.cq-sign-note {
+    display: block;
+    margin-top: 1.5mm;
+    font-size: 8pt;
+    line-height: 1.6;
+    color: var(--qp-muted);
+}
+
+/* --- Annexure placeholder ---------------------------------------------------------
+
+   While the stored artwork is being read back out of IndexedDB the frame holds
+   a centred note rather than a paragraph pinned to its top-left corner. */
+
+.cq-annexure-frame > .cq-para {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    margin: 0;
+    text-align: center;
+    color: var(--qp-muted);
+}

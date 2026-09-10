@@ -154,10 +154,16 @@
      */
     function bomLines(state) {
         const lines = [];
+        let number = 0;
 
         activeBomCategories(state).forEach(category => {
             lines.push({ kind: 'category', label: category.label });
-            category.rows.forEach(row => lines.push({ kind: 'row', row }));
+            category.rows.forEach(row => {
+                number += 1;
+                splitEquipmentRow(row, 600).forEach((part, index) => {
+                    lines.push({ kind: 'row', row: part, number, isContinuation: index > 0 });
+                });
+            });
         });
 
         return lines;
@@ -177,13 +183,102 @@
             const row = line.row;
             const lines = Math.max(
                 wrappedLines(row.name, metrics.charsPerLine.name),
-                wrappedLines(row.specification, metrics.charsPerLine.specification),
+                wrappedLines(row.specification, metrics.charsPerLine.specification)
+                    + (trimmed(row.remarks) ? wrappedLines(row.remarks, metrics.charsPerLine.specification) + 1 : 0),
                 wrappedLines(row.make, metrics.charsPerLine.make),
                 wrappedLines(row.warranty, metrics.charsPerLine.warranty)
             );
 
             return metrics.rowBasePx + (lines * metrics.rowLinePx);
         });
+    }
+
+    /** Split oversized equipment cells without changing the saved BOM or its quantities. */
+    function splitEquipmentRow(row, budget, widths) {
+        const metrics = Config.PAGINATION.bom;
+        const columns = widths || metrics.charsPerLine;
+        const lineBudget = Math.max(2, Math.floor((budget - metrics.rowBasePx) / metrics.rowLinePx) - 2);
+        const hasRemarks = Boolean(trimmed(row.remarks));
+        const parts = {};
+        ['name', 'specification', 'make', 'warranty', 'remarks'].forEach(field => {
+            const width = columns[field] || columns.specification;
+            const lines = hasRemarks && (field === 'specification' || field === 'remarks')
+                ? Math.max(1, Math.floor((lineBudget - 1) / 2)) : lineBudget;
+            parts[field] = splitLongText(row[field], width * lines);
+        });
+        const count = Math.max(...Object.values(parts).map(list => list.length));
+        return Array.from({ length: count }, (_, index) => {
+            const fragment = Object.assign({}, row);
+            Object.keys(parts).forEach(field => { fragment[field] = parts[field][index] || ''; });
+            if (index) {
+                fragment.quantity = '';
+                fragment.unit = '';
+                fragment.continued = true;
+            }
+            return fragment;
+        });
+    }
+
+    // Technology pages retain their introductory design content on page one;
+    // additional equipment is carried on clearly labelled continuation pages.
+    const EQUIPMENT_SECTIONS = {
+        'pv-module-technology': ['modules'],
+        'inverter-technology': ['inverters'],
+        'battery-technology': ['battery'],
+        'mounting-structure': ['mounting'],
+        'balance-of-system': ['dc-cables', 'ac-cables', 'protection', 'earthing', 'metering'],
+        'monitoring-scada': ['monitoring']
+    };
+    const EQUIPMENT_COLUMNS = { name: 27, specification: 42, make: 18, warranty: 20 };
+
+    function equipmentColumns(sectionId) {
+        // Rated technology tables reserve a sixth column for the unit rating.
+        return sectionId.indexOf('technology') === -1 ? EQUIPMENT_COLUMNS
+            : { name: 27, specification: 32, make: 17, warranty: 17 };
+    }
+
+    function equipmentUnits(state, sectionId) {
+        const ids = EQUIPMENT_SECTIONS[sectionId] || [];
+        const units = [];
+        activeBomCategories(state).filter(category => ids.indexOf(category.id) !== -1)
+            .forEach(category => category.rows.forEach(row => {
+                splitEquipmentRow(row, 210, equipmentColumns(sectionId)).forEach(part => units.push({
+                    categoryId: category.id, label: category.label, row: part
+                }));
+            }));
+        return units;
+    }
+
+    function equipmentUnitHeights(state, sectionId) {
+        let previousCategory = null;
+        return equipmentUnits(state, sectionId).map(unit => {
+            const row = unit.row;
+            const widths = equipmentColumns(sectionId);
+            const lines = Math.max(wrappedLines(row.name, widths.name),
+                wrappedLines(row.specification, widths.specification)
+                    + (trimmed(row.remarks) ? wrappedLines(row.remarks, widths.specification) + 1 : 0),
+                wrappedLines(row.make, widths.make), wrappedLines(row.warranty, widths.warranty));
+            const heading = unit.categoryId === previousCategory ? 0 : 65;
+            previousCategory = unit.categoryId;
+            return heading + 12 + lines * 15;
+        });
+    }
+
+    function bomChunks(state) {
+        const lines = bomLines(state);
+        const heights = bomLineHeights(state);
+        const groups = [];
+        for (let index = 0; index < lines.length; index++) {
+            const start = index;
+            let height = heights[index];
+            if (lines[index].kind === 'category' && index + 1 < lines.length) height += heights[++index];
+            groups.push({ start, end: index + 1, height });
+        }
+        const metrics = Config.PAGINATION.bom;
+        return chunkByHeight(groups.map(group => group.height),
+            metrics.budgetPx - metrics.theadPx, metrics.continuationBudgetPx - metrics.theadPx)
+            .map(chunk => ({ start: groups[chunk.start] ? groups[chunk.start].start : 0,
+                end: chunk.end ? groups[chunk.end - 1].end : 0 }));
     }
 
     /**
@@ -364,7 +459,11 @@
     }
 
     function splitLongText(text, maxChars) {
-        const words = trimmed(text).split(/\s+/).filter(Boolean);
+        const words = trimmed(text).split(/\s+/).filter(Boolean).flatMap(word => {
+            const pieces = [];
+            for (let offset = 0; offset < word.length; offset += maxChars) pieces.push(word.slice(offset, offset + maxChars));
+            return pieces;
+        });
         const parts = [];
         let current = '';
 
@@ -473,6 +572,11 @@
     function sectionChunks(state, sectionId) {
         const pagination = Config.PAGINATION;
 
+        if (EQUIPMENT_SECTIONS[sectionId]) {
+            return chunkByHeight(equipmentUnitHeights(state, sectionId),
+                sectionId === 'balance-of-system' ? 780 : 300, 800);
+        }
+
         if (sectionId === 'payment-milestones') {
             return chunkByHeight(milestoneRowHeights(state),
                 pagination.milestone.firstBudgetPx, pagination.milestone.budgetPx);
@@ -494,11 +598,7 @@
                 pagination.warranty.budgetPx, pagination.warranty.budgetPx);
         }
         if (sectionId === 'bill-of-materials') {
-            return chunkByHeight(
-                bomLineHeights(state),
-                pagination.bom.budgetPx - pagination.bom.theadPx,
-                pagination.bom.continuationBudgetPx - pagination.bom.theadPx
-            );
+            return bomChunks(state);
         }
         if (sectionId === 'terms-conditions' || sectionId === 'scope-inclusions'
             || sectionId === 'scope-exclusions') {
@@ -627,6 +727,8 @@
         activeBomCategories,
         bomLines,
         bomLineHeights,
+        equipmentUnits,
+        equipmentUnitHeights,
         clauseHeights,
         tocEntryHeights,
         milestoneRowHeights,

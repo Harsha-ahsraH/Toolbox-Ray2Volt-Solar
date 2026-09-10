@@ -541,7 +541,7 @@
             });
         }
 
-        function pullFromShortForm() {
+        function pullFromShortForm(force) {
             const configurationBefore = state.project.systemConfiguration;
 
             SHARED_FIELDS.forEach(field => {
@@ -551,7 +551,7 @@
                 // Only a value the user actually changed in Short travels
                 // across, including one they deliberately cleared. The baseline
                 // is captured at boot, so this holds from the first switch.
-                if (lastSync.short[field.short] !== current) field.set(state, current);
+                if (force || lastSync.short[field.short] !== current) field.set(state, current);
             });
 
             // A configuration change that arrives over the bridge has to run
@@ -567,13 +567,13 @@
             captureSync();
         }
 
-        function pushToShortForm() {
+        function pushToShortForm(force) {
             SHARED_FIELDS.forEach(field => {
                 const control = byId(field.short);
                 if (!control) return;
 
                 const value = readModelValue(field);
-                if (lastSync && lastSync.model[field.short] === value) return;
+                if (!force && lastSync && lastSync.model[field.short] === value) return;
 
                 const previous = control.value;
                 control.value = value;
@@ -800,7 +800,7 @@
 
             if (stored.ok && stored.state) {
                 state = stored.state;
-                return;
+                return true;
             }
 
             if (stored.reason === 'future-version') {
@@ -837,7 +837,7 @@
             maybeRegenerateTitle();
         }
 
-        bootState();
+        const restoredDraft = bootState();
         recompute();
 
         if (refs.preset) refs.preset.value = state.preset;
@@ -875,6 +875,16 @@
         // to guess, and a value deliberately cleared in Short looks the same as
         // one that was never filled in.
         captureSync();
+
+        // Establish one shared baseline before tracking edits. Otherwise a
+        // restored long draft leaves Short showing its unrelated blank/default
+        // values, and the first switch ignores them because neither side was edited.
+        if (restoredDraft) {
+            pushToShortForm(true);
+        } else {
+            pullFromShortForm(true);
+            Model.resetBom(state);
+        }
 
         setMode(state.mode, { silent: true });
         refresh();

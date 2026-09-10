@@ -27,13 +27,110 @@
         customerName, siteAddress, capacityLine, proposalTitle, categoryRows, equipmentTable
     } = Pages.helpers;
 
+    /**
+     * Card-header glyphs, drawn from the same stroked 24x24 family the Short
+     * Proposal already uses on .qp-prep-header, so a card on either document
+     * announces itself the same way.
+     */
+    const ICONS = {
+        customer: '<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>'
+            + '<circle cx="12" cy="7" r="4"></circle>',
+        document: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>'
+            + '<polyline points="14 2 14 8 20 8"></polyline>',
+        company: '<path d="M3 21h18"></path><path d="M5 21V7l7-4 7 4v14"></path>'
+            + '<path d="M10 21v-6h4v6"></path>'
+    };
+
+    function icon(name) {
+        return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[name]}</svg>`;
+    }
+
+    /** A definition row, drawn only when there is something to put in it. */
+    function row(label, value) {
+        const text = String(value === null || value === undefined ? '' : value).trim();
+        return text ? `<dt>${esc(label)}</dt><dd>${escLines(text)}</dd>` : '';
+    }
+
+    /** A heading and its paragraph, or nothing at all when the field is empty. */
+    function block(heading, text) {
+        const body = String(text === null || text === undefined ? '' : text).trim();
+        return body
+            ? `<h3 class="cq-subtitle">${esc(heading)}</h3>
+                <p class="cq-para">${escLines(body)}</p>`
+            : '';
+    }
+
+    /**
+     * Specification cell for an equipment table, carrying the scope note typed
+     * against the bill-of-materials row beneath it. The note is the sentence
+     * that says what the quantity actually covers, so it is printed rather than
+     * left in the editor; it is set under the specification it qualifies rather
+     * than given a column, which would squeeze every other column on the page.
+     *
+     * The page planner keeps specifications and remarks as separate fields,
+     * including on continuation rows, so both can be printed without guessing
+     * whether one is part of the other.
+     */
+    function specCell(row) {
+        const note = String(row.remarks || '').trim();
+        const spec = String(row.specification || '');
+        if (!note) return esc(spec);
+
+        return `${esc(spec)}<span class="cq-cell-note">${escLines(note)}</span>`;
+    }
+
+    /** The per-unit rating entered against a row, when one has been entered. */
+    function ratingCell(row) {
+        const value = Number(row.rating);
+        const unit = String(row.ratingUnit || '').trim();
+        return value > 0 ? `${number(value, 2)}${unit ? ` ${esc(unit)}` : ''}` : '—';
+    }
+
+    /**
+     * Approved capacity beside the capacity the listed equipment adds up to.
+     * Both are shown and the difference is stated; neither figure is presented
+     * as correcting the other, and the strip is omitted entirely when there are
+     * no rated rows to add up.
+     */
+    function reconStrip(label, entry, unit, hasRated) {
+        if (!hasRated || !entry || !(entry.approved > 0)) return '';
+        const sign = entry.difference > 0 ? '+' : '';
+
+        return `
+            <div class="cq-recon">
+                <div class="cq-recon-item">
+                    <span class="cq-recon-label">Approved ${esc(label)}</span>
+                    <span class="cq-recon-value">${number(entry.approved, 2)} ${esc(unit)}</span>
+                </div>
+                <div class="cq-recon-item">
+                    <span class="cq-recon-label">Listed in bill of materials</span>
+                    <span class="cq-recon-value">${number(entry.derived, 2)} ${esc(unit)}</span>
+                </div>
+                <div class="cq-recon-item">
+                    <span class="cq-recon-label">Difference</span>
+                    <span class="cq-recon-value">${sign}${number(entry.difference, 2)} ${esc(unit)}</span>
+                </div>
+            </div>`;
+    }
+
+    Pages.blocks = { icon, row, block, specCell, ratingCell, reconStrip };
+
 
     // ---------------------------------------------------------------------
     // 1. Cover
+    //
+    // Follows the Short Proposal's cover sequence — navy edge, ruled masthead,
+    // kicker over title over short rule, image, then the two cards that carry
+    // the facts a reader checks first. Both cards are set as label/value pairs
+    // on one label column so they line up with each other, the treatment
+    // .qp-prep-meta gives the Short cover.
     // ---------------------------------------------------------------------
 
     register('cover', context => {
         const { state } = context;
+        const contact = [state.customer.contactPerson, state.customer.designation]
+            .filter(part => String(part || '').trim()).join(', ');
 
         return {
             chrome: 'none',
@@ -41,11 +138,16 @@
             body: `
                 <div class="cq-cover-head">
                     <img src="../../global/assets/logo.png" alt="Ray2Volt Solar" class="cq-cover-logo">
-                    <div class="cq-cover-ref">
-                        <div>Quotation No: <strong>${fallback(state.project.quoteNumber, 'number pending')}</strong></div>
-                        <div>Date: ${fallback(formatDate(state.project.quoteDate), 'date pending')}</div>
-                        <div>Revision: ${esc(state.project.revision || 'Rev 0')}</div>
-                    </div>
+                    <dl class="cq-cover-ref">
+                        <dt>Quotation</dt>
+                        <dd>${fallback(state.project.quoteNumber, 'number pending')}</dd>
+                        <dt>Date</dt>
+                        <dd>${fallback(formatDate(state.project.quoteDate), 'date pending')}</dd>
+                        <dt>Revision</dt>
+                        <dd>${esc(state.project.revision || 'Rev 0')}</dd>
+                        <dt>Valid for</dt>
+                        <dd>${esc(state.project.validityDays)} days</dd>
+                    </dl>
                 </div>
 
                 <span class="cq-cover-kicker">Techno-Commercial Proposal</span>
@@ -56,21 +158,29 @@
 
                 <div class="cq-cover-grid">
                     <div class="cq-cover-card">
-                        <h3>Prepared For</h3>
-                        <strong>${fallback(customerName(state), 'customer name')}</strong>
-                        ${state.customer.contactPerson
-                            ? `<p>${esc(state.customer.contactPerson)}${state.customer.designation
-                                ? `, ${esc(state.customer.designation)}` : ''}</p>` : ''}
-                        <p>${fallback(siteAddress(state), 'site address')}</p>
-                        ${state.customer.phone ? `<p>${esc(state.customer.phone)}</p>` : ''}
+                        <h3>${icon('customer')}Prepared For</h3>
+                        <span class="cq-cover-name">${fallback(customerName(state), 'customer name')}</span>
+                        <dl class="cq-cover-meta">
+                            ${row('Attention', contact)}
+                            <dt>Site</dt><dd>${fallback(siteAddress(state), 'site address')}</dd>
+                            ${row('Phone', state.customer.phone)}
+                            ${row('Email', state.customer.email)}
+                            ${row('GSTIN', state.customer.gstin)}
+                        </dl>
                     </div>
                     <div class="cq-cover-card">
-                        <h3>Project Summary</h3>
-                        <p><strong>${esc(capacityLine(state))}</strong></p>
-                        <p>${esc(state.project.systemConfiguration)} ·
-                            ${esc(labelFor(Config.INSTALLATION_LOCATIONS, state.project.installationLocation))}</p>
-                        ${state.project.siteName ? `<p>Site: ${esc(state.project.siteName)}</p>` : ''}
-                        <p>Valid for ${esc(state.project.validityDays)} days from date of issue</p>
+                        <h3>${icon('document')}Project Summary</h3>
+                        <span class="cq-cover-name">${esc(capacityLine(state))}</span>
+                        <dl class="cq-cover-meta">
+                            <dt>Configuration</dt><dd>${esc(state.project.systemConfiguration)}</dd>
+                            <dt>Installation</dt>
+                            <dd>${esc(labelFor(Config.INSTALLATION_LOCATIONS,
+                                state.project.installationLocation))}</dd>
+                            ${row('Site', state.project.siteName)}
+                            <dt>Metering</dt>
+                            <dd>${esc(labelFor(Config.ARRANGEMENT_TYPES, state.savings.arrangementType))}</dd>
+                            ${row('Prepared by', state.project.preparedBy)}
+                        </dl>
                     </div>
                 </div>
 
@@ -91,10 +201,13 @@
         return {
             title: 'Document Control',
             subtitle: 'Issue details and confidentiality',
+            // Short page: the confidentiality note is anchored to the foot of the
+            // text area so the space above it reads as margin, not omission.
+            bodyClass: 'cq-body-fill',
             body: `
                 <div class="cq-grid-2">
                     <div class="cq-card">
-                        <h4>Prepared For</h4>
+                        <h4>${icon('customer')}Prepared For</h4>
                         <dl class="cq-kv">
                             <dt>Customer</dt><dd>${fallback(customerName(state), 'customer name')}</dd>
                             ${state.customer.contactPerson
@@ -108,7 +221,7 @@
                         </dl>
                     </div>
                     <div class="cq-card">
-                        <h4>Prepared By</h4>
+                        <h4>${icon('company')}Prepared By</h4>
                         <dl class="cq-kv">
                             <dt>Company</dt><dd>${esc(Content.COMPANY.legalName)}</dd>
                             <dt>CIN</dt><dd>${esc(Content.COMPANY.cin)}</dd>
@@ -132,7 +245,7 @@
                     <dt>Site address</dt><dd>${fallback(siteAddress(state), 'site address')}</dd>
                 </div>
 
-                <div class="cq-note">
+                <div class="cq-note cq-fill-end">
                     <strong>Confidentiality.</strong> ${esc(Content.COMPANY.confidentiality)}
                 </div>`
         };
@@ -199,7 +312,7 @@
                         <span class="cq-metric-value">${number(projection.year1GenerationKwh)}</span>
                         <span class="cq-metric-sub">kWh</span>
                     </div>
-                    <div class="cq-metric">
+                    <div class="cq-metric cq-metric-primary">
                         <span class="cq-metric-label">Offered Price</span>
                         <span class="cq-metric-value">${money(derived.commercial.finalPrice)}</span>
                         <span class="cq-metric-sub">incl. GST</span>
@@ -211,11 +324,8 @@
                     </div>
                 </div>
 
-                <h3 class="cq-subtitle">Objective</h3>
-                <p class="cq-para">${escLines(excerpt(state.projectNarrative.objective, 620))}</p>
-
-                <h3 class="cq-subtitle">Proposed Solution</h3>
-                <p class="cq-para">${escLines(excerpt(state.projectNarrative.proposedSolution, 620))}</p>
+                ${block('Objective', excerpt(state.projectNarrative.objective, 620))}
+                ${block('Proposed Solution', excerpt(state.projectNarrative.proposedSolution, 620))}
 
                 <h3 class="cq-subtitle">Headline Figures</h3>
                 <table class="cq-table">
@@ -272,6 +382,7 @@
         return {
             title: 'Customer & Project Profile',
             subtitle: 'Who the proposal is for and what is being built',
+            bodyClass: 'cq-body-fill',
             body: `
                 <h3 class="cq-subtitle">Customer</h3>
                 <div class="cq-kv cq-kv-boxed">
@@ -319,7 +430,11 @@
                                 <td class="cq-num">${number(derived.mixedLocationTotalKwp, 2)}</td>
                             </tr>
                         </tbody>
-                    </table>` : ''}`
+                    </table>` : ''}
+
+                <div class="cq-note cq-fill-end">The details above are as recorded at the time of
+                    issue. Any change to the site, the capacity or the metering arrangement will be
+                    reflected in a revised issue of this document.</div>`
         };
     });
 
@@ -352,6 +467,9 @@
     // 7. About Ray2Volt
     // ---------------------------------------------------------------------
 
+    // Six capabilities on a three-column grid left two tight rows above a great
+    // deal of nothing. On two columns the same six cards read at a comfortable
+    // measure and occupy the page honestly, without a word being added.
     register('about-ray2volt', () => ({
         title: 'About Ray2Volt',
         subtitle: 'Who is delivering this project',
@@ -360,7 +478,7 @@
             ${Content.ABOUT.paragraphs.map(text => `<p class="cq-para">${esc(text)}</p>`).join('')}
 
             <h3 class="cq-subtitle">What We Deliver In-House</h3>
-            <div class="cq-grid-3">
+            <div class="cq-grid-2">
                 ${Content.ABOUT.capabilities.map(item => `
                     <div class="cq-card">
                         <h4>${esc(item.title)}</h4>
@@ -373,22 +491,44 @@
     // 8. Why C&I solar
     // ---------------------------------------------------------------------
 
-    register('ci-solar-benefits', () => ({
-        title: 'Why Commercial & Industrial Solar',
-        subtitle: 'The case for on-site generation',
-        body: `
-            <p class="cq-lead">${esc(Content.CI_BENEFITS.lead)}</p>
-            <div class="cq-grid-2">
-                ${Content.CI_BENEFITS.benefits.map(item => `
-                    <div class="cq-card">
-                        <h4>${esc(item.title)}</h4>
-                        <p>${esc(item.text)}</p>
-                    </div>`).join('')}
-            </div>
-            <div class="cq-note">The value realised at this site depends on the tariff, the load
-                profile and the metering arrangement. The figures specific to this project are set
-                out in the design basis, energy utilization and savings sections.</div>`
-    }));
+    // The generic case is followed by the three inputs that decide how much of it
+    // applies here. All four values are read straight from the entered project —
+    // nothing is claimed about the outcome, which the analysis sections carry.
+    register('ci-solar-benefits', context => {
+        const { state } = context;
+
+        return {
+            title: 'Why Commercial & Industrial Solar',
+            subtitle: 'The case for on-site generation',
+            bodyClass: 'cq-body-fill',
+            body: `
+                <p class="cq-lead">${esc(Content.CI_BENEFITS.lead)}</p>
+                <div class="cq-grid-2">
+                    ${Content.CI_BENEFITS.benefits.map(item => `
+                        <div class="cq-card">
+                            <h4>${esc(item.title)}</h4>
+                            <p>${esc(item.text)}</p>
+                        </div>`).join('')}
+                </div>
+
+                <h3 class="cq-subtitle">The Inputs That Apply At This Site</h3>
+                <div class="cq-kv cq-kv-boxed">
+                    <dt>Plant capacity</dt><dd>${esc(capacityLine(state))}</dd>
+                    <dt>Tariff assumed</dt>
+                    <dd>${money(state.savings.tariffRate)} per kWh, escalating at
+                        ${number(state.savings.tariffEscalationPercent, 2)}% per year</dd>
+                    <dt>Metering arrangement</dt>
+                    <dd>${esc(labelFor(Config.ARRANGEMENT_TYPES, state.savings.arrangementType))}</dd>
+                    <dt>Assumed split</dt>
+                    <dd>${number(state.savings.selfConsumptionPercent, 0)}% self-consumed,
+                        ${number(state.savings.exportPercent, 0)}% exported</dd>
+                </div>
+
+                <div class="cq-note cq-fill-end">The value realised at this site depends on the tariff,
+                    the load profile and the metering arrangement. The figures specific to this project
+                    are set out in the design basis, energy utilization and savings sections.</div>`
+        };
+    });
 
     // ---------------------------------------------------------------------
     // 9. Proposed solution
@@ -503,10 +643,16 @@
         return {
             title: 'System Architecture',
             subtitle: `${state.project.systemConfiguration} energy flow`,
+            bodyClass: 'cq-body-fill',
             body: `
                 <p class="cq-lead">${esc(architecture.lead)}</p>
-                <img src="${schematic}" alt="${esc(state.project.systemConfiguration)} system schematic"
-                    class="cq-schematic">
+                <figure class="cq-figure">
+                    <img src="${schematic}" alt="${esc(state.project.systemConfiguration)} system schematic"
+                        class="cq-schematic">
+                    <figcaption class="cq-figure-caption">Indicative energy flow for a
+                        ${esc(state.project.systemConfiguration)} system. Component counts and
+                        positions on this diagram are illustrative.</figcaption>
+                </figure>
                 <div class="cq-steps">
                     ${architecture.steps.map((step, index) => `
                         <div class="cq-step">
@@ -517,9 +663,9 @@
                             </div>
                         </div>`).join('')}
                 </div>
-                <div class="cq-note">This is the standard architecture for the selected configuration.
-                    The project single-line diagram and array layout are issued during detailed
-                    engineering and, where supplied with this proposal, appear as annexures.</div>`
+                <div class="cq-note cq-fill-end">This is the standard architecture for the selected
+                    configuration. The project single-line diagram and array layout are issued during
+                    detailed engineering and, where supplied with this proposal, appear as annexures.</div>`
         };
     });
 
@@ -535,24 +681,40 @@
         return {
             title: 'Installation Approach',
             subtitle: approach.title,
+            bodyClass: 'cq-body-fill',
+            // The method is a sequence, not a set, so it is numbered rather than
+            // bulleted — the same treatment the Short Proposal gives its journey
+            // steps. This is the one page that carries these points; the mounting
+            // structure section used to repeat them verbatim and no longer does.
             body: `
                 <p class="cq-lead">${esc(approach.lead)}</p>
                 <h3 class="cq-subtitle">Method</h3>
-                <ul class="cq-bullets">
-                    ${approach.points.map(point => `<li>${esc(point)}</li>`).join('')}
-                </ul>
+                <div class="cq-steps cq-steps-1">
+                    ${approach.points.map((point, index) => `
+                        <div class="cq-step cq-step-plain">
+                            <span class="cq-step-num">${index + 1}</span>
+                            <div><p>${esc(point)}</p></div>
+                        </div>`).join('')}
+                </div>
 
                 ${state.project.installationLocation === 'mixed' ? `
                     <h3 class="cq-subtitle">Areas Covered</h3>
-                    <ul class="cq-bullets">
-                        ${(state.project.mixedLocations || []).map(row => `
-                            <li>${esc(labelFor(Config.INSTALLATION_LOCATIONS, row.locationType))} —
-                                ${number(row.capacityKwp, 2)} kWp</li>`).join('')}
-                    </ul>` : ''}
+                    <table class="cq-table">
+                        <thead><tr><th>Installation Area</th><th class="cq-num">Capacity (kWp)</th></tr></thead>
+                        <tbody>
+                            ${(state.project.mixedLocations || []).map(row => `
+                                <tr>
+                                    <td>${esc(labelFor(Config.INSTALLATION_LOCATIONS, row.locationType))}</td>
+                                    <td class="cq-num">${number(row.capacityKwp, 2)}</td>
+                                </tr>`).join('')}
+                        </tbody>
+                    </table>` : ''}
 
-                ${String(state.projectNarrative.siteConditions || '').trim() ? `
-                    <h3 class="cq-subtitle">Site Conditions Noted</h3>
-                    <p class="cq-para">${escLines(excerpt(state.projectNarrative.siteConditions, 520))}</p>` : ''}`
+                ${block('Site Conditions Noted', excerpt(state.projectNarrative.siteConditions, 520))}
+
+                <div class="cq-note cq-fill-end">The method above is the approach planned for this
+                    installation type. It is confirmed, and adjusted where the site requires it, after
+                    the detailed site survey.</div>`
         };
     });
 
@@ -648,6 +810,7 @@
     function technologySection(options) {
         return context => {
             const rows = categoryRows(context.state, options.categoryId);
+            const recon = options.recon ? options.recon(context.derived.reconciliation) : '';
 
             return {
                 title: options.title,
@@ -655,12 +818,14 @@
                 body: `
                     <p class="cq-lead">${esc(options.content.lead)}</p>
                     <h3 class="cq-subtitle">Equipment Offered</h3>
+                    ${recon}
                     ${equipmentTable(rows, [
-                        { label: 'Item', width: '26%', value: row => esc(row.name) },
-                        { label: 'Specification', width: '30%', value: row => esc(row.specification) },
-                        { label: 'Make', width: '18%', value: row => esc(row.make) },
-                        { label: 'Qty', width: '10%', className: 'cq-center', value: row => `${esc(row.quantity)} ${esc(row.unit)}` },
-                        { label: 'Warranty', width: '16%', value: row => esc(row.warranty) }
+                        { label: 'Item', width: '22%', value: row => esc(row.name) },
+                        { label: 'Specification', width: '29%', value: specCell },
+                        { label: 'Make', width: '15%', value: row => esc(row.make) },
+                        { label: 'Rating', width: '10%', className: 'cq-center', value: ratingCell },
+                        { label: 'Qty', width: '9%', className: 'cq-center', value: row => `${esc(row.quantity)} ${esc(row.unit)}` },
+                        { label: 'Warranty', width: '15%', value: row => esc(row.warranty) }
                     ])}
                     <h3 class="cq-subtitle">Technology Notes</h3>
                     <div class="cq-grid-2">
@@ -678,7 +843,9 @@
         title: 'PV Module Technology',
         subtitle: 'Modules selected for this plant',
         categoryId: 'modules',
-        content: Content.TECHNOLOGY.modules
+        content: Content.TECHNOLOGY.modules,
+        recon: reconciliation => reconStrip('DC capacity', reconciliation.modules, 'kWp',
+            reconciliation.hasRatedModules)
     }));
 
     register('inverter-technology', context => {
@@ -686,7 +853,9 @@
             title: 'Inverter Technology',
             subtitle: 'Conversion and grid interface',
             categoryId: 'inverters',
-            content: Content.TECHNOLOGY.inverters
+            content: Content.TECHNOLOGY.inverters,
+            recon: reconciliation => reconStrip('AC capacity', reconciliation.inverters, 'kW',
+                reconciliation.hasRatedInverters)
         })(context);
 
         const { state, derived } = context;
@@ -707,7 +876,14 @@
             title: 'Battery Energy Storage',
             subtitle: 'Storage sizing and operation',
             categoryId: 'battery',
-            content: Content.TECHNOLOGY.battery
+            content: Content.TECHNOLOGY.battery,
+            // A battery row carries one rating, so energy and power are
+            // reconciled separately and each strip appears only if rows were
+            // rated in that unit.
+            recon: reconciliation => reconStrip('battery energy', reconciliation.batteryEnergy, 'kWh',
+                reconciliation.hasRatedBatteryEnergy)
+                + reconStrip('battery power', reconciliation.batteryPower, 'kW',
+                    reconciliation.hasRatedBatteryPower)
         })(context);
 
         const { state } = context;
@@ -725,90 +901,10 @@
         return base;
     });
 
-    // ---------------------------------------------------------------------
-    // 16-18. Structure, balance of system, monitoring
-    // ---------------------------------------------------------------------
-
-    register('mounting-structure', context => {
-        const { state } = context;
-        const rows = categoryRows(state, 'mounting');
-        const approach = Content.INSTALLATION_APPROACH[state.project.installationLocation]
-            || Content.INSTALLATION_APPROACH['rcc-rooftop'];
-
-        return {
-            title: 'Mounting Structure',
-            subtitle: approach.title,
-            body: `
-                <p class="cq-lead">The array is carried on a structure selected for the installation
-                    surface and designed against the site wind loading. Structural design is confirmed
-                    after the detailed site survey.</p>
-                <h3 class="cq-subtitle">Structure Supplied</h3>
-                ${equipmentTable(rows, [
-                    { label: 'Item', width: '28%', value: row => esc(row.name) },
-                    { label: 'Specification', width: '36%', value: row => esc(row.specification) },
-                    { label: 'Make', width: '18%', value: row => esc(row.make) },
-                    { label: 'Qty', width: '18%', className: 'cq-center', value: row => `${esc(row.quantity)} ${esc(row.unit)}` }
-                ])}
-                <h3 class="cq-subtitle">Installation Considerations</h3>
-                <ul class="cq-bullets">
-                    ${approach.points.map(point => `<li>${esc(point)}</li>`).join('')}
-                </ul>`
-        };
-    });
-
-    register('balance-of-system', context => {
-        const { state } = context;
-        const groups = [
-            { id: 'dc-cables', label: 'DC cables and connectors' },
-            { id: 'ac-cables', label: 'AC cables and power evacuation' },
-            { id: 'protection', label: 'DCDB, ACDB and protection devices' },
-            { id: 'earthing', label: 'Earthing and lightning protection' },
-            { id: 'metering', label: 'Metering and synchronization' }
-        ].map(group => ({ label: group.label, rows: categoryRows(state, group.id) }))
-            .filter(group => group.rows.length);
-
-        return {
-            title: 'Balance of System',
-            subtitle: 'Cabling, protection, earthing and evacuation',
-            body: `
-                <p class="cq-lead">The balance of system carries generated power from the array to the
-                    interconnection point safely and within the design voltage-drop limit, and protects
-                    the plant and the site installation.</p>
-                ${groups.length ? groups.map(group => `
-                    <h3 class="cq-subtitle">${esc(group.label)}</h3>
-                    ${equipmentTable(group.rows, [
-                        { label: 'Item', width: '30%', value: row => esc(row.name) },
-                        { label: 'Specification', width: '42%', value: row => esc(row.specification) },
-                        { label: 'Make', width: '16%', value: row => esc(row.make) },
-                        { label: 'Qty', width: '12%', className: 'cq-center', value: row => `${esc(row.quantity)} ${esc(row.unit)}` }
-                    ])}`).join('')
-                    : '<p class="cq-para">No balance-of-system items are listed in the bill of materials.</p>'}`
-        };
-    });
-
-    register('monitoring-scada', context => {
-        const rows = categoryRows(context.state, 'monitoring');
-        const monitoring = Content.TECHNOLOGY.monitoring;
-
-        return {
-            title: 'Monitoring & SCADA',
-            subtitle: 'How plant performance is observed',
-            body: `
-                <p class="cq-lead">${esc(monitoring.lead)}</p>
-                <h3 class="cq-subtitle">Capabilities</h3>
-                <ul class="cq-bullets">
-                    ${monitoring.capabilities.map(item => `<li>${esc(item)}</li>`).join('')}
-                </ul>
-                <h3 class="cq-subtitle">Equipment Supplied</h3>
-                ${equipmentTable(rows, [
-                    { label: 'Item', width: '30%', value: row => esc(row.name) },
-                    { label: 'Specification', width: '40%', value: row => esc(row.specification) },
-                    { label: 'Make', width: '16%', value: row => esc(row.make) },
-                    { label: 'Qty', width: '14%', className: 'cq-center', value: row => `${esc(row.quantity)} ${esc(row.unit)}` }
-                ])}
-                <div class="cq-note">${esc(monitoring.note)}</div>`
-        };
-    });
+    // Sections 16-18 — mounting structure, balance of system and monitoring —
+    // are registered in quote-generator-comprehensive-pages-c.js. Registration
+    // is order-independent; they live there to keep this file inside the
+    // repository's per-file line budget.
 
     // ---------------------------------------------------------------------
     // 19. Bill of materials (paginates)
@@ -831,21 +927,20 @@
             }
         }
 
-        let serial = lines.slice(0, chunk.start).filter(line => line.kind === 'row').length;
-
         const rowsHtml = slice.map(line => {
             if (line.kind === 'category') {
                 return `<tr class="cq-cat-row"><td colspan="7">${esc(line.label)}</td></tr>`;
             }
 
-            serial += 1;
             const row = line.row;
 
             return `
                 <tr>
-                    <td class="cq-center">${serial}</td>
+                    <td class="cq-center">${line.number}${line.isContinuation ? '<br>cont.' : ''}</td>
                     <td>${esc(row.name)}</td>
-                    <td>${esc(row.specification)}</td>
+                    <td>${esc(row.specification)}${row.remarks
+                        ? `<span class="cq-cell-note"><strong>Remarks:</strong> ${esc(row.remarks)}</span>`
+                        : ''}</td>
                     <td>${esc(row.make)}</td>
                     <td class="cq-center">${esc(row.quantity)}</td>
                     <td class="cq-center">${esc(row.unit)}</td>
@@ -859,7 +954,7 @@
                 ? `Continued — page ${page.part + 1} of ${page.partCount}`
                 : 'Supplied components and services',
             body: `
-                ${page.isContinuation && openCategory
+                ${page.isContinuation && openCategory && slice[0] && slice[0].kind === 'row'
                     ? `<p class="cq-para"><strong>Continued from previous page — ${esc(openCategory)}</strong></p>`
                     : ''}
                 <table class="cq-table">
