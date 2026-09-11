@@ -326,6 +326,19 @@
         }
 
         function renderDerivedReadouts() {
+            const unitPrice = byId('cqPricePerWp');
+            if (unitPrice) {
+                const rate = derived.commercial.projectPricePerWp;
+                unitPrice.disabled = rate === null;
+                unitPrice.placeholder = rate === null ? 'Enter DC capacity first' : '';
+                if (document.activeElement !== unitPrice) {
+                    unitPrice.value = rate === null ? '' : Number(rate.toFixed(4));
+                }
+            }
+            const projectCost = byId('cqActualProjectCost');
+            if (projectCost && document.activeElement !== projectCost) {
+                projectCost.value = state.commercial.actualProjectCost;
+            }
             const utilization = byId('qgUtilizationTotal');
 
             if (utilization) {
@@ -849,6 +862,11 @@
         if (refs.preset) refs.preset.value = state.preset;
 
         bindFixedFields();
+        const unitPriceInput = byId('cqPricePerWp');
+        if (unitPriceInput) unitPriceInput.addEventListener('input', () => {
+            const total = Calc.totalFromPricePerWp(state, unitPriceInput.value);
+            if (total !== null) api.patch(s => { s.commercial.actualProjectCost = total; });
+        });
         setupPanelReset();
         setupAccordion();
         if (window.QuoteGeneratorInputNavigation) window.QuoteGeneratorInputNavigation.init();

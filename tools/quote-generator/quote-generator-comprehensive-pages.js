@@ -181,7 +181,14 @@
         return photos.length ? `<div class="cq-grid-2 cq-component-gallery">${photos.join('')}</div>` : '';
     }
 
+    function offeredRate(state, derived) {
+        const rate = derived.commercial.finalPricePerWp;
+        return state.commercial.showPricePerWp && Number.isFinite(rate)
+            ? `₹${number(rate, 2)}/Wp (excl. GST)` : '';
+    }
+
     const helpers = {
+        offeredRate,
         componentPhoto,
         componentPhotos,
         esc,

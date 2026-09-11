@@ -125,6 +125,7 @@
     function emptyCommercial() {
         return {
             actualProjectCost: 0,
+            showPricePerWp: false,
             gstType: 'intra',
             gstRate: Config.DEFAULTS.gstRate,
             priceBreakdown: [],

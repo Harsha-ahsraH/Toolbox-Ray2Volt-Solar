@@ -311,7 +311,8 @@
                     <div class="cq-metric cq-metric-primary">
                         <span class="cq-metric-label">Offered Price</span>
                         <span class="cq-metric-value">${money(derived.commercial.finalPrice)}</span>
-                        <span class="cq-metric-sub">incl. GST</span>
+                        <span class="cq-metric-sub">incl. GST${Pages.helpers.offeredRate(state, derived)
+                            ? `<br>${Pages.helpers.offeredRate(state, derived)}` : ''}</span>
                     </div>
                     <div class="cq-metric">
                         <span class="cq-metric-label">Simple Payback</span>
@@ -357,7 +358,8 @@
                         <tr class="cq-total-row">
                             <td>Offered price (incl. GST)</td>
                             <td>${money(derived.commercial.finalPrice)}</td>
-                            <td>After ${money(derived.commercial.discountTotal)} discount</td>
+                            <td>After ${money(derived.commercial.discountTotal)} discount${Pages.helpers.offeredRate(state, derived)
+                                ? `<br>${Pages.helpers.offeredRate(state, derived)}` : ''}</td>
                         </tr>
                     </tbody>
                 </table>

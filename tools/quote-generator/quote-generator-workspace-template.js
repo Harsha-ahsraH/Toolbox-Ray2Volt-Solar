@@ -357,6 +357,12 @@
                                 data-bind="commercial.actualProjectCost">
                         </div>
                         <div class="qg-input-group">
+                            <label for="cqPricePerWp">Project Price (₹/Wp, Excl. GST)</label>
+                            <input type="number" id="cqPricePerWp" class="qg-input-field" min="0" step="any"
+                                inputmode="decimal" aria-describedby="cqPricePerWpHelp">
+                            <p class="qg-field-hint" id="cqPricePerWpHelp">Before discounts. Uses the approved DC capacity and selected GST rate.</p>
+                        </div>
+                        <div class="qg-input-group">
                             <label for="cqGstType">GST Type</label>
                             <select id="cqGstType" class="qg-input-field" data-bind="commercial.gstType">
                                 <option value="intra" selected>Intra-State (CGST + SGST)</option>
@@ -369,6 +375,12 @@
                                 data-bind="commercial.gstRate">
                         </div>
                     </div>
+
+                    <div class="qg-checkbox-row">
+                        <label><input type="checkbox" id="cqShowPricePerWp" data-bind="commercial.showPricePerWp">
+                            Show price per Wp (excl. GST) in the proposal</label>
+                    </div>
+                    <p class="qg-field-hint">The proposal shows the final offered rate after discounts.</p>
 
                     <div class="qg-repeater">
                         <div class="qg-repeater-head">

@@ -840,6 +840,10 @@
                             <td>Final offered price (incl. GST)</td>
                             <td class="cq-num">${money(commercial.finalPrice)}</td>
                         </tr>
+                        ${Pages.helpers.offeredRate(state, derived) ? `<tr>
+                            <td>Offered rate per Wp (excl. GST; ${number(state.project.dcCapacityKwp, 2)} kWp DC)</td>
+                            <td class="cq-num">₹${number(commercial.finalPricePerWp, 2)}/Wp</td>
+                        </tr>` : ''}
                     </tbody>
                 </table>
 

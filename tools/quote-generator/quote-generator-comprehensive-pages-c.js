@@ -216,6 +216,8 @@
                     <dt>Validity</dt>
                     <dd>${esc(state.project.validityDays)} days from the date of issue</dd>
                     <dt>Offered price</dt><dd>${money(derived.commercial.finalPrice)} inclusive of GST</dd>
+                    ${Pages.helpers.offeredRate(state, derived)
+                        ? `<dt>Offered rate</dt><dd>${Pages.helpers.offeredRate(state, derived)}</dd>` : ''}
                 </div>
 
                 <div class="cq-sign-grid">

@@ -164,6 +164,18 @@
         return result;
     }
 
+    function pricePerWp(state, totalIncludingGst) {
+        const watts = num(state.project.dcCapacityKwp) * 1000;
+        const taxFactor = 1 + num(state.commercial.gstRate, Config.DEFAULTS.gstRate) / 100;
+        return watts > 0 && taxFactor > 0 ? num(totalIncludingGst) / taxFactor / watts : null;
+    }
+
+    function totalFromPricePerWp(state, rateExcludingGst) {
+        const watts = num(state.project.dcCapacityKwp) * 1000;
+        const taxFactor = 1 + num(state.commercial.gstRate, Config.DEFAULTS.gstRate) / 100;
+        return watts > 0 && taxFactor > 0 ? round(num(rateExcludingGst) * watts * taxFactor, 2) : null;
+    }
+
     function commercialTotals(state) {
         const commercial = state.commercial;
         const actualProjectCost = Math.max(0, num(commercial.actualProjectCost));
@@ -180,6 +192,8 @@
 
         return {
             actualProjectCost,
+            projectPricePerWp: pricePerWp(state, actualProjectCost),
+            finalPricePerWp: pricePerWp(state, round(finalPrice, 2)),
             breakdownTotal: round(breakdownTotal, 2),
             hasBreakdown: (commercial.priceBreakdown || []).length > 0,
             breakdownMatches: Math.abs(breakdownTotal - actualProjectCost) <= 1,
@@ -706,6 +720,8 @@
         capacityTolerance,
         withinPercentTolerance,
         commercialTotals,
+        pricePerWp,
+        totalFromPricePerWp,
         consumptionTotals,
         projection,
         futureCostForYear,

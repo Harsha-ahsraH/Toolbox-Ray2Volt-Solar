@@ -65,7 +65,7 @@
     padding: 4px;
     background: var(--bg-body);
     border: 1px solid var(--border-light);
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
 }
 
 @media screen and (min-width: 600px) {
@@ -85,7 +85,7 @@
     text-align: left;
     background: transparent;
     border: 1px solid transparent;
-    border-radius: 5px;
+    border-radius: var(--radius-sm);
     cursor: pointer;
     transition: background var(--transition-fast),
         border-color var(--transition-fast),
@@ -161,7 +161,7 @@
     margin-bottom: 1.35rem;
     background: var(--bg-card);
     border: 1px solid var(--border-light);
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
 }
 
 .qg-workspace-switch {
@@ -240,7 +240,7 @@
 .qg-workspace-meta .qg-btn-ghost {
     height: 40px;
     border-color: var(--border-light);
-    border-radius: 5px;
+    border-radius: var(--radius-sm);
     font-size: 0.82rem;
     padding-top: 0;
     padding-bottom: 0;

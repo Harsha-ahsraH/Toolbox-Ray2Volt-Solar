@@ -49,7 +49,7 @@
 .qg-editor-main button:disabled { opacity: 0.45; cursor: default; }
 #qgComprehensiveWorkspace .qg-btn-primary { color: #102a33; }
 .qg-editor-main .qg-derived-line:empty { display: none; }
-.qg-editor-main #qgPanel-commercial > .qg-field-grid > .qg-input-group:first-child { grid-column: 1 / -1; }
+.qg-editor-main .qg-field-hint { margin: 6px 0 0; font-size: 0.76rem; line-height: 1.5; color: var(--text-muted); }
 .qg-editor-main .qg-clause-row textarea { min-height: 72px; max-height: 320px; field-sizing: content; }
 .qg-editor-main .qg-clause-row[data-included="false"] { opacity: 1; background: var(--bg-body); }
 .qg-editor-main .qg-clause-row[data-included="false"] textarea { color: var(--text-secondary); border-style: dashed; }

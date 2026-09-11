@@ -455,6 +455,13 @@
         });
     }
 
+    function discountSummary(commercial) {
+        return `Total discount ${money(commercial.discountTotal)}. `
+            + `Final offered price ${money(commercial.finalPrice)} (incl. GST).`
+            + (commercial.finalPricePerWp === null ? ''
+                : ` ₹${commercial.finalPricePerWp.toFixed(2)}/Wp (excl. GST).`);
+    }
+
     function renderDiscounts(state, derived, api) {
         const container = byId('qgDiscountRows');
         const total = byId('qgDiscountTotal');
@@ -481,8 +488,7 @@
             </div>`).join('');
 
         if (total) {
-            total.textContent = `Total discount ${money(derived.commercial.discountTotal)}. `
-                + `Final offered price ${money(derived.commercial.finalPrice)}.`;
+            total.textContent = discountSummary(derived.commercial);
             total.setAttribute('data-state',
                 derived.commercial.discountTotal > derived.commercial.actualProjectCost
                     && derived.commercial.actualProjectCost > 0 ? 'error' : 'ok');
@@ -901,8 +907,7 @@
 
         const discountTotal = byId('qgDiscountTotal');
         if (discountTotal) {
-            discountTotal.textContent = `Total discount ${money(commercial.discountTotal)}. `
-                + `Final offered price ${money(commercial.finalPrice)}.`;
+            discountTotal.textContent = discountSummary(commercial);
             discountTotal.setAttribute('data-state',
                 commercial.discountTotal > commercial.actualProjectCost
                     && commercial.actualProjectCost > 0 ? 'error' : 'ok');
