@@ -18,9 +18,8 @@ const html = fs.readFileSync(path.join(tool, 'quote-generator.html'), 'utf8');
 assert.ok(html.indexOf('quote-generator-component-images.js') < html.indexOf('quote-generator-comprehensive-pages-a.js'),
     'image metadata must load before the page renderers');
 for (const photo of Object.values(context.QuoteGeneratorComponentImages)) {
-    assert.ok(fs.existsSync(path.join(tool, 'assets/components', photo.file)), 'export must use bundled photographs');
-    assert.ok(photo.author && photo.source.startsWith('https://commons.wikimedia.org/') && photo.licenseUrl,
-        'every photograph needs its author, source and licence');
+    assert.ok(fs.existsSync(path.join(tool, 'assets/components', photo.file)), 'export must use bundled equipment visuals');
+    assert.ok(photo.alt && photo.description, 'every component needs an accessible description and explanation');
 }
 
 const state = Model.createInitialState({ mode: 'comprehensive' });
@@ -32,14 +31,23 @@ const render = (sectionId, page) => context.QuoteGeneratorPages.renderers[sectio
 const before = JSON.stringify(state);
 const bos = render('balance-of-system');
 for (const key of ['connectors', 'dcdb', 'acdb', 'metering']) {
-    assert.ok(bos.includes(`assets/components/${key}.jpg`),
+    assert.ok(bos.includes(`assets/components/${key}.png`),
         `${key} must be illustrated even when its equipment table continues onto another source page`);
 }
 assert.equal(JSON.stringify(state), before, 'illustration must not change offered equipment');
 assert.match(render('system-architecture'), /commercial-ongrid-architecture\.png/);
+for (const id of ['cover', 'pv-module-technology', 'inverter-technology', 'mounting-structure',
+    'balance-of-system', 'system-architecture']) {
+    assert.doesNotMatch(render(id), /Wikimedia|creativecommons|Photo:|AI-generated|Representative photograph|cq-component-credit/i,
+        'the proposal contains equipment explanations without image credits or generation labels');
+}
 state.project.systemConfiguration = 'Hybrid';
 assert.match(render('system-architecture'), /commercial-hybrid-architecture\.png/);
 assert.match(render('system-architecture'), /designated backup circuits/);
+for (const id of ['battery-technology', 'system-architecture']) {
+    assert.doesNotMatch(render(id, { sectionId: id }), /Wikimedia|creativecommons|Photo:|AI-generated|Representative photograph|cq-component-credit/i,
+        'hybrid equipment explanations must also omit image credits and generation labels');
+}
 for (const id of ['dc-cables', 'protection', 'metering']) {
     Model.getBomCategory(state, id).rows = [];
 }

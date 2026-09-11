@@ -1,103 +1,71 @@
-/** Real component photographs; provenance is also retained in assets/components/sources.json. */
+/** Component visuals and the explanations printed beside them. */
 (function (root) {
     'use strict';
 
     root.QuoteGeneratorComponentImages = {
         mounting: {
-            file: 'mounting.jpg',
+            file: 'mounting.png',
             label: 'Module support structure',
-            alt: 'PV mounting beams, support posts and foundations beneath an array.',
-            description: 'Rails, clamps and supporting members hold the array in position and transfer loads to the roof or foundation. The photograph shows a support example; fixings vary with the installation surface.',
-            width: 1600,
-            height: 1200,
-            author: 'Robert Scoble',
-            source: 'https://commons.wikimedia.org/wiki/File:Photovoltaic_mounting_system.jpg',
-            license: 'CC BY 2.0',
-            licenseUrl: 'https://creativecommons.org/licenses/by/2.0'
+            alt: 'Tilted module support frame showing rails, bracing, clamps and ballast feet.',
+            description: 'Rails, clamps and braced supports secure the modules and transfer loads to the installation surface. The fixing method, spacing and structural arrangement follow the detailed site design.',
+            width: 1536,
+            height: 1024
         },
         battery: {
-            file: 'battery.jpg',
+            file: 'battery.png',
             label: 'Battery energy storage',
-            alt: 'Containerised stationary battery energy storage installation.',
-            description: 'Battery systems combine storage modules, battery management and thermal control. This containerised example illustrates the equipment family; enclosure size and usable energy depend on the selected system.',
-            width: 1280,
-            height: 720,
-            author: 'Kecko from Eastern Switzerland',
-            source: 'https://commons.wikimedia.org/wiki/File:Tesvolt_battery_energy_storage_system_Rheineck.jpg',
-            license: 'CC BY 2.0',
-            licenseUrl: 'https://creativecommons.org/licenses/by/2.0'
+            alt: 'Modular rack battery cabinet with a controller and six battery modules.',
+            description: 'Rack modules store energy within a managed battery system. The controller monitors operating conditions, while the approved energy and power ratings determine the storage configuration.',
+            width: 1536,
+            height: 1024
         },
         dcdb: {
-            file: 'dcdb.jpg',
-            label: 'DC connection box',
-            alt: 'An open PV string connection box with labelled terminals.',
-            description: 'Example of labelled PV terminals. The system design specifies any required DC isolation, fusing and surge protection.',
-            width: 1161,
-            height: 1272,
-            author: 'Ja.hess10',
-            source: 'https://commons.wikimedia.org/wiki/File:Photovoltaic_Combiner_Box_20140710_151643.jpg',
-            license: 'CC BY-SA 4.0',
-            licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0'
+            file: 'dcdb.png',
+            label: 'DC distribution & protection',
+            alt: 'Open DC distribution enclosure with fuse holders, surge protection and an isolator.',
+            description: 'DC protection equipment brings string circuits together and provides the specified isolation, fusing and surge protection. Device ratings are coordinated with array voltage and current.',
+            width: 1536,
+            height: 1024
         },
         connectors: {
-            file: 'connectors.jpg',
+            file: 'connectors.png',
             label: 'Solar cables & connectors',
-            alt: 'Close views of MC4 photovoltaic cable connectors.',
+            alt: 'Coiled photovoltaic cable with a pair of locking solar connectors.',
             description: 'PV cables and compatible connectors link modules into strings. Their ratings and routing suit the array voltage and current.',
-            width: 1280,
-            height: 1972,
-            author: 'Orion Lawlor',
-            source: 'https://commons.wikimedia.org/wiki/File:MC4_Connector_Front_and_Top_View.jpg',
-            license: 'CC0',
-            licenseUrl: 'http://creativecommons.org/publicdomain/zero/1.0/deed.en'
+            width: 1536,
+            height: 1024
         },
         metering: {
-            file: 'metering.jpg',
+            file: 'metering.png',
             label: 'Energy metering',
-            alt: 'A three-phase digital electricity meter.',
+            alt: 'Three-phase digital electricity meter with a protected terminal compartment.',
             description: 'Meters record energy at agreed measurement points. The meter type and import/export arrangement follow the utility approval.',
-            width: 1280,
-            height: 961,
-            author: '277volts',
-            source: 'https://commons.wikimedia.org/wiki/File:Aclara_kV2c_FITZALL_3-phase_smart_electricity_meter.jpg',
-            license: 'CC BY-SA 4.0',
-            licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0'
+            width: 1536,
+            height: 1024
         },
         inverters: {
-            file: 'inverters.jpg',
+            file: 'inverters.png',
             label: 'Solar inverter',
-            alt: 'A three-phase solar string inverter.',
+            alt: 'Commercial solar inverter with cooling fins and cable connections.',
             description: 'The inverter converts DC electricity to AC and tracks the array operating point. Its protection and communications interfaces connect generation to the site supply and monitoring system.',
-            width: 1280,
-            height: 1707,
-            author: 'Asurnipal',
-            source: 'https://commons.wikimedia.org/wiki/File:Bregenz-Vorarlberger_Kraftwerke-Inverter_Test_bay-Inverter_SMA_Sunny_Tripower_STP_25-50-01ASD.jpg',
-            license: 'CC BY-SA 4.0',
-            licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0'
+            width: 1536,
+            height: 1024
         },
         acdb: {
-            file: 'acdb.jpg',
+            file: 'acdb.png',
             label: 'AC distribution & protection',
             alt: 'An open distribution board showing circuit breakers and wiring.',
-            description: 'Open-board example showing switching and protective devices. The offered AC enclosure, isolation and protection ratings follow the system design.',
-            width: 1280,
-            height: 1707,
-            author: 'Santeri Viinamäki',
-            source: 'https://commons.wikimedia.org/wiki/File:Opened_distribution_board.jpg',
-            license: 'CC BY-SA 4.0',
-            licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0'
+            description: 'AC distribution equipment connects inverter output to the facility through the specified switching and protection devices. Enclosure and circuit ratings follow the approved electrical design.',
+            width: 1536,
+            height: 1024
         },
         modules: {
-            file: 'modules.jpg',
+            file: 'modules.png',
             label: 'Solar modules',
-            alt: 'Photovoltaic modules arranged in an outdoor solar array.',
-            description: 'Cells within each module generate DC electricity. Modules are connected into strings to provide the voltage and current required by the inverter.',
-            width: 1280,
-            height: 853,
-            author: 'Grendelkhan',
-            source: 'https://commons.wikimedia.org/wiki/File:Ground_mounted_solar_panels.gk.jpg',
-            license: 'CC BY-SA 4.0',
-            licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0'
+            alt: 'Front and rear views of framed photovoltaic modules.',
+            description: 'Solar cells convert sunlight into DC electricity. The frame protects the laminate, while the rear junction box and connectors link each module into the array strings.',
+            width: 1536,
+            height: 1024
         }
     };
 }(typeof self !== 'undefined' ? self : this));

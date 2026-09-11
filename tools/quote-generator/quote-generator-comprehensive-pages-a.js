@@ -646,8 +646,7 @@
                     <img src="${schematic}" width="1536" height="1024"
                         alt="Commercial and industrial ${esc(state.project.systemConfiguration)} solar energy flow"
                         class="cq-schematic">
-                    <figcaption class="cq-figure-caption">Illustrative C&amp;I ${esc(state.project.systemConfiguration)}
-                        energy flow. AI-generated concept; building, equipment and metering are indicative.
+                    <figcaption class="cq-figure-caption">${esc(state.project.systemConfiguration)} energy flow for a commercial or industrial facility.
                         ${isHybrid ? 'Backup applies only to the designated backup circuits.' : ''}</figcaption>
                 </figure>
                 <div class="cq-steps">

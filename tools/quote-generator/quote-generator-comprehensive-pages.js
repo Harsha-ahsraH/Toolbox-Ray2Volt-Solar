@@ -162,7 +162,7 @@
         return (lastStop > limit * 0.6 ? cut.slice(0, lastStop + 1) : cut.trim() + '…');
     }
 
-    /** Local photographs and credits are paired so each printed image stays attributable. */
+    /** Keep each equipment visual with its functional explanation. */
     function componentPhoto(key, compact) {
         const photo = root.QuoteGeneratorComponentImages && root.QuoteGeneratorComponentImages[key];
         if (!photo) return '';
@@ -172,10 +172,6 @@
             <figcaption>
                 <strong class="cq-component-title">${esc(photo.label)}</strong>
                 <p>${esc(photo.description)}</p>
-                <p class="cq-component-example">Representative photograph; offered equipment follows the schedule.</p>
-                <p class="cq-component-credit">Photo: ${esc(photo.author)} ·
-                    <a href="${esc(photo.source)}">Wikimedia Commons</a> ·
-                    <a href="${esc(photo.licenseUrl)}">${esc(photo.license)}</a></p>
             </figcaption>
         </figure>`;
     }

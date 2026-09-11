@@ -1,7 +1,5 @@
-# Component photography
+# Component visuals
 
-These are real photographs illustrating equipment families, not representations of the exact offered make/model. Files are unchanged copies of their Commons originals or Commons-generated thumbnails. No retouching or cropping was applied. CSS contains each entire photograph.
+White-background equipment illustrations used by the comprehensive quotation. Each PNG has a matching accessible description and functional caption in quote-generator-component-images.js.
 
-Author, original title, source link and licence are recorded in sources.json and credited alongside each photograph in the proposal. CC BY-SA licences apply to the respective photographs, not the surrounding independent proposal content. The two architecture images outside this directory were generated with the built-in Codex image generator; their prompts are stored in architecture-prompts.json.
-
-Generated artwork: [On-Grid architecture](../commercial-ongrid-architecture.png), [Hybrid architecture](../commercial-hybrid-architecture.png). Exact generation prompts: [architecture-prompts.json](../architecture-prompts.json).
+The cover and system diagrams are stored in the parent assets folder. Artwork specifications are retained in visual-prompts.json.
