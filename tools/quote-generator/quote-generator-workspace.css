@@ -22,7 +22,7 @@
 .qg-tool-header {
     display: flex;
     flex-direction: column;
-    gap: 1.1rem;
+    gap: 1.5rem;
     margin-bottom: var(--section-gap, 1.5rem);
 }
 
@@ -31,10 +31,11 @@
     font-weight: 700;
     line-height: 1.2;
     color: var(--text-primary);
-    margin-bottom: 0.25rem;
+    margin: 0 0 0.45rem;
 }
 
 .qg-tool-heading p {
+    margin: 0;
     font-size: 0.95rem;
     color: var(--text-secondary);
 }
@@ -60,7 +61,11 @@
 .qg-mode-choice {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 0.6rem;
+    gap: 4px;
+    padding: 4px;
+    background: var(--bg-body);
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
 }
 
 @media screen and (min-width: 600px) {
@@ -71,58 +76,41 @@
 
 .qg-mode-card {
     display: grid;
-    grid-template-columns: auto minmax(0, 1fr);
-    align-items: start;
-    column-gap: 0.6rem;
-    row-gap: 0;
-    padding: 0.5rem 0.8rem;
+    grid-template-columns: minmax(0, 1fr);
+    align-content: center;
+    gap: 4px;
+    min-height: 64px;
+    padding: 11px 16px;
     font-family: inherit;
     text-align: left;
-    background: var(--bg-card);
-    border: 1px solid var(--border-medium);
-    border-radius: var(--radius-sm);
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 5px;
     cursor: pointer;
     transition: background var(--transition-fast),
         border-color var(--transition-fast),
         box-shadow var(--transition-fast);
 }
 
-/* Radio mark. The choice is exclusive, so it is drawn as one. */
-.qg-mode-card::before {
-    content: '';
-    grid-row: 1 / span 2;
-    width: 0.9rem;
-    height: 0.9rem;
-    margin-top: 0.2rem;
-    background: var(--bg-card);
-    border: 1px solid var(--border-medium);
-    border-radius: 50%;
-    transition: border var(--transition-fast);
-}
-
 .qg-mode-card:hover {
     background: var(--bg-hover);
 }
 
-/* The active card carries the accent on its edge and its mark, never as the
-   fill behind its text — --primary is 2.45:1 on white and cannot hold text. */
+/* A raised surface identifies the selected document without a bright fill. */
 .qg-mode-card.is-active {
-    background: var(--primary-light);
-    border-color: var(--primary);
-    box-shadow: inset 0 0 0 1px var(--primary);
-}
-
-.qg-mode-card.is-active::before {
-    border: 5px solid var(--primary);
     background: var(--bg-card);
+    border-color: var(--border-light);
+    box-shadow: 0 2px 4px rgb(15 23 42 / 6%), inset 0 -2px var(--primary);
 }
 
 .qg-mode-card-title {
     font-size: 0.92rem;
     font-weight: 600;
     line-height: 1.25;
-    color: var(--text-primary);
+    color: var(--text-secondary);
 }
+
+.qg-mode-card.is-active .qg-mode-card-title { color: var(--text-primary); }
 
 /* A short qualifier leading the description line, for when a mode has
    something to declare about itself. It sits there rather than beside the
@@ -169,31 +157,32 @@
     justify-content: space-between;
     column-gap: var(--spacing-md);
     row-gap: var(--spacing-sm);
-    padding-bottom: 0.9rem;
+    padding: 12px 16px;
     margin-bottom: 1.35rem;
-    border-bottom: 1px solid var(--border-light);
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
 }
 
 .qg-workspace-switch {
     display: inline-flex;
-    gap: 3px;
-    padding: 3px;
-    background: var(--bg-body);
-    border: 1px solid var(--border-light);
-    border-radius: var(--radius-sm);
+    gap: 20px;
+    align-self: stretch;
+    background: transparent;
 }
 
 .qg-workspace-tab {
     min-width: 0;
-    min-height: 2.25rem;
-    padding: 0 1.1rem;
+    min-height: 44px;
+    padding: 0 2px;
     font-family: inherit;
     font-size: 0.9rem;
     font-weight: 500;
     color: var(--text-secondary);
     background: transparent;
-    border: 1px solid transparent;
-    border-radius: var(--radius-sm);
+    border: 0;
+    border-bottom: 2px solid transparent;
+    border-radius: 0;
     cursor: pointer;
     transition: background var(--transition-fast),
         border-color var(--transition-fast),
@@ -204,49 +193,55 @@
     color: var(--text-primary);
 }
 
-/* The open half is lifted out of the track rather than tinted, so the switch
-   reads at a glance without borrowing the accent the mode cards use. */
+/* Workspace navigation uses an underline, separate from document selection. */
 .qg-workspace-tab.is-active {
     color: var(--text-primary);
     font-weight: 600;
-    background: var(--bg-card);
-    border-color: var(--border-medium);
-    box-shadow: var(--shadow-sm);
+    border-bottom-color: var(--primary);
 }
 
 .qg-workspace-meta {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: var(--spacing-sm);
+    gap: 18px;
 }
 
 .qg-preset-control {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 2px;
+    flex-direction: column;
+    align-items: stretch;
     min-width: 0;
 }
 
 .qg-preset-control label {
-    font-size: 0.72rem;
+    font-size: 0.65rem;
     font-weight: 600;
     line-height: 1;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
+    letter-spacing: 0;
+    text-transform: none;
     color: var(--text-muted);
 }
 
 .qg-preset-select {
     width: auto;
     min-width: 12.5rem;
-    height: 2.25rem;
-    padding: 0 0.6rem;
-    font-size: 0.875rem;
+    height: 30px;
+    padding: 0 24px 0 0;
+    font-size: 0.82rem;
+    background-color: transparent;
+    border: 0;
+    border-radius: 0;
+    cursor: pointer;
 }
 
 .qg-workspace-meta .qg-btn-ghost {
-    height: 2.25rem;
+    height: 40px;
+    border-color: var(--border-light);
+    border-radius: 5px;
+    font-size: 0.82rem;
     padding-top: 0;
     padding-bottom: 0;
 }
@@ -257,8 +252,8 @@
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
-    font-size: 0.82rem;
-    font-weight: 500;
+    font-size: 0.75rem;
+    font-weight: 400;
     color: var(--text-muted);
     white-space: nowrap;
 }
@@ -277,8 +272,10 @@
 }
 
 .qg-save-status[data-state="saved"] {
-    color: var(--success-text);
+    color: var(--text-muted);
 }
+
+.qg-save-status[data-state="saved"]::before { background: var(--success-text); }
 
 .qg-save-status[data-state="failed"] {
     color: var(--danger-text);

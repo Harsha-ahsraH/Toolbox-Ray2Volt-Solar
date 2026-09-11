@@ -412,7 +412,7 @@
 @media screen and (min-width: 1200px) {
     .qg-tool-header {
         flex-direction: row;
-        align-items: flex-end;
+        align-items: center;
         justify-content: space-between;
         gap: var(--spacing-xl);
     }
@@ -423,7 +423,7 @@
 
     .qg-mode-choice {
         flex-shrink: 0;
-        grid-template-columns: repeat(2, minmax(0, 16rem));
+        grid-template-columns: repeat(2, minmax(0, 14.5rem));
     }
 }
 
