@@ -90,7 +90,7 @@
             place: 'toolbox',
             path: 'downloads/price-lists/ray2volt-price-card-and-packages.pdf',
             format: 'PDF',
-            updated: '2026-08-24'
+            updated: '2026-09-11'
         },
         {
             title: 'Price card and packages (Telugu)',
@@ -99,7 +99,7 @@
             place: 'toolbox',
             path: 'downloads/price-lists/ray2volt-price-card-and-packages-telugu.pdf',
             format: 'PDF',
-            updated: '2026-08-24'
+            updated: '2026-09-11'
         },
         {
             title: 'Sales requirements and project commissioning form',
