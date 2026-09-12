@@ -4,7 +4,7 @@
  *
  * Owns the Comprehensive workspace: the mode toggle, the Inputs/Preview tabs,
  * the accordion, two-way binding for the fixed fields, validation display,
- * presets and autosave. The dynamic panel bodies are rendered by
+ * draft controls and autosave. The dynamic panel bodies are rendered by
  * quote-generator-editors.js and the document itself by
  * quote-generator-preview.js.
  *
@@ -37,7 +37,6 @@
             toolSubtitle: byId('qgToolSubtitle'),
             modeShort: byId('qgModeShort'),
             modeComprehensive: byId('qgModeComprehensive'),
-            preset: byId('qgPreset'),
             saveStatus: byId('qgSaveStatus'),
             newQuotation: byId('qgNewQuotation'),
             inputsTab: byId('qgWorkspaceInputsTab'),
@@ -630,7 +629,7 @@
                 refs.modeComprehensive.setAttribute('aria-selected', String(isComprehensive));
             }
 
-            // The workspace switch, the preset and the draft controls live
+            // The workspace switch and the draft controls live
             // inside #qgComprehensiveWorkspace, so hiding that one container is
             // all it takes for Short mode to show only its own form.
             if (refs.shortWorkspace) refs.shortWorkspace.hidden = isComprehensive;
@@ -693,28 +692,8 @@
         }
 
         // -----------------------------------------------------------------
-        // Presets, reset and new quotation
+        // Reset and new quotation
         // -----------------------------------------------------------------
-
-        function setupPresets() {
-            if (!refs.preset) return;
-
-            refs.preset.addEventListener('change', () => {
-                const requested = refs.preset.value;
-
-                const confirmed = window.confirm(
-                    'Applying this preset replaces the selected sections, the narrative defaults and '
-                    + 'the bill of materials defaults. Customer and commercial data are kept. Continue?'
-                );
-
-                if (!confirmed) {
-                    refs.preset.value = state.preset;
-                    return;
-                }
-
-                api.update(s => Model.applyPreset(s, requested));
-            });
-        }
 
         function generateQuotationNumber() {
             const now = new Date();
@@ -767,7 +746,6 @@
                     });
 
                     maybeRegenerateTitle();
-                    if (refs.preset) refs.preset.value = state.preset;
                     refresh();
                     autosave.flush(state);
                 });
@@ -793,7 +771,7 @@
                     }
                 }],
                 ['qgResetBom', () => {
-                    if (api.confirm('Reset the bill of materials to the preset defaults? Every edit and added row will be lost.')) {
+                    if (api.confirm('Reset the bill of materials to the default equipment? Every edit and added row will be lost.')) {
                         api.update(s => Model.resetBom(s));
                     }
                 }],
@@ -859,8 +837,6 @@
         const restoredDraft = bootState();
         recompute();
 
-        if (refs.preset) refs.preset.value = state.preset;
-
         bindFixedFields();
         const unitPriceInput = byId('cqPricePerWp');
         if (unitPriceInput) unitPriceInput.addEventListener('input', () => {
@@ -870,7 +846,6 @@
         setupPanelReset();
         setupAccordion();
         if (window.QuoteGeneratorInputNavigation) window.QuoteGeneratorInputNavigation.init();
-        setupPresets();
         setupNewQuotation();
         setupPanelActions();
 

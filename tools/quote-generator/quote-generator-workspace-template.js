@@ -100,14 +100,6 @@
         </div>
 
         <div class="qg-workspace-meta">
-            <div class="qg-preset-control" id="qgPresetGroup">
-                <label for="qgPreset">Preset</label>
-                <select id="qgPreset" class="qg-input-field qg-preset-select">
-                    <option value="ci-on-grid-rooftop" selected>C&amp;I On-Grid Rooftop</option>
-                    <option value="ci-ground-mounted">C&amp;I Ground-Mounted</option>
-                    <option value="ci-hybrid">C&amp;I Hybrid</option>
-                </select>
-            </div>
             <span class="qg-save-status" id="qgSaveStatus" role="status" aria-live="polite"
                 data-state="idle">Draft not saved yet</span>
             <button type="button" class="qg-btn-ghost" id="qgNewQuotation">New Quotation</button>

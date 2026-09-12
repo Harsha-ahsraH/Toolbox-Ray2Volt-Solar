@@ -98,10 +98,11 @@
     .qg-editor-mobile label { display: block; margin-bottom: 7px; font-size: 0.8rem; color: var(--text-secondary); }
 }
 @media (max-width: 599px) {
-    body.qg-print-comprehensive .qg-mode-choice { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 8px; }
-    body.qg-print-comprehensive .qg-mode-card { align-content: center; min-height: 62px; padding: 10px; }
-    body.qg-print-comprehensive .qg-mode-card-title { font-size: 0.85rem; }
-    body.qg-print-comprehensive .qg-mode-card-desc { display: none; }
+    .qg-mode-choice { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 3px; padding: 3px; }
+    .qg-mode-card { min-height: 44px; padding: 8px; text-align: center; }
+    .qg-mode-card-title, .qg-mode-card-desc { display: none; }
+    .qg-mode-mobile-label { display: block; font-size: 0.82rem; font-weight: 600; color: var(--text-secondary); }
+    .qg-mode-card.is-active .qg-mode-mobile-label { color: var(--text-primary); }
     .qg-collection-picker { grid-template-columns: minmax(0,1fr); gap: 8px; }
     .qg-editor-main .qg-field-grid, .qg-editor-main .qg-section-items, .qg-editor-main .qg-reconciliation { grid-template-columns: minmax(0,1fr); }
     .qg-editor-main .qg-panel-toggle { padding: 18px 16px 0; gap: 8px; font-size: 0.95rem; }

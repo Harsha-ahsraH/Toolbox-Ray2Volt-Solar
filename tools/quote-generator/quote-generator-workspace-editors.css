@@ -460,19 +460,6 @@
         width: 100%;
     }
 
-    .qg-preset-control {
-        flex: 1 1 100%;
-    }
-
-    /* Full width, and back to 16px so focusing the select cannot zoom iOS. */
-    .qg-preset-select {
-        flex: 1 1 auto;
-        width: 100%;
-        min-width: 0;
-        height: 2.5rem;
-        font-size: 16px;
-    }
-
     .qg-panel-toggle {
         padding: 0.85rem 0.75rem;
         font-size: 0.92rem;

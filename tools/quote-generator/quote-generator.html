@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="../../global/styles/components.css">
     <link rel="stylesheet" href="../../global/styles/responsive.css">
     <link rel="stylesheet" href="../../global/styles/tool-responsive.css">
-    <link rel="stylesheet" href="quote-generator.css?v=20260912-per-wp-1">
+    <link rel="stylesheet" href="quote-generator.css?v=20260912-mobile-switch-1">
     <!-- Theme: stamps light or dark on <html> before the first paint -->
     <script src="../../global/scripts/theme.js"></script>
 </head>
@@ -100,13 +100,15 @@
 
                         <div class="qg-mode-choice" role="tablist" aria-label="Quotation type">
                             <button type="button" class="qg-mode-card is-active" id="qgModeShort" role="tab"
-                                aria-selected="true" aria-controls="qgShortWorkspace">
+                                aria-selected="true" aria-controls="qgShortWorkspace" aria-label="Short Quotation">
                                 <span class="qg-mode-card-title">Short Quotation</span>
+                                <span class="qg-mode-mobile-label" aria-hidden="true">Short</span>
                                 <span class="qg-mode-card-desc">Fixed 8-page rooftop proposal</span>
                             </button>
                             <button type="button" class="qg-mode-card" id="qgModeComprehensive" role="tab"
-                                aria-selected="false" aria-controls="qgComprehensiveWorkspace">
+                                aria-selected="false" aria-controls="qgComprehensiveWorkspace" aria-label="Comprehensive Quotation">
                                 <span class="qg-mode-card-title">Comprehensive Quotation</span>
+                                <span class="qg-mode-mobile-label" aria-hidden="true">Comprehensive</span>
                                 <span class="qg-mode-card-desc">Detailed C&amp;I EPC proposal</span>
                             </button>
                         </div>
@@ -590,29 +592,29 @@
 
     <!-- Comprehensive mode. Loaded after the Short generator so the existing
          eight-page proposal initializes exactly as before. -->
-    <script src="quote-generator-workspace-template.js?v=20260912-per-wp-1"></script>
-    <script src="quote-generator-config.js?v=20260912-per-wp-1"></script>
-    <script src="quote-generator-content.js?v=20260912-per-wp-1"></script>
-    <script src="quote-generator-bom-defaults.js?v=20260912-per-wp-1"></script>
-    <script src="quote-generator-model.js?v=20260912-per-wp-1"></script>
-    <script src="quote-generator-pagination.js?v=20260912-per-wp-1"></script>
-    <script src="quote-generator-calc.js?v=20260912-per-wp-1"></script>
-    <script src="quote-generator-storage.js?v=20260912-per-wp-1"></script>
-    <script src="quote-generator-editors.js?v=20260912-per-wp-1"></script>
-    <script src="quote-generator-validation-view.js?v=20260912-per-wp-1"></script>
-    <script src="quote-generator-component-images.js?v=20260912-per-wp-1"></script>
-    <script src="quote-generator-comprehensive-pages.js?v=20260912-per-wp-1"></script>
-    <script src="quote-generator-comprehensive-pages-a.js?v=20260912-per-wp-1"></script>
-    <script src="quote-generator-comprehensive-pages-b.js?v=20260912-per-wp-1"></script>
-    <script src="quote-generator-comprehensive-pages-c.js?v=20260912-per-wp-1"></script>
-    <script src="quote-generator-equipment-pages.js?v=20260912-per-wp-1"></script>
-    <script src="quote-generator-section-guidance.js?v=20260912-per-wp-1"></script>
-    <script src="quote-generator-annexures.js?v=20260912-per-wp-1"></script>
-    <script src="quote-generator-document-layout.js?v=20260912-per-wp-1"></script>
-    <script src="quote-generator-section-spacing.js?v=20260912-per-wp-1"></script>
-    <script src="quote-generator-preview.js?v=20260912-per-wp-1"></script>
-    <script src="quote-generator-input-navigation.js?v=20260912-per-wp-1"></script>
-    <script src="quote-generator-form.js?v=20260912-per-wp-1"></script>
+    <script src="quote-generator-workspace-template.js?v=20260912-mobile-switch-1"></script>
+    <script src="quote-generator-config.js?v=20260912-mobile-switch-1"></script>
+    <script src="quote-generator-content.js?v=20260912-mobile-switch-1"></script>
+    <script src="quote-generator-bom-defaults.js?v=20260912-mobile-switch-1"></script>
+    <script src="quote-generator-model.js?v=20260912-mobile-switch-1"></script>
+    <script src="quote-generator-pagination.js?v=20260912-mobile-switch-1"></script>
+    <script src="quote-generator-calc.js?v=20260912-mobile-switch-1"></script>
+    <script src="quote-generator-storage.js?v=20260912-mobile-switch-1"></script>
+    <script src="quote-generator-editors.js?v=20260912-mobile-switch-1"></script>
+    <script src="quote-generator-validation-view.js?v=20260912-mobile-switch-1"></script>
+    <script src="quote-generator-component-images.js?v=20260912-mobile-switch-1"></script>
+    <script src="quote-generator-comprehensive-pages.js?v=20260912-mobile-switch-1"></script>
+    <script src="quote-generator-comprehensive-pages-a.js?v=20260912-mobile-switch-1"></script>
+    <script src="quote-generator-comprehensive-pages-b.js?v=20260912-mobile-switch-1"></script>
+    <script src="quote-generator-comprehensive-pages-c.js?v=20260912-mobile-switch-1"></script>
+    <script src="quote-generator-equipment-pages.js?v=20260912-mobile-switch-1"></script>
+    <script src="quote-generator-section-guidance.js?v=20260912-mobile-switch-1"></script>
+    <script src="quote-generator-annexures.js?v=20260912-mobile-switch-1"></script>
+    <script src="quote-generator-document-layout.js?v=20260912-mobile-switch-1"></script>
+    <script src="quote-generator-section-spacing.js?v=20260912-mobile-switch-1"></script>
+    <script src="quote-generator-preview.js?v=20260912-mobile-switch-1"></script>
+    <script src="quote-generator-input-navigation.js?v=20260912-mobile-switch-1"></script>
+    <script src="quote-generator-form.js?v=20260912-mobile-switch-1"></script>
 </body>
 
 </html>

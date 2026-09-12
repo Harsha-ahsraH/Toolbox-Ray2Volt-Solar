@@ -7,6 +7,9 @@ const toolRoot = path.join(repoRoot, 'tools', 'quote-generator');
 const html = fs.readFileSync(path.join(toolRoot, 'quote-generator.html'), 'utf8');
 const workspace = fs.readFileSync(path.join(toolRoot, 'quote-generator-workspace-template.js'), 'utf8');
 const formJs = fs.readFileSync(path.join(toolRoot, 'quote-generator-form.js'), 'utf8');
+assert.doesNotMatch(workspace, /id="qgPreset"/, 'project inputs replace the preset selector');
+assert.match(html, /aria-label="Short Quotation"/, 'compact tabs retain complete accessible names');
+assert.match(html, /aria-label="Comprehensive Quotation"/, 'compact tabs retain complete accessible names');
 const previewJs = fs.readFileSync(path.join(toolRoot, 'quote-generator-preview.js'), 'utf8');
 const previewModule = require(path.join(toolRoot, 'quote-generator-preview.js'));
 assert.ok(

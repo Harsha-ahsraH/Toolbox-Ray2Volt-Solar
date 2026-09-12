@@ -111,6 +111,7 @@
 }
 
 .qg-mode-card.is-active .qg-mode-card-title { color: var(--text-primary); }
+.qg-mode-mobile-label { display: none; }
 
 /* A short qualifier leading the description line, for when a mode has
    something to declare about itself. It sits there rather than beside the
@@ -147,8 +148,8 @@
 
 /* --- Workspace bar --------------------------------------------------- */
 
-/* Draft-level controls: which half of the workspace is open, which preset the
-   draft was built from, whether it is saved. It lives inside the Comprehensive
+/* Draft-level controls: which half of the workspace is open and whether the
+   draft is saved. It lives inside the Comprehensive
    workspace, so Short mode never has to hide it piece by piece. */
 .qg-workspace-bar {
     display: flex;
@@ -205,36 +206,6 @@
     flex-wrap: wrap;
     align-items: center;
     gap: 18px;
-}
-
-.qg-preset-control {
-    display: flex;
-    align-items: center;
-    gap: 2px;
-    flex-direction: column;
-    align-items: stretch;
-    min-width: 0;
-}
-
-.qg-preset-control label {
-    font-size: 0.65rem;
-    font-weight: 600;
-    line-height: 1;
-    letter-spacing: 0;
-    text-transform: none;
-    color: var(--text-muted);
-}
-
-.qg-preset-select {
-    width: auto;
-    min-width: 12.5rem;
-    height: 30px;
-    padding: 0 24px 0 0;
-    font-size: 0.82rem;
-    background-color: transparent;
-    border: 0;
-    border-radius: 0;
-    cursor: pointer;
 }
 
 .qg-workspace-meta .qg-btn-ghost {
