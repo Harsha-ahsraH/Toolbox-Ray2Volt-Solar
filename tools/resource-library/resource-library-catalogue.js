@@ -27,6 +27,13 @@
  *                     containing real figures.
  *
  * If you are unsure which to use, use 'link'.
+ *
+ * The commercial financial decks are the one deliberate exception. They are
+ * customer-facing and they publish the 50-950 kW price ladder, which the owner
+ * chose to make public on 2026-09-18 so the sales team can send a link without
+ * asking anyone for access. Regenerate them with
+ * `node scripts/financial-decks/build.js` after editing
+ * scripts/financial-decks/assumptions.js; do not hand-edit the PDFs.
  * ---------------------------------------------------------------------------
  */
 (function (root, factory) {
@@ -45,6 +52,7 @@
     /** Shown as filter buttons, in this order. A resource must use one of these. */
     const CATEGORIES = [
         'Price lists',
+        'Financial decks',
         'Datasheets',
         'Brochures',
         'Templates',
@@ -109,6 +117,177 @@
             path: 'downloads/templates/sales-requirements-project-commissioning-form.pdf',
             format: 'PDF',
             updated: '2026-07-23'
+        },
+        {
+            title: '50 kWp commercial financial analysis',
+            description: 'Thirty-year post-tax cash flow, 40% written-down-value depreciation schedule and return metrics for a 50 kWp rooftop plant on the APSPDCL LT commercial tariff.',
+            category: 'Financial decks',
+            place: 'toolbox',
+            path: 'downloads/financial-decks/ray2volt-commercial-financial-deck-050kw.pdf',
+            format: 'PDF',
+            updated: '2026-09-18'
+        },
+        {
+            title: '100 kWp commercial financial analysis',
+            description: 'Thirty-year post-tax cash flow, 40% written-down-value depreciation schedule and return metrics for a 100 kWp rooftop plant on the APSPDCL LT commercial tariff.',
+            category: 'Financial decks',
+            place: 'toolbox',
+            path: 'downloads/financial-decks/ray2volt-commercial-financial-deck-100kw.pdf',
+            format: 'PDF',
+            updated: '2026-09-18'
+        },
+        {
+            title: '150 kWp commercial financial analysis',
+            description: 'Thirty-year post-tax cash flow, 40% written-down-value depreciation schedule and return metrics for a 150 kWp rooftop plant on the APSPDCL LT commercial tariff.',
+            category: 'Financial decks',
+            place: 'toolbox',
+            path: 'downloads/financial-decks/ray2volt-commercial-financial-deck-150kw.pdf',
+            format: 'PDF',
+            updated: '2026-09-18'
+        },
+        {
+            title: '200 kWp commercial financial analysis',
+            description: 'Thirty-year post-tax cash flow, 40% written-down-value depreciation schedule and return metrics for a 200 kWp rooftop plant on the APSPDCL HT commercial tariff.',
+            category: 'Financial decks',
+            place: 'toolbox',
+            path: 'downloads/financial-decks/ray2volt-commercial-financial-deck-200kw.pdf',
+            format: 'PDF',
+            updated: '2026-09-18'
+        },
+        {
+            title: '250 kWp commercial financial analysis',
+            description: 'Thirty-year post-tax cash flow, 40% written-down-value depreciation schedule and return metrics for a 250 kWp rooftop plant on the APSPDCL HT commercial tariff.',
+            category: 'Financial decks',
+            place: 'toolbox',
+            path: 'downloads/financial-decks/ray2volt-commercial-financial-deck-250kw.pdf',
+            format: 'PDF',
+            updated: '2026-09-18'
+        },
+        {
+            title: '300 kWp commercial financial analysis',
+            description: 'Thirty-year post-tax cash flow, 40% written-down-value depreciation schedule and return metrics for a 300 kWp rooftop plant on the APSPDCL HT commercial tariff.',
+            category: 'Financial decks',
+            place: 'toolbox',
+            path: 'downloads/financial-decks/ray2volt-commercial-financial-deck-300kw.pdf',
+            format: 'PDF',
+            updated: '2026-09-18'
+        },
+        {
+            title: '350 kWp commercial financial analysis',
+            description: 'Thirty-year post-tax cash flow, 40% written-down-value depreciation schedule and return metrics for a 350 kWp rooftop plant on the APSPDCL HT commercial tariff.',
+            category: 'Financial decks',
+            place: 'toolbox',
+            path: 'downloads/financial-decks/ray2volt-commercial-financial-deck-350kw.pdf',
+            format: 'PDF',
+            updated: '2026-09-18'
+        },
+        {
+            title: '400 kWp commercial financial analysis',
+            description: 'Thirty-year post-tax cash flow, 40% written-down-value depreciation schedule and return metrics for a 400 kWp rooftop plant on the APSPDCL HT commercial tariff.',
+            category: 'Financial decks',
+            place: 'toolbox',
+            path: 'downloads/financial-decks/ray2volt-commercial-financial-deck-400kw.pdf',
+            format: 'PDF',
+            updated: '2026-09-18'
+        },
+        {
+            title: '450 kWp commercial financial analysis',
+            description: 'Thirty-year post-tax cash flow, 40% written-down-value depreciation schedule and return metrics for a 450 kWp rooftop plant on the APSPDCL HT commercial tariff.',
+            category: 'Financial decks',
+            place: 'toolbox',
+            path: 'downloads/financial-decks/ray2volt-commercial-financial-deck-450kw.pdf',
+            format: 'PDF',
+            updated: '2026-09-18'
+        },
+        {
+            title: '500 kWp commercial financial analysis',
+            description: 'Thirty-year post-tax cash flow, 40% written-down-value depreciation schedule and return metrics for a 500 kWp rooftop plant on the APSPDCL HT commercial tariff.',
+            category: 'Financial decks',
+            place: 'toolbox',
+            path: 'downloads/financial-decks/ray2volt-commercial-financial-deck-500kw.pdf',
+            format: 'PDF',
+            updated: '2026-09-18'
+        },
+        {
+            title: '550 kWp commercial financial analysis',
+            description: 'Thirty-year post-tax cash flow, 40% written-down-value depreciation schedule and return metrics for a 550 kWp rooftop plant on the APSPDCL HT commercial tariff.',
+            category: 'Financial decks',
+            place: 'toolbox',
+            path: 'downloads/financial-decks/ray2volt-commercial-financial-deck-550kw.pdf',
+            format: 'PDF',
+            updated: '2026-09-18'
+        },
+        {
+            title: '600 kWp commercial financial analysis',
+            description: 'Thirty-year post-tax cash flow, 40% written-down-value depreciation schedule and return metrics for a 600 kWp rooftop plant on the APSPDCL HT commercial tariff.',
+            category: 'Financial decks',
+            place: 'toolbox',
+            path: 'downloads/financial-decks/ray2volt-commercial-financial-deck-600kw.pdf',
+            format: 'PDF',
+            updated: '2026-09-18'
+        },
+        {
+            title: '650 kWp commercial financial analysis',
+            description: 'Thirty-year post-tax cash flow, 40% written-down-value depreciation schedule and return metrics for a 650 kWp rooftop plant on the APSPDCL HT commercial tariff.',
+            category: 'Financial decks',
+            place: 'toolbox',
+            path: 'downloads/financial-decks/ray2volt-commercial-financial-deck-650kw.pdf',
+            format: 'PDF',
+            updated: '2026-09-18'
+        },
+        {
+            title: '700 kWp commercial financial analysis',
+            description: 'Thirty-year post-tax cash flow, 40% written-down-value depreciation schedule and return metrics for a 700 kWp rooftop plant on the APSPDCL HT commercial tariff.',
+            category: 'Financial decks',
+            place: 'toolbox',
+            path: 'downloads/financial-decks/ray2volt-commercial-financial-deck-700kw.pdf',
+            format: 'PDF',
+            updated: '2026-09-18'
+        },
+        {
+            title: '750 kWp commercial financial analysis',
+            description: 'Thirty-year post-tax cash flow, 40% written-down-value depreciation schedule and return metrics for a 750 kWp rooftop plant on the APSPDCL HT commercial tariff.',
+            category: 'Financial decks',
+            place: 'toolbox',
+            path: 'downloads/financial-decks/ray2volt-commercial-financial-deck-750kw.pdf',
+            format: 'PDF',
+            updated: '2026-09-18'
+        },
+        {
+            title: '800 kWp commercial financial analysis',
+            description: 'Thirty-year post-tax cash flow, 40% written-down-value depreciation schedule and return metrics for a 800 kWp rooftop plant on the APSPDCL HT commercial tariff.',
+            category: 'Financial decks',
+            place: 'toolbox',
+            path: 'downloads/financial-decks/ray2volt-commercial-financial-deck-800kw.pdf',
+            format: 'PDF',
+            updated: '2026-09-18'
+        },
+        {
+            title: '850 kWp commercial financial analysis',
+            description: 'Thirty-year post-tax cash flow, 40% written-down-value depreciation schedule and return metrics for a 850 kWp rooftop plant on the APSPDCL HT commercial tariff.',
+            category: 'Financial decks',
+            place: 'toolbox',
+            path: 'downloads/financial-decks/ray2volt-commercial-financial-deck-850kw.pdf',
+            format: 'PDF',
+            updated: '2026-09-18'
+        },
+        {
+            title: '900 kWp commercial financial analysis',
+            description: 'Thirty-year post-tax cash flow, 40% written-down-value depreciation schedule and return metrics for a 900 kWp rooftop plant on the APSPDCL HT commercial tariff.',
+            category: 'Financial decks',
+            place: 'toolbox',
+            path: 'downloads/financial-decks/ray2volt-commercial-financial-deck-900kw.pdf',
+            format: 'PDF',
+            updated: '2026-09-18'
+        },
+        {
+            title: '950 kWp commercial financial analysis',
+            description: 'Thirty-year post-tax cash flow, 40% written-down-value depreciation schedule and return metrics for a 950 kWp rooftop plant on the APSPDCL HT commercial tariff.',
+            category: 'Financial decks',
+            place: 'toolbox',
+            path: 'downloads/financial-decks/ray2volt-commercial-financial-deck-950kw.pdf',
+            format: 'PDF',
+            updated: '2026-09-18'
         }
     ];
 
