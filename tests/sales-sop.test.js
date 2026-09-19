@@ -3,6 +3,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const repoRoot = path.resolve(__dirname, '..');
+const toolRoot2 = path.join(repoRoot, 'tools', 'sales-sop');
 const salesSop = fs.readFileSync(
     path.join(repoRoot, 'tools', 'sales-sop', 'sales-sop.html'),
     'utf8'
@@ -12,6 +13,8 @@ const prices = fs.readFileSync(
     'utf8'
 );
 const solarReturns = require(path.join(repoRoot, 'global', 'scripts', 'solar-returns.js'));
+const figures = require(path.join(toolRoot2, 'sales-sop-figures.js'));
+const deckAssumptions = require(path.join(repoRoot, 'scripts', 'financial-decks', 'assumptions.js'));
 
 assert.match(salesSop, /Solar Sales SOP/, 'Sales SOP title should be present');
 
@@ -60,6 +63,91 @@ assert.match(salesSop, /commercial-hybrid-architecture\.png/, 'C&I playbook shou
 // and a salesperson still has to answer the question when a customer raises it.
 assert.match(salesSop, /Gross Metering/, 'C&I playbook should explain gross metering');
 assert.match(salesSop, /Only where the DISCOM mandates it/, 'C&I playbook should say gross metering is not the offer');
+
+// --- The C&I capacity selector ----------------------------------------------
+// The block is driven by sales-sop-figures.js, so the page has to load it and
+// the four figures have to be present for the selector to have anything to fill.
+assert.match(salesSop, /sales-sop-figures\.js/, 'Sales SOP should load the C&I figures module');
+assert.match(
+    salesSop,
+    /Metering, Credits &amp; ToD On A Real Capacity/,
+    'C&I playbook should carry the capacity-driven figures block'
+);
+for (const target of ['ciCapacity', 'ciMarker', 'ciValueBars', 'ciTodBars', 'ciBillLines']) {
+    assert.match(salesSop, new RegExp('id="' + target + '"'), 'figures block should define #' + target);
+}
+
+// Every capacity the financial decks are built for must be pickable, or a
+// salesperson can quote a deck the page cannot reproduce.
+const offered = [...salesSop.matchAll(/<option value="(\d+)"/g)].map(match => Number(match[1]));
+assert.deepEqual(
+    offered,
+    figures.CAPACITIES_KW,
+    'the selector should offer exactly the capacities the decks are built for'
+);
+
+// The AP net metering ceiling decides what capacity can be promised at all, so
+// it is stated in the sizing rules and drawn on the ruler.
+assert.match(salesSop, /500 kWp/, 'C&I playbook should state the APERC net metering ceiling');
+assert.match(salesSop, /Regulation 4 of 2023/, 'C&I playbook should cite the regulation behind it');
+assert.match(salesSop, /settlement year on 31 March/, 'C&I playbook should say when the settlement year closes');
+assert.match(salesSop, /unit, not a rupee/, 'C&I playbook should say credits are banked in units');
+assert.match(salesSop, /time-of-day tariff/i, 'C&I playbook should cover ToD');
+assert.match(salesSop, /Which lines on the bill actually move/, 'C&I playbook should list the bill lines');
+
+// ToD windows and rates move with every tariff order, so the page must send the
+// salesperson to the customer's bill rather than being the source itself.
+assert.match(
+    salesSop,
+    /never quote a window or a rate from this page/,
+    'C&I playbook should refuse to be the source for ToD windows and rates'
+);
+
+// --- The page and the decks must not drift apart ----------------------------
+// sales-sop-figures.js mirrors scripts/financial-decks/assumptions.js. If a rate
+// moves in one and not the other, a salesperson quotes one number while the PDF
+// in the customer's hand shows another, so the two are asserted equal here.
+assert.equal(figures.ANNUAL_GENERATION_PER_KWP, deckAssumptions.ASSUMPTIONS.annualGenerationPerKwp,
+    'generation per kWp should match the financial decks');
+assert.equal(figures.SELF_CONSUMPTION_PERCENT, deckAssumptions.ASSUMPTIONS.selfConsumptionPercent,
+    'self-consumption share should match the financial decks');
+assert.equal(figures.EXPORT_PERCENT, deckAssumptions.ASSUMPTIONS.exportPercent,
+    'export share should match the financial decks');
+assert.equal(figures.EXPORT_RATE, deckAssumptions.ASSUMPTIONS.exportRateRupeesPerKwh,
+    'the surplus rate should match the financial decks');
+assert.equal(figures.LT_MAX_KW, deckAssumptions.LT_MAX_KW,
+    'the LT/HT boundary should match the financial decks');
+assert.equal(figures.TARIFFS.lt.rate, deckAssumptions.TARIFFS.lt.rateRupeesPerKwh,
+    'the LT energy charge should match the financial decks');
+assert.equal(figures.TARIFFS.ht.rate, deckAssumptions.TARIFFS.ht.rateRupeesPerKwh,
+    'the HT energy charge should match the financial decks');
+assert.deepEqual(figures.CAPACITIES_KW, deckAssumptions.CAPACITIES_KW,
+    'the capacities should match the financial decks');
+
+// --- The arithmetic behind the block ----------------------------------------
+// 150 kW is the last LT capacity; 500 kWp is the last net-metered one. Both
+// boundaries are what the ruler exists to show, so both are asserted.
+assert.equal(figures.figuresFor(150).tariff, figures.TARIFFS.lt, '150 kW is still on LT');
+assert.equal(figures.figuresFor(200).tariff, figures.TARIFFS.ht, '200 kW is on HT');
+assert.ok(figures.figuresFor(500).netMetered, '500 kWp is inside the net metering ceiling');
+assert.ok(!figures.figuresFor(550).netMetered, '550 kWp is above the ceiling');
+
+// Above the ceiling there is nothing to export into, so surplus earns nothing —
+// the single thing the selector exists to make obvious.
+assert.equal(figures.figuresFor(550).surplusValue, 0, 'surplus above the ceiling earns nothing');
+assert.ok(figures.figuresFor(500).surplusValue > 0, 'surplus below the ceiling is still paid for');
+
+const mid = figures.figuresFor(250);
+assert.equal(Math.round(mid.generationKwh), 250 * figures.ANNUAL_GENERATION_PER_KWP, 'generation is capacity x yield');
+assert.ok(
+    Math.abs(mid.surplusGap - (mid.surplusIfSelfConsumed - mid.surplusValue)) < 1,
+    'the surplus gap is what those units would have been worth on site'
+);
+// A solar-hours unit must be worth less than a normal one, or the ToD section
+// is arguing the opposite of what it says.
+assert.ok(mid.solarHourRate < mid.tariff.rate, 'the solar-hours rate sits below the normal rate');
+assert.ok(mid.peakRate > mid.tariff.rate, 'the evening peak sits above the normal rate');
+assert.ok(mid.todOverstatement > 0, 'a flat-tariff estimate overstates the saving on a ToD connection');
 
 // The three levers that make a commercial roof pay back faster than a home.
 assert.match(salesSop, /input credit/, 'C&I playbook should explain the GST input credit');

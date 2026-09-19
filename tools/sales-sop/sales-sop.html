@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="../../global/styles/components.css">
     <link rel="stylesheet" href="../../global/styles/responsive.css">
     <link rel="stylesheet" href="sales-sop.css">
+    <link rel="stylesheet" href="sales-sop-figures.css">
     <!-- Theme: stamps light or dark on <html> before the first paint -->
     <script src="../../global/scripts/theme.js"></script>
 </head>
@@ -454,6 +455,7 @@
                         <h2><span class="material-symbols-rounded" aria-hidden="true">sync_alt</span>Net Metering: Sizing, Approval &amp; Settlement</h2>
                         <h3>Sizing rules that decide what you can promise</h3>
                         <ul class="sop-checklist">
+                            <li><strong>Net metering itself stops at 500 kWp.</strong> APERC Regulation 4 of 2023, in the gazette of 24 February 2024, lowered the net metering ceiling from 1 MW to 500 kWp per service and raised the gross metering ceiling to 5 MW. Above 500 kWp the plant is designed to consume its own generation with export blocked, not to bank credit &mdash; say so before you size it. Systems already commissioned, or holding an approved feasibility report, keep the terms they were approved under.</li>
                             <li>Capacity is capped at the sanctioned load on the connection. A 100 kVA sanctioned load does not carry a 150 kWp plant — get the sanctioned load in writing before promising a capacity.</li>
                             <li>Size to day-time consumption, not to the roof. A self-consumed unit is always worth the full tariff; an exported unit is worth only what the netting rules allow.</li>
                             <li>Check the distribution transformer's remaining solar capacity. Feeders already loaded with rooftop solar can hold an application for months.</li>
@@ -470,6 +472,93 @@
                         </ul>
                         <p class="sop-callout"><strong>How settlement actually works.</strong> Export and import net off in each billing cycle and the DISCOM bills only the difference. Surplus carries forward month to month inside the settlement year. Anything still unadjusted at the end of that year is bought at the pooled cost of power, far below retail — which is the real reason to size a plant to its load rather than to its roof.</p>
                         <p class="sop-callout sop-green"><strong>Say this before the first bill arrives:</strong> net metering offsets energy charges. Fixed charges and demand charges on a commercial connection are not waived, and a customer who discovers that on their own feels misled. Set the expectation in the proposal meeting.</p>
+                    </section>
+
+                    <section class="sop-shared-section sop-figures" id="ci-figures">
+                        <h2><span class="material-symbols-rounded" aria-hidden="true">tune</span>Metering, Credits &amp; ToD On A Real Capacity</h2>
+                        <p>Pick a capacity. Every figure below rebuilds on the same numbers as the pre-built financial deck for that plant, so what you say in the meeting and what is in the customer's hand agree.</p>
+
+                        <div class="sop-picker">
+                            <label for="ciCapacity">Plant capacity</label>
+                            <select id="ciCapacity">
+                                <option value="50">50 kWp</option>
+                                <option value="100">100 kWp</option>
+                                <option value="150">150 kWp</option>
+                                <option value="200">200 kWp</option>
+                                <option value="250" selected>250 kWp</option>
+                                <option value="300">300 kWp</option>
+                                <option value="350">350 kWp</option>
+                                <option value="400">400 kWp</option>
+                                <option value="450">450 kWp</option>
+                                <option value="500">500 kWp</option>
+                                <option value="550">550 kWp</option>
+                                <option value="600">600 kWp</option>
+                                <option value="650">650 kWp</option>
+                                <option value="700">700 kWp</option>
+                                <option value="750">750 kWp</option>
+                                <option value="800">800 kWp</option>
+                                <option value="850">850 kWp</option>
+                                <option value="900">900 kWp</option>
+                                <option value="950">950 kWp</option>
+                            </select>
+                            <span class="sop-picker-note" id="ciPickerNote"></span>
+                        </div>
+
+                        <div class="sop-figure">
+                            <h3>1 &middot; What this capacity is allowed to do</h3>
+                            <div class="sop-ruler" role="img" aria-labelledby="ciRulerCaption">
+                                <div class="sop-ruler-track">
+                                    <span class="sop-ruler-band is-net" style="left:0%;width:50%"><em>Net metering</em></span>
+                                    <span class="sop-ruler-band is-blocked" style="left:50%;width:50%"><em>No net metering</em></span>
+                                    <span class="sop-ruler-tick" style="left:15%"><i></i><b>150 kW<br>LT &rarr; HT</b></span>
+                                    <span class="sop-ruler-tick is-hard" style="left:50%"><i></i><b>500 kWp<br>cap</b></span>
+                                    <span class="sop-ruler-marker" id="ciMarker" style="left:25%"><i></i><b id="ciMarkerLabel">250 kWp</b></span>
+                                </div>
+                            </div>
+                            <p class="sop-ruler-caption" id="ciRulerCaption">Net metering stops at 500 kWp per service under APERC Regulation 4 of 2023, gazetted 24 February 2024. Gross metering runs to 5 MW above it. Plants already commissioned, or holding an approved feasibility report, keep the terms they were approved under.</p>
+                            <div class="sop-stat-grid sop-loan-grid">
+                                <div><strong id="ciSupply">&mdash;</strong><span>Supply category and energy charge</span></div>
+                                <div><strong id="ciMetering">&mdash;</strong><span>Metering arrangement available</span></div>
+                                <div><strong id="ciGeneration">&mdash;</strong><span>Units a year, at 1,533 kWh per kWp</span></div>
+                            </div>
+                        </div>
+
+                        <div class="sop-figure">
+                            <h3>2 &middot; What one unit is worth, three ways</h3>
+                            <ul class="sop-bars" id="ciValueBars"></ul>
+                            <p class="sop-callout sop-green" id="ciCreditLine"></p>
+                            <p class="sop-note">A credit is a <strong>unit, not a rupee</strong>. Whatever is exported is held as kilowatt-hours and redeemed later as kilowatt-hours &mdash; one unit back for one unit sent, whatever the tariff did in between. Netting is per billing cycle, the carry-forward runs to the close of the settlement year on 31 March, and APERC has directed the DISCOMs to settle prosumers monthly by electronic transfer.</p>
+                        </div>
+
+                        <div class="sop-figure">
+                            <h3>3 &middot; The same units under a time-of-day tariff</h3>
+                            <div class="sop-day">
+                                <div class="sop-day-strip" role="img" aria-label="A rooftop plant generates entirely inside the solar-hours window, which is the cheapest part of the day.">
+                                    <span class="sop-day-band is-solar" style="width:38%">Solar hours</span>
+                                    <span class="sop-day-band is-normal" style="width:37%">Normal</span>
+                                    <span class="sop-day-band is-peak" style="width:25%">Evening peak</span>
+                                    <span class="sop-day-gen" style="left:2%;width:34%">Your plant generates here</span>
+                                </div>
+                            </div>
+                            <ul class="sop-bars is-rates" id="ciTodBars"></ul>
+                            <p class="sop-callout" id="ciTodLine"></p>
+                            <p class="sop-callout sop-green"><strong>The counter, which is the honest storage pitch.</strong> The expensive units sit in the evening peak, where solar has already stopped. A battery charged in the solar window and discharged into that peak arbitrages the gap between the two rates &mdash; that, not backup, is the reason to quote a hybrid build to a ToD customer running an evening shift.</p>
+                            <p class="sop-note">The band widths above are a shape, not a schedule. ToD windows and rates are set category by category and move with each tariff order; they are printed on the customer's own bill. Read them off the bill &mdash; never quote a window or a rate from this page. The 20% floor and the 1.1&times; peak cap are national bounds under the Electricity (Rights of Consumers) Rules, which is why they are safe to state.</p>
+                        </div>
+
+                        <div class="sop-figure">
+                            <h3>4 &middot; Which lines on the bill actually move</h3>
+                            <div class="sop-comparison-wrap">
+                                <table class="sop-comparison sop-billlines">
+                                    <caption>Put last month's bill on the table in the proposal meeting and tick these off. A customer who discovers this alone in month two believes they were misled, and they are half right.</caption>
+                                    <thead>
+                                        <tr><th>Bill line</th><th>Does solar move it?</th><th>On this plant</th></tr>
+                                    </thead>
+                                    <tbody id="ciBillLines"></tbody>
+                                </table>
+                            </div>
+                            <p class="sop-callout"><strong>Where a demand reduction can still be earned.</strong> If a year of meter data shows the plant genuinely shaving recorded maximum demand, the customer can apply to reduce contract demand and cut that charge for good. It is a review held after twelve months of readings, backed by the monitoring portal &mdash; a reason to stay in touch after commissioning, not a number to put in a proposal.</p>
+                        </div>
                     </section>
 
                     <section class="sop-shared-section">
@@ -571,6 +660,7 @@
     <div class="overlay" id="overlay"></div>
     <script src="../../global/scripts/auth.js" data-tool-id="sales-sop"></script>
     <script src="../../global/scripts/navigation.js"></script>
+    <script src="sales-sop-figures.js"></script>
     <script src="sales-sop.js"></script>
 </body>
 
