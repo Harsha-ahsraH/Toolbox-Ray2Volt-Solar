@@ -478,3 +478,223 @@ h1, h2, h3, h4 {
     color: var(--qp-navy-dark);
     text-align: right;
 }
+
+
+/* ========================================================================
+   THE COMBINED SET — cover and ladder
+
+   Only the two front pages of the compendium use these. The fifty-seven deck
+   pages behind them are the standalone decks unchanged, so nothing below may
+   restyle a `.quote-page` that is not `.fd-cover` or carrying a ladder table.
+   ======================================================================== */
+
+/* --- Page 1: the cover -------------------------------------------------- */
+.fd-cover {
+    padding: 0 14mm 16mm 14mm;
+    display: flex;
+    flex-direction: column;
+}
+
+/* The full-bleed navy band. It sits inside the page's own padding, so it is
+   drawn as a block at the top rather than as a border on .fd-cover. */
+.fd-cover-rule {
+    height: 14mm;
+    background: var(--qp-navy);
+    margin: 0 -14mm 9mm -14mm;
+}
+
+.fd-cover-eyebrow {
+    display: block;
+    font-size: 8pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--qp-muted);
+    margin-bottom: 3mm;
+}
+
+.fd-cover-head h1 {
+    font-size: 30pt;
+    font-weight: 700;
+    line-height: 1.12;
+    color: var(--qp-ink);
+    margin: 0;
+    letter-spacing: -0.4px;
+}
+
+.fd-cover-lead {
+    font-size: 11pt;
+    color: var(--qp-gray);
+    line-height: 1.45;
+    margin: 4mm 0 0 0;
+    max-width: 135mm;
+}
+
+.fd-cover-facts {
+    display: flex;
+    gap: 12mm;
+    margin: 8mm 0 0 0;
+    padding: 5mm 0;
+    border-top: 1px solid var(--qp-line);
+    border-bottom: 1px solid var(--qp-line);
+}
+
+.fd-cover-facts strong {
+    display: block;
+    font-size: 17pt;
+    font-weight: 700;
+    color: var(--qp-navy-dark);
+    line-height: 1;
+}
+
+.fd-cover-facts span {
+    display: block;
+    font-size: 7.5pt;
+    text-transform: uppercase;
+    letter-spacing: 1.1px;
+    color: var(--qp-muted);
+    margin-top: 2mm;
+}
+
+/* The two ends of the ladder, side by side. */
+.fd-cover-spread {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5mm;
+    margin: 6mm 0;
+}
+
+.fd-cover-card {
+    border: 1px solid var(--qp-line);
+    border-left: 3px solid var(--qp-navy);
+    background: var(--qp-soft);
+    padding: 4mm 5mm;
+}
+
+.fd-cover-card-capacity {
+    font-size: 15pt;
+    font-weight: 700;
+    color: var(--qp-navy-dark);
+    line-height: 1;
+    margin-bottom: 3mm;
+}
+
+.fd-cover-card dl {
+    display: flex;
+    gap: 9mm;
+    margin: 0;
+}
+
+.fd-cover-card dt {
+    font-size: 7pt;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--qp-muted);
+    font-weight: 700;
+}
+
+.fd-cover-card dd {
+    margin: 1.5mm 0 0 0;
+    font-size: 10pt;
+    font-weight: 600;
+    color: var(--qp-ink);
+}
+
+.fd-cover-body {
+    font-size: 9pt;
+    color: var(--qp-gray);
+    line-height: 1.55;
+}
+
+.fd-cover-body h2 {
+    font-size: 9pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--qp-navy-dark);
+    margin: 0 0 2mm 0;
+}
+
+.fd-cover-body p { margin: 0 0 5mm 0; }
+.fd-cover-body strong { color: var(--qp-ink); font-weight: 600; }
+
+.fd-cover-warning {
+    border: 1px solid var(--qp-line);
+    border-top: 3px solid var(--qp-navy);
+    padding: 3.5mm 4mm;
+    font-size: 7.5pt;
+    line-height: 1.5;
+    margin-top: auto;
+}
+
+.fd-cover-warning h3 {
+    font-size: 8.5pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--qp-navy-dark);
+    margin: 0 0 2mm 0;
+}
+
+.fd-cover-warning p { margin: 0; }
+
+/* --- Page 2: the ladder ------------------------------------------------- */
+/* Ten columns against the cash-flow table's eight, and nineteen rows plus two
+   section rows. The capacity column carries a unit so it needs more than the
+   9% the shared rule gives a first column. */
+.fd-table-ladder th,
+.fd-table-ladder td {
+    padding: 8.4px 5px;
+    font-size: 8.2pt;
+}
+
+.fd-table-ladder th:first-child,
+.fd-table-ladder td:first-child {
+    width: 13%;
+    text-align: left;
+}
+
+.fd-table-ladder thead th {
+    font-size: 7pt;
+    letter-spacing: 0.3px;
+}
+
+/* The second line of a header is the basis, not the name. */
+.fd-table-ladder thead th span {
+    display: block;
+    font-weight: 400;
+    font-size: 6.3pt;
+    text-transform: none;
+    letter-spacing: 0.2px;
+    color: var(--qp-muted);
+    margin-top: 1px;
+}
+
+/* No zebra here. Section rows sit in the tbody and count towards nth-child,
+   so striping would fall out of step at every tariff boundary; the section
+   rows themselves are the banding this table needs. */
+.fd-table-ladder tbody tr:nth-child(even) td { background: #fff; }
+
+.fd-table-ladder .fd-ladder-capacity {
+    font-weight: 700;
+    color: var(--qp-navy-dark);
+}
+
+.fd-table-ladder .fd-ladder-strong { font-weight: 700; color: var(--qp-ink); }
+
+.fd-table-ladder .fd-ladder-page {
+    text-align: center;
+    color: var(--qp-muted);
+    width: 7%;
+}
+
+.fd-table-ladder .fd-ladder-section td {
+    background: var(--qp-tint);
+    color: var(--qp-navy-dark);
+    font-weight: 700;
+    font-size: 7.2pt;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    text-align: left;
+    padding: 7.5px 6px;
+}

@@ -6,7 +6,10 @@
  *
  * Renders every capacity in assumptions.js to A4 HTML under `output/`, then
  * converts each to PDF in `downloads/financial-decks/` using the Chrome or
- * Edge already installed on this machine. There is no npm dependency and no
+ * Edge already installed on this machine. It then renders all nineteen into
+ * one combined document behind a cover and a comparison ladder — see
+ * compendium-template.js — and prints that too, for the salesperson who
+ * wants the whole set rather than one size. There is no npm dependency and no
  * package.json here on purpose: the toolbox is a static site with none, and
  * adding a node_modules tree for nineteen PDFs would not earn its keep.
  *
@@ -22,6 +25,7 @@ const { execFileSync } = require('node:child_process');
 const Assumptions = require('./assumptions.js');
 const Model = require('./model.js');
 const Template = require('./deck-template.js');
+const Compendium = require('./compendium-template.js');
 
 const ROOT = path.join(__dirname, '..', '..');
 const HTML_DIR = path.join(ROOT, 'output', 'financial-decks');
@@ -32,6 +36,17 @@ const HTML_ONLY = process.argv.includes('--html');
 /** Zero-padded so nineteen files sort correctly in a folder and a catalogue. */
 function slugFor(capacityKw) {
     return `ray2volt-commercial-financial-deck-${String(capacityKw).padStart(3, '0')}kw`;
+}
+
+/**
+ * The combined set. Named `decks-` rather than `deck-` so it sorts directly
+ * after the nineteen it contains, both in the folder and in the catalogue.
+ */
+function compendiumSlug() {
+    const capacities = Assumptions.CAPACITIES_KW;
+    const first = capacities[0];
+    const last = capacities[capacities.length - 1];
+    return `ray2volt-commercial-financial-decks-${first}-${last}kw`;
 }
 
 /** The browser to drive, or null. Chrome first; Edge is the fallback. */
@@ -45,7 +60,7 @@ function findBrowser() {
     return candidates.find(candidate => fs.existsSync(candidate)) || null;
 }
 
-function toPdf(browser, htmlPath, pdfPath) {
+function toPdf(browser, htmlPath, pdfPath, virtualTimeBudgetMs = 8000) {
     execFileSync(browser, [
         '--headless=new',
         '--disable-gpu',
@@ -58,10 +73,10 @@ function toPdf(browser, htmlPath, pdfPath) {
         // To check afterwards that they made it: Chrome embeds a web font as a
         // /Subtype /Type3 font, which has NO /BaseFont key. Grepping a deck for
         // /BaseFont finds nothing and means nothing. Grep for /Type3 instead.
-        '--virtual-time-budget=8000',
+        `--virtual-time-budget=${virtualTimeBudgetMs}`,
         `--print-to-pdf=${pdfPath}`,
         `file:///${htmlPath.replace(/\\/g, '/')}`
-    ], { stdio: 'pipe', timeout: 90000 });
+    ], { stdio: 'pipe', timeout: 300000 });
 }
 
 function main() {
@@ -115,7 +130,24 @@ function main() {
         );
     });
 
+    // The combined set, from the decks just modelled rather than from a second
+    // pass — so the ladder on page 2 cannot disagree with the pages behind it.
+    const compendiumHtml = path.join(HTML_DIR, `${compendiumSlug()}.html`);
+    fs.writeFileSync(
+        compendiumHtml,
+        Compendium.render(built.map(entry => entry.deck), buildDate, 'deck.css'),
+        'utf8'
+    );
+
+    if (!HTML_ONLY) {
+        // Fifty-nine pages against three, and the web fonts have to land before
+        // any of them draw. Chrome runs the whole document on one virtual clock,
+        // so the budget scales with the page count or the tail prints in Arial.
+        toPdf(browser, compendiumHtml, path.join(PDF_DIR, `${compendiumSlug()}.pdf`), 45000);
+    }
+
     console.log(`\n${built.length} decks built.`);
+    console.log(`  Combined set  ${compendiumSlug()}  —  ${Compendium.totalPages(built.length)} pages`);
     console.log(`  HTML  ${path.relative(ROOT, HTML_DIR)}`);
     if (!HTML_ONLY) console.log(`  PDF   ${path.relative(ROOT, PDF_DIR)}`);
 
@@ -124,4 +156,4 @@ function main() {
 
 if (require.main === module) main();
 
-module.exports = { slugFor, HTML_DIR, PDF_DIR };
+module.exports = { slugFor, compendiumSlug, HTML_DIR, PDF_DIR };

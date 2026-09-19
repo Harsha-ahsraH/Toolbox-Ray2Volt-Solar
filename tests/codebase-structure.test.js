@@ -50,7 +50,11 @@ for (const sharedPath of [
 
 function collectTextFiles(directory) {
     return fs.readdirSync(directory, { withFileTypes: true }).flatMap(entry => {
-        if (entry.isDirectory() && ['.git', 'tmp', 'node_modules', 'Samples'].includes(entry.name)) return [];
+        // `output` is the gitignored build product of scripts/financial-decks.
+        // The line limit is a rule about code someone has to read; a generated
+        // fifty-nine page document is not that, and it only stayed under the
+        // limit until now because a three-page deck happens to fit.
+        if (entry.isDirectory() && ['.git', 'tmp', 'output', 'node_modules', 'Samples'].includes(entry.name)) return [];
         const absolutePath = path.join(directory, entry.name);
         if (entry.isDirectory()) return collectTextFiles(absolutePath);
         return /\.(?:css|html|js|json|md)$/i.test(entry.name) ? [absolutePath] : [];

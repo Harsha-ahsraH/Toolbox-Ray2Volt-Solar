@@ -87,16 +87,22 @@ function header(deck, subtitle) {
     </div>`;
 }
 
-function footer(deck, pageNumber, buildDate) {
+/**
+ * `numbering` is how the compendium renumbers a deck's three pages into the
+ * combined document. Left out — which is every standalone deck — a deck
+ * numbers itself 1 to 3 of 3, as a three-page PDF should.
+ */
+function footer(deck, pageNumber, buildDate, numbering) {
+    const stamp = numbering ? numbering(pageNumber) : `Page ${pageNumber} of 3`;
     return `<div class="qp-page-footer">
         <span><strong>Ray2Volt Solar Private Limited</strong> · Indicative analysis, not a quotation</span>
-        <span>Rates current as at ${esc(buildDate)} · Page ${pageNumber} of 3</span>
+        <span>Rates current as at ${esc(buildDate)} · ${esc(stamp)}</span>
     </div>`;
 }
 
 /* --- Page 1: metrics, plant, depreciation ------------------------------- */
 
-function pageOne(deck, buildDate) {
+function pageOne(deck, buildDate, numbering) {
     const tariffKind = deck.capacityKw <= Assumptions.LT_MAX_KW ? 'LT supply' : 'HT supply at 11 kV';
 
     const metrics = [
@@ -221,13 +227,13 @@ function pageOne(deck, buildDate) {
             </table>
         </div>
 
-        ${footer(deck, 1, buildDate)}
+        ${footer(deck, 1, buildDate, numbering)}
     </div>`;
 }
 
 /* --- Page 2: the cash flow ---------------------------------------------- */
 
-function pageTwo(deck, buildDate) {
+function pageTwo(deck, buildDate, numbering) {
     const paybackYear = deck.payback === null ? null : Math.ceil(deck.payback);
 
     const bodyRows = deck.rows.map(row => {
@@ -289,13 +295,13 @@ function pageTwo(deck, buildDate) {
             </tr></tfoot>
         </table>
 
-        ${footer(deck, 2, buildDate)}
+        ${footer(deck, 2, buildDate, numbering)}
     </div>`;
 }
 
 /* --- Page 3: returns, assumptions, disclaimers -------------------------- */
 
-function pageThree(deck, buildDate) {
+function pageThree(deck, buildDate, numbering) {
     const gridRate = deck.tariff.rateRupeesPerKwh;
     const gridRateFinalYear = gridRate * Math.pow(1 + A.tariffEscalationPercent / 100, A.projectionYears - 1);
     const maxRate = Math.max(gridRate, deck.lcoe);
@@ -401,29 +407,51 @@ function pageThree(deck, buildDate) {
             availability. Actual results will differ from this projection.</p>
         </div>
 
-        ${footer(deck, 3, buildDate)}
+        ${footer(deck, 3, buildDate, numbering)}
     </div>`;
 }
 
 /* --- Document ----------------------------------------------------------- */
 
-function render(deck, buildDate, cssHref) {
+/**
+ * One deck's three pages, unwrapped. The compendium needs the pages without a
+ * document around them so it can put fifty-seven of them in one file.
+ */
+function pages(deck, buildDate, numbering) {
+    return [
+        pageOne(deck, buildDate, numbering),
+        pageTwo(deck, buildDate, numbering),
+        pageThree(deck, buildDate, numbering)
+    ];
+}
+
+/** The shared document shell — same fonts and stylesheet for both builds. */
+function documentShell(title, cssHref, body) {
     return `<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Ray2Volt — ${num(deck.capacityKw)} kWp commercial solar financial analysis</title>
+<title>${esc(title)}</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="${esc(cssHref)}">
 </head>
 <body>
-${pageOne(deck, buildDate)}
-${pageTwo(deck, buildDate)}
-${pageThree(deck, buildDate)}
+${body}
 </body>
 </html>`;
 }
 
-module.exports = { render, esc, inr, lakhs, money, num, years, percent };
+function render(deck, buildDate, cssHref) {
+    return documentShell(
+        `Ray2Volt — ${num(deck.capacityKw)} kWp commercial solar financial analysis`,
+        cssHref,
+        pages(deck, buildDate).join('\n')
+    );
+}
+
+module.exports = {
+    render, pages, documentShell, header, icon,
+    esc, inr, lakhs, money, num, years, percent
+};

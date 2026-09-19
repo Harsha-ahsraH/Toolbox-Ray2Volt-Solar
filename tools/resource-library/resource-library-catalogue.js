@@ -33,7 +33,9 @@
  * chose to make public on 2026-09-18 so the sales team can send a link without
  * asking anyone for access. Regenerate them with
  * `node scripts/financial-decks/build.js` after editing
- * scripts/financial-decks/assumptions.js; do not hand-edit the PDFs.
+ * scripts/financial-decks/assumptions.js; do not hand-edit the PDFs. That one
+ * command also rebuilds the combined 59-page set, so the twenty entries below
+ * always carry the same figures and the same build date.
  * ---------------------------------------------------------------------------
  */
 (function (root, factory) {
@@ -119,13 +121,22 @@
             updated: '2026-07-23'
         },
         {
+            title: 'All commercial financial decks, 50 to 950 kWp',
+            description: 'Every one of the nineteen decks in a single 59-page PDF, behind a cover and a comparison ladder putting all nineteen capacities \u2014 price, payback, IRR and levelised cost \u2014 on one page. 3.9 MB; download this rather than nineteen files when you want the whole range on a laptop.',
+            category: 'Financial decks',
+            place: 'toolbox',
+            path: 'downloads/financial-decks/ray2volt-commercial-financial-decks-50-950kw.pdf',
+            format: 'PDF',
+            updated: '2026-09-19'
+        },
+        {
             title: '50 kWp commercial financial analysis',
             description: 'Thirty-year post-tax cash flow, 40% written-down-value depreciation schedule and return metrics for a 50 kWp rooftop plant on the APSPDCL LT commercial tariff.',
             category: 'Financial decks',
             place: 'toolbox',
             path: 'downloads/financial-decks/ray2volt-commercial-financial-deck-050kw.pdf',
             format: 'PDF',
-            updated: '2026-09-18'
+            updated: '2026-09-19'
         },
         {
             title: '100 kWp commercial financial analysis',
@@ -134,7 +145,7 @@
             place: 'toolbox',
             path: 'downloads/financial-decks/ray2volt-commercial-financial-deck-100kw.pdf',
             format: 'PDF',
-            updated: '2026-09-18'
+            updated: '2026-09-19'
         },
         {
             title: '150 kWp commercial financial analysis',
@@ -143,7 +154,7 @@
             place: 'toolbox',
             path: 'downloads/financial-decks/ray2volt-commercial-financial-deck-150kw.pdf',
             format: 'PDF',
-            updated: '2026-09-18'
+            updated: '2026-09-19'
         },
         {
             title: '200 kWp commercial financial analysis',
@@ -152,7 +163,7 @@
             place: 'toolbox',
             path: 'downloads/financial-decks/ray2volt-commercial-financial-deck-200kw.pdf',
             format: 'PDF',
-            updated: '2026-09-18'
+            updated: '2026-09-19'
         },
         {
             title: '250 kWp commercial financial analysis',
@@ -161,7 +172,7 @@
             place: 'toolbox',
             path: 'downloads/financial-decks/ray2volt-commercial-financial-deck-250kw.pdf',
             format: 'PDF',
-            updated: '2026-09-18'
+            updated: '2026-09-19'
         },
         {
             title: '300 kWp commercial financial analysis',
@@ -170,7 +181,7 @@
             place: 'toolbox',
             path: 'downloads/financial-decks/ray2volt-commercial-financial-deck-300kw.pdf',
             format: 'PDF',
-            updated: '2026-09-18'
+            updated: '2026-09-19'
         },
         {
             title: '350 kWp commercial financial analysis',
@@ -179,7 +190,7 @@
             place: 'toolbox',
             path: 'downloads/financial-decks/ray2volt-commercial-financial-deck-350kw.pdf',
             format: 'PDF',
-            updated: '2026-09-18'
+            updated: '2026-09-19'
         },
         {
             title: '400 kWp commercial financial analysis',
@@ -188,7 +199,7 @@
             place: 'toolbox',
             path: 'downloads/financial-decks/ray2volt-commercial-financial-deck-400kw.pdf',
             format: 'PDF',
-            updated: '2026-09-18'
+            updated: '2026-09-19'
         },
         {
             title: '450 kWp commercial financial analysis',
@@ -197,7 +208,7 @@
             place: 'toolbox',
             path: 'downloads/financial-decks/ray2volt-commercial-financial-deck-450kw.pdf',
             format: 'PDF',
-            updated: '2026-09-18'
+            updated: '2026-09-19'
         },
         {
             title: '500 kWp commercial financial analysis',
@@ -206,7 +217,7 @@
             place: 'toolbox',
             path: 'downloads/financial-decks/ray2volt-commercial-financial-deck-500kw.pdf',
             format: 'PDF',
-            updated: '2026-09-18'
+            updated: '2026-09-19'
         },
         {
             title: '550 kWp commercial financial analysis',
@@ -215,7 +226,7 @@
             place: 'toolbox',
             path: 'downloads/financial-decks/ray2volt-commercial-financial-deck-550kw.pdf',
             format: 'PDF',
-            updated: '2026-09-18'
+            updated: '2026-09-19'
         },
         {
             title: '600 kWp commercial financial analysis',
@@ -224,7 +235,7 @@
             place: 'toolbox',
             path: 'downloads/financial-decks/ray2volt-commercial-financial-deck-600kw.pdf',
             format: 'PDF',
-            updated: '2026-09-18'
+            updated: '2026-09-19'
         },
         {
             title: '650 kWp commercial financial analysis',
@@ -233,7 +244,7 @@
             place: 'toolbox',
             path: 'downloads/financial-decks/ray2volt-commercial-financial-deck-650kw.pdf',
             format: 'PDF',
-            updated: '2026-09-18'
+            updated: '2026-09-19'
         },
         {
             title: '700 kWp commercial financial analysis',
@@ -242,7 +253,7 @@
             place: 'toolbox',
             path: 'downloads/financial-decks/ray2volt-commercial-financial-deck-700kw.pdf',
             format: 'PDF',
-            updated: '2026-09-18'
+            updated: '2026-09-19'
         },
         {
             title: '750 kWp commercial financial analysis',
@@ -251,7 +262,7 @@
             place: 'toolbox',
             path: 'downloads/financial-decks/ray2volt-commercial-financial-deck-750kw.pdf',
             format: 'PDF',
-            updated: '2026-09-18'
+            updated: '2026-09-19'
         },
         {
             title: '800 kWp commercial financial analysis',
@@ -260,7 +271,7 @@
             place: 'toolbox',
             path: 'downloads/financial-decks/ray2volt-commercial-financial-deck-800kw.pdf',
             format: 'PDF',
-            updated: '2026-09-18'
+            updated: '2026-09-19'
         },
         {
             title: '850 kWp commercial financial analysis',
@@ -269,7 +280,7 @@
             place: 'toolbox',
             path: 'downloads/financial-decks/ray2volt-commercial-financial-deck-850kw.pdf',
             format: 'PDF',
-            updated: '2026-09-18'
+            updated: '2026-09-19'
         },
         {
             title: '900 kWp commercial financial analysis',
@@ -278,7 +289,7 @@
             place: 'toolbox',
             path: 'downloads/financial-decks/ray2volt-commercial-financial-deck-900kw.pdf',
             format: 'PDF',
-            updated: '2026-09-18'
+            updated: '2026-09-19'
         },
         {
             title: '950 kWp commercial financial analysis',
@@ -287,7 +298,7 @@
             place: 'toolbox',
             path: 'downloads/financial-decks/ray2volt-commercial-financial-deck-950kw.pdf',
             format: 'PDF',
-            updated: '2026-09-18'
+            updated: '2026-09-19'
         }
     ];
 
