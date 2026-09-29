@@ -24,8 +24,11 @@
     const model = (typeof require === 'function' && typeof module === 'object')
         ? require('./quote-generator-model.js')
         : root.QuoteGeneratorModel;
+    const insights = (typeof require === 'function' && typeof module === 'object')
+        ? require('./quote-generator-insights.js')
+        : root.QuoteGeneratorInsights;
 
-    const api = factory(config, model);
+    const api = factory(config, model, insights);
 
     if (typeof module === 'object' && module.exports) {
         module.exports = api;
@@ -34,7 +37,7 @@
     if (root) {
         root.QuoteGeneratorPagination = api;
     }
-}(typeof self !== 'undefined' ? self : this, function (Config, Model) {
+}(typeof self !== 'undefined' ? self : this, function (Config, Model, Insights) {
     'use strict';
 
     const num = Model.num;
@@ -569,50 +572,25 @@
             + (wrappedLines(unit.text, metrics.charsPerLine) * metrics.rowLinePx));
     }
 
-    function sectionChunks(state, sectionId) {
+    /**
+     * Source pages for one page kind. Only the long tables are pre-cut; every
+     * flowing page is re-measured by the document layout, so these chunks
+     * only make the pre-composition page count a closer estimate.
+     */
+    function sectionChunks(state, pageId) {
         const pagination = Config.PAGINATION;
 
-        if (EQUIPMENT_SECTIONS[sectionId]) {
-            return chunkByHeight(equipmentUnitHeights(state, sectionId),
-                sectionId === 'balance-of-system' ? 780 : 300, 800);
+        if (pageId === 'executive-summary') {
+            return [{ start: 0, end: 1 }, { start: 1, end: 2 }];
         }
-
-        if (sectionId === 'payment-milestones') {
-            return chunkByHeight(milestoneRowHeights(state),
-                pagination.milestone.firstBudgetPx, pagination.milestone.budgetPx);
-        }
-        if (sectionId === 'commercial-offer') {
-            return chunkByHeight(commercialOfferHeights(state),
-                pagination.breakdown.budgetPx, pagination.breakdown.budgetPx);
-        }
-        if (sectionId === 'annexure-index') {
-            return chunkByHeight(annexureIndexHeights(state),
-                pagination.annexureIndex.firstBudgetPx, pagination.annexureIndex.budgetPx);
-        }
-        if (sectionId === 'project-objectives' || sectionId === 'proposed-solution') {
-            return chunkByHeight(narrativeUnitHeights(state, sectionId),
-                narrativeFirstBudget(sectionId), pagination.narrative.budgetPx);
-        }
-        if (sectionId === 'warranty-support') {
-            return chunkByHeight(warrantyRowHeights(state),
-                pagination.warranty.budgetPx, pagination.warranty.budgetPx);
-        }
-        if (sectionId === 'bill-of-materials') {
+        if (pageId === 'bill-of-materials') {
             return bomChunks(state);
         }
-        if (sectionId === 'terms-conditions' || sectionId === 'scope-inclusions'
-            || sectionId === 'scope-exclusions') {
-            const listName = sectionId === 'terms-conditions'
-                ? 'terms'
-                : (sectionId === 'scope-inclusions' ? 'inclusions' : 'exclusions');
-            return chunkByHeight(clauseHeights(state, listName),
+        if (pageId === 'terms-conditions') {
+            return chunkByHeight(clauseHeights(state, 'terms'),
                 pagination.clause.firstBudgetPx, pagination.clause.budgetPx);
         }
-        if (sectionId === 'contents') {
-            return chunkByHeight(tocEntryHeights(state),
-                pagination.contents.firstBudgetPx, pagination.contents.budgetPx);
-        }
-        if (sectionId === 'savings-projection') {
+        if (pageId === 'savings-projection') {
             return chunkRows(projectionYears(state),
                 pagination.savings.firstPageRows, pagination.savings.continuationRows);
         }
@@ -620,74 +598,87 @@
         return [{ start: 0, end: 0 }];
     }
 
+    /**
+     * The annexures in print order, lettered: A the full bill of materials,
+     * B the year-by-year projection, C the full project background when any
+     * narrative was shortened on its page, then the attached documents.
+     * `ref` is the page kind, or the attached annexure's ID.
+     */
+    function annexureList(state) {
+        const list = [
+            { ref: 'bill-of-materials', title: 'Full bill of materials', type: 'Generated' },
+            { ref: 'savings-projection', title: 'Year-by-year savings projection', type: 'Generated' }
+        ];
+
+        if (Insights.narrative(state).excerpted) {
+            list.push({ ref: 'project-background', title: 'Project background, full text', type: 'Generated' });
+        }
+        includedAnnexures(state).forEach((annexure, index) => list.push({
+            ref: annexure.id,
+            annexureId: annexure.id,
+            title: trimmed(annexure.title) || trimmed(annexure.fileName) || `Attached document ${index + 1}`,
+            type: (Config.ANNEXURE_TYPES.filter(item => item.id === annexure.type)[0] || { label: 'Document' }).label,
+            pageCount: Math.max(1, Math.round(num(annexure.pageCount, 1)))
+        }));
+
+        return list.map((entry, index) => Object.assign(entry, { letter: String.fromCharCode(65 + index) }));
+    }
+
     function sectionPageCount(state, sectionId) {
-        const section = Config.getSection(sectionId);
-        return section && section.paginates ? sectionChunks(state, sectionId).length : 1;
+        return planPages(state).filter(page => page.catalogId === sectionId).length;
     }
 
     /**
      * The ordered list of pages the Comprehensive Proposal will produce.
      * Everything downstream — thumbnails, the table of contents, "Page X of Y"
-     * and print — reads this one plan, so they all agree.
+     * and print — reads this one plan, so they all agree. `sectionId` is the
+     * page kind (Config.PAGE_KINDS); `catalogId` the section that printed it.
      */
     function planPages(state) {
         const pages = [];
-        const sections = selectedSections(state);
-        const annexures = includedAnnexures(state);
+        const annexureSection = Config.getSection('annexures');
 
-        sections.forEach(section => {
-            const chunks = sectionChunks(state, section.id);
-            const count = section.paginates ? chunks.length : 1;
+        function push(pageId, section, extra) {
+            const kind = Config.getPageKind(pageId) || { title: section.title };
+            const chunks = sectionChunks(state, pageId);
 
-            for (let part = 0; part < count; part++) {
+            chunks.forEach((chunk, part) => pages.push(Object.assign({
+                sectionId: pageId,
+                catalogId: section.id,
+                title: kind.title,
+                group: section.group,
+                part,
+                partCount: chunks.length,
+                chunk,
+                isContinuation: part > 0,
+                annexureId: null,
+                annexureLetter: null
+            }, extra)));
+        }
+
+        selectedSections(state).forEach(section =>
+            (section.pages || [section.id]).forEach(pageId => push(pageId, section)));
+
+        annexureList(state).forEach(annexure => {
+            if (!annexure.annexureId) {
+                push(annexure.ref, annexureSection, { annexureLetter: annexure.letter });
+                return;
+            }
+            for (let part = 0; part < annexure.pageCount; part++) {
                 pages.push({
-                    sectionId: section.id,
-                    title: section.title,
-                    group: section.group,
+                    sectionId: 'annexures',
+                    catalogId: 'annexures',
+                    title: `Annexure ${annexure.letter}: ${annexure.title}`,
+                    group: annexureSection.group,
                     part,
-                    partCount: count,
-                    chunk: chunks[part] || { start: 0, end: 0 },
+                    partCount: annexure.pageCount,
+                    chunk: { start: part, end: part + 1 },
                     isContinuation: part > 0,
-                    annexureId: null
+                    annexureId: annexure.annexureId,
+                    annexureLetter: annexure.letter
                 });
             }
         });
-
-        if (annexures.length) {
-            const indexChunks = sectionChunks(state, 'annexure-index');
-
-            indexChunks.forEach((chunk, part) => {
-                pages.push({
-                    sectionId: 'annexure-index',
-                    title: 'Annexure Index',
-                    group: 'Annexures',
-                    part,
-                    partCount: indexChunks.length,
-                    chunk,
-                    isContinuation: part > 0,
-                    annexureId: null
-                });
-            });
-
-            annexures.forEach((annexure, index) => {
-                const pageCount = Math.max(1, Math.round(num(annexure.pageCount, 1)));
-
-                for (let part = 0; part < pageCount; part++) {
-                    pages.push({
-                        sectionId: 'annexures',
-                        title: annexure.title
-                            ? `Annexure ${index + 1}: ${annexure.title}`
-                            : `Annexure ${index + 1}`,
-                        group: 'Annexures',
-                        part,
-                        partCount: pageCount,
-                        chunk: { start: part, end: part + 1 },
-                        isContinuation: part > 0,
-                        annexureId: annexure.id
-                    });
-                }
-            });
-        }
 
         return pages.map((page, index) => Object.assign(page, {
             pageNumber: index + 1,
@@ -717,6 +708,30 @@
         return entries;
     }
 
+    /**
+     * Numbered chapters for the Contents page, each at its first page. Accepts
+     * the planned pages (one sectionId each) or the composed pages (sectionIds),
+     * so the Contents is drafted from the plan and corrected after composition.
+     */
+    function chapterContents(pagePlan) {
+        const found = [];
+
+        Config.CHAPTERS.forEach(chapter => {
+            const index = pagePlan.findIndex(page => (page.sectionIds || [page.sectionId])
+                .some(id => chapter.sectionIds.indexOf(id) !== -1));
+            if (index !== -1) found.push({ chapter, index });
+        });
+
+        let count = 0;
+        return found.sort((a, b) => a.index - b.index).map(({ chapter, index }) => ({
+            id: chapter.id,
+            number: chapter.unnumbered ? '' : String(++count).padStart(2, '0'),
+            title: chapter.title,
+            summary: chapter.summary,
+            pageNumber: index + 1
+        }));
+    }
+
     /** Pages a selection would produce, for the section picker's live estimate. */
     function estimatedPageCount(state) {
         return planPages(state).length;
@@ -744,8 +759,10 @@
         bomRowCount,
         sectionPageCount,
         sectionChunks,
+        annexureList,
         planPages,
         tableOfContents,
+        chapterContents,
         estimatedPageCount
     };
 }));

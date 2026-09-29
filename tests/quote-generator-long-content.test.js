@@ -41,35 +41,29 @@ chunks.forEach((chunk, index) => {
 
 const context = { console, QuoteGeneratorConfig: Config, QuoteGeneratorModel: Model, QuoteGeneratorCalc: Calc };
 context.self = context;
-for (const file of ['quote-generator-content.js', 'quote-generator-comprehensive-pages.js',
-    'quote-generator-comprehensive-pages-a.js', 'quote-generator-comprehensive-pages-b.js',
-    'quote-generator-comprehensive-pages-c.js', 'quote-generator-equipment-pages.js']) {
+for (const file of ['quote-generator-content.js', 'quote-generator-component-images.js',
+    'quote-generator-comprehensive-pages.js', 'quote-generator-comprehensive-charts.js',
+    'quote-generator-comprehensive-front.js', 'quote-generator-comprehensive-equipment.js']) {
     vm.runInNewContext(fs.readFileSync(path.join(tool, file), 'utf8'), context, { filename: file });
 }
 const plan = Calc.planPages(state);
 const render = page => context.QuoteGeneratorPages.renderers[page.sectionId]({
-    state, page, pagePlan: plan, toc: Calc.tableOfContents(plan), derived: Calc.derived(state)
+    state, page, pagePlan: plan, derived: Calc.derived(state)
 }).body;
-const technology = plan.filter(page => page.sectionId === 'pv-module-technology');
-assert.ok(technology.length > 1, 'technology equipment must paginate as well as the BOM');
-const units = Calc.equipmentUnits(state, 'pv-module-technology');
-const technologyHtml = technology.map(render).join('');
-assert.ok(technology.every(page => render(page).includes('>Rating</th>')),
-    'technology continuation tables must retain the first page rating column');
-assert.ok(context.QuoteGeneratorPages.blocks.specCell({
-    specification: 'Keep the entire approved specification.', remarks: 'approved'
-}).includes('Keep the entire approved specification.'),
-    'a remark also found within the specification must not erase specification text');
-for (const unit of units) {
-    if (unit.row.specification) assert.ok(technologyHtml.includes(unit.row.specification));
-    if (unit.row.remarks) assert.ok(technologyHtml.includes(unit.row.remarks));
-}
-const bomHtml = plan.filter(page => page.sectionId === 'bill-of-materials').map(render).join('');
+
+// The key-equipment card names the make; the full specification and remarks
+// print, continued where needed, in Annexure A.
+const keyHtml = render(plan.find(page => page.sectionId === 'key-equipment'));
+assert.ok(keyHtml.includes('Solar PV modules'));
+const bomPages = plan.filter(page => page.sectionId === 'bill-of-materials');
+assert.ok(bomPages.length > 1, 'an oversized equipment item continues Annexure A onto another page');
+const bomHtml = bomPages.map(render).join('');
 assert.ok(bomHtml.includes('Remarks:'), 'customer-facing BOM must include entered scope notes');
 for (const fragment of fragments) {
+    if (fragment.row.specification) assert.ok(bomHtml.includes(fragment.row.specification));
     if (fragment.row.remarks) assert.ok(bomHtml.includes(fragment.row.remarks));
 }
 assert.ok(JSON.stringify(state) === saved, 'rendering continuation pages must leave the draft intact');
 const source = fs.readFileSync(path.join(tool, 'quote-generator.html'), 'utf8');
-assert.ok(source.indexOf('src="quote-generator-equipment-pages.js') > source.indexOf('src="quote-generator-comprehensive-pages-c.js'));
+assert.ok(source.indexOf('src="quote-generator-comprehensive-equipment.js') > source.indexOf('src="quote-generator-comprehensive-front.js'));
 console.log('Long quotation content and continuation tests passed');

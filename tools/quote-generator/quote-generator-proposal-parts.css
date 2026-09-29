@@ -1,0 +1,563 @@
+/* ============================================
+   QUOTE GENERATOR - Comprehensive proposal, page parts
+   Ray2Volt Solar Toolbox
+
+   The cards, grids and tables specific to each chapter from page 7 on:
+   method grid, returns tables, equipment and component cards, BOM
+   summary, scope, schedule stages, quality and safety, warranty, company,
+   commercial and acceptance. Loads after quote-generator-proposal-pages.css,
+   which holds the page frame and the charts, and follows its print rules.
+   ============================================ */
+
+/* --- P7 method grid --------------------------------------------------------- */
+
+.cq-method {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-auto-rows: 1fr;
+    gap: 3mm;
+}
+
+.cq-method > div,
+.cq-cap {
+    display: grid;
+    grid-template-columns: 8mm minmax(0, 1fr);
+    align-content: start;
+    column-gap: 2.5mm;
+    padding: 3mm;
+    border: 1px solid var(--qp-line);
+    border-radius: 2px;
+}
+
+.cq-method .cq-feature-ic,
+.cq-cap .cq-feature-ic { width: 8mm; height: 8mm; grid-row: span 2; }
+
+.cq-method strong,
+.cq-cap strong { font-size: 8.8pt; color: var(--qp-navy-dark); }
+
+.cq-method p,
+.cq-cap p {
+    grid-column: 2;
+    margin: 0.6mm 0 0;
+    font-size: 7.9pt;
+    line-height: 1.45;
+    color: var(--qp-gray);
+}
+
+.cq-basis-table td { padding-top: 1.3mm; padding-bottom: 1.3mm; }
+.cq-basis-table td:nth-child(2) { font-weight: 600; color: var(--qp-navy-dark); }
+.cq-basis-table td:last-child { color: var(--qp-gray); }
+
+/* --- P9-P11 tables ---------------------------------------------------------- */
+
+.cq-balance-table td { vertical-align: middle; }
+.cq-table .cq-row-strong td { font-weight: 700; color: var(--qp-navy-dark); }
+.cq-balance-table .cq-row-strong:not(:first-child) td { border-top: 2px solid var(--qp-line); }
+
+.cq-returns-table td:first-child { color: var(--qp-gray); }
+.cq-returns-table td:last-child { font-size: 7.6pt; color: var(--qp-muted); }
+.cq-returns-table td { padding-top: 2.2mm; padding-bottom: 2.2mm; }
+
+.cq-explain p {
+    margin: 0 0 2.4mm;
+    font-size: 8.4pt;
+    line-height: 1.55;
+    color: var(--qp-gray);
+}
+
+.cq-explain strong { color: var(--qp-ink); }
+
+.cq-milestone-years td { padding-top: 1.9mm; padding-bottom: 1.9mm; }
+
+/* --- P13 key equipment ------------------------------------------------------ */
+
+.cq-comp-list {
+    display: flex;
+    flex-direction: column;
+    flex: 1 0 auto !important;
+    gap: 4mm;
+}
+
+.cq-comp {
+    display: grid;
+    grid-template-columns: 54mm minmax(0, 1fr);
+    gap: 4.5mm;
+    flex: 1 0 auto;
+    padding: 4mm;
+    border: 1px solid var(--qp-line);
+    border-top: 3px solid var(--qp-navy);
+    border-radius: 2px;
+}
+
+.cq-comp-list.is-three .cq-comp { grid-template-columns: 46mm minmax(0, 1fr); gap: 4mm; padding: 3.5mm; }
+
+/* The photo, and under it what the technology is; the specs sit beside. */
+.cq-comp-side { display: flex; flex-direction: column; gap: 2.4mm; min-width: 0; }
+
+.cq-comp-photo,
+.cq-part-photo,
+.cq-thumb {
+    display: block;
+    align-self: start;
+    border: 1px solid var(--qp-line);
+    border-radius: 2px;
+    background: #fff;
+}
+
+.cq-comp-photo img,
+.cq-part-photo img,
+.cq-thumb img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 2;
+    object-fit: contain;
+}
+
+.cq-comp-photo.is-icon,
+.cq-part-photo.is-icon,
+.cq-thumb.is-icon {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 3 / 2;
+    color: var(--qp-navy);
+}
+
+.cq-comp-photo.is-icon .cq-ic { width: 40px; height: 40px; }
+.cq-part-photo.is-icon .cq-ic { width: 30px; height: 30px; stroke-width: 1.6; }
+.cq-thumb.is-icon .cq-ic { width: 14px; height: 14px; }
+
+.cq-comp-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 3mm;
+}
+
+.cq-page .cq-comp-head h4 { font-size: 11pt; font-weight: 700; color: var(--qp-navy-dark); }
+
+.cq-comp-spec {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.6mm 4mm;
+    margin: 2mm 0 1.6mm;
+    padding: 2mm 0;
+    border-top: 1px solid var(--qp-line);
+    border-bottom: 1px solid var(--qp-line);
+}
+
+.cq-comp-spec dd,
+.cq-part-spec dd {
+    margin: 0.3mm 0 0;
+    font-size: 8.3pt;
+    line-height: 1.35;
+    color: var(--qp-ink);
+}
+
+.cq-comp-lead {
+    margin: 0;
+    font-size: 7.8pt;
+    line-height: 1.5;
+    color: var(--qp-gray);
+}
+
+.cq-comp-points { margin: 0; padding: 0; list-style: none; }
+
+.cq-comp-points li {
+    margin-top: 1.1mm;
+    padding-left: 2.5mm;
+    border-left: 2px solid var(--qp-line);
+    font-size: 7.8pt;
+    line-height: 1.45;
+    color: var(--qp-gray);
+}
+
+.cq-comp-points strong { color: var(--qp-ink); }
+
+.cq-comp-more,
+.cq-part-none {
+    margin: 0 0 1.5mm;
+    font-size: 7.5pt;
+    font-style: italic;
+    color: var(--qp-muted);
+}
+
+/* --- P14 system components ------------------------------------------------- */
+
+.cq-part-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: auto;
+    gap: 3.5mm;
+    flex: 1 0 auto !important;
+}
+
+.cq-part {
+    display: flex;
+    flex-direction: column;
+    gap: 2.4mm;
+    padding: 3.5mm;
+    border: 1px solid var(--qp-line);
+    border-top: 3px solid var(--qp-navy);
+    border-radius: 2px;
+}
+
+/* Photo beside the title and description; the specs run full width below. */
+.cq-part-top {
+    display: grid;
+    grid-template-columns: 27mm minmax(0, 1fr);
+    gap: 3mm;
+    align-items: start;
+}
+
+.cq-page .cq-part h4 { margin: 0 0 1mm; font-size: 9.5pt; font-weight: 700; color: var(--qp-navy-dark); }
+
+.cq-part p {
+    margin: 0;
+    font-size: 7.8pt;
+    line-height: 1.45;
+    color: var(--qp-gray);
+}
+
+.cq-part-spec { margin: 0; }
+
+.cq-part-spec > div {
+    display: grid;
+    grid-template-columns: 19mm minmax(0, 1fr);
+    gap: 2mm;
+    padding: 1mm 0;
+    border-top: 1px solid var(--qp-line);
+}
+
+.cq-part-spec dt { padding-top: 0.5mm; }
+
+/* --- P15 BOM summary and Annexure A ----------------------------------------- */
+
+.cq-sheet > .cq-bom-summary { flex: 1 0 auto; }
+.cq-bom-summary td { vertical-align: middle; padding-top: 1.5mm; padding-bottom: 1.5mm; font-size: 8pt; }
+.cq-bom-summary td small { display: block; margin-top: 0.4mm; font-size: 7.2pt; color: var(--qp-muted); }
+.cq-bom-summary td strong { color: var(--qp-navy-dark); }
+.cq-thumb { width: 100%; }
+
+.cq-annex-index td { vertical-align: middle; }
+
+.cq-annex-letter {
+    display: inline-grid;
+    place-items: center;
+    width: 6mm;
+    height: 6mm;
+    background: var(--qp-navy);
+    font-size: 8pt;
+    font-weight: 700;
+    color: #fff;
+}
+
+/* --- P16 scope -------------------------------------------------------------- */
+
+.cq-scope-table td {
+    position: relative;
+    padding: 1.45mm 2.5mm 1.45mm 8mm;
+    font-size: 8pt;
+    line-height: 1.42;
+    color: var(--qp-ink);
+}
+
+.cq-scope-mark { position: absolute; top: 1.6mm; left: 2.5mm; }
+.cq-scope-mark .cq-ic { width: 12px; height: 12px; }
+.cq-scope-mark.is-in { color: var(--cq-good); }
+.cq-scope-mark.is-out { color: var(--qp-muted); }
+
+.cq-duty {
+    padding: 3mm 3.5mm;
+    border: 1px solid var(--qp-line);
+    border-top: 3px solid var(--qp-navy);
+    border-radius: 2px;
+}
+
+.cq-page .cq-duty h4 { margin: 0 0 1.5mm; font-size: 9.5pt; font-weight: 700; color: var(--qp-navy-dark); }
+.cq-duty ul { margin: 0; padding: 0; list-style: none; }
+
+.cq-duty li {
+    padding: 0.9mm 0;
+    border-top: 1px solid var(--qp-line);
+    font-size: 8pt;
+    line-height: 1.4;
+    color: var(--qp-gray);
+}
+
+/* --- P17 execution ---------------------------------------------------------- */
+
+.cq-stages {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 5mm;
+}
+
+.cq-stage {
+    display: grid;
+    grid-template-columns: 6.5mm minmax(0, 1fr);
+    gap: 2.5mm;
+    padding: 1.9mm 0;
+    border-bottom: 1px solid var(--qp-line);
+}
+
+.cq-stage-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2mm;
+}
+
+.cq-stage-head .cq-chip { font-size: 6.6pt; padding: 0.2mm 1.6mm; }
+
+/* --- P18 quality and safety ------------------------------------------------- */
+
+/* Quality: four checkpoints in one frame, numbered along a single rule. */
+.cq-gates {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border: 1px solid var(--qp-line);
+    border-radius: 2px;
+}
+
+.cq-gate {
+    position: relative;
+    padding: 3.2mm 3.4mm 3mm;
+}
+
+.cq-gate + .cq-gate { border-left: 1px solid var(--qp-line); }
+
+/* The rule joining the numbers runs through every column but the last. */
+.cq-gate::before {
+    content: '';
+    position: absolute;
+    top: calc(3.2mm + 3.5mm);
+    left: calc(3.4mm + 7mm);
+    right: 0;
+    border-top: 1.5px solid var(--qp-navy);
+}
+
+.cq-gate:not(:first-child)::after {
+    content: '';
+    position: absolute;
+    top: calc(3.2mm + 3.5mm);
+    left: 0;
+    width: 3.4mm;
+    border-top: 1.5px solid var(--qp-navy);
+}
+
+.cq-gate:last-child::before { display: none; }
+
+.cq-gate-n {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 7mm;
+    height: 7mm;
+    border-radius: 50%;
+    background: var(--qp-navy);
+    color: #fff;
+    font-size: 8.5pt;
+    font-weight: 700;
+}
+
+.cq-page .cq-gate h4 {
+    margin: 2.6mm 0 1.6mm;
+    font-size: 9pt;
+    font-weight: 700;
+    line-height: 1.25;
+    color: var(--qp-navy-dark);
+}
+
+.cq-gate ul,
+.cq-safety ul { margin: 0; padding: 0; list-style: none; }
+
+.cq-gate li,
+.cq-safety li {
+    position: relative;
+    padding-left: 3mm;
+    font-size: 7.8pt;
+    line-height: 1.4;
+    color: var(--qp-gray);
+}
+
+.cq-gate li + li { margin-top: 1.4mm; }
+
+.cq-gate li::before,
+.cq-safety li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.62em;
+    width: 1.3mm;
+    border-top: 1.5px solid var(--qp-navy);
+}
+
+/* Safety: a plain table, practices in two columns beside each area. */
+.cq-safety td { vertical-align: top; padding-top: 2.2mm; padding-bottom: 2.2mm; }
+.cq-safety ul { columns: 2; column-gap: 5mm; }
+.cq-safety li { break-inside: avoid; margin-bottom: 0.9mm; }
+
+.cq-safety-area {
+    display: flex;
+    align-items: center;
+    gap: 2mm;
+    font-size: 8.4pt;
+    color: var(--qp-navy-dark);
+}
+
+.cq-safety-area .cq-ic { width: 14px; height: 14px; flex-shrink: 0; color: var(--qp-navy); }
+
+.cq-support .cq-feature-ic { width: 8mm; height: 8mm; flex-shrink: 0; }
+
+/* --- P19 warranty ----------------------------------------------------------- */
+
+.cq-support {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 3mm 5mm;
+}
+
+.cq-support > div {
+    display: grid;
+    grid-template-columns: 8mm minmax(0, 1fr);
+    gap: 3mm;
+    align-items: start;
+}
+
+.cq-support p {
+    margin: 0;
+    font-size: 8.2pt;
+    line-height: 1.5;
+    color: var(--qp-gray);
+}
+
+.cq-split > .cq-callout { align-content: start; }
+
+/* --- P20 why Ray2Volt ------------------------------------------------------- */
+
+.cq-about {
+    display: grid;
+    grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr);
+    gap: 5mm;
+}
+
+.cq-about-text p {
+    margin: 0 0 2mm;
+    font-size: 8.6pt;
+    line-height: 1.55;
+    color: var(--qp-ink);
+}
+
+.cq-about-text p:last-child { margin-bottom: 0; }
+
+.cq-company {
+    margin: 0;
+    padding: 3.5mm;
+    border: 1px solid var(--qp-line);
+    border-top: 3px solid var(--qp-navy);
+    border-radius: 2px;
+}
+
+.cq-company div + div { margin-top: 2.5mm; }
+
+.cq-company dd {
+    margin: 0.4mm 0 0;
+    font-size: 8.6pt;
+    line-height: 1.4;
+    color: var(--qp-ink);
+}
+
+.cq-cap-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 3mm;
+}
+
+.cq-fill > .cq-diff { display: flex; flex-direction: column; }
+.cq-fill > .cq-diff li { flex: 1 0 auto; align-content: center; padding: 1.2mm 0; }
+
+/* --- P21 commercial ----------------------------------------------------------- */
+
+.cq-price-table td { padding-top: 2mm; padding-bottom: 2mm; }
+.cq-fig-stack { padding-bottom: 3.5mm; }
+
+/* --- P24 acceptance ------------------------------------------------------------ */
+
+.cq-accept-docs {
+    display: flex;
+    flex-direction: column;
+    padding: 3mm 3.5mm;
+    border: 1px solid var(--qp-line);
+    border-radius: 2px;
+}
+
+.cq-accept-how {
+    margin-top: auto;
+    padding-top: 2.2mm;
+    border-top: 1px solid var(--qp-line);
+}
+
+.cq-accept-how p { margin: 0 0 1mm; font-size: 8pt; line-height: 1.45; color: var(--qp-gray); }
+.cq-accept-how p:last-child { margin-bottom: 0; }
+.cq-accept-how strong { color: var(--qp-ink); }
+
+.cq-page .cq-accept-docs h4,
+.cq-page .cq-next h4 {
+    margin: 0 0 2mm;
+    font-size: 9.3pt;
+    font-weight: 700;
+    color: var(--qp-navy-dark);
+}
+
+.cq-designed .cq-sign-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: stretch;
+    gap: 6mm;
+    min-height: 70mm;
+    margin: 0;
+}
+
+.cq-designed .cq-sign-box {
+    display: flex;
+    flex-direction: column;
+    padding: 4mm;
+    border: 1px solid var(--qp-line);
+    border-top: 3px solid var(--qp-navy);
+    border-radius: 2px;
+}
+
+.cq-sign-name { font-size: 8.5pt; color: var(--qp-gray); }
+.cq-designed .cq-signature-area { flex: 1; min-height: 16mm; }
+
+.cq-next {
+    padding: 3mm 3.5mm;
+    border: 1px solid var(--qp-line);
+    border-radius: 2px;
+}
+
+.cq-next ol {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 3mm;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.cq-next li {
+    display: grid;
+    grid-template-columns: 6.5mm minmax(0, 1fr);
+    gap: 2mm;
+}
+
+.cq-next p {
+    margin: 0;
+    font-size: 7.9pt;
+    line-height: 1.45;
+    color: var(--qp-gray);
+}

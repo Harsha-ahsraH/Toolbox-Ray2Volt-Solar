@@ -110,47 +110,85 @@
         stages: [
             {
                 title: 'Detailed Site Survey',
+                owner: 'Ray2Volt',
                 text: 'Measurement of the available area, shadow assessment, structural observation, '
                     + 'review of the existing electrical system and confirmation of the '
                     + 'interconnection point.'
             },
             {
                 title: 'Design & Engineering',
+                owner: 'Ray2Volt, approved by you',
                 text: 'Array layout, string configuration, cable sizing, protection coordination, '
                     + 'earthing design and single-line diagram, issued for customer review.'
             },
             {
                 title: 'Approvals & Documentation',
+                owner: 'Ray2Volt with the DISCOM',
                 text: 'Preparation and submission of the DISCOM net-metering or interconnection '
                     + 'application and supporting documents, and follow-up until sanction.'
             },
             {
                 title: 'Procurement & Inspection',
+                owner: 'Ray2Volt',
                 text: 'Placement of orders against the approved specification, verification of '
                     + 'delivered material against datasheets, and recording of serial numbers.'
             },
             {
                 title: 'Civil & Structural Works',
+                owner: 'Ray2Volt',
                 text: 'Foundations or roof interfaces, structure fabrication and erection, and '
                     + 'alignment to the approved layout.'
             },
             {
                 title: 'Mechanical & Electrical Installation',
+                owner: 'Ray2Volt',
                 text: 'Module mounting, DC and AC cabling, distribution boxes, inverter mounting, '
                     + 'earthing and lightning protection.'
             },
             {
                 title: 'Testing & Pre-Commissioning',
+                owner: 'Ray2Volt',
                 text: 'Continuity, insulation resistance, polarity, earth resistance and protection '
                     + 'function checks, recorded on test formats.'
             },
             {
                 title: 'Commissioning & Handover',
+                owner: 'Ray2Volt with you',
                 text: 'Synchronisation, performance observation, monitoring configuration, operator '
                     + 'familiarisation and handover of the documentation set.'
             }
         ]
     };
+
+    /** Who does what, drawn from the scope and the terms; nothing here is new commitment. */
+    const RESPONSIBILITIES = [
+        {
+            party: 'Ray2Volt',
+            items: [
+                'Survey, design and engineering of the plant',
+                'Supply of everything in the bill of materials',
+                'Installation, testing and commissioning',
+                'Preparing and following up the DISCOM application'
+            ]
+        },
+        {
+            party: 'You',
+            items: [
+                'Safe access to the site and the interconnection point',
+                'Power and water at site during the works',
+                'Secure storage space for material at site',
+                'Statutory fees and DISCOM charges, unless included'
+            ]
+        },
+        {
+            party: 'DISCOM',
+            items: [
+                'Sanction of the metering or interconnection application',
+                'Supply or approval of the bi-directional meter',
+                'Inspection and approval to synchronise'
+            ]
+        }
+    ];
 
     const PROJECT_SCHEDULE = {
         lead: 'The sequence below is the standard execution sequence for a C&I plant. Durations '
@@ -459,6 +497,18 @@
         }
     };
 
+    /** Terms used across the proposal, glossed once on the contents page. */
+    const ABBREVIATIONS = [
+        ['kWp', 'Kilowatt-peak: the DC rating of the solar modules'],
+        ['kW', 'Kilowatt: power, as rated for the inverters'],
+        ['kWh', 'Kilowatt-hour: one unit of electricity'],
+        ['DC / AC', 'Direct current from the modules; alternating current to the load'],
+        ['DISCOM', 'The electricity distribution company'],
+        ['BOM', 'Bill of materials'],
+        ['O&M', 'Operation and maintenance'],
+        ['BESS', 'Battery energy storage system']
+    ];
+
     const ENVIRONMENTAL = {
         gridEmissionFactorKgPerKwh: 0.82,
         treesPerTonneCo2: 45,
@@ -595,6 +645,7 @@
         ABOUT,
         CI_BENEFITS,
         EXECUTION_METHODOLOGY,
+        RESPONSIBILITIES,
         PROJECT_SCHEDULE,
         QUALITY_ASSURANCE,
         HEALTH_SAFETY,
@@ -604,6 +655,7 @@
         SYSTEM_ARCHITECTURE,
         INSTALLATION_APPROACH,
         ENVIRONMENTAL,
+        ABBREVIATIONS,
         CLAUSES,
         narrativeDefaults
     };

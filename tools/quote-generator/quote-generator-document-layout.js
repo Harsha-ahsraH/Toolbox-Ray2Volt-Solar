@@ -2,6 +2,20 @@
 (function (root) {
     'use strict';
 
+    const FIXED_SECTIONS = ['cover', 'contents', 'executive-summary', 'annexures', 'acceptance'];
+
+    /**
+     * A fixed page is sized for the typical quote and may carry blocks marked
+     * data-optional that fill space it would otherwise leave empty. When long
+     * customer text makes the page overflow, those blocks go, last first.
+     */
+    function dropOptional(page) {
+        const body = page.querySelector('.cq-body');
+        if (!body) return;
+        const optional = Array.from(body.querySelectorAll('[data-optional]'));
+        while (optional.length && body.scrollHeight > body.clientHeight + 1) optional.pop().remove();
+    }
+
     function composePass(container, sourcePlan, compact) {
         const sources = Array.from(container.children);
         const output = [];
@@ -245,18 +259,12 @@
 
         sources.forEach((original, index) => {
             const source = sourcePlan[index];
-            if (source.sectionId === 'contents') {
-                if (contentsPage) return;
-                contentsPage = original;
-                container.append(original);
-                output.push(original);
-                plan.push(Object.assign({}, source, { sectionIds: ['contents'] }));
-                page = body = null;
-                return;
-            }
-            if (['cover', 'annexures', 'acceptance'].includes(source.sectionId)) {
+            // Fixed compositions are placed whole rather than flowed.
+            if (FIXED_SECTIONS.includes(source.sectionId) || original.classList.contains('cq-fixed-page')) {
+                if (source.sectionId === 'contents') contentsPage = original;
                 if (source.sectionId === 'acceptance') original.classList.add('cq-acceptance-page');
                 container.append(original);
+                dropOptional(original);
                 output.push(original);
                 plan.push(Object.assign({}, source, { sectionIds: [source.sectionId] }));
                 remember(source);
@@ -293,50 +301,12 @@
             plan[index].title = ids.map(id => sourcePlan.find(source => source.sectionId === id).title).join(' / ');
         });
 
+        // The Contents was drafted from the page plan; composition can move pages.
         if (contentsPage) {
-            const entries = [];
-            const seen = new Set();
-            sourcePlan.forEach(source => {
-                const key = source.annexureId || source.sectionId;
-                if (seen.has(key) || ['cover', 'contents', 'annexures'].includes(source.sectionId)) return;
-                seen.add(key);
-                const index = plan.findIndex(entry => source.annexureId
-                    ? entry.annexureId === source.annexureId : entry.sectionIds.includes(source.sectionId));
-                entries.push({ title: source.title, group: source.group, pageNumber: index + 1 });
+            root.QuoteGeneratorCalc.chapterContents(plan).forEach(chapter => {
+                const row = contentsPage.querySelector(`[data-chapter-id="${chapter.id}"] .cq-toc-page`);
+                if (row) row.textContent = chapter.pageNumber;
             });
-            const content = contentsPage.querySelector('.cq-body');
-            content.className = 'cq-body cq-contents-body';
-            content.replaceChildren();
-            const columns = document.createElement('div');
-            columns.className = 'cq-contents-columns';
-            const groups = [...new Set(entries.map(entry => entry.group))];
-            groups.forEach(group => {
-                const block = document.createElement('section');
-                const heading = document.createElement('h3');
-                heading.className = 'cq-subtitle';
-                heading.textContent = group;
-                block.append(heading);
-                const rows = document.createElement('ul');
-                rows.className = 'cq-toc-list';
-                entries.filter(entry => entry.group === group).forEach(entry => {
-                    const row = document.createElement('li');
-                    const title = document.createElement('span');
-                    title.className = 'cq-toc-title';
-                    title.textContent = entry.title;
-                    const number = document.createElement('span');
-                    number.className = 'cq-toc-page';
-                    number.textContent = entry.pageNumber;
-                    row.append(title, number);
-                    rows.append(row);
-                });
-                block.append(rows);
-                columns.append(block);
-            });
-            content.append(columns);
-            for (let padding = 2.75; columns.getBoundingClientRect().height > content.clientHeight - 4
-                && padding >= 1.5; padding -= 0.25) {
-                columns.style.setProperty('--cq-toc-row-padding', `${padding}mm`);
-            }
         }
 
         output.forEach((node, index) => {
@@ -385,10 +355,12 @@
             node.dataset.headerSection = dominant;
             plan[index].headerSectionId = dominant;
         });
-        const annexureIds = [...new Set(sourcePlan.filter(source => source.annexureId).map(source => source.annexureId))];
-        container.querySelectorAll('[data-content-section="annexure-index"] tbody tr').forEach(row => {
-            const id = annexureIds[Number(row.firstElementChild.textContent) - 1];
-            row.lastElementChild.textContent = plan.findIndex(entry => entry.annexureId === id) + 1;
+        // The annexure index lists generated and attached annexures by reference.
+        container.querySelectorAll('tr[data-annexure-ref]').forEach(row => {
+            const ref = row.dataset.annexureRef;
+            const index = plan.findIndex(entry => entry.annexureId === ref || entry.sectionIds.includes(ref));
+            const cell = row.querySelector('.cq-annex-page');
+            if (cell) cell.textContent = index >= 0 ? index + 1 : '—';
         });
         container.classList.remove('cq-measuring');
         return plan;

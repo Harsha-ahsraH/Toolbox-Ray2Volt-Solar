@@ -11,8 +11,8 @@
    the preview rail and stage render *clones* of these pages outside
    #qgComprehensivePages and must style identically.
 
-   The composition blocks the sections are assembled from — cover meta grids,
-   the figure, the energy-split bar, the headline band, the page-foot anchor —
+   The composition blocks the sections are assembled from — the figure,
+   the energy-split bar, the headline band, the page-foot anchor —
    live in the companion sheet imported below, which carries only class names
    of its own. Nothing in it overrides anything here, so the order between the
    two does not matter; the split exists to keep both files inside the
@@ -20,7 +20,7 @@
    quote-generator.css.
    ============================================ */
 
-@import url('./quote-generator-proposal-comprehensive-blocks.css?v=20260912-per-wp-1');
+@import url('./quote-generator-proposal-comprehensive-blocks.css?v=20260929-redesign-12');
 
 .cq-page {
     /* Same palette as the Short Proposal so both documents look like one house. */
@@ -501,14 +501,13 @@
 
 /* --- Cover page ------------------------------------------------------------ */
 
-/* The Short Proposal's cover opens on a 5px navy edge above a large logo,
-   a ruled masthead and a kicker/title/short-rule stack. The Comprehensive
-   cover follows the same sequence at the same weights; only the reference
-   block on the right differs, because this document is revision-controlled
-   and the Short one is not. */
+/* The Short Proposal's cover opens on a large logo, a ruled masthead and a
+   kicker/title/short-rule stack. The Comprehensive cover follows the same
+   sequence at the same weights, without the Short cover's 5px navy top edge;
+   only the reference block on the right differs, because this document is
+   revision-controlled and the Short one is not. */
 .cq-cover {
     justify-content: flex-start;
-    border-top: 5px solid var(--qp-navy);
 }
 
 /* The cover's own content column. Making it a flex column is what lets the
@@ -526,7 +525,7 @@
     gap: 8mm;
     padding-bottom: 4mm;
     margin-bottom: 6mm;
-    border-bottom: 3px solid var(--qp-navy);
+    border-bottom: 2px solid var(--qp-navy);
 }
 
 .cq-cover-logo {
@@ -590,60 +589,6 @@ h1.cq-cover-title {
     color: var(--qp-navy-dark);
 }
 
-.cq-cover-rule {
-    width: 80px;
-    height: 4px;
-    background: var(--qp-navy);
-    border-radius: 2px;
-    margin-bottom: 8mm;
-}
-
-.cq-cover-image {
-    width: 100%;
-    height: 68mm;
-    object-fit: cover;
-    border-radius: 2px;
-    border: 1px solid var(--qp-line);
-    margin-bottom: 8mm;
-}
-
-.cq-cover-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4mm;
-    margin-top: auto;
-}
-
-.cq-cover-card {
-    padding: 3.5mm;
-    background: #fff;
-    border: 1px solid var(--qp-line);
-    border-top: 3px solid var(--qp-navy);
-    border-radius: 2px;
-}
-
-.cq-cover-card h3 {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    margin: -3.5mm -3.5mm 2.5mm;
-    padding: 6px 11px;
-    font-size: 8pt;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    color: var(--qp-navy);
-    background: var(--qp-tint);
-    border-bottom: 1px solid var(--qp-line);
-}
-
-.cq-cover-card p,
-.cq-cover-card strong {
-    font-size: 9pt;
-    line-height: 1.5;
-    display: block;
-}
-
 /* Matches .qp-cover-footer. */
 .cq-cover-footer {
     margin-top: 6mm;
@@ -653,51 +598,6 @@ h1.cq-cover-title {
     line-height: 1.5;
     color: var(--qp-muted);
     text-align: center;
-}
-
-/* --- Table of contents ------------------------------------------------------ */
-
-.cq-toc-group {
-    margin-top: 3.5mm;
-    font-size: 7.5pt;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--qp-muted);
-}
-
-.cq-toc-group:first-child {
-    margin-top: 0;
-}
-
-.cq-toc-list {
-    list-style: none;
-    margin: 1.5mm 0 0;
-    padding: 0;
-}
-
-.cq-toc-list li {
-    display: flex;
-    align-items: baseline;
-    gap: 2mm;
-    padding: 1.1mm 0;
-    font-size: 9pt;
-    border-bottom: 1px dotted var(--qp-line);
-}
-
-.cq-toc-title {
-    flex: 1;
-}
-
-/* Page numbers in a contents list are read as a column, so they are given a
-   fixed measure and set flush right. Without it a run of single- and
-   double-digit numbers steps in and out along the right margin. */
-.cq-toc-page {
-    min-width: 7mm;
-    font-weight: 700;
-    text-align: right;
-    color: var(--qp-navy);
-    font-variant-numeric: tabular-nums;
 }
 
 /* --- Signature / acceptance -------------------------------------------------- */
@@ -893,13 +793,6 @@ h1.cq-cover-title {
 
     .cq-page:last-child {
         page-break-after: auto;
-    }
-
-    /* The rule above strips every page border for print. The cover's navy
-       edge is part of the design, so it goes back on — the Short Proposal
-       restores .qp-cover the same way. */
-    .cq-cover {
-        border-top: 5px solid var(--qp-navy) !important;
     }
 
     .cq-foot {

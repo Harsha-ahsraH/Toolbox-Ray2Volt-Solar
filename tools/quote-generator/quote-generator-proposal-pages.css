@@ -1,0 +1,642 @@
+/* ============================================
+   QUOTE GENERATOR - Comprehensive proposal, pages 5 onward
+   Ray2Volt Solar Toolbox
+
+   The designed pages after the executive summary: the page frame, the
+   HTML charts (columns, horizontal bars, schedule), and the cards and
+   tables each chapter uses. Builds on quote-generator-proposal-design.css
+   (tokens, opener, KPI tiles, callouts, figure frame) and loads after it.
+
+   A fixed page is a column (.cq-sheet). Its one chart grows into the
+   height the page has left (.cq-grow); text blocks may grow but never
+   shrink (.cq-fill), so long customer text overflows and the document
+   layout drops the page's [data-optional] blocks instead of clipping.
+
+   Same print rules as the design system: white paper, tint only on table
+   headers and the opener, borders not shadows, amber only for solar, green
+   and red only as flags beside an icon, no tabular-nums on values that
+   can carry a %.
+   ============================================ */
+
+/* --- Page frame ------------------------------------------------------------ */
+
+.cq-sheet {
+    display: flex;
+    flex-direction: column;
+    gap: 4.5mm;
+}
+
+.cq-sheet > * { flex: 0 0 auto; min-width: 0; }
+.cq-sheet > .cq-opener { margin-bottom: 0; }
+
+.cq-sheet > .cq-grow,
+.cq-split > .cq-grow {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 0;
+    min-height: 55mm;
+}
+
+.cq-sheet > .cq-grow-lg { min-height: 72mm; }
+
+.cq-grow > .cq-fig-body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+}
+
+.cq-grow > .cq-fig-body > * { flex: 1; min-height: 0; }
+
+.cq-sheet > .cq-fill {
+    display: flex;
+    flex-direction: column;
+    flex: 1 0 auto;
+}
+
+.cq-fill > :not(h3) { flex: 1 0 auto; }
+
+/* A split that fills stays a two-column grid; each column's card grows. */
+.cq-sheet > .cq-split.cq-fill { display: grid; }
+.cq-split.cq-fill > .cq-sec > :not(h3) { flex: 1 0 auto; }
+
+.cq-sec { display: flex; flex-direction: column; min-width: 0; }
+
+.cq-sec-lead {
+    margin: 0 0 2.5mm;
+    font-size: 8.5pt;
+    line-height: 1.5;
+    color: var(--qp-gray);
+}
+
+.cq-split {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 4mm;
+}
+
+.cq-stack-col { display: flex; flex-direction: column; gap: 4mm; }
+.cq-stack-col > .cq-fig { flex: 1 0 auto; }
+
+/* Figures in a split that fills: the frame stretches, the chart centres. */
+.cq-split.cq-fill > .cq-fig,
+.cq-stack-col > .cq-fig { display: flex; flex-direction: column; }
+
+.cq-split.cq-fill > .cq-fig > .cq-fig-body,
+.cq-stack-col > .cq-fig > .cq-fig-body {
+    display: flex;
+    flex: 1 0 auto;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Flow pages: the document layout measures and continues these. */
+.cq-designed .cq-flow-body > .cq-opener { margin-bottom: 5mm; }
+.cq-designed .cq-flow-body > .cq-g4 { margin-bottom: 5mm; }
+.cq-designed .cq-flow-body > .cq-t-h3 { margin-top: 5mm; }
+.cq-designed .cq-flow-body > .cq-opener + .cq-t-h3,
+.cq-designed .cq-flow-body > .cq-t-h3:first-child { margin-top: 0; }
+.cq-designed .cq-flow-body > .cq-callout { margin-top: 4mm; }
+.cq-designed .cq-flow-body > .cq-fig { margin-bottom: 3mm; }
+.cq-designed .cq-flow-body > .cq-table + .cq-table-note { margin-top: -2mm; }
+
+.cq-kpi-na { font-size: 12pt; font-weight: 600; color: var(--qp-muted); }
+
+/* --- Facts strip ---------------------------------------------------------- */
+
+.cq-facts {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    margin: 0;
+    border: 1px solid var(--qp-line);
+    border-radius: 2px;
+}
+
+.cq-facts-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+.cq-facts > div {
+    padding: 2.4mm 3mm;
+    border-left: 1px solid var(--qp-line);
+}
+
+.cq-facts-4 > div:first-child { border-left: 0; }
+.cq-facts-2 > div:nth-child(2n + 1) { border-left: 0; }
+.cq-facts-2 > div:nth-child(n + 3) { border-top: 1px solid var(--qp-line); }
+.cq-facts > .cq-facts-wide { grid-column: 1 / -1; border-left: 0; }
+
+.cq-facts dt,
+.cq-comp-spec dt,
+.cq-part-spec dt,
+.cq-company dt {
+    font-size: 6.8pt;
+    font-weight: 700;
+    letter-spacing: 0.7px;
+    text-transform: uppercase;
+    color: var(--qp-muted);
+}
+
+.cq-facts dd {
+    margin: 0.6mm 0 0;
+    font-size: 8.8pt;
+    line-height: 1.35;
+    color: var(--qp-ink);
+}
+
+/* --- Text cards ------------------------------------------------------------ */
+
+.cq-card-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 3.5mm;
+}
+
+.cq-card-row-1 { grid-template-columns: 1fr; }
+
+.cq-text-card {
+    padding: 3.5mm 4mm;
+    border: 1px solid var(--qp-line);
+    border-radius: 2px;
+}
+
+.cq-page .cq-text-card h4 {
+    display: flex;
+    align-items: center;
+    gap: 2mm;
+    margin: 0 0 2mm;
+    font-size: 9.5pt;
+    font-weight: 700;
+    color: var(--qp-navy-dark);
+}
+
+.cq-text-card h4 .cq-ic { width: 14px; height: 14px; color: var(--qp-navy); }
+
+.cq-text-card p {
+    margin: 0;
+    font-size: 8.8pt;
+    line-height: 1.6;
+    color: var(--qp-ink);
+}
+
+.cq-text-card small {
+    display: block;
+    margin-top: 2mm;
+    font-size: 7.5pt;
+    font-style: italic;
+    color: var(--qp-muted);
+}
+
+/* --- Numbered sequence and check lists ------------------------------------- */
+
+.cq-seq,
+.cq-diff {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.cq-seq li,
+.cq-diff li {
+    display: grid;
+    grid-template-columns: 6.5mm minmax(0, 1fr);
+    gap: 2.5mm;
+    padding: 1.7mm 0;
+    border-bottom: 1px solid var(--qp-line);
+}
+
+.cq-seq li:last-child,
+.cq-diff li:last-child { border-bottom: 0; }
+
+.cq-seq.is-row {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-gap: 4mm;
+}
+
+.cq-seq.is-row li { grid-template-columns: 6mm minmax(0, 1fr); gap: 2mm; padding: 0.7mm 0 1mm; }
+.cq-seq.is-row strong { font-size: 8.4pt; }
+.cq-seq.is-row p { margin-top: 0.2mm; font-size: 7.6pt; line-height: 1.34; }
+.cq-seq.is-row li:nth-last-child(-n + 3) { border-bottom: 0; }
+
+.cq-seq-n {
+    display: grid;
+    place-items: center;
+    width: 6mm;
+    height: 6mm;
+    border: 1.2px solid var(--qp-navy);
+    border-radius: 50%;
+    font-size: 7.5pt;
+    font-weight: 700;
+    color: var(--qp-navy);
+    font-variant-numeric: tabular-nums;
+}
+
+.cq-seq strong,
+.cq-diff strong,
+.cq-stage strong { font-size: 8.8pt; color: var(--qp-navy-dark); }
+
+.cq-seq p,
+.cq-diff p,
+.cq-stage p {
+    margin: 0.5mm 0 0;
+    font-size: 8pt;
+    line-height: 1.45;
+    color: var(--qp-gray);
+}
+
+.cq-check {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.cq-check li {
+    display: grid;
+    grid-template-columns: 12px minmax(0, 1fr);
+    gap: 2mm;
+    padding: 0.7mm 0;
+    font-size: 8.2pt;
+    line-height: 1.45;
+    color: var(--qp-gray);
+}
+
+.cq-check .cq-ic { width: 12px; height: 12px; margin-top: 1px; color: var(--qp-navy); }
+
+.cq-install p {
+    margin: 0 0 2mm;
+    font-size: 8.5pt;
+    line-height: 1.5;
+    color: var(--qp-ink);
+}
+
+.cq-install .cq-check {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 5mm;
+}
+
+.cq-split .cq-install .cq-check { grid-template-columns: minmax(0, 1fr); }
+
+.cq-sec > .cq-table + .cq-table,
+.cq-sec > .cq-install + .cq-table { margin-top: 3mm; }
+
+.cq-chip {
+    flex-shrink: 0;
+    padding: 0.5mm 2.2mm;
+    border: 1px solid var(--qp-navy);
+    border-radius: 10px;
+    font-size: 7.3pt;
+    font-weight: 700;
+    color: var(--qp-navy);
+    white-space: nowrap;
+}
+
+.cq-chip.is-quiet { border-color: var(--qp-line); font-weight: 600; color: var(--qp-gray); }
+
+/* --- Column chart ----------------------------------------------------------- */
+
+.cq-cols {
+    display: grid;
+    grid-template-rows: minmax(0, 1fr) auto;
+    height: 100%;
+    min-height: 38mm;
+    padding: 4mm 1mm 0 var(--cq-axis-w, 13mm);
+}
+
+.cq-cols-plot { position: relative; min-height: 0; }
+
+.cq-cols-tick {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 0;
+    border-top: 1px solid var(--cq-grid);
+}
+
+.cq-cols-tick.is-zero { border-top-color: #9AA3AD; }
+
+.cq-cols-tick b {
+    position: absolute;
+    right: 100%;
+    top: 0;
+    margin-right: 2mm;
+    transform: translateY(-50%);
+    font-size: 6.8pt;
+    font-weight: 400;
+    color: var(--qp-muted);
+    white-space: nowrap;
+}
+
+.cq-cols-bars {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: repeat(var(--cq-cols-n), minmax(0, 1fr));
+}
+
+.cq-cols-group {
+    display: flex;
+    justify-content: center;
+    gap: 2px;
+    padding: 0 16%;
+}
+
+.cq-cols.is-grouped .cq-cols-group { padding: 0 12%; }
+
+.cq-cols-slot { position: relative; flex: 1; max-width: 10mm; }
+
+.cq-bar {
+    position: absolute;
+    left: 0;
+    right: 0;
+    border-radius: 2px 2px 0 0;
+}
+
+.cq-bar.is-down { border-radius: 0 0 2px 2px; }
+
+.cq-bar-plant { background: var(--cq-s1); }
+.cq-bar-solar { background: var(--cq-s2); }
+.cq-bar-export,
+.cq-bar-costs { background: var(--cq-s3); }
+.cq-bar-grid { background: var(--cq-ctx); }
+
+.cq-legend i.cq-key-plant { background: var(--cq-s1); }
+.cq-legend i.cq-key-solar { background: var(--cq-s2); }
+.cq-legend i.cq-key-export { background: var(--cq-s3); }
+.cq-legend i.cq-key-grid { background: var(--cq-ctx); }
+
+.cq-cols-value {
+    position: absolute;
+    left: 50%;
+    margin: 1mm 0;
+    transform: translateX(-50%);
+    font-size: 7pt;
+    font-style: normal;
+    font-weight: 700;
+    color: var(--qp-navy-dark);
+    white-space: nowrap;
+}
+
+.cq-cols-group:last-child .cq-cols-value { left: auto; right: 0; transform: none; }
+
+.cq-cols-marker {
+    position: absolute;
+    top: 0;
+    width: 0;
+    border-left: 1px dashed var(--qp-navy-dark);
+}
+
+.cq-cols-marker b {
+    position: absolute;
+    top: 0;
+    left: 1.5mm;
+    padding: 0.3mm 1.2mm;
+    background: #fff;
+    border: 1px solid var(--qp-line);
+    font-size: 7pt;
+    color: var(--qp-navy-dark);
+    white-space: nowrap;
+}
+
+.cq-cols-x {
+    display: grid;
+    grid-template-columns: repeat(var(--cq-cols-n), minmax(0, 1fr));
+    margin-top: 1.2mm;
+    font-size: 6.8pt;
+    color: var(--qp-muted);
+    text-align: center;
+}
+
+.cq-cols-x span { white-space: nowrap; overflow: visible; }
+
+/* --- Horizontal bars ------------------------------------------------------- */
+
+.cq-hbars {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    gap: 2.5mm;
+    height: 100%;
+}
+
+.cq-hbar-row {
+    display: grid;
+    grid-template-columns: 40mm minmax(0, 1fr);
+    align-items: center;
+    gap: 3mm;
+}
+
+.cq-hbar-label {
+    font-size: 8.2pt;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--qp-ink);
+}
+
+.cq-hbar-label small {
+    display: block;
+    font-size: 7pt;
+    font-weight: 400;
+    color: var(--qp-muted);
+}
+
+.cq-hbar-track {
+    position: relative;
+    height: 5.5mm;
+    margin-right: 20mm;
+}
+
+.cq-bar-h {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    border-radius: 0 2px 2px 0;
+}
+
+.cq-hbar-track b {
+    position: absolute;
+    top: 50%;
+    margin-left: 2mm;
+    transform: translateY(-50%);
+    font-size: 8pt;
+    color: var(--qp-navy-dark);
+    white-space: nowrap;
+}
+
+.cq-hbar-plot {
+    position: absolute;
+    top: 0;
+    bottom: 5mm;
+    left: 43mm;
+    right: 20mm;
+}
+
+.cq-hbar-grid {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    border-left: 1px solid var(--cq-grid);
+}
+
+.cq-stack-col .cq-hbars { height: auto; gap: 4.5mm; }
+
+.cq-hbars.has-axis .cq-hbar-row { position: relative; }
+
+.cq-hbar-axis {
+    position: relative;
+    height: 4mm;
+    margin: 0 20mm 0 43mm;
+}
+
+.cq-hbar-axis span {
+    position: absolute;
+    top: 0;
+    transform: translateX(-50%);
+    font-size: 6.8pt;
+    color: var(--qp-muted);
+    white-space: nowrap;
+}
+
+/* --- Ring, stacked bar, meter, trees ------------------------------------- */
+
+.cq-ring-wrap { display: grid; place-items: center; height: 100%; }
+.cq-fig-ring > .cq-fig-body { height: 58mm; }
+.cq-fig-ring .cq-donut { width: auto; height: 100%; max-width: 100%; }
+.cq-fig-ring .cq-fig-title { flex-wrap: wrap; }
+.cq-donut-value { font-size: 15px; font-weight: 700; fill: var(--qp-navy-dark); }
+.cq-donut-caption { font-size: 6px; fill: var(--qp-muted); }
+
+.cq-stack {
+    display: flex;
+    gap: 2px;
+    height: 7mm;
+}
+
+.cq-stack i { display: block; min-width: 2mm; border-radius: 1px; }
+
+.cq-stack-key {
+    display: grid;
+    grid-template-columns: repeat(var(--cq-stack-cols), minmax(0, 1fr));
+    gap: 3mm;
+    margin-top: 2.5mm;
+}
+
+.cq-stack-key span {
+    position: relative;
+    padding-left: 13px;
+    font-size: 7.8pt;
+    line-height: 1.35;
+    color: var(--qp-gray);
+}
+
+.cq-stack-key i {
+    position: absolute;
+    top: 2px;
+    left: 0;
+    width: 9px;
+    height: 9px;
+    border-radius: 2px;
+}
+
+.cq-stack-key b { display: block; font-size: 10pt; color: var(--qp-navy-dark); }
+.cq-stack-key small { display: block; font-size: 7.5pt; color: var(--qp-muted); }
+
+.cq-meter {
+    display: block;
+    height: 2.2mm;
+    background: var(--cq-grid);
+    border-radius: 1px;
+}
+
+.cq-meter i { display: block; height: 100%; background: var(--cq-s1); border-radius: 1px; }
+
+.cq-trees {
+    display: grid;
+    grid-template-columns: repeat(20, minmax(0, 1fr));
+    gap: 1.6mm 1mm;
+}
+
+.cq-trees svg { width: 100%; height: 6.5mm; fill: var(--cq-s1); }
+
+/* --- Schedule --------------------------------------------------------------- */
+
+.cq-gantt {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.cq-gantt-grid {
+    position: absolute;
+    top: 0;
+    bottom: 5mm;
+    left: 52mm;
+    right: 2mm;
+}
+
+.cq-gantt-grid i {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    border-left: 1px solid var(--cq-grid);
+}
+
+.cq-gantt-row {
+    position: relative;
+    display: grid;
+    grid-template-columns: 50mm minmax(0, 1fr);
+    align-items: center;
+    gap: 2mm;
+    flex: 1;
+    min-height: 7mm;
+    padding-right: 2mm;
+}
+
+.cq-gantt-label {
+    font-size: 8pt;
+    font-weight: 600;
+    line-height: 1.25;
+    color: var(--qp-ink);
+}
+
+.cq-gantt-label small {
+    display: block;
+    font-size: 6.8pt;
+    font-weight: 400;
+    color: var(--qp-muted);
+}
+
+.cq-gantt-track { position: relative; height: 4.5mm; }
+.cq-gantt-track .cq-bar-h { border-radius: 2px; }
+
+.cq-gantt-axis {
+    position: relative;
+    height: 4mm;
+    margin: 1mm 2mm 0 52mm;
+}
+
+.cq-gantt-axis span {
+    position: absolute;
+    top: 0;
+    transform: translateX(-50%);
+    font-size: 6.8pt;
+    color: var(--qp-muted);
+    white-space: nowrap;
+}
+
+.cq-gantt-axis span:first-child { transform: none; }
+.cq-gantt-axis span:last-child { transform: translateX(-100%); }
+
+/* --- System architecture render ---------------------------------------------- */
+
+/* The render takes the height P6 has left and scales to fit, centred, so
+   long customer text shrinks it rather than leaving a gap. Its minimum keeps
+   the labels legible: the optional sequence row drops before it gets smaller.
+   The render's 253-254 background is lifted to the paper's white. */
+.cq-sheet > .cq-fig-arch { min-height: 100mm; }
+.cq-arch-img { display: block; width: 100%; object-fit: contain; filter: brightness(1.02); }
+
+/* With the render absorbing the spare height, the two cards below stay even. */
+.cq-fig-arch + .cq-split > .cq-sec > .cq-text-card { flex: 1 0 auto; }

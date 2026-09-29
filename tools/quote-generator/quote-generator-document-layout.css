@@ -17,15 +17,8 @@
 .cq-compact-page .cq-flow-body .cq-card { padding-bottom: 2mm; }
 .cq-compact-page .cq-flow-body .cq-note { margin-top: 2mm; }
 /* Longer reading measures and larger diagrams complete concise sections. */
-.cq-page[data-section-id="execution-methodology"] .cq-steps { grid-template-columns: 1fr; }
-.cq-page[data-section-id="execution-methodology"] .cq-step { padding: 3mm; }
-.cq-page[data-section-id="inverter-technology"] .cq-component-photo img { height: 38mm; }
-.cq-page[data-section-id="inverter-technology"] .cq-component-photo { margin-bottom: 3mm; }
-.cq-page[data-section-id="inverter-technology"] .cq-subtitle { margin-top: 3mm; margin-bottom: 2mm; }
 .cq-page[data-section-id="savings-projection"] .cq-table th,
 .cq-page[data-section-id="savings-projection"] .cq-table td { padding-top: 1.05mm; padding-bottom: 1.05mm; }
-.cq-page[data-section-id="battery-technology"] .cq-component-photo { display: block; }
-.cq-page[data-section-id="battery-technology"] .cq-component-photo img { height: 72mm; margin-bottom: 4mm; }
 .cq-flow-body .cq-grid-2 + .cq-grid-2,
 .cq-flow-body .cq-grid-3 + .cq-grid-3 { margin-top: 3mm; }
 .cq-flow-body .cq-steps + .cq-steps { margin-top: 2.5mm; }
@@ -39,18 +32,6 @@
 .cq-flow-heading p { margin-top: 1.5mm; font-size: 8.5pt; line-height: 1.5; color: var(--qp-muted); }
 .cq-flow-body .cq-note { margin-top: 4mm; }
 .cq-flow-body .cq-table { margin-bottom: 4mm; }
-.cq-contents-columns { columns: 2; column-gap: 9mm; }
-.cq-contents-columns > section { break-inside: avoid; margin-bottom: 6mm; }
-.cq-contents-columns .cq-subtitle { margin-top: 0; font-size: 9pt; }
-.cq-contents-columns .cq-toc-list li { padding: 2mm 0; font-size: 9pt; line-height: 1.45; }
-.cq-contents-body { padding-top: 2mm; }
-.cq-contents-columns .cq-toc-list li { padding: var(--cq-toc-row-padding, 3mm) 0; }
-.cq-page[data-section-id="document-control"] .cq-kv dt,
-.cq-page[data-section-id="document-control"] .cq-kv dd { padding-top: 3mm; padding-bottom: 3mm; }
-.cq-page[data-section-id="document-control"] .cq-card { padding-bottom: 5mm; }
-.cq-page[data-section-id="document-control"] .cq-kv { column-gap: 0; }
-.cq-page[data-section-id="document-control"] .cq-kv dt { padding-right: 3mm; }
-.cq-cover-image { flex: 1; min-height: 68mm; max-height: 105mm; object-fit: contain; }
 .cq-closing-page .cq-body { display: flex; flex-direction: column; gap: 3mm; }
 .cq-closing-page .cq-grid-2 { display: contents; }
 .cq-closing-page .cq-card { flex: 1; }

@@ -30,8 +30,11 @@
     const pagination = (typeof require === 'function' && typeof module === 'object')
         ? require('./quote-generator-pagination.js')
         : root.QuoteGeneratorPagination;
+    const insights = (typeof require === 'function' && typeof module === 'object')
+        ? require('./quote-generator-insights.js')
+        : root.QuoteGeneratorInsights;
 
-    const api = factory(config, content, model, pagination);
+    const api = factory(config, content, model, pagination, insights);
 
     if (typeof module === 'object' && module.exports) {
         module.exports = api;
@@ -40,7 +43,7 @@
     if (root) {
         root.QuoteGeneratorCalc = api;
     }
-}(typeof self !== 'undefined' ? self : this, function (Config, Content, Model, Pagination) {
+}(typeof self !== 'undefined' ? self : this, function (Config, Content, Model, Pagination, Insights) {
     'use strict';
 
     // Selectors and numeric helpers borrowed from the state model, so the two
@@ -353,19 +356,108 @@
         };
     }
 
+    /**
+     * "Today" against "With Ray2Volt" for the executive summary. A row that
+     * needs consumption is null when consumption was not entered, so the page
+     * drops it rather than inventing a baseline.
+     */
+    function beforeAfter(state, consumption, projectionResult, commercial) {
+        const year1 = projectionResult.rows[0];
+        const selfUsedKwh = year1.generationKwh * (num(state.savings.selfConsumptionPercent) / 100);
+        const annualKwh = num(consumption.annualKwh);
+        const annualBill = num(consumption.annualBill);
+        const residualKwh = Math.max(0, annualKwh - selfUsedKwh);
+        const factor = Content.ENVIRONMENTAL.gridEmissionFactorKgPerKwh;
+        const lifetimeKwh = projectionResult.totalGenerationKwh;
+
+        return {
+            annualBill: annualBill > 0
+                ? { today: round(annualBill, 0), withSolar: round(Math.max(0, annualBill - year1.grossSavings), 0) }
+                : null,
+            billReductionPercent: annualBill > 0
+                ? Math.round(Math.min(100, (year1.grossSavings / annualBill) * 100)) : null,
+            costPerUnit: {
+                today: round(num(consumption.averageTariff), 2),
+                withSolar: lifetimeKwh > 0
+                    ? round((commercial.finalPrice + projectionResult.totalCosts) / lifetimeKwh, 2) : null
+            },
+            gridShare: annualKwh > 0
+                ? { today: 100, withSolar: Math.round((residualKwh / annualKwh) * 100) }
+                : null,
+            co2Tonnes: annualKwh > 0
+                ? { today: round((annualKwh * factor) / 1000, 1), withSolar: round((residualKwh * factor) / 1000, 1) }
+                : null
+        };
+    }
+
+    /**
+     * The parts behind the executive summary's "today against with Ray2Volt"
+     * bars: where year-1 electricity comes from, where the year-1 bill goes,
+     * and what electricity costs over the projection with and without the
+     * plant. Without a bill, the lifetime view prices the plant's own energy
+     * at the grid rate instead, so the remaining bills are nil. Parts that
+     * need consumption are null when consumption was not entered.
+     */
+    function transformation(state, consumption, projectionResult, commercial) {
+        const year1 = projectionResult.rows[0];
+        const annualKwh = num(consumption.annualKwh);
+        const annualBill = num(consumption.annualBill);
+        const basis = annualBill > 0 ? 'bill' : 'energy';
+        const escalation = num(state.savings.tariffEscalationPercent) / 100;
+        const solarKwh = Math.min(annualKwh, year1.generationKwh * (num(state.savings.selfConsumptionPercent) / 100));
+        let gridOnly = 0;
+        let gridBills = 0;
+        let costs = 0;
+
+        projectionResult.rows.forEach(row => {
+            const gridSpend = basis === 'bill'
+                ? annualBill * Math.pow(1 + escalation, row.year - 1) : row.grossSavings;
+            gridOnly += gridSpend;
+            gridBills += gridSpend - row.grossSavings;
+            costs += row.costs;
+        });
+        // Export credit beyond the whole bill is not a negative bill.
+        gridBills = Math.max(0, gridBills);
+        const withSolar = commercial.finalPrice + gridBills + costs;
+        const billAfter = Math.max(0, annualBill - year1.grossSavings);
+
+        return {
+            energy: annualKwh > 0
+                ? { totalKwh: round(annualKwh, 0), solarKwh: round(solarKwh, 0), gridKwh: round(annualKwh - solarKwh, 0) }
+                : null,
+            bill: annualBill > 0
+                ? { today: round(annualBill, 0), withSolar: round(billAfter, 0), saved: round(annualBill - billAfter, 0) }
+                : null,
+            lifetime: {
+                basis,
+                years: projectionResult.years,
+                gridOnly: round(gridOnly, 0),
+                plant: round(commercial.finalPrice, 0),
+                gridBills: round(gridBills, 0),
+                costs: round(costs, 0),
+                withSolar: round(withSolar, 0),
+                kept: round(gridOnly - withSolar, 0)
+            }
+        };
+    }
+
     function derived(state) {
         const commercial = commercialTotals(state);
         const projectionResult = projection(state);
+        const consumption = consumptionTotals(state);
 
         return {
             reconciliation: capacityReconciliation(state),
             dcAcRatio: round(dcAcRatio(state), 2),
             mixedLocationTotalKwp: round(mixedLocationTotalKwp(state), 3),
             commercial,
-            consumption: consumptionTotals(state),
+            consumption,
             projection: projectionResult,
             payback: paybackYears(commercial.finalPrice, projectionResult.rows),
-            environmental: environmentalImpact(state, projectionResult)
+            environmental: environmentalImpact(state, projectionResult),
+            beforeAfter: beforeAfter(state, consumption, projectionResult, commercial),
+            transformation: transformation(state, consumption, projectionResult, commercial),
+            insights: Insights.build(state, { commercial, consumption, projection: projectionResult })
         };
     }
 
@@ -761,8 +853,10 @@
         bomRowCount: Pagination.bomRowCount,
         sectionPageCount: Pagination.sectionPageCount,
         sectionChunks: Pagination.sectionChunks,
+        annexureList: Pagination.annexureList,
         planPages: Pagination.planPages,
         tableOfContents: Pagination.tableOfContents,
+        chapterContents: Pagination.chapterContents,
         estimatedPageCount: Pagination.estimatedPageCount
     };
 }));

@@ -145,7 +145,7 @@ function validComprehensiveState(preset = 'ci-on-grid-rooftop') {
 // start pages from the same plan. Long BOM data creates continuation pages.
 {
     const state = validComprehensiveState();
-    state.selectedSectionIds = ['terms-conditions', 'cover', 'bill-of-materials'];
+    state.selectedSectionIds = ['commercial', 'cover', 'acceptance'];
     const modules = model.getBomCategory(state, 'modules');
     modules.rows = [];
 
@@ -182,11 +182,16 @@ function validComprehensiveState(preset = 'ci-on-grid-rooftop') {
         );
     }
 
-    model.toggleSection(state, 'bill-of-materials', false);
+    // The bill of materials is Annexure A and always prints; turning off an
+    // optional chapter removes its pages and renumbers the rest.
+    model.toggleSection(state, 'acceptance', false);
     const filteredPlan = calc.planPages(state);
-    assert.ok(!filteredPlan.some(page => page.sectionId === 'bill-of-materials'));
-    assert.deepEqual(filteredPlan.map(page => page.pageNumber), [1, 2]);
-    assert.ok(filteredPlan.every(page => page.totalPages === 2));
+    assert.ok(!filteredPlan.some(page => page.sectionId === 'acceptance'));
+    assert.ok(filteredPlan.some(page => page.sectionId === 'bill-of-materials'));
+    assert.equal(filteredPlan.length, fullPlan.length - 1);
+    assert.deepEqual(filteredPlan.map(page => page.pageNumber),
+        Array.from({ length: filteredPlan.length }, (unused, index) => index + 1));
+    assert.ok(filteredPlan.every(page => page.totalPages === filteredPlan.length));
 }
 
 // Critical validation is the public export gate signal. It must not suppress

@@ -12,9 +12,9 @@ function rowWithoutId(row) {
     return copy;
 }
 
-// Every preset must produce at least 20 selected, non-annexure pages before
-// the user adds attachments. Preset section selections also obey configuration
-// rules and contain the common core sections.
+// Every preset must plan at least 20 pages before the user adds attachments.
+// Presets select every chapter except the optional acceptance page, including
+// the core sections, whatever the System Configuration.
 for (const preset of config.PRESETS) {
     const state = model.createInitialState({
         mode: config.MODES.COMPREHENSIVE,
@@ -24,52 +24,43 @@ for (const preset of config.PRESETS) {
 
     assert.ok(
         plan.length >= 20,
-        `${preset.id} must plan at least 20 pages before annexures; got ${plan.length}`
+        `${preset.id} must plan at least 20 pages before attachments; got ${plan.length}`
     );
     assert.ok(
-        plan.every(page => page.sectionId !== 'annexure-index' && page.sectionId !== 'annexures'),
-        `${preset.id} must not count annexure pages before attachments exist`
+        plan.every(page => page.sectionId !== 'annexures'),
+        `${preset.id} must not plan an attached-document page before attachments exist`
     );
-    assert.ok(
-        state.selectedSectionIds.length >= 20,
-        `${preset.id} must select at least 20 non-annexure sections`
-    );
+    assert.deepEqual(state.selectedSectionIds, config.presetSectionIds(preset.id));
+    assert.ok(!state.selectedSectionIds.includes('acceptance'), `${preset.id} leaves acceptance to sales`);
     for (const coreId of config.coreSectionIds()) {
         assert.ok(state.selectedSectionIds.includes(coreId), `${preset.id} must include ${coreId}`);
     }
 }
 
-assert.ok(
-    !config.presetSectionIds('ci-on-grid-rooftop').includes('battery-technology'),
-    'the on-grid rooftop preset must exclude battery technology'
-);
-assert.ok(
-    !config.presetSectionIds('ci-ground-mounted').includes('battery-technology'),
-    'the ground-mounted preset must exclude battery technology'
-);
-assert.ok(
-    config.presetSectionIds('ci-hybrid').includes('battery-technology'),
-    'the Hybrid preset must include battery technology'
-);
+// Hybrid content (the battery) follows the System Configuration inside the
+// pages; it is not a section, so every preset selects the same chapters.
+assert.equal(config.getSection('battery-technology'), null);
+assert.deepEqual(config.presetSectionIds('ci-hybrid'), config.presetSectionIds('ci-on-grid-rooftop'));
+assert.deepEqual(config.presetSectionIds('ci-ground-mounted'), config.presetSectionIds('ci-on-grid-rooftop'));
 
 // Selection input order must never affect output order.
 {
     const state = model.createInitialState({ mode: config.MODES.COMPREHENSIVE });
     state.selectedSectionIds = [
-        'terms-conditions',
+        'commercial',
         'cover',
-        'bill-of-materials',
+        'equipment',
         'executive-summary'
     ];
 
     assert.deepEqual(
         model.selectedSections(state).map(section => section.id),
-        ['cover', 'executive-summary', 'bill-of-materials', 'terms-conditions'],
+        ['cover', 'executive-summary', 'equipment', 'commercial'],
         'selected sections must be returned in catalog order'
     );
     assert.deepEqual(
-        [...new Set(calc.planPages(state).map(page => page.sectionId))],
-        ['cover', 'executive-summary', 'bill-of-materials', 'terms-conditions'],
+        [...new Set(calc.planPages(state).map(page => page.catalogId))],
+        ['cover', 'executive-summary', 'equipment', 'commercial', 'annexures'],
         'planned output must follow catalog order regardless of selection order'
     );
 }
@@ -81,9 +72,9 @@ assert.ok(
     model.setNarrativeField(state, 'objective', 'Retain this customer objective.');
     const storedNarrative = JSON.parse(JSON.stringify(state.projectNarrative));
 
-    model.toggleSection(state, 'project-objectives', false);
+    model.toggleSection(state, 'site', false);
     assert.ok(
-        !calc.planPages(state).some(page => page.sectionId === 'project-objectives'),
+        !calc.planPages(state).some(page => page.catalogId === 'site'),
         'an unselected section must be absent from planned output'
     );
     assert.deepEqual(
@@ -92,9 +83,9 @@ assert.ok(
         'unselecting a section must preserve its entered content'
     );
 
-    model.toggleSection(state, 'project-objectives', true);
+    model.toggleSection(state, 'site', true);
     assert.ok(
-        calc.planPages(state).some(page => page.sectionId === 'project-objectives'),
+        calc.planPages(state).some(page => page.catalogId === 'site'),
         'reselecting a section must restore it to planned output'
     );
     assert.deepEqual(
@@ -229,13 +220,13 @@ assert.ok(
 // drafts migrate to the complete v1 shape; future versions fail without throw.
 {
     const state = model.createInitialState({ mode: config.MODES.COMPREHENSIVE });
-    state.selectedSectionIds = ['cover', 'commercial-offer'];
+    state.selectedSectionIds = ['cover', 'commercial'];
     model.addDiscount(state, { name: 'Partner discount', amount: 2500 });
 
     const roundTrip = model.deserialize(model.serialize(state));
     assert.equal(roundTrip.ok, true);
     assert.equal(roundTrip.state.schemaVersion, config.SCHEMA_VERSION);
-    assert.deepEqual(roundTrip.state.selectedSectionIds, ['cover', 'commercial-offer']);
+    assert.deepEqual(roundTrip.state.selectedSectionIds, ['cover', 'commercial']);
     assert.ok(roundTrip.state.commercial.discounts.every(row => row.id), 'repeater IDs must survive serialization');
 
     const migrated = model.deserialize(JSON.stringify({

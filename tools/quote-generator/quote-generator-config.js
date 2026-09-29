@@ -101,88 +101,208 @@
     ];
 
     /**
-     * Comprehensive Proposal section library. Order in this array is the fixed
-     * output order; there is no reordering control anywhere in the tool.
+     * Comprehensive Proposal section library: the sections a user ticks. Order
+     * in this array is the fixed output order; there is no reordering control
+     * anywhere in the tool. Each section prints the pages listed in `pages`
+     * (see PAGE_KINDS). Hybrid-only content, such as the battery, follows the
+     * System Configuration inside those pages rather than being a section.
      *
      * `core: true`      - kept by "Clear Optional Sections" and by every preset.
      * `auto: true`      - generated from data, never listed as a user checkbox.
-     * `configurations`  - section is only offered for these System Configurations.
      */
     const SECTION_CATALOG = [
-        { id: 'cover', title: 'Cover', group: 'Front Matter', core: true },
-        { id: 'document-control', title: 'Document Control', group: 'Front Matter', core: true },
-        { id: 'contents', title: 'Table of Contents', group: 'Front Matter', core: true, paginates: true },
-        { id: 'executive-summary', title: 'Executive Summary', group: 'Front Matter', core: true },
+        { id: 'cover', title: 'Cover', group: 'Front Matter', core: true, pages: ['cover'] },
+        { id: 'contents', title: 'Contents & Document Control', group: 'Front Matter', core: true,
+            pages: ['contents'] },
+        { id: 'executive-summary', title: 'Executive Summary', group: 'Front Matter', core: true,
+            pages: ['executive-summary'] },
 
-        { id: 'customer-project-profile', title: 'Customer & Project Profile', group: 'Project Context' },
-        { id: 'project-objectives', title: 'Project Objectives & Background', group: 'Project Context', paginates: true },
-        { id: 'about-ray2volt', title: 'About Ray2Volt', group: 'Project Context', maintained: true },
-        { id: 'ci-solar-benefits', title: 'Why C&I Solar', group: 'Project Context', maintained: true },
+        { id: 'site', title: 'Your Site Today', group: 'Your Project', pages: ['site-today'] },
+        { id: 'system', title: 'Proposed System', group: 'Your Project',
+            pages: ['system-overview', 'design-basis'] },
+        { id: 'energy', title: 'Energy', group: 'Your Project', pages: ['generation', 'energy-use'] },
+        { id: 'returns', title: 'Savings & Returns', group: 'Your Project',
+            pages: ['savings', 'returns', 'environment'] },
 
-        { id: 'proposed-solution', title: 'Proposed Solution', group: 'Technical Solution', paginates: true },
-        { id: 'system-architecture', title: 'System Architecture', group: 'Technical Solution' },
-        { id: 'installation-approach', title: 'Installation Approach', group: 'Technical Solution' },
-        { id: 'design-basis', title: 'Design Basis & Assumptions', group: 'Technical Solution' },
-        { id: 'pv-module-technology', title: 'PV Module Technology', group: 'Technical Solution', paginates: true },
-        { id: 'inverter-technology', title: 'Inverter Technology', group: 'Technical Solution', paginates: true },
-        {
-            id: 'battery-technology',
-            title: 'Battery Energy Storage',
-            group: 'Technical Solution',
-            paginates: true,
-            configurations: ['Hybrid']
-        },
-        { id: 'mounting-structure', title: 'Mounting Structure', group: 'Technical Solution', paginates: true },
-        { id: 'balance-of-system', title: 'Balance of System', group: 'Technical Solution', paginates: true },
-        { id: 'monitoring-scada', title: 'Monitoring & SCADA', group: 'Technical Solution', paginates: true },
-        { id: 'bill-of-materials', title: 'Bill of Materials', group: 'Technical Solution', core: true, paginates: true },
+        { id: 'equipment', title: 'Equipment', group: 'Delivery',
+            pages: ['key-equipment', 'system-components', 'bom-summary'] },
+        { id: 'delivery', title: 'Scope & Delivery', group: 'Delivery',
+            pages: ['scope', 'execution', 'quality-safety', 'warranty'] },
+        { id: 'company', title: 'Why Ray2Volt', group: 'Delivery', pages: ['why-ray2volt'] },
 
-        { id: 'generation-assessment', title: 'Generation Assessment', group: 'Energy & Financial Analysis' },
-        { id: 'consumption-profile', title: 'Consumption Profile', group: 'Energy & Financial Analysis' },
-        { id: 'energy-utilization', title: 'Energy Utilization', group: 'Energy & Financial Analysis' },
-        {
-            id: 'savings-projection',
-            title: 'Savings Projection',
-            group: 'Energy & Financial Analysis',
-            paginates: true
-        },
-        { id: 'returns-analysis', title: 'Returns Analysis', group: 'Energy & Financial Analysis' },
-        { id: 'environmental-impact', title: 'Environmental Impact', group: 'Energy & Financial Analysis' },
+        { id: 'commercial', title: 'Commercial Offer & Terms', group: 'Commercial & Closing', core: true,
+            pages: ['commercial-offer', 'terms-conditions'] },
+        { id: 'acceptance', title: 'Acceptance & Signature', group: 'Commercial & Closing',
+            pages: ['acceptance'] },
 
-        { id: 'scope-inclusions', title: 'Scope Inclusions', group: 'Scope & Execution', paginates: true },
-        { id: 'scope-exclusions', title: 'Scope Exclusions', group: 'Scope & Execution', paginates: true },
-        { id: 'execution-methodology', title: 'Execution Methodology', group: 'Scope & Execution', maintained: true },
-        { id: 'project-schedule', title: 'Project Schedule', group: 'Scope & Execution', maintained: true },
-        { id: 'quality-assurance', title: 'Quality Assurance', group: 'Scope & Execution', maintained: true },
-        { id: 'health-safety', title: 'Health & Safety', group: 'Scope & Execution', maintained: true },
-        { id: 'warranty-support', title: 'Warranty & Support', group: 'Scope & Execution', paginates: true },
+        { id: 'annexures', title: 'Annexures', group: 'Annexures', auto: true,
+            pages: ['bill-of-materials', 'savings-projection', 'project-background', 'annexures'] }
+    ];
 
-        { id: 'commercial-offer', title: 'Commercial Offer', group: 'Commercial & Closing', core: true, paginates: true },
-        { id: 'payment-milestones', title: 'Payment Milestones', group: 'Commercial & Closing', core: true, paginates: true },
-        { id: 'terms-conditions', title: 'Terms & Conditions', group: 'Commercial & Closing', core: true, paginates: true },
-        { id: 'why-ray2volt', title: 'Why Ray2Volt', group: 'Commercial & Closing', maintained: true },
-        { id: 'acceptance', title: 'Acceptance & Signature', group: 'Commercial & Closing' },
+    /**
+     * Every page the proposal can print. Most are fixed A4 compositions placed
+     * whole. `flow: true` marks the pages whose length comes from what was
+     * entered (the scope and terms lists, the commercial tables and the
+     * annexures); the document layout flows those across as many pages as
+     * they need. `annexure` letters the annexures the tool generates itself;
+     * attached documents are lettered after them.
+     */
+    const PAGE_KINDS = {
+        cover: { title: 'Cover' },
+        contents: { title: 'Contents & Document Control' },
+        'executive-summary': { title: 'Executive Summary' },
+        'site-today': { title: 'Your Site Today' },
+        'system-overview': { title: 'Proposed System' },
+        'design-basis': { title: 'Design Basis & Assumptions' },
+        generation: { title: 'Generation' },
+        'energy-use': { title: 'Energy Use' },
+        savings: { title: 'Savings' },
+        returns: { title: 'Returns' },
+        environment: { title: 'Environmental Impact' },
+        'key-equipment': { title: 'Key Equipment' },
+        'system-components': { title: 'System Components' },
+        'bom-summary': { title: 'Bill of Materials' },
+        scope: { title: 'Scope of Work', flow: true },
+        execution: { title: 'Execution & Schedule' },
+        'quality-safety': { title: 'Quality & Safety' },
+        warranty: { title: 'Warranty & Support' },
+        'why-ray2volt': { title: 'Why Ray2Volt' },
+        'commercial-offer': { title: 'Commercial Offer', flow: true },
+        'terms-conditions': { title: 'Terms & Conditions', flow: true },
+        acceptance: { title: 'Acceptance & Signature' },
+        'bill-of-materials': { title: 'Full Bill of Materials', flow: true, annexure: 'A' },
+        'savings-projection': { title: 'Year-by-Year Projection', flow: true, annexure: 'B' },
+        'project-background': { title: 'Project Background', flow: true, annexure: 'C' },
+        annexures: { title: 'Annexures' }
+    };
 
-        { id: 'annexure-index', title: 'Annexure Index', group: 'Annexures', auto: true, paginates: true },
-        { id: 'annexures', title: 'Annexures', group: 'Annexures', auto: true, paginates: true }
+    /**
+     * Section IDs saved before the redesign, and the section that now carries
+     * their content, so a saved draft keeps its selection.
+     */
+    const LEGACY_SECTION_IDS = {
+        'customer-project-profile': 'site',
+        'project-objectives': 'site',
+        'consumption-profile': 'site',
+        'proposed-solution': 'system',
+        'system-architecture': 'system',
+        'installation-approach': 'system',
+        'design-basis': 'system',
+        'generation-assessment': 'energy',
+        'energy-utilization': 'energy',
+        'savings-projection': 'returns',
+        'returns-analysis': 'returns',
+        'environmental-impact': 'returns',
+        'pv-module-technology': 'equipment',
+        'inverter-technology': 'equipment',
+        'battery-technology': 'equipment',
+        'mounting-structure': 'equipment',
+        'balance-of-system': 'equipment',
+        'monitoring-scada': 'equipment',
+        'bill-of-materials': 'equipment',
+        'scope-inclusions': 'delivery',
+        'scope-exclusions': 'delivery',
+        'execution-methodology': 'delivery',
+        'project-schedule': 'delivery',
+        'quality-assurance': 'delivery',
+        'health-safety': 'delivery',
+        'warranty-support': 'delivery',
+        'about-ray2volt': 'company',
+        'ci-solar-benefits': 'company',
+        'why-ray2volt': 'company',
+        'commercial-offer': 'commercial',
+        'payment-milestones': 'commercial',
+        'terms-conditions': 'commercial'
+    };
+
+    /**
+     * The numbered chapters the reader navigates by (the Contents page and the
+     * chapter bands). Each lists the page kinds it covers; chapters are
+     * numbered in the order their first page appears, so a deselected chapter
+     * never leaves a gap in the numbering.
+     */
+    const CHAPTERS = [
+        { id: 'summary', title: 'Executive Summary', summary: 'What changes for you, and the offer at a glance',
+            sectionIds: ['executive-summary'] },
+        { id: 'site', title: 'Your Site Today', summary: 'What you asked for, the site, and its energy use',
+            sectionIds: ['site-today'] },
+        { id: 'system', title: 'Proposed System', summary: 'The plant, how it connects, and the design basis',
+            sectionIds: ['system-overview', 'design-basis'] },
+        { id: 'energy', title: 'Energy', summary: 'What the plant generates and where the energy goes',
+            sectionIds: ['generation', 'energy-use'] },
+        { id: 'returns', title: 'Savings & Returns', summary: 'Savings, payback, returns and environmental impact',
+            sectionIds: ['savings', 'returns', 'environment'] },
+        { id: 'equipment', title: 'Equipment', summary: 'Key equipment, system components and materials',
+            sectionIds: ['key-equipment', 'system-components', 'bom-summary'] },
+        { id: 'delivery', title: 'Scope & Delivery', summary: 'Scope, schedule, quality, safety and warranty',
+            sectionIds: ['scope', 'execution', 'quality-safety', 'warranty'] },
+        { id: 'company', title: 'Why Ray2Volt', summary: 'Who builds your plant and how we work',
+            sectionIds: ['why-ray2volt'] },
+        { id: 'commercial', title: 'Commercial', summary: 'Price, payment milestones and terms',
+            sectionIds: ['commercial-offer', 'terms-conditions'] },
+        { id: 'acceptance', title: 'Acceptance', summary: 'Accepting the offer',
+            sectionIds: ['acceptance'] },
+        { id: 'annexures', title: 'Annexures', summary: 'Full bill of materials, year-by-year projection and documents',
+            unnumbered: true,
+            sectionIds: ['bill-of-materials', 'savings-projection', 'project-background', 'annexures'] }
     ];
 
     const SECTION_GROUPS = [
         'Front Matter',
-        'Project Context',
-        'Technical Solution',
-        'Energy & Financial Analysis',
-        'Scope & Execution',
+        'Your Project',
+        'Delivery',
         'Commercial & Closing',
         'Annexures'
     ];
+
+    /**
+     * Share of a year's generation in each month, January first: an indicative
+     * profile for South Indian irradiance, highest before the monsoon and
+     * lowest in July. It shapes the monthly chart only; the annual figure
+     * always comes from the specific yield. Normalised wherever it is used.
+     */
+    const SEASONAL_PROFILE = [1.05, 1.06, 1.12, 1.10, 1.06, 0.90, 0.82, 0.85, 0.92, 0.98, 1.01, 1.01];
+
+    /**
+     * Indicative time from order to commissioning by plant size, and the
+     * phases laid across it as fractions of that time. DISCOM processing runs
+     * alongside the works and is outside Ray2Volt's control.
+     */
+    const SCHEDULE_BANDS = [
+        { maxKwp: 100, weeks: 6 },
+        { maxKwp: 500, weeks: 10 },
+        { maxKwp: Infinity, weeks: 14 }
+    ];
+
+    const SCHEDULE_PHASES = [
+        { title: 'Site survey and design', owner: 'Ray2Volt', start: 0, end: 0.2 },
+        { title: 'DISCOM application and sanction', owner: 'DISCOM', start: 0.1, end: 0.8 },
+        { title: 'Procurement and delivery', owner: 'Ray2Volt', start: 0.2, end: 0.55 },
+        { title: 'Structure and civil works', owner: 'Ray2Volt', start: 0.45, end: 0.7 },
+        { title: 'Modules and electrical works', owner: 'Ray2Volt', start: 0.55, end: 0.85 },
+        { title: 'Net meter and inspection', owner: 'DISCOM', start: 0.8, end: 0.95 },
+        { title: 'Testing and commissioning', owner: 'Ray2Volt', start: 0.85, end: 1 }
+    ];
+
+    /**
+     * How much of each free-text field a designed page prints, cut at a full
+     * stop. A field longer than this is printed in full in Annexure C.
+     */
+    const NARRATIVE_EXCERPTS = {
+        objective: 440,
+        specialRequirements: 440,
+        existingSystem: 440,
+        siteConditions: 440,
+        proposedSolution: 600,
+        projectNotes: 360
+    };
 
     /** Sections a user can tick. Auto sections follow the annexure list instead. */
     function selectableSections() {
         return SECTION_CATALOG.filter(section => !section.auto);
     }
 
-    /** Sections offered for a System Configuration (hides Hybrid-only entries). */
+    /** Sections offered for a System Configuration (hides entries limited to another). */
     function sectionsForConfiguration(systemConfiguration) {
         return selectableSections().filter(section =>
             !section.configurations || section.configurations.indexOf(systemConfiguration) !== -1);
@@ -203,14 +323,14 @@
             label: 'C&I On-Grid Rooftop',
             systemConfiguration: 'On-Grid',
             installationLocation: 'rcc-rooftop',
-            excludedSectionIds: ['battery-technology', 'acceptance']
+            excludedSectionIds: ['acceptance']
         },
         {
             id: 'ci-ground-mounted',
             label: 'C&I Ground-Mounted',
             systemConfiguration: 'On-Grid',
             installationLocation: 'ground-mounted',
-            excludedSectionIds: ['battery-technology', 'acceptance']
+            excludedSectionIds: ['acceptance']
         },
         {
             id: 'ci-hybrid',
@@ -241,13 +361,19 @@
         return SECTION_CATALOG.filter(section => section.id === sectionId)[0] || null;
     }
 
+    function getPageKind(pageId) {
+        return PAGE_KINDS[pageId] || null;
+    }
+
     /**
      * Reorders an arbitrary selection into fixed catalog order and drops unknown
      * or auto-generated IDs. Selection order must never reach the renderer.
+     * Section IDs saved before the redesign map onto the section that now
+     * carries their content.
      */
     function orderSectionIds(sectionIds) {
         const wanted = {};
-        (sectionIds || []).forEach(id => { wanted[id] = true; });
+        (sectionIds || []).forEach(id => { wanted[LEGACY_SECTION_IDS[id] || id] = true; });
 
         return SECTION_CATALOG
             .filter(section => !section.auto && wanted[section.id])
@@ -411,7 +537,14 @@
         BOM_UNITS,
         BOM_CATEGORIES,
         SECTION_CATALOG,
+        PAGE_KINDS,
+        LEGACY_SECTION_IDS,
+        CHAPTERS,
         SECTION_GROUPS,
+        SEASONAL_PROFILE,
+        SCHEDULE_BANDS,
+        SCHEDULE_PHASES,
+        NARRATIVE_EXCERPTS,
         PRESETS,
         DEFAULT_PRESET_ID,
         PAGINATION,
@@ -425,6 +558,7 @@
         getPreset,
         presetSectionIds,
         getSection,
+        getPageKind,
         orderSectionIds
     };
 }));
