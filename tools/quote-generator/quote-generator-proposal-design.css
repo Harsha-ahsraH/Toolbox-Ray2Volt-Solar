@@ -1,0 +1,818 @@
+/* ============================================
+   QUOTE GENERATOR - Comprehensive proposal design system
+   Ray2Volt Solar Toolbox
+
+   The redesigned Comprehensive document, ported from the approved specimen
+   (tmp/comprehensive-design-system/index.html). Pages built on it so far: the
+   cover, Contents & Document Control and the two Executive Summary pages.
+
+   Print-first rules: white paper; tint only on table headers and at most one
+   band per page; borders, never shadows (html2canvas drops them); amber only
+   for solar generation; green and red only as flags, always beside an icon.
+
+   Density: a page is full, never airy. Sections sit 5mm apart; space a page
+   has left over goes to real content (a basis grid, payment terms), and only
+   the last few millimetres are absorbed by rows that stretch.
+
+   Figures: tabular-nums only on digit-only runs (chapter and page numbers).
+   Google Sans Flex's tabular set squeezes % to a digit's width, so any value
+   that can carry a % keeps proportional figures.
+
+   The running header and footer, the cover masthead and the cover footer are
+   house stationery defined in quote-generator-proposal-comprehensive.css and
+   are not restyled here. Class names that the older pages already use
+   (.cq-figure, .cq-table, .cq-steps) are given new names here — .cq-fig,
+   .cq-stepper — so the two generations can coexist while pages move over.
+   ============================================ */
+
+.cq-page {
+    /* Chart series, in fixed order and never cycled. */
+    --cq-s1: #1F4E79;   /* money, savings, the offer */
+    --cq-s2: #E39B2D;   /* solar generation only */
+    --cq-s3: #8FB3D6;   /* exported / secondary share */
+    --cq-ctx: #B9C0C8;  /* context: grid power, "before" */
+    --cq-grid: #E6EAF0;
+    /* Semantic flags: never a series colour, always with an icon. */
+    --cq-good: #2E7D4F;
+    --cq-bad: #B23A3A;
+}
+
+/* --- Icons and type ------------------------------------------------------ */
+
+.cq-ic {
+    width: 17px;
+    height: 17px;
+    flex-shrink: 0;
+}
+
+.cq-eyebrow {
+    font-size: 7.5pt;
+    font-weight: 700;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: var(--qp-navy);
+}
+
+.cq-page .cq-t-h2 {
+    font-size: 15pt;
+    font-weight: 700;
+    line-height: 1.25;
+    color: var(--qp-navy-dark);
+}
+
+.cq-page .cq-t-h3 {
+    margin: 0 0 3mm;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--qp-line);
+    font-size: 10pt;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--qp-navy);
+}
+
+.cq-t-small {
+    font-size: 8.5pt;
+    line-height: 1.45;
+    color: var(--qp-gray);
+}
+
+.cq-g4 {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 3mm;
+}
+
+/* --- Chapter opener: the key message band ------------------------------- */
+
+/* The page's one tint band: chapter number in a navy chip, the takeaway,
+   and one supporting line. */
+.cq-opener {
+    display: grid;
+    grid-template-columns: 10mm minmax(0, 1fr);
+    gap: 4.5mm;
+    align-items: center;
+    margin-bottom: 5mm;
+    padding: 4mm 4.5mm;
+    background: var(--qp-tint);
+}
+
+.cq-opener-num {
+    display: grid;
+    place-items: center;
+    width: 10mm;
+    height: 10mm;
+    background: var(--qp-navy);
+    font-size: 11pt;
+    font-weight: 700;
+    color: #fff;
+    font-variant-numeric: tabular-nums;
+}
+
+.cq-opener .cq-t-h2 { margin: 0; font-size: 14pt; }
+
+.cq-opener p {
+    margin: 1mm 0 0;
+    font-size: 8.5pt;
+    line-height: 1.4;
+    color: var(--qp-gray);
+}
+
+/* --- KPI tile ------------------------------------------------------------- */
+
+.cq-kpi {
+    display: flex;
+    flex-direction: column;
+    gap: 1.4mm;
+    padding: 3.2mm 3.2mm 3mm;
+    background: #fff;
+    border: 1px solid var(--qp-line);
+    border-top: 3px solid var(--qp-navy);
+    border-radius: 2px;
+}
+
+.cq-kpi-label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 7pt;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--qp-muted);
+}
+
+.cq-kpi-label .cq-ic { width: 13px; height: 13px; color: var(--qp-navy); }
+
+.cq-kpi-value {
+    font-size: 19pt;
+    font-weight: 700;
+    line-height: 1.05;
+    color: var(--qp-navy-dark);
+    white-space: nowrap;
+}
+
+/* Full rupee figures (₹8,00,60,769) step down so they stay inside the tile. */
+.cq-kpi.is-long .cq-kpi-value { font-size: 15pt; }
+
+.cq-kpi-unit { margin-left: 3px; font-size: 9pt; font-weight: 500; color: var(--qp-muted); }
+.cq-kpi-note { font-size: 7.5pt; line-height: 1.35; color: var(--qp-gray); }
+
+/* --- Callout: outline only, the icon carries the meaning ----------------- */
+
+.cq-callout {
+    display: grid;
+    grid-template-columns: 17px 1fr;
+    gap: 3mm;
+    padding: 3mm 3.5mm;
+    border: 1px solid var(--qp-line);
+    border-left: 3px solid var(--qp-navy);
+    border-radius: 2px;
+    font-size: 8.5pt;
+    line-height: 1.5;
+    color: var(--qp-ink);
+}
+
+.cq-callout strong { color: var(--qp-navy-dark); }
+.cq-callout .cq-ic { color: var(--qp-navy); }
+.cq-callout.is-assume { border-left-color: var(--qp-muted); }
+.cq-callout.is-assume .cq-ic { color: var(--qp-muted); }
+
+/* --- Icon in an outlined circle ------------------------------------------ */
+
+.cq-feature-ic {
+    display: grid;
+    place-items: center;
+    width: 9mm;
+    height: 9mm;
+    border: 1.5px solid var(--qp-navy);
+    border-radius: 50%;
+    color: var(--qp-navy);
+}
+
+.cq-feature-ic .cq-ic { width: 15px; height: 15px; }
+
+/* --- Figure frame and legend ---------------------------------------------- */
+
+.cq-fig {
+    margin: 0;
+    padding: 3.5mm 4mm 3mm;
+    background: #fff;
+    border: 1px solid var(--qp-line);
+    border-radius: 2px;
+}
+
+.cq-fig-title {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 4mm;
+    margin-bottom: 2.5mm;
+}
+
+.cq-page .cq-fig-title h4 {
+    font-size: 9.5pt;
+    font-weight: 700;
+    color: var(--qp-navy-dark);
+}
+
+.cq-fig figcaption {
+    margin-top: 2mm;
+    font-size: 7.5pt;
+    font-style: italic;
+    line-height: 1.45;
+    color: var(--qp-muted);
+}
+
+.cq-chart { display: block; width: 100%; height: auto; }
+
+.cq-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4mm;
+    font-size: 7.5pt;
+    color: var(--qp-gray);
+}
+
+.cq-legend i {
+    display: inline-block;
+    width: 9px;
+    height: 9px;
+    margin-right: 4px;
+    border-radius: 2px;
+    vertical-align: -1px;
+}
+
+.cq-legend i.line { width: 14px; height: 2px; border-radius: 1px; vertical-align: 2px; }
+
+/* --- P1 Cover (masthead and footer are house stationery) ----------------- */
+
+.cq-cover-lead {
+    margin: 0 0 4mm;
+    font-size: 12pt;
+    line-height: 1.5;
+    color: var(--qp-gray);
+}
+
+.cq-cover-lead strong { color: var(--qp-ink); }
+
+/* The illustration takes whatever height the title leaves, so a one-line
+   and a two-line title both finish the page on the cards. It is line art on
+   white: contained rather than cropped, unframed, and running slightly into
+   the side margins; it sits a little above centre, so slightly more of the
+   spare height falls above the cards than below the title. */
+.cq-cover-hero {
+    flex: 1;
+    min-height: 80mm;
+    width: calc(100% + 20mm);
+    margin: -6mm -10mm 7mm;
+    object-fit: contain;
+    object-position: 50% 40%;
+}
+
+.cq-cover-facts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4mm;
+}
+
+.cq-cover-fact {
+    display: grid;
+    grid-template-columns: 17px 1fr;
+    gap: 3mm;
+    padding: 3.5mm 4mm;
+    border: 1px solid var(--qp-line);
+    border-top: 3px solid var(--qp-navy);
+    border-radius: 2px;
+    font-size: 9pt;
+    line-height: 1.5;
+}
+
+.cq-cover-fact .cq-ic { color: var(--qp-navy); }
+.cq-cover-fact strong { display: block; color: var(--qp-navy-dark); }
+.cq-cover-fact span,
+.cq-cover-fact small { display: block; }
+.cq-cover-fact small { font-size: 8pt; color: var(--qp-gray); }
+
+/* --- P2 Contents & Document Control ------------------------------------- */
+
+.cq-contents-page {
+    display: flex;
+    flex-direction: column;
+}
+
+.cq-contents-grid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+    gap: 8mm;
+    margin-top: 2mm;
+}
+
+.cq-contents-grid > section {
+    display: flex;
+    flex-direction: column;
+}
+
+.cq-chapters {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.cq-chapters li {
+    display: grid;
+    grid-template-columns: 13mm minmax(0, 1fr) 10mm;
+    align-items: center;
+    flex: 1 1 auto;
+    gap: 3mm;
+    padding: 2mm 0;
+    border-bottom: 1px solid var(--qp-line);
+}
+
+.cq-chapter-num {
+    font-size: 15pt;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--qp-navy);
+    font-variant-numeric: tabular-nums;
+}
+
+.cq-chapter-text strong {
+    display: block;
+    font-size: 10.5pt;
+    font-weight: 700;
+    color: var(--qp-navy-dark);
+}
+
+.cq-chapter-text small {
+    display: block;
+    margin-top: 0.8mm;
+    font-size: 8pt;
+    color: var(--qp-muted);
+}
+
+.cq-chapters .cq-toc-page {
+    font-size: 11pt;
+    font-weight: 700;
+    text-align: right;
+    color: var(--qp-navy);
+    font-variant-numeric: tabular-nums;
+}
+
+.cq-docinfo { margin: 0; }
+
+.cq-docinfo dt {
+    margin-top: 3.4mm;
+    font-size: 7pt;
+    font-weight: 700;
+    letter-spacing: 0.7px;
+    text-transform: uppercase;
+    color: var(--qp-muted);
+}
+
+.cq-docinfo dt:first-child { margin-top: 0; }
+
+.cq-docinfo dd {
+    margin: 0.6mm 0 0;
+    font-size: 9pt;
+    line-height: 1.45;
+    color: var(--qp-ink);
+    overflow-wrap: anywhere;
+}
+
+/* Document details sit in one bordered panel: the quotation's identity first
+   and largest, then the parties, then addresses and registrations. The
+   panel's head is the page's one tint band. */
+.cq-docpanel {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--qp-line);
+    border-top: 3px solid var(--qp-navy);
+}
+
+.cq-page .cq-docpanel-head {
+    margin: 0;
+    padding: 2.4mm 4mm;
+    background: var(--qp-tint);
+    border-bottom: 1px solid var(--qp-line);
+    font-size: 8pt;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--qp-navy);
+}
+
+.cq-docpanel-id {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3mm 4mm;
+    margin: 0;
+    padding: 3.4mm 4mm;
+}
+
+.cq-docpanel-id .is-lead,
+.cq-docpanel-id .is-wide { grid-column: 1 / -1; }
+
+.cq-docpanel-id dt {
+    font-size: 7pt;
+    font-weight: 700;
+    letter-spacing: 0.7px;
+    text-transform: uppercase;
+    color: var(--qp-muted);
+}
+
+.cq-docpanel-id dd {
+    margin: 0.6mm 0 0;
+    font-size: 9.5pt;
+    font-weight: 600;
+    color: var(--qp-navy-dark);
+}
+
+.cq-docpanel-id .is-lead dd { font-size: 12pt; font-weight: 700; }
+
+.cq-docpanel-group {
+    padding: 3.4mm 4mm;
+    border-top: 1px solid var(--qp-line);
+}
+
+/* The issuer block sits on the panel's foot, level with the last chapter. */
+.cq-docpanel-issuer { margin-top: auto; }
+
+.cq-page .cq-docpanel-group h4 {
+    margin: 0 0 2.4mm;
+    font-size: 8pt;
+    font-weight: 700;
+    color: var(--qp-navy-dark);
+}
+
+.cq-docpanel .cq-docinfo dt { margin-top: 2.4mm; }
+.cq-docpanel .cq-docinfo dt:first-child { margin-top: 0; }
+
+/* Abbreviations: four to a row, term over meaning. */
+.cq-glossary { margin-top: 5mm; }
+
+.cq-glossary dl {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 2.4mm 5mm;
+    margin: 0;
+}
+
+.cq-glossary dt {
+    font-size: 8.5pt;
+    font-weight: 700;
+    color: var(--qp-navy-dark);
+}
+
+.cq-glossary dd {
+    margin: 0.4mm 0 0;
+    font-size: 7.5pt;
+    line-height: 1.35;
+    color: var(--qp-gray);
+}
+
+.cq-contents-note { margin-top: 5mm; }
+
+/* --- P3-P4 Executive Summary --------------------------------------------- */
+
+.cq-summary-page {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Today | With Ray2Volt as a plain house table: the "with" column in bold
+   navy, everything else in ink and grey. */
+.cq-change-table {
+    margin-bottom: 5mm;
+    font-size: 9pt;
+}
+
+.cq-change-table th,
+.cq-change-table td {
+    padding: 1.6mm 3mm;
+    vertical-align: middle;
+}
+
+.cq-change-table td strong {
+    display: block;
+    font-size: 9.5pt;
+    color: var(--qp-navy-dark);
+}
+
+.cq-change-table td small {
+    display: block;
+    margin-top: 0.5mm;
+    font-size: 7.5pt;
+    color: var(--qp-muted);
+}
+
+.cq-change-table td.cq-num {
+    font-size: 10pt;
+    color: var(--qp-gray);
+}
+
+.cq-change-table td.cq-change-with {
+    font-weight: 700;
+    color: var(--qp-navy-dark);
+}
+
+/* Paired bars. Each pair shares one scale; grey is the grid, amber solar
+   energy, navy the plant, light blue running costs, and a dashed outline
+   what the customer keeps. The pairs spread over the rest of the page. */
+.cq-shift {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 3.5mm;
+    --cq-bar: 6mm;
+}
+
+/* With two pairs or one (no bill or no consumption) the bars grow and the
+   pairs spread evenly, so the page still reads as full. */
+.cq-shift-1,
+.cq-shift-2 {
+    justify-content: space-evenly;
+    --cq-bar: 14mm;
+}
+
+.cq-pair {
+    padding-top: 3mm;
+    border-top: 1px solid var(--qp-line);
+}
+
+.cq-pair-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 4mm;
+    margin-bottom: 2mm;
+}
+
+.cq-page .cq-pair-head h4 {
+    margin: 0;
+    font-size: 10pt;
+    font-weight: 700;
+    color: var(--qp-navy-dark);
+}
+
+.cq-pair-change {
+    font-size: 9pt;
+    font-weight: 700;
+    color: var(--qp-navy);
+    white-space: nowrap;
+}
+
+.cq-pair-row {
+    display: grid;
+    grid-template-columns: 25mm minmax(0, 1fr) 23mm;
+    align-items: center;
+    gap: 3mm;
+    margin-bottom: 1.6mm;
+}
+
+.cq-pair-label {
+    font-size: 8.5pt;
+    color: var(--qp-gray);
+}
+
+.cq-pair-track {
+    display: flex;
+    height: var(--cq-bar);
+}
+
+.cq-pair-value {
+    font-size: 9.5pt;
+    font-weight: 700;
+    text-align: right;
+    color: var(--qp-navy-dark);
+    white-space: nowrap;
+}
+
+/* Parts keep their share and give up 2px each for the white gap between them. */
+.cq-seg {
+    display: block;
+    flex: 0 1 auto;
+    box-sizing: border-box;
+    height: 100%;
+}
+
+.cq-seg + .cq-seg { margin-left: 2px; }
+.cq-seg-grid { background: var(--cq-ctx); }
+.cq-seg-solar { background: var(--cq-s2); }
+.cq-seg-plant { background: var(--cq-s1); }
+.cq-seg-costs { background: var(--cq-s3); }
+.cq-seg-kept { background: #fff; border: 1.5px dashed var(--cq-s1); }
+
+.cq-pair-key {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1mm 6mm;
+    margin: 2mm 0 0 28mm;
+    font-size: 8pt;
+    color: var(--qp-gray);
+}
+
+.cq-pair-key strong { font-weight: 700; color: var(--qp-navy-dark); }
+
+.cq-pair-key .cq-seg {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin: 0 5px 0 0;
+    vertical-align: -1px;
+}
+
+.cq-pair-key .cq-seg-kept { border-width: 1px; }
+
+/* Basis of these figures: eight ruled cells, four to a row. */
+.cq-basis { margin-top: 5mm; }
+
+.cq-basis-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    margin: 0;
+    border-top: 1px solid var(--qp-line);
+    border-left: 1px solid var(--qp-line);
+}
+
+.cq-basis-grid > div {
+    padding: 1.8mm 3mm;
+    border-right: 1px solid var(--qp-line);
+    border-bottom: 1px solid var(--qp-line);
+}
+
+.cq-basis-grid dt {
+    font-size: 6.8pt;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: var(--qp-muted);
+}
+
+.cq-basis-grid dd {
+    margin: 0.8mm 0 0;
+    font-size: 10pt;
+    font-weight: 700;
+    color: var(--qp-navy-dark);
+}
+
+.cq-basis-grid small {
+    display: block;
+    margin-top: 0.4mm;
+    font-size: 7.2pt;
+    line-height: 1.35;
+    color: var(--qp-muted);
+}
+
+.cq-basis-note {
+    margin: 2mm 0 0;
+    font-size: 7.5pt;
+    font-style: italic;
+    line-height: 1.45;
+    color: var(--qp-muted);
+}
+
+.cq-offer-kpis { margin-bottom: 5mm; }
+
+/* The list takes the page's last few millimetres, shared by its rows, so a
+   five-row On-Grid offer and a six-row Hybrid one both end on the baseline. */
+.cq-offer-list {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin: 0 0 5mm;
+    padding: 0;
+    list-style: none;
+}
+
+.cq-offer-item {
+    flex: 1 1 auto;
+    display: grid;
+    grid-template-columns: 9mm minmax(0, 1fr) 44mm;
+    align-items: center;
+    gap: 4mm;
+    padding: 1.4mm 0;
+    border-bottom: 1px solid var(--qp-line);
+}
+
+.cq-offer-text strong {
+    display: block;
+    margin-bottom: 0.5mm;
+    font-size: 9.5pt;
+    color: var(--qp-navy-dark);
+}
+
+.cq-offer-text span {
+    display: block;
+    font-size: 8.5pt;
+    line-height: 1.45;
+    color: var(--qp-ink);
+}
+
+.cq-offer-text b { font-weight: 700; }
+
+.cq-offer-side {
+    font-size: 8.5pt;
+    font-weight: 600;
+    line-height: 1.35;
+    text-align: right;
+    color: var(--qp-navy-dark);
+}
+
+.cq-offer-side small {
+    display: block;
+    margin-bottom: 0.6mm;
+    font-size: 6.8pt;
+    font-weight: 700;
+    letter-spacing: 0.7px;
+    text-transform: uppercase;
+    color: var(--qp-muted);
+}
+
+/* Numbered steps joined by a hairline. */
+.cq-stepper {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 4mm;
+    margin: 1mm 0 5mm;
+    padding: 0;
+    list-style: none;
+}
+
+/* Payment terms: one column per milestone, share over amount over trigger. */
+.cq-payterms {
+    display: grid;
+    grid-template-columns: repeat(var(--cq-pay-cols, 4), minmax(0, 1fr));
+    gap: 3mm 5mm;
+    margin: 0 0 5mm;
+    padding: 0;
+    list-style: none;
+}
+
+.cq-payterms li {
+    padding-top: 1.8mm;
+    border-top: 2px solid var(--qp-navy);
+}
+
+.cq-payterms-share {
+    display: block;
+    font-size: 13pt;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--qp-navy-dark);
+}
+
+.cq-payterms-share b {
+    margin-left: 2mm;
+    font-size: 9pt;
+    font-weight: 600;
+    color: var(--qp-gray);
+}
+
+.cq-payterms-name {
+    display: block;
+    margin-top: 0.8mm;
+    font-size: 8pt;
+    line-height: 1.4;
+    color: var(--qp-gray);
+}
+
+.cq-stepper::before {
+    content: '';
+    position: absolute;
+    top: 4mm;
+    left: 12.5%;
+    right: 12.5%;
+    border-top: 1.5px solid var(--qp-line);
+}
+
+.cq-stepper li { position: relative; text-align: center; }
+
+.cq-stepper-n {
+    display: grid;
+    place-items: center;
+    width: 8mm;
+    height: 8mm;
+    margin: 0 auto 2mm;
+    background: #fff;
+    border: 1.5px solid var(--qp-navy);
+    border-radius: 50%;
+    font-size: 9.5pt;
+    font-weight: 700;
+    color: var(--qp-navy);
+}
+
+.cq-stepper p {
+    margin: 0;
+    font-size: 8pt;
+    line-height: 1.45;
+    color: var(--qp-gray);
+}
+
+.cq-offer-note { margin-top: auto; }

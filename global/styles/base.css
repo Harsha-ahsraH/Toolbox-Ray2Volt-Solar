@@ -279,6 +279,12 @@
     background: var(--scrollbar-thumb-active);
 }
 
+/* Paper has no scrollbars: a page printed while an area can scroll would
+   otherwise carry the pill down its right edge. */
+@media print {
+    ::-webkit-scrollbar { display: none; }
+}
+
 /* Firefox has no ::-webkit-scrollbar, so it gets the same bar through the
    standard properties. They are scoped to browsers without the WebKit
    pseudo-elements on purpose: setting scrollbar-width or scrollbar-color in

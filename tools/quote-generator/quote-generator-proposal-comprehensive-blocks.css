@@ -4,8 +4,8 @@
 
    Continues quote-generator-proposal-comprehensive.css, which holds the page
    shell, the type scale, the tables and the cover. This sheet holds the blocks
-   the individual sections are composed from: cover meta grids, figures,
-   equipment-table cell notes, the reconciliation strip, the energy-split bar,
+   the individual sections are composed from: figures, equipment-table
+   cell notes, the reconciliation strip, the energy-split bar,
    the headline band and the page-foot anchor.
 
    @import places these rules *before* everything in the importing sheet, so a
@@ -53,52 +53,10 @@
 
 /* Icon in a card header, matching .qp-prep-header svg in the Short Proposal:
    a 12px stroked glyph ahead of the tracked navy cap. */
-.cq-card h4 svg,
-.cq-cover-card h3 svg {
+.cq-card h4 svg {
     width: 12px;
     height: 12px;
     flex-shrink: 0;
-}
-
-/* --- Cover blocks --------------------------------------------------------
-
-   The two cover cards carry the facts a reader checks first — who the offer is
-   for, and what is being offered. Both are set as label/value pairs on one
-   fixed label column, the same treatment .qp-prep-meta gives the Short cover,
-   so the two cards align with each other line for line. */
-
-.cq-cover-name {
-    display: block;
-    margin-bottom: 2mm;
-    font-size: 11.5pt;
-    font-weight: 700;
-    line-height: 1.25;
-    color: var(--qp-navy-dark);
-}
-
-.cq-cover-meta {
-    display: grid;
-    grid-template-columns: 24mm minmax(0, 1fr);
-    align-items: baseline;
-    gap: 1.3mm 3mm;
-    margin: 0;
-}
-
-.cq-cover-meta dt {
-    font-size: 7.5pt;
-    font-weight: 600;
-    letter-spacing: 0.4px;
-    text-transform: uppercase;
-    color: var(--qp-muted);
-}
-
-.cq-cover-meta dd {
-    margin: 0;
-    font-size: 9pt;
-    font-weight: 500;
-    line-height: 1.4;
-    color: var(--qp-ink);
-    overflow-wrap: anywhere;
 }
 
 /* --- Figures --------------------------------------------------------------

@@ -253,8 +253,9 @@
         }
 
         /**
-         * A configuration change drops sections that no longer apply (battery on
-         * an On-Grid plant) and reloads narrative defaults for untouched fields.
+         * A configuration change drops sections that no longer apply and reloads
+         * narrative defaults for untouched fields. Battery content follows the
+         * configuration inside the pages, so no section is added for Hybrid.
          * Entered data is never discarded.
          */
         function onConfigurationChanged() {
@@ -266,13 +267,6 @@
                         || section.configurations.indexOf(state.project.systemConfiguration) !== -1;
                 })
             );
-
-            if (state.project.systemConfiguration === 'Hybrid') {
-                const battery = Config.getSection('battery-technology');
-                if (battery && state.selectedSectionIds.indexOf(battery.id) === -1) {
-                    Model.toggleSection(state, battery.id, true);
-                }
-            }
 
             Model.applyNarrativeDefaults(state);
         }

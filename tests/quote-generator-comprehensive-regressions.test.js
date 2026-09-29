@@ -129,9 +129,11 @@ function fieldsOf(validation) {
     assert.equal(calc.derived(state).payback, 2);
 }
 
-// --- Every section that can grow must paginate --------------------------------
+// --- Every list that can grow must reach the page -----------------------------
 // Each of these used to render into one fixed A4 page, dropping everything past
-// the bottom of it from preview, print and PDF alike.
+// the bottom of it from preview, print and PDF alike. The terms, the bill of
+// materials and the projection are planned in chunks; the commercial tables
+// and the full narrative flow onto continuation pages in the document layout.
 {
     const state = validState();
 
@@ -144,32 +146,30 @@ function fieldsOf(validation) {
         });
     }
     for (let index = 0; index < 30; index++) {
-        model.addBreakdownRow(state, {
-            description: `Price breakdown line item ${index + 1} covering a scope element`,
-            amount: 100000
-        });
-    }
-    for (let index = 0; index < 30; index++) {
         model.addAnnexure(state, {
             title: `Annexure document number ${index + 1}`,
             fileName: `doc${index}.pdf`
         });
     }
-    model.setNarrativeField(state, 'objective', 'VERY LONG TEXT. '.repeat(1600));
+    for (let index = 0; index < 60; index++) {
+        model.addBomRow(state, 'modules', { name: `Module item ${index + 1}`, quantity: 1 });
+    }
+    const objective = 'VERY LONG TEXT. '.repeat(1600);
+    model.setNarrativeField(state, 'objective', objective);
 
     const plan = calc.planPages(state);
     const pagesFor = sectionId => plan.filter(page => page.sectionId === sectionId).length;
 
-    assert.ok(pagesFor('payment-milestones') > 1, '40 milestones must span more than one page');
-    assert.ok(pagesFor('commercial-offer') > 1, '30 price breakdown rows must span more than one page');
-    assert.ok(pagesFor('annexure-index') > 1, '30 annexures must span more than one index page');
-    assert.ok(pagesFor('project-objectives') > 1, 'a very long narrative must span more than one page');
+    assert.ok(pagesFor('bill-of-materials') > 1, 'a long bill of materials must span more than one page');
+    assert.equal(pagesFor('commercial-offer'), 1, 'the commercial page flows in the layout, not in the plan');
+    assert.equal(pagesFor('annexures'), 30, 'each attached annexure is planned at its page count');
+    assert.equal(pagesFor('project-background'), 1, 'a shortened narrative adds the full-text annexure');
 
     // Every row still reaches a page: the chunks tile the list exactly once.
     [
-        ['payment-milestones', state.commercial.milestones.length],
-        ['commercial-offer', pagination.commercialOfferUnits(state).length],
-        ['annexure-index', model.includedAnnexures(state).length]
+        ['bill-of-materials', pagination.bomLines(state).length],
+        ['terms-conditions', pagination.clauseHeights(state, 'terms').length],
+        ['savings-projection', calc.derived(state).projection.rows.length]
     ].forEach(([sectionId, expected]) => {
         const chunks = pagination.sectionChunks(state, sectionId);
         assert.equal(chunks[0].start, 0, `${sectionId} must start at the first row`);
@@ -183,15 +183,11 @@ function fieldsOf(validation) {
         });
     });
 
-    // Narrative text is preserved in full across the split.
-    const units = pagination.narrativeUnits(state, 'project-objectives');
-    const rejoined = units
-        .filter(unit => unit.heading.indexOf('Customer Objective') === 0)
-        .map(unit => unit.text)
-        .join(' ');
-    assert.equal(rejoined.replace(/\s+/g, ' ').trim(),
-        state.projectNarrative.objective.replace(/\s+/g, ' ').trim(),
-        'splitting a long narrative field must not drop or duplicate any of it');
+    // The designed page carries an excerpt; the annexure keeps the text whole.
+    const narrative = calc.derived(state).insights.narrative.fields.objective;
+    assert.ok(narrative.excerpted);
+    assert.ok(narrative.excerpt.length < objective.length);
+    assert.equal(narrative.text, objective.trim(), 'the full narrative must survive for Annexure C');
 }
 
 // --- Chunk arithmetic ---------------------------------------------------------
@@ -313,20 +309,17 @@ function fieldsOf(validation) {
     }
     model.addClause(state, 'terms', `CLAUSE_START ${'term '.repeat(5000)} CLAUSE_END`);
 
-    // The proposed solution flows across pages instead of being excerpted away.
-    const solutionUnits = pagination.narrativeUnits(state, 'proposed-solution');
-    assert.ok(solutionUnits.map(unit => unit.text).join(' ').includes('END_MARKER'),
-        'the end of a long proposed solution must still reach a page');
-    assert.ok(calc.planPages(state).filter(page => page.sectionId === 'proposed-solution').length > 1,
-        'a long proposed solution must span more than one page');
+    // The proposed solution is shortened on its designed page, and the whole
+    // text, end included, goes to the project background annexure.
+    const solution = calc.derived(state).insights.narrative.fields.proposedSolution;
+    assert.ok(solution.excerpted && !solution.excerpt.includes('END_MARKER'));
+    assert.ok(solution.text.includes('END_MARKER'), 'the end of a long proposed solution must still reach a page');
+    assert.ok(calc.planPages(state).some(page => page.sectionId === 'project-background'),
+        'a shortened narrative must add the full-text annexure');
 
-    // Discounts are counted in the commercial offer page plan, not just drawn.
-    const offerUnits = pagination.commercialOfferUnits(state);
-    assert.equal(offerUnits.filter(unit => unit.kind === 'discount').length, 50);
-    const offerChunks = pagination.sectionChunks(state, 'commercial-offer');
-    assert.equal(offerChunks[offerChunks.length - 1].end, offerUnits.length,
-        'every discount must fall inside a planned page');
-    assert.ok(offerChunks.length > 1, '50 discounts cannot fit on one page');
+    // The commercial page flows, so the document layout continues every
+    // discount onto further pages rather than a fixed page clipping them.
+    assert.equal(config.getPageKind('commercial-offer').flow, true);
 
     // A clause longer than a page is split rather than clipped.
     const termUnits = pagination.clauseUnits(state, 'terms');
@@ -353,41 +346,27 @@ function fieldsOf(validation) {
     const state = validState();
     model.selectAllSections(state);
 
-    // Deliberately awkward inputs: each is one item far taller than a page.
+    // Deliberately awkward input: one clause far taller than a page.
     model.addClause(state, 'terms', `term `.repeat(1100));
-    model.addBreakdownRow(state, { description: 'scope '.repeat(334), amount: 1000 });
-    model.setNarrativeField(state, 'proposedSolution', 'word '.repeat(170));
 
-    const budgets = [
-        ['terms-conditions', () => pagination.clauseHeights(state, 'terms'),
-            config.PAGINATION.clause.budgetPx],
-        ['commercial-offer', () => pagination.commercialOfferHeights(state),
-            config.PAGINATION.breakdown.budgetPx],
-        ['proposed-solution', () => pagination.narrativeUnitHeights(state, 'proposed-solution'),
-            config.PAGINATION.narrative.budgetPx]
-    ];
-
-    budgets.forEach(([sectionId, heightsOf, budget]) => {
-        const heights = heightsOf();
-        pagination.sectionChunks(state, sectionId).forEach(chunk => {
-            const used = heights.slice(chunk.start, chunk.end).reduce((total, h) => total + h, 0);
-            assert.ok(used <= budget,
-                `${sectionId} planned a ${used}px page against a ${budget}px budget`);
-        });
+    const heights = pagination.clauseHeights(state, 'terms');
+    const budget = config.PAGINATION.clause.budgetPx;
+    pagination.sectionChunks(state, 'terms-conditions').forEach(chunk => {
+        const used = heights.slice(chunk.start, chunk.end).reduce((total, h) => total + h, 0);
+        assert.ok(used <= budget, `terms-conditions planned a ${used}px page against a ${budget}px budget`);
     });
 }
 
-// --- Author paragraphs survive pagination -------------------------------------
+// --- Author paragraphs survive into the annexure -----------------------------
 {
     const state = validState();
     model.setNarrativeField(state, 'objective',
         'First paragraph.\n\nSecond paragraph.\n\nThird paragraph.');
 
-    const units = pagination.narrativeUnits(state, 'project-objectives')
-        .filter(unit => unit.heading.indexOf('Customer Objective') === 0);
-
-    assert.equal(units.length, 3, 'blank-line paragraph breaks must survive as separate blocks');
-    assert.equal(units[2].text, 'Third paragraph.');
+    const text = calc.derived(state).insights.narrative.fields.objective.text;
+    const paragraphs = text.split(/\n\s*\n/);
+    assert.equal(paragraphs.length, 3, 'blank-line paragraph breaks must survive as separate blocks');
+    assert.equal(paragraphs[2], 'Third paragraph.');
 }
 
 // --- Entered invalid values versus absent ones --------------------------------

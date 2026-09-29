@@ -86,6 +86,11 @@
         container.classList.add('cq-measuring');
         container.querySelectorAll('.cq-flow-page').forEach(page => {
             const body = page.querySelector('.cq-body');
+            // Designed pages fill with content, never with stretched spacing.
+            if (page.classList.contains('cq-designed')) {
+                page.dataset.contentFill = (occupied(body) / body.clientHeight * 100).toFixed(1);
+                return;
+            }
             const target = body.clientHeight * 0.815;
             // On a short illustrated page, give the actual photograph more room
             // before increasing whitespace around the explanatory material.

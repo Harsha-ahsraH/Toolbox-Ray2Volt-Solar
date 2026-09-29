@@ -45,6 +45,8 @@
             while (walker.nextNode()) {
                 const text = walker.currentNode.textContent.replace(/\s+/g, ' ').trim();
                 if (/^Continued from previous page/.test(text)) continue;
+                // Fixed pages drop optional supporting blocks, last first, until the page fits.
+                if (walker.currentNode.parentElement.closest('[data-optional]')) continue;
                 if (page.sectionId === 'annexure-index' && (walker.currentNode.parentElement.closest('.cq-note')
                     || walker.currentNode.parentElement.closest('td:last-child'))) continue;
                 if (text.length < 3) continue;
@@ -117,21 +119,20 @@
 
         const toc = nodes.find(node => node.dataset.sectionId === 'contents');
         if (toc) {
-            toc.querySelectorAll('.cq-toc-list li').forEach(row => {
-                const title = row.querySelector('.cq-toc-title').textContent;
-                const source = originalPlan.find(page => page.title === title);
-                const expected = actualPlan.findIndex(page => source.annexureId
-                    ? page.annexureId === source.annexureId : page.sectionIds.includes(source.sectionId)) + 1;
-                if (Number(row.querySelector('.cq-toc-page').textContent) !== expected) {
-                    failures.push(`Incorrect contents reference: ${title}`);
+            const chapters = QuoteGeneratorCalc.chapterContents(actualPlan);
+            toc.querySelectorAll('.cq-chapters li[data-chapter-id]').forEach(row => {
+                const chapter = chapters.find(entry => entry.id === row.dataset.chapterId);
+                if (!chapter || Number(row.querySelector('.cq-toc-page').textContent) !== chapter.pageNumber) {
+                    failures.push(`Incorrect contents reference: ${row.dataset.chapterId}`);
                 }
             });
         }
-        const annexureIds = [...new Set(originalPlan.filter(page => page.annexureId).map(page => page.annexureId))];
-        container.querySelectorAll('[data-content-section="annexure-index"] tbody tr').forEach(row => {
-            const id = annexureIds[Number(row.firstElementChild.textContent) - 1];
-            const expected = actualPlan.findIndex(page => page.annexureId === id) + 1;
-            if (Number(row.lastElementChild.textContent) !== expected) failures.push('Incorrect annexure index reference');
+        container.querySelectorAll('tr[data-annexure-ref]').forEach(row => {
+            const ref = row.dataset.annexureRef;
+            const expected = actualPlan.findIndex(page => page.annexureId === ref || page.sectionIds.includes(ref)) + 1;
+            if (Number(row.querySelector('.cq-annex-page').textContent) !== expected) {
+                failures.push(`Incorrect annexure index reference: ${ref}`);
+            }
         });
         return { passed: failures.length === 0, checkedTextRuns, pages: nodes.length, failures, measurements };
     };

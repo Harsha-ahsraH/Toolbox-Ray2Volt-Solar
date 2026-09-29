@@ -52,17 +52,21 @@ assert.equal(Model.deserialize(JSON.stringify(legacy)).state.commercial.showPric
 const context = { console, QuoteGeneratorConfig: Config, QuoteGeneratorModel: Model, QuoteGeneratorCalc: Calc };
 context.self = context;
 for (const file of ['quote-generator-content.js', 'quote-generator-comprehensive-pages.js',
-    'quote-generator-comprehensive-pages-a.js', 'quote-generator-comprehensive-pages-b.js',
-    'quote-generator-comprehensive-pages-c.js']) {
+    'quote-generator-comprehensive-charts.js', 'quote-generator-comprehensive-front.js',
+    'quote-generator-comprehensive-close.js']) {
     vm.runInNewContext(fs.readFileSync(path.join(tool, file), 'utf8'), context, { filename: file });
 }
 Model.selectAllSections(state);
+// The executive summary shows the rate on its second page, the offer at a glance.
 for (const sectionId of ['executive-summary', 'commercial-offer', 'acceptance']) {
+    // Read as text: a KPI tile sets the value and its unit in separate spans.
     const render = () => context.QuoteGeneratorPages.renderers[sectionId]({ state,
-        derived: Calc.derived(state), page: Calc.planPages(state).find(page => page.sectionId === sectionId) }).body;
+        derived: Calc.derived(state), pagePlan: Calc.planPages(state),
+        page: Calc.planPages(state).filter(page => page.sectionId === sectionId).pop() }).body
+        .replace(/<[^>]+>/g, ' ').replace(/\s+(?=\/Wp)/g, '').replace(/\s+/g, ' ');
     state.commercial.showPricePerWp = true;
     assert.match(render(), /₹40\.00\/Wp/);
-    assert.match(render(), /excl\. GST/);
+    assert.match(render(), /excl(\.|uding) GST/i);
     state.commercial.showPricePerWp = false;
     assert.doesNotMatch(render(), /₹40\.00\/Wp/);
 }
