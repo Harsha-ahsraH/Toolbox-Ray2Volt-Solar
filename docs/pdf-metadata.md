@@ -2,10 +2,10 @@
 
 ## Use
 
-1. Generate the document preview. Enter optional existing customer/project/supplier or related-document IDs in **Document details & PDF tracking**, if needed.
+1. Generate the document preview. Enter optional existing customer/project/supplier or related-document IDs under **PDF Tracking → Tracking options**, if needed.
 2. Use the existing **Print / Save as PDF** action to save the document. The metadata snapshot is frozen when the print dialog opens.
 3. In the tracking panel, select that saved PDF and confirm it belongs to the frozen print preview.
-4. Select **Embed metadata & download tracked PDF**. Share the `-tracked.pdf` copy.
+4. Select **Embed & Download PDF**. Share the `-tracked.pdf` copy.
 
 The browser's original saved file has not been stamped. Selecting the correct file is a manual step; the toolbox cannot prove that an arbitrary uploaded PDF matches the preview. A canceled print dialog does not count as a completed PDF export in the registry.
 

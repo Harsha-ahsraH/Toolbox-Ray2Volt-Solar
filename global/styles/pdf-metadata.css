@@ -1,31 +1,109 @@
+/* Shared document-tool typography, sharp cards and theme colours. */
 .r2v-pdf-panel {
-    margin: 24px 0;
-    padding: 20px;
-    border: 1px solid var(--border-color, #cbd5e1);
-    border-radius: 12px;
-    background: var(--bg-card, #fff);
-    color: var(--text-primary, #172033);
-    font: 14px/1.6 system-ui, sans-serif;
+    margin: 0 0 var(--section-gap, 1.5rem);
+    padding: 1.5rem;
+    min-width: 0;
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-sm);
+    background: var(--bg-card);
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: .875rem;
+    line-height: 1.5;
     text-align: left;
 }
-.r2v-pdf-panel h2 { margin: 0 0 8px; font-size: 18px; }
-.r2v-pdf-panel p { margin: 8px 0; }
-.r2v-pdf-panel label { display: block; margin: 12px 0; }
-.r2v-pdf-panel input[type="checkbox"] { width: auto; margin-right: 6px; }
-.r2v-pdf-panel input[type="file"] { display: block; max-width: 100%; }
-.r2v-pdf-panel button {
-    padding: 8px 12px; margin: 4px 8px 4px 0; border-radius: 6px;
-    border: 1px solid #64748b; background: #f1f5f9; color: #172033; cursor: pointer;
-    font: inherit; white-space: normal;
+.r2v-pdf-panel .r2v-pdf-heading {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    margin: 0 0 1.25rem;
+    padding-bottom: .75rem;
+    border-bottom: 1px solid var(--border-light);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
 }
+.r2v-pdf-heading svg { width: 20px; height: 20px; flex: 0 0 20px; color: var(--primary-text); }
+.r2v-pdf-panel p { margin: 0; }
+.r2v-pdf-intro { color: var(--text-secondary); }
+.r2v-pdf-stamp { margin-top: 1.25rem; }
+.r2v-pdf-upload-row { display: flex; align-items: flex-end; gap: 1rem; }
+.r2v-pdf-file { flex: 1; min-width: 0; }
+.r2v-pdf-panel label { display: block; font-weight: 600; }
+.r2v-pdf-panel input[type="text"],
+.r2v-pdf-panel input[type="file"] {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    margin-top: .5rem;
+    padding: .75rem 1rem;
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-sm);
+    background: var(--bg-card);
+    color: var(--text-primary);
+    font: inherit;
+    font-weight: 400;
+    box-sizing: border-box;
+}
+.r2v-pdf-panel input[type="file"] { padding: 0; line-height: 1.5; }
+.r2v-pdf-panel input::file-selector-button {
+    margin-right: 1rem;
+    padding: .75rem 1rem;
+    border: 0;
+    border-right: 1px solid var(--border-medium);
+    background: var(--bg-body);
+    color: var(--text-primary);
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+}
+.r2v-pdf-panel input::file-selector-button:hover { background: var(--bg-hover); }
+.r2v-pdf-panel button {
+    padding: .75rem 1.25rem;
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-sm);
+    background: var(--bg-card);
+    color: var(--text-primary);
+    font: inherit;
+    font-weight: 600;
+    line-height: 1.5;
+    cursor: pointer;
+    transition: background var(--transition-fast), border-color var(--transition-fast);
+}
+.r2v-pdf-panel button:hover:not(:disabled) { background: var(--bg-hover); border-color: var(--primary); }
+.r2v-pdf-panel .r2v-pdf-primary { flex-shrink: 0; border-color: var(--primary); background: var(--primary); color: var(--on-primary); }
+.r2v-pdf-panel .r2v-pdf-primary:hover:not(:disabled) { background: var(--primary-dark); border-color: var(--primary-dark); }
 .r2v-pdf-panel button:disabled { opacity: .5; cursor: not-allowed; }
-.r2v-pdf-panel button:focus-visible, .r2v-pdf-panel summary:focus-visible { outline: 3px solid #2563eb; outline-offset: 2px; }
-.r2v-pdf-panel summary { cursor: pointer; padding: 8px 0; font-weight: 600; }
-.r2v-pdf-panel dl { display: grid; grid-template-columns: minmax(130px, 1fr) minmax(0, 3fr); gap: 6px 16px; }
+.r2v-pdf-panel :is(button, summary, input):focus-visible { outline: 2px solid var(--primary-text); outline-offset: 3px; }
+.r2v-pdf-panel input[type="text"]:focus { border-color: var(--primary); }
+.r2v-pdf-panel .r2v-pdf-check { display: flex; align-items: flex-start; gap: .625rem; margin-top: 1rem; color: var(--text-secondary); font-weight: 400; cursor: pointer; }
+.r2v-pdf-check input { flex: 0 0 16px; width: 16px; height: 16px; margin: 3px 0 0; accent-color: var(--primary-text); }
+.r2v-pdf-check small { display: block; margin-top: .25rem; color: var(--text-muted); font-size: .8rem; }
+.r2v-pdf-panel .r2v-pdf-status { margin-top: 1rem; color: var(--text-secondary); font-size: .8rem; }
+.r2v-pdf-sections { margin-top: 1.25rem; border-top: 1px solid var(--border-light); }
+.r2v-pdf-sections > details { border-bottom: 1px solid var(--border-light); }
+.r2v-pdf-panel summary { display: flex; align-items: center; justify-content: space-between; gap: .75rem; padding: .875rem 0; color: var(--text-primary); font-weight: 600; list-style: none; cursor: pointer; }
+.r2v-pdf-panel summary::-webkit-details-marker { display: none; }
+.r2v-pdf-panel summary::after { content: ''; width: 7px; height: 7px; margin-right: 4px; border-right: 1.5px solid var(--text-muted); border-bottom: 1.5px solid var(--text-muted); transform: rotate(45deg); }
+.r2v-pdf-panel details[open] > summary::after { transform: rotate(225deg); }
+.r2v-pdf-panel details[open] { padding-bottom: 1rem; }
+.r2v-pdf-panel dl { display: grid; grid-template-columns: minmax(140px, 1fr) minmax(0, 3fr); gap: .75rem 1.5rem; margin: 0; padding: 1rem; border: 1px solid var(--border-light); background: var(--bg-body); font-size: .8rem; }
+.r2v-pdf-panel dl:empty::before { content: 'Generate a preview to view document details.'; grid-column: 1 / -1; color: var(--text-muted); }
 .r2v-pdf-panel dt { font-weight: 600; }
-.r2v-pdf-panel dd { margin: 0; overflow-wrap: anywhere; }
-.r2v-pdf-status { font-weight: 600; }
-.r2v-pdf-history button { display: block; text-align: left; }
-.r2v-pdf-note { font-size: 12px; }
-@media (max-width: 540px) { .r2v-pdf-panel dl { grid-template-columns: 1fr; } }
+.r2v-pdf-panel dd { margin: 0; color: var(--text-secondary); overflow-wrap: anywhere; }
+.r2v-pdf-links > p { margin-bottom: 1rem; color: var(--text-muted); font-size: .8rem; }
+.r2v-pdf-input-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+.r2v-pdf-actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 1.25rem; }
+.r2v-pdf-history { display: grid; gap: .5rem; }
+.r2v-pdf-history:empty::before { content: 'Your tracked PDFs will appear here.'; color: var(--text-muted); font-size: .8rem; }
+.r2v-pdf-history button { text-align: left; overflow-wrap: anywhere; }
+.r2v-pdf-panel .r2v-pdf-note { margin-top: 1rem; font-size: .8rem; color: var(--text-muted); }
+@media (max-width: 640px) {
+    .r2v-pdf-panel { padding: 1rem; }
+    .r2v-pdf-upload-row { flex-direction: column; align-items: stretch; }
+    .r2v-pdf-input-grid { grid-template-columns: 1fr; }
+    .r2v-pdf-panel dl { grid-template-columns: 1fr; gap: .25rem; }
+    .r2v-pdf-panel dd { margin-bottom: .75rem; }
+    .r2v-pdf-actions { flex-direction: column; }
+}
 @media print { .r2v-pdf-panel { display: none !important; } }

@@ -131,12 +131,17 @@ async function values(page, inputs) {
                 assert.equal(again.DocumentId, metadata.DocumentId);
                 assert.equal(again.Revision, '1'); assert.notEqual(again.ExportId, metadata.ExportId);
                 await page.locator('.r2v-pdf-panel').screenshot({ path: path.join(output, 'details-desktop.png') });
+                await page.evaluate(() => document.documentElement.dataset.theme = 'dark');
+                await page.locator('.r2v-pdf-panel').screenshot({ path: path.join(output, 'details-dark.png') });
+                await page.evaluate(() => document.documentElement.dataset.theme = 'light');
                 await page.setViewportSize({ width: 390, height: 844 });
                 await page.locator('.r2v-pdf-panel').screenshot({ path: path.join(output, 'details-mobile.png') });
                 assert.ok(await page.locator('.r2v-pdf-panel').evaluate(el => el.scrollWidth <= el.clientWidth + 1));
                 await values(page, { invoiceNumber: metadata.DocumentNumber, invoiceName: 'Revision fixture' });
                 await page.locator('#generateInvoiceBtn').click();
                 const changed = await page.pdf({ format: 'A4', printBackground: true, preferCSSPageSize: true });
+                await page.locator('.r2v-pdf-options summary').click();
+                await page.locator('.r2v-pdf-panel').screenshot({ path: path.join(output, 'details-mobile-options.png') });
                 await page.locator('[data-footer]').check();
                 const revised = await stampFile(page, changed, 'invoice-footer.pdf');
                 assert.equal(revised.metadata.DocumentId, metadata.DocumentId);

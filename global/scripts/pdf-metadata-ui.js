@@ -201,28 +201,38 @@
         catch (_) { /* New identities can still be used for the current page. */ }
         panel = document.createElement('section');
         panel.className = 'r2v-pdf-panel no-print'; panel.setAttribute('aria-label', 'PDF document details');
-        panel.innerHTML = `<h2>Document details &amp; PDF tracking</h2>
-            <p>${tool === 'letterheadify' ? 'Metadata is embedded automatically when you add the letterhead.' : '1. Generate a preview and save it using Print / Save as PDF. 2. Select that saved PDF here. 3. Download the tracked copy.'} All processing stays on this device.</p>
-            <p class="r2v-pdf-status" role="status" aria-live="polite">Generate a preview to see its document details.</p>
-            <details><summary>Metadata fields</summary><dl></dl></details>
-            <details class="r2v-pdf-links"><summary>Optional record links</summary>
-                <p>Enter existing IDs only. Leave unknown links blank.</p>
-                <label>Customer ID <input type="text" data-link="CustomerId" maxlength="120"></label>
-                <label>Project ID <input type="text" data-link="ProjectId" maxlength="120"></label>
-                <label>Supplier ID <input type="text" data-link="SupplierId" maxlength="120"></label>
-                <label>Linked quotation ID <input type="text" data-link="LinkedQuotationId" maxlength="120"></label>
-                <label>Linked invoice ID <input type="text" data-link="LinkedInvoiceId" maxlength="120"></label>
-            </details>
+        panel.innerHTML = `<h2 class="r2v-pdf-heading">
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg>
+                PDF Tracking</h2>
+            <p class="r2v-pdf-intro">${tool === 'letterheadify' ? 'Tracking metadata is added automatically with your letterhead.' : 'Save your preview as a PDF, then select it below to add tracking details.'}</p>
             <div class="r2v-pdf-stamp" ${tool === 'letterheadify' ? 'hidden' : ''}>
-                <label>Saved PDF <input type="file" accept="application/pdf,.pdf"></label>
-                <label><input type="checkbox" data-confirm> This is the PDF from the print dialog described above.</label>
-                <button type="button" data-stamp disabled>Embed metadata &amp; download tracked PDF</button>
+                <div class="r2v-pdf-upload-row">
+                    <label class="r2v-pdf-file">Saved PDF <input type="file" accept="application/pdf,.pdf"></label>
+                    <button class="r2v-pdf-primary" type="button" data-stamp disabled>Embed &amp; Download PDF</button>
+                </div>
+                <label class="r2v-pdf-check"><input type="checkbox" data-confirm><span>This is the PDF I just saved from the preview.</span></label>
             </div>
-            <label><input type="checkbox" data-footer> Add a small tracking footer (requires a clear bottom margin).</label>
-            <div class="r2v-pdf-actions"><button type="button" data-new>Start a new tracking identity</button>
-                <button type="button" data-record>Download tracking record</button></div>
-            <details><summary>Recent tracked PDFs on this browser</summary><div class="r2v-pdf-history"></div></details>
-            <p class="r2v-pdf-note">Keep the tracked copy. Browser-printed files only gain embedded metadata after this step. Records stay in this browser; download a tracking record for backup. Metadata identifies a file; it does not report opens or forwards.</p>`;
+            <p class="r2v-pdf-status" role="status" aria-live="polite">${tool === 'letterheadify' ? 'Choose a PDF above to get started.' : 'Generate a preview to see its document details.'}</p>
+            <div class="r2v-pdf-sections">
+                <details><summary>Document details</summary><dl></dl></details>
+                <details class="r2v-pdf-options"><summary>Tracking options</summary>
+                    <div class="r2v-pdf-links">
+                        <p>Link existing records before printing. Leave unknown IDs blank.</p>
+                        <div class="r2v-pdf-input-grid">
+                            <label>Customer ID <input type="text" data-link="CustomerId" maxlength="120"></label>
+                            <label>Project ID <input type="text" data-link="ProjectId" maxlength="120"></label>
+                            <label>Supplier ID <input type="text" data-link="SupplierId" maxlength="120"></label>
+                            <label>Linked quotation ID <input type="text" data-link="LinkedQuotationId" maxlength="120"></label>
+                            <label>Linked invoice ID <input type="text" data-link="LinkedInvoiceId" maxlength="120"></label>
+                        </div>
+                    </div>
+                    <label class="r2v-pdf-check"><input type="checkbox" data-footer><span>Add a tracking footer<small>Use only when the PDF has a clear bottom margin.</small></span></label>
+                    <div class="r2v-pdf-actions"><button type="button" data-record>Download Tracking Record</button>
+                        <button type="button" data-new>Start New Tracking Identity</button></div>
+                </details>
+                <details><summary>Recent exports</summary><div class="r2v-pdf-history"></div></details>
+            </div>
+            <p class="r2v-pdf-note">Processed on your device. History is saved in this browser.</p>`;
         const section = document.querySelector('.main-content > .content-section') || document.querySelector('.main-content') || document.body;
         const preview = document.getElementById(definition[1]);
         if (preview?.parentElement === section) section.insertBefore(panel, preview);

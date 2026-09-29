@@ -5,6 +5,13 @@ Date: 2026-09-28
 ## Goal
 Implement approved PDF tracking metadata across the original static toolbox, then commit and push to main. The user explicitly excluded the unfinished Next.js migration.
 
+## UI consistency correction - 2026-09-29
+
+- User reported that the embedding panel looked inconsistent with the existing toolbox.
+- Replaced rounded generic styling and system-font overrides with the document tools' shared typography, 2px corners, section dividers, theme tokens and cyan primary action.
+- Aligned the saved-file input and primary action on desktop; stack them on mobile. Moved reference inputs, footer and secondary actions into Tracking options. Kept document details and export history in matching disclosures.
+- Preserved the stamping behavior and updated the existing browser workflow check to open Tracking options before testing the footer. Added light/dark and mobile UI screenshots to the existing check.
+
 ## Implementation decisions - 2026-09-29
 
 - User approved implementation and selected the static save-PDF, select-file, embed-and-download workflow after the browser API limitation was explained.
