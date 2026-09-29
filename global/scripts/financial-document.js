@@ -315,6 +315,7 @@
         if (!preview) return;
 
         preview.classList.add('visible');
+        window.Ray2VoltPdfTracking?.capture(preview);
         preview.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 

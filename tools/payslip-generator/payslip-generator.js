@@ -244,6 +244,7 @@ function generatePayslipPreview() {
     const preview = document.getElementById('payslipPreview');
     if (preview) {
         preview.classList.add('visible');
+        window.Ray2VoltPdfTracking?.capture(preview);
         preview.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 }

@@ -55,7 +55,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 loadLetterheadBytes()
             ]);
 
-            const pdfDoc = await PDFDocument.load(pdfBytes, { ignoreEncryption: true });
+            const pdfDoc = await PDFDocument.load(pdfBytes, { updateMetadata: false });
+            window.Ray2VoltPdfTracking.assertEditable(pdfDoc);
             const letterhead = await pdfDoc.embedPng(letterheadBytes);
             const pages = pdfDoc.getPages();
 
@@ -70,13 +71,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             });
 
-            const outputBytes = await pdfDoc.save();
+            const outputBytes = await window.Ray2VoltPdfTracking.letterhead(pdfDoc, new Uint8Array(pdfBytes));
             downloadPdf(outputBytes, buildOutputName(selectedFile.name));
             setStatus(`Done. Added letterhead to ${pages.length} page${pages.length === 1 ? '' : 's'}.`, 'success');
         } catch (error) {
             console.error(error);
             if (error?.message === 'LETTERHEAD_ASSET_LOAD_FAILED') {
                 setStatus('Could not load the letterhead image. Reload the page and try again.', 'error');
+            } else if (/signature|tracking footer/.test(error?.message || '')) {
+                setStatus(error.message, 'error');
             } else {
                 setStatus('Could not process this PDF. Make sure it is not password-protected or corrupted.', 'error');
             }

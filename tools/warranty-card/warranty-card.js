@@ -204,6 +204,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Show preview
             if (warrantyPreview) {
                 warrantyPreview.classList.add('visible');
+                window.Ray2VoltPdfTracking?.capture(warrantyPreview);
                 updatePreviewScale();
                 warrantyPreview.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }

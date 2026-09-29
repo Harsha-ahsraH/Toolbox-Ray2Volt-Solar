@@ -1,6 +1,9 @@
 // Solar Savings Calculator - Report modal open/close/print
 
 function openReportModal() {
+    // The report mixes inputs and calculated tables; refresh both together.
+    calculateSavings();
+    if (document.getElementById('resultsSection').style.display === 'none') return;
     const modal = document.getElementById('reportModal');
     const reqGrid = document.getElementById('reqSummaryGrid');
     const reportFinancial = document.getElementById('reportFinancialTable');
@@ -72,6 +75,7 @@ function openReportModal() {
         }
     }
 
+    window.Ray2VoltPdfTracking?.capture(modal);
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
 }
