@@ -375,6 +375,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         paginateRfqDocument(parsedHtml, documentData);
+        window.Ray2VoltPdfTracking?.capture(rfqPreview, {
+            DocumentNumber: documentData.rfqNo, DocumentDate: documentData.dateFormatted,
+            RfqHeading: documentData.heading
+        });
 
         if (scroll) {
             rfqPreview.scrollIntoView({ behavior: 'smooth', block: 'start' });

@@ -13,7 +13,7 @@ const auth = fs.readFileSync(path.join(repoRoot, 'global', 'scripts', 'auth.js')
 const letterheadAsset = fs.readFileSync(path.join(toolRoot, 'assets', 'Letterhead (Latest) Ray2Volt Solar PNG.png'));
 
 assert.match(html, /Letterheadify/);
-assert.match(html, /pdf-lib@1\.17\.1\/dist\/pdf-lib\.min\.js/);
+assert.match(html, /global\/vendor\/pdf-lib\.min\.js/);
 assert.match(html, /id="lhdPdfInput"/);
 assert.match(html, /accept="application\/pdf"/);
 assert.match(html, /id="lhdProcessBtn"/);
@@ -29,7 +29,9 @@ assert.match(css, /font-family:\s*'Google Sans Flex', 'Open Sans', 'Google Sans'
 assert.doesNotMatch(css, /lhd-page-content|lhd-markdown-body|@page/);
 
 assert.match(js, /Letterhead \(Latest\) Ray2Volt Solar PNG\.png/);
-assert.match(js, /PDFDocument\.load\(pdfBytes, \{ ignoreEncryption: true \}\)/);
+assert.match(js, /PDFDocument\.load\(pdfBytes, \{ updateMetadata: false \}\)/);
+assert.match(js, /Ray2VoltPdfTracking\.assertEditable\(pdfDoc\)/);
+assert.match(js, /Ray2VoltPdfTracking\.letterhead\(pdfDoc, new Uint8Array\(pdfBytes\)\)/);
 assert.match(js, /embedPng\(letterheadBytes\)/);
 assert.match(js, /page\.drawImage\(letterhead/);
 assert.match(js, /blendMode:\s*BlendMode\.Multiply/);
