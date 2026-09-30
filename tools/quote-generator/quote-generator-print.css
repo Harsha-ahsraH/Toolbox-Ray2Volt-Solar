@@ -22,7 +22,7 @@
     .sidebar,
     .mobile-header,
     .overlay,
-    .qg-actions,
+    .actions,
     .app-container>header,
     .app-container>aside {
         display: none !important;

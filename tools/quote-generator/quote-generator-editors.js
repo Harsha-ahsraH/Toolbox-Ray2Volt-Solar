@@ -176,7 +176,7 @@
                         <label for="cqNarrative-${esc(field)}">${esc(NARRATIVE_LABELS[field])}</label>
                         <span class="qg-narrative-flag">${dirty ? 'Edited' : 'Default'}</span>
                     </div>
-                    <textarea id="cqNarrative-${esc(field)}" class="qg-input-field" rows="4"
+                    <textarea id="cqNarrative-${esc(field)}" class="input" rows="4"
                         data-narrative="${esc(field)}">${esc(state.projectNarrative[field])}</textarea>
                     <div class="qg-inline-actions" style="margin-top:0.4rem;margin-bottom:0;">
                         <button type="button" class="qg-btn-ghost" data-restore-narrative="${esc(field)}"
@@ -214,48 +214,48 @@
             <div class="qg-repeater-row" data-row="${esc(row.id)}">
                 <div class="qg-row-field" style="grid-column:span 2;">
                     <label for="bom-${esc(row.id)}-name">Item</label>
-                    <input type="text" id="bom-${esc(row.id)}-name" class="qg-input-field"
+                    <input type="text" id="bom-${esc(row.id)}-name" class="input"
                         data-row-id="${esc(row.id)}" data-field="name" value="${esc(row.name)}">
                 </div>
                 <div class="qg-row-field" style="grid-column:span 2;">
                     <label for="bom-${esc(row.id)}-spec">Specification / Model</label>
-                    <textarea id="bom-${esc(row.id)}-spec" class="qg-input-field" rows="2"
+                    <textarea id="bom-${esc(row.id)}-spec" class="input" rows="2"
                         data-row-id="${esc(row.id)}" data-field="specification">${esc(row.specification)}</textarea>
                 </div>
                 <div class="qg-row-field">
                     <label for="bom-${esc(row.id)}-make">Make</label>
-                    <input type="text" id="bom-${esc(row.id)}-make" class="qg-input-field"
+                    <input type="text" id="bom-${esc(row.id)}-make" class="input"
                         data-row-id="${esc(row.id)}" data-field="make" value="${esc(row.make)}">
                 </div>
                 <div class="qg-row-field">
                     <label for="bom-${esc(row.id)}-qty">Quantity</label>
-                    <input type="number" id="bom-${esc(row.id)}-qty" class="qg-input-field" min="0" step="any"
+                    <input type="number" id="bom-${esc(row.id)}-qty" class="input" min="0" step="any"
                         data-row-id="${esc(row.id)}" data-field="quantity" value="${esc(row.quantity)}">
                 </div>
                 <div class="qg-row-field">
                     <label for="bom-${esc(row.id)}-unit">Unit</label>
-                    <input type="text" id="bom-${esc(row.id)}-unit" class="qg-input-field" list="qgBomUnits"
+                    <input type="text" id="bom-${esc(row.id)}-unit" class="input" list="qgBomUnits"
                         data-row-id="${esc(row.id)}" data-field="unit" value="${esc(row.unit)}">
                 </div>
                 <div class="qg-row-field">
                     <label for="bom-${esc(row.id)}-warranty">Warranty</label>
-                    <input type="text" id="bom-${esc(row.id)}-warranty" class="qg-input-field"
+                    <input type="text" id="bom-${esc(row.id)}-warranty" class="input"
                         data-row-id="${esc(row.id)}" data-field="warranty" value="${esc(row.warranty)}">
                 </div>
                 ${rated ? `
                 <div class="qg-row-field">
                     <label for="bom-${esc(row.id)}-rating">Rating (${esc(rated)})</label>
-                    <input type="number" id="bom-${esc(row.id)}-rating" class="qg-input-field" min="0" step="any"
+                    <input type="number" id="bom-${esc(row.id)}-rating" class="input" min="0" step="any"
                         data-row-id="${esc(row.id)}" data-field="rating" value="${esc(row.rating)}">
                 </div>
                 <div class="qg-row-field">
                     <label for="bom-${esc(row.id)}-ratingUnit">Rating Unit</label>
-                    <input type="text" id="bom-${esc(row.id)}-ratingUnit" class="qg-input-field"
+                    <input type="text" id="bom-${esc(row.id)}-ratingUnit" class="input"
                         data-row-id="${esc(row.id)}" data-field="ratingUnit" value="${esc(row.ratingUnit)}">
                 </div>` : ''}
                 <div class="qg-row-field" style="grid-column:span 2;">
                     <label for="bom-${esc(row.id)}-remarks">Remarks / Scope Note</label>
-                    <textarea id="bom-${esc(row.id)}-remarks" class="qg-input-field" rows="2"
+                    <textarea id="bom-${esc(row.id)}-remarks" class="input" rows="2"
                         data-row-id="${esc(row.id)}" data-field="remarks">${esc(row.remarks)}</textarea>
                 </div>
                 <div class="qg-row-actions">
@@ -415,12 +415,12 @@
             <div class="qg-repeater-row" data-row="${esc(row.id)}">
                 <div class="qg-row-field" style="grid-column:span 3;">
                     <label for="bd-${esc(row.id)}-desc">Description</label>
-                    <input type="text" id="bd-${esc(row.id)}-desc" class="qg-input-field"
+                    <input type="text" id="bd-${esc(row.id)}-desc" class="input"
                         data-row-id="${esc(row.id)}" data-field="description" value="${esc(row.description)}">
                 </div>
                 <div class="qg-row-field">
                     <label for="bd-${esc(row.id)}-amt">Amount (Incl. GST)</label>
-                    <input type="number" id="bd-${esc(row.id)}-amt" class="qg-input-field" min="0" step="1"
+                    <input type="number" id="bd-${esc(row.id)}-amt" class="input" min="0" step="1"
                         data-row-id="${esc(row.id)}" data-field="amount" value="${esc(row.amount)}">
                 </div>
                 <div class="qg-row-actions">
@@ -473,12 +473,12 @@
             <div class="qg-repeater-row" data-row="${esc(row.id)}">
                 <div class="qg-row-field" style="grid-column:span 3;">
                     <label for="dc-${esc(row.id)}-name">Discount Name</label>
-                    <input type="text" id="dc-${esc(row.id)}-name" class="qg-input-field"
+                    <input type="text" id="dc-${esc(row.id)}-name" class="input"
                         data-row-id="${esc(row.id)}" data-field="name" value="${esc(row.name)}">
                 </div>
                 <div class="qg-row-field">
                     <label for="dc-${esc(row.id)}-amt">Amount</label>
-                    <input type="number" id="dc-${esc(row.id)}-amt" class="qg-input-field" min="0" step="1"
+                    <input type="number" id="dc-${esc(row.id)}-amt" class="input" min="0" step="1"
                         data-row-id="${esc(row.id)}" data-field="amount" value="${esc(row.amount)}">
                 </div>
                 <div class="qg-row-actions">
@@ -521,12 +521,12 @@
             <div class="qg-repeater-row" data-row="${esc(row.id)}">
                 <div class="qg-row-field" style="grid-column:span 2;">
                     <label for="ms-${esc(row.id)}-name">Milestone / Payment Trigger</label>
-                    <input type="text" id="ms-${esc(row.id)}-name" class="qg-input-field"
+                    <input type="text" id="ms-${esc(row.id)}-name" class="input"
                         data-row-id="${esc(row.id)}" data-field="name" value="${esc(row.name)}">
                 </div>
                 <div class="qg-row-field">
                     <label for="ms-${esc(row.id)}-pct">Percentage</label>
-                    <input type="number" id="ms-${esc(row.id)}-pct" class="qg-input-field" min="0" max="100" step="0.01"
+                    <input type="number" id="ms-${esc(row.id)}-pct" class="input" min="0" max="100" step="0.01"
                         data-row-id="${esc(row.id)}" data-field="percent" value="${esc(row.percent)}">
                 </div>
                 <div class="qg-row-field">
@@ -535,7 +535,7 @@
                 </div>
                 <div class="qg-row-field" style="grid-column:span 3;">
                     <label for="ms-${esc(row.id)}-note">Note / Due Condition</label>
-                    <input type="text" id="ms-${esc(row.id)}-note" class="qg-input-field"
+                    <input type="text" id="ms-${esc(row.id)}-note" class="input"
                         data-row-id="${esc(row.id)}" data-field="note" value="${esc(row.note)}">
                 </div>
                 <div class="qg-row-actions">
@@ -578,13 +578,13 @@
         container.innerHTML = (state.savings.monthlyRows || []).map((row, index) => `
             <tr>
                 <th scope="row">${esc(row.month)}</th>
-                <td><input type="number" class="qg-input-field" min="0" step="1"
+                <td><input type="number" class="input" min="0" step="1"
                     aria-label="Imported energy for ${esc(row.month)}"
                     data-row-id="${index}" data-field="importedKwh" value="${esc(row.importedKwh)}"></td>
-                <td><input type="number" class="qg-input-field" min="0" step="1"
+                <td><input type="number" class="input" min="0" step="1"
                     aria-label="Bill amount for ${esc(row.month)}"
                     data-row-id="${index}" data-field="billAmount" value="${esc(row.billAmount)}"></td>
-                <td><input type="number" class="qg-input-field" min="0" step="0.1"
+                <td><input type="number" class="input" min="0" step="0.1"
                     aria-label="Maximum demand for ${esc(row.month)}"
                     data-row-id="${index}" data-field="maxDemandKva" value="${esc(row.maxDemandKva)}"></td>
             </tr>`).join('');
@@ -614,27 +614,27 @@
             <div class="qg-repeater-row" data-row="${esc(row.id)}">
                 <div class="qg-row-field" style="grid-column:span 2;">
                     <label for="fc-${esc(row.id)}-name">Cost Name</label>
-                    <input type="text" id="fc-${esc(row.id)}-name" class="qg-input-field"
+                    <input type="text" id="fc-${esc(row.id)}-name" class="input"
                         data-row-id="${esc(row.id)}" data-field="name" value="${esc(row.name)}">
                 </div>
                 <div class="qg-row-field">
                     <label for="fc-${esc(row.id)}-amt">Starting Amount</label>
-                    <input type="number" id="fc-${esc(row.id)}-amt" class="qg-input-field" min="0" step="1"
+                    <input type="number" id="fc-${esc(row.id)}-amt" class="input" min="0" step="1"
                         data-row-id="${esc(row.id)}" data-field="amount" value="${esc(row.amount)}">
                 </div>
                 <div class="qg-row-field">
                     <label for="fc-${esc(row.id)}-esc">Escalation (%/year)</label>
-                    <input type="number" id="fc-${esc(row.id)}-esc" class="qg-input-field" step="0.1"
+                    <input type="number" id="fc-${esc(row.id)}-esc" class="input" step="0.1"
                         data-row-id="${esc(row.id)}" data-field="escalationPercent" value="${esc(row.escalationPercent)}">
                 </div>
                 <div class="qg-row-field">
                     <label for="fc-${esc(row.id)}-start">Start Year</label>
-                    <input type="number" id="fc-${esc(row.id)}-start" class="qg-input-field" min="1" step="1"
+                    <input type="number" id="fc-${esc(row.id)}-start" class="input" min="1" step="1"
                         data-row-id="${esc(row.id)}" data-field="startYear" value="${esc(row.startYear)}">
                 </div>
                 <div class="qg-row-field">
                     <label for="fc-${esc(row.id)}-end">End Year</label>
-                    <input type="number" id="fc-${esc(row.id)}-end" class="qg-input-field" min="1" step="1"
+                    <input type="number" id="fc-${esc(row.id)}-end" class="input" min="1" step="1"
                         data-row-id="${esc(row.id)}" data-field="endYear" value="${esc(row.endYear)}">
                 </div>
                 <div class="qg-row-actions">
@@ -673,7 +673,7 @@
             <div class="qg-repeater-row" data-row="${esc(row.id)}">
                 <div class="qg-row-field" style="grid-column:span 2;">
                     <label for="ml-${esc(row.id)}-type">Location Type</label>
-                    <select id="ml-${esc(row.id)}-type" class="qg-input-field"
+                    <select id="ml-${esc(row.id)}-type" class="input"
                         data-row-id="${esc(row.id)}" data-field="locationType">
                         ${options(Config.INSTALLATION_LOCATIONS.filter(item => item.id !== 'mixed'),
                             row.locationType, 'id', 'label')}
@@ -681,7 +681,7 @@
                 </div>
                 <div class="qg-row-field">
                     <label for="ml-${esc(row.id)}-cap">Allocated Capacity (kWp)</label>
-                    <input type="number" id="ml-${esc(row.id)}-cap" class="qg-input-field" min="0" step="0.01"
+                    <input type="number" id="ml-${esc(row.id)}-cap" class="input" min="0" step="0.01"
                         data-row-id="${esc(row.id)}" data-field="capacityKwp" value="${esc(row.capacityKwp)}">
                 </div>
                 <div class="qg-row-actions">
@@ -749,7 +749,7 @@
                         return `
                         <div class="qg-clause-row" data-included="${clause.include !== false}">
                             <span class="qg-clause-number">${included ? printedNumber : '—'}</span>
-                            <textarea class="qg-input-field" rows="2" aria-label="Clause text"
+                            <textarea class="input" rows="2" aria-label="Clause text"
                                 data-clause-list="${esc(list.key)}" data-clause-id="${esc(clause.id)}"
                                 data-clause-field="text">${esc(clause.text)}</textarea>
                             <div class="qg-row-actions" style="flex-direction:column;align-items:flex-start;">
@@ -831,12 +831,12 @@
             <div class="qg-repeater-row" data-row="${esc(row.id)}">
                 <div class="qg-row-field" style="grid-column:span 2;">
                     <label for="an-${esc(row.id)}-title">Annexure Title</label>
-                    <input type="text" id="an-${esc(row.id)}-title" class="qg-input-field"
+                    <input type="text" id="an-${esc(row.id)}-title" class="input"
                         data-row-id="${esc(row.id)}" data-field="title" value="${esc(row.title)}">
                 </div>
                 <div class="qg-row-field">
                     <label for="an-${esc(row.id)}-type">Type</label>
-                    <select id="an-${esc(row.id)}-type" class="qg-input-field"
+                    <select id="an-${esc(row.id)}-type" class="input"
                         data-row-id="${esc(row.id)}" data-field="type">
                         ${options(Config.ANNEXURE_TYPES, row.type, 'id', 'label')}
                     </select>

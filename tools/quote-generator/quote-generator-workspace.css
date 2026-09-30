@@ -19,40 +19,12 @@
 
 /* --- Tool header and quotation type --------------------------------- */
 
+/* The heading's type comes from the shared .tool-header; this adds the
+   quotation-type chooser beside it. */
 .qg-tool-header {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
-    margin-bottom: var(--section-gap, 1.5rem);
-}
-
-.qg-tool-heading h1 {
-    font-size: 1.75rem;
-    font-weight: 700;
-    line-height: 1.2;
-    color: var(--text-primary);
-    margin: 0 0 0.45rem;
-}
-
-.qg-tool-heading p {
-    margin: 0;
-    font-size: 0.95rem;
-    color: var(--text-secondary);
-}
-
-@media screen and (max-width: 768px) {
-    .qg-tool-header {
-        margin-bottom: 1.25rem;
-    }
-
-    .qg-tool-heading h1 {
-        font-size: 1.4rem;
-    }
-
-    .qg-tool-heading p {
-        font-size: 0.9rem;
-        line-height: 1.4;
-    }
 }
 
 /* The two modes produce genuinely different documents, so each is a described
@@ -379,6 +351,7 @@
     border: 1px solid var(--border-medium);
     border-radius: var(--radius-sm);
     overflow: hidden;
+    box-shadow: var(--lift);
 }
 
 .qg-panel-heading {
@@ -482,7 +455,7 @@
 /* Inside a grid the gap sets the rhythm, so the field's own bottom margin
    would double it. Cleared here so a Comprehensive field sits on the same
    1.25rem spacing as one in a Short Quotation card. */
-.qg-field-grid>.qg-input-group {
+.qg-field-grid>.field {
     margin-bottom: 0;
 }
 
@@ -511,10 +484,6 @@
     font-size: 0.8rem;
     font-weight: 500;
     color: var(--danger-text);
-}
-
-.qg-input-field.has-error {
-    border-color: var(--danger-text);
 }
 
 .qg-checkbox-row label {

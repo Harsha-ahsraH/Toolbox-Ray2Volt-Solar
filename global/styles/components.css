@@ -792,15 +792,6 @@ select.input {
     overflow: auto;
 }
 
-/* --- Lift for tool panels not yet built from .card ---
-   Remove a selector here once its tool uses the shared .card. */
-.pkg-card,
-.qg-form-card,
-.qg-components-card,
-.qg-panel {
-    box-shadow: var(--lift);
-}
-
 /* --- Responsive --- */
 @media screen and (min-width: 1025px) {
     .form-grid {

@@ -29,7 +29,7 @@
             const field = document.createElement('div');
             field.className = 'qg-collection-picker';
             const input = document.createElement('select');
-            input.className = 'qg-input-field';
+            input.className = 'input';
             input.id = `${id}Picker`;
             const caption = document.createElement('label');
             caption.htmlFor = input.id;
@@ -105,7 +105,7 @@
         main.className = 'qg-editor-main';
         const mobile = document.createElement('div');
         mobile.className = 'qg-editor-mobile';
-        mobile.innerHTML = '<label for="qgEditorPicker">Editing section</label><select class="qg-input-field" id="qgEditorPicker">'
+        mobile.innerHTML = '<label for="qgEditorPicker">Editing section</label><select class="input" id="qgEditorPicker">'
             + STEPS.map((step, index) => `<option value="${step[0]}">${index + 1}. ${step[2]}</option>`).join('') + '</select>';
         main.append(mobile, host);
         layout.append(nav, main);
@@ -113,7 +113,7 @@
         const footer = document.createElement('div');
         footer.className = 'qg-editor-footer';
         footer.innerHTML = '<button type="button" class="qg-btn-ghost" id="qgEditorPrevious">Back</button>'
-            + '<span id="qgEditorProgress"></span><button type="button" class="qg-btn-primary" id="qgEditorNext">Next</button>';
+            + '<span id="qgEditorProgress"></span><button type="button" class="btn btn-primary" id="qgEditorNext">Next</button>';
         main.append(footer);
         STEPS.forEach(step => {
             const panel = host.querySelector(`[data-panel="${step[0]}"]`);
@@ -153,7 +153,7 @@
         });
         new MutationObserver(syncStatus).observe(host, { subtree: true, attributes: true, attributeFilter: ['data-state'] });
         const customerBody = document.getElementById('qgPanel-customer');
-        const customerType = customerBody.querySelector('.qg-input-group');
+        const customerType = customerBody.querySelector('.field');
         customerBody.querySelector('.qg-field-grid').prepend(customerType);
         syncStatus();
         select(active, false);

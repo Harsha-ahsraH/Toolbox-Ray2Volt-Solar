@@ -65,7 +65,7 @@
     color: var(--text-muted);
 }
 
-.qg-repeater-row .qg-input-field {
+.qg-repeater-row .input {
     padding: 0.4rem 0.55rem;
     font-size: 0.87rem;
 }
@@ -364,7 +364,7 @@
     color: var(--text-muted);
 }
 
-.qg-editor-table .qg-input-field {
+.qg-editor-table .input {
     padding: 0.3rem 0.4rem;
     font-size: 0.85rem;
 }

@@ -48,10 +48,13 @@ for (let page = 1; page <= 8; page++) {
 }
 
 assert.equal((markup.match(/class="quote-page/g) || []).length, 8);
-assert.ok(
-    html.indexOf('tool-responsive.css') < html.indexOf('quote-generator.css'),
-    'Quote generator CSS must load after shared responsive CSS so the proposal layout wins.'
-);
+// The form is built from the shared components; the preview's screen rules
+// are the Quote Generator's own, imported ahead of every other sheet.
+assert.doesNotMatch(html, /tool-responsive\.css/);
+assert.match(html, /<div class="card">/);
+assert.match(html, /<table class="edit-table qg-bom-table" id="bomInputTable">/);
+assert.match(fs.readFileSync(path.join(toolRoot, 'quote-generator.css'), 'utf8'),
+    /Keep imports in this order\.[^@]*\*\/\s*@import url\('\.\/quote-generator-preview-screen\.css/);
 
 // No chart libraries — the document stays dependency-free.
 assert.doesNotMatch(html, /chart\.umd|Chart\.js/i);

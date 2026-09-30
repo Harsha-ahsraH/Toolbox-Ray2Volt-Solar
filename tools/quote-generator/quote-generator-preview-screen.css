@@ -1,0 +1,118 @@
+/* ============================================
+   Quote Generator - proposal preview on screen
+   Below 769px the proposal's grids and strips stack to the phone's width;
+   from 769px #quotePreview holds the pages at A4 so the preview and the PDF
+   match. Imported first, so every later Quote Generator sheet refines it —
+   quote-generator-preview-terms.css and the Comprehensive sheets set the
+   final page box.
+   ============================================ */
+
+@media screen {
+    .table-responsive {
+        max-width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .quote-page {
+        width: 100% !important;
+        max-width: 100%;
+        min-height: auto !important;
+        height: auto !important;
+        margin: 1rem auto !important;
+        padding: clamp(0.625rem, 4vw, 1rem) !important;
+        overflow: visible !important;
+        box-sizing: border-box;
+    }
+
+    .qp-title-section h1 {
+        font-size: clamp(1rem, 5vw, 1.35rem) !important;
+        letter-spacing: 0 !important;
+        overflow-wrap: anywhere;
+    }
+
+    .qp-bom-table,
+    .qp-pricing-table,
+    .qp-savings-table {
+        max-width: 100%;
+        overflow-wrap: anywhere;
+    }
+
+    .qp-address-grid,
+    .qp-financial-strip,
+    .qp-payment-steps,
+    .qp-bank-flex,
+    .qp-comparison-container,
+    .qp-thankyou-contact {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 0.875rem !important;
+    }
+
+    .qp-info-grid,
+    .qp-mission-grid,
+    .qp-benefits-grid,
+    .qp-terms-grid,
+    .qp-resp-grid {
+        grid-template-columns: minmax(0, 1fr) !important;
+        gap: 0.625rem !important;
+    }
+
+    .qp-specs-table {
+        display: block;
+        width: 100%;
+        max-width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .qp-specs-table td,
+    .qp-specs-table th {
+        overflow-wrap: anywhere;
+        white-space: normal;
+    }
+}
+
+@media screen and (min-width: 769px) {
+    #quotePreview {
+        overflow-x: auto;
+    }
+
+    #quotePreview .quote-page {
+        width: 210mm !important;
+        height: 297mm !important;
+        min-height: 297mm !important;
+        margin: 0 auto 24px auto !important;
+        padding: 12mm 13mm 19mm !important;
+        overflow: hidden !important;
+    }
+
+    #quotePreview .qp-page1 .qp-title-section h1 {
+        font-size: 21pt !important;
+    }
+
+    #quotePreview .qp-page1 .qp-logo {
+        width: 158px !important;
+        max-width: 158px !important;
+    }
+
+    #quotePreview .qp-banner,
+    #quotePreview .qp-address-grid,
+    #quotePreview .qp-financial-strip,
+    #quotePreview .qp-payment-steps,
+    #quotePreview .qp-bank-flex,
+    #quotePreview .qp-comparison-container,
+    #quotePreview .qp-thankyou-contact {
+        flex-direction: row !important;
+    }
+
+    #quotePreview .qp-mission-grid,
+    #quotePreview .qp-terms-grid,
+    #quotePreview .qp-resp-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+
+    #quotePreview .qp-benefits-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    }
+}

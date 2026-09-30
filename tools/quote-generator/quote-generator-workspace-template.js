@@ -146,66 +146,66 @@
                 ${panelHead('customer', 'Customer Details', 'incomplete', true)}
                 <div class="qg-panel-body" id="qgPanel-customer" role="region"
                     aria-labelledby="qgPanelToggle-customer">
-                    <div class="qg-input-group">
+                    <div class="field">
                         <label for="cqCustomerType">Customer Type</label>
-                        <select id="cqCustomerType" class="qg-input-field" data-bind="customer.customerType">
+                        <select id="cqCustomerType" class="input" data-bind="customer.customerType">
                             <option value="company" selected>Company</option>
                             <option value="individual">Individual</option>
                         </select>
                     </div>
                     <div class="qg-field-grid">
-                        <div class="qg-input-group qg-customer-company">
+                        <div class="field qg-customer-company">
                             <label for="cqCompanyName">Legal Company Name *</label>
-                            <input type="text" id="cqCompanyName" class="qg-input-field"
+                            <input type="text" id="cqCompanyName" class="input"
                                 data-bind="customer.companyName" placeholder="Registered name as per GST">
                         </div>
-                        <div class="qg-input-group qg-customer-individual" hidden>
+                        <div class="field qg-customer-individual" hidden>
                             <label for="cqCustomerName">Customer Name *</label>
-                            <input type="text" id="cqCustomerName" class="qg-input-field"
+                            <input type="text" id="cqCustomerName" class="input"
                                 data-bind="customer.customerName" placeholder="Full name">
                         </div>
-                        <div class="qg-input-group qg-customer-company">
+                        <div class="field qg-customer-company">
                             <label for="cqContactPerson">Contact Person *</label>
-                            <input type="text" id="cqContactPerson" class="qg-input-field"
+                            <input type="text" id="cqContactPerson" class="input"
                                 data-bind="customer.contactPerson">
                         </div>
-                        <div class="qg-input-group qg-customer-company">
+                        <div class="field qg-customer-company">
                             <label for="cqDesignation">Designation</label>
-                            <input type="text" id="cqDesignation" class="qg-input-field"
+                            <input type="text" id="cqDesignation" class="input"
                                 data-bind="customer.designation">
                         </div>
-                        <div class="qg-input-group">
+                        <div class="field">
                             <label for="cqPhone">Phone Number *</label>
-                            <input type="text" id="cqPhone" class="qg-input-field" data-bind="customer.phone">
+                            <input type="text" id="cqPhone" class="input" data-bind="customer.phone">
                         </div>
-                        <div class="qg-input-group">
+                        <div class="field">
                             <label for="cqEmail">Email Address</label>
-                            <input type="email" id="cqEmail" class="qg-input-field" data-bind="customer.email">
+                            <input type="email" id="cqEmail" class="input" data-bind="customer.email">
                         </div>
-                        <div class="qg-input-group">
+                        <div class="field">
                             <label for="cqGstin">GSTIN</label>
-                            <input type="text" id="cqGstin" class="qg-input-field" data-bind="customer.gstin"
+                            <input type="text" id="cqGstin" class="input" data-bind="customer.gstin"
                                 placeholder="e.g. 37AAOCR4626E1Z6">
                         </div>
-                        <div class="qg-input-group qg-customer-company">
+                        <div class="field qg-customer-company">
                             <label for="cqCin">CIN</label>
-                            <input type="text" id="cqCin" class="qg-input-field" data-bind="customer.cin">
+                            <input type="text" id="cqCin" class="input" data-bind="customer.cin">
                         </div>
                     </div>
-                    <div class="qg-input-group">
+                    <div class="field">
                         <label for="cqBillingAddress">Registered / Billing Address *</label>
-                        <textarea id="cqBillingAddress" class="qg-input-field" rows="2"
+                        <textarea id="cqBillingAddress" class="input" rows="2"
                             data-bind="customer.billingAddress"></textarea>
                     </div>
-                    <div class="qg-input-group qg-checkbox-row">
+                    <div class="field qg-checkbox-row">
                         <label for="cqSameAsBilling">
                             <input type="checkbox" id="cqSameAsBilling" data-bind="customer.sameAsBilling">
                             Same as registered address
                         </label>
                     </div>
-                    <div class="qg-input-group" id="cqSiteAddressGroup">
+                    <div class="field" id="cqSiteAddressGroup">
                         <label for="cqSiteAddress">Project / Site Address *</label>
-                        <textarea id="cqSiteAddress" class="qg-input-field" rows="2"
+                        <textarea id="cqSiteAddress" class="input" rows="2"
                             data-bind="customer.siteAddress"></textarea>
                     </div>
                 </div>
@@ -218,81 +218,81 @@
                     aria-labelledby="qgPanelToggle-project">
                     <h3 class="qg-subheading">Document Identity</h3>
                     <div class="qg-field-grid">
-                        <div class="qg-input-group">
+                        <div class="field">
                             <label for="cqQuoteDate">Quote Date *</label>
-                            <input type="date" id="cqQuoteDate" class="qg-input-field" data-bind="project.quoteDate">
+                            <input type="date" id="cqQuoteDate" class="input" data-bind="project.quoteDate">
                         </div>
-                        <div class="qg-input-group">
+                        <div class="field">
                             <label for="cqQuoteNumber">Quotation Number *</label>
-                            <input type="text" id="cqQuoteNumber" class="qg-input-field"
+                            <input type="text" id="cqQuoteNumber" class="input"
                                 data-bind="project.quoteNumber">
                         </div>
-                        <div class="qg-input-group">
+                        <div class="field">
                             <label for="cqSiteName">Project / Site Name</label>
-                            <input type="text" id="cqSiteName" class="qg-input-field" data-bind="project.siteName">
+                            <input type="text" id="cqSiteName" class="input" data-bind="project.siteName">
                         </div>
-                        <div class="qg-input-group">
+                        <div class="field">
                             <label for="cqPreparedBy">Prepared By</label>
-                            <input type="text" id="cqPreparedBy" class="qg-input-field" data-bind="project.preparedBy">
+                            <input type="text" id="cqPreparedBy" class="input" data-bind="project.preparedBy">
                         </div>
-                        <div class="qg-input-group">
+                        <div class="field">
                             <label for="cqRevision">Proposal Revision</label>
-                            <input type="text" id="cqRevision" class="qg-input-field" data-bind="project.revision">
+                            <input type="text" id="cqRevision" class="input" data-bind="project.revision">
                         </div>
-                        <div class="qg-input-group">
+                        <div class="field">
                             <label for="cqValidityDays">Quotation Validity (days)</label>
-                            <input type="number" id="cqValidityDays" class="qg-input-field" min="0" step="1"
+                            <input type="number" id="cqValidityDays" class="input" min="0" step="1"
                                 data-bind="project.validityDays">
                         </div>
                     </div>
-                    <div class="qg-input-group">
+                    <div class="field">
                         <label for="cqProposalTitle">Project / Proposal Title</label>
-                        <input type="text" id="cqProposalTitle" class="qg-input-field"
+                        <input type="text" id="cqProposalTitle" class="input"
                             data-bind="project.proposalTitle">
                         <p class="qg-field-hint">Generated from capacity and configuration until you edit it.</p>
                     </div>
 
                     <h3 class="qg-subheading">System Definition</h3>
                     <div class="qg-field-grid">
-                        <div class="qg-input-group">
+                        <div class="field">
                             <label for="cqSystemConfiguration">System Configuration</label>
-                            <select id="cqSystemConfiguration" class="qg-input-field"
+                            <select id="cqSystemConfiguration" class="input"
                                 data-bind="project.systemConfiguration">
                                 <option value="On-Grid" selected>On-Grid</option>
                                 <option value="Hybrid">Hybrid</option>
                             </select>
                         </div>
-                        <div class="qg-input-group">
+                        <div class="field">
                             <label for="cqDcCapacity">Solar DC Capacity (kWp) *</label>
-                            <input type="number" id="cqDcCapacity" class="qg-input-field" min="0" step="0.01"
+                            <input type="number" id="cqDcCapacity" class="input" min="0" step="0.01"
                                 data-bind="project.dcCapacityKwp">
                         </div>
-                        <div class="qg-input-group">
+                        <div class="field">
                             <label for="cqAcCapacity">Inverter AC Capacity (kW) *</label>
-                            <input type="number" id="cqAcCapacity" class="qg-input-field" min="0" step="0.01"
+                            <input type="number" id="cqAcCapacity" class="input" min="0" step="0.01"
                                 data-bind="project.acCapacityKw">
                         </div>
-                        <div class="qg-input-group">
+                        <div class="field">
                             <label for="cqDcAcRatio">DC / AC Ratio</label>
-                            <input type="text" id="cqDcAcRatio" class="qg-input-field" readonly tabindex="-1">
+                            <input type="text" id="cqDcAcRatio" class="input" readonly tabindex="-1">
                             <p class="qg-field-hint">Calculated from solar DC capacity ÷ inverter AC capacity.</p>
                         </div>
-                        <div class="qg-input-group qg-hybrid-only" hidden>
+                        <div class="field qg-hybrid-only" hidden>
                             <label for="cqBatteryEnergy">Battery Energy (kWh) *</label>
-                            <input type="number" id="cqBatteryEnergy" class="qg-input-field" min="0" step="0.01"
+                            <input type="number" id="cqBatteryEnergy" class="input" min="0" step="0.01"
                                 data-bind="project.batteryEnergyKwh">
                         </div>
-                        <div class="qg-input-group qg-hybrid-only" hidden>
+                        <div class="field qg-hybrid-only" hidden>
                             <label for="cqBatteryPower">Battery Power (kW) *</label>
-                            <input type="number" id="cqBatteryPower" class="qg-input-field" min="0" step="0.01"
+                            <input type="number" id="cqBatteryPower" class="input" min="0" step="0.01"
                                 data-bind="project.batteryPowerKw">
                         </div>
                     </div>
 
                     <h3 class="qg-subheading">Site Details</h3>
-                    <div class="qg-input-group">
+                    <div class="field">
                         <label for="cqInstallationLocation">Installation Location</label>
-                        <select id="cqInstallationLocation" class="qg-input-field"
+                        <select id="cqInstallationLocation" class="input"
                             data-bind="project.installationLocation">
                             <option value="rcc-rooftop" selected>RCC rooftop</option>
                             <option value="metal-sheet-rooftop">Metal-sheet rooftop</option>
@@ -343,27 +343,27 @@
                 <div class="qg-panel-body" id="qgPanel-commercial" role="region"
                     aria-labelledby="qgPanelToggle-commercial" hidden>
                     <div class="qg-field-grid">
-                        <div class="qg-input-group">
+                        <div class="field">
                             <label for="cqActualProjectCost">Actual Project Cost (Incl. GST) *</label>
-                            <input type="number" id="cqActualProjectCost" class="qg-input-field" min="0" step="1"
+                            <input type="number" id="cqActualProjectCost" class="input" min="0" step="1"
                                 data-bind="commercial.actualProjectCost">
                         </div>
-                        <div class="qg-input-group">
+                        <div class="field">
                             <label for="cqPricePerWp">Project Price (₹/Wp, Excl. GST)</label>
-                            <input type="number" id="cqPricePerWp" class="qg-input-field" min="0" step="any"
+                            <input type="number" id="cqPricePerWp" class="input" min="0" step="any"
                                 inputmode="decimal" aria-describedby="cqPricePerWpHelp">
                             <p class="qg-field-hint" id="cqPricePerWpHelp">Before discounts. Uses the approved DC capacity and selected GST rate.</p>
                         </div>
-                        <div class="qg-input-group">
+                        <div class="field">
                             <label for="cqGstType">GST Type</label>
-                            <select id="cqGstType" class="qg-input-field" data-bind="commercial.gstType">
+                            <select id="cqGstType" class="input" data-bind="commercial.gstType">
                                 <option value="intra" selected>Intra-State (CGST + SGST)</option>
                                 <option value="inter">Inter-State (IGST)</option>
                             </select>
                         </div>
-                        <div class="qg-input-group">
+                        <div class="field">
                             <label for="cqGstRate">GST Percentage</label>
-                            <input type="number" id="cqGstRate" class="qg-input-field" min="0" max="28" step="0.01"
+                            <input type="number" id="cqGstRate" class="input" min="0" max="28" step="0.01"
                                 data-bind="commercial.gstRate">
                         </div>
                     </div>
@@ -408,23 +408,23 @@
                 ${panelHead('savings', 'Savings Projections', 'complete', false)}
                 <div class="qg-panel-body" id="qgPanel-savings" role="region"
                     aria-labelledby="qgPanelToggle-savings" hidden>
-                    <div class="qg-input-group">
+                    <div class="field">
                         <label for="cqConsumptionMethod">Consumption Entry Method</label>
-                        <select id="cqConsumptionMethod" class="qg-input-field"
+                        <select id="cqConsumptionMethod" class="input"
                             data-bind="savings.consumptionMethod">
                             <option value="simple" selected>Simple</option>
                             <option value="detailed">Detailed C&amp;I</option>
                         </select>
                     </div>
                     <div class="qg-field-grid qg-consumption-simple" id="qgConsumptionSimple">
-                        <div class="qg-input-group">
+                        <div class="field">
                             <label for="cqTariffRate">Current Tariff (₹/kWh)</label>
-                            <input type="number" id="cqTariffRate" class="qg-input-field" min="0" step="0.01"
+                            <input type="number" id="cqTariffRate" class="input" min="0" step="0.01"
                                 data-bind="savings.tariffRate">
                         </div>
-                        <div class="qg-input-group">
+                        <div class="field">
                             <label for="cqMonthlyConsumption">Average Monthly Consumption (kWh)</label>
-                            <input type="number" id="cqMonthlyConsumption" class="qg-input-field" min="0" step="1"
+                            <input type="number" id="cqMonthlyConsumption" class="input" min="0" step="1"
                                 data-bind="savings.monthlyConsumptionKwh">
                         </div>
                     </div>
@@ -448,44 +448,44 @@
 
                     <h4 class="qg-subheading">Generation &amp; Utilization Assumptions</h4>
                     <div class="qg-field-grid">
-                        <div class="qg-input-group">
+                        <div class="field">
                             <label for="cqAnnualGeneration">Specific Yield (kWh/kWp/year)</label>
-                            <input type="number" id="cqAnnualGeneration" class="qg-input-field" min="0" step="1"
+                            <input type="number" id="cqAnnualGeneration" class="input" min="0" step="1"
                                 data-bind="savings.annualGenerationPerKwp">
                         </div>
-                        <div class="qg-input-group">
+                        <div class="field">
                             <label for="cqTariffEscalation">Tariff Escalation (%/year)</label>
-                            <input type="number" id="cqTariffEscalation" class="qg-input-field" step="0.1"
+                            <input type="number" id="cqTariffEscalation" class="input" step="0.1"
                                 data-bind="savings.tariffEscalationPercent">
                         </div>
-                        <div class="qg-input-group">
+                        <div class="field">
                             <label for="cqDegradation">Module Degradation (%/year)</label>
-                            <input type="number" id="cqDegradation" class="qg-input-field" min="0" max="100"
+                            <input type="number" id="cqDegradation" class="input" min="0" max="100"
                                 step="0.01" data-bind="savings.degradationPercent">
                         </div>
-                        <div class="qg-input-group">
+                        <div class="field">
                             <label for="cqProjectionYears">Projection Period (years)</label>
-                            <input type="number" id="cqProjectionYears" class="qg-input-field" min="1" step="1"
+                            <input type="number" id="cqProjectionYears" class="input" min="1" step="1"
                                 data-bind="savings.projectionYears">
                         </div>
-                        <div class="qg-input-group">
+                        <div class="field">
                             <label for="cqSelfConsumption">Self-Consumption (%)</label>
-                            <input type="number" id="cqSelfConsumption" class="qg-input-field" min="0" max="100"
+                            <input type="number" id="cqSelfConsumption" class="input" min="0" max="100"
                                 step="0.01" data-bind="savings.selfConsumptionPercent">
                         </div>
-                        <div class="qg-input-group">
+                        <div class="field">
                             <label for="cqExportPercent">Grid Export (%)</label>
-                            <input type="number" id="cqExportPercent" class="qg-input-field" min="0" max="100"
+                            <input type="number" id="cqExportPercent" class="input" min="0" max="100"
                                 step="0.01" data-bind="savings.exportPercent">
                         </div>
-                        <div class="qg-input-group">
+                        <div class="field">
                             <label for="cqExportCreditRate">Export Credit Rate (₹/kWh)</label>
-                            <input type="number" id="cqExportCreditRate" class="qg-input-field" min="0" step="0.01"
+                            <input type="number" id="cqExportCreditRate" class="input" min="0" step="0.01"
                                 data-bind="savings.exportCreditRate">
                         </div>
-                        <div class="qg-input-group">
+                        <div class="field">
                             <label for="cqArrangementType">Arrangement Type</label>
-                            <select id="cqArrangementType" class="qg-input-field"
+                            <select id="cqArrangementType" class="input"
                                 data-bind="savings.arrangementType">
                                 <option value="net-metering" selected>Net Metering</option>
                                 <option value="gross-metering">Gross Metering</option>
@@ -546,9 +546,9 @@
                     aria-live="polite">Proposal preview</span>
             </div>
             <div class="qg-preview-actions">
-                <button type="button" class="qg-btn-primary" id="qgComprehensiveGenerate">Generate
+                <button type="button" class="btn btn-primary" id="qgComprehensiveGenerate">Generate
                     Preview</button>
-                <button type="button" class="qg-btn-secondary" id="qgComprehensivePrint">Print / Save
+                <button type="button" class="btn btn-secondary" id="qgComprehensivePrint">Print / Save
                     as PDF</button>
             </div>
         </div>

@@ -93,11 +93,11 @@
         // a warning sets the class and the description without setting invalid,
         // and would otherwise keep its styling and point at a deleted message.
         Array.prototype.forEach.call(
-            document.querySelectorAll('.has-error'),
+            document.querySelectorAll('.is-invalid'),
             control => {
                 control.removeAttribute('aria-invalid');
                 control.removeAttribute('aria-describedby');
-                control.classList.remove('has-error');
+                control.classList.remove('is-invalid');
             }
         );
 
@@ -139,7 +139,7 @@
 
             Array.prototype.forEach.call(inputs, input => {
                 input.setAttribute('aria-describedby', messageId);
-                input.classList.add('has-error');
+                input.classList.add('is-invalid');
                 if (item.severity === 'critical') input.setAttribute('aria-invalid', 'true');
             });
         });
@@ -159,7 +159,7 @@
 
             control.insertAdjacentElement('afterend', message);
             control.setAttribute('aria-describedby', messageId);
-            control.classList.add('has-error');
+            control.classList.add('is-invalid');
 
             if (item.severity === 'critical') {
                 control.setAttribute('aria-invalid', 'true');

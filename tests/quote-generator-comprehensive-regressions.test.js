@@ -422,7 +422,7 @@ function fieldsOf(validation) {
         'field errors must be associated with their control, not only listed in the summary');
     assert.match(form, /REPEATER_FIELDS/,
         'a repeater issue names the whole list, so it maps to the leaf inputs it should flag');
-    assert.match(form, /querySelectorAll\('\.has-error'\)/,
+    assert.match(form, /querySelectorAll\('\.is-invalid'\)/,
         'stale styling is cleared by class, so a corrected warning does not keep its error look');
     assert.doesNotMatch(form, /if \(!settings\.silent\) autosave\.schedule\(state\);/,
         'every save path must go through the guard that protects a newer-schema draft');

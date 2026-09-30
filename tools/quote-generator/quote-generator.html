@@ -20,8 +20,7 @@
     <link rel="stylesheet" href="../../global/styles/navigation.css?v=20260930-no-interface-logos">
     <link rel="stylesheet" href="../../global/styles/components.css">
     <link rel="stylesheet" href="../../global/styles/responsive.css?v=20260930-sidebar-resize">
-    <link rel="stylesheet" href="../../global/styles/tool-responsive.css">
-    <link rel="stylesheet" href="quote-generator.css?v=20260930-restore-typography">
+    <link rel="stylesheet" href="quote-generator.css?v=20260930-shared-components">
     <!-- Theme: stamps light or dark on <html> before the first paint -->
     <script src="../../global/scripts/theme.js"></script>
 </head>
@@ -38,7 +37,7 @@
                          deliverables, so each is a described choice rather
                          than an unlabelled toggle.
                          ============================================ -->
-                    <header class="qg-tool-header">
+                    <header class="tool-header qg-tool-header">
                         <div class="qg-tool-heading">
                             <h1>Quote Generator</h1>
                             <p id="qgToolSubtitle">Generate professional 8-page solar project proposals for customers.
@@ -63,10 +62,10 @@
 
                     <div id="qgShortWorkspace" role="tabpanel" aria-labelledby="qgModeShort">
                     <!-- Form Grid -->
-                    <div class="qg-form-grid">
+                    <div class="form-grid">
                         <!-- Customer Details Card -->
-                        <div class="qg-form-card">
-                            <h3 class="qg-section-title">
+                        <div class="card">
+                            <h3 class="card-title">
                                 <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                                     stroke="currentColor" stroke-width="2">
                                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
@@ -74,31 +73,31 @@
                                 </svg>
                                 Customer Details
                             </h3>
-                            <div class="qg-input-group">
+                            <div class="field">
                                 <label for="qgCustomerName">Customer Name *</label>
-                                <input type="text" id="qgCustomerName" class="qg-input-field"
+                                <input type="text" id="qgCustomerName" class="input"
                                     placeholder="Enter customer name">
                             </div>
-                            <div class="qg-input-group">
+                            <div class="field">
                                 <label for="qgCustomerPhone">Phone Number *</label>
-                                <input type="text" id="qgCustomerPhone" class="qg-input-field"
+                                <input type="text" id="qgCustomerPhone" class="input"
                                     placeholder="Enter phone number">
                             </div>
-                            <div class="qg-input-group">
+                            <div class="field">
                                 <label for="qgCustomerAddress">Address *</label>
-                                <textarea id="qgCustomerAddress" class="qg-input-field" rows="2"
+                                <textarea id="qgCustomerAddress" class="input" rows="2"
                                     placeholder="Enter customer address"></textarea>
                             </div>
-                            <div class="qg-input-group">
+                            <div class="field">
                                 <label for="qgCustomerGstin">Customer GSTIN (Optional)</label>
-                                <input type="text" id="qgCustomerGstin" class="qg-input-field"
+                                <input type="text" id="qgCustomerGstin" class="input"
                                     placeholder="e.g. 37AAOCR4626E1Z6">
                             </div>
                         </div>
 
                         <!-- Project Settings Card -->
-                        <div class="qg-form-card">
-                            <h3 class="qg-section-title">
+                        <div class="card">
+                            <h3 class="card-title">
                                 <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                                     stroke="currentColor" stroke-width="2">
                                     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
@@ -107,23 +106,23 @@
                                 </svg>
                                 Project Settings
                             </h3>
-                            <div class="qg-input-group">
+                            <div class="field">
                                 <label for="qgQuoteDate">Quote Date</label>
-                                <input type="date" id="qgQuoteDate" class="qg-input-field">
+                                <input type="date" id="qgQuoteDate" class="input">
                             </div>
-                            <div class="qg-input-group">
+                            <div class="field">
                                 <label for="qgQuoteNumber">Quotation Number</label>
-                                <input type="text" id="qgQuoteNumber" class="qg-input-field"
+                                <input type="text" id="qgQuoteNumber" class="input"
                                     placeholder="Auto-generated">
                             </div>
-                            <div class="qg-input-group">
+                            <div class="field">
                                 <label for="qgSystemCapacity">System Capacity (kWp) *</label>
-                                <input type="number" id="qgSystemCapacity" class="qg-input-field" placeholder="e.g. 3"
+                                <input type="number" id="qgSystemCapacity" class="input" placeholder="e.g. 3"
                                     min="1" step="0.5">
                             </div>
-                            <div class="qg-input-group">
+                            <div class="field">
                                 <label for="qgInstallationType">Installation Type</label>
-                                <select id="qgInstallationType" class="qg-input-field">
+                                <select id="qgInstallationType" class="input">
                                     <option value="On-Grid" selected>On-Grid</option>
                                     <option value="Hybrid">Hybrid</option>
                                 </select>
@@ -132,8 +131,8 @@
                     </div>
 
                     <!-- Bill of Materials Section -->
-                    <div class="qg-components-card">
-                        <div class="qg-components-header">
+                    <div class="card">
+                        <div class="card-header">
                             <div>
                                 <h3>Bill of Materials</h3>
                                 <p>Edit item descriptions, quantities, and make as needed</p>
@@ -141,8 +140,8 @@
                         </div>
 
                         <!-- Editable BOM Table -->
-                        <div class="qg-bom-table-container">
-                            <table class="qg-bom-input-table" id="bomInputTable">
+                        <div class="table-wrap">
+                            <table class="edit-table qg-bom-table" id="bomInputTable">
                                 <thead>
                                     <tr>
                                         <th style="width: 50px;">S.No</th>
@@ -160,8 +159,8 @@
                     </div>
 
                     <!-- Commercial Offer Section -->
-                    <div class="qg-form-card">
-                        <h3 class="qg-section-title">
+                    <div class="card">
+                        <h3 class="card-title">
                             <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                                 stroke="currentColor" stroke-width="2">
                                 <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
@@ -169,17 +168,17 @@
                             </svg>
                             Commercial Offer
                         </h3>
-                        <div class="qg-input-group">
+                        <div class="field">
                             <label for="qgTotalPrice">Actual Project Cost (Incl. GST) *</label>
-                            <input type="number" id="qgTotalPrice" class="qg-input-field" min="0" step="1"
+                            <input type="number" id="qgTotalPrice" class="input" min="0" step="1"
                                 placeholder="Enter actual project cost (Incl. GST)">
                         </div>
-                        <div class="qg-input-group">
+                        <div class="field">
                             <label for="qgDiscountAmount">Discount Amount</label>
-                            <input type="number" id="qgDiscountAmount" class="qg-input-field" min="0" step="1"
+                            <input type="number" id="qgDiscountAmount" class="input" min="0" step="1"
                                 value="0" placeholder="Enter discount amount">
                         </div>
-                        <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem;">
+                        <p class="field-hint">
                             Total project cost is calculated as actual project cost including GST minus discount.
                             Taxable value &amp; GST will be auto-calculated.
                         </p>
@@ -187,10 +186,10 @@
 
 
                     <!-- Financial & Projections Grid -->
-                    <div class="qg-form-grid">
+                    <div class="form-grid">
                         <!-- Financial Details Card -->
-                        <div class="qg-form-card">
-                            <h3 class="qg-section-title">
+                        <div class="card">
+                            <h3 class="card-title">
                                 <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                                     stroke="currentColor" stroke-width="2">
                                     <line x1="12" y1="1" x2="12" y2="23"></line>
@@ -198,57 +197,57 @@
                                 </svg>
                                 Financial Details
                             </h3>
-                            <div class="qg-input-group">
+                            <div class="field">
                                 <label for="qgGstType">GST Type</label>
-                                <select id="qgGstType" class="qg-input-field">
+                                <select id="qgGstType" class="input">
                                     <option value="intra" selected>Intra-State (CGST + SGST)</option>
                                     <option value="inter">Inter-State (IGST)</option>
                                 </select>
                             </div>
-                            <div class="qg-input-group">
+                            <div class="field">
                                 <label for="qgGstRate">GST Rate (%)</label>
-                                <input type="number" id="qgGstRate" class="qg-input-field" value="5" min="0" max="28">
+                                <input type="number" id="qgGstRate" class="input" value="5" min="0" max="28">
                             </div>
-                            <div class="qg-input-group">
+                            <div class="field">
                                 <label>
                                     <input type="checkbox" id="qgSubsidyEligible" checked> PM Surya Ghar Subsidy
                                     Eligible
                                 </label>
                             </div>
-                            <div class="qg-input-group">
+                            <div class="field">
                                 <label for="qgAdvancePercent">Advance Payment (%)</label>
-                                <input type="number" id="qgAdvancePercent" class="qg-input-field" value="80" min="0"
+                                <input type="number" id="qgAdvancePercent" class="input" value="80" min="0"
                                     max="100">
                             </div>
-                            <div class="qg-input-group">
+                            <div class="field">
                                 <label for="qgFinalPercent">Final Payment (%)</label>
-                                <input type="number" id="qgFinalPercent" class="qg-input-field" value="20" min="0"
+                                <input type="number" id="qgFinalPercent" class="input" value="20" min="0"
                                     max="100" readonly>
                             </div>
                         </div>
 
                         <!-- Projections Card -->
-                        <div class="qg-form-card">
-                            <h3 class="qg-section-title">
+                        <div class="card">
+                            <h3 class="card-title">
                                 <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                                     stroke="currentColor" stroke-width="2">
                                     <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
                                 </svg>
                                 Savings Projections
                             </h3>
-                            <div class="qg-input-group">
+                            <div class="field">
                                 <label for="qgTariffRate">Current Electricity Tariff (₹/unit)</label>
-                                <input type="number" id="qgTariffRate" class="qg-input-field" value="7" min="1"
+                                <input type="number" id="qgTariffRate" class="input" value="7" min="1"
                                     step="0.5">
                             </div>
-                            <div class="qg-input-group">
+                            <div class="field">
                                 <label for="qgUnitsPerKwp">Annual Generation (units/kWp)</label>
-                                <input type="number" id="qgUnitsPerKwp" class="qg-input-field" value="1440" min="1000"
+                                <input type="number" id="qgUnitsPerKwp" class="input" value="1440" min="1000"
                                     max="2000">
                             </div>
-                            <div class="qg-input-group">
+                            <div class="field">
                                 <label for="qgTariffEscalation">Include Tariff Escalation (5%/year)</label>
-                                <select id="qgTariffEscalation" class="qg-input-field">
+                                <select id="qgTariffEscalation" class="input">
                                     <option value="yes" selected>Yes</option>
                                     <option value="no">No</option>
                                 </select>
@@ -257,9 +256,9 @@
                     </div>
 
                     <!-- Action Buttons -->
-                    <div class="qg-actions">
-                        <button id="qgGenerateBtn" class="qg-btn-primary">Generate Preview</button>
-                        <button id="qgPrintBtn" class="qg-btn-secondary">Print / Save as PDF</button>
+                    <div class="actions">
+                        <button id="qgGenerateBtn" class="btn btn-primary">Generate Preview</button>
+                        <button id="qgPrintBtn" class="btn btn-secondary">Print / Save as PDF</button>
                     </div>
                     </div><!-- /#qgShortWorkspace -->
 

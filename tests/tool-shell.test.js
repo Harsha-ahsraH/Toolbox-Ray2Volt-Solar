@@ -37,8 +37,8 @@ assert.match(shell, /max-width:\s*var\(--tool-width\)/);
 assert.match(shell, /margin-left:\s*auto/);
 assert.match(shell, /margin-right:\s*auto/);
 
-// The child selector is what outranks `.content-section { max-width: 100% }`
-// in tool-responsive.css, so the shell must not be written as a bare class.
+// A bare `.content-section` rule would also catch sections outside the
+// shell, so the width stays on the child selector.
 assert.ok(
     !/^\s*\.content-section\s*\{[^}]*max-width:\s*var\(--tool-width\)/m.test(componentsCss),
     'Tool shell must stay scoped to .main-content > .content-section'
@@ -57,29 +57,22 @@ const toolDirs = fs.readdirSync(path.join(repoRoot, 'tools'), { withFileTypes: t
     .filter(entry => entry.isDirectory())
     .map(entry => entry.name);
 
-// Sections that stack on mobile must space themselves off the shared token.
-// A bare `margin-bottom: 0` on a card is what let the Quote Generator's
-// standalone card collide with the grid below it.
-const sectionSpacing = {
-    'quote-generator': ['.qg-form-grid', '.qg-form-card', '.qg-components-card']
-};
-
 // Migrated tools take their action row from the shared component.
 assert.match(cssRule('.actions', componentsCss), /margin:\s*2rem 0/);
 assert.match(cssRule('.form-grid', componentsCss), /margin-bottom:\s*var\(--section-gap\)/);
 
-for (const [tool, selectors] of Object.entries(sectionSpacing)) {
-    const cssFiles = fs.readdirSync(path.join(repoRoot, 'tools', tool))
-        .filter(file => file.endsWith('.css'))
-        .map(file => fs.readFileSync(path.join(repoRoot, 'tools', tool, file), 'utf8'))
-        .join('\n');
+// A section that stacks on mobile spaces itself off the shared token. A bare
+// `margin-bottom: 0` on a card is what once let a standalone card collide
+// with the grid below it.
+assert.match(cssRule('.card', componentsCss), /margin-bottom:\s*var\(--section-gap\)/);
 
-    for (const selector of selectors) {
-        assert.match(
-            cssRule(selector, cssFiles),
-            /margin-bottom:\s*var\(--section-gap, 1\.5rem\)/,
-            `${tool} ${selector} should space itself off --section-gap`
-        );
+// tool-responsive.css is retired: every tool builds its form from the shared
+// components, and no page may bring the old catch-all sheet back.
+assert.ok(!fs.existsSync(path.join(repoRoot, 'global', 'styles', 'tool-responsive.css')));
+for (const tool of toolDirs) {
+    for (const file of fs.readdirSync(path.join(repoRoot, 'tools', tool)).filter(f => f.endsWith('.html'))) {
+        const page = fs.readFileSync(path.join(repoRoot, 'tools', tool, file), 'utf8');
+        assert.doesNotMatch(page, /tool-responsive\.css/, `${tool}/${file} must not load tool-responsive.css`);
     }
 }
 

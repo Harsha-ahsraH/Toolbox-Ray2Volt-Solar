@@ -127,7 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
         selectedDefaults.forEach(row => {
             html += `
                 <tr data-row="${sno}">
-                    <td class="bom-sno">${sno}</td>
+                    <td class="cell-index">${sno}</td>
                     <td><input type="text" class="bom-item" value="${row.item}"></td>
                     <td><input type="number" class="bom-qty" value="${row.qty}" min="1"></td>
                     <td><input type="text" class="bom-unit" value="${row.unit}"></td>
@@ -148,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
         commonAccessories.forEach(row => {
             html += `
                 <tr data-row="${sno}">
-                    <td class="bom-sno">${sno}</td>
+                    <td class="cell-index">${sno}</td>
                     <td><input type="text" class="bom-item" value="${row.item}"></td>
                     <td><input type="number" class="bom-qty" value="${row.qty}" min="0"></td>
                     <td><input type="text" class="bom-unit" value="${row.unit}"></td>
