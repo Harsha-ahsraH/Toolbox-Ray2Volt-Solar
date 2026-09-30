@@ -102,7 +102,7 @@
    itself where the logo header used to be. */
 .sidebar-collapse-btn {
     position: absolute;
-    top: 20px;
+    top: 16px;
     right: 10px;
     z-index: 1;
     width: 32px;
@@ -153,19 +153,10 @@
     display: none;
     align-items: center;
     justify-content: space-between;
-    padding: 12px 16px;
+    padding: 8px 16px;
     border-bottom: 1px solid var(--border-light);
     background: var(--bg-card);
     flex-shrink: 0;
-}
-
-/* The cap is a safety net for very narrow screens; at 60% it was binding at
-   normal widths and letterboxing the wordmark below its 22px. */
-.sidebar-mobile-header .sidebar-mobile-logo {
-    height: 22px;
-    width: auto;
-    max-width: 75%;
-    object-fit: contain;
 }
 
 .sidebar-close-btn {
@@ -204,32 +195,33 @@
     transform: scale(0.9);
 }
 
-/* The right padding is the collapse disc's berth: it keeps the centred
-   wordmark clear of the button instead of ending 2px short of it. */
+/* Reserve room for the collapse button beside the compact text header. */
 .logo-header {
-    padding: var(--spacing-lg);
+    padding: 12px var(--spacing-lg);
     padding-right: calc(var(--spacing-lg) + 22px);
+    flex-shrink: 0;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: var(--spacing-xs);
+    justify-content: center;
     border-bottom: 1px solid var(--border-light);
     text-align: center;
 }
 
-/* The wordmark is 1401x209, so height drives the width: at 32px it ran 215px
-   and spilled past the header's own padding in a 250px sidebar. */
-.logo-header .logo {
-    height: 24px;
-    width: auto;
-    max-width: 100%;
-    object-fit: contain;
-}
-
-.logo-header h2 {
+.sidebar-brand {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin: 0;
     font-size: 1.25rem;
     font-weight: 600;
+    line-height: 1.2;
     color: var(--text-primary);
+}
+
+.sidebar-brand-subtitle {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-secondary);
 }
 
 /* --- Tool Search --- */

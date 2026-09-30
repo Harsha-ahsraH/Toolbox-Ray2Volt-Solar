@@ -140,9 +140,10 @@ assert.ok(
     'the fixed mobile header logo should stay small next to the page content'
 );
 
-assert.ok(
-    logoHeight('\\.sidebar-mobile-header \\.sidebar-mobile-logo') <= 24,
-    'the drawer logo should match the header logo'
+assert.match(
+    indexHtml,
+    /class="sidebar-mobile-header">\s*<h2 class="sidebar-brand"><span>Ray2Volt<\/span><span class="sidebar-brand-subtitle">Toolbox<\/span><\/h2>/,
+    'the drawer should use the compact two-line text heading'
 );
 
 console.log('toolbox search tests passed');
