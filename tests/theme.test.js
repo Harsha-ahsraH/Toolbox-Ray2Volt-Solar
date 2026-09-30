@@ -80,7 +80,7 @@ for (const page of pages) {
 
     assert.match(
         head,
-        /<script src="[^"]*global\/scripts\/theme\.js"><\/script>/,
+        /<script src="[^"]*global\/scripts\/theme\.js(?:\?v=[^"]+)?"><\/script>/,
         `${page} should load theme.js in its head`
     );
 }

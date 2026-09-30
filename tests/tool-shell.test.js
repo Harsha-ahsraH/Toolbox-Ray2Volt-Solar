@@ -160,4 +160,14 @@ assert.ok(
     'the shared PDF download helper should stay deleted'
 );
 
+// Every local stylesheet and script carries a ?v= release tag, so a changed
+// file is never served from a stale cache. Bump the tag when a file changes.
+for (const page of ['index.html', ...toolDirs.flatMap(tool => fs.readdirSync(path.join(repoRoot, 'tools', tool))
+    .filter(file => file.endsWith('.html')).map(file => path.join('tools', tool, file)))]) {
+    const html = fs.readFileSync(path.join(repoRoot, page), 'utf8');
+    for (const m of html.matchAll(/(?:href|src)="(?!https?:|\/\/)([^"]+\.(?:css|js)(?:\?[^"]*)?)"/g)) {
+        assert.match(m[1], /\?v=[\w-]+$/, `${page} loads ${m[1]} without a ?v= release tag`);
+    }
+}
+
 console.log('tool shell tests passed');
