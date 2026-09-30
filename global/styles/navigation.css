@@ -73,6 +73,7 @@
 
 /* --- Sidebar Navigation --- */
 .sidebar {
+    --sidebar-header-height: calc(1.5rem + 25px);
     position: fixed;
     top: 0;
     left: 0;
@@ -102,7 +103,7 @@
    itself where the logo header used to be. */
 .sidebar-collapse-btn {
     position: absolute;
-    top: 16px;
+    top: calc(var(--sidebar-header-height) / 2);
     right: 10px;
     z-index: 1;
     width: 32px;
@@ -116,6 +117,7 @@
     background: var(--bg-hover);
     color: var(--text-muted);
     cursor: pointer;
+    transform: translateY(-50%);
     transition: color var(--transition-base), background var(--transition-base),
         transform var(--transition-base);
 }
@@ -123,7 +125,7 @@
 .sidebar-collapse-btn:hover {
     background: var(--bg-active);
     color: var(--primary-text);
-    transform: translateX(-1px);
+    transform: translate(-1px, -50%);
 }
 
 .sidebar-collapse-btn:focus-visible {
@@ -153,7 +155,7 @@
     display: none;
     align-items: center;
     justify-content: space-between;
-    padding: 8px 16px;
+    padding: 8px 16px 8px 23px;
     border-bottom: 1px solid var(--border-light);
     background: var(--bg-card);
     flex-shrink: 0;
@@ -198,13 +200,15 @@
 /* Reserve room for the collapse button beside the compact text header. */
 .logo-header {
     padding: 12px var(--spacing-lg);
-    padding-right: calc(var(--spacing-lg) + 22px);
+    padding-left: calc(var(--spacing-lg) + 3px);
+    padding-right: 52px;
+    min-height: var(--sidebar-header-height);
     flex-shrink: 0;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     border-bottom: 1px solid var(--border-light);
-    text-align: center;
+    text-align: left;
 }
 
 .sidebar-brand {
@@ -215,6 +219,51 @@
     font-weight: 700;
     line-height: 1.2;
     color: var(--text-primary);
+}
+
+/* Drag the edge without changing the appearance of the navigation rows. */
+.sidebar-resize-handle {
+    display: none;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: -8px;
+    width: 10px;
+    z-index: 3;
+    cursor: ew-resize;
+    touch-action: none;
+}
+
+.sidebar-resize-handle::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 1px;
+    width: 2px;
+    background: transparent;
+    transition: background var(--transition-fast);
+}
+
+.sidebar-resize-handle:hover::after,
+.sidebar-resize-handle:focus-visible::after,
+.sidebar-resizing .sidebar-resize-handle::after {
+    background: var(--primary);
+}
+
+.sidebar-resize-handle:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: -2px;
+}
+
+body.sidebar-resizing {
+    cursor: ew-resize;
+    user-select: none;
+}
+
+.sidebar-resizing .sidebar,
+.sidebar-resizing .main-content {
+    transition: none;
 }
 
 /* --- Tool Search --- */
@@ -346,6 +395,10 @@
 }
 
 @media screen and (min-width: 769px) {
+    .sidebar-resize-handle {
+        display: block;
+    }
+
     .sidebar.collapsed {
         width: var(--sidebar-collapsed-width);
     }
@@ -363,6 +416,7 @@
     .sidebar.collapsed .sidebar-collapse-btn {
         position: static;
         margin: var(--spacing-md) auto var(--spacing-xs);
+        transform: none;
     }
 
     .sidebar.collapsed .sidebar-collapse-btn:hover {

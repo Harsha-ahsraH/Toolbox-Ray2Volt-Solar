@@ -1,6 +1,6 @@
 /**
  * Shared Navigation Script for Ray2Volt Toolbox
- * Handles sidebar toggle for mobile, the tool search, and responsive behavior
+ * Handles sidebar resizing, mobile toggles, tool search, and responsive behavior
  */
 
 /**
@@ -57,22 +57,152 @@ document.addEventListener('DOMContentLoaded', () => {
     collapseBtn.appendChild(collapseIcon);
     sidebar.insertBefore(collapseBtn, sidebar.firstChild);
 
+    const DESKTOP_MIN_WIDTH = 769;
+    const MIN_SIDEBAR_WIDTH = 220;
+    const LAYOUT_STORAGE_KEY = 'ray2volt.sidebar-layout';
+    const root = document.documentElement;
+    const rootStyle = getComputedStyle(root);
+    const collapsedWidth = parseFloat(rootStyle.getPropertyValue('--sidebar-collapsed-width')) || 76;
+    let expandedWidth = parseFloat(rootStyle.getPropertyValue('--sidebar-width')) || 250;
+    let currentWidth = expandedWidth;
+    let savedCollapsed = false;
+
+    try {
+        const saved = JSON.parse(localStorage.getItem(LAYOUT_STORAGE_KEY));
+        if (saved && Number.isFinite(saved.width) && saved.width >= MIN_SIDEBAR_WIDTH) {
+            expandedWidth = saved.width;
+            savedCollapsed = saved.collapsed === true;
+        }
+    } catch (_) {
+        // Resizing still works when this browser does not allow storage.
+    }
+
+    const resizeHandle = document.createElement('span');
+    resizeHandle.className = 'sidebar-resize-handle';
+    resizeHandle.tabIndex = 0;
+    resizeHandle.setAttribute('role', 'separator');
+    resizeHandle.setAttribute('aria-label', 'Resize sidebar');
+    resizeHandle.setAttribute('aria-orientation', 'vertical');
+    resizeHandle.setAttribute('aria-controls', sidebar.id);
+    resizeHandle.setAttribute('aria-valuemin', String(collapsedWidth));
+    resizeHandle.title = 'Drag to resize. Arrow keys adjust width; Home collapses; End expands.';
+    sidebar.appendChild(resizeHandle);
+
+    function maxSidebarWidth() {
+        return Math.max(MIN_SIDEBAR_WIDTH, window.innerWidth - 320);
+    }
+
+    function updateResizeControl() {
+        const collapsed = sidebar.classList.contains('collapsed');
+        const width = collapsed ? collapsedWidth : currentWidth;
+        resizeHandle.setAttribute('aria-valuemax', String(maxSidebarWidth()));
+        resizeHandle.setAttribute('aria-valuenow', String(width));
+        resizeHandle.setAttribute('aria-valuetext', collapsed ? 'Collapsed' : `${width} pixels wide`);
+    }
+
+    function applySidebarWidth() {
+        currentWidth = Math.round(Math.min(expandedWidth, maxSidebarWidth()));
+        root.style.setProperty('--sidebar-width', `${currentWidth}px`);
+        updateResizeControl();
+    }
+
+    function saveSidebarLayout() {
+        try {
+            localStorage.setItem(LAYOUT_STORAGE_KEY, JSON.stringify({
+                width: expandedWidth,
+                collapsed: sidebar.classList.contains('collapsed')
+            }));
+        } catch (_) {
+            // The current page keeps its layout even without persistence.
+        }
+    }
+
     const navLinks = sidebar.querySelectorAll('.main-nav .nav-link');
     navLinks.forEach((link) => {
         if (!link.title) link.title = link.textContent.trim();
     });
 
-    function setSidebarCollapsed(collapsed) {
+    function setSidebarCollapsed(collapsed, persist = true) {
         sidebar.classList.toggle('collapsed', collapsed);
         collapseIcon.textContent = collapsed ? 'chevron_right' : 'chevron_left';
         collapseBtn.setAttribute('aria-expanded', String(!collapsed));
         collapseBtn.setAttribute('aria-label', collapsed ? 'Expand sidebar' : 'Collapse sidebar');
         if (collapsed) clearToolSearch();
+        updateResizeControl();
+        if (persist) saveSidebarLayout();
     }
 
-    setSidebarCollapsed(false);
+    applySidebarWidth();
+    setSidebarCollapsed(savedCollapsed, false);
     collapseBtn.addEventListener('click', () => {
         setSidebarCollapsed(!sidebar.classList.contains('collapsed'));
+    });
+
+    function resizeSidebar(width) {
+        if (width < MIN_SIDEBAR_WIDTH) {
+            setSidebarCollapsed(true, false);
+        } else {
+            expandedWidth = Math.round(Math.min(width, maxSidebarWidth()));
+            applySidebarWidth();
+            setSidebarCollapsed(false, false);
+        }
+    }
+
+    let resizeDrag = null;
+
+    function finishSidebarResize(cancelled = false) {
+        if (!resizeDrag) return;
+        const drag = resizeDrag;
+        resizeDrag = null;
+        document.body.classList.remove('sidebar-resizing');
+        if (cancelled) {
+            expandedWidth = drag.width;
+            applySidebarWidth();
+            setSidebarCollapsed(drag.collapsed, false);
+        } else {
+            saveSidebarLayout();
+        }
+        if (resizeHandle.hasPointerCapture(drag.pointerId)) {
+            resizeHandle.releasePointerCapture(drag.pointerId);
+        }
+    }
+
+    resizeHandle.addEventListener('pointerdown', (event) => {
+        if (window.innerWidth < DESKTOP_MIN_WIDTH || event.button !== 0 || resizeDrag) return;
+        event.preventDefault();
+        resizeDrag = {
+            pointerId: event.pointerId,
+            offset: event.clientX - sidebar.getBoundingClientRect().width,
+            width: expandedWidth,
+            collapsed: sidebar.classList.contains('collapsed')
+        };
+        document.body.classList.add('sidebar-resizing');
+        resizeHandle.setPointerCapture(event.pointerId);
+    });
+
+    resizeHandle.addEventListener('pointermove', (event) => {
+        if (!resizeDrag || event.pointerId !== resizeDrag.pointerId) return;
+        resizeSidebar(event.clientX - resizeDrag.offset);
+    });
+
+    resizeHandle.addEventListener('pointerup', (event) => {
+        if (resizeDrag && event.pointerId === resizeDrag.pointerId) finishSidebarResize();
+    });
+    resizeHandle.addEventListener('pointercancel', () => finishSidebarResize(true));
+    resizeHandle.addEventListener('lostpointercapture', () => finishSidebarResize());
+
+    resizeHandle.addEventListener('keydown', (event) => {
+        if (window.innerWidth < DESKTOP_MIN_WIDTH) return;
+        const collapsed = sidebar.classList.contains('collapsed');
+        const step = event.shiftKey ? 48 : 16;
+        if (event.key === 'ArrowLeft') resizeSidebar(collapsed ? collapsedWidth : currentWidth - step);
+        else if (event.key === 'ArrowRight') resizeSidebar(collapsed ? MIN_SIDEBAR_WIDTH : currentWidth + step);
+        else if (event.key === 'Home') setSidebarCollapsed(true, false);
+        else if (event.key === 'End') resizeSidebar(maxSidebarWidth());
+        else if (event.key === 'Enter' || event.key === ' ') setSidebarCollapsed(!collapsed, false);
+        else return;
+        event.preventDefault();
+        saveSidebarLayout();
     });
 
     function openSidebar() {
@@ -129,9 +259,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // .open, the overlay and the body scroll lock were all still set: an
     // invisible overlay sitting at pointer-events:auto over a desktop layout,
     // swallowing every click, with the page unable to scroll.
-    const DESKTOP_MIN_WIDTH = 769;
-
     window.addEventListener('resize', () => {
+        finishSidebarResize();
+        applySidebarWidth();
         if (window.innerWidth >= DESKTOP_MIN_WIDTH) {
             closeSidebar();
         }

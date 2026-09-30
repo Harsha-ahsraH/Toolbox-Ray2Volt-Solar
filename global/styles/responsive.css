@@ -132,6 +132,7 @@
 
     .main-nav .nav-link.active {
         border-left-width: 4px;
+        padding-left: 19px;
     }
 
     .main-content {
