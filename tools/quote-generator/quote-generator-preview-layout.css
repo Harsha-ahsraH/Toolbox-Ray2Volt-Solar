@@ -206,88 +206,6 @@
     border-radius: 2px;
 }
 
-.qp-cover-footer-meta {
-    display: grid;
-    grid-template-columns: 1.2fr 1fr;
-    gap: 8mm;
-    border-top: 2px solid var(--qp-navy);
-    padding-top: 5mm;
-    margin: 0;
-    width: 100%;
-    box-sizing: border-box;
-    align-items: start;
-}
-
-.qp-cover-to {
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-    text-align: left;
-}
-
-.qp-cover-to-label {
-    font-size: 7.5pt;
-    font-weight: 700;
-    color: var(--qp-muted);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 3px;
-}
-
-.qp-cover-to-name {
-    font-size: 13pt;
-    font-weight: 700;
-    color: var(--qp-navy-dark);
-    margin: 0;
-}
-
-.qp-cover-to-detail {
-    font-size: 9.5pt;
-    color: var(--qp-gray);
-    margin: 0;
-    line-height: 1.4;
-}
-
-.qp-cover-meta-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 9.5pt;
-    text-align: left;
-}
-
-.qp-cover-meta-table th,
-.qp-cover-meta-table td {
-    padding: 5px 0;
-    border: none;
-    line-height: 1.3;
-}
-
-.qp-cover-meta-table th {
-    font-weight: 600;
-    color: var(--qp-muted);
-    text-transform: uppercase;
-    font-size: 7.5pt;
-    letter-spacing: 0.6px;
-    width: 110px;
-}
-
-.qp-cover-meta-table td {
-    color: var(--qp-ink);
-    font-weight: 600;
-}
-
-.qp-cover-meta-table-total th {
-    color: var(--qp-navy-dark);
-    font-weight: 700;
-    font-size: 8.5pt;
-}
-
-.qp-cover-meta-table-total td {
-    font-size: 13pt;
-    font-weight: 700;
-    color: var(--qp-navy-dark);
-}
-
 /* --- Page 2 (Overview) --- */
 .qp-page1 {
     border-top: 5px solid var(--qp-navy);
@@ -365,16 +283,6 @@
 
 .qp-cover-head h1 {
     font-size: 17pt;
-}
-
-.qp-kicker {
-    display: block;
-    font-size: 7pt;
-    font-weight: 700;
-    color: var(--qp-navy);
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    margin-bottom: 4px;
 }
 
 /* --- Page 2: Dashboard Hero Banner --- */
@@ -589,48 +497,6 @@
     font-weight: 500;
     font-size: 9pt;
     overflow-wrap: anywhere;
-}
-
-
-
-/* --- Page 1: Assurance strip --- */
-.qp-assurance-strip {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 3mm;
-}
-
-.qp-assurance-item {
-    display: flex;
-    align-items: center;
-    gap: 9px;
-    border: 1px solid var(--qp-line);
-    border-radius: 2px;
-    padding: 9px 11px;
-    background: #fff;
-}
-
-.qp-assurance-item svg {
-    width: 17px;
-    height: 17px;
-    color: var(--qp-navy);
-    flex-shrink: 0;
-}
-
-.qp-assurance-item strong {
-    display: block;
-    font-size: 9.5pt;
-    color: var(--qp-navy-dark);
-    line-height: 1.1;
-}
-
-.qp-assurance-item span {
-    display: block;
-    font-size: 6.8pt;
-    color: var(--qp-gray);
-    text-transform: uppercase;
-    letter-spacing: 0.4px;
-    margin-top: 2px;
 }
 
 /* --- Sections --- */

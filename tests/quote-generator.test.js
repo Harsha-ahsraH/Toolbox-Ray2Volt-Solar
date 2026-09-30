@@ -156,11 +156,6 @@ assert.match(css, /#quotePreview \.qp-address-grid\s*\{[\s\S]*margin-bottom:\s*4
 assert.match(css, /#quotePreview \.qp-financial-strip\s*\{[\s\S]*margin:\s*3mm\s+0\s+2mm\s*!important/);
 assert.match(css, /#quotePreview \.qp-bank-flex\s*\{[\s\S]*grid-template-columns:\s*1fr\s+1fr\s*!important/);
 
-// Cover bottom content stays anchored the same way in preview and print.
-const printCoverMetaRule = cssRule('.qp-cover-footer-meta', printCss);
-assert.match(printCoverMetaRule, /margin-top:\s*auto\s*!important/);
-assert.doesNotMatch(printCoverMetaRule, /margin-top:\s*0/);
-
 // The cover metadata cards must not slide underneath the company footer.
 const coverImageWrapRule = cssRule('.qp-cover-image-wrap');
 assert.doesNotMatch(coverImageWrapRule, /margin:\s*0\s+0\s+auto\s+0/);

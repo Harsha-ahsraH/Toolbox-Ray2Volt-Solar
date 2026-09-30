@@ -49,8 +49,6 @@
         gap: 0.875rem !important;
     }
 
-    .qp-info-grid,
-    .qp-mission-grid,
     .qp-benefits-grid,
     .qp-terms-grid,
     .qp-resp-grid {
@@ -96,7 +94,6 @@
         max-width: 158px !important;
     }
 
-    #quotePreview .qp-banner,
     #quotePreview .qp-address-grid,
     #quotePreview .qp-financial-strip,
     #quotePreview .qp-payment-steps,
@@ -106,7 +103,6 @@
         flex-direction: row !important;
     }
 
-    #quotePreview .qp-mission-grid,
     #quotePreview .qp-terms-grid,
     #quotePreview .qp-resp-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr)) !important;

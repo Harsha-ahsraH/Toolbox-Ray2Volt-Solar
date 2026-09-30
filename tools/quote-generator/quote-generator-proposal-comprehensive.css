@@ -11,16 +11,117 @@
    the preview rail and stage render *clones* of these pages outside
    #qgComprehensivePages and must style identically.
 
-   The composition blocks the sections are assembled from — the figure,
-   the energy-split bar, the headline band, the page-foot anchor —
-   live in the companion sheet imported below, which carries only class names
-   of its own. Nothing in it overrides anything here, so the order between the
-   two does not matter; the split exists to keep both files inside the
-   repository's per-file budget. Bump its ?v= with the rest of the manifest in
-   quote-generator.css.
+   The card grids and equipment visuals come first; the page shell, type
+   scale, tables and cover follow.
    ============================================ */
 
-@import url('./quote-generator-proposal-comprehensive-blocks.css?v=20260930-cleanup');
+/* --- Card grids ----------------------------------------------------------
+
+   A card grid holding an odd number of cards leaves its last row half empty,
+   which reads as a missing card rather than as a deliberate stop. The last
+   card takes the full measure instead. */
+
+.cq-grid-2 > :last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+}
+
+/* Icon in a card header, matching .qp-prep-header svg in the Short Proposal:
+   a 12px stroked glyph ahead of the tracked navy cap. */
+.cq-card h4 svg {
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
+}
+
+/* Equipment visuals stay attached to their explanation in print. */
+.cq-component-photo {
+    display: grid;
+    grid-template-columns: 66mm minmax(0, 1fr);
+    align-items: center;
+    gap: 5mm;
+    margin: 0 0 5mm;
+    padding: 3mm;
+    border: 1px solid var(--qp-line);
+    background: #fff;
+    break-inside: avoid;
+}
+
+.cq-component-photo img {
+    display: block;
+    width: 100%;
+    height: 46mm;
+    object-fit: contain;
+    background: #fff;
+}
+
+.cq-component-photo figcaption { min-width: 0; }
+.cq-component-title { display: block; font-size: 10pt; line-height: 1.3; color: var(--qp-navy); }
+.cq-component-photo p { margin: 2mm 0 0; font-size: 9pt; line-height: 1.5; color: var(--qp-ink); }
+.cq-component-photo-compact { display: block; margin-bottom: 0; }
+.cq-component-photo-compact img { height: 35mm; margin-bottom: 3mm; }
+.cq-component-photo-compact .cq-component-title { font-size: 9.5pt; }
+.cq-component-gallery { margin-bottom: 5mm; }
+
+/* --- Equipment tables ------------------------------------------------------
+
+   The scope note a salesperson types against a bill-of-materials row is the
+   sentence that says what the quantity actually covers, so it is printed —
+   set under the specification it qualifies rather than given a column of its
+   own, which on a 683px measure would squeeze every other column.
+
+   The bill of materials uses the same note, keeping its "Remarks:" label: the
+   row heights it is paginated against budget a full-size line per wrapped
+   remark, so setting the note smaller can only leave a page shorter than
+   planned, never longer. */
+
+.cq-cell-note {
+    display: block;
+    margin-top: 0.7mm;
+    font-size: 7.2pt;
+    font-style: italic;
+    line-height: 1.3;
+    color: var(--qp-muted);
+}
+
+/* Category heading inside a consolidated equipment table. Same treatment as
+   .cq-cat-row in the bill of materials, but left-aligned: this table has a
+   narrow leading column and centring the heading over it reads as a stray
+   caption rather than as a band. */
+.cq-table .cq-group-row td {
+    background: var(--qp-soft) !important;
+    color: var(--qp-navy);
+    font-weight: 700;
+    font-size: 7.8pt;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+/* --- Numbered steps ------------------------------------------------------------ */
+
+/* One step to a row, for sequences that are read in order rather than scanned
+   as a set. Matches .qp-journey-grid on the Short Proposal. */
+.cq-steps.cq-steps-1 {
+    grid-template-columns: 1fr;
+}
+
+.cq-bar-fill {
+    border-radius: 1px 1px 0 0;
+}
+
+/* --- Annexure placeholder ---------------------------------------------------------
+
+   While the stored artwork is being read back out of IndexedDB the frame holds
+   a centred note rather than a paragraph pinned to its top-left corner. */
+
+.cq-annexure-frame > .cq-para {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    margin: 0;
+    text-align: center;
+    color: var(--qp-muted);
+}
 
 .cq-page {
     /* Same palette as the Short Proposal so both documents look like one house. */
@@ -144,39 +245,6 @@
     margin-bottom: 3mm;
 }
 
-/* Section heading. Same rule, case and tracking as .qp-section h3. */
-.cq-subtitle {
-    font-size: 10pt;
-    font-weight: 700;
-    letter-spacing: 0.8px;
-    text-transform: uppercase;
-    color: var(--qp-navy);
-    margin: 4mm 0 3mm;
-    padding-bottom: 4px;
-    border-bottom: 1px solid var(--qp-line);
-}
-
-.cq-subtitle:first-child {
-    margin-top: 0;
-}
-
-/* Matches .qp-explainer-box. */
-.cq-note {
-    padding: 9px 14px;
-    margin-top: 4mm;
-    font-size: 9pt;
-    line-height: 1.5;
-    color: var(--qp-gray);
-    background: var(--qp-soft);
-    border: 1px solid var(--qp-line);
-    border-left: 3px solid var(--qp-navy);
-    border-radius: 2px;
-}
-
-.cq-note strong {
-    color: var(--qp-navy);
-}
-
 .cq-placeholder {
     color: #A33;
     font-style: italic;
@@ -275,61 +343,6 @@
     overflow-wrap: anywhere;
 }
 
-.cq-kv-boxed {
-    padding: 3mm;
-    background: var(--qp-soft);
-    border: 1px solid var(--qp-line);
-    border-radius: 2px;
-}
-
-/* --- Metric tiles -------------------------------------------------------- */
-
-.cq-metrics {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 2.5mm;
-    margin-bottom: 4mm;
-}
-
-.cq-metrics-3 {
-    grid-template-columns: repeat(3, 1fr);
-}
-
-/* Metric tile. Left-aligned white card with a gray label over a navy-dark
-   figure, the same reading order as .qp-metric-card. Type stays a step
-   smaller because the Comprehensive grid runs four across, not two. */
-.cq-metric {
-    padding: 2.5mm;
-    background: #fff;
-    border: 1px solid var(--qp-line);
-    border-radius: 2px;
-}
-
-.cq-metric-label {
-    display: block;
-    font-size: 7pt;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--qp-gray);
-    margin-bottom: 1mm;
-}
-
-.cq-metric-value {
-    display: block;
-    font-size: 13pt;
-    font-weight: 700;
-    line-height: 1.15;
-    color: var(--qp-navy-dark);
-}
-
-.cq-metric-sub {
-    display: block;
-    margin-top: 0.8mm;
-    font-size: 7pt;
-    color: var(--qp-muted);
-}
-
 /* --- Tables -------------------------------------------------------------- */
 
 .cq-table {
@@ -374,7 +387,7 @@
     text-align: center;
 }
 .cq-table th.cq-num { white-space: normal; }
-.cq-table .cq-value { text-align: right; }
+
 .cq-table.cq-savings-table .cq-total-row td { font-size: 8.2pt; }
 
 /* The total is the most-read line on a commercial page, so it takes the
@@ -443,17 +456,6 @@
     color: var(--qp-navy);
 }
 
-.cq-bullets {
-    margin: 0 0 3mm;
-    padding-left: 5mm;
-    font-size: 8.5pt;
-    line-height: 1.55;
-}
-
-.cq-bullets li {
-    margin-bottom: 1.2mm;
-}
-
 /* --- Numbered steps -------------------------------------------------------- */
 
 .cq-steps {
@@ -471,19 +473,6 @@
     background: #fff;
     border: 1px solid var(--qp-line);
     border-radius: 2px;
-}
-
-.cq-step-num {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 20px;
-    height: 20px;
-    font-size: 8.5pt;
-    font-weight: 700;
-    color: #fff;
-    background: var(--qp-navy);
-    border-radius: 50%;
 }
 
 .cq-step strong {
@@ -621,33 +610,6 @@ h1.cq-cover-title {
     font-size: 9pt;
     color: var(--qp-ink);
     margin-bottom: 1mm;
-}
-
-/* --- Schematic -------------------------------------------------------------- */
-
-.cq-schematic {
-    width: 100%;
-    max-height: 105mm;
-    object-fit: contain;
-    border: 1px solid var(--qp-line);
-    border-radius: 2px;
-    background: #fff;
-    padding: 2mm;
-    margin-bottom: 4mm;
-}
-
-/* --- Consumption bar chart (CSS only, no chart library) ---------------------- */
-
-.cq-bars {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    align-items: end;
-    gap: 1.5mm;
-    height: 42mm;
-    padding: 2mm 2mm 0;
-    border: 1px solid var(--qp-line);
-    border-radius: 2px;
-    background: var(--qp-soft);
 }
 
 .cq-bar {

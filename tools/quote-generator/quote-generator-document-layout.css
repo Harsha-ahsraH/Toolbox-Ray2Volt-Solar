@@ -5,39 +5,31 @@
 .cq-flow-body > :first-child { margin-top: 0; }
 .cq-flow-body > :last-child { margin-bottom: 0 !important; }
 .cq-reading-block { margin: 5mm 0; }
-.cq-reading-block .cq-subtitle { margin-top: 0; }
+
 .cq-reading-block .cq-para { margin-bottom: 0; }
 .cq-flow-body .cq-reading-stack { grid-template-columns: 1fr; }
-.cq-compact-page .cq-flow-body .cq-subtitle { margin-top: 2mm; margin-bottom: 2mm; }
+
 .cq-compact-page .cq-flow-body .cq-para,
 .cq-compact-page .cq-flow-body .cq-lead { margin-bottom: 2mm; }
 .cq-compact-page .cq-flow-body .cq-table td,
 .cq-compact-page .cq-flow-body .cq-table th { padding-top: 1mm; padding-bottom: 1mm; }
 .cq-compact-page .cq-flow-body .cq-component-photo img { height: 36mm; }
 .cq-compact-page .cq-flow-body .cq-card { padding-bottom: 2mm; }
-.cq-compact-page .cq-flow-body .cq-note { margin-top: 2mm; }
+
 /* Longer reading measures and larger diagrams complete concise sections. */
 .cq-page[data-section-id="savings-projection"] .cq-table th,
 .cq-page[data-section-id="savings-projection"] .cq-table td { padding-top: 1.05mm; padding-bottom: 1.05mm; }
 .cq-flow-body .cq-grid-2 + .cq-grid-2,
 .cq-flow-body .cq-grid-3 + .cq-grid-3 { margin-top: 3mm; }
 .cq-flow-body .cq-steps + .cq-steps { margin-top: 2.5mm; }
-.cq-flow-body .cq-figure .cq-schematic { max-height: 108mm; }
-.cq-flow-body .cq-figure .cq-schematic { width: 100%; height: auto; max-width: 100%; }
-.cq-card.cq-card-plain { border-top: 1px solid var(--qp-line); }
-.cq-value-table th:nth-child(2), .cq-value-table td:nth-child(2) { text-align: right; }
+
 .cq-savings-table .cq-total-row td:first-child { white-space: nowrap; }
 .cq-flow-heading { margin: 7mm 0 4mm; padding-top: 5mm; border-top: 2px solid var(--qp-navy); }
 .cq-flow-heading h2 { font-size: 14pt; line-height: 1.2; font-weight: 700; color: var(--qp-ink); }
 .cq-flow-heading p { margin-top: 1.5mm; font-size: 8.5pt; line-height: 1.5; color: var(--qp-muted); }
-.cq-flow-body .cq-note { margin-top: 4mm; }
+
 .cq-flow-body .cq-table { margin-bottom: 4mm; }
-.cq-closing-page .cq-body { display: flex; flex-direction: column; gap: 3mm; }
-.cq-closing-page .cq-grid-2 { display: contents; }
-.cq-closing-page .cq-card { flex: 1; }
-.cq-closing-page .cq-card p { font-size: 9.5pt; line-height: 1.6; }
-.cq-closing-page .cq-step { padding: 3mm; }
-.cq-closing-page .cq-step p { font-size: 9.5pt; }
+
 .cq-acceptance-page .cq-kv dt,
 .cq-acceptance-page .cq-kv dd { padding-top: 3mm; padding-bottom: 3mm; }
 .cq-acceptance-page .cq-sign-grid { flex: 1; min-height: 64mm; align-items: start; margin-top: 5mm; }

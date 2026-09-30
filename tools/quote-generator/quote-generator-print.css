@@ -132,16 +132,6 @@
         object-fit: cover !important;
     }
 
-    .qp-cover-footer-meta {
-        display: grid !important;
-        grid-template-columns: 1.2fr 1fr !important;
-        margin-top: auto !important;
-        gap: 8mm !important;
-        border-top: 2px solid var(--qp-navy) !important;
-        padding-top: 5mm !important;
-        align-items: start !important;
-    }
-
     .qp-highlights-grid {
         display: grid !important;
         grid-template-columns: repeat(3, 1fr) !important;
@@ -171,37 +161,6 @@
     /* --- Cover: header --- */
     .qp-cover-head {
         border-bottom: 3px solid var(--qp-navy) !important;
-    }
-
-    /* --- Cover: hero band --- */
-    .qp-hero-band {
-        display: flex !important;
-        flex-direction: row !important;
-        align-items: center !important;
-        gap: 4mm !important;
-        background: var(--qp-tint) !important;
-        border: 1px solid var(--qp-line) !important;
-        border-left: 4px solid var(--qp-navy) !important;
-        color: var(--qp-ink) !important;
-    }
-
-    .qp-hero-divider {
-        width: 1px !important;
-        height: 12mm !important;
-        background: var(--qp-line) !important;
-        align-self: center !important;
-    }
-
-    .qp-hero-capacity {
-        color: var(--qp-navy) !important;
-    }
-
-    .qp-hero-capacity-label {
-        color: var(--qp-gray) !important;
-    }
-
-    .qp-hero-savings {
-        color: var(--qp-navy-dark) !important;
     }
 
     .qp-hero-title {
@@ -239,32 +198,6 @@
     .qp-prep-meta {
         display: grid !important;
         grid-template-columns: 105px 1fr !important;
-    }
-
-    .qp-glance-strip {
-        display: flex !important;
-        gap: 4mm !important;
-    }
-
-    .qp-glance-item {
-        background: var(--qp-tint) !important;
-        border: 1px solid var(--qp-line) !important;
-        border-top: 2px solid var(--qp-navy) !important;
-    }
-
-    .qp-assurance-strip {
-        display: grid !important;
-        grid-template-columns: repeat(4, 1fr) !important;
-        gap: 3mm !important;
-    }
-
-    .qp-assurance-item {
-        border: 1px solid var(--qp-line) !important;
-        background: #fff !important;
-    }
-
-    .qp-assurance-item svg {
-        color: var(--qp-navy) !important;
     }
 
     /* --- Tables --- */

@@ -307,12 +307,6 @@
     text-decoration: underline;
 }
 
-.mb-ref-empty {
-    font-size: 8.5pt;
-    color: var(--mb-muted);
-    margin: 0;
-}
-
 /* --- Notes: rendered from Markdown ---
    The class lands on each top-level node the Markdown compiles to, not on a
    wrapper, so the paginator can move or split them one at a time. A wrapper

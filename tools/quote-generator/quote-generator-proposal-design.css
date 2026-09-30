@@ -45,14 +45,6 @@
     flex-shrink: 0;
 }
 
-.cq-eyebrow {
-    font-size: 7.5pt;
-    font-weight: 700;
-    letter-spacing: 1.6px;
-    text-transform: uppercase;
-    color: var(--qp-navy);
-}
-
 .cq-page .cq-t-h2 {
     font-size: 15pt;
     font-weight: 700;
@@ -223,8 +215,6 @@
     line-height: 1.45;
     color: var(--qp-muted);
 }
-
-.cq-chart { display: block; width: 100%; height: auto; }
 
 .cq-legend {
     display: flex;
