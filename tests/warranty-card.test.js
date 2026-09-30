@@ -161,8 +161,8 @@ for (const tag of documentSvgs) {
 assert.match(cssRule('#warrantyPreview svg'), /width:\s*100%/);
 
 const shellIcons = html.match(/class="material-symbols-rounded[^"]*"[^>]*>\s*([a-z_]+)</g) || [];
-assert.equal(shellIcons.length, 5, 'only the tool shell and form titles use Material Symbols');
-for (const icon of ['menu', 'close', 'info', 'solar_power', 'contact_phone']) {
+assert.equal(shellIcons.length, 3, 'only the form titles use Material Symbols; navigation.js draws the shell');
+for (const icon of ['info', 'solar_power', 'contact_phone']) {
     assert.match(html, new RegExp(`>${icon}<`));
 }
 assert.doesNotMatch(html, /material-symbols-rounded[^"]*"[^>]*aria-hidden="true">(call|mail|location_on|verified_user|contact_support|electric_bolt|construction|support_agent)</,

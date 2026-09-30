@@ -30,10 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const lineItems = Docs.setupLineItems({
         container: piItemsContainer,
         addButton: piAddItemBtn,
-        prefix: 'pi',
-        fieldClassPrefix: 'pi-',
-        removeFunctionName: 'removePiItem',
-        minItemsMessage: 'You must have at least one item in the proforma invoice.',
         includeHsn: true
     });
 

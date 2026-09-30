@@ -64,4 +64,14 @@ assert.equal(
     'R2VINV0626-1000'
 );
 
+// A date input's value is a calendar date, not an instant: it must not shift
+// a day in a timezone behind UTC.
+assert.equal(Docs.formatDateInput('2026-06-18'), '18-06-2026');
+assert.equal(Docs.formatDateInput('2026-01-01'), '01-01-2026');
+
+// Line items are built from the shared components, not per-tool class names.
+const source = require('node:fs').readFileSync(require.resolve('../global/scripts/financial-document.js'), 'utf8');
+assert.match(source, /itemRow\.className = 'item-row'/);
+assert.doesNotMatch(source, /removeFunctionName|onclick=|alert\(/, 'rows are removed by delegation, without globals or alerts');
+
 console.log('financial-document tests passed');

@@ -1,47 +1,118 @@
 /**
- * Shared Navigation Script for Ray2Volt Toolbox
- * Handles sidebar resizing, mobile toggles, tool search, and responsive behavior
+ * Toolbox shell — builds the mobile header, the sidebar and the dashboard
+ * cards from the registry in tools.js, then wires sidebar resizing, the mobile
+ * drawer and the tool search.
+ *
+ * Usage: the last shared script on every page, after tools.js and auth.js.
+ * A page only supplies its content:
+ *   <div class="app-container">
+ *       <main class="main-content">...</main>
+ *   </div>
+ * and, on the dashboard, an empty <div class="tool-grid"></div>.
+ *
+ * It runs as soon as it loads rather than on DOMContentLoaded: the script sits
+ * at the end of <body>, so the page is already parsed, and building the shell
+ * before the first paint keeps the sidebar from popping in.
  */
+(function () {
+    'use strict';
 
-/**
- * Extra words a tool answers to. The visible label is always searched; these
- * cover what someone actually types — "bill" for the Tax Invoice,
- * "tax" for GST, "rfq" for Request for Quotation.
- */
-const TOOL_SEARCH_KEYWORDS = {
-    'index.html': 'dashboard home overview all tools',
-    'emi-calculator.html': 'loan emi finance installment interest monthly bank repayment amortization',
-    'gst-calculator.html': 'tax gst percent cgst sgst igst inclusive exclusive',
-    'package-prices.html': 'price pricing package cost rate kw capacity on-grid',
-    'sales-sop.html': 'sop sales process pitch script subsidy financing training faq',
-    'solar-savings.html': 'savings roi irr payback breakeven capex resco returns bill units',
-    'receipt-generator.html': 'receipt payment paid advance acknowledgement money',
-    'invoice-generator.html': 'invoice generator bill billing tax gst supply',
-    'proforma-invoice.html': 'proforma invoice advance estimate pi',
-    'quotation.html': 'quotation quote 1-page one page customer gst',
-    'purchase-order.html': 'po purchase order vendor supplier procurement buy',
-    'payslip-generator.html': 'payslip salary payroll employee wages commission staff',
-    'warranty-card.html': 'warranty certificate guarantee card cover',
-    'quote-generator.html': 'quote quotation proposal offer bom pricing customer',
-    'comparison-sheet.html': 'comparison compare options build standard basic choice',
-    'margin-breakdown.html': 'margin breakdown add-on addon consultant channel partner price split commission',
-    'request-for-quotation.html': 'rfq request for quotation vendor enquiry supplier',
-    'letterheadify.html': 'letterhead pdf brand stationery header stamp',
-    'resource-library.html': 'resource library download template datasheet brochure document file drive',
-    // Keyed by host, not file name — the Pricing Desk is a separate site.
-    'pricing.ray2voltsolar.com': 'pricing desk consultant consultants management package prices rates portal'
-};
+    const registry = window.Ray2VoltTools;
+    const auth = window.Ray2VoltAuth;
+    const appContainer = document.querySelector('.app-container');
+    if (!registry || !appContainer) return;
 
-document.addEventListener('DOMContentLoaded', () => {
-    const sidebar = document.querySelector('.sidebar');
-    const mobileHeader = document.querySelector('.mobile-header');
-    const mobileNavToggle = document.getElementById('mobileNavToggle');
-    const sidebarCloseBtn = document.getElementById('sidebarCloseBtn');
-    const overlay = document.getElementById('overlay');
+    /* --- Shell ---------------------------------------------------------- */
 
-    if (!sidebar) return;
+    const escapeHtml = (value) => String(value).replace(/[&<>"]/g, (char) => (
+        { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[char]
+    ));
 
-    sidebar.id = sidebar.id || 'sidebar';
+    const MENU_ICON = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">' +
+        '<path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>';
+    const CLOSE_ICON = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>';
+
+    // With nobody signed in the page is locked anyway; list nothing behind it.
+    const visibleTools = registry.list.filter((tool) => auth && auth.canOpen(tool.id));
+    const currentPage = location.pathname.split('/').pop() || 'index.html';
+
+    function navItem(tool, index) {
+        const href = registry.hrefFor(tool);
+        const classes = ['nav-link'];
+        if (!tool.href && href.split('/').pop() === currentPage) classes.push('active');
+        if (tool.href) classes.push('is-external');
+        return `<li style="--i: ${index}"><a href="${href}" class="${classes.join(' ')}" data-icon="${tool.icon}"` +
+            ` data-keywords="${escapeHtml(tool.keywords || '')}"` +
+            `${classes.includes('active') ? ' aria-current="page"' : ''}>${escapeHtml(tool.label)}</a></li>`;
+    }
+
+    const header = document.createElement('header');
+    header.className = 'mobile-header';
+    header.innerHTML = '<span class="sidebar-brand mobile-brand">Toolbox</span>' +
+        `<button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Open navigation menu">${MENU_ICON}</button>`;
+
+    const sidebar = document.createElement('aside');
+    sidebar.className = 'sidebar';
+    sidebar.id = 'sidebar';
+    sidebar.innerHTML =
+        '<div class="sidebar-mobile-header"><h2 class="sidebar-brand">Toolbox</h2>' +
+        `<button class="sidebar-close-btn" id="sidebarCloseBtn" aria-label="Close menu">${CLOSE_ICON}</button></div>` +
+        '<div><div class="logo-header"><h2 class="sidebar-brand">Toolbox</h2></div>' +
+        `<nav class="main-nav" aria-label="Tools"><ul>${[registry.dashboard, ...visibleTools].map(navItem).join('')}</ul></nav>` +
+        '</div>';
+
+    const overlay = document.createElement('div');
+    overlay.className = 'overlay';
+    overlay.id = 'overlay';
+
+    appContainer.prepend(header, sidebar);
+    document.body.appendChild(overlay);
+
+    // The dashboard's card grid is the same list, with descriptions.
+    const toolGrid = document.querySelector('.tool-grid');
+    if (toolGrid) {
+        toolGrid.innerHTML = visibleTools.map((tool) =>
+            `<a href="${registry.hrefFor(tool)}" class="tool-card${tool.href ? ' is-external' : ''}"` +
+            ` data-keywords="${escapeHtml(tool.keywords || '')}">` +
+            `<h3 data-icon="${tool.icon}">${escapeHtml(tool.label)}</h3>` +
+            `<p>${escapeHtml(tool.description)}</p></a>`
+        ).join('');
+    }
+
+    const mainNav = sidebar.querySelector('.main-nav');
+    const mobileNavToggle = header.querySelector('#mobileNavToggle');
+    const sidebarCloseBtn = sidebar.querySelector('#sidebarCloseBtn');
+
+    /* --- Who is signed in ------------------------------------------------ */
+
+    if (auth && auth.account) {
+        const sessionInfo = document.createElement('div');
+        sessionInfo.className = 'nav-session';
+        sessionInfo.title = `Signed in as ${auth.account.name}`;
+        sessionInfo.innerHTML =
+            '<span class="nav-session-text">' +
+            '<span class="nav-session-label">Signed in as</span>' +
+            `<span class="nav-session-account-name">${escapeHtml(auth.account.name)}</span>` +
+            '</span>' +
+            '<span class="nav-session-actions">' +
+            '<button type="button" class="nav-session-theme" aria-pressed="false" ' +
+            'aria-label="Switch to dark theme">' +
+            '<span class="material-symbols-rounded" aria-hidden="true">dark_mode</span>' +
+            '</button>' +
+            '<button type="button" class="nav-session-out" aria-label="Sign out" title="Sign out">' +
+            '<span class="material-symbols-rounded" aria-hidden="true">logout</span>' +
+            '</button>' +
+            '</span>';
+        mainNav.parentNode.insertBefore(sessionInfo, mainNav.nextSibling);
+
+        // theme.js owns the icon and the pressed state; it loads in the head.
+        if (window.Ray2VoltTheme) {
+            window.Ray2VoltTheme.attachToggle(sessionInfo.querySelector('.nav-session-theme'));
+        }
+        sessionInfo.querySelector('.nav-session-out').addEventListener('click', auth.signOut);
+    }
+
+    /* --- Collapse and resize (desktop) ----------------------------------- */
 
     // Assigned once the search is built; a no-op until then.
     let clearToolSearch = () => {};
@@ -117,9 +188,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    const navLinks = sidebar.querySelectorAll('.main-nav .nav-link');
+    const navLinks = mainNav.querySelectorAll('.nav-link');
     navLinks.forEach((link) => {
-        if (!link.title) link.title = link.textContent.trim();
+        link.title = link.textContent.trim();
     });
 
     function setSidebarCollapsed(collapsed, persist = true) {
@@ -205,60 +276,66 @@ document.addEventListener('DOMContentLoaded', () => {
         saveSidebarLayout();
     });
 
+    /* --- Mobile drawer --------------------------------------------------- */
+
     function openSidebar() {
-        sidebar?.classList.add('open');
-        overlay?.classList.add('active');
+        sidebar.classList.add('open');
+        overlay.classList.add('active');
         document.body.style.overflow = 'hidden';
-        mobileNavToggle?.setAttribute('aria-expanded', 'true');
+        mobileNavToggle.setAttribute('aria-expanded', 'true');
         // The drawer covers the page and the overlay blocks what is behind it,
         // so the keyboard belongs inside it from the moment it opens.
-        sidebarCloseBtn?.focus();
+        sidebarCloseBtn.focus();
     }
 
     function closeSidebar() {
-        const wasOpen = sidebar?.classList.contains('open');
+        const wasOpen = sidebar.classList.contains('open');
 
-        sidebar?.classList.remove('open');
-        overlay?.classList.remove('active');
+        sidebar.classList.remove('open');
+        overlay.classList.remove('active');
         document.body.style.overflow = '';
-        mobileNavToggle?.setAttribute('aria-expanded', 'false');
+        mobileNavToggle.setAttribute('aria-expanded', 'false');
         clearToolSearch();
 
         // Hand the keyboard back to the button that opened the drawer, but
         // only if the drawer was actually open — a resize past the desktop
         // threshold calls this too, and must not steal focus from the page.
-        if (wasOpen && document.activeElement !== document.body) {
-            const insideDrawer = sidebar?.contains(document.activeElement);
-            if (insideDrawer) mobileNavToggle?.focus();
-        }
+        if (wasOpen && sidebar.contains(document.activeElement)) mobileNavToggle.focus();
     }
 
-    if (mobileNavToggle && sidebarCloseBtn && overlay) {
-        mobileNavToggle.setAttribute('aria-expanded', 'false');
-        mobileNavToggle.addEventListener('click', openSidebar);
-        sidebarCloseBtn.addEventListener('click', closeSidebar);
-        overlay.addEventListener('click', closeSidebar);
+    mobileNavToggle.setAttribute('aria-expanded', 'false');
+    mobileNavToggle.setAttribute('aria-controls', sidebar.id);
+    mobileNavToggle.addEventListener('click', openSidebar);
+    sidebarCloseBtn.addEventListener('click', closeSidebar);
+    overlay.addEventListener('click', closeSidebar);
 
-        // The drawer reads as a modal — it covers the page and the overlay
-        // blocks what is behind it — so Escape has to be a way out of it.
-        // Escape inside a filled search box means "clear the query", and that
-        // handler marks the event handled; one press should not both clear the
-        // search and shut the drawer the user is still searching in.
-        document.addEventListener('keydown', (event) => {
-            if (event.defaultPrevented) return;
-            if (event.key === 'Escape' && sidebar?.classList.contains('open')) {
-                closeSidebar();
+    // The drawer reads as a modal, so Escape closes it and Tab stays inside it.
+    // Escape inside a filled search box means "clear the query", and that
+    // handler marks the event handled; one press should not both clear the
+    // search and shut the drawer the user is still searching in.
+    document.addEventListener('keydown', (event) => {
+        if (event.defaultPrevented || !sidebar.classList.contains('open')) return;
+        if (event.key === 'Escape') {
+            closeSidebar();
+        } else if (event.key === 'Tab') {
+            const controls = Array.from(sidebar.querySelectorAll('a[href], button:not(:disabled), input:not(:disabled)'))
+                .filter((control) => control.getClientRects().length > 0);
+            const first = controls[0];
+            const last = controls[controls.length - 1];
+            if (event.shiftKey && document.activeElement === first) {
+                event.preventDefault();
+                last.focus();
+            } else if (!event.shiftKey && document.activeElement === last) {
+                event.preventDefault();
+                first.focus();
             }
-        });
-    }
+        }
+    });
 
     // Close the drawer once the sidebar goes back to its desktop position.
     // The threshold has to be the one the stylesheets use — responsive.css
-    // stops drawing the drawer above 768px. Closing at 992 instead left a
-    // 769-992px band where the sidebar had already returned to the page but
-    // .open, the overlay and the body scroll lock were all still set: an
-    // invisible overlay sitting at pointer-events:auto over a desktop layout,
-    // swallowing every click, with the page unable to scroll.
+    // stops drawing the drawer above 768px; any other number leaves a band
+    // where an invisible overlay swallows every click.
     window.addEventListener('resize', () => {
         finishSidebarResize();
         applySidebarWidth();
@@ -267,39 +344,22 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    /* --- Tool Search ---------------------------------------------------- */
+    /* --- Tool search ----------------------------------------------------- */
 
-    const mainNav = sidebar.querySelector('.main-nav');
-    if (!mainNav) return;
-
-    /**
-     * The file name of a tool page, used to tie a nav link to its card. An
-     * external tool has no file name, so its host stands in — which is why the
-     * trailing slash has to go first.
-     */
-    function toolKey(href) {
-        const withoutQuery = (href || '').split(/[?#]/)[0].replace(/\/+$/, '');
-        return withoutQuery.slice(withoutQuery.lastIndexOf('/') + 1).toLowerCase();
-    }
-
-    function searchTextFor(element, href) {
-        const key = toolKey(href);
-        return `${element.textContent} ${TOOL_SEARCH_KEYWORDS[key] || ''}`
-            .toLowerCase()
-            .replace(/\s+/g, ' ');
-    }
+    const searchTextFor = (element) =>
+        `${element.textContent} ${element.dataset.keywords || ''}`.toLowerCase().replace(/\s+/g, ' ');
 
     const navEntries = Array.from(navLinks).map((link) => ({
-        target: link.closest('li') || link,
+        target: link.closest('li'),
         link,
-        haystack: searchTextFor(link, link.getAttribute('href'))
+        haystack: searchTextFor(link)
     }));
 
     // On the dashboard the same query also narrows the card grid.
     const cardEntries = Array.from(document.querySelectorAll('.tool-grid .tool-card')).map((card) => ({
         target: card,
         link: card,
-        haystack: searchTextFor(card, card.getAttribute('href'))
+        haystack: searchTextFor(card)
     }));
 
     const searchWrap = document.createElement('div');
@@ -325,13 +385,12 @@ document.addEventListener('DOMContentLoaded', () => {
     mainNav.appendChild(emptyState);
 
     // A dashboard grid that empties out needs to say why.
-    const toolGrid = document.querySelector('.tool-grid');
     let gridEmptyState = null;
     if (toolGrid) {
         gridEmptyState = document.createElement('p');
         gridEmptyState.className = 'tool-grid-empty';
         gridEmptyState.hidden = true;
-        toolGrid.parentNode.insertBefore(gridEmptyState, toolGrid.nextSibling);
+        toolGrid.after(gridEmptyState);
     }
 
     function visibleLinks() {
@@ -422,28 +481,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /* Mobile: the sidebar is behind the hamburger, so give search its own
        control in the fixed header that opens the drawer straight into it. */
-    if (mobileHeader && mobileNavToggle) {
-        const actions = document.createElement('div');
-        actions.className = 'mobile-header-actions';
-        mobileHeader.insertBefore(actions, mobileNavToggle);
+    const actions = document.createElement('div');
+    actions.className = 'mobile-header-actions';
+    header.insertBefore(actions, mobileNavToggle);
 
-        const searchToggle = document.createElement('button');
-        searchToggle.type = 'button';
-        searchToggle.className = 'mobile-search-toggle';
-        searchToggle.id = 'mobileSearchToggle';
-        searchToggle.setAttribute('aria-label', 'Search tools');
-        searchToggle.setAttribute('aria-controls', sidebar.id);
-        searchToggle.innerHTML = '<span class="material-symbols-rounded" aria-hidden="true">search</span>';
+    const searchToggle = document.createElement('button');
+    searchToggle.type = 'button';
+    searchToggle.className = 'mobile-search-toggle';
+    searchToggle.id = 'mobileSearchToggle';
+    searchToggle.setAttribute('aria-label', 'Search tools');
+    searchToggle.setAttribute('aria-controls', sidebar.id);
+    searchToggle.innerHTML = '<span class="material-symbols-rounded" aria-hidden="true">search</span>';
 
-        actions.appendChild(searchToggle);
-        actions.appendChild(mobileNavToggle);
+    actions.appendChild(searchToggle);
+    actions.appendChild(mobileNavToggle);
 
-        // focus() must stay inside the tap handler or iOS keeps the keyboard shut.
-        searchToggle.addEventListener('click', () => {
-            openSidebar();
-            searchInput.focus();
-        });
-    }
+    // focus() must stay inside the tap handler or iOS keeps the keyboard shut.
+    searchToggle.addEventListener('click', () => {
+        openSidebar();
+        searchInput.focus();
+    });
 
     document.addEventListener('keydown', (event) => {
         const isShortcut = event.key === '/' || ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k');
@@ -460,4 +517,4 @@ document.addEventListener('DOMContentLoaded', () => {
         searchInput.focus();
         searchInput.select();
     });
-});
+})();

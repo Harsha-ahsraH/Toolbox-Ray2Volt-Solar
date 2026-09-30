@@ -105,12 +105,13 @@
         return convert(rounded) + ' Rupees Only';
     }
 
+    // A date input's YYYY-MM-DD becomes DD-MM-YYYY; an empty one means today.
     function formatDateInput(dateValue) {
-        if (!dateValue) {
-            return new Date().toLocaleDateString('en-GB').replace(/\//g, '-');
-        }
+        const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(dateValue || '');
+        if (match) return `${match[3]}-${match[2]}-${match[1]}`;
 
-        return new Date(dateValue).toLocaleDateString('en-GB').replace(/\//g, '-');
+        const date = dateValue ? new Date(dateValue) : new Date();
+        return date.toLocaleDateString('en-GB').replace(/\//g, '-');
     }
 
     function generateDocumentNumber(prefix, date = new Date(), random = Math.random) {
@@ -177,126 +178,95 @@
         `).join('');
     }
 
-    function createItemRow(documentRef, config, index) {
-        const {
-            prefix,
-            fieldClassPrefix = '',
-            removeFunctionName,
-            includeHsn = false
-        } = config;
-        const itemRow = documentRef.createElement('div');
-        const fieldClass = (name) => `${fieldClassPrefix}${name}`;
-        const rowClass = `${prefix}-item-row`;
-        const inputClass = `${prefix}-input-field`;
+    const ITEM_SELECTORS = Object.freeze({
+        description: '.item-description',
+        hsnCode: '.item-hsn-code',
+        quantity: '.item-quantity',
+        totalAmount: '.item-total-amount',
+        gstRate: '.item-gst-rate'
+    });
 
-        itemRow.className = rowClass;
-        itemRow.dataset.itemIndex = index;
+    let rowSerial = 0;
+
+    // One line-item row, built from the shared .item-* components.
+    function createItemRow(documentRef, includeHsn) {
+        const id = (name) => `line-item-${rowSerial}-${name}`;
+        const field = (name, label, control) => `
+                <div class="field">
+                    <label for="${id(name)}">${label}</label>
+                    ${control}
+                </div>`;
+        const itemRow = documentRef.createElement('div');
+
+        rowSerial++;
+        itemRow.className = 'item-row';
         itemRow.innerHTML = `
-            <div class="${prefix}-item-header">
-                <span class="${prefix}-item-number">Item ${index + 1}</span>
-                <button type="button" class="${prefix}-btn-remove" onclick="${removeFunctionName}(this)" title="Remove Item">&times;</button>
+            <div class="item-header">
+                <span class="item-number"></span>
+                <button type="button" class="btn-remove" aria-label="Remove item" title="Remove item">&times;</button>
             </div>
-            <div class="${prefix}-item-fields">
-                <div class="${prefix}-input-group">
-                    <label>Description</label>
-                    <textarea class="${inputClass} ${fieldClass('item-description')}" rows="2" placeholder="e.g. Supply of 10 x 550Wp Solar Panels"></textarea>
-                </div>
-                ${includeHsn ? `
-                <div class="${prefix}-input-group">
-                    <label>HSN/SAC</label>
-                    <input type="text" class="${inputClass} ${fieldClass('item-hsn-code')}" value="8541" placeholder="e.g. 8541">
-                </div>` : ''}
-                <div class="${prefix}-input-group">
-                    <label>Qty</label>
-                    <input type="number" class="${inputClass} ${fieldClass('item-quantity')}" value="1" min="1">
-                </div>
-                <div class="${prefix}-input-group">
-                    <label>Total Amt (Incl. GST) \u20b9</label>
-                    <input type="number" class="${inputClass} ${fieldClass('item-total-amount')}" placeholder="e.g. 200000">
-                </div>
-                <div class="${prefix}-input-group">
-                    <label>GST %</label>
-                    <select class="${inputClass} ${fieldClass('item-gst-rate')}">
+            <div class="item-fields">
+                ${field('description', 'Description', `<textarea id="${id('description')}" class="input item-description" rows="2" placeholder="e.g. Supply of 10 x 550Wp Solar Panels"></textarea>`)}
+                ${includeHsn ? field('hsn', 'HSN/SAC', `<input type="text" id="${id('hsn')}" class="input item-hsn-code" value="8541" placeholder="e.g. 8541">`) : ''}
+                ${field('qty', 'Qty', `<input type="number" id="${id('qty')}" class="input item-quantity" value="1" min="1" inputmode="numeric">`)}
+                ${field('total', 'Total Amt (Incl. GST) ₹', `<input type="number" id="${id('total')}" class="input item-total-amount" placeholder="e.g. 200000" inputmode="decimal">`)}
+                ${field('gst', 'GST %', `<select id="${id('gst')}" class="input item-gst-rate">
                         ${GST_RATES.map(rate => `<option value="${rate}"${rate === 5 ? ' selected' : ''}>${rate}%</option>`).join('')}
-                    </select>
-                </div>
-            </div>
-        `;
+                    </select>`)}
+            </div>`;
 
         return itemRow;
     }
 
-    function setupLineItems(config) {
-        const {
-            container,
-            addButton,
-            prefix,
-            fieldClassPrefix = '',
-            removeFunctionName,
-            minItemsMessage,
-            includeHsn = false
-        } = config;
-
-        const rowSelector = `.${prefix}-item-row`;
-        const numberSelector = `.${prefix}-item-number`;
-        const fieldSelector = (name) => `.${fieldClassPrefix}${name}`;
-        const selectors = {
-            description: fieldSelector('item-description'),
-            hsnCode: fieldSelector('item-hsn-code'),
-            quantity: fieldSelector('item-quantity'),
-            totalAmount: fieldSelector('item-total-amount'),
-            gstRate: fieldSelector('item-gst-rate')
-        };
-        let nextIndex = container ? container.querySelectorAll(rowSelector).length : 0;
+    // Owns the line-item list inside `container`: renders the first row, adds
+    // rows from `addButton`, removes them by delegation, and keeps at least one.
+    function setupLineItems({ container, addButton, includeHsn = false }) {
+        const rows = () => container ? container.querySelectorAll('.item-row') : [];
 
         function renumberItems() {
-            if (!container) return;
-
-            container.querySelectorAll(rowSelector).forEach((item, index) => {
-                item.dataset.itemIndex = index;
-                const itemNumber = item.querySelector(numberSelector);
-                if (itemNumber) {
-                    itemNumber.textContent = `Item ${index + 1}`;
-                }
+            const all = rows();
+            all.forEach((item, index) => {
+                const itemNumber = item.querySelector('.item-number');
+                if (itemNumber) itemNumber.textContent = `Item ${index + 1}`;
+                const remove = item.querySelector('.btn-remove');
+                if (remove) remove.disabled = all.length <= 1;
             });
         }
 
         function addItem() {
-            if (!container) return;
+            if (!container) return null;
 
-            const item = createItemRow(container.ownerDocument, config, nextIndex);
+            const item = createItemRow(container.ownerDocument, includeHsn);
             container.appendChild(item);
-            nextIndex++;
             renumberItems();
+            return item;
         }
 
         function removeItem(button) {
-            if (!container) return;
+            if (rows().length <= 1) return;
 
-            const itemRow = button.closest(rowSelector);
-            const allItems = container.querySelectorAll(rowSelector);
-
-            if (allItems.length <= 1) {
-                alert(minItemsMessage || 'You must have at least one item.');
-                return;
-            }
-
-            itemRow?.remove();
+            button.closest('.item-row')?.remove();
             renumberItems();
         }
 
-        if (removeFunctionName) {
-            globalThis[removeFunctionName] = removeItem;
+        if (container) {
+            container.addEventListener('click', (event) => {
+                const button = event.target.closest('.btn-remove');
+                if (button && container.contains(button)) removeItem(button);
+            });
+
+            if (!rows().length) addItem();
+            renumberItems();
         }
 
         if (addButton) {
-            addButton.addEventListener('click', addItem);
+            addButton.addEventListener('click', () => {
+                addItem()?.querySelector('.item-description')?.focus();
+            });
         }
 
         function collectItems() {
-            if (!container) return [];
-
-            return collectInclusiveGstItems(container.querySelectorAll(rowSelector), selectors, { includeHsn });
+            return collectInclusiveGstItems(rows(), ITEM_SELECTORS, { includeHsn });
         }
 
         return {

@@ -32,10 +32,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const lineItems = Docs.setupLineItems({
         container: poItemsContainer,
         addButton: poAddItemBtn,
-        prefix: 'po',
-        fieldClassPrefix: 'po-',
-        removeFunctionName: 'removePoItem',
-        minItemsMessage: 'You must have at least one item in the purchase order.',
         includeHsn: false
     });
 

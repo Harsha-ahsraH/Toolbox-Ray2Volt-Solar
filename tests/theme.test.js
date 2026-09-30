@@ -8,7 +8,7 @@ const read = (...segments) =>
 
 const baseCss = read('global', 'styles', 'base.css');
 const themeJs = read('global', 'scripts', 'theme.js');
-const authJs = read('global', 'scripts', 'auth.js');
+const navigationJs = read('global', 'scripts', 'navigation.js');
 const navigationCss = read('global', 'styles', 'navigation.css');
 
 const block = (css, selector) => {
@@ -85,13 +85,13 @@ for (const page of pages) {
     );
 }
 
-// The signed-in identity remains beside the Theme and sign-out controls; only
-// the decorative icon badge to its left is removed.
-const sessionInfoStart = authJs.indexOf('function renderSessionInfo');
-const sessionInfoEnd = authJs.indexOf('\n    const session =', sessionInfoStart);
-assert.notEqual(sessionInfoStart, -1, 'auth.js should render signed-in information');
-assert.notEqual(sessionInfoEnd, -1, 'the signed-in information function should be bounded');
-const sessionInfoSource = authJs.slice(sessionInfoStart, sessionInfoEnd);
+/// The signed-in identity remains beside the Theme and sign-out controls; only
+// the decorative icon badge to its left is removed. navigation.js builds it.
+const sessionInfoStart = navigationJs.indexOf('/* --- Who is signed in');
+const sessionInfoEnd = navigationJs.indexOf('/* --- Collapse and resize', sessionInfoStart);
+assert.notEqual(sessionInfoStart, -1, 'navigation.js should render signed-in information');
+assert.notEqual(sessionInfoEnd, -1, 'the signed-in information block should be bounded');
+const sessionInfoSource = navigationJs.slice(sessionInfoStart, sessionInfoEnd);
 
 assert.doesNotMatch(
     sessionInfoSource,
@@ -110,19 +110,19 @@ assert.doesNotMatch(
 );
 
 assert.match(
-    authJs,
+    sessionInfoSource,
     /class="nav-session-theme"/,
     'the signed-in section should carry the theme toggle'
 );
 
 assert.match(
-    authJs,
+    sessionInfoSource,
     /Ray2VoltTheme\.attachToggle\(sessionInfo\.querySelector\('\.nav-session-theme'\)\)/,
-    'theme.js should own the toggle button once auth.js has built it'
+    'theme.js should own the toggle button once navigation.js has built it'
 );
 
 assert.ok(
-    authJs.indexOf('nav-session-theme') < authJs.indexOf('nav-session-out'),
+    sessionInfoSource.indexOf('nav-session-theme') < sessionInfoSource.indexOf('nav-session-out'),
     'the theme toggle should sit before the sign-out button'
 );
 

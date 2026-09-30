@@ -1,6 +1,7 @@
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
+const { loadRegistry } = require('./helpers/registry');
 
 const repoRoot = path.resolve(__dirname, '..');
 const toolRoot = path.join(repoRoot, 'tools', 'comparison-sheet');
@@ -396,40 +397,11 @@ for (const field of ['csCustomerName', 'csDate', 'csSheetNumber', 'csValidity'])
     assert.ok(!html.includes(field), `the sheet must not collect ${field}`);
 }
 
-// --- Access level ---------------------------------------------------------
-const auth = fs.readFileSync(path.join(repoRoot, 'global', 'scripts', 'auth.js'), 'utf8');
-assert.match(auth, /'comparison-sheet':\s*1/, 'the sheet is open to Sales and above');
-
-// --- Nav link on every page that lists the tools ------------------------
-const pagesWithNav = [path.join(repoRoot, 'index.html')].concat(
-    fs.readdirSync(path.join(repoRoot, 'tools'), { withFileTypes: true })
-        .filter(entry => entry.isDirectory())
-        .map(entry => path.join(repoRoot, 'tools', entry.name, `${entry.name}.html`))
-        .filter(fs.existsSync)
-);
-
-for (const page of pagesWithNav) {
-    const contents = fs.readFileSync(page, 'utf8');
-    assert.match(
-        contents,
-        /comparison-sheet\/comparison-sheet\.html" class="nav-link/,
-        `${path.relative(repoRoot, page)} should link to the Comparison Sheet`
-    );
-}
-
-// Exactly one page marks the link active — its own.
-const activePages = pagesWithNav.filter(page =>
-    /comparison-sheet\/comparison-sheet\.html" class="nav-link active"/.test(fs.readFileSync(page, 'utf8'))
-);
-assert.equal(activePages.length, 1, 'only the Comparison Sheet page marks its own nav link active');
-assert.match(activePages[0], /comparison-sheet[\\/]comparison-sheet\.html$/, 'and it is the right page');
-
-// The dashboard offers a card as well as a nav link.
-const index = fs.readFileSync(path.join(repoRoot, 'index.html'), 'utf8');
-assert.match(
-    index,
-    /comparison-sheet\/comparison-sheet\.html" class="tool-card"/,
-    'the dashboard should carry a Comparison Sheet card'
-);
+/// --- Access level and listing ---------------------------------------------
+// The sidebar link and dashboard card are both built from the registry entry.
+const comparisonEntry = loadRegistry().byId('comparison-sheet');
+assert.ok(comparisonEntry, 'the Comparison Sheet needs a registry entry');
+assert.equal(comparisonEntry.level, 1, 'the sheet is open to Sales and above');
+assert.match(html, /data-tool-id="comparison-sheet"/);
 
 console.log('comparison sheet document tests passed');

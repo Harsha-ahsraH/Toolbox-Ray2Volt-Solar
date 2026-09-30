@@ -1,14 +1,14 @@
 /**
  * Toolbox Auth — one sign-in for the whole toolbox, four access levels.
  *
- * Usage: load as the first global script on every page, naming the tool where
- * the page is one:
+ * Usage: load after tools.js and before navigation.js on every page, naming the
+ * tool where the page is one:
  *   <script src="../../global/scripts/auth.js" data-tool-id="quote-generator"></script>
  *
- * The levels nest — Everyone < Sales < Admin < Owner — so a tool only has to
- * name the lowest level allowed to open it. Adding a tool is one line in
- * TOOL_LEVELS; a tool missing from that list is Owner-only, so a new page is
- * never accidentally public.
+ * The levels nest — Everyone < Sales < Admin < Owner — so a tool only names the
+ * lowest level allowed to open it, as `level` in its tools.js entry. A tool
+ * missing from the registry is Owner-only, so a new page is never accidentally
+ * public.
  *
  * People sign in as an account, and an account names a level. That is what
  * lets several salespeople hold their own password and show their own name in
@@ -45,46 +45,22 @@
         { id: 'owner', name: 'Owner', level: 3, password: 'fjfj' }
     ];
 
-    /** Lowest level allowed to open each tool, keyed by its tool id. */
-    const TOOL_LEVELS = {
-        'emi-calculator': 0,
-        'gst-calculator': 0,
-        'package-prices': 0,
-        'sales-sop': 0,
-        'solar-savings': 0,
-        'comparison-sheet': 1,
-        'letterhead-documents': 1,
-        'proforma-invoice': 1,
-        'quotation': 1,
-        'quote-generator': 1,
-        'resource-library': 1,
-        'invoice-generator': 2,
-        'margin-breakdown': 2,
-        'pricing-desk': 2,
-        'purchase-order': 2,
-        'receipt-generator': 2,
-        'request-for-quotation': 2,
-        'warranty-card': 2,
-        'payslip-generator': 3
-    };
-
-    /** Tool ids that do not match their page's file name. */
-    const HREF_TOOL_IDS = {
-        letterheadify: 'letterhead-documents',
-        'pricing.ray2voltsolar.com': 'pricing-desk'
-    };
-
+    const OWNER_ONLY = 3;
     const SESSION_KEY = 'ray2volt_toolbox_session';
     const SESSION_HOURS = 12;
 
+    const registry = window.Ray2VoltTools;
     const scriptTag = document.currentScript;
     const TOOL_ID = scriptTag ? scriptTag.getAttribute('data-tool-id') : null;
-    const DASHBOARD_URL = scriptTag
-        ? scriptTag.src.replace(/global\/scripts\/auth\.js.*$/, 'index.html')
-        : 'index.html';
+    const DASHBOARD_URL = registry ? registry.hrefFor(registry.dashboard) : 'index.html';
 
-    // A page naming a tool we do not know about is treated as Owner-only.
-    const REQUIRED_LEVEL = TOOL_ID ? (TOOL_ID in TOOL_LEVELS ? TOOL_LEVELS[TOOL_ID] : 3) : 0;
+    /** Lowest level that may open a tool id; unknown tools are Owner-only. */
+    function requiredLevel(toolId) {
+        const tool = registry && registry.byId(toolId);
+        return tool ? tool.level : OWNER_ONLY;
+    }
+
+    const REQUIRED_LEVEL = TOOL_ID ? requiredLevel(TOOL_ID) : 0;
 
     function accountById(id) {
         return ACCOUNTS.find((account) => account.id === id) || null;
@@ -115,173 +91,23 @@
         }
     }
 
-    function clearSession() {
+    function signOut() {
         try {
             localStorage.removeItem(SESSION_KEY);
         } catch (error) {
             /* Nothing to clear. */
         }
+        window.location.reload();
     }
 
-    /** The tool a nav link or dashboard card points at, or null for the dashboard. */
-    function toolIdFromHref(href) {
-        const withoutQuery = (href || '').split(/[?#]/)[0].replace(/\/+$/, '');
-        const lastSegment = withoutQuery.slice(withoutQuery.lastIndexOf('/') + 1).toLowerCase();
-        const base = lastSegment.replace(/\.html$/, '');
-        if (!base || base === 'index') return null;
-        return HREF_TOOL_IDS[base] || base;
-    }
-
-    const style = document.createElement('style');
-    style.textContent = `
-        .toolbox-auth-overlay {
-            position: fixed;
-            inset: 0;
-            z-index: 99999;
-            background: rgba(15, 23, 42, 0.92);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Google Sans', 'Nunito Sans', system-ui, -apple-system, sans-serif;
-        }
-
-        .toolbox-auth-card {
-            background: #fff;
-            border-radius: 12px;
-            padding: 40px 36px 32px;
-            width: 90%;
-            max-width: 380px;
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
-            text-align: center;
-            animation: toolboxAuthIn 0.3s ease-out;
-        }
-
-        @keyframes toolboxAuthIn {
-            from { opacity: 0; transform: translateY(20px) scale(0.96); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
-        }
-
-        .toolbox-auth-icon {
-            width: 56px;
-            height: 56px;
-            margin: 0 auto 16px;
-            background: #f1f5f9;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .toolbox-auth-icon svg {
-            width: 28px;
-            height: 28px;
-            color: #475569;
-        }
-
-        .toolbox-auth-title {
-            font-size: 18px;
-            font-weight: 700;
-            color: #1e293b;
-            margin: 0 0 4px;
-        }
-
-        .toolbox-auth-subtitle {
-            font-size: 13px;
-            color: #64748b;
-            margin: 0 0 24px;
-            line-height: 1.5;
-        }
-
-        .toolbox-auth-input {
-            width: 100%;
-            padding: 12px 16px;
-            font-size: 14px;
-            font-family: inherit;
-            border: 2px solid #e2e8f0;
-            border-radius: 8px;
-            outline: none;
-            transition: border-color 0.2s, box-shadow 0.2s;
-            box-sizing: border-box;
-        }
-
-        .toolbox-auth-input:focus {
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
-        }
-
-        .toolbox-auth-input.shake {
-            animation: toolboxAuthShake 0.4s ease;
-            border-color: #ef4444;
-        }
-
-        @keyframes toolboxAuthShake {
-            0%, 100% { transform: translateX(0); }
-            20%, 60% { transform: translateX(-8px); }
-            40%, 80% { transform: translateX(8px); }
-        }
-
-        .toolbox-auth-error {
-            font-size: 12px;
-            color: #ef4444;
-            margin-top: 8px;
-            height: 16px;
-            opacity: 0;
-            transition: opacity 0.2s;
-        }
-
-        .toolbox-auth-error.visible { opacity: 1; }
-
-        .toolbox-auth-btn {
-            width: 100%;
-            padding: 12px;
-            margin-top: 16px;
-            font-size: 14px;
-            font-weight: 600;
-            font-family: inherit;
-            color: #fff;
-            background: #2563eb;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .toolbox-auth-btn:hover { background: #1d4ed8; }
-        .toolbox-auth-btn:active { background: #1e40af; }
-
-        .toolbox-auth-link {
-            display: inline-block;
-            margin-top: 14px;
-            font-size: 13px;
-            color: #2563eb;
-            background: none;
-            border: none;
-            font-family: inherit;
-            cursor: pointer;
-            text-decoration: none;
-        }
-
-        .toolbox-auth-link:hover { text-decoration: underline; }
-
-        body.toolbox-locked > *:not(.toolbox-auth-overlay):not(script):not(style):not(link) {
-            display: none !important;
-        }
-    `;
-    document.head.appendChild(style);
-
-    const LOCK_ICON =
-        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"' +
-        ' stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
-        '<rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>' +
-        '<path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>';
+    const LOCK_ICON = '<span class="material-symbols-rounded" aria-hidden="true">lock</span>';
 
     function lockPage(cardHtml) {
         document.body.classList.add('toolbox-locked');
         const overlay = document.createElement('div');
         overlay.className = 'toolbox-auth-overlay';
-        overlay.innerHTML = `<div class="toolbox-auth-card">${cardHtml}</div>`;
+        overlay.innerHTML = `<div class="toolbox-auth-card" role="dialog" aria-modal="true"
+            aria-labelledby="toolboxAuthTitle">${cardHtml}</div>`;
         document.body.appendChild(overlay);
         return overlay;
     }
@@ -289,15 +115,15 @@
     function showSignIn() {
         const overlay = lockPage(`
             <div class="toolbox-auth-icon">${LOCK_ICON}</div>
-            <h2 class="toolbox-auth-title">Ray2Volt Toolbox</h2>
+            <h2 class="toolbox-auth-title" id="toolboxAuthTitle">Ray2Volt Toolbox</h2>
             <p class="toolbox-auth-subtitle">
                 Enter your team password. Leave it blank and press Enter for the
                 calculators and Sales SOP.
             </p>
             <input type="password" class="toolbox-auth-input" placeholder="Team password"
-                autocomplete="off" autofocus>
-            <div class="toolbox-auth-error">That password isn't recognised.</div>
-            <button type="button" class="toolbox-auth-btn">Sign in</button>
+                aria-label="Team password" autocomplete="off" autofocus>
+            <div class="toolbox-auth-error" role="alert">That password isn't recognised.</div>
+            <button type="button" class="btn btn-primary btn-block">Sign in</button>
         `);
 
         const input = overlay.querySelector('.toolbox-auth-input');
@@ -321,7 +147,7 @@
             setTimeout(() => input.classList.remove('shake'), 400);
         };
 
-        overlay.querySelector('.toolbox-auth-btn').addEventListener('click', attemptSignIn);
+        overlay.querySelector('.btn-primary').addEventListener('click', attemptSignIn);
         input.addEventListener('keydown', (event) => {
             if (event.key === 'Enter') {
                 attemptSignIn();
@@ -337,80 +163,31 @@
         const needed = levelInfo(REQUIRED_LEVEL);
         const overlay = lockPage(`
             <div class="toolbox-auth-icon">${LOCK_ICON}</div>
-            <h2 class="toolbox-auth-title">No access to this tool</h2>
+            <h2 class="toolbox-auth-title" id="toolboxAuthTitle">No access to this tool</h2>
             <p class="toolbox-auth-subtitle">
                 You're signed in as <strong>${account.name}</strong>. This tool is open to
                 <strong>${needed.label}</strong> and above.
             </p>
-            <a class="toolbox-auth-btn" style="display:block;text-decoration:none;box-sizing:border-box"
-                href="${DASHBOARD_URL}">Back to Dashboard</a>
+            <a class="btn btn-primary btn-block" href="${DASHBOARD_URL}">Back to Dashboard</a>
             <button type="button" class="toolbox-auth-link">Sign in as someone else</button>
         `);
 
-        overlay.querySelector('.toolbox-auth-link').addEventListener('click', () => {
-            clearSession();
-            window.location.reload();
-        });
-    }
-
-    /** Drop every nav link and dashboard card this level cannot open. */
-    function pruneNavigation(level) {
-        const entries = [
-            ...document.querySelectorAll('.main-nav .nav-link'),
-            ...document.querySelectorAll('.tool-grid .tool-card')
-        ];
-
-        entries.forEach((element) => {
-            const toolId = toolIdFromHref(element.getAttribute('href'));
-            if (!toolId) return;
-            const required = toolId in TOOL_LEVELS ? TOOL_LEVELS[toolId] : 3;
-            if (required > level) (element.closest('li') || element).remove();
-        });
-    }
-
-    function renderSessionInfo(account) {
-        const mainNav = document.querySelector('.sidebar .main-nav');
-        if (!mainNav) return;
-
-        const sessionInfo = document.createElement('div');
-        sessionInfo.className = 'nav-session';
-        sessionInfo.title = `Signed in as ${account.name}`;
-        sessionInfo.innerHTML =
-            '<span class="nav-session-text">' +
-            '<span class="nav-session-label">Signed in as</span>' +
-            `<span class="nav-session-account-name">${account.name}</span>` +
-            '</span>' +
-            '<span class="nav-session-actions">' +
-            '<button type="button" class="nav-session-theme" aria-pressed="false" ' +
-            'aria-label="Switch to dark theme">' +
-            '<span class="material-symbols-rounded" aria-hidden="true">dark_mode</span>' +
-            '</button>' +
-            '<button type="button" class="nav-session-out" aria-label="Sign out">' +
-            '<span class="material-symbols-rounded" aria-hidden="true">logout</span>' +
-            '</button>' +
-            '</span>';
-        mainNav.parentNode.insertBefore(sessionInfo, mainNav.nextSibling);
-
-        // theme.js owns the icon and the pressed state from here; it loads in
-        // the head, so it is always there by the time this section is built.
-        if (window.Ray2VoltTheme) {
-            window.Ray2VoltTheme.attachToggle(sessionInfo.querySelector('.nav-session-theme'));
-        }
-
-        sessionInfo.querySelector('.nav-session-out').addEventListener('click', () => {
-            clearSession();
-            window.location.reload();
-        });
+        overlay.querySelector('.toolbox-auth-link').addEventListener('click', signOut);
     }
 
     const session = readSession();
+
+    // navigation.js reads this to build a sidebar that only lists what this
+    // account may open, and to show who is signed in.
+    window.Ray2VoltAuth = Object.freeze({
+        account: session,
+        canOpen: (toolId) => !!session && requiredLevel(toolId) <= session.level,
+        signOut
+    });
 
     if (!session) {
         showSignIn();
     } else if (session.level < REQUIRED_LEVEL) {
         showNoAccess(session);
-    } else {
-        pruneNavigation(session.level);
-        renderSessionInfo(session);
     }
 })();

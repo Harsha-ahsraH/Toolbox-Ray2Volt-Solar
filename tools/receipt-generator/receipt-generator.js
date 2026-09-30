@@ -32,10 +32,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const lineItems = Docs.setupLineItems({
         container: receiptItemsContainer,
         addButton: addReceiptItemBtn,
-        prefix: 'rcpt',
-        fieldClassPrefix: '',
-        removeFunctionName: 'removeReceiptItem',
-        minItemsMessage: 'You must have at least one item in the receipt.',
         includeHsn: false
     });
 

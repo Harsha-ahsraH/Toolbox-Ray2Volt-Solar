@@ -1,6 +1,7 @@
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
+const { loadRegistry } = require('./helpers/registry');
 
 const repoRoot = path.resolve(__dirname, '..');
 const readRepoFile = (...segments) => fs.readFileSync(path.join(repoRoot, ...segments), 'utf8');
@@ -8,43 +9,21 @@ const readRepoFile = (...segments) => fs.readFileSync(path.join(repoRoot, ...seg
 const navigationJs = readRepoFile('global', 'scripts', 'navigation.js');
 const navigationCss = readRepoFile('global', 'styles', 'navigation.css');
 const responsiveCss = readRepoFile('global', 'styles', 'responsive.css');
-const indexHtml = readRepoFile('index.html');
 
-/* --- Every tool the sidebar links to must be searchable --- */
+/* --- Every tool in the sidebar is searchable --- */
 
-const keywordBlock = navigationJs.slice(
-    navigationJs.indexOf('const TOOL_SEARCH_KEYWORDS'),
-    navigationJs.indexOf('document.addEventListener')
-);
-const keywordKeys = new Set(
-    Array.from(keywordBlock.matchAll(/'([a-z0-9.-]+)':/g), match => match[1])
-);
-const linkedPages = new Set();
+// The sidebar, the cards and the search all come from the registry, so a tool
+// is findable by its label plus the keywords on its entry.
+const registry = loadRegistry();
+assert.ok(registry.list.length >= 17, 'the registry should still list every tool');
 
-// Mirrors toolKey() in navigation.js: an external tool is keyed by host, so the
-// trailing slash has to come off before the last segment is taken.
-const toolKey = (href) => {
-    const withoutQuery = href.split(/[?#]/)[0].replace(/\/+$/, '');
-    return withoutQuery.slice(withoutQuery.lastIndexOf('/') + 1).toLowerCase();
-};
-
-for (const match of indexHtml.matchAll(/<a href="([^"]+)" class="nav-link/g)) {
-    const page = toolKey(match[1]);
-    linkedPages.add(page);
-    assert.ok(
-        keywordKeys.has(page),
-        `${page} is in the sidebar but has no search keywords in navigation.js`
-    );
+for (const tool of registry.list) {
+    assert.ok(tool.keywords && tool.keywords.trim(), `${tool.id} needs search keywords in tools.js`);
 }
 
-assert.ok(linkedPages.size >= 17, 'the sidebar should still list every tool');
-
-for (const key of keywordKeys) {
-    assert.ok(
-        linkedPages.has(key),
-        `${key} has search keywords but is no longer linked from the sidebar`
-    );
-}
+assert.match(navigationJs, /data-keywords="\$\{escapeHtml\(tool\.keywords/, 'nav links carry their keywords');
+assert.match(navigationJs, /element\.dataset\.keywords/, 'the search matches the keywords as well as the label');
+assert.doesNotMatch(navigationJs, /TOOL_SEARCH_KEYWORDS/, 'keywords live in the registry, not a second list');
 
 /* --- The search itself --- */
 
@@ -127,6 +106,7 @@ assert.ok(
 
 /* --- No company logos in the toolbox interface --- */
 
+// navigation.js builds the header and sidebar, so pages carry none of it.
 const shellPages = ['index.html', ...fs.readdirSync(path.join(repoRoot, 'tools'), { withFileTypes: true })
     .filter(entry => entry.isDirectory())
     .map(entry => `tools/${entry.name}/${entry.name}.html`)
@@ -134,19 +114,17 @@ const shellPages = ['index.html', ...fs.readdirSync(path.join(repoRoot, 'tools')
 
 for (const file of shellPages) {
     const html = readRepoFile(file);
-    const header = html.match(/<header class="mobile-header">[\s\S]*?<\/header>/)?.[0];
-    const sidebar = html.match(/<aside class="sidebar">[\s\S]*?<\/aside>/)?.[0];
-    assert.ok(header && sidebar, `${file} should have the shared mobile header and sidebar`);
-    assert.match(header, /<span class="sidebar-brand mobile-brand">Toolbox<\/span>/,
-        `${file} mobile header should show the Toolbox text title`);
-    assert.doesNotMatch(header + sidebar, /<img\b/, `${file} interface should contain no logo images`);
+    assert.doesNotMatch(html, /<aside class="sidebar"|<header class="mobile-header"|class="overlay"/,
+        `${file} should leave the shell to navigation.js`);
+    assert.match(html, /<div class="app-container">/, `${file} needs the .app-container the shell mounts into`);
     assert.match(html, /<link rel="icon" href="data:,">/, `${file} should not show the company favicon`);
 }
 
-assert.match(
-    indexHtml,
-    /class="sidebar-mobile-header">\s*<h2 class="sidebar-brand">Toolbox<\/h2>/,
-    'the drawer should use the compact Toolbox heading'
-);
+const shellSource = navigationJs.slice(0, navigationJs.indexOf('/* --- Who is signed in'));
+assert.match(shellSource, /<span class="sidebar-brand mobile-brand">Toolbox<\/span>/,
+    'the mobile header should show the Toolbox text title');
+assert.match(shellSource, /class="sidebar-mobile-header"><h2 class="sidebar-brand">Toolbox<\/h2>/,
+    'the drawer should use the compact Toolbox heading');
+assert.doesNotMatch(shellSource, /<img\b/, 'the interface should contain no logo images');
 
 console.log('toolbox search tests passed');

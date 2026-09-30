@@ -30,10 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const lineItems = Docs.setupLineItems({
         container: invoiceItemsContainer,
         addButton: addInvoiceItemBtn,
-        prefix: 'inv',
-        fieldClassPrefix: '',
-        removeFunctionName: 'removeInvoiceItem',
-        minItemsMessage: 'You must have at least one item in the invoice.',
         includeHsn: true
     });
 

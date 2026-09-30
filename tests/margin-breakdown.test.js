@@ -1,6 +1,7 @@
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
+const { loadRegistry } = require('./helpers/registry');
 
 const repoRoot = path.resolve(__dirname, '..');
 const toolRoot = path.join(repoRoot, 'tools', 'margin-breakdown');
@@ -157,26 +158,10 @@ assert.match(filenameFn[1], /join\('_'\)/, 'the parts are underscore-separated, 
 
 /* --- Toolbox wiring ----------------------------------------------------- */
 
-const indexHtml = fs.readFileSync(path.join(repoRoot, 'index.html'), 'utf8');
-assert.match(indexHtml, /tools\/margin-breakdown\/margin-breakdown\.html" class="nav-link/);
-assert.match(indexHtml, /tools\/margin-breakdown\/margin-breakdown\.html" class="tool-card/);
-
-const auth = fs.readFileSync(path.join(repoRoot, 'global', 'scripts', 'auth.js'), 'utf8');
-assert.match(auth, /'margin-breakdown':\s*2/, 'the tool must be limited to Admin and above');
+// The sidebar link and dashboard card are both built from the registry entry.
+const marginEntry = loadRegistry().byId('margin-breakdown');
+assert.ok(marginEntry, 'Margin Breakdown needs a registry entry');
+assert.equal(marginEntry.level, 2, 'the tool must be limited to Admin and above');
 assert.match(html, /data-tool-id="margin-breakdown"/);
-
-// Every tool page carries the same sidebar, so the new entry belongs on all.
-const toolPages = fs.readdirSync(path.join(repoRoot, 'tools'), { withFileTypes: true })
-    .filter(entry => entry.isDirectory())
-    .map(entry => path.join(repoRoot, 'tools', entry.name, `${entry.name}.html`))
-    .filter(file => fs.existsSync(file));
-
-for (const page of toolPages) {
-    assert.match(
-        fs.readFileSync(page, 'utf8'),
-        /margin-breakdown\/margin-breakdown\.html" class="nav-link/,
-        `${path.relative(repoRoot, page)} is missing the Margin Breakdown sidebar link`
-    );
-}
 
 console.log('margin breakdown tests passed');

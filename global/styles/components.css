@@ -1,5 +1,17 @@
+/* ============================================
+   Toolbox components
+   The shared UI every tool is built from. A tool's own stylesheet adds only
+   what is particular to it; cards, fields, buttons, line items and alerts
+   come from here. docs/design-system.md shows the markup for each.
+
+   Chrome only. Documents - the A4 previews and everything that prints - carry
+   their own palettes and never use these classes.
+   ============================================ */
+
+/* --- Page layout --- */
 .main-content {
     flex: 1;
+    min-width: 0;
     margin-left: var(--sidebar-width);
     padding: var(--spacing-xl);
     min-height: 100vh;
@@ -8,15 +20,15 @@
 
 .content-section {
     display: none;
+    min-width: 0;
 }
 
 .content-section.active {
     display: block;
 }
 
-/* Shared tool shell — every tool renders inside .main-content > .content-section.
-   One width, centred, so every tool lines up with the Quote Generator.
-   The child selector outranks the .content-section reset in tool-responsive.css. */
+/* Every tool renders inside .main-content > .content-section at one width,
+   centred, so every tool lines up with the Quote Generator. */
 .main-content > .content-section {
     max-width: var(--tool-width);
     margin-left: auto;
@@ -29,22 +41,412 @@
     }
 }
 
-/* --- Section Header --- */
-.section-header {
-    margin-bottom: var(--spacing-xl);
+/* --- Tool header: the page title and one line saying what the tool does --- */
+.tool-header {
+    margin-bottom: var(--section-gap);
 }
 
-.section-header h1 {
+.tool-header h1 {
     font-size: 1.75rem;
-    margin-bottom: var(--spacing-xs);
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+    overflow-wrap: anywhere;
 }
 
-.section-header p {
+.tool-header p {
+    font-size: 0.95rem;
     color: var(--text-secondary);
-    font-size: 1rem;
 }
 
-/* --- Tool Grid (Dashboard) --- */
+/* --- Card: every panel a person fills in or reads a result from ---
+   All cards sit at one height above the page (--lift); paper never does. */
+.card {
+    min-width: 0;
+    background: var(--bg-card);
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-sm);
+    padding: 1.5rem;
+    margin-bottom: var(--section-gap);
+    box-shadow: var(--lift);
+}
+
+.card-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border-light);
+    overflow-wrap: anywhere;
+}
+
+.card-title .icon,
+.card-title .material-symbols-rounded {
+    flex: 0 0 auto;
+    width: 20px;
+    height: 20px;
+    font-size: 20px;
+    color: var(--primary-text);
+}
+
+/* A card header with a heading, a line of help, and room for a control. */
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.card-header h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.card-header p {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+/* --- Form grid: cards side by side on a wide screen, stacked otherwise --- */
+.form-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+    margin-bottom: var(--section-gap);
+}
+
+.form-grid > .card {
+    margin-bottom: 0;
+}
+
+/* --- Fields --- */
+.field {
+    min-width: 0;
+    margin-bottom: 1.25rem;
+}
+
+.field:last-child {
+    margin-bottom: 0;
+}
+
+.field > label,
+.field-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.input {
+    width: 100%;
+    min-width: 0;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    font-family: inherit;
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-sm);
+    background: var(--bg-card);
+    color: var(--text-primary);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.input::placeholder {
+    color: var(--text-muted);
+}
+
+.input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+textarea.input {
+    resize: vertical;
+    min-height: 70px;
+}
+
+select.input {
+    cursor: pointer;
+}
+
+.field-hint {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: 0.4rem;
+}
+
+/* --- Buttons --- */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.875rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: inherit;
+    line-height: 1.3;
+    text-align: center;
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: background var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
+}
+
+.btn:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+.btn:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+.btn-primary {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: var(--on-primary);
+}
+
+.btn-primary:hover:not(:disabled) {
+    background: var(--primary-dark);
+    border-color: var(--primary-dark);
+}
+
+.btn-secondary {
+    background: var(--bg-card);
+    border-color: var(--border-medium);
+    color: var(--text-primary);
+}
+
+.btn-secondary:hover:not(:disabled) {
+    background: var(--bg-hover);
+    border-color: var(--primary);
+    color: var(--primary-text);
+}
+
+.btn-danger {
+    background: var(--bg-card);
+    border-color: var(--danger-border);
+    color: var(--danger-text);
+}
+
+.btn-danger:hover:not(:disabled) {
+    background: var(--danger-bg);
+    border-color: var(--danger-text);
+}
+
+.btn-sm {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+}
+
+.btn-block {
+    width: 100%;
+}
+
+/* The row of main actions under a form: Generate, Print. */
+.actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin: 2rem 0;
+}
+
+/* --- Line items: a repeatable group of fields (invoice items, earnings) --- */
+.item-row {
+    min-width: 0;
+    background: var(--bg-body);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-sm);
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.item-row:last-of-type {
+    margin-bottom: 0;
+}
+
+.item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.item-number {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--primary-text);
+}
+
+/* Columns are set per tool with --item-columns (desktop only); below that
+   every field takes the full width. */
+.item-fields {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.875rem;
+    align-items: start;
+}
+
+.item-fields > .field {
+    margin-bottom: 0;
+}
+
+.item-fields > .field > label {
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+/* The first field (usually a description) grows to the row's height. */
+.item-fields > .field:first-child {
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+}
+
+.item-fields > .field:first-child textarea.input {
+    flex: 1;
+}
+
+.btn-remove {
+    position: relative;
+    flex: 0 0 auto;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    font-size: 1.25rem;
+    line-height: 1;
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-sm);
+    background: var(--bg-card);
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: background var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
+}
+
+/* The last remaining row can't be removed. */
+.btn-remove:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+.btn-remove:not(:disabled):hover {
+    background: var(--danger-bg);
+    border-color: var(--danger-border);
+    color: var(--danger-text);
+}
+
+.btn-add {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    margin-top: 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    font-family: inherit;
+    border: 1px dashed var(--primary);
+    border-radius: var(--radius-sm);
+    background: var(--primary-light);
+    color: var(--primary-text);
+    cursor: pointer;
+    transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.btn-add:hover {
+    background: var(--primary);
+    border-style: solid;
+    color: var(--on-primary);
+}
+
+/* --- Tables in the chrome (results, schedules) --- */
+.table-wrap {
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-sm);
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.data-table th {
+    padding: 0.75rem 1rem;
+    background: var(--table-head-bg);
+    color: var(--text-primary);
+    font-weight: 600;
+    text-align: left;
+    white-space: nowrap;
+    border-bottom: 1px solid var(--border-medium);
+}
+
+.data-table td {
+    padding: 0.75rem 1rem;
+    color: var(--text-primary);
+    border-bottom: 1px solid var(--border-light);
+}
+
+.data-table tbody tr:nth-child(even) td {
+    background: var(--row-stripe);
+}
+
+.data-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+/* --- Alerts: a status message inside the chrome --- */
+.alert {
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--info-border);
+    border-left-width: 4px;
+    border-radius: var(--radius-sm);
+    background: var(--info-bg);
+    color: var(--info-text);
+    font-size: 0.9rem;
+}
+
+.alert-warning {
+    border-color: var(--warning-border);
+    background: var(--warning-bg);
+    color: var(--warning-text);
+}
+
+.alert-danger {
+    border-color: var(--danger-border);
+    background: var(--danger-bg);
+    color: var(--danger-text);
+}
+
+.alert-success {
+    border-color: var(--success-border);
+    background: var(--success-bg);
+    color: var(--success-text);
+}
+
+/* --- Dashboard --- */
 .tool-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -57,32 +459,8 @@
     border: 1px solid var(--border-light);
     border-radius: var(--radius-lg);
     padding: var(--spacing-lg);
-    transition: all var(--transition-base);
-    cursor: pointer;
-}
-
-.tool-card h3::before {
-    content: "apps";
-    width: 22px;
-    height: 22px;
-    flex: 0 0 22px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--primary);
-    font-size: 22px;
-    transition: color var(--transition-base), font-variation-settings var(--transition-base);
-}
-
-.tool-card:hover {
-    border-color: var(--primary);
-    box-shadow: var(--shadow-md);
-    transform: translateY(-2px);
-}
-
-.tool-card:hover h3::before {
-    color: var(--primary-dark);
-    font-variation-settings: 'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 24;
+    box-shadow: var(--lift);
+    transition: border-color var(--transition-base), box-shadow var(--transition-base), transform var(--transition-base);
 }
 
 .tool-card h3 {
@@ -94,544 +472,167 @@
     color: var(--text-primary);
 }
 
+.tool-card h3::before {
+    width: 22px;
+    height: 22px;
+    flex: 0 0 22px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-text);
+    font-size: 22px;
+    transition: font-variation-settings var(--transition-base);
+}
+
 .tool-card p {
     font-size: 0.9rem;
     color: var(--text-secondary);
     line-height: 1.5;
 }
 
-/* --- Calculator Panel Styles --- */
-.calculator-panel {
-    max-width: 1200px;
+.tool-card:hover {
+    border-color: var(--primary);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
 }
 
-.calculator-panel h2 {
-    font-size: 1.5rem;
-    margin-bottom: var(--spacing-lg);
+.tool-card:hover h3::before {
+    font-variation-settings: 'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 24;
 }
 
-/* --- EMI Calculator Layout --- */
-.emi-layout {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--spacing-xl);
+.tool-card:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
 }
 
-.calculator-inputs,
-.calculator-results {
-    background: var(--bg-card);
-    border: 1px solid var(--border-light);
-    border-radius: var(--radius-lg);
-    padding: var(--spacing-lg);
+.tool-grid-empty {
+    padding: var(--spacing-xl) 0;
+    color: var(--text-muted);
+    text-align: center;
 }
 
-/* --- Input Group --- */
-.input-group {
-    margin-bottom: var(--spacing-lg);
+/* --- Sign-in gate (global/scripts/auth.js) --- */
+.toolbox-auth-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-md);
+    background: var(--bg-body);
 }
 
-.input-group label {
-    display: block;
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    margin-bottom: var(--spacing-xs);
-}
-
-.input-field {
+.toolbox-auth-card {
     width: 100%;
-    padding: 12px 14px;
+    max-width: 380px;
+    padding: 2.25rem 2rem 2rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    text-align: center;
+    animation: toolboxAuthIn 0.25s ease-out;
+}
+
+@keyframes toolboxAuthIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: none; }
+}
+
+.toolbox-auth-icon {
+    width: 52px;
+    height: 52px;
+    margin: 0 auto 1rem;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--primary-light);
+    color: var(--primary-text);
+}
+
+.toolbox-auth-icon .material-symbols-rounded {
+    font-size: 26px;
+}
+
+.toolbox-auth-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+.toolbox-auth-subtitle {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+}
+
+.toolbox-auth-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
     font-size: 1rem;
     font-family: inherit;
     border: 1px solid var(--border-medium);
     border-radius: var(--radius-sm);
     background: var(--bg-card);
     color: var(--text-primary);
-    transition: all var(--transition-fast);
 }
 
-.input-field:focus {
+.toolbox-auth-input:focus {
     outline: none;
     border-color: var(--primary);
     box-shadow: 0 0 0 3px var(--primary-light);
 }
 
-.input-field::placeholder {
-    color: var(--text-muted);
+.toolbox-auth-input.shake {
+    animation: toolboxAuthShake 0.4s ease;
+    border-color: var(--danger-text);
 }
 
-.input-highlight {
-    border-color: var(--primary);
-    background: var(--primary-light);
+@keyframes toolboxAuthShake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-8px); }
+    40%, 80% { transform: translateX(8px); }
 }
 
-/* --- Slider Styles --- */
-.slider {
-    width: 100%;
-    margin-top: var(--spacing-xs);
-    -webkit-appearance: none;
-    appearance: none;
-    height: 6px;
-    background: var(--border-light);
-    border-radius: 3px;
-    outline: none;
+.toolbox-auth-error {
+    min-height: 1.5em;
+    margin: 0.5rem 0 1rem;
+    font-size: 0.8rem;
+    color: var(--danger-text);
+    visibility: hidden;
 }
 
-.slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 18px;
-    height: 18px;
-    background: var(--primary);
-    border-radius: 50%;
-    cursor: pointer;
-    transition: transform var(--transition-fast);
+.toolbox-auth-error.visible {
+    visibility: visible;
 }
 
-.slider::-webkit-slider-thumb:hover {
-    transform: scale(1.1);
+.toolbox-auth-card .btn + .toolbox-auth-link {
+    margin-top: 0.875rem;
 }
 
-.slider::-moz-range-thumb {
-    width: 18px;
-    height: 18px;
-    background: var(--primary);
-    border-radius: 50%;
-    cursor: pointer;
-    border: none;
-}
-
-/* --- Control Group & Button Group --- */
-.control-group {
-    margin-bottom: var(--spacing-lg);
-}
-
-.control-group strong {
-    display: block;
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    margin-bottom: var(--spacing-sm);
-}
-
-.button-group {
-    display: flex;
-    gap: var(--spacing-xs);
-    flex-wrap: wrap;
-}
-
-.btn {
-    padding: 10px 16px;
-    font-size: 0.9rem;
-    font-weight: 500;
+.toolbox-auth-link {
+    display: inline-block;
+    padding: 0.25rem;
+    font-size: 0.85rem;
     font-family: inherit;
-    border: 1px solid var(--border-medium);
-    border-radius: var(--radius-sm);
-    background: var(--bg-card);
-    color: var(--text-secondary);
+    color: var(--primary-text);
+    background: none;
+    border: 0;
     cursor: pointer;
-    transition: all var(--transition-fast);
 }
 
-.btn:hover {
-    background: var(--bg-hover);
-    color: var(--text-primary);
+.toolbox-auth-link:hover {
+    text-decoration: underline;
 }
 
-.btn.active {
-    background: var(--primary);
-    border-color: var(--primary);
-    color: var(--on-primary);
+body.toolbox-locked > *:not(.toolbox-auth-overlay):not(script):not(style):not(link) {
+    display: none !important;
 }
 
-.input-help {
-    display: block;
-    font-size: 0.8rem;
-    color: var(--text-muted);
-    margin-top: var(--spacing-xs);
-}
-
-/* --- Output Section --- */
-.output-section {
-    margin-bottom: var(--spacing-lg);
-}
-
-.output-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: var(--spacing-sm) 0;
-    border-bottom: 1px solid var(--border-light);
-    font-size: 0.95rem;
-}
-
-.output-item:last-child {
-    border-bottom: none;
-}
-
-.output-item span:first-child {
-    color: var(--text-secondary);
-}
-
-.output-item span:last-child {
-    font-weight: 600;
-    color: var(--text-primary);
-}
-
-.result-highlight {
-    font-size: 1.1rem !important;
-    color: var(--primary) !important;
-}
-
-.calculated-result {
-    background: var(--primary-light);
-    padding: var(--spacing-md) !important;
-    border-radius: var(--radius-sm);
-    margin-bottom: var(--spacing-sm);
-}
-
-/* --- Chart Container --- */
-#emiChartContainer {
-    max-width: 250px;
-    margin: 0 auto;
-}
-
-/* --- Amortization Table --- */
-.amortization-table-container {
-    margin-top: var(--spacing-xl);
-    background: var(--bg-card);
-    border: 1px solid var(--border-light);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-}
-
-.amortization-table-container table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.amortization-table-container th {
-    background: var(--bg-hover);
-    padding: var(--spacing-md);
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    text-align: left;
-    border-bottom: 1px solid var(--border-light);
-}
-
-.amortization-table-container td {
-    padding: var(--spacing-sm) var(--spacing-md);
-    font-size: 0.9rem;
-    color: var(--text-secondary);
-    border-bottom: 1px solid var(--border-light);
-}
-
-.amortization-table-container tr:hover td {
-    background: var(--bg-hover);
-}
-
-/* --- Form Sections (for Invoice, Receipt, etc.) --- */
-.form-section {
-    background: var(--bg-card);
-    border: 1px solid var(--border-light);
-    border-radius: var(--radius-lg);
-    padding: var(--spacing-lg);
-    margin-bottom: var(--spacing-lg);
-}
-
-.form-section h3 {
-    font-size: 1.1rem;
-    margin-bottom: var(--spacing-md);
-    padding-bottom: var(--spacing-sm);
-    border-bottom: 1px solid var(--border-light);
-}
-
-.form-row {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: var(--spacing-md);
-}
-
-/* --- Buttons --- */
-.btn-primary {
-    background: var(--primary);
-    border-color: var(--primary);
-    color: var(--on-primary);
-}
-
-.btn-primary:hover {
-    background: var(--primary-dark);
-    border-color: var(--primary-dark);
-    color: var(--on-primary);
-}
-
-.btn-secondary {
-    background: var(--bg-hover);
-    border-color: var(--border-medium);
-    color: var(--text-primary);
-}
-
-.btn-secondary:hover {
-    background: var(--border-light);
-}
-
-.action-buttons {
-    display: flex;
-    gap: var(--spacing-sm);
-    margin-top: var(--spacing-lg);
-}
-
-.action-buttons .btn {
-    flex: 1;
-    padding: 12px 20px;
-}
-
-/* --- Select Dropdown --- */
-select.input-field {
-    cursor: pointer;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%235A6B7C' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    padding-right: 36px;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-}
-
-/* --- Textarea --- */
-textarea.input-field {
-    resize: vertical;
-    min-height: 80px;
-}
-
-/* --- Result Cards --- */
-.result-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border-light);
-    border-radius: var(--radius-lg);
-    padding: var(--spacing-lg);
-}
-
-.result-card h3 {
-    font-size: 1rem;
-    color: var(--text-secondary);
-    margin-bottom: var(--spacing-xs);
-}
-
-.result-card .value {
-    font-size: 1.75rem;
-    font-weight: 700;
-    color: var(--primary);
-}
-
-/* --- Package Prices Grid --- */
-.price-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: var(--spacing-lg);
-    margin-top: var(--spacing-lg);
-}
-
-.price-item {
-    background: var(--bg-card);
-    border: 1px solid var(--border-light);
-    border-radius: var(--radius-md);
-    padding: var(--spacing-md);
-}
-
-.price-item label {
-    font-size: 0.85rem;
-    color: var(--text-secondary);
-    margin-bottom: var(--spacing-xs);
-    display: block;
-}
-
-.price-item .value {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: var(--text-primary);
-}
-
-/* --- GST Calculator Total Highlight --- */
-.total-highlight {
-    background: var(--primary-light);
-    padding: var(--spacing-md) !important;
-    border-radius: var(--radius-sm);
-    margin-top: var(--spacing-sm);
-    border: none !important;
-}
-
-.total-highlight span:last-child {
-    font-size: 1.15rem !important;
-    color: var(--primary) !important;
-    font-weight: 700 !important;
-}
-
-/* --- Package Pricing Layout --- */
-.pricing-layout {
-    display: grid;
-    grid-template-columns: 1fr 1.2fr;
-    gap: var(--spacing-xl);
-    margin-top: var(--spacing-lg);
-}
-
-.pricing-inputs {
-    background: var(--bg-card);
-    border: 1px solid var(--border-light);
-    border-radius: var(--radius-lg);
-    padding: var(--spacing-lg);
-}
-
-.pricing-output {
-    background: var(--bg-card);
-    border: 1px solid var(--border-light);
-    border-radius: var(--radius-lg);
-    padding: var(--spacing-lg);
-}
-
-.output-section-pricing {
-    padding: 0;
-}
-
-.output-section-pricing h3 {
-    font-size: 1.1rem;
-    margin-bottom: var(--spacing-md);
-    padding-bottom: var(--spacing-sm);
-    border-bottom: 1px solid var(--border-light);
-    color: var(--text-primary);
-}
-
-.pricing-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    padding: var(--spacing-sm) 0;
-    border-bottom: 1px solid var(--border-light);
-}
-
-.pricing-item:last-child {
-    border-bottom: none;
-}
-
-.pricing-item .item-label {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-}
-
-.pricing-item .label-main {
-    font-size: 0.95rem;
-    font-weight: 500;
-    color: var(--text-primary);
-}
-
-.pricing-item .label-sub {
-    font-size: 0.8rem;
-    color: var(--text-muted);
-}
-
-.pricing-item .item-price {
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: var(--text-secondary);
-    text-align: right;
-}
-
-/* Subtotal Row */
-.pricing-item.subtotal {
-    background: var(--bg-hover);
-    margin: var(--spacing-sm) calc(-1 * var(--spacing-lg));
-    padding: var(--spacing-sm) var(--spacing-lg);
-    border-top: 1px solid var(--border-medium);
-    border-bottom: 1px solid var(--border-medium);
-}
-
-.pricing-item.subtotal .label-main {
-    font-weight: 600;
-}
-
-.pricing-item.subtotal .item-price {
-    color: var(--text-primary);
-    font-weight: 700;
-}
-
-/* Final Total Row */
-.pricing-item.final-total {
-    background: var(--primary-light);
-    margin: var(--spacing-sm) calc(-1 * var(--spacing-lg)) calc(-1 * var(--spacing-lg));
-    padding: var(--spacing-md) var(--spacing-lg);
-    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
-    border-top: 2px solid var(--primary);
-}
-
-.pricing-item.final-total .label-main {
-    font-size: 1.05rem;
-    font-weight: 700;
-    color: var(--primary-dark);
-}
-
-.pricing-item.final-total .item-price {
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: var(--primary);
-}
-
-/* --- EMI Method Help --- */
-.emi-method-help {
-    margin-top: var(--spacing-xs);
-}
-
-/* --- Calc Mode Group --- */
-.calc-mode-group {
-    background: var(--bg-hover);
-    padding: var(--spacing-md);
-    border-radius: var(--radius-md);
-    margin-bottom: var(--spacing-lg);
-}
-
-.calc-mode-buttons {
-    margin-bottom: var(--spacing-xs);
-}
-
-/* --- Fixed EMI Group styling --- */
-.fixed-emi-group {
-    background: var(--primary-light);
-    padding: var(--spacing-md);
-    border-radius: var(--radius-md);
-    margin-bottom: var(--spacing-lg);
-    border: 1px solid var(--primary);
-}
-
-.fixed-emi-group label {
-    color: var(--primary-dark);
-}
-
-/* --- Responsive Package Prices --- */
-@media screen and (max-width: 1024px) {
-    .pricing-layout {
-        grid-template-columns: 1fr;
-    }
-}
-
-/* --- Card lift ---------------------------------------------------------
-   Every panel a person fills in sits one step above the page, and they all sit
-   at the same step. Listing them in one place is what keeps that true: a tool
-   that grows a new card gets the height by naming it here, not by inventing a
-   shadow of its own.
-
-   This is chrome only. Nothing that prints, and no wrapper that holds an A4
-   preview, appears below - paper is flat, and the page it is laid on gets its
-   depth from --viewer-bg instead. The token itself resolves to `none` inside
-   @media print, so a stray match cannot reach the paper either. */
-.tool-card,
-.form-section,
-.calculator-inputs,
-.calculator-results,
-.result-card,
-.pricing-inputs,
-.pricing-output,
-.amortization-table-container,
+/* --- Lift for tool panels not yet built from .card ---
+   Remove a selector here once its tool uses the shared .card. */
 .cs-form-card,
 .cs-spec-card,
 .emi-calculator-card,
@@ -664,4 +665,93 @@ textarea.input-field {
     box-shadow: var(--lift);
 }
 
-/* --- Mobile Overlay --- */
+/* --- Responsive --- */
+@media screen and (min-width: 1025px) {
+    .form-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1.5rem;
+    }
+
+    .item-fields {
+        grid-template-columns: var(--item-columns, minmax(0, 1fr));
+        gap: 1rem;
+    }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+    .item-fields {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .item-fields > .field:first-child {
+        grid-column: 1 / -1;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .tool-header {
+        margin-bottom: 1rem;
+    }
+
+    .tool-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .tool-header p {
+        font-size: 0.875rem;
+    }
+
+    .card {
+        padding: 1rem;
+    }
+
+    .card-title {
+        font-size: 0.95rem;
+        margin-bottom: 1rem;
+        padding-bottom: 0.6rem;
+    }
+
+    .card-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.375rem;
+    }
+
+    .field {
+        margin-bottom: 1rem;
+    }
+
+    /* 16px stops iOS zooming the page when a field takes focus, and 44px is
+       the smallest target a thumb reliably hits. */
+    .input {
+        font-size: 16px;
+        min-height: 44px;
+    }
+
+    .actions {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.75rem;
+        margin: 1.5rem 0;
+    }
+
+    .actions .btn {
+        width: 100%;
+        min-height: 44px;
+    }
+
+    .btn-remove {
+        width: 44px;
+        height: 44px;
+    }
+
+    .btn-add {
+        min-height: 44px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .card {
+        padding: 0.875rem;
+    }
+}

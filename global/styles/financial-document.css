@@ -1,0 +1,391 @@
+/* ============================================
+   Financial documents
+   The A4 sheet shared by the tax invoice, proforma invoice, quotation,
+   purchase order and payment receipt. The page puts `doc-sheet` on the
+   preview container; everything inside uses the `invoice-*` parts below.
+   The sheet is paper, not UI: fixed light colours, never themed.
+   ============================================ */
+
+/* ---- Line-item columns on the form (desktop only) ----
+   Description, [HSN/SAC], Qty, Total incl. GST, GST %. */
+.line-items-hsn {
+    --item-columns: minmax(220px, 1fr) minmax(80px, 0.35fr) minmax(70px, 0.3fr) minmax(130px, 0.55fr) minmax(80px, 0.35fr);
+}
+
+.line-items-plain {
+    --item-columns: minmax(220px, 1fr) minmax(70px, 0.3fr) minmax(130px, 0.55fr) minmax(80px, 0.35fr);
+}
+
+/* ---- The sheet ---- */
+.doc-sheet {
+    display: none;
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    margin: 1rem auto 1.5rem;
+    padding: clamp(0.625rem, 4vw, 1rem);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    background: #fff;
+    border: 1px solid #d0d0d0;
+    border-radius: 2px;
+    font-family: 'Google Sans Flex', sans-serif;
+    font-size: 10pt;
+    color: #1a1a1a;
+}
+
+.doc-sheet.visible {
+    display: block;
+}
+
+/* ---- Header ---- */
+.invoice-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0 0 12px;
+    margin-bottom: 16px;
+    border-bottom: 2px solid #1a1a1a;
+}
+
+.invoice-title-section {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.invoice-title-section h1 {
+    margin: 0;
+    font-size: clamp(1rem, 5vw, 1.35rem);
+    font-weight: 700;
+    letter-spacing: 0;
+    overflow-wrap: anywhere;
+    color: #1a1a1a;
+}
+
+.invoice-title-section p {
+    margin: 0;
+    font-size: 10pt;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: #333;
+}
+
+.invoice-logo-section {
+    text-align: right;
+}
+
+.invoice-logo {
+    width: auto;
+    height: clamp(28px, 8vw, 36px);
+    max-width: 70vw;
+}
+
+/* ---- Info + items table ---- */
+.invoice-unified-table {
+    width: 100%;
+    min-width: 520px;
+    margin: 0 0 14px;
+    border-collapse: collapse;
+    table-layout: fixed;
+    border: 1px solid #d0d0d0;
+    border-radius: 2px;
+}
+
+.invoice-unified-table td,
+.invoice-unified-table th {
+    overflow-wrap: anywhere;
+    white-space: normal;
+}
+
+.invoice-unified-table .info-header-row td,
+.invoice-unified-table .info-header-cell {
+    padding: 10px 12px;
+    background: #E8F4FA;
+    border: 1px solid #d0d0d0;
+    font-size: 9pt;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    text-align: left;
+    color: #1a1a1a;
+}
+
+.invoice-unified-table .info-content-row td {
+    vertical-align: top;
+    padding: 12px;
+    background: #fff;
+    border: 1px solid #d0d0d0;
+    font-size: 9pt;
+    line-height: 1.6;
+    color: #1a1a1a;
+}
+
+.invoice-unified-table .from-cell,
+.invoice-unified-table .to-cell {
+    background-color: #fff;
+    text-align: left;
+}
+
+.invoice-unified-table .from-cell p,
+.invoice-unified-table .to-cell p {
+    margin: 3px 0;
+    color: #1a1a1a;
+}
+
+.invoice-info-label {
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.invoice-unified-table .items-header-row th {
+    padding: 10px 6px;
+    background: #E8F4FA;
+    border: 1px solid #d0d0d0;
+    font-size: 8pt;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    text-align: center;
+    color: #1a1a1a;
+}
+
+.invoice-unified-table tbody td {
+    padding: 10px 6px;
+    background: #fff;
+    border: 1px solid #d0d0d0;
+    font-size: 9pt;
+    text-align: center;
+    vertical-align: middle;
+    color: #1a1a1a;
+}
+
+.invoice-unified-table tbody tr:nth-child(even) td {
+    background: #fafafa;
+}
+
+.invoice-unified-table td.desc-cell {
+    padding-left: 10px;
+    font-weight: 500;
+    text-align: left;
+}
+
+.invoice-unified-table .grand-total-row td {
+    padding: 12px 6px;
+    background: #E8F4FA !important;
+    border: 1px solid #d0d0d0 !important;
+    font-size: 9pt;
+    font-weight: 700;
+    color: #1a1a1a !important;
+}
+
+/* ---- Amount in words ---- */
+.invoice-amount-words {
+    margin: 14px 0;
+    padding: 10px 12px;
+    background: #fafafa;
+    border: 1px solid #d0d0d0;
+    border-left: 3px solid #a8d4e6;
+    border-radius: 2px;
+    font-size: 9pt;
+    color: #1a1a1a;
+}
+
+.invoice-amount-words strong {
+    font-weight: 700;
+    color: #1a1a1a;
+}
+
+/* ---- Boxed section (bank details, terms) ---- */
+.invoice-bank-section,
+.invoice-tc-section {
+    margin: 18px 0;
+    border: 1px solid #d0d0d0;
+    border-radius: 2px;
+}
+
+.invoice-bank-section h4,
+.invoice-tc-section h4 {
+    margin: 0;
+    padding: 10px 12px;
+    background: #E8F4FA;
+    border-bottom: 1px solid #d0d0d0;
+    font-size: 9pt;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    color: #1a1a1a;
+}
+
+.invoice-bank-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.625rem;
+    padding: 12px;
+    background: #fff;
+    font-size: 9pt;
+}
+
+.invoice-bank-grid .bank-label {
+    font-weight: 600;
+    color: #555;
+}
+
+.invoice-bank-grid .bank-value {
+    font-weight: 500;
+    color: #1a1a1a;
+}
+
+.invoice-tc-content {
+    padding: 12px;
+    background: #fff;
+    font-size: 9pt;
+    line-height: 1.7;
+    color: #1a1a1a;
+}
+
+.invoice-tc-content p {
+    margin: 3px 0;
+}
+
+/* ---- Footer ---- */
+.invoice-footer-line {
+    height: 2px;
+    margin-top: 1rem;
+    background: #d0d0d0;
+    border-radius: 2px;
+}
+
+.system-generated-notice {
+    max-width: 100%;
+    margin-top: 18px;
+    padding: 8px;
+    background: #fafafa;
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    font-size: 8pt;
+    font-style: italic;
+    text-align: center;
+    overflow-wrap: anywhere;
+    color: #666;
+}
+
+/* ---- Small phones ---- */
+@media screen and (max-width: 768px) {
+    .doc-sheet {
+        font-size: 9pt;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .doc-sheet {
+        font-size: 8pt;
+    }
+
+    .invoice-unified-table {
+        font-size: 7.5pt;
+    }
+
+    .invoice-unified-table .info-header-row td,
+    .invoice-unified-table .info-header-cell {
+        padding: 6px 8px;
+        font-size: 7.5pt;
+    }
+
+    .invoice-bank-grid .bank-label {
+        margin-top: 5px;
+    }
+
+    .invoice-tc-content {
+        font-size: 7.5pt;
+    }
+}
+
+/* ---- Wide screens and paper: the true A4 sheet ---- */
+@media print, screen and (min-width: 1200px) {
+    .invoice-header {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0;
+    }
+
+    .invoice-title-section h1 {
+        font-size: 18pt;
+        letter-spacing: 1px;
+    }
+
+    .invoice-logo {
+        height: 40px;
+    }
+
+    .invoice-bank-grid {
+        grid-template-columns: 140px minmax(0, 1fr);
+    }
+
+    .invoice-footer-line {
+        position: absolute;
+        bottom: 10mm;
+        left: 10mm;
+        right: 10mm;
+        margin-top: 0;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    .doc-sheet {
+        width: 210mm;
+        min-height: 297mm;
+        margin: 2rem auto;
+        padding: 10mm;
+        overflow: visible;
+    }
+}
+
+/* ---- Print: only the sheet reaches the paper ---- */
+@media print {
+    body * {
+        visibility: hidden;
+    }
+
+    .doc-sheet,
+    .doc-sheet * {
+        visibility: visible;
+    }
+
+    .doc-sheet {
+        display: block !important;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: auto;
+        margin: 0;
+        padding: 10mm;
+        overflow: visible;
+        border: none;
+        border-radius: 0;
+        font-size: 10pt;
+    }
+
+    .invoice-unified-table {
+        min-width: 0;
+    }
+
+    .invoice-unified-table td {
+        overflow: hidden;
+    }
+
+    .no-print-area {
+        display: none !important;
+    }
+
+    @page {
+        size: A4;
+        margin: 0;
+    }
+
+    * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+}

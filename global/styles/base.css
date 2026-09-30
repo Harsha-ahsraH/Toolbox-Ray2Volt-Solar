@@ -339,4 +339,17 @@ a {
     color: inherit;
 }
 
+/* Form controls take the page font rather than the browser's Arial. */
+button,
+input,
+select,
+textarea {
+    font-family: inherit;
+}
+
+/* The hidden attribute always wins, even over a component that sets display. */
+[hidden] {
+    display: none !important;
+}
+
 /* --- App Container --- */

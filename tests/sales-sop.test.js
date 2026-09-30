@@ -1,6 +1,7 @@
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
+const { loadRegistry } = require('./helpers/registry');
 
 const repoRoot = path.resolve(__dirname, '..');
 const toolRoot2 = path.join(repoRoot, 'tools', 'sales-sop');
@@ -236,20 +237,12 @@ for (const currentPrice of ['1,73,600', '1,21,600', '4,34,000', '3,81,000']) {
     assert.match(prices, new RegExp(currentPrice), `Prices should retain toolbox value ${currentPrice}`);
 }
 
-const htmlFiles = [
-    path.join(repoRoot, 'index.html'),
-    ...fs.readdirSync(path.join(repoRoot, 'tools'), { withFileTypes: true })
-        .filter(entry => entry.isDirectory())
-        .map(entry => path.join(repoRoot, 'tools', entry.name, `${entry.name}.html`))
-        .filter(file => fs.existsSync(file))
-];
-
-for (const htmlFile of htmlFiles) {
-    const contents = fs.readFileSync(htmlFile, 'utf8');
-    const pricesIndex = contents.indexOf('package-prices/package-prices.html');
-    const sopIndex = contents.indexOf('sales-sop/sales-sop.html');
-    assert.ok(pricesIndex >= 0, `${path.relative(repoRoot, htmlFile)} should link to Package Prices`);
-    assert.ok(sopIndex > pricesIndex, `${path.relative(repoRoot, htmlFile)} should place Sales SOP after Package Prices`);
-}
+// The sidebar follows the registry order: Sales SOP sits after Package Prices.
+const toolIds = loadRegistry().list.map((tool) => tool.id);
+assert.ok(toolIds.includes('package-prices'), 'the registry should list Package Prices');
+assert.ok(
+    toolIds.indexOf('sales-sop') > toolIds.indexOf('package-prices'),
+    'the sidebar should place Sales SOP after Package Prices'
+);
 
 console.log('sales SOP and pricing tests passed');

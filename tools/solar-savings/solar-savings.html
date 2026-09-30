@@ -30,56 +30,6 @@
 
 <body>
     <div class="app-container">
-        <!-- Mobile Header -->
-        <header class="mobile-header">
-            <span class="sidebar-brand mobile-brand">Toolbox</span>
-            <button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Open navigation menu">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
-                </svg>
-            </button>
-        </header>
-
-        <!-- Sidebar Navigation -->
-        <aside class="sidebar">
-            <div class="sidebar-mobile-header">
-                <h2 class="sidebar-brand">Toolbox</h2>
-                <button class="sidebar-close-btn" id="sidebarCloseBtn" aria-label="Close menu">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
-                </button>
-            </div>
-            <div>
-                <div class="logo-header">
-                    <h2 class="sidebar-brand">Toolbox</h2>
-                </div>
-                <nav class="main-nav">
-                    <ul>
-                        <li><a href="../../index.html" class="nav-link">Dashboard</a></li>
-                        <li><a href="../emi-calculator/emi-calculator.html" class="nav-link">EMI Calculator</a></li>
-                        <li><a href="../gst-calculator/gst-calculator.html" class="nav-link">GST Calculator</a></li>
-                        <li><a href="../package-prices/package-prices.html" class="nav-link">Packages &amp; Prices</a></li>
-                        <li><a href="../sales-sop/sales-sop.html" class="nav-link">Sales SOP</a></li>
-                        <li><a href="../solar-savings/solar-savings.html" class="nav-link active">Solar Savings</a></li>
-                        <li><a href="../quote-generator/quote-generator.html" class="nav-link">Quote Generator</a></li>
-                        <li><a href="../quotation/quotation.html" class="nav-link">1-Page Quotation</a></li>
-                        <li><a href="../proforma-invoice/proforma-invoice.html" class="nav-link">Proforma Invoice</a></li>
-                        <li><a href="../receipt-generator/receipt-generator.html" class="nav-link">Payment Receipt</a></li>
-                        <li><a href="../invoice-generator/invoice-generator.html" class="nav-link">Tax Invoice</a></li>
-                        <li><a href="../warranty-card/warranty-card.html" class="nav-link">Warranty Card</a></li>
-                        <li><a href="../request-for-quotation/request-for-quotation.html" class="nav-link">Request for Quotation</a></li>
-                        <li><a href="../purchase-order/purchase-order.html" class="nav-link">Purchase Order</a></li>
-                        <li><a href="../payslip-generator/payslip-generator.html" class="nav-link">Payslip Generator</a></li>
-                        <li><a href="../comparison-sheet/comparison-sheet.html" class="nav-link">Comparison Sheet</a></li>
-                        <li><a href="../margin-breakdown/margin-breakdown.html" class="nav-link">Margin Breakdown</a></li>
-                        <li><a href="../letterheadify/letterheadify.html" class="nav-link">Letterheadify</a></li>
-                        <li><a href="../resource-library/resource-library.html" class="nav-link">Resource Library</a></li>
-                        <li><a href="https://pricing.ray2voltsolar.com/" class="nav-link is-external">Pricing Desk</a></li>
-                    </ul>
-                </nav>
-            </div>
-        </aside>
-
-        <!-- Main Content Area -->
         <main class="main-content">
             <section id="solar-savings-section" class="content-section active">
                 <div class="ssc-app-body" id="sscAppBody">
@@ -434,8 +384,6 @@
         </main>
     </div>
 
-    <!-- Overlay for Mobile Sidebar -->
-    <div class="overlay" id="overlay"></div>
 
     <!-- Report Preview Modal -->
     <div id="reportModal" class="ssc-modal-overlay">
@@ -541,6 +489,7 @@
         </div>
     </div>
 
+    <script src="../../global/scripts/tools.js"></script>
     <script src="../../global/scripts/auth.js?v=20260930-restore-typography" data-tool-id="solar-savings"></script>
     <script src="../../global/scripts/navigation.js?v=20260930-sidebar-resize"></script>
     <script src="../../global/scripts/solar-returns.js?v=20260725-roi-irr6"></script>

@@ -73,24 +73,12 @@
     /* Staggered nav link animation */
     .sidebar.open .main-nav .nav-link {
         animation: navLinkSlideIn 0.3s ease forwards;
+        /* --i is each row's position, set by navigation.js; the stagger stops
+           growing after a dozen rows so a long list still arrives quickly. */
+        animation-delay: calc(0.06s + min(var(--i, 0), 12) * 0.03s);
         opacity: 0;
         transform: translateX(-12px);
     }
-
-    .sidebar.open .main-nav li:nth-child(1) .nav-link { animation-delay: 0.06s; }
-    .sidebar.open .main-nav li:nth-child(2) .nav-link { animation-delay: 0.09s; }
-    .sidebar.open .main-nav li:nth-child(3) .nav-link { animation-delay: 0.12s; }
-    .sidebar.open .main-nav li:nth-child(4) .nav-link { animation-delay: 0.15s; }
-    .sidebar.open .main-nav li:nth-child(5) .nav-link { animation-delay: 0.18s; }
-    .sidebar.open .main-nav li:nth-child(6) .nav-link { animation-delay: 0.21s; }
-    .sidebar.open .main-nav li:nth-child(7) .nav-link { animation-delay: 0.24s; }
-    .sidebar.open .main-nav li:nth-child(8) .nav-link { animation-delay: 0.27s; }
-    .sidebar.open .main-nav li:nth-child(9) .nav-link { animation-delay: 0.30s; }
-    .sidebar.open .main-nav li:nth-child(10) .nav-link { animation-delay: 0.33s; }
-    .sidebar.open .main-nav li:nth-child(11) .nav-link { animation-delay: 0.36s; }
-    .sidebar.open .main-nav li:nth-child(12) .nav-link { animation-delay: 0.39s; }
-    .sidebar.open .main-nav li:nth-child(13) .nav-link { animation-delay: 0.42s; }
-    .sidebar.open .main-nav li:nth-child(14) .nav-link { animation-delay: 0.45s; }
 
     @keyframes navLinkSlideIn {
         to {

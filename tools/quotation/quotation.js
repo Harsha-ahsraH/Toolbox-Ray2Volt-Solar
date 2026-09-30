@@ -30,10 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const lineItems = Docs.setupLineItems({
         container: quoItemsContainer,
         addButton: quoAddItemBtn,
-        prefix: 'quo',
-        fieldClassPrefix: 'quo-',
-        removeFunctionName: 'removeQuoItem',
-        minItemsMessage: 'You must have at least one item in the quotation.',
         includeHsn: true
     });
 
