@@ -725,11 +725,11 @@ h1.cq-cover-title {
    SCREEN GEOMETRY
    ============================================ */
 
-/* global/styles/tool-responsive.css collapses every .quote-page to fluid
-   width, automatic height and visible overflow on screen, and only restores
-   A4 above 1200px. The Short Proposal escapes that through its own
-   `#quotePreview .quote-page` override; the Comprehensive pages sit outside
-   #quotePreview and had no equivalent, so below 1200px they lost the A4 box.
+/* quote-generator-preview-screen.css collapses every .quote-page to fluid
+   width, automatic height and visible overflow on screen. The Short Proposal
+   restores A4 through its own `#quotePreview .quote-page` override; the
+   Comprehensive pages sit outside #quotePreview and need the equivalent here,
+   or they lose the A4 box.
    That is not only a preview problem: the PDF capture reads these nodes live
    (quote-generator-preview.js), and the stage and thumbnail rail render
    clones of them, so a narrow window produced wrongly shaped pages. */

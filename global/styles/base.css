@@ -3,7 +3,11 @@
    Sharp Edges, Cyan-Blue Accents
    ============================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,400,0,0');
+/* Only the icons the Toolbox draws are downloaded — about 17 KB instead of the
+   879 KB full set. A new icon must be added to icon_names (kept in
+   alphabetical order, as Google Fonts requires); tests/material-icons.test.js
+   fails until it is. */
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,400,0,0&icon_names=account_balance,arrow_outward,article,badge,balance,battery_charging_full,bolt,calculate,calendar_month,check_circle,chevron_left,chevron_right,close,compare_arrows,construction,contact_phone,dark_mode,dashboard,description,draft,expand_more,fact_check,factory,format_quote,forum,info,library_books,light_mode,lock,logout,memory,military_tech,monitoring,open_in_new,percent,picture_as_pdf,pie_chart,price_change,receipt_long,request_quote,savings,search,sell,shield,shopping_cart,solar_power,support_agent,sync_alt,trending_up,tune,verified');
 
 .material-symbols-rounded {
     display: inline-block;

@@ -49,4 +49,38 @@ for (const tool of [registry.dashboard, ...registry.list]) {
   assert(/^[a-z0-9_]+$/.test(tool.icon), `${tool.id} needs a Material Symbols ligature for its icon`);
 }
 
+// The icon font is subset to the names in icon_names, so every icon the
+// Toolbox draws must be listed there — otherwise it renders as its name.
+const iconNames = (styleCss.match(/icon_names=([a-z0-9_,]+)/) || [])[1];
+assert(iconNames, 'the Material Symbols import should be subset with icon_names');
+const subset = iconNames.split(',');
+assert.deepStrictEqual(subset, [...subset].sort(), 'Google Fonts needs icon_names in alphabetical order');
+
+function sourceFiles(dir) {
+  return fs.readdirSync(dir, { withFileTypes: true }).flatMap(entry => {
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) return sourceFiles(full);
+    return /\.(html|js|css)$/.test(entry.name) ? [full] : [];
+  });
+}
+
+const drawn = new Set([registry.dashboard, ...registry.list].map(tool => tool.icon));
+for (const file of [...sourceFiles(path.join(root, 'global')), ...sourceFiles(path.join(root, 'tools'))]) {
+  const text = fs.readFileSync(file, 'utf8');
+  for (const m of text.matchAll(/material-symbols-rounded[^"']*["'][^>]*>\s*([a-z0-9_]+)\s*</g)) drawn.add(m[1]);
+  // Icons swapped by script, e.g. icon.textContent = dark ? 'light_mode' : 'dark_mode'.
+  for (const m of text.matchAll(/[iI]con\.textContent\s*=\s*([^;]+);/g)) {
+    for (const q of m[1].matchAll(/'([a-z0-9_]+)'/g)) drawn.add(q[1]);
+  }
+  // Icons drawn by CSS: a content ligature in a rule set in the icon font.
+  if (file.endsWith('.css')) {
+    for (const rule of text.matchAll(/\{([^}]*)\}/g)) {
+      for (const m of rule[1].matchAll(/content:\s*["']([a-z][a-z0-9_]+)["']/g)) drawn.add(m[1]);
+    }
+  }
+}
+for (const name of drawn) {
+  assert(subset.includes(name), `icon "${name}" is drawn but missing from icon_names in base.css`);
+}
+
 console.log('Material icon UI smoke tests passed');
