@@ -34,8 +34,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const calcTenureBtn = document.getElementById('calcTenureBtn');
     const calcRateBtn = document.getElementById('calcRateBtn');
     const calcModeHelp = document.getElementById('calcModeHelp');
-    const interestRateGroup = interestRateInput?.closest('.input-group');
-    const tenureGroup = loanTenureInput?.closest('.input-group');
+    const interestRateGroup = interestRateInput?.closest('.field');
+    const tenureGroup = loanTenureInput?.closest('.field');
 
     let emiChart;
     let emiMethod = 'reducing';

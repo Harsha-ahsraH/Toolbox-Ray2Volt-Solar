@@ -5,7 +5,9 @@
    Hairline borders (#D8DEE6), crisp typography, and fixed A4 pages.
    ========================================================================== */
 
-.emi-modal-overlay {
+/* The report's paper palette. The preview dialog itself is the shared
+   .viewer from components.css. */
+#emiReportModalOverlay {
     --qp-navy: #1F4E79;
     --qp-navy-dark: #17395A;
     --qp-tint: #EDF3FA;
@@ -15,123 +17,6 @@
     --qp-line: #D8DEE6;
     --qp-soft: #F7F9FC;
     --qp-amber: #D97706;
-}
-
-/* --- Report Preview Modal --- */
-.emi-modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(17, 24, 39, 0.65);
-    backdrop-filter: blur(4px);
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    z-index: 1000;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.25s ease, visibility 0.25s ease;
-    overflow-y: auto;
-    padding: 20px 10px;
-    box-sizing: border-box;
-}
-
-.emi-modal-overlay.active {
-    opacity: 1;
-    visibility: visible;
-}
-
-.emi-modal-content {
-    background: #E5E7EB;
-    width: 96%;
-    max-width: 900px;
-    border-radius: 8px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    position: relative;
-    margin: auto;
-    max-height: 95vh;
-}
-
-.emi-modal-header {
-    padding: 12px 20px;
-    border-bottom: 1px solid var(--border-medium);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: var(--bg-card);
-    flex-shrink: 0;
-    gap: 12px;
-    flex-wrap: wrap;
-}
-
-.emi-modal-title-wrap {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.emi-modal-header h3 {
-    margin: 0;
-    font-size: 1.05rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
-}
-
-.emi-modal-header-actions {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.emi-btn-print-modal {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 0.5rem 1rem;
-    background: var(--qp-navy);
-    border: 1px solid var(--qp-navy);
-    color: #FFFFFF;
-    border-radius: 4px;
-    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
-    font-size: 0.875rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.15s ease;
-}
-
-.emi-btn-print-modal:hover {
-    background: var(--qp-navy-dark);
-    border-color: var(--qp-navy-dark);
-}
-
-.emi-close-modal-btn {
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    line-height: 1;
-    cursor: pointer;
-    color: var(--text-secondary);
-    padding: 4px 8px;
-    border-radius: 4px;
-    transition: color 0.15s ease;
-}
-
-.emi-close-modal-btn:hover {
-    color: var(--text-primary);
-}
-
-.emi-modal-body {
-    padding: 24px;
-    overflow-y: auto;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 24px;
-    background: #525659;
 }
 
 /* A4 document furniture matches the Margin Breakdown and Comparison Sheet. */
@@ -276,9 +161,9 @@
         height: auto !important;
         overflow: visible !important;
     }
-    .mobile-header, .sidebar, .emi-page-header, .emi-mode-selector,
-    .emi-calculator-card, .emi-amortization-card, .overlay, .emi-modal-header,
-    .sidebar-collapse-btn, .print-only-header, .print-only-details, .no-print {
+    .mobile-header, .sidebar, .tool-header, .emi-mode-selector,
+    #emi-calculator-section > .card, .overlay, .viewer-header,
+    .sidebar-collapse-btn {
         display: none !important;
     }
     .main-content, .app-container, #emi-calculator-section {
@@ -291,7 +176,7 @@
         min-height: 0 !important;
         overflow: visible !important;
     }
-    .emi-modal-overlay, .emi-modal-content, .emi-modal-body, #emiReportContainer {
+    .viewer-overlay, .viewer, .viewer-body, #emiReportContainer {
         position: static !important;
         display: block !important;
         visibility: visible !important;

@@ -20,8 +20,6 @@
     <link rel="stylesheet" href="../../global/styles/navigation.css?v=20260930-no-interface-logos">
     <link rel="stylesheet" href="../../global/styles/components.css">
     <link rel="stylesheet" href="../../global/styles/responsive.css?v=20260930-sidebar-resize">
-    <!-- GST Calculator Specific Styles -->
-    <link rel="stylesheet" href="gst-calculator.css?v=20260930-restore-typography">
     <!-- Theme: stamps light or dark on <html> before the first paint -->
     <script src="../../global/scripts/theme.js"></script>
 </head>
@@ -31,92 +29,84 @@
         <main class="main-content">
             <section id="gst-calculator-section" class="content-section active">
 
-                <!-- Page Header -->
-                <div class="gst-page-header">
+                <div class="tool-header">
                     <h1>GST Calculator</h1>
                     <p>Add or remove GST for inter-state and intra-state transactions with detailed breakdown.</p>
                 </div>
 
-                <!-- Calculator Main Card -->
-                <div class="gst-calculator-card">
-                    <div class="gst-grid">
+                <div class="card">
+                    <div class="split">
 
-                        <!-- Left Column: Inputs -->
-                        <div class="gst-inputs-section">
-                            <h3 class="section-title">Input Details</h3>
+                        <!-- Inputs -->
+                        <div>
+                            <h3 class="card-title">Input Details</h3>
 
-                            <!-- Amount Input -->
-                            <div class="gst-input-group">
+                            <div class="field">
                                 <label for="gstAmount">Amount</label>
-                                <input type="number" id="gstAmount" class="gst-input-field" placeholder="Enter amount">
+                                <input type="number" id="gstAmount" class="input" placeholder="Enter amount" inputmode="decimal">
                             </div>
 
-                            <!-- GST Rate Input -->
-                            <div class="gst-input-group">
+                            <div class="field">
                                 <label for="gstRate">Total GST Rate (%)</label>
-                                <input type="number" id="gstRate" class="gst-input-field" value="18">
-                                <div class="gst-rate-selector">
-                                    <button class="gst-rate-btn" data-rate="0">0%</button>
-                                    <button class="gst-rate-btn" data-rate="5">5%</button>
-                                    <button class="gst-rate-btn" data-rate="12">12%</button>
-                                    <button class="gst-rate-btn active" data-rate="18">18%</button>
-                                    <button class="gst-rate-btn" data-rate="28">28%</button>
+                                <input type="number" id="gstRate" class="input" value="18" inputmode="decimal">
+                                <div class="segmented" aria-label="Common GST rates">
+                                    <button type="button" class="segmented-btn gst-rate-btn" data-rate="0">0%</button>
+                                    <button type="button" class="segmented-btn gst-rate-btn" data-rate="5">5%</button>
+                                    <button type="button" class="segmented-btn gst-rate-btn" data-rate="12">12%</button>
+                                    <button type="button" class="segmented-btn gst-rate-btn active" data-rate="18">18%</button>
+                                    <button type="button" class="segmented-btn gst-rate-btn" data-rate="28">28%</button>
                                 </div>
                             </div>
 
-                            <!-- Calculation Method -->
-                            <div class="gst-control-group">
-                                <strong>Calculation Method</strong>
-                                <div class="gst-toggle-buttons">
-                                    <button id="addGstBtn" class="gst-toggle-btn active">Add GST</button>
-                                    <button id="removeGstBtn" class="gst-toggle-btn">Remove GST</button>
+                            <div class="field">
+                                <span class="field-label">Calculation Method</span>
+                                <div class="segmented">
+                                    <button type="button" id="addGstBtn" class="segmented-btn active">Add GST</button>
+                                    <button type="button" id="removeGstBtn" class="segmented-btn">Remove GST</button>
                                 </div>
                             </div>
 
-                            <!-- Transaction Type -->
-                            <div class="gst-control-group">
-                                <strong>Transaction Type</strong>
-                                <div class="gst-toggle-buttons">
-                                    <button id="intraStateBtn" class="gst-toggle-btn active">Intra-State (SGST +
-                                        CGST)</button>
-                                    <button id="interStateBtn" class="gst-toggle-btn">Inter-State (IGST)</button>
+                            <div class="field">
+                                <span class="field-label">Transaction Type</span>
+                                <div class="segmented">
+                                    <button type="button" id="intraStateBtn" class="segmented-btn active">Intra-State (SGST + CGST)</button>
+                                    <button type="button" id="interStateBtn" class="segmented-btn">Inter-State (IGST)</button>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Right Column: Results -->
-                        <div class="gst-results-section">
-                            <h3 class="section-title">GST Breakdown</h3>
+                        <!-- Results -->
+                        <div>
+                            <h3 class="card-title">GST Breakdown</h3>
 
-                            <!-- Results Table -->
-                            <div class="gst-table-wrapper">
-                                <table class="gst-table">
+                            <div class="table-wrap">
+                                <table class="data-table">
                                     <thead>
                                         <tr>
                                             <th>Description</th>
-                                            <th>Amount</th>
+                                            <th class="num">Amount</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                             <td>Base Amount</td>
-                                            <td id="baseAmountOutput">₹0.00</td>
+                                            <td class="num" id="baseAmountOutput">₹0.00</td>
                                         </tr>
                                         <tr id="intraStateOutput">
                                             <td>CGST</td>
-                                            <td id="cgstAmountOutput">₹0.00</td>
+                                            <td class="num" id="cgstAmountOutput">₹0.00</td>
                                         </tr>
                                         <tr id="intraStateOutput2">
                                             <td>SGST</td>
-                                            <td id="sgstAmountOutput">₹0.00</td>
+                                            <td class="num" id="sgstAmountOutput">₹0.00</td>
                                         </tr>
                                         <tr id="interStateOutput" style="display: none;">
                                             <td>IGST</td>
-                                            <td id="igstAmountOutput">₹0.00</td>
+                                            <td class="num" id="igstAmountOutput">₹0.00</td>
                                         </tr>
-                                        <tr class="gst-table-total">
+                                        <tr class="total-row">
                                             <td>Total Amount (Incl. GST)</td>
-                                            <td id="totalAmountOutput">₹0.00</td>
+                                            <td class="num" id="totalAmountOutput">₹0.00</td>
                                         </tr>
                                     </tbody>
                                 </table>
