@@ -80,10 +80,7 @@ assert.match(css, /h1\.mb-notes,/, 'notes typography must be keyed on the node i
 
 assert.match(html, /<template id="mbPageTemplate">/);
 assert.match(html, /class="mb-page"/);
-assert.ok(
-    html.indexOf('tool-responsive.css') < html.indexOf('margin-breakdown.css'),
-    'the tool stylesheet must load after the shared responsive one'
-);
+assert.doesNotMatch(html, /tool-responsive\.css/,'the form is built from the shared components');
 
 const pageRule = cssRule('.mb-page');
 for (const property of [

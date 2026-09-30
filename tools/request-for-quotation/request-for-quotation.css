@@ -4,13 +4,6 @@
    Matches Tax Invoice / Purchase Order styling
    ============================================ */
 
-/* The markdown editor is set in monospace for easier authoring. */
-.rfq-markdown-editor {
-    font-family: 'Consolas', 'Courier New', monospace;
-    font-size: 0.9rem;
-    line-height: 1.5;
-}
-
 /* ============================================
    RFQ PREVIEW - MINIMALIST BRUTALIST
    Black text, light cyan accents, print-friendly
@@ -317,11 +310,6 @@
         width: 100%;
         margin: 1rem auto;
         overflow: visible;
-    }
-
-    /* 16px, like every input on a phone, or iOS zooms in on focus. */
-    .rfq-markdown-editor {
-        font-size: 16px;
     }
 }
 

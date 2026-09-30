@@ -84,11 +84,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function removeCell(collection, row, redraw) {
         const cell = document.createElement('td');
-        cell.className = 'mb-cell-action';
+        cell.className = 'cell-action';
 
         const button = document.createElement('button');
         button.type = 'button';
-        button.className = 'mb-row-remove';
+        button.className = 'btn-remove';
         button.textContent = '×';
         button.setAttribute('aria-label', 'Remove this row');
         button.addEventListener('click', () => {
@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function serialCell(index) {
         const cell = document.createElement('td');
-        cell.className = 'mb-cell-sn';
+        cell.className = 'cell-index';
         cell.textContent = render.serial(index);
         return cell;
     }
@@ -261,8 +261,9 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         validationPanel.replaceChildren();
-        if (blocking.length) validationPanel.appendChild(list(blocking, 'mb-validation-blocking'));
-        if (warnings.length) validationPanel.appendChild(list(warnings, 'mb-validation-warning'));
+        if (blocking.length) validationPanel.appendChild(list(blocking, 'alert-list'));
+        if (warnings.length) validationPanel.appendChild(list(warnings, 'alert-list alert-list-warning'));
+        validationPanel.className = blocking.length ? 'alert alert-danger' : 'alert alert-warning';
         validationPanel.hidden = false;
     }
 
