@@ -12,7 +12,7 @@ window.QuoteGeneratorPageTemplates.push(`                    <!-- ========== PAG
                         <div class="qp-section">
                             <h3 id="qpSchematicTitle">On-Grid System Schematic</h3>
                             <figure class="qp-schematic-figure">
-                                <img id="qpSchematicImg" src="assets/On-Grid Schematic Diagram.png"
+                                <img id="qpSchematicImg" src="assets/On-Grid Schematic Diagram.jpg"
                                     alt="Solar system schematic diagram" class="qp-schematic-img">
                                 <figcaption class="qp-schematic-caption">
                                     Representative schematic — actual layout is finalized during site survey.

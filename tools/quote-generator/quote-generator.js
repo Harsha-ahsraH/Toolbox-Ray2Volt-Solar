@@ -420,8 +420,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const schematicImg = document.getElementById('qpSchematicImg');
         if (schematicImg) {
             schematicImg.src = isHybrid
-                ? 'assets/Hybrid Solar Schemartic Diagram.png'
-                : 'assets/On-Grid Schematic Diagram.png';
+                ? 'assets/Hybrid Solar Schemartic Diagram.jpg'
+                : 'assets/On-Grid Schematic Diagram.jpg';
             schematicImg.alt = isHybrid
                 ? 'Hybrid solar system schematic diagram'
                 : 'On-grid solar system schematic diagram';

@@ -35,8 +35,8 @@ for (const sourceFile of referenceFiles) {
 }
 
 for (const asset of [
-    'tools/quote-generator/assets/Hybrid Solar Schemartic Diagram.png',
-    'tools/quote-generator/assets/On-Grid Schematic Diagram.png',
+    'tools/quote-generator/assets/Hybrid Solar Schemartic Diagram.jpg',
+    'tools/quote-generator/assets/On-Grid Schematic Diagram.jpg',
     'tools/letterheadify/assets/Letterhead (Latest) Ray2Volt Solar PNG.png'
 ]) {
     assert.ok(fs.existsSync(path.join(repoRoot, asset)), `Missing runtime asset ${asset}`);

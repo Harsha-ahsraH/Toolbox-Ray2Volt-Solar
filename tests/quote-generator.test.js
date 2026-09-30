@@ -63,8 +63,8 @@ assert.doesNotMatch(html, /chart\.umd|Chart\.js/i);
 // On-Grid and Hybrid exist, each with its own schematic from assets.
 assert.doesNotMatch(markup, /Off-Grid/);
 assert.doesNotMatch(js, /Off-Grid/);
-assert.match(markup, /assets\/On-Grid Schematic Diagram\.png/);
-assert.match(js, /assets\/Hybrid Solar Schemartic Diagram\.png/);
+assert.match(markup, /assets\/On-Grid Schematic Diagram\.jpg/);
+assert.match(js, /assets\/Hybrid Solar Schemartic Diagram\.jpg/);
 
 // Technical overview pages exist and are populated per installation type.
 assert.match(markup, /How Your System Works/);

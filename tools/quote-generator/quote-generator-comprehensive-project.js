@@ -130,8 +130,8 @@
 
     // Energy-flow renders, one per configuration; the Sales SOP shows the same.
     const ARCHITECTURE_IMAGE = {
-        'On-Grid': 'assets/commercial-ongrid-architecture.png',
-        Hybrid: 'assets/commercial-hybrid-architecture.png'
+        'On-Grid': 'assets/commercial-ongrid-architecture.jpg',
+        Hybrid: 'assets/commercial-hybrid-architecture.jpg'
     };
 
     Pages.register('system-overview', context => {

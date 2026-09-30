@@ -36,16 +36,16 @@ const render = sectionId => {
 const before = JSON.stringify(state);
 const components = render('system-components');
 for (const key of ['mounting', 'connectors', 'dcdb', 'metering']) {
-    assert.ok(components.includes(`assets/components/${key}.png`), `${key} must be illustrated on the components page`);
+    assert.ok(components.includes(`assets/components/${key}.jpg`), `${key} must be illustrated on the components page`);
 }
 assert.doesNotMatch(render('bom-summary'), /assets\/components\//, 'the summary table numbers its rows instead of picturing them');
 assert.equal(JSON.stringify(state), before, 'illustration must not change offered equipment');
 
 // The system overview shows the energy-flow render for its configuration.
-assert.match(render('system-overview'), /assets\/commercial-ongrid-architecture\.png/);
+assert.match(render('system-overview'), /assets\/commercial-ongrid-architecture\.jpg/);
 assert.doesNotMatch(render('system-overview'), /hybrid-architecture/, 'an on-grid plant shows no battery');
-assert.ok(fs.existsSync(path.join(tool, 'assets/commercial-ongrid-architecture.png'))
-    && fs.existsSync(path.join(tool, 'assets/commercial-hybrid-architecture.png')), 'both renders are bundled');
+assert.ok(fs.existsSync(path.join(tool, 'assets/commercial-ongrid-architecture.jpg'))
+    && fs.existsSync(path.join(tool, 'assets/commercial-hybrid-architecture.jpg')), 'both renders are bundled');
 for (const id of ['cover', 'system-overview', 'key-equipment', 'system-components', 'bom-summary']) {
     assert.doesNotMatch(render(id), /Wikimedia|creativecommons|Photo:|AI-generated|Representative photograph|cq-component-credit/i,
         'the proposal contains equipment explanations without image credits or generation labels');
@@ -53,9 +53,9 @@ for (const id of ['cover', 'system-overview', 'key-equipment', 'system-component
 
 state.project.systemConfiguration = 'Hybrid';
 Model.resetBom(state);
-assert.match(render('system-overview'), /assets\/commercial-hybrid-architecture\.png/);
+assert.match(render('system-overview'), /assets\/commercial-hybrid-architecture\.jpg/);
 assert.match(render('system-overview'), /designated backup circuit/);
-assert.match(render('key-equipment'), /assets\/components\/battery\.png/, 'the hybrid battery is illustrated');
+assert.match(render('key-equipment'), /assets\/components\/battery\.jpg/, 'the hybrid battery is illustrated');
 for (const id of ['key-equipment', 'system-overview']) {
     assert.doesNotMatch(render(id), /Wikimedia|creativecommons|Photo:|AI-generated|Representative photograph|cq-component-credit/i,
         'hybrid equipment explanations must also omit image credits and generation labels');
@@ -67,7 +67,7 @@ for (const id of ['dc-cables', 'ac-cables', 'protection', 'metering']) {
 }
 const empty = render('system-components');
 for (const key of ['connectors', 'dcdb', 'metering']) {
-    assert.ok(!empty.includes(`assets/components/${key}.png`), `an unlisted ${key} family must not be photographed`);
+    assert.ok(!empty.includes(`assets/components/${key}.jpg`), `an unlisted ${key} family must not be photographed`);
 }
 assert.match(empty, /Not listed in the bill of materials/);
 console.log('Component imagery and configuration checks passed');

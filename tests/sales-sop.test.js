@@ -35,8 +35,8 @@ assert.equal(
 );
 
 // --- Residential playbook ----------------------------------------------------
-assert.match(salesSop, /On-Grid Schematic Diagram\.png/, 'Sales SOP should use the global on-grid schematic');
-assert.match(salesSop, /Hybrid Solar Schemartic Diagram\.png/, 'Sales SOP should use the global hybrid schematic');
+assert.match(salesSop, /On-Grid Schematic Diagram\.jpg/, 'Sales SOP should use the global on-grid schematic');
+assert.match(salesSop, /Hybrid Solar Schemartic Diagram\.jpg/, 'Sales SOP should use the global hybrid schematic');
 assert.match(salesSop, /PM Surya Ghar Muft Bijli Yojana/, 'Sales SOP should include subsidy guidance');
 assert.match(salesSop, /Easy Solar Loan Option/, 'Sales SOP should include loan guidance');
 assert.match(salesSop, /Project Timeline/, 'Sales SOP should include the project timeline');
@@ -57,8 +57,8 @@ assert.match(salesSop, /Commercial &amp; Industrial/, 'Sales SOP should label th
 assert.match(salesSop, /Returns: The C&amp;I Case/, 'C&I playbook should make the returns case');
 assert.match(salesSop, /Net Metering: Sizing, Approval &amp; Settlement/, 'C&I playbook should cover net metering');
 assert.match(salesSop, /The Technology That Decides The Quote/, 'C&I playbook should cover the technology');
-assert.match(salesSop, /commercial-ongrid-architecture\.png/, 'C&I playbook should use the commercial on-grid architecture');
-assert.match(salesSop, /commercial-hybrid-architecture\.png/, 'C&I playbook should use the commercial hybrid architecture');
+assert.match(salesSop, /commercial-ongrid-architecture\.jpg/, 'C&I playbook should use the commercial on-grid architecture');
+assert.match(salesSop, /commercial-hybrid-architecture\.jpg/, 'C&I playbook should use the commercial hybrid architecture');
 
 // Gross metering is explained but not sold: Ray2Volt builds net-metered plants,
 // and a salesperson still has to answer the question when a customer raises it.
