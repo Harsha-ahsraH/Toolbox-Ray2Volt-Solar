@@ -253,7 +253,7 @@
 
 .sop-bar-value {
     min-width: 5.5rem;
-    color: var(--primary-dark);
+    color: var(--primary-text);
     font-size: 0.82rem;
     font-weight: 700;
     text-align: right;

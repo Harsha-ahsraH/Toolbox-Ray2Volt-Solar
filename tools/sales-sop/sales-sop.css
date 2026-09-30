@@ -3,7 +3,7 @@
 }
 
 .sop-eyebrow {
-    color: var(--primary-dark) !important;
+    color: var(--primary-text) !important;
     font-size: 0.75rem !important;
     font-weight: 700;
     letter-spacing: 0.08em;
@@ -143,7 +143,7 @@
 
 .sop-trust-row .material-symbols-rounded,
 .sop-shared-section h2 .material-symbols-rounded {
-    color: var(--primary-dark);
+    color: var(--primary-text);
     font-size: 1.15rem;
 }
 
@@ -186,7 +186,7 @@
 }
 
 .sop-comparison thead th:not(:first-child) {
-    color: var(--primary-dark);
+    color: var(--primary-text);
 }
 
 .sop-comparison thead .material-symbols-rounded {
@@ -229,7 +229,7 @@
 }
 
 .sop-system-header > .material-symbols-rounded {
-    color: var(--primary-dark);
+    color: var(--primary-text);
     font-size: 1.65rem;
 }
 
@@ -281,7 +281,7 @@
 
 .sop-card summary:hover,
 .sop-card summary:focus-visible {
-    color: var(--primary-dark);
+    color: var(--primary-text);
     background: var(--primary-light);
 }
 
@@ -393,7 +393,7 @@
 
 .sop-stat-grid strong,
 .sop-tier-grid strong {
-    color: var(--primary-dark);
+    color: var(--primary-text);
     font-size: 1rem;
 }
 
@@ -427,7 +427,7 @@
 }
 
 .sop-tags .preferred {
-    color: var(--primary-dark);
+    color: var(--primary-text);
     background: var(--primary-light);
     border-color: var(--primary);
 }
@@ -610,7 +610,7 @@
 }
 
 .sop-action.secondary {
-    color: var(--primary-dark);
+    color: var(--primary-text);
     background: var(--bg-card);
 }
 

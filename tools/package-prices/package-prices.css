@@ -1,18 +1,9 @@
-.pkg-page-header {
-    margin-bottom: 1.5rem;
-}
-
-.pkg-page-header h1 {
-    margin-bottom: 0.25rem;
-    font-size: 1.75rem;
-    font-weight: 700;
-    color: var(--text-primary);
-}
-
-.pkg-page-header p {
-    color: var(--text-secondary);
-    font-size: 0.95rem;
-}
+/* ============================================
+   Packages & Prices
+   The header, cards, price tables and the note come from
+   global/styles/components.css. This file adds the package accordions,
+   the add-on list and the phone layout that turns each price row into a card.
+   ============================================ */
 
 .pkg-system-group {
     margin-bottom: 2rem;
@@ -28,7 +19,7 @@
 }
 
 .pkg-system-header > .material-symbols-rounded {
-    color: var(--primary-dark);
+    color: var(--primary-text);
     font-size: 1.7rem;
 }
 
@@ -51,7 +42,7 @@
     overflow: hidden;
     background: var(--bg-card);
     border: 1px solid var(--border-light);
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-sm);
     box-shadow: var(--lift);
 }
 
@@ -108,7 +99,7 @@
 }
 
 .pkg-accordion[open] summary > .material-symbols-rounded {
-    color: var(--primary-dark);
+    color: var(--primary-text);
     transform: rotate(180deg);
 }
 
@@ -116,13 +107,9 @@
     padding: 1rem;
 }
 
+/* A thin bar on the right edge says "this table scrolls". */
 .pkg-table-wrapper {
     position: relative;
-    overflow: hidden;
-    overflow-x: auto;
-    border: 1px solid var(--border-light);
-    border-radius: var(--radius-lg);
-    -webkit-overflow-scrolling: touch;
 }
 
 .pkg-table-wrapper::after {
@@ -142,34 +129,7 @@
 }
 
 .pkg-table {
-    width: 100%;
-    border-collapse: collapse;
     white-space: nowrap;
-    font-size: 0.84rem;
-}
-
-.pkg-table thead {
-    background: var(--primary-dark);
-}
-
-.pkg-table th {
-    padding: 0.8rem 1rem;
-    color: var(--on-primary);
-    font-size: 0.72rem;
-    font-weight: 650;
-    letter-spacing: 0.045em;
-    text-align: left;
-    text-transform: uppercase;
-}
-
-.pkg-table td {
-    padding: 0.75rem 1rem;
-    color: var(--text-secondary);
-    border-bottom: 1px solid var(--border-light);
-}
-
-.pkg-table tbody tr:nth-child(even) {
-    background: var(--row-stripe);
 }
 
 .pkg-table tbody tr:hover {
@@ -186,17 +146,12 @@
 }
 
 .pkg-table td:nth-child(2) {
-    color: var(--primary-dark);
+    color: var(--primary-text);
     font-weight: 700;
 }
 
 .pkg-note {
-    margin-top: 0.9rem;
-    padding: 0.85rem 1rem;
-    color: var(--warning-text);
-    background: var(--warning-bg);
-    border: 1px solid var(--warning-border);
-    border-left: 3px solid var(--warning-text);
+    margin: 0.9rem 0 0;
     font-size: 0.81rem;
     line-height: 1.55;
 }
@@ -216,15 +171,8 @@
 }
 
 .pkg-title-icon {
-    color: var(--primary-dark);
+    color: var(--primary-text);
     font-size: 1.35rem;
-}
-
-.pkg-card {
-    padding: 1.15rem;
-    background: var(--bg-card);
-    border: 1px solid var(--border-light);
-    border-radius: var(--radius-lg);
 }
 
 .pkg-addon-intro {
@@ -247,7 +195,7 @@
     padding: 0.85rem;
     background: var(--bg-body);
     border: 1px solid var(--border-light);
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-sm);
 }
 
 .pkg-addon-number {
@@ -288,14 +236,10 @@
 }
 
 .pkg-highlight {
-    color: var(--primary-dark);
+    color: var(--primary-text);
 }
 
 @media (max-width: 768px) {
-    .pkg-page-header {
-        margin-bottom: 1.25rem;
-    }
-
     .pkg-accordion-body {
         padding: 0.75rem;
     }
@@ -313,7 +257,7 @@
     }
 
     .pkg-table th:first-child {
-        background: var(--primary-dark);
+        background: var(--table-head-bg);
     }
 
     .pkg-table tbody tr:nth-child(odd) td:first-child {
@@ -363,7 +307,7 @@
         padding: 0.7rem 0.85rem;
         background: var(--bg-card) !important;
         border: 1px solid var(--border-light);
-        border-radius: var(--radius-lg);
+        border-radius: var(--radius-sm);
     }
 
     .pkg-table td {
@@ -391,17 +335,13 @@
     .pkg-table td:first-child {
         margin-bottom: 0.2rem;
         padding-bottom: 0.45rem;
-        color: var(--primary-dark);
+        color: var(--primary-text);
         border-bottom: 1px solid var(--border-light);
         font-size: 0.92rem;
     }
 
     .pkg-table td:first-child::before {
         content: 'System';
-    }
-
-    .pkg-card {
-        padding: 0.8rem;
     }
 
     .pkg-addon-item {
