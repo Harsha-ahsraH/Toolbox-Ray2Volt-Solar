@@ -1,171 +1,14 @@
-﻿/* ============================================
+/* ============================================
    REQUEST FOR QUOTATION GENERATOR - Dedicated Stylesheet
    Ray2Volt Solar Toolbox - Brutalist Design
    Matches Tax Invoice / Purchase Order styling
    ============================================ */
 
-/* Google Sans Flex for UI elements */
-@import url('https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400;500;600;700&display=swap');
-
-/* ============================================
-   FORM SECTION - BRUTALIST STYLING
-   ============================================ */
-
-/* --- Page Header --- */
-.no-print-area .rfq-page-header {
-    margin-bottom: 1.5rem;
-}
-
-.no-print-area .rfq-page-header h1 {
-    font-size: 1.75rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin-bottom: 0.25rem;
-}
-
-.no-print-area .rfq-page-header p {
-    font-size: 0.95rem;
-    color: var(--text-secondary);
-}
-
-/* --- Form Cards --- */
-.rfq-form-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
-    margin-bottom: 1.5rem;
-}
-
-.rfq-form-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border-medium);
-    border-radius: 2px;
-    padding: 1.5rem;
-}
-
-.rfq-section-title {
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    margin-bottom: 1.25rem;
-    padding-bottom: 0.75rem;
-    border-bottom: 1px solid var(--border-light);
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.rfq-section-title .icon {
-    width: 20px;
-    height: 20px;
-    color: var(--primary);
-}
-
-/* --- Input Groups --- */
-.rfq-input-group {
-    margin-bottom: 1.25rem;
-}
-
-.rfq-input-group:last-child {
-    margin-bottom: 0;
-}
-
-.rfq-input-group label {
-    display: block;
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    margin-bottom: 0.5rem;
-}
-
-/* --- Input Fields --- */
-.rfq-input-field {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    font-size: 0.95rem;
-    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
-    border: 1px solid var(--border-medium);
-    border-radius: 2px;
-    background: var(--bg-card);
-    color: var(--text-primary);
-    transition: all 0.1s ease;
-    box-sizing: border-box;
-}
-
-.rfq-input-field:focus {
-    outline: none;
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px var(--primary-light);
-    background: var(--bg-card);
-}
-
-textarea.rfq-input-field {
-    resize: vertical;
-    min-height: 70px;
-}
-
-/* Monospace font for markdown editor for better authoring experience */
+/* The markdown editor is set in monospace for easier authoring. */
 .rfq-markdown-editor {
     font-family: 'Consolas', 'Courier New', monospace;
     font-size: 0.9rem;
     line-height: 1.5;
-}
-
-.rfq-input-hint {
-    display: block;
-    font-size: 0.8rem;
-    color: var(--text-muted);
-    margin-top: 0.4rem;
-}
-
-.rfq-tc-card {
-    margin-bottom: 1.5rem;
-}
-
-/* --- Action Buttons --- */
-.rfq-actions {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-}
-
-.rfq-btn-primary {
-    padding: 0.875rem 2rem;
-    font-size: 1rem;
-    font-weight: 600;
-    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
-    border: 1px solid var(--primary);
-    border-radius: 2px;
-    background: var(--primary);
-    color: var(--on-primary);
-    cursor: pointer;
-    transition: all 0.1s ease;
-}
-
-.rfq-btn-primary:hover {
-    background: var(--primary-dark);
-    border-color: var(--primary-dark);
-}
-
-.rfq-btn-secondary {
-    padding: 0.875rem 2rem;
-    font-size: 1rem;
-    font-weight: 600;
-    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
-    border: 1px solid var(--border-medium);
-    border-radius: 2px;
-    background: var(--bg-card);
-    color: var(--text-primary);
-    cursor: pointer;
-    transition: all 0.1s ease;
-}
-
-.rfq-btn-secondary:hover {
-    background: var(--bg-hover);
-    border-color: var(--primary);
-    color: var(--primary);
 }
 
 /* ============================================
@@ -468,66 +311,22 @@ textarea.rfq-input-field {
    RESPONSIVE STYLES
    ============================================ */
 
-/* Tablet */
-@media screen and (max-width: 1024px) {
-    .rfq-form-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
 /* Mobile */
 @media screen and (max-width: 768px) {
-    .no-print-area .rfq-page-header {
-        margin-bottom: 1rem;
-    }
-
-    .no-print-area .rfq-page-header h1 {
-        font-size: 1.5rem;
-    }
-
-    .no-print-area .rfq-page-header p {
-        font-size: 0.875rem;
-    }
-
-    .rfq-form-card {
-        padding: 1rem;
-    }
-
-    .rfq-actions {
-        flex-direction: column;
-    }
-
-    .rfq-btn-primary,
-    .rfq-btn-secondary {
-        width: 100%;
-    }
-
     #rfqPreview {
         width: 100%;
         margin: 1rem auto;
         overflow: visible;
     }
 
-    /* iOS Safari zooms the whole page when a field under 16px takes focus, and
-       never zooms back out. tool-responsive.css asks for 16px, but this sheet
-       loads after it and .rfq-input-field's own 0.95rem was winning, so the
-       guard is restated here where it holds. Scoped to .no-print-area: that is
-       the chrome; the preview sits outside it and keeps its paper sizes. The
-       class is doubled to carry two-class weight, because the markdown editor
-       it has to beat is named with two classes of its own. */
-    .no-print-area.no-print-area input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
-    .no-print-area.no-print-area select,
-    .no-print-area.no-print-area textarea {
+    /* 16px, like every input on a phone, or iOS zooms in on focus. */
+    .rfq-markdown-editor {
         font-size: 16px;
     }
 }
 
 /* Small Mobile */
 @media screen and (max-width: 480px) {
-    .rfq-form-card {
-        padding: 0.875rem;
-    }
-
     #rfqPreview {
         margin-inline: auto;
     }

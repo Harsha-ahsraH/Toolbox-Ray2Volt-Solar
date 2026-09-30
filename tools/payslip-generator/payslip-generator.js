@@ -34,6 +34,16 @@ document.addEventListener('DOMContentLoaded', function () {
     if (addDeductionBtn) {
         addDeductionBtn.addEventListener('click', addDeductionItem);
     }
+
+    // Remove buttons on the added rows, by delegation
+    ['earningsContainer', 'deductionsContainer'].forEach((id) => {
+        const container = document.getElementById(id);
+        if (!container) return;
+        container.addEventListener('click', (event) => {
+            const button = event.target.closest('.btn-remove');
+            if (button) removePayslipItem(button);
+        });
+    });
 });
 
 // Counter for dynamic items
@@ -45,25 +55,25 @@ let deductionCounter = 0;
 function addEarningItem() {
     const container = document.getElementById('earningsContainer');
     const newItem = document.createElement('div');
-    newItem.className = 'ps-item-row earning-item';
+    newItem.className = 'item-row earning-item';
 
     // Calculate index for display (Offset by 2 for fixed items)
     const displayIndex = earningCounter + 1;
     newItem.dataset.itemIndex = earningCounter;
 
     newItem.innerHTML = `
-        <div class="ps-item-header">
-            <span class="ps-item-number">Earning ${displayIndex}</span>
-            <button type="button" class="ps-btn-remove" onclick="removePayslipItem(this)" title="Remove Item">&times;</button>
+        <div class="item-header">
+            <span class="item-number">Earning ${displayIndex}</span>
+            <button type="button" class="btn-remove" aria-label="Remove item" title="Remove item">&times;</button>
         </div>
-        <div class="ps-item-fields">
-            <div class="ps-input-group">
+        <div class="item-fields">
+            <div class="field">
                 <label>Description</label>
-                <input type="text" class="ps-input-field earning-desc" placeholder="e.g. Bonus, Allowance">
+                <input type="text" class="input earning-desc" placeholder="e.g. Bonus, Allowance">
             </div>
-            <div class="ps-input-group">
+            <div class="field">
                 <label>Amount (₹)</label>
-                <input type="number" class="ps-input-field earning-amount" placeholder="0">
+                <input type="number" class="input earning-amount" placeholder="0">
             </div>
         </div>
     `;
@@ -76,24 +86,24 @@ function addEarningItem() {
 function addDeductionItem() {
     const container = document.getElementById('deductionsContainer');
     const newItem = document.createElement('div');
-    newItem.className = 'ps-item-row deduction-item';
+    newItem.className = 'item-row deduction-item';
 
     const displayIndex = deductionCounter + 1;
     newItem.dataset.itemIndex = deductionCounter;
 
     newItem.innerHTML = `
-        <div class="ps-item-header">
-            <span class="ps-item-number">Deduction ${displayIndex}</span>
-            <button type="button" class="ps-btn-remove" onclick="removePayslipItem(this)" title="Remove Item">&times;</button>
+        <div class="item-header">
+            <span class="item-number">Deduction ${displayIndex}</span>
+            <button type="button" class="btn-remove" aria-label="Remove item" title="Remove item">&times;</button>
         </div>
-        <div class="ps-item-fields">
-            <div class="ps-input-group">
+        <div class="item-fields">
+            <div class="field">
                 <label>Description</label>
-                <input type="text" class="ps-input-field deduction-desc" placeholder="e.g. TDS, PF">
+                <input type="text" class="input deduction-desc" placeholder="e.g. TDS, PF">
             </div>
-            <div class="ps-input-group">
+            <div class="field">
                 <label>Amount (₹)</label>
-                <input type="number" class="ps-input-field deduction-amount" placeholder="0">
+                <input type="number" class="input deduction-amount" placeholder="0">
             </div>
         </div>
     `;
@@ -104,7 +114,7 @@ function addDeductionItem() {
 
 // Remove Item
 function removePayslipItem(button) {
-    const itemRow = button.closest('.ps-item-row');
+    const itemRow = button.closest('.item-row');
     const isEarning = itemRow.classList.contains('earning-item');
     itemRow.remove();
     renumberItems(isEarning ? 'earning' : 'deduction');
@@ -121,7 +131,7 @@ function renumberItems(type) {
     items.forEach((item, index) => {
         const label = type === 'earning' ? 'Earning' : 'Deduction';
         const displayNum = index + 1 + offset;
-        item.querySelector('.ps-item-number').textContent = `${label} ${displayNum}`;
+        item.querySelector('.item-number').textContent = `${label} ${displayNum}`;
         item.dataset.itemIndex = index + offset;
     });
 

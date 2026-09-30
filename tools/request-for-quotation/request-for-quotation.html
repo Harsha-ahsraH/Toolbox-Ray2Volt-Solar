@@ -23,7 +23,6 @@
     <link rel="stylesheet" href="../../global/styles/navigation.css?v=20260930-no-interface-logos">
     <link rel="stylesheet" href="../../global/styles/components.css">
     <link rel="stylesheet" href="../../global/styles/responsive.css?v=20260930-sidebar-resize">
-    <link rel="stylesheet" href="../../global/styles/tool-responsive.css">
     <link rel="stylesheet" href="request-for-quotation.css?v=20260930-restore-typography">
     <!-- Theme: stamps light or dark on <html> before the first paint -->
     <script src="../../global/scripts/theme.js"></script>
@@ -36,16 +35,16 @@
 
                 <div class="no-print-area">
                     <!-- Page Header -->
-                    <div class="rfq-page-header">
+                    <div class="tool-header">
                         <h1>Request for Quotation Generator</h1>
                         <p>Generate professional Request for Quotations from Markdown text.</p>
                     </div>
 
                     <!-- Form Grid -->
-                    <div class="rfq-form-grid">
+                    <div class="form-grid">
                         <!-- Vendor Details Card -->
-                        <div class="rfq-form-card">
-                            <h3 class="rfq-section-title">
+                        <div class="card">
+                            <h3 class="card-title">
                                 <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                                     stroke="currentColor" stroke-width="2">
                                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
@@ -53,33 +52,33 @@
                                 </svg>
                                 Vendor Details
                             </h3>
-                            <div class="rfq-input-group">
+                            <div class="field">
                                 <label for="rfqVendorName">Vendor Name</label>
-                                <input type="text" id="rfqVendorName" class="rfq-input-field" placeholder="Enter vendor name">
+                                <input type="text" id="rfqVendorName" class="input" placeholder="Enter vendor name">
                             </div>
-                            <div class="rfq-input-group">
+                            <div class="field">
                                 <label for="rfqVendorAddress">Address (Optional)</label>
-                                <textarea id="rfqVendorAddress" class="rfq-input-field" rows="2"
+                                <textarea id="rfqVendorAddress" class="input" rows="2"
                                     placeholder="Enter vendor address"></textarea>
                             </div>
-                            <div class="rfq-input-group">
+                            <div class="field">
                                 <label for="rfqVendorPhone">Phone Number (Optional)</label>
-                                <input type="text" id="rfqVendorPhone" class="rfq-input-field" placeholder="Enter phone number">
+                                <input type="text" id="rfqVendorPhone" class="input" placeholder="Enter phone number">
                             </div>
-                            <div class="rfq-input-group">
+                            <div class="field">
                                 <label for="rfqVendorEmail">Email (Optional)</label>
-                                <input type="email" id="rfqVendorEmail" class="rfq-input-field"
+                                <input type="email" id="rfqVendorEmail" class="input"
                                     placeholder="Enter email address">
                             </div>
-                            <div class="rfq-input-group">
+                            <div class="field">
                                 <label for="rfqVendorGstin">Vendor GSTIN (Optional)</label>
-                                <input type="text" id="rfqVendorGstin" class="rfq-input-field" placeholder="Enter vendor GSTIN">
+                                <input type="text" id="rfqVendorGstin" class="input" placeholder="Enter vendor GSTIN">
                             </div>
                         </div>
 
                         <!-- RFQ Settings Card -->
-                        <div class="rfq-form-card">
-                            <h3 class="rfq-section-title">
+                        <div class="card">
+                            <h3 class="card-title">
                                 <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                                     stroke="currentColor" stroke-width="2">
                                     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
@@ -89,25 +88,25 @@
                                 </svg>
                                 RFQ Settings
                             </h3>
-                            <div class="rfq-input-group">
+                            <div class="field">
                                 <label for="rfqHeading">Document Heading</label>
-                                <input type="text" id="rfqHeading" class="rfq-input-field" value="REQUEST FOR QUOTATION" placeholder="e.g. REQUEST FOR QUOTATION">
+                                <input type="text" id="rfqHeading" class="input" value="REQUEST FOR QUOTATION" placeholder="e.g. REQUEST FOR QUOTATION">
                             </div>
-                            <div class="rfq-input-group">
+                            <div class="field">
                                 <label for="rfqDate">RFQ Date</label>
-                                <input type="date" id="rfqDate" class="rfq-input-field">
+                                <input type="date" id="rfqDate" class="input">
                             </div>
-                            <div class="rfq-input-group">
+                            <div class="field">
                                 <label for="rfqNumber">RFQ Number</label>
-                                <input type="text" id="rfqNumber" class="rfq-input-field"
+                                <input type="text" id="rfqNumber" class="input"
                                     placeholder="e.g. R2VRFQ0125-0001">
                             </div>
                         </div>
                     </div>
 
                     <!-- Markdown Text Area Card -->
-                    <div class="rfq-form-card rfq-tc-card">
-                        <h3 class="rfq-section-title">
+                    <div class="card">
+                        <h3 class="card-title">
                             <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                                 stroke="currentColor" stroke-width="2">
                                 <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
@@ -117,18 +116,18 @@
                             </svg>
                             Request Body (Markdown)
                         </h3>
-                        <div class="rfq-input-group">
+                        <div class="field">
                             <label for="rfqBody">Enter request content in Markdown format</label>
-                            <textarea id="rfqBody" class="rfq-input-field rfq-markdown-editor" rows="15"
+                            <textarea id="rfqBody" class="input rfq-markdown-editor" rows="15"
                                 placeholder="### Scope of Supply&#10;Please provide a quotation for the following items:&#10;&#10;1. **Solar Panels:** 10 x 550Wp Monocrystalline&#10;2. **Inverter:** 1 x 5kW Hybrid Inverter&#10;&#10;*Note: Ensure delivery within 10 working days.*"></textarea>
-                            <span class="rfq-input-hint">Use standard Markdown syntax (# for headers, * for lists, ** for bold, etc.). We use marked.js to compile it.</span>
+                            <span class="field-hint">Use standard Markdown syntax (# for headers, * for lists, ** for bold, etc.). We use marked.js to compile it.</span>
                         </div>
                     </div>
 
                     <!-- Action Buttons -->
-                    <div class="rfq-actions">
-                        <button id="rfqGenerateBtn" class="rfq-btn-primary">Generate RFQ Preview</button>
-                        <button id="rfqPrintBtn" class="rfq-btn-secondary">Print / Save as PDF</button>
+                    <div class="actions">
+                        <button id="rfqGenerateBtn" class="btn btn-primary">Generate RFQ Preview</button>
+                        <button id="rfqPrintBtn" class="btn btn-secondary">Print / Save as PDF</button>
                     </div>
                 </div>
 

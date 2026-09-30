@@ -33,10 +33,9 @@ function mediaBlock(query) {
 // The preview is a stack of real A4 sheets, never one indefinitely tall box.
 assert.match(html, /<template id="rfqPageTemplate">/);
 assert.match(html, /class="rfq-page"/);
-assert.ok(
-    html.indexOf('tool-responsive.css') < html.indexOf('request-for-quotation.css'),
-    'RFQ page styles must load after the shared responsive stylesheet.'
-);
+// The sheets are zoomed to fit a narrow screen, never reflowed, so the
+// preview paginates exactly as the PDF does.
+assert.doesNotMatch(html, /tool-responsive\.css/, 'no shared stylesheet may reflow the RFQ sheets');
 
 const pageRule = cssRule('.rfq-page');
 assert.match(pageRule, /width:\s*210mm/);
