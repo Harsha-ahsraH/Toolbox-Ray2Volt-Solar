@@ -74,8 +74,6 @@ function openReportModal() {
             reportBreakeven.appendChild(breakevenSummaryOriginal.cloneNode(true));
         }
     }
-
-    window.Ray2VoltPdfTracking?.capture(modal);
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
 }

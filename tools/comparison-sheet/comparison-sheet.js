@@ -309,12 +309,6 @@
 
         sheet.classList.add('visible');
         previewed = true;
-        window.Ray2VoltPdfTracking?.capture(sheet, {
-            BatteryKwh: result.batteryKwh,
-            ComparedPackages: result.options.map((option, index) => ({
-                label: content.OPTION_LABELS[index], amountExGst: option.capitalCost
-            }))
-        });
         updatePreviewScale();
 
         const order = collectProblems(result);

@@ -389,10 +389,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // ============================
         if (quotePreview) {
             quotePreview.classList.add('visible');
-            window.Ray2VoltPdfTracking?.capture(quotePreview, {
-                CapacityKwp: capacity, InstallationType: installType, QuotedAmount: grandTotal,
-                DocumentNumber: quoteNumber, DocumentDate: formattedDate, SubsidyEligible: subsidyEligible
-            });
             updatePreviewScale();
             quotePreview.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }

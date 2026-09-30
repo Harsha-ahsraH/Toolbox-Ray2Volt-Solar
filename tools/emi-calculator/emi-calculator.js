@@ -365,7 +365,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 !Number.isSafeInteger(N) || N <= 0 || !Number.isFinite(annualRate) || annualRate < 0 ||
                 !Number.isFinite(totalPayment) || totalPayment < P) {
                 reportContainer.innerHTML = '<div class="emi-report-page"><p style="padding: 2rem; color: #555;">Please enter valid loan parameters to generate the report.</p></div>';
-                window.Ray2VoltPdfTracking?.invalidate('emiReportContainer');
                 return;
             }
 
@@ -451,11 +450,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     </footer>
                 </section>`;
             }).join('');
-            window.Ray2VoltPdfTracking?.capture(reportContainer, {
-                Principal: P, AnnualInterestPercent: annualRate, TenureMonths: N,
-                InterestMethod: emiMethod, CalculationMode: calcMode,
-                MonthlyEmi: emi, TotalInterest: totalInterest
-            });
         }
 
         // Refresh for browser printing as well as the tool's print buttons.

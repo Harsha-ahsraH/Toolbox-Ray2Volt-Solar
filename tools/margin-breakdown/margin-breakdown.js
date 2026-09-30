@@ -338,11 +338,6 @@ document.addEventListener('DOMContentLoaded', () => {
         paginate.flow(render.documentBlocks(data), makePageFactory(data));
         updatePageNumbers();
         updatePreviewScale();
-
-        window.Ray2VoltPdfTracking?.capture(preview, {
-            ProjectId: data.projectId, CapacityKwp: data.capacity, ProjectType: data.projectType,
-            ConsultantId: data.consultantId, ReportDate: data.dateFormatted
-        });
         if (scroll) preview.scrollIntoView({ behavior: 'smooth', block: 'start' });
         return true;
     }

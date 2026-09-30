@@ -181,13 +181,6 @@
         buildFullPreview(state);
         applyExportGate(validation);
         stale = false;
-        root.Ray2VoltPdfTracking?.capture(container, {
-            ReportMode: 'comprehensive', DocumentNumber: state.project.quoteNumber,
-            DocumentDate: state.project.quoteDate, CapacityKwp: state.project.dcCapacityKwp,
-            InstallationType: state.project.installationLocation,
-            SystemConfiguration: state.project.systemConfiguration,
-            QuotedAmount: derived.commercial.finalPrice, ProposalRevision: state.project.revision
-        }, true);
     }
 
     function ensureFresh() {

@@ -141,8 +141,6 @@ for (const tool of toolDirs) {
 // Print / Save as PDF; the html2canvas/jsPDF capture route is gone, and with it
 // the shared helper that loaded those two libraries from a CDN. Letterheadify is
 // exempt — its output *is* a file it hands back, so it has no preview to print.
-// The approved metadata workflow may post-process a user-selected PDF; it must
-// not bring back the removed screenshot-based document renderer.
 for (const tool of toolDirs) {
     if (tool === 'letterheadify') continue;
 

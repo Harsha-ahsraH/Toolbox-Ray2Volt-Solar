@@ -1,11 +1,11 @@
 # PDF metadata proposal
 
-Status: Approved on 2026-09-29; implemented for the original static toolbox on main.
+Status: Deferred on 2026-09-30 at the user's request. The implementation was removed from all tools; the proposal below is retained as historical reference.
 Date: 2026-09-29
 
-## Approved implementation
+## Previous implementation (removed)
 
-The user approved the fields, details panel and optional footer, then explicitly chose the static workflow: save through the browser, select that PDF, embed metadata locally and download the tracked copy. Letterheadify stamps automatically. See `pdf-metadata.md` for the implemented behavior and limitations. The proposal below is the design baseline; these implementation notes supersede its earlier database and generation assumptions.
+The user previously approved the fields, details panel and optional footer, then chose the static workflow: save through the browser, select that PDF, embed metadata locally and download the tracked copy. Letterheadify stamped automatically. These historical notes describe the removed implementation; see `pdf-metadata.md` for its current status.
 
 - The static branch has account IDs, not authenticated individual employee IDs. Metadata uses GeneratedByAccountId and IdentitySource without claiming verified authorship.
 - References not already in a tool can be entered in Optional record links; unknown links are omitted.

@@ -2,6 +2,10 @@
 
 Date: 2026-09-28
 
+## Current status - 2026-09-30
+
+The user requested removal of all embedded metadata features and will implement them later. The implementation described below has been removed. See `remove-pdf-metadata.md` for the removal decisions and validation.
+
 ## Goal
 Implement approved PDF tracking metadata across the original static toolbox, then commit and push to main. The user explicitly excluded the unfinished Next.js migration.
 

@@ -30,8 +30,7 @@ assert.doesNotMatch(css, /lhd-page-content|lhd-markdown-body|@page/);
 
 assert.match(js, /Letterhead \(Latest\) Ray2Volt Solar PNG\.png/);
 assert.match(js, /PDFDocument\.load\(pdfBytes, \{ updateMetadata: false \}\)/);
-assert.match(js, /Ray2VoltPdfTracking\.assertEditable\(pdfDoc\)/);
-assert.match(js, /Ray2VoltPdfTracking\.letterhead\(pdfDoc, new Uint8Array\(pdfBytes\)\)/);
+assert.match(js, /const outputBytes = await pdfDoc\.save\(\)/);
 assert.match(js, /embedPng\(letterheadBytes\)/);
 assert.match(js, /page\.drawImage\(letterhead/);
 assert.match(js, /blendMode:\s*BlendMode\.Multiply/);
