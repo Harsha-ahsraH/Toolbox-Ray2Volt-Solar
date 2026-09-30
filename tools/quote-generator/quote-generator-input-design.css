@@ -6,7 +6,7 @@
 .qg-editor-step { display: grid; grid-template-columns: 24px 1fr 6px; gap: 8px; align-items: center; width: 100%; min-height: 46px; padding: 10px 12px; margin-bottom: 4px; border: 1px solid transparent; border-radius: var(--radius-sm); font: inherit; font-size: 0.85rem; color: var(--text-secondary); background: transparent; text-align: left; cursor: pointer; }
 .qg-editor-step:hover { background: var(--bg-hover); }
 .qg-editor-step[aria-current="step"] { color: var(--text-primary); background: var(--primary-light); border-color: var(--primary); font-weight: 600; }
-.qg-editor-step-number { color: var(--text-muted); font-size: 0.72rem; font-variant-numeric: tabular-nums; }
+.qg-editor-step-number { color: var(--text-secondary); font-size: 0.72rem; font-variant-numeric: tabular-nums; }
 .qg-editor-step-status { width: 5px; height: 5px; border-radius: 50%; background: var(--success-text); }
 .qg-editor-step[data-state="error"] .qg-editor-step-status { background: var(--danger-text); }
 .qg-editor-step[data-state="incomplete"] .qg-editor-step-status { background: var(--warning-text); }
@@ -47,7 +47,6 @@
 .qg-editor-main .qg-repeater-row { align-items: start; }
 .qg-editor-main .qg-bom-rows .qg-row-field:has([data-field="remarks"]) { grid-column: 1 / -1 !important; }
 .qg-editor-main button:disabled { opacity: 0.45; cursor: default; }
-#qgComprehensiveWorkspace .btn-primary { color: #102a33; }
 .qg-editor-main .qg-derived-line:empty { display: none; }
 .qg-editor-main .qg-field-hint { margin: 6px 0 0; font-size: 0.76rem; line-height: 1.5; color: var(--text-muted); }
 .qg-editor-main .qg-clause-row textarea { min-height: 72px; max-height: 320px; field-sizing: content; }

@@ -61,8 +61,9 @@
     --text-secondary: #4B5563;
     --text-muted: #6B7280;
 
-    /* Text that sits on a --primary fill, never on the page */
-    --on-primary: #FFFFFF;
+    /* Text that sits on a --primary fill, never on the page. Dark ink, as in
+       the dark theme: white on this cyan is 2.4:1, too faint to read. */
+    --on-primary: #06222A;
 
     /* Border Colors - Stronger for brutalist */
     --border-light: #D1D5DB;
@@ -232,7 +233,7 @@
         --text-primary: #111827;
         --text-secondary: #4B5563;
         --text-muted: #6B7280;
-        --on-primary: #FFFFFF;
+        --on-primary: #06222A;
 
         --border-light: #D1D5DB;
         --border-medium: #9CA3AF;
