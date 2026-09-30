@@ -257,16 +257,14 @@ assert.doesNotMatch(
     'no tool-level page width on .content-section'
 );
 
-// Sections that stack on mobile space themselves off the shared token.
-for (const selector of ['.cs-form-grid', '.cs-form-card', '.cs-spec-card']) {
-    const rule = toolCss.match(new RegExp(`\\${selector}\\s*\\{([^}]*)\\}`));
-    assert.ok(rule, `missing CSS rule for ${selector}`);
-    assert.match(
-        rule[1],
-        /margin-bottom:\s*var\(--section-gap, 1\.5rem\)/,
-        `${selector} should space itself off --section-gap`
-    );
+// The form is built from the shared components, which space themselves off
+// --section-gap; the tool keeps no copy of the form furniture.
+for (const cls of ['form-grid', 'card', 'card-header', 'table-wrap', 'edit-table', 'choice-group', 'actions']) {
+    assert.match(html, new RegExp(`class="${cls}[" ]`), `the form should use the shared .${cls}`);
 }
+assert.doesNotMatch(html, /tool-responsive\.css/);
+assert.doesNotMatch(toolCss, /\.cs-(form-grid|form-card|spec-card|input-field|btn-|actions|mode-)/,
+    'form furniture belongs to components.css');
 
 // The edited-cell marker is what makes the permanent freeze visible.
 assert.match(toolCss, /input\.cs-cell-edited/, 'edited cells are marked');
@@ -294,8 +292,9 @@ assert.match(headRule[1], /background-color:\s*var\(--cs-tint\)/, 'the document 
 assert.match(headRule[1], /color:\s*var\(--cs-navy\)/, 'with navy text, not white');
 assert.match(headRule[1], /padding:\s*8px/, 'the header sets its own padding, not the body fit budget');
 
-const formHeadRule = formCss.match(/\.cs-spec-input-table th\s*\{([^}]*)\}/);
-assert.ok(formHeadRule, 'the form header rule should exist');
+const componentsCss = fs.readFileSync(path.join(__dirname, '..', 'global', 'styles', 'components.css'), 'utf8');
+const formHeadRule = componentsCss.match(/\.edit-table th\s*\{([^}]*)\}/);
+assert.ok(formHeadRule, 'the shared edit-table header rule should exist');
 
 for (const dark of ['#1F4E79', '#17395A', 'var(--cs-navy)', 'var(--cs-navy-dark)']) {
     assert.ok(
@@ -309,7 +308,7 @@ assert.ok(
 );
 // Nor a dark fill anywhere else in that table.
 assert.ok(
-    !/\.cs-spec-input-table[^{]*\{[^}]*background[^;]*(#1F4E79|#17395A)/i.test(formCss),
+    !/\.(cs-spec-table|edit-table)[^{]*\{[^}]*background[^;]*(#1F4E79|#17395A)/i.test(formCss + componentsCss),
     'no dark fill anywhere in the form specification table'
 );
 

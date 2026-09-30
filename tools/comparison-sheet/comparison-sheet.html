@@ -21,7 +21,6 @@
     <link rel="stylesheet" href="../../global/styles/navigation.css?v=20260930-no-interface-logos">
     <link rel="stylesheet" href="../../global/styles/components.css">
     <link rel="stylesheet" href="../../global/styles/responsive.css?v=20260930-sidebar-resize">
-    <link rel="stylesheet" href="../../global/styles/tool-responsive.css">
     <link rel="stylesheet" href="comparison-sheet.css?v=20260930-restore-typography">
     <!-- Theme: stamps light or dark on <html> before the first paint -->
     <script src="../../global/scripts/theme.js"></script>
@@ -34,15 +33,15 @@
 
                 <div class="no-print-area">
                     <!-- Page Header -->
-                    <div class="cs-page-header">
+                    <div class="tool-header">
                         <h1>Comparison Sheet</h1>
                         <p>Compare three build standards for the same plant at three price points, on two A4 pages.</p>
                     </div>
 
                     <!-- Plant & Prices -->
-                    <div class="cs-form-grid">
-                        <div class="cs-form-card">
-                            <h3 class="cs-section-title">
+                    <div class="form-grid">
+                        <div class="card">
+                            <h3 class="card-title">
                                 <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                                     stroke="currentColor" stroke-width="2">
                                     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
@@ -50,29 +49,29 @@
                                 </svg>
                                 Plant
                             </h3>
-                            <div class="cs-input-group">
+                            <div class="field">
                                 <label for="csCapacity">Plant capacity (kWp)</label>
-                                <input type="number" id="csCapacity" class="cs-input-field" min="0" step="0.01"
+                                <input type="number" id="csCapacity" class="input" min="0" step="0.01"
                                     value="75" placeholder="e.g. 75">
                             </div>
-                            <div class="cs-input-group">
+                            <div class="field">
                                 <label for="csSystemType">Type</label>
-                                <select id="csSystemType" class="cs-input-field">
+                                <select id="csSystemType" class="input">
                                     <option value="on-grid" selected>On-Grid</option>
                                     <option value="hybrid">Hybrid</option>
                                 </select>
                             </div>
-                            <div class="cs-input-group" id="csBatteryGroup" hidden>
+                            <div class="field" id="csBatteryGroup" hidden>
                                 <label for="csBattery">Battery capacity (kWh)</label>
-                                <input type="number" id="csBattery" class="cs-input-field" min="0" step="0.1"
+                                <input type="number" id="csBattery" class="input" min="0" step="0.1"
                                     placeholder="e.g. 100">
-                                <p class="cs-input-hint">Drives the battery replacement line in the 30-year cost of
+                                <p class="field-hint">Drives the battery replacement line in the 30-year cost of
                                     ownership.</p>
                             </div>
                         </div>
 
-                        <div class="cs-form-card">
-                            <h3 class="cs-section-title">
+                        <div class="card">
+                            <h3 class="card-title">
                                 <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                                     stroke="currentColor" stroke-width="2">
                                     <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
@@ -80,18 +79,18 @@
                                 </svg>
                                 Prices, ex-GST
                             </h3>
-                            <div class="cs-mode-toggle">
-                                <label class="cs-mode-option">
+                            <div class="choice-group">
+                                <label class="choice">
                                     <input type="radio" name="csPriceMode" value="rate" checked> ₹ per Wp
                                 </label>
-                                <label class="cs-mode-option">
+                                <label class="choice">
                                     <input type="radio" name="csPriceMode" value="total"> Total price
                                 </label>
                             </div>
                             <div class="cs-price-row">
                                 <label for="csPrice1">Option 1 — Basic build</label>
                                 <div class="cs-price-field">
-                                    <input type="number" id="csPrice1" class="cs-input-field" min="0" step="0.01"
+                                    <input type="number" id="csPrice1" class="input" min="0" step="0.01"
                                         placeholder="e.g. 34.00">
                                     <span class="cs-price-unit">₹ / Wp</span>
                                 </div>
@@ -100,7 +99,7 @@
                             <div class="cs-price-row">
                                 <label for="csPrice2">Option 2 — Standard build</label>
                                 <div class="cs-price-field">
-                                    <input type="number" id="csPrice2" class="cs-input-field" min="0" step="0.01"
+                                    <input type="number" id="csPrice2" class="input" min="0" step="0.01"
                                         placeholder="e.g. 37.50">
                                     <span class="cs-price-unit">₹ / Wp</span>
                                 </div>
@@ -109,7 +108,7 @@
                             <div class="cs-price-row">
                                 <label for="csPrice3">Option 3 — Ray2Volt Choice</label>
                                 <div class="cs-price-field">
-                                    <input type="number" id="csPrice3" class="cs-input-field" min="0" step="0.01"
+                                    <input type="number" id="csPrice3" class="input" min="0" step="0.01"
                                         placeholder="e.g. 40.00">
                                     <span class="cs-price-unit">₹ / Wp</span>
                                 </div>
@@ -119,17 +118,17 @@
                     </div>
 
                     <!-- Specification Table -->
-                    <div class="cs-spec-card">
-                        <div class="cs-spec-header">
+                    <div class="card">
+                        <div class="card-header">
                             <div>
                                 <h3>What the price difference buys</h3>
                                 <p>Edit any cell. Highlighted cells are your own wording and are never recalculated.</p>
                             </div>
-                            <span class="cs-row-count" id="csSpecRowCount"></span>
+                            <span class="card-count" id="csSpecRowCount"></span>
                         </div>
 
-                        <div class="cs-spec-table-container">
-                            <table class="cs-spec-input-table" id="csSpecTable">
+                        <div class="table-wrap">
+                            <table class="edit-table cs-spec-table" id="csSpecTable">
                                 <thead>
                                     <tr>
                                         <th style="width: 20%;">Specification</th>
@@ -146,16 +145,16 @@
                         </div>
 
                         <div class="cs-spec-actions">
-                            <button type="button" class="cs-btn-secondary" id="csResetRowsBtn">Reset to template</button>
+                            <button type="button" class="btn btn-secondary btn-sm" id="csResetRowsBtn">Reset to template</button>
                         </div>
                     </div>
 
-                    <div class="cs-validation" id="csValidation" hidden></div>
+                    <div class="alert" id="csValidation" hidden></div>
 
                     <!-- Action Buttons -->
-                    <div class="cs-actions">
-                        <button type="button" id="csPreviewBtn" class="cs-btn-primary">Generate Preview</button>
-                        <button type="button" id="csPrintBtn" class="cs-btn-secondary">Print / Save as PDF</button>
+                    <div class="actions">
+                        <button type="button" id="csPreviewBtn" class="btn btn-primary">Generate Preview</button>
+                        <button type="button" id="csPrintBtn" class="btn btn-secondary">Print / Save as PDF</button>
                     </div>
                 </div>
 

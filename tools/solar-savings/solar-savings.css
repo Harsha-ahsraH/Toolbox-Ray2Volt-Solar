@@ -11,10 +11,6 @@
     margin-bottom: var(--section-gap);
 }
 
-.ssc-alert {
-    margin-bottom: var(--section-gap);
-}
-
 /* --- Before the first calculation --- */
 .ssc-initial-message {
     max-width: 560px;

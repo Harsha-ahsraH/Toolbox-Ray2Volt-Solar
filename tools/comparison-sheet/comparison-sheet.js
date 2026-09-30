@@ -153,10 +153,10 @@
             });
 
             const actionCell = document.createElement('td');
-            actionCell.className = 'cs-cell-action';
+            actionCell.className = 'cell-action';
             const remove = document.createElement('button');
             remove.type = 'button';
-            remove.className = 'cs-row-remove';
+            remove.className = 'btn-remove';
             remove.setAttribute('aria-label', `Remove the ${row.label || 'unnamed'} row`);
             remove.textContent = '×';
             remove.addEventListener('click', () => {
@@ -252,12 +252,13 @@
         }
 
         const block = blocking.length
-            ? `<ul class="cs-validation-blocking">${blocking.map(item => `<li>${item}</li>`).join('')}</ul>`
+            ? `<ul class="alert-list">${blocking.map(item => `<li>${item}</li>`).join('')}</ul>`
             : '';
         const warn = warnings.length
-            ? `<ul class="cs-validation-warning">${warnings.map(item => `<li>${item}</li>`).join('')}</ul>`
+            ? `<ul class="alert-list alert-list-warning">${warnings.map(item => `<li>${item}</li>`).join('')}</ul>`
             : '';
 
+        validationPanel.className = blocking.length ? 'alert alert-danger' : 'alert alert-warning';
         validationPanel.hidden = false;
         validationPanel.innerHTML = block + warn;
     }

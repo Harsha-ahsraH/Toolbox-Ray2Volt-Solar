@@ -665,3 +665,188 @@ body.sidebar-resizing {
 }
 
 /* --- Main Content Area --- */
+
+/* --- Dashboard --- */
+.tool-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--spacing-lg);
+    min-width: 0;
+}
+
+.tool-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    box-shadow: var(--lift);
+    transition: border-color var(--transition-base), box-shadow var(--transition-base), transform var(--transition-base);
+}
+
+.tool-card h3 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.1rem;
+    margin-bottom: var(--spacing-xs);
+    color: var(--text-primary);
+}
+
+.tool-card h3::before {
+    width: 22px;
+    height: 22px;
+    flex: 0 0 22px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-text);
+    font-size: 22px;
+    transition: font-variation-settings var(--transition-base);
+}
+
+.tool-card p {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+.tool-card:hover {
+    border-color: var(--primary);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.tool-card:hover h3::before {
+    font-variation-settings: 'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 24;
+}
+
+.tool-card:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+.tool-grid-empty {
+    padding: var(--spacing-xl) 0;
+    color: var(--text-muted);
+    text-align: center;
+}
+
+/* --- Sign-in gate (global/scripts/auth.js) --- */
+.toolbox-auth-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-md);
+    background: var(--bg-body);
+}
+
+.toolbox-auth-card {
+    width: 100%;
+    max-width: 380px;
+    padding: 2.25rem 2rem 2rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    text-align: center;
+    animation: toolboxAuthIn 0.25s ease-out;
+}
+
+@keyframes toolboxAuthIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: none; }
+}
+
+.toolbox-auth-icon {
+    width: 52px;
+    height: 52px;
+    margin: 0 auto 1rem;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--primary-light);
+    color: var(--primary-text);
+}
+
+.toolbox-auth-icon .material-symbols-rounded {
+    font-size: 26px;
+}
+
+.toolbox-auth-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+.toolbox-auth-subtitle {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+}
+
+.toolbox-auth-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    font-family: inherit;
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-sm);
+    background: var(--bg-card);
+    color: var(--text-primary);
+}
+
+.toolbox-auth-input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+.toolbox-auth-input.shake {
+    animation: toolboxAuthShake 0.4s ease;
+    border-color: var(--danger-text);
+}
+
+@keyframes toolboxAuthShake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-8px); }
+    40%, 80% { transform: translateX(8px); }
+}
+
+.toolbox-auth-error {
+    min-height: 1.5em;
+    margin: 0.5rem 0 1rem;
+    font-size: 0.8rem;
+    color: var(--danger-text);
+    visibility: hidden;
+}
+
+.toolbox-auth-error.visible {
+    visibility: visible;
+}
+
+.toolbox-auth-card .btn + .toolbox-auth-link {
+    margin-top: 0.875rem;
+}
+
+.toolbox-auth-link {
+    display: inline-block;
+    padding: 0.25rem;
+    font-size: 0.85rem;
+    font-family: inherit;
+    color: var(--primary-text);
+    background: none;
+    border: 0;
+    cursor: pointer;
+}
+
+.toolbox-auth-link:hover {
+    text-decoration: underline;
+}
+
+body.toolbox-locked > *:not(.toolbox-auth-overlay):not(script):not(style):not(link) {
+    display: none !important;
+}
