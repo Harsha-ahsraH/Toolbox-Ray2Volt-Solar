@@ -1,56 +1,20 @@
 /* ============================================
-   LETTERHEAD DOCUMENTS - PDF letterhead stamper
+   Letterheadify - PDF letterhead stamper
+   The header, card and button come from global/styles/components.css.
+   This file adds the drop zone and the status line.
    ============================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400;500;600;700&family=Open+Sans:wght@400;500;600;700&display=swap');
-
-
-.lhd-page-header {
-    margin-bottom: 1.5rem;
-}
-
-.lhd-page-header h1 {
-    font-size: 1.75rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin-bottom: 0.25rem;
-}
-
-.lhd-page-header p {
-    font-size: 0.95rem;
-    color: var(--text-secondary);
-    line-height: 1.45;
-}
-
 /* The tool is one upload control, so it does not spend the full content
-   column on a single dashed box — at 1920px that left a 1050px drop zone with
+   column on a single dashed box - at 1920px that left a 1050px drop zone with
    its content centred in the middle of it. It keeps a comfortable width and
    sits in the middle of the column instead. */
-.lhd-upload-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border-medium);
-    border-radius: 2px;
-    padding: 1.5rem;
+.lhd-upload {
     max-width: 720px;
     margin-inline: auto;
 }
 
-.lhd-section-title {
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    margin-bottom: 1.25rem;
-    padding-bottom: 0.75rem;
-    border-bottom: 1px solid var(--border-light);
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.lhd-section-title .icon {
-    width: 20px;
-    height: 20px;
-    color: var(--primary);
+.lhd-upload .actions {
+    margin: 1.25rem 0 0;
 }
 
 .lhd-file-drop {
@@ -120,36 +84,6 @@
     overflow-wrap: anywhere;
 }
 
-.lhd-actions {
-    display: flex;
-    justify-content: center;
-    margin-top: 1.25rem;
-}
-
-.lhd-btn-primary {
-    width: 100%;
-    padding: 0.875rem 2rem;
-    font-size: 1rem;
-    font-weight: 600;
-    font-family: 'Google Sans Flex', 'Open Sans', 'Google Sans', sans-serif;
-    border: 1px solid var(--primary);
-    border-radius: 2px;
-    background: var(--primary);
-    color: var(--on-primary);
-    cursor: pointer;
-    transition: background 0.1s ease, border-color 0.1s ease, opacity 0.1s ease;
-}
-
-.lhd-btn-primary:hover:not(:disabled) {
-    background: var(--primary-dark);
-    border-color: var(--primary-dark);
-}
-
-.lhd-btn-primary:disabled {
-    cursor: not-allowed;
-    opacity: 0.55;
-}
-
 .lhd-status {
     margin-top: 1rem;
     padding: 0.8rem 1rem;
@@ -180,30 +114,7 @@
     color: var(--info-text);
 }
 
-@media screen and (min-width: 600px) {
-    .lhd-btn-primary {
-        width: auto;
-    }
-}
-
 @media screen and (max-width: 768px) {
-    .lhd-page-header {
-        margin-bottom: 1rem;
-    }
-
-    .lhd-page-header h1 {
-        font-size: 1.4rem;
-        line-height: 1.2;
-    }
-
-    .lhd-page-header p {
-        font-size: 0.9rem;
-    }
-
-    .lhd-upload-card {
-        padding: 1rem;
-    }
-
     .lhd-file-drop {
         min-height: 190px;
         padding: 1.5rem 1rem;
