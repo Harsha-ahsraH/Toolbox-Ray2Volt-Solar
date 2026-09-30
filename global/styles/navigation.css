@@ -14,19 +14,17 @@
     background: var(--bg-card);
     border-bottom: 1px solid var(--border-light);
     padding: 0 var(--spacing-md);
+    padding-left: 23px;
     align-items: center;
     justify-content: space-between;
     z-index: 100;
     box-shadow: var(--shadow-sm);
 }
 
-/* Small on purpose: the header is 60px tall and the logo is a 6.7:1 wordmark,
-   so anything larger dominates the screen on a phone. */
-.mobile-logo {
-    height: 22px;
-    width: auto;
-    max-width: 50%;
-    object-fit: contain;
+/* Reuse the sidebar title's Google Sans Flex styling in the mobile toolbar. */
+.mobile-brand {
+    min-width: 0;
+    white-space: nowrap;
 }
 
 .mobile-header-actions {

@@ -125,20 +125,23 @@ assert.ok(
     'clicking the collapsed search should expand the sidebar first'
 );
 
-/* --- Mobile logo sizing --- */
+/* --- No company logos in the toolbox interface --- */
 
-const logoHeight = (selector) => {
-    const rule = navigationCss.match(new RegExp(`${selector}\\s*{[^}]*}`));
-    assert.ok(rule, `${selector} should be styled`);
-    const height = rule[0].match(/height:\s*(\d+)px/);
-    assert.ok(height, `${selector} should set an explicit height`);
-    return Number(height[1]);
-};
+const shellPages = ['index.html', ...fs.readdirSync(path.join(repoRoot, 'tools'), { withFileTypes: true })
+    .filter(entry => entry.isDirectory())
+    .map(entry => `tools/${entry.name}/${entry.name}.html`)
+    .filter(file => fs.existsSync(path.join(repoRoot, file)))];
 
-assert.ok(
-    logoHeight('\\.mobile-logo') <= 24,
-    'the fixed mobile header logo should stay small next to the page content'
-);
+for (const file of shellPages) {
+    const html = readRepoFile(file);
+    const header = html.match(/<header class="mobile-header">[\s\S]*?<\/header>/)?.[0];
+    const sidebar = html.match(/<aside class="sidebar">[\s\S]*?<\/aside>/)?.[0];
+    assert.ok(header && sidebar, `${file} should have the shared mobile header and sidebar`);
+    assert.match(header, /<span class="sidebar-brand mobile-brand">Toolbox<\/span>/,
+        `${file} mobile header should show the Toolbox text title`);
+    assert.doesNotMatch(header + sidebar, /<img\b/, `${file} interface should contain no logo images`);
+    assert.match(html, /<link rel="icon" href="data:,">/, `${file} should not show the company favicon`);
+}
 
 assert.match(
     indexHtml,
