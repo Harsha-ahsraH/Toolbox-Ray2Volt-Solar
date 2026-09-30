@@ -38,12 +38,18 @@
     }
 
     /* The workspace's small controls — the mode tabs, the ghost buttons that
-       add and remove rows, and the links that jump to a failed field — are all
-       drawn between 18px and 36px tall. Each takes 44px on a phone; they sit
-       in wrapping rows, so growing them costs a little height and no layout. */
+       add and remove rows, the links that jump to a failed field and the
+       panel headings that open each section — are all drawn between 18px and
+       39px tall. The editor's fields and its Next button are pinned at 42px,
+       which outranks the shared 44px phone rule. Each takes 44px on a phone;
+       they sit in wrapping rows, so growing them costs a little height and no
+       layout. */
     .qg-workspace-tab,
     .qg-btn-ghost,
-    .qg-validation-link {
+    .qg-validation-link,
+    .qg-panel-toggle,
+    .qg-editor-main .input,
+    .qg-editor-footer .btn-primary {
         min-height: 44px;
     }
 
