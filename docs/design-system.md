@@ -21,7 +21,7 @@ The toolbox has two layers, and they never share styles:
 | `global/scripts/navigation.js` | Builds the mobile header, the sidebar, the search and the dashboard cards. |
 | `global/scripts/financial-document.js` | Line items, GST maths, money and amount-in-words for the invoice family. |
 | `global/styles/base.css` | Tokens (colour, spacing, radius, type), resets, the scrollbar and icon font. |
-| `global/styles/navigation.css` | The sidebar and mobile header. |
+| `global/styles/navigation.css` | The sidebar, mobile header, dashboard cards and sign-in gate. |
 | `global/styles/components.css` | The shared components below. |
 | `global/styles/responsive.css` | Shell breakpoints: the mobile drawer and sidebar sizes. |
 | `global/styles/financial-document.css` | The A4 sheet used by the invoice, proforma, quotation, PO and receipt. |
@@ -43,6 +43,8 @@ Use tokens, never raw colours, anywhere in the chrome. The dark theme redefines 
 
 Type: the chrome sets body text in Google Sans Flex and headings in Google Sans (`base.css`). Buttons and fields inherit the page font. Documents use Google Sans Flex. Icons in the chrome are Material Symbols Rounded: `<span class="material-symbols-rounded" aria-hidden="true">name</span>`. Documents draw inline SVG icons instead.
 
+The icon font is downloaded as a subset: only the names listed in `icon_names` on the import at the top of `base.css`. **A new icon must be added to that list**, in alphabetical order, or it renders as its name. `tests/material-icons.test.js` finds every icon the Toolbox draws and fails until it's listed.
+
 ## Components
 
 All of these live in `components.css`. A tool's own stylesheet should only hold what is particular to that tool.
@@ -53,6 +55,20 @@ All of these live in `components.css`. A tool's own stylesheet should only hold 
 <div class="tool-header">
     <h1>Tax Invoice Generator</h1>
     <p>One line saying what the tool does.</p>
+</div>
+```
+
+For a header with page-level actions on the right (preview, print), add `.tool-header-row` and put the buttons in `.tool-header-actions`:
+
+```html
+<div class="tool-header tool-header-row">
+    <div>
+        <h1>Margin Breakdown</h1>
+        <p>One line saying what the tool does.</p>
+    </div>
+    <div class="tool-header-actions">
+        <button type="button" class="btn btn-secondary btn-sm">Preview</button>
+    </div>
 </div>
 ```
 
@@ -70,7 +86,9 @@ A card holds every panel a person fills in or reads a result from. The icon is o
 </div>
 ```
 
-For a card whose title needs a subtitle or a button beside it, use `.card-header`:
+One line of help under the title goes in `<p class="card-note">`.
+
+For a card whose title needs a subtitle, a count or a button beside it, use `.card-header`. `.card-count` is a muted count such as "12 rows":
 
 ```html
 <div class="card-header">
@@ -84,7 +102,7 @@ For a card whose title needs a subtitle or a button beside it, use `.card-header
 
 ### Form grid
 
-`.form-grid` places cards two across on a wide screen and one across below 1025px.
+`.form-grid` places cards two across on a wide screen and one across below 1025px. A card whose fields belong to the whole document takes `.card-wide` and runs the full width.
 
 ```html
 <div class="form-grid">
@@ -104,6 +122,42 @@ For a card whose title needs a subtitle or a button beside it, use `.card-header
 ```
 
 `.input` works on `<input>`, `<select>` and `<textarea>`. Below 769px, inputs are 16px (so iOS doesn't zoom in) and 44px tall (a thumb-sized target). Don't override either.
+
+- A value the tool rejects gets `.is-invalid` (a red border and ring); remove it once the value is fixed. Pair it with `aria-invalid="true"`.
+- A box people write Markdown or code in adds `.input-code` for a monospace face.
+
+### Choosing between options
+
+A **segmented control** picks one of a few options, such as a mode or a method. Mark the chosen button with `.active` and `aria-pressed="true"`. Placed straight after an `.input`, it becomes a row of quick picks for that field.
+
+```html
+<div class="segmented" role="group" aria-label="Calculate">
+    <button type="button" class="segmented-btn active" aria-pressed="true">EMI</button>
+    <button type="button" class="segmented-btn" aria-pressed="false">Loan amount</button>
+</div>
+```
+
+A **choice group** draws radio buttons or checkboxes as bordered chips. The label wraps its input, so the whole chip is the tap target; the checked chip is tinted.
+
+```html
+<div class="choice-group" role="radiogroup" aria-label="Layout">
+    <label class="choice"><input type="radio" name="layout" value="two" checked> Two columns</label>
+    <label class="choice"><input type="radio" name="layout" value="three"> Three columns</label>
+</div>
+```
+
+### Split
+
+`.split` sets a card's inputs beside its results on a wide screen and stacks them below 1025px.
+
+```html
+<div class="card">
+    <div class="split">
+        <div>...inputs...</div>
+        <div>...results...</div>
+    </div>
+</div>
+```
 
 ### Buttons
 
@@ -144,14 +198,75 @@ A repeatable group of fields. The invoice family gets these built by `financial-
 
 On a wide screen, set the columns on any ancestor, e.g. `--item-columns: minmax(0, 1fr) 120px;`. Below that, each field takes the full width. Disable `.btn-remove` when only one row is left; don't show an alert.
 
-### Tables and alerts
+### Tables
+
+A **data table** shows results and schedules: a light header, striped rows. Right-align amounts with `.num` on both the `<th>` and its `<td>`s, and mark the row that sums the table `.total-row`. Never give a table header a dark fill.
 
 ```html
 <div class="table-wrap">
-    <table class="data-table">...</table>
+    <table class="data-table">
+        <thead><tr><th>Month</th><th class="num">EMI</th></tr></thead>
+        <tbody>
+            <tr><td>1</td><td class="num">₹12,500</td></tr>
+            <tr class="total-row"><td>Total</td><td class="num">₹1,50,000</td></tr>
+        </tbody>
+    </table>
 </div>
+```
 
-<div class="alert alert-warning">Something to check before continuing.</div>
+An **edit table** is a grid of borderless inputs: a bill of materials, a spec sheet, add-on lines. Each cell's input fills the cell and shows a focus ring inside it. Number inputs right-align on their own. `td.cell-index` holds a read-only row number, and `.cell-action` is the narrow last column for the row's `.btn-remove`. Set `--edit-table-min` to the width below which the table should scroll instead of squeezing its fields (600px by default).
+
+```html
+<div class="table-wrap">
+    <table class="edit-table" style="--edit-table-min: 760px">
+        <thead><tr><th>S.No</th><th>Item</th><th>Qty</th><th></th></tr></thead>
+        <tbody>
+            <tr>
+                <td class="cell-index">1</td>
+                <td><input type="text" aria-label="Item 1 description"></td>
+                <td><input type="number" aria-label="Item 1 quantity"></td>
+                <td class="cell-action"><button type="button" class="btn-remove" aria-label="Remove row 1">&times;</button></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+```
+
+A tool that needs more than this adds its own class beside the shared one, such as `class="edit-table qg-bom-table"` for the Quote Generator's category rows.
+
+### Alerts
+
+An `.alert` is informational by default; add `.alert-warning`, `.alert-danger` or `.alert-success`. It spaces itself off `--section-gap`. For a list of problems, give it a title and one list per severity:
+
+```html
+<div class="alert alert-danger" role="alert">
+    <p class="alert-title">Fix these before printing:</p>
+    <ul class="alert-list">
+        <li>Customer name is required.</li>
+    </ul>
+    <ul class="alert-list alert-list-warning">
+        <li>No GSTIN entered.</li>
+    </ul>
+</div>
+```
+
+### Viewer
+
+A document preview in a dialog over the tool. Toggle `.active` on the overlay. The pages inside `.viewer-body` are paper and keep their own palette; the tool's print stylesheet decides what prints.
+
+```html
+<div class="viewer-overlay" id="reportViewer">
+    <div class="viewer" role="dialog" aria-modal="true" aria-labelledby="reportTitle">
+        <div class="viewer-header">
+            <h3 id="reportTitle">Savings Report</h3>
+            <div class="viewer-actions">
+                <button type="button" class="btn btn-primary btn-sm">Print / Save as PDF</button>
+                <button type="button" class="viewer-close" aria-label="Close preview">&times;</button>
+            </div>
+        </div>
+        <div class="viewer-body">...A4 pages...</div>
+    </div>
+</div>
 ```
 
 ## Financial documents
@@ -159,7 +274,7 @@ On a wide screen, set the columns on any ancestor, e.g. `--item-columns: minmax(
 The tax invoice, proforma invoice, quotation, purchase order and receipt share one sheet and one line-item builder. The markup looks like this:
 
 ```html
-<link rel="stylesheet" href="../../global/styles/financial-document.css">
+<link rel="stylesheet" href="../../global/styles/financial-document.css?v=20260930-cleanup">
 ...
 <div id="invoiceItemsContainer" class="line-items-hsn"></div>   <!-- or line-items-plain: no HSN column -->
 <button type="button" id="addInvoiceItemBtn" class="btn-add">Add Another Item</button>
@@ -196,12 +311,12 @@ const items = lineItems.collectItems();
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=Google+Sans+Flex:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../../global/styles/base.css">
-    <link rel="stylesheet" href="../../global/styles/navigation.css">
-    <link rel="stylesheet" href="../../global/styles/components.css">
-    <link rel="stylesheet" href="../../global/styles/responsive.css">
-    <link rel="stylesheet" href="my-tool.css">
-    <script src="../../global/scripts/theme.js"></script>
+    <link rel="stylesheet" href="../../global/styles/base.css?v=20260930-cleanup">
+    <link rel="stylesheet" href="../../global/styles/navigation.css?v=20260930-cleanup">
+    <link rel="stylesheet" href="../../global/styles/components.css?v=20260930-cleanup">
+    <link rel="stylesheet" href="../../global/styles/responsive.css?v=20260930-cleanup">
+    <link rel="stylesheet" href="my-tool.css?v=20260930-cleanup">
+    <script src="../../global/scripts/theme.js?v=20260930-cleanup"></script>
 </head>
 
 <body>
@@ -219,10 +334,10 @@ const items = lineItems.collectItems();
         </main>
     </div>
 
-    <script src="../../global/scripts/tools.js"></script>
-    <script src="../../global/scripts/auth.js" data-tool-id="my-tool"></script>
-    <script src="../../global/scripts/navigation.js"></script>
-    <script src="my-tool.js"></script>
+    <script src="../../global/scripts/tools.js?v=20260930-cleanup"></script>
+    <script src="../../global/scripts/auth.js?v=20260930-cleanup" data-tool-id="my-tool"></script>
+    <script src="../../global/scripts/navigation.js?v=20260930-cleanup"></script>
+    <script src="my-tool.js?v=20260930-cleanup"></script>
 </body>
 
 </html>
@@ -236,3 +351,6 @@ const items = lineItems.collectItems();
 - Tool CSS doesn't restyle the scrollbar. There is one 6px grey pill, in `base.css`.
 - Documents never use chrome tokens (`var(--bg-*)`, `var(--text-*)`, …). A themed token inside a document is how a dark A4 page would get printed.
 - Below 769px: 44px tap targets and 16px inputs. The sidebar rows are the one exception.
+- Every local stylesheet and script is loaded with a `?v=` release tag. When a file changes, bump the tag on every page that loads it (and on the `@import`s of a manifest such as `quote-generator.css`), so no one is served a stale copy.
+- Every Material Symbols icon the Toolbox draws is listed in `icon_names` in `base.css`.
+- No page loads the retired `tool-responsive.css`. Forms are built from the components above; anything particular to a tool lives in that tool's own stylesheet.
