@@ -1,91 +1,9 @@
 /* ============================================
-   RESOURCE LIBRARY - Stylesheet
-   Ray2Volt Solar Toolbox. Form furniture matches
-   the Quote Generator; headers stay light.
+   Resource Library
+   The header, controls card, search field, category filters, buttons and
+   the problems alert come from global/styles/components.css. This file
+   adds the search icon, the resource tiles and their badges.
    ============================================ */
-
-@import url('https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400;500;600;700&display=swap');
-
-/* --- Page Header --- */
-.rl-page-header {
-    margin-bottom: 1.5rem;
-}
-
-.rl-page-header h1 {
-    font-size: 1.75rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin-bottom: 0.25rem;
-}
-
-.rl-page-header p {
-    font-size: 0.95rem;
-    color: var(--text-secondary);
-}
-
-@media screen and (max-width: 768px) {
-    .rl-page-header {
-        margin-bottom: 1rem;
-    }
-
-    .rl-page-header h1 {
-        font-size: 1.4rem;
-        line-height: 1.2;
-    }
-
-    .rl-page-header p {
-        font-size: 0.9rem;
-        line-height: 1.4;
-    }
-
-    /* The category filters are 33px tall; a thumb needs 44. They sit in a
-       wrapping row, so the height is the only thing that changes.
-       (.rl-btn is handled at the foot of this file — its base rule is
-       declared later than this block and would win here.) */
-    .rl-filter {
-        min-height: 44px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-    }
-}
-
-/* --- Catalogue problems --- */
-.rl-problems {
-    border: 1px solid var(--danger-text);
-    border-left-width: 3px;
-    border-radius: 2px;
-    background: var(--danger-bg);
-    padding: 0.9rem 1rem;
-    margin-bottom: var(--section-gap, 1.5rem);
-}
-
-.rl-problems-title {
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--danger-text);
-    margin-bottom: 0.4rem;
-}
-
-.rl-problems ul {
-    margin: 0;
-    padding-left: 1.1rem;
-}
-
-.rl-problems li {
-    font-size: 0.875rem;
-    line-height: 1.5;
-    color: var(--danger-text);
-}
-
-/* --- Search and filters --- */
-.rl-controls-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border-medium);
-    border-radius: 2px;
-    padding: 1rem;
-    margin-bottom: var(--section-gap, 1.5rem);
-}
 
 .rl-search-row {
     display: flex;
@@ -101,38 +19,22 @@
     flex: 1;
 }
 
+/* Room for the icon on the left and the clear button on the right. */
+.rl-search-input {
+    padding-inline: 2.5rem;
+}
+
+/* The browser's own clear affordance would sit on top of ours. */
+.rl-search-input::-webkit-search-cancel-button {
+    display: none;
+}
+
 .rl-search-icon {
     position: absolute;
     left: 0.75rem;
     font-size: 20px;
     color: var(--text-muted);
     pointer-events: none;
-}
-
-.rl-search-input {
-    width: 100%;
-    padding: 0.75rem 2.5rem;
-    /* 16px prevents the iOS focus zoom. */
-    font-size: 16px;
-    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
-    border: 1px solid var(--border-medium);
-    border-radius: 2px;
-    background: var(--bg-card);
-    color: var(--text-primary);
-    box-sizing: border-box;
-    transition: all 0.1s ease;
-}
-
-.rl-search-input:focus {
-    outline: none;
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px var(--primary-light);
-    background: var(--bg-card);
-}
-
-/* The browser's own clear affordance would sit on top of ours. */
-.rl-search-input::-webkit-search-cancel-button {
-    display: none;
 }
 
 .rl-search-clear {
@@ -143,55 +45,20 @@
     line-height: 1;
     font-size: 1.25rem;
     border: none;
-    border-radius: 2px;
+    border-radius: var(--radius-sm);
     background: transparent;
     color: var(--text-muted);
     cursor: pointer;
 }
 
+/* Categories wrap onto as many rows as they need at their natural width. */
+.rl-filters .segmented-btn {
+    flex: 0 0 auto;
+}
+
 .rl-search-clear:hover {
     background: var(--bg-hover);
     color: var(--text-primary);
-}
-
-.rl-count {
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    white-space: nowrap;
-}
-
-.rl-filters {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-}
-
-.rl-filter {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    padding: 0.45rem 0.75rem;
-    font-size: 0.85rem;
-    font-weight: 500;
-    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
-    border: 1px solid var(--border-medium);
-    border-radius: 2px;
-    background: var(--bg-card);
-    color: var(--text-secondary);
-    cursor: pointer;
-    transition: all 0.1s ease;
-}
-
-.rl-filter:hover {
-    background: var(--bg-hover);
-    color: var(--text-primary);
-}
-
-.rl-filter-active {
-    border-color: var(--primary-dark);
-    background: var(--bg-active);
-    color: var(--text-primary);
-    font-weight: 600;
 }
 
 .rl-filter-count {
@@ -200,8 +67,8 @@
     color: var(--text-muted);
 }
 
-.rl-filter-active .rl-filter-count {
-    color: var(--primary-dark);
+.segmented-btn.active .rl-filter-count {
+    color: inherit;
 }
 
 /* --- Results grid --- */
@@ -212,13 +79,15 @@
     margin-bottom: var(--section-gap, 1.5rem);
 }
 
+/* A tile sits on the page like a shared .card does. */
 .rl-card {
     display: flex;
     flex-direction: column;
+    box-shadow: var(--lift);
     gap: 0.6rem;
     background: var(--bg-card);
     border: 1px solid var(--border-medium);
-    border-radius: 2px;
+    border-radius: var(--radius-sm);
     padding: 1rem;
 }
 
@@ -249,7 +118,7 @@
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.4px;
-    border-radius: 2px;
+    border-radius: var(--radius-sm);
     border: 1px solid transparent;
 }
 
@@ -313,45 +182,11 @@
     gap: 0.5rem;
 }
 
-.rl-btn {
-    display: inline-block;
-    padding: 0.5rem 1rem;
-    font-size: 0.875rem;
-    font-weight: 600;
-    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
-    border: 1px solid var(--primary);
-    border-radius: 2px;
-    cursor: pointer;
-    text-align: center;
-    transition: all 0.1s ease;
-}
-
-.rl-btn-primary {
-    background: var(--primary);
-    color: var(--on-primary);
-}
-
-.rl-btn-primary:hover {
-    background: var(--primary-dark);
-    border-color: var(--primary-dark);
-    color: var(--on-primary);
-}
-
-.rl-btn-secondary {
-    background: transparent;
-    color: var(--primary);
-}
-
-.rl-btn-secondary:hover {
-    background: var(--primary);
-    color: var(--on-primary);
-}
-
 /* --- Empty state --- */
 .rl-empty {
     background: var(--bg-card);
     border: 1px dashed var(--border-medium);
-    border-radius: 2px;
+    border-radius: var(--radius-sm);
     padding: 2rem 1rem;
     text-align: center;
     margin-bottom: var(--section-gap, 1.5rem);
@@ -375,7 +210,7 @@
     font-size: 0.85em;
     background: var(--bg-hover);
     border: 1px solid var(--border-light);
-    border-radius: 2px;
+    border-radius: var(--radius-sm);
     padding: 0.05rem 0.3rem;
 }
 
@@ -383,7 +218,7 @@
 .rl-help {
     background: var(--bg-card);
     border: 1px solid var(--border-medium);
-    border-radius: 2px;
+    border-radius: var(--radius-sm);
     margin-bottom: var(--section-gap, 1.5rem);
 }
 
@@ -433,6 +268,15 @@
     margin-bottom: 0 !important;
 }
 
+/* --- Phones: the clear button becomes a full 44px target --- */
+@media screen and (max-width: 768px) {
+    .rl-search-clear {
+        right: 0;
+        width: 44px;
+        height: 44px;
+    }
+}
+
 /* --- Wider screens --- */
 @media screen and (min-width: 600px) {
     .rl-search-row {
@@ -444,14 +288,9 @@
 }
 
 @media screen and (min-width: 769px) {
-    .rl-controls-card,
     .rl-card,
     .rl-help-body {
         padding: 1.5rem;
-    }
-
-    .rl-search-input {
-        font-size: 0.95rem;
     }
 
     .rl-card-foot {
@@ -465,18 +304,5 @@
     .rl-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 1.25rem;
-    }
-}
-
-/* The download buttons are 40px tall and a thumb needs 44. This sits at the
-   foot of the sheet on purpose: `.rl-btn`'s base rule is declared further up
-   than the mobile block near the top of this file, so an override there lost
-   its `display` and left the label sitting off-centre in a 44px box. */
-@media screen and (max-width: 768px) {
-    .rl-btn {
-        min-height: 44px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
     }
 }

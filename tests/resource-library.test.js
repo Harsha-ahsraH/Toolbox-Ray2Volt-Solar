@@ -180,7 +180,11 @@ for (const id of ['rlSearch', 'rlFilters', 'rlGrid', 'rlCount', 'rlEmpty', 'rlPr
 // House style: the shared shell owns the width, and sections space themselves
 // off the shared token.
 assert.doesNotMatch(css, /\.content-section\s*\{[^}]*max-width:\s*\d/, 'no tool-level page width');
-for (const selector of ['.rl-controls-card', '.rl-grid', '.rl-help']) {
+const componentsCss = fs.readFileSync(path.join(__dirname, '..', 'global', 'styles', 'components.css'), 'utf8');
+assert.match(componentsCss.match(/\.card\s*\{([^}]*)\}/)[1], /margin-bottom:\s*var\(--section-gap\)/,
+    'the controls sit in the shared .card, which spaces itself off --section-gap');
+assert.match(html, /<div class="card">/);
+for (const selector of ['.rl-grid', '.rl-help']) {
     const rule = css.match(new RegExp(`\\${selector}\\s*\\{([^}]*)\\}`));
     assert.ok(rule, `missing CSS rule for ${selector}`);
     assert.match(

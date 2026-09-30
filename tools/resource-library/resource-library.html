@@ -20,7 +20,6 @@
     <link rel="stylesheet" href="../../global/styles/navigation.css?v=20260930-no-interface-logos">
     <link rel="stylesheet" href="../../global/styles/components.css">
     <link rel="stylesheet" href="../../global/styles/responsive.css?v=20260930-sidebar-resize">
-    <link rel="stylesheet" href="../../global/styles/tool-responsive.css">
     <link rel="stylesheet" href="resource-library.css?v=20260930-restore-typography">
     <!-- Theme: stamps light or dark on <html> before the first paint -->
     <script src="../../global/scripts/theme.js"></script>
@@ -32,27 +31,27 @@
             <section id="resource-library-section" class="content-section active">
 
                 <!-- Page Header -->
-                <div class="rl-page-header">
+                <div class="tool-header">
                     <h1>Resource Library</h1>
                     <p>Templates, datasheets, brochures and process documents, in one place.</p>
                 </div>
 
-                <div class="rl-problems" id="rlProblems" hidden></div>
+                <div class="alert alert-danger" id="rlProblems" hidden></div>
 
                 <!-- Search and filters -->
-                <div class="rl-controls-card">
+                <div class="card">
                     <div class="rl-search-row">
                         <div class="rl-search-field">
                             <span class="rl-search-icon material-symbols-rounded" aria-hidden="true">search</span>
-                            <input type="search" id="rlSearch" class="rl-search-input"
+                            <input type="search" id="rlSearch" class="input rl-search-input"
                                 placeholder="Search by name, description or type" aria-label="Search resources"
                                 autocomplete="off">
                             <button type="button" class="rl-search-clear" id="rlClearSearch" aria-label="Clear search"
                                 hidden>&times;</button>
                         </div>
-                        <span class="rl-count" id="rlCount"></span>
+                        <span class="card-count" id="rlCount"></span>
                     </div>
-                    <div class="rl-filters" id="rlFilters" role="group" aria-label="Filter by category"></div>
+                    <div class="segmented rl-filters" id="rlFilters" role="group" aria-label="Filter by category"></div>
                 </div>
 
                 <!-- Results -->

@@ -231,6 +231,7 @@ select.input {
     font-family: inherit;
     line-height: 1.3;
     text-align: center;
+    text-decoration: none;
     border: 1px solid transparent;
     border-radius: var(--radius-sm);
     cursor: pointer;
@@ -677,6 +678,11 @@ select.input {
     color: var(--success-text);
 }
 
+.alert-title {
+    margin-bottom: 0.4rem;
+    font-weight: 600;
+}
+
 /* Validation messages: a list per severity inside one alert. */
 .alert-list {
     margin: 0;
@@ -788,17 +794,10 @@ select.input {
 
 /* --- Lift for tool panels not yet built from .card ---
    Remove a selector here once its tool uses the shared .card. */
-.cs-form-card,
-.cs-spec-card,
-.lhd-upload-card,
-.mb-form-card,
-.mb-repeat-card,
 .pkg-card,
 .qg-form-card,
 .qg-components-card,
-.qg-panel,
-.rl-card,
-.rl-controls-card{
+.qg-panel {
     box-shadow: var(--lift);
 }
 

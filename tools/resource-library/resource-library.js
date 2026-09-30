@@ -77,12 +77,12 @@
         const href = escapeHtml(catalogue.target(resource));
 
         if (resource.place === 'link') {
-            return `<a class="rl-btn rl-btn-primary" href="${href}" target="_blank" rel="noopener noreferrer">Open in Drive</a>`;
+            return `<a class="btn btn-sm btn-primary" href="${href}" target="_blank" rel="noopener noreferrer">Open in Drive</a>`;
         }
 
         return `
-            <a class="rl-btn rl-btn-primary" href="${href}" target="_blank" rel="noopener">Open</a>
-            <a class="rl-btn rl-btn-secondary" href="${href}" download>Download</a>`;
+            <a class="btn btn-sm btn-primary" href="${href}" target="_blank" rel="noopener">Open</a>
+            <a class="btn btn-sm btn-secondary" href="${href}" download>Download</a>`;
     }
 
     function card(resource) {
@@ -111,16 +111,16 @@
         const categories = [ALL].concat(catalogue.usedCategories());
 
         filterBar.innerHTML = categories.map(category => {
-            const active = category === activeCategory ? ' rl-filter-active' : '';
+            const active = category === activeCategory ? ' active' : '';
             const count = category === ALL
                 ? catalogue.RESOURCES.length
                 : catalogue.RESOURCES.filter(resource => resource.category === category).length;
 
-            return `<button type="button" class="rl-filter${active}" data-category="${escapeHtml(category)}">`
+            return `<button type="button" class="segmented-btn${active}" data-category="${escapeHtml(category)}">`
                 + `${escapeHtml(category)} <span class="rl-filter-count">${count}</span></button>`;
         }).join('');
 
-        filterBar.querySelectorAll('.rl-filter').forEach(button => {
+        filterBar.querySelectorAll('.segmented-btn').forEach(button => {
             button.addEventListener('click', () => {
                 activeCategory = button.dataset.category;
                 renderFilters();
@@ -169,7 +169,7 @@
         }
 
         problemPanel.hidden = false;
-        problemPanel.innerHTML = '<p class="rl-problems-title">This catalogue has problems:</p><ul>'
+        problemPanel.innerHTML = '<p class="alert-title">This catalogue has problems:</p><ul class="alert-list">'
             + found.map(problem => `<li>${escapeHtml(problem)}</li>`).join('')
             + '</ul>';
     }
