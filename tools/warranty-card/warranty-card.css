@@ -1,170 +1,21 @@
 /* ============================================
-   WARRANTY CARD GENERATOR - Dedicated Stylesheet
-   Ray2Volt Solar Toolbox - Brutalist/Minimalist Design
-   Matches Quote Generator styling
+   Warranty Card Generator
+   The form is built from global/styles/components.css. This file holds the
+   four-page certificate: its A4 pages, its paper palette, and print.
    ============================================ */
 
-/* Google Sans Flex for UI elements */
-@import url('https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400;500;600;700&display=swap');
+/* --- Contact details: three fields on one row on desktop --- */
+@media screen and (min-width: 1025px) {
+    .warranty-contact-fields {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 0 2rem;
+    }
 
-.mobile-nav-toggle > .material-symbols-rounded,
-.sidebar-close-btn > .material-symbols-rounded {
-    font-size: 24px;
+    .warranty-contact-fields .field {
+        margin-bottom: 0;
+    }
 }
-
-/* ============================================
-   FORM SECTION - BRUTALIST STYLING
-   ============================================ */
-
-/* --- Page Header --- */
-.warranty-page-header-ui {
-    margin-bottom: 1.5rem;
-}
-
-.warranty-page-header-ui h1 {
-    font-size: 1.75rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin-bottom: 0.25rem;
-}
-
-.warranty-page-header-ui p {
-    font-size: 0.95rem;
-    color: var(--text-secondary);
-}
-
-/* --- Form Cards --- */
-.warranty-form-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1rem;
-    margin-bottom: var(--section-gap, 1.5rem);
-}
-
-.warranty-form-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border-medium);
-    border-radius: 2px;
-    padding: 1rem;
-}
-
-.warranty-section-title {
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    margin-bottom: 1.25rem;
-    padding-bottom: 0.75rem;
-    border-bottom: 1px solid var(--border-light);
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.warranty-section-title .icon {
-    width: 20px;
-    height: 20px;
-    font-size: 20px;
-    color: var(--primary);
-}
-
-.warranty-field-note {
-    font-size: 0.8125rem;
-    color: var(--text-secondary);
-    margin: -0.75rem 0 1.25rem;
-}
-
-/* --- Input Groups --- */
-.warranty-input-group {
-    margin-bottom: 1.25rem;
-}
-
-.warranty-input-group:last-child {
-    margin-bottom: 0;
-}
-
-.warranty-input-group label {
-    display: block;
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    margin-bottom: 0.5rem;
-}
-
-/* --- Input Fields --- */
-.warranty-input-field {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    font-size: 16px;
-    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
-    border: 1px solid var(--border-medium);
-    border-radius: 2px;
-    background: var(--bg-card);
-    color: var(--text-primary);
-    transition: all 0.1s ease;
-    box-sizing: border-box;
-}
-
-.warranty-input-field:focus {
-    outline: none;
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px var(--primary-light);
-    background: var(--bg-card);
-}
-
-textarea.warranty-input-field {
-    resize: vertical;
-    min-height: 70px;
-}
-
-/* --- Buttons --- */
-.warranty-actions {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 10px;
-    margin-top: 1.25rem;
-    margin-bottom: 1.25rem;
-}
-
-.warranty-btn-primary {
-    padding: 0.875rem 2rem;
-    font-size: 1rem;
-    font-weight: 600;
-    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
-    border: 1px solid var(--primary);
-    border-radius: 2px;
-    background: var(--primary);
-    color: var(--on-primary);
-    cursor: pointer;
-    transition: all 0.1s ease;
-    width: 100%;
-}
-
-.warranty-btn-primary:hover {
-    background: var(--primary-dark);
-    border-color: var(--primary-dark);
-}
-
-.warranty-btn-secondary {
-    padding: 0.875rem 2rem;
-    font-size: 1rem;
-    font-weight: 600;
-    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
-    border: 1px solid var(--primary);
-    border-radius: 2px;
-    background: transparent;
-    color: var(--primary);
-    cursor: pointer;
-    transition: all 0.1s ease;
-    width: 100%;
-}
-
-.warranty-btn-secondary:hover {
-    background: var(--primary);
-    color: var(--on-primary);
-}
-
 
 /* ============================================
    WARRANTY CERTIFICATE PREVIEW
@@ -334,7 +185,7 @@ textarea.warranty-input-field {
 /* --- Info Grid: the proposal's `.qp-prep-meta` label/value pair --- */
 .warranty-info-grid {
     display: grid;
-    grid-template-columns: 130px minmax(0, 1fr);
+    grid-template-columns: 160px minmax(0, 1fr);
     gap: 5px 10px;
     align-items: baseline;
     line-height: 1.45;
@@ -493,9 +344,9 @@ textarea.warranty-input-field {
    one and the running footer below it — read as a mistake. */
 .cover-footer {
     position: absolute;
-    bottom: 19mm;
-    left: 14mm;
-    right: 14mm;
+    bottom: 20mm;
+    left: 0;
+    right: 0;
     text-align: center;
     font-size: 8pt;
     line-height: 1.5;
@@ -726,35 +577,6 @@ textarea.warranty-input-field {
     color: var(--warranty-navy);
 }
 
-.warranty-signature-section {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 30px;
-    /* Reduced margin */
-    padding-top: 10px;
-}
-
-.signature-block {
-    width: 40%;
-    text-align: center;
-}
-
-.signature-block .signature-line {
-    border-top: 1px solid var(--warranty-navy);
-    margin-bottom: 8px;
-}
-
-.signature-block .signature-name {
-    font-weight: 600;
-    font-size: 10.5pt;
-    color: var(--warranty-navy);
-}
-
-.signature-block .signature-title {
-    font-size: 9pt;
-    color: var(--warranty-muted);
-}
-
 .warranty-disclaimer {
     margin-top: 6mm;
     padding: 8px 10px;
@@ -765,148 +587,6 @@ textarea.warranty-input-field {
     line-height: 1.5;
     color: var(--warranty-muted);
     text-align: center;
-}
-
-
-/* ============================================
-   RESPONSIVE STYLES
-   ============================================ */
-
-/* Mobile */
-@media screen and (max-width: 768px) {
-    .no-print-area {
-        max-width: none;
-    }
-
-    .warranty-page-header-ui {
-        margin-bottom: 1rem;
-    }
-
-    .warranty-page-header-ui h1 {
-        font-size: 1.4rem;
-        line-height: 1.2;
-    }
-
-    .warranty-page-header-ui p {
-        font-size: 0.9rem;
-        line-height: 1.4;
-    }
-
-    .warranty-section-title {
-        margin-bottom: 0.9rem;
-        padding-bottom: 0.6rem;
-        font-size: 0.95rem;
-    }
-}
-
-@media screen and (min-width: 600px) {
-    .warranty-actions {
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-        gap: 1rem;
-    }
-
-    .warranty-btn-primary,
-    .warranty-btn-secondary {
-        width: auto;
-    }
-}
-
-@media screen and (min-width: 769px) {
-    .warranty-form-card {
-        padding: 1.5rem;
-    }
-
-    .warranty-input-field {
-        font-size: 0.95rem;
-    }
-}
-
-@media screen and (min-width: 1025px) {
-    .warranty-form-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 2rem;
-        margin-bottom: 2rem;
-    }
-
-    /* Contact details apply to the whole certificate, not to one column's
-       worth of it, so the card runs the full width under the other two. */
-    .warranty-form-card-wide {
-        grid-column: 1 / -1;
-    }
-
-    .warranty-contact-fields {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 0 2rem;
-    }
-
-    .warranty-contact-fields .warranty-input-group {
-        margin-bottom: 0;
-    }
-}
-
-/* The quotation and warranty previews both keep one fixed A4 canvas on screen. */
-#warrantyPreview .warranty-page {
-    width: 210mm !important;
-    max-width: none !important;
-    height: 297mm !important;
-    min-height: 297mm !important;
-    padding: 12mm 14mm 24mm 14mm !important;
-    overflow: hidden !important;
-}
-
-#warrantyPreview .combined-header {
-    flex-direction: row !important;
-    align-items: center !important;
-    text-align: left !important;
-    gap: 20px !important;
-}
-
-#warrantyPreview .combined-title {
-    font-size: 15pt !important;
-    letter-spacing: 0.5px !important;
-}
-
-#warrantyPreview .cover-logo-small {
-    width: 170px !important;
-    max-width: 170px !important;
-    order: 2 !important;
-}
-
-#warrantyPreview .combined-project-id-banner {
-    flex-direction: row !important;
-    align-items: center !important;
-}
-
-#warrantyPreview .warranty-info-grid {
-    grid-template-columns: 160px minmax(0, 1fr) !important;
-}
-
-#warrantyPreview .warranty-overview-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-}
-
-#warrantyPreview .warranty-specs-table {
-    display: table !important;
-    overflow: visible !important;
-}
-
-#warrantyPreview .cover-footer {
-    position: absolute !important;
-    bottom: 20mm !important;
-    left: 0 !important;
-    right: 0 !important;
-    margin-top: 0 !important;
-}
-
-#warrantyPreview .warranty-page-footer {
-    position: absolute !important;
-    bottom: 8mm !important;
-    left: 14mm !important;
-    right: 14mm !important;
-    margin-top: 0 !important;
 }
 
 /* ============================================

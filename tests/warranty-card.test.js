@@ -39,21 +39,13 @@ function mediaBlock(query) {
     assert.fail(`Unclosed media block ${query}`);
 }
 
-// The authoring UI follows the Quote Generator's centered, mobile-first system.
-assert.ok(
-    html.indexOf('tool-responsive.css') < html.indexOf('warranty-card.css'),
-    'Warranty Card CSS must load after shared responsive CSS so its A4 preview rules win.'
-);
-// Width and centering now come from the shared tool shell, not this stylesheet.
+// The form is built from the shared components; nothing overrides the A4 page.
+assert.doesNotMatch(html, /tool-responsive\.css/);
 assert.match(cssRule('.main-content > .content-section', componentsCss), /max-width:\s*var\(--tool-width\)/);
-assert.match(cssRule('.warranty-form-grid'), /grid-template-columns:\s*1fr/);
-assert.match(cssRule('.warranty-actions'), /flex-direction:\s*column/);
-assert.match(cssRule('.warranty-btn-secondary'), /border:\s*1px solid var\(--primary\)/);
-assert.match(cssRule('.warranty-btn-secondary'), /background:\s*transparent/);
-assert.match(cssRule('.warranty-btn-secondary'), /color:\s*var\(--primary\)/);
-
-const desktop = mediaBlock('@media screen and (min-width: 1025px)');
-assert.match(cssRule('.warranty-form-grid', desktop), /grid-template-columns:\s*1fr 1fr/);
+for (const cls of ['tool-header', 'form-grid', 'card card-wide', 'card-note', 'field', 'input', 'actions', 'btn btn-primary', 'btn btn-secondary']) {
+    assert.match(html, new RegExp(`class="${cls}[" ]`), `form should use the shared .${cls.split(' ').pop()}`);
+}
+assert.doesNotMatch(css, /\.warranty-(input|btn|form|actions|page-header)/, 'form chrome belongs to components.css');
 
 // Preview and print share the quotation's fixed A4 canvas and navy document tokens.
 assert.match(cssRule('#warrantyPreview'), /--warranty-navy:\s*#1F4E79/i);
@@ -63,10 +55,6 @@ assert.match(cssRule('.warranty-page'), /height:\s*297mm/);
 assert.match(cssRule('.warranty-page'), /padding:\s*12mm 14mm 24mm 14mm/);
 assert.match(cssRule('.warranty-page'), /zoom:\s*var\(--warranty-preview-scale\)/);
 assert.match(cssRule('.combined-header'), /border-bottom:\s*2px solid var\(--warranty-navy\)/);
-assert.match(cssRule('#warrantyPreview .warranty-page'), /width:\s*210mm\s*!important/);
-assert.match(cssRule('#warrantyPreview .warranty-page'), /max-width:\s*none\s*!important/);
-assert.match(cssRule('#warrantyPreview .warranty-page'), /height:\s*297mm\s*!important/);
-assert.match(cssRule('#warrantyPreview .combined-header'), /flex-direction:\s*row\s*!important/);
 
 const printCss = mediaBlock('@media print');
 assert.match(cssRule('.warranty-page', printCss), /width:\s*210mm\s*!important/);

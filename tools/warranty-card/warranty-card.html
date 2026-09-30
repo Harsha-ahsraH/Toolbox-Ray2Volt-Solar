@@ -16,7 +16,6 @@
     <link rel="stylesheet" href="../../global/styles/navigation.css?v=20260930-no-interface-logos">
     <link rel="stylesheet" href="../../global/styles/components.css">
     <link rel="stylesheet" href="../../global/styles/responsive.css?v=20260930-sidebar-resize">
-    <link rel="stylesheet" href="../../global/styles/tool-responsive.css">
     <link rel="stylesheet" href="warranty-card.css?v=20260930-restore-typography">
     <!-- Theme: stamps light or dark on <html> before the first paint -->
     <script src="../../global/scripts/theme.js"></script>
@@ -25,130 +24,130 @@
 <body>
     <div class="app-container">
         <main class="main-content">
-            <section id="warranty-generator-section" class="calculator-panel content-section active">
-                <div class="warranty-page-header-ui no-print-area">
+            <section id="warranty-generator-section" class="content-section active">
+                <div class="tool-header no-print-area">
                     <h1>Warranty Card Generator</h1>
                     <p>Generate a comprehensive 4-page warranty certificate for solar installations.</p>
                 </div>
 
                 <div class="no-print-area">
-                    <div class="warranty-form-grid">
+                    <div class="form-grid">
                         <!-- Project Info Card -->
-                        <div class="warranty-form-card">
-                            <h3 class="warranty-section-title">
+                        <div class="card">
+                            <h3 class="card-title">
                                 <span class="material-symbols-rounded icon" aria-hidden="true">info</span>
                                 Project Information
                             </h3>
-                            <div class="warranty-input-group">
+                            <div class="field">
                                 <label for="warrantyProjectId">Project ID</label>
-                                <input type="text" id="warrantyProjectId" class="warranty-input-field"
+                                <input type="text" id="warrantyProjectId" class="input"
                                     placeholder="e.g. R2V-2025-0001">
                             </div>
-                            <div class="warranty-input-group">
+                            <div class="field">
                                 <label for="warrantyCustomerName">Customer Name</label>
-                                <input type="text" id="warrantyCustomerName" class="warranty-input-field"
+                                <input type="text" id="warrantyCustomerName" class="input"
                                     placeholder="Enter customer name">
                             </div>
-                            <div class="warranty-input-group">
+                            <div class="field">
                                 <label for="warrantyAddress">Site Address</label>
-                                <textarea id="warrantyAddress" class="warranty-input-field" rows="2"
+                                <textarea id="warrantyAddress" class="input" rows="2"
                                     placeholder="Enter installation site address"></textarea>
                             </div>
-                            <div class="warranty-input-group">
+                            <div class="field">
                                 <label for="warrantyPhone">Phone Number</label>
-                                <input type="text" id="warrantyPhone" class="warranty-input-field"
+                                <input type="text" id="warrantyPhone" class="input"
                                     placeholder="Enter phone number">
                             </div>
-                            <div class="warranty-input-group">
+                            <div class="field">
                                 <label for="warrantyInstallDate">Installation Date</label>
-                                <input type="date" id="warrantyInstallDate" class="warranty-input-field">
+                                <input type="date" id="warrantyInstallDate" class="input">
                             </div>
                         </div>
 
                         <!-- System Specs Card -->
-                        <div class="warranty-form-card">
-                            <h3 class="warranty-section-title">
+                        <div class="card">
+                            <h3 class="card-title">
                                 <span class="material-symbols-rounded icon" aria-hidden="true">solar_power</span>
                                 System Specifications
                             </h3>
-                            <div class="warranty-input-group">
+                            <div class="field">
                                 <label for="warrantyProjectSpecs">Project Specifications</label>
-                                <textarea id="warrantyProjectSpecs" class="warranty-input-field" rows="3"
+                                <textarea id="warrantyProjectSpecs" class="input" rows="3"
                                     placeholder="e.g. 5 kWp On-Grid Solar Power Plant with 10 x 550Wp Panels"></textarea>
                             </div>
-                            <div class="warranty-input-group">
+                            <div class="field">
                                 <label for="warrantyModuleBrand">Solar Module Brand</label>
-                                <input type="text" id="warrantyModuleBrand" class="warranty-input-field"
+                                <input type="text" id="warrantyModuleBrand" class="input"
                                     placeholder="e.g. Adani 550Wp Mono PERC">
                             </div>
-                            <div class="warranty-input-group">
+                            <div class="field">
                                 <label for="warrantyModuleWarranty">Module Product Warranty (Years)</label>
-                                <input type="number" id="warrantyModuleWarranty" class="warranty-input-field" value="10"
+                                <input type="number" id="warrantyModuleWarranty" class="input" value="10"
                                     min="1" max="25">
                             </div>
-                            <div class="warranty-input-group">
+                            <div class="field">
                                 <label for="warrantyPerformanceWarranty">Performance Warranty (Years)</label>
-                                <input type="number" id="warrantyPerformanceWarranty" class="warranty-input-field"
+                                <input type="number" id="warrantyPerformanceWarranty" class="input"
                                     value="30" min="1" max="50">
                             </div>
-                            <div class="warranty-input-group">
+                            <div class="field">
                                 <label for="warrantyModuleSerials">Module Serial Numbers</label>
-                                <textarea id="warrantyModuleSerials" class="warranty-input-field" rows="4"
+                                <textarea id="warrantyModuleSerials" class="input" rows="4"
                                     placeholder="Enter serial numbers (comma separated or new line)"></textarea>
                             </div>
-                            <div class="warranty-input-group">
+                            <div class="field">
                                 <label for="warrantyInverterName">Inverter Name</label>
-                                <input type="text" id="warrantyInverterName" class="warranty-input-field"
+                                <input type="text" id="warrantyInverterName" class="input"
                                     placeholder="e.g. Growatt 5kW On-Grid Inverter">
                             </div>
-                            <div class="warranty-input-group">
+                            <div class="field">
                                 <label for="warrantyInverterWarranty">Inverter Warranty (Years)</label>
-                                <input type="number" id="warrantyInverterWarranty" class="warranty-input-field"
+                                <input type="number" id="warrantyInverterWarranty" class="input"
                                     value="7" min="1" max="15">
                             </div>
-                            <div class="warranty-input-group">
+                            <div class="field">
                                 <label for="warrantyInverterSerials">Inverter Serial Numbers</label>
-                                <textarea id="warrantyInverterSerials" class="warranty-input-field" rows="2"
+                                <textarea id="warrantyInverterSerials" class="input" rows="2"
                                     placeholder="Enter serial numbers"></textarea>
                             </div>
-                            <div class="warranty-input-group">
+                            <div class="field">
                                 <label for="warrantyDcrCertificate">DCR Certificate Number</label>
-                                <input type="text" id="warrantyDcrCertificate" class="warranty-input-field"
+                                <input type="text" id="warrantyDcrCertificate" class="input"
                                     placeholder="e.g. DCR-AP-2025-XXXXX">
                             </div>
                         </div>
 
                         <!-- Contact Information Card -->
-                        <div class="warranty-form-card warranty-form-card-wide">
-                            <h3 class="warranty-section-title">
+                        <div class="card card-wide">
+                            <h3 class="card-title">
                                 <span class="material-symbols-rounded icon" aria-hidden="true">contact_phone</span>
                                 Contact Information
                             </h3>
-                            <p class="warranty-field-note">Printed on the certificate so the customer knows where to
+                            <p class="card-note">Printed on the certificate so the customer knows where to
                                 raise a warranty claim.</p>
                             <div class="warranty-contact-fields">
-                                <div class="warranty-input-group">
+                                <div class="field">
                                     <label for="warrantyContactPhone">Phone Number</label>
-                                    <input type="text" id="warrantyContactPhone" class="warranty-input-field"
+                                    <input type="text" id="warrantyContactPhone" class="input"
                                         value="+91 96 6606 8140" placeholder="e.g. +91 96 6606 8140">
                                 </div>
-                                <div class="warranty-input-group">
+                                <div class="field">
                                     <label for="warrantyContactEmail">Mail ID</label>
-                                    <input type="email" id="warrantyContactEmail" class="warranty-input-field"
+                                    <input type="email" id="warrantyContactEmail" class="input"
                                         value="ray2voltsolar@gmail.com" placeholder="e.g. ray2voltsolar@gmail.com">
                                 </div>
-                                <div class="warranty-input-group">
+                                <div class="field">
                                     <label for="warrantyContactAddress">Address</label>
-                                    <textarea id="warrantyContactAddress" class="warranty-input-field" rows="2"
+                                    <textarea id="warrantyContactAddress" class="input" rows="2"
                                         placeholder="Office address printed on the certificate">1-278, Pichatur Road, Srikalahasti, 517640, Andhra Pradesh</textarea>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="warranty-actions">
-                        <button id="generateWarrantyBtn" class="warranty-btn-primary">Generate Warranty Card</button>
-                        <button id="printWarrantyBtn" class="warranty-btn-secondary">Print / Save as PDF</button>
+                    <div class="actions">
+                        <button id="generateWarrantyBtn" class="btn btn-primary">Generate Warranty Card</button>
+                        <button id="printWarrantyBtn" class="btn btn-secondary">Print / Save as PDF</button>
                     </div>
                 </div>
 

@@ -108,6 +108,13 @@
     color: var(--primary-text);
 }
 
+/* One line of help directly under a .card-title. */
+.card-note {
+    margin: -0.75rem 0 1.25rem;
+    font-size: 0.8125rem;
+    color: var(--text-secondary);
+}
+
 /* A card header with a heading, a line of help, and room for a control. */
 .card-header {
     display: flex;
@@ -851,6 +858,11 @@ body.toolbox-locked > *:not(.toolbox-auth-overlay):not(script):not(style):not(li
     .form-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 1.5rem;
+    }
+
+    /* A card whose fields belong to the whole document runs the full width. */
+    .form-grid > .card-wide {
+        grid-column: 1 / -1;
     }
 
     .split {

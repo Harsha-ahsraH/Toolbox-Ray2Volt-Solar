@@ -61,12 +61,12 @@ const toolDirs = fs.readdirSync(path.join(repoRoot, 'tools'), { withFileTypes: t
 // A bare `margin-bottom: 0` on a card is what let the Quote Generator's
 // standalone card collide with the grid below it.
 const sectionSpacing = {
-    'quote-generator': ['.qg-form-grid', '.qg-form-card', '.qg-components-card'],
-    'warranty-card': ['.warranty-form-grid']
+    'quote-generator': ['.qg-form-grid', '.qg-form-card', '.qg-components-card']
 };
 
 // Migrated tools take their action row from the shared component.
 assert.match(cssRule('.actions', componentsCss), /margin:\s*2rem 0/);
+assert.match(cssRule('.form-grid', componentsCss), /margin-bottom:\s*var\(--section-gap\)/);
 
 for (const [tool, selectors] of Object.entries(sectionSpacing)) {
     const cssFiles = fs.readdirSync(path.join(repoRoot, 'tools', tool))
