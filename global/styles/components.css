@@ -184,6 +184,12 @@
     box-shadow: 0 0 0 3px var(--primary-light);
 }
 
+/* A value the tool rejected; add .is-invalid, remove it once fixed. */
+.input.is-invalid {
+    border-color: var(--danger-text);
+    box-shadow: 0 0 0 3px var(--danger-bg);
+}
+
 textarea.input {
     resize: vertical;
     min-height: 70px;
@@ -938,10 +944,29 @@ body.toolbox-locked > *:not(.toolbox-auth-overlay):not(script):not(style):not(li
     .data-table td {
         padding: 0.625rem 0.75rem;
     }
+
+    /* Pages scale down inside the viewer; scroll sideways rather than reflow. */
+    .viewer-body {
+        align-items: flex-start;
+        padding: 16px;
+    }
+
+    .viewer-close {
+        width: 44px;
+        height: 44px;
+    }
 }
 
 @media screen and (max-width: 480px) {
     .card {
         padding: 0.875rem;
+    }
+
+    .viewer-header {
+        padding: 0.625rem 0.875rem;
+    }
+
+    .viewer-header h3 {
+        font-size: 1rem;
     }
 }

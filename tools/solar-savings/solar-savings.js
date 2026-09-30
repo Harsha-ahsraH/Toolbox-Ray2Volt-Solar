@@ -51,7 +51,7 @@ function calculateSavings() {
 
     inputIds.forEach(id => {
         const el = document.getElementById(id);
-        if (el) el.classList.remove('ssc-input-error');
+        if (el) el.classList.remove('is-invalid');
     });
 
     inputIds.forEach(id => {
@@ -71,14 +71,14 @@ function calculateSavings() {
             inputs['manualKwInput'] = NaN;
             if (document.getElementById('manualKwInput')) document.getElementById('manualKwInput').value = '';
             if (isNaN(value) || value <= 0) {
-                element.classList.add('ssc-input-error');
+                element.classList.add('is-invalid');
                 errors.push(`Select a valid kW Installed Capacity.`);
                 inputs[id] = NaN;
             } else {
                 inputs[id] = value;
             }
         } else if (isNaN(value) || (value < 0 && !['interestRate', 'subsidyAmount', 'downPayment', 'inflationRate', 'netMeteringRate'].includes(id))) {
-            element.classList.add('ssc-input-error');
+            element.classList.add('is-invalid');
             let fieldName = element.previousElementSibling.innerText.replace(/[:\d.]/g, '').trim();
             if (id === 'manualKwInput' && (isNaN(value) || value <= 0)) {
                 errors.push('Enter a valid Manual System Capacity (kW) > 0.');
@@ -113,7 +113,7 @@ function calculateSavings() {
         if (isNaN(actualKwInstalled) || actualKwInstalled <= 0) {
             errors.push("Enter a valid Manual System Capacity (kW) > 0.");
             const manKwEl = document.getElementById('manualKwInput');
-            if (manKwEl) manKwEl.classList.add('ssc-input-error');
+            if (manKwEl) manKwEl.classList.add('is-invalid');
         }
         inputs.kwInstalled = actualKwInstalled;
         if (!isNaN(userProvidedTotalCost) && userProvidedTotalCost > 0) {
@@ -160,7 +160,7 @@ function calculateSavings() {
 
     if (isNaN(inputs.totalCost) || inputs.totalCost <= 0) {
         const tcElement = document.getElementById('totalCost');
-        if (tcElement) tcElement.classList.add('ssc-input-error');
+        if (tcElement) tcElement.classList.add('is-invalid');
         if (!errors.some(e => e.includes("Total Project Cost") || e.includes("kW Installed Capacity"))) {
             errors.push("Enter a valid Total Project Cost or select a kW capacity to auto-fill.");
         }
@@ -526,13 +526,13 @@ function resetForm() {
             const el = document.getElementById(id);
             if (el) {
                 el.value = '';
-                el.classList.remove('ssc-input-error');
+                el.classList.remove('is-invalid');
             }
         });
     const totalEl = document.getElementById('totalCost');
     if (totalEl) {
         totalEl.value = '';
-        totalEl.classList.remove('ssc-input-error');
+        totalEl.classList.remove('is-invalid');
         totalEl.placeholder = "Enter project cost";
     }
     document.getElementById('manualKwInputGroup').style.display = 'none';

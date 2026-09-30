@@ -26,7 +26,7 @@ function calculateRESCO() {
 
     inputIds.forEach(id => {
         const el = document.getElementById(id);
-        if (el) el.classList.remove('ssc-input-error');
+        if (el) el.classList.remove('is-invalid');
     });
 
     const requiredPositive = [
@@ -41,12 +41,12 @@ function calculateRESCO() {
         const val = parseFloat(el.value);
 
         if (isNaN(val) && requiredPositive.includes(id)) {
-            el.classList.add('ssc-input-error');
+            el.classList.add('is-invalid');
             const label = el.previousElementSibling ? el.previousElementSibling.innerText.replace(/[:\d.]/g, '').trim() : id;
             errors.push(`Enter a valid value for ${label}.`);
             inputs[id] = NaN;
         } else if (requiredPositive.includes(id) && val <= 0) {
-            el.classList.add('ssc-input-error');
+            el.classList.add('is-invalid');
             const label = el.previousElementSibling ? el.previousElementSibling.innerText.replace(/[:\d.]/g, '').trim() : id;
             errors.push(`${label} must be greater than 0.`);
             inputs[id] = NaN;

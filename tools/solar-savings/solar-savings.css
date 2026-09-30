@@ -1,226 +1,28 @@
 /* ============================================
-   SOLAR SAVINGS CALCULATOR - Dedicated Stylesheet
-   Ray2Volt Solar Toolbox
-   Form conventions match Invoice / Quote Generator
+   Solar Savings Calculator
+   The header, mode switch, cards, fields, buttons and alerts come from
+   global/styles/components.css. This file adds the result tables, the
+   summary tiles and the empty state. The A4 report is in
+   solar-savings-report.css.
    ============================================ */
 
-/* --- Page Header --- */
-.ssc-page-header {
-    margin-bottom: 1.5rem;
-}
-
-.ssc-page-header h1 {
-    font-size: 1.75rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin-bottom: 0.25rem;
-}
-
-.ssc-page-header p {
-    font-size: 0.95rem;
-    color: var(--text-secondary);
-}
-
-/* --- Mode Switcher --- */
-.ssc-mode-switcher {
-    display: flex;
-    gap: 4px;
+.ssc-mode {
     max-width: 320px;
-    margin-bottom: 1.5rem;
-    padding: 3px;
-    background: var(--bg-body);
-    border: 1px solid var(--border-medium);
-    border-radius: var(--radius-lg);
+    margin-bottom: var(--section-gap);
 }
 
-.ssc-mode-btn {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.4rem;
-    padding: 0.6rem 0.9rem;
-    border: none;
-    border-radius: 2px;
-    background: transparent;
-    color: var(--text-secondary);
-    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
-    font-weight: 600;
-    font-size: 0.85rem;
-    cursor: pointer;
-    transition: all 0.15s ease;
+.ssc-alert {
+    margin-bottom: var(--section-gap);
 }
 
-.ssc-mode-btn:hover {
-    color: var(--text-primary);
-    background: var(--bg-card);
-}
-
-.ssc-mode-btn.active {
-    background: var(--primary);
-    color: var(--on-primary);
-    box-shadow: var(--shadow-sm);
-}
-
-/* --- Form Cards --- */
-.ssc-form-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
-    margin-bottom: 1.5rem;
-}
-
-.ssc-form-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border-medium);
-    border-radius: 2px;
-    padding: 1.5rem;
-}
-
-.ssc-section-title {
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    margin-bottom: 1.25rem;
-    padding-bottom: 0.75rem;
-    border-bottom: 1px solid var(--border-light);
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.ssc-section-title .icon {
-    width: 20px;
-    height: 20px;
-    color: var(--primary);
-}
-
-/* --- Input Groups --- */
-.ssc-input-group {
-    margin-bottom: 1.25rem;
-}
-
-.ssc-input-group:last-child {
-    margin-bottom: 0;
-}
-
-.ssc-input-group label {
-    display: block;
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    margin-bottom: 0.5rem;
-}
-
-.ssc-input-field {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    font-size: 0.95rem;
-    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
-    border: 1px solid var(--border-medium);
-    border-radius: 2px;
-    background: var(--bg-card);
-    color: var(--text-primary);
-    transition: all 0.1s ease;
-    box-sizing: border-box;
-}
-
-.ssc-input-field:focus {
-    outline: none;
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px var(--primary-light);
-    background: var(--bg-card);
-}
-
-select.ssc-input-field {
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%234B5563' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    background-size: 14px;
-    padding-right: 2.25rem;
-    cursor: pointer;
-}
-
-.ssc-input-field.ssc-input-error {
-    border-color: var(--danger-text);
-    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12);
-}
-
-.ssc-input-hint {
-    display: block;
-    font-size: 0.8rem;
-    color: var(--text-muted);
-    margin-top: 0.4rem;
-}
-
-/* --- Action Buttons --- */
-.ssc-actions {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    margin-bottom: var(--section-gap, 1.5rem);
-}
-
-.ssc-btn-primary {
-    padding: 0.875rem 2rem;
-    font-size: 1rem;
-    font-weight: 600;
-    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
-    border: 1px solid var(--primary);
-    border-radius: 2px;
-    background: var(--primary);
-    color: var(--on-primary);
-    cursor: pointer;
-    transition: all 0.1s ease;
-}
-
-.ssc-btn-primary:hover {
-    background: var(--primary-dark);
-    border-color: var(--primary-dark);
-}
-
-.ssc-btn-secondary {
-    padding: 0.875rem 2rem;
-    font-size: 1rem;
-    font-weight: 600;
-    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
-    border: 1px solid var(--border-medium);
-    border-radius: 2px;
-    background: var(--bg-card);
-    color: var(--text-primary);
-    cursor: pointer;
-    transition: all 0.1s ease;
-}
-
-.ssc-btn-secondary:hover {
-    background: var(--bg-hover, var(--bg-body));
-    border-color: var(--primary);
-    color: var(--primary);
-}
-
-/* --- Error Message --- */
-.ssc-error-message {
-    max-width: 100%;
-    margin: 0 auto 1.5rem;
-    padding: 0.75rem 1rem;
-    color: var(--danger-text);
-    background: var(--danger-bg);
-    border: 1px solid var(--danger-border);
-    border-radius: 2px;
-    font-size: 0.9rem;
-    font-weight: 500;
-    text-align: left;
-}
-
-/* --- Initial Message --- */
+/* --- Before the first calculation --- */
 .ssc-initial-message {
     max-width: 560px;
     margin: 1rem auto;
     padding: 3rem 1.75rem;
     background: var(--bg-card);
     border: 1px solid var(--border-medium);
-    border-radius: 2px;
+    border-radius: var(--radius-sm);
     text-align: center;
 }
 
@@ -234,15 +36,6 @@ select.ssc-input-field {
 .ssc-initial-message p {
     font-size: 1rem;
     color: var(--text-secondary);
-}
-
-/* --- Results Card --- */
-.ssc-results-card {
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-    background: var(--bg-card);
-    border: 1px solid var(--border-medium);
-    border-radius: 2px;
 }
 
 .ssc-results-title {
@@ -276,7 +69,7 @@ select.ssc-input-field {
     border-collapse: separate;
     border-spacing: 0;
     border: 1px solid var(--border-medium);
-    border-radius: 2px;
+    border-radius: var(--radius-sm);
     overflow: hidden;
 }
 
@@ -289,7 +82,6 @@ select.ssc-input-field {
 
 .ssc-table th {
     background: var(--bg-body);
-    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
     font-weight: 600;
     font-size: 0.85rem;
     color: var(--text-secondary);
@@ -315,7 +107,6 @@ select.ssc-input-field {
 .ssc-table .ssc-metric-col {
     text-align: left;
     font-weight: 600;
-    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
 }
 
 .ssc-highlight-row td {
@@ -335,7 +126,7 @@ select.ssc-input-field {
     background: var(--bg-body);
     border: 1px solid var(--border-light);
     border-left: 3px solid var(--primary);
-    border-radius: 2px;
+    border-radius: var(--radius-sm);
     line-height: 1.6;
 }
 
@@ -345,12 +136,12 @@ select.ssc-input-field {
 
 /* --- Profit / Loss Colors --- */
 .ssc-text-profit {
-    color: #10b981 !important;
+    color: var(--success-text) !important;
     font-weight: 600;
 }
 
 .ssc-text-loss {
-    color: #ef4444 !important;
+    color: var(--danger-text) !important;
     font-weight: 600;
 }
 
@@ -383,10 +174,9 @@ select.ssc-input-field {
     padding: 1.25rem 1rem 1.1rem;
     background: var(--bg-card);
     border: 1px solid var(--border-medium);
-    border-radius: 2px;
+    border-radius: var(--radius-sm);
     text-align: center;
     overflow: hidden;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .ssc-summary-card::before {
@@ -397,11 +187,6 @@ select.ssc-input-field {
     right: 0;
     height: 3px;
     background: var(--card-accent, var(--primary));
-}
-
-.ssc-summary-card:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-sm);
 }
 
 .ssc-summary-card-icon {
@@ -426,7 +211,6 @@ select.ssc-input-field {
 }
 
 .ssc-summary-card-label {
-    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
     font-weight: 600;
     font-size: 0.68rem;
     color: var(--text-muted);
@@ -437,7 +221,6 @@ select.ssc-input-field {
 }
 
 .ssc-summary-card-value {
-    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
     font-size: 1.15rem;
     font-weight: 700;
     letter-spacing: -0.01em;
@@ -449,45 +232,12 @@ select.ssc-input-field {
     margin-top: 1.75rem;
 }
 
-.ssc-report-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.6rem;
-    padding: 0.9rem 1.75rem;
-    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-    color: var(--on-primary);
-    border: none;
-    border-radius: 2px;
-    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
-    font-size: 0.95rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    letter-spacing: 0.2px;
-}
-
-.ssc-report-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(6, 182, 212, 0.35);
-}
-
-.ssc-report-btn-arrow {
-    transition: transform 0.2s ease;
-}
-
-.ssc-report-btn:hover .ssc-report-btn-arrow {
-    transform: translateX(3px);
-}
-
 /* --- Manual kW conditional group --- */
 #manualKwInputGroup {
     display: none;
 }
 
-/* ============================================
-   RESPONSIVE — tool-specific layout not covered
-   by the shared tool-responsive.css conventions
-   ============================================ */
+/* --- Responsive --- */
 @media (max-width: 900px) {
     .ssc-summary-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -496,20 +246,6 @@ select.ssc-input-field {
 }
 
 @media (max-width: 768px) {
-    .ssc-mode-switcher {
-        max-width: 100%;
-    }
-
-    /* The two mode buttons are 36px tall; a thumb needs 44. They share one
-       row, so the height is the only thing that changes. */
-    .ssc-mode-btn {
-        min-height: 44px;
-    }
-
-    .ssc-results-card {
-        padding: 1rem;
-    }
-
     .ssc-table {
         min-width: 480px;
     }
@@ -518,22 +254,22 @@ select.ssc-input-field {
        columns. Desktop type in a scrolling 320px viewport reads as oversized,
        so tighten it here. Scoped to the results card: the A4 report page sets
        its own print-accurate sizes and must not follow. */
-    .ssc-results-card .ssc-table th,
-    .ssc-results-card .ssc-table td {
+    .ssc-results .ssc-table th,
+    .ssc-results .ssc-table td {
         padding: 0.45rem 0.6rem;
     }
 
-    .ssc-results-card .ssc-table th {
+    .ssc-results .ssc-table th {
         font-size: 0.75rem;
     }
 
-    .ssc-results-card .ssc-table td {
+    .ssc-results .ssc-table td {
         font-size: 0.8rem;
     }
 
     /* Rupee figures stay on one line — a wrapped amount reads as two numbers.
        The wrapper scrolls horizontally instead. Headers may still wrap. */
-    .ssc-results-card .ssc-table td:nth-child(n+2) {
+    .ssc-results .ssc-table td:nth-child(n+2) {
         font-size: 0.78rem;
         white-space: nowrap;
     }
@@ -543,25 +279,25 @@ select.ssc-input-field {
     /* Let the results tables shrink to their content instead of being held
        open at the tablet min-width — a five-column rupee table has to scroll
        on a phone, but it should not scroll further than its text needs. */
-    .ssc-results-card .ssc-table {
+    .ssc-results .ssc-table {
         min-width: 0;
     }
 
-    .ssc-results-card .ssc-table th,
-    .ssc-results-card .ssc-table td {
+    .ssc-results .ssc-table th,
+    .ssc-results .ssc-table td {
         padding: 0.4rem 0.45rem;
     }
 
-    .ssc-results-card .ssc-table th {
+    .ssc-results .ssc-table th {
         font-size: 0.7rem;
     }
 
-    .ssc-results-card .ssc-table td,
-    .ssc-results-card .ssc-table td:nth-child(n+2) {
+    .ssc-results .ssc-table td,
+    .ssc-results .ssc-table td:nth-child(n+2) {
         font-size: 0.74rem;
     }
 
-    .ssc-results-card .ssc-table td:nth-child(n+2) {
+    .ssc-results .ssc-table td:nth-child(n+2) {
         white-space: nowrap;
     }
 
@@ -590,10 +326,6 @@ select.ssc-input-field {
     .ssc-summary-card-icon {
         margin: 0;
         flex-shrink: 0;
-    }
-
-    .ssc-summary-card:hover {
-        transform: none;
     }
 
     .ssc-initial-message {

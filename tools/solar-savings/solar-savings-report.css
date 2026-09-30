@@ -5,96 +5,7 @@
    Google Sans Flex, sharp 2px corners, fixed A4 pages.
    ============================================ */
 
-/* --- Modal Overlay --- */
-.ssc-modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(17, 24, 39, 0.6);
-    backdrop-filter: blur(4px);
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    z-index: 1000;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
-    overflow-y: auto;
-    padding: 20px 0;
-}
-
-.ssc-modal-overlay.active {
-    opacity: 1;
-    visibility: visible;
-}
-
-.ssc-modal-content {
-    background: var(--viewer-bg);
-    width: 96%;
-    max-width: 920px;
-    border-radius: var(--radius-lg);
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    position: relative;
-    margin: auto;
-    max-height: 95vh;
-}
-
-.ssc-modal-header {
-    padding: 14px 24px;
-    border-bottom: 1px solid var(--border-medium);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: var(--bg-card);
-    flex-shrink: 0;
-}
-
-.ssc-modal-header h3 {
-    margin: 0;
-    font-size: 1.1rem;
-    color: var(--text-primary);
-}
-
-.ssc-modal-header-actions {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.ssc-modal-header-actions .ssc-btn-primary {
-    padding: 0.55rem 1.1rem;
-    font-size: 0.9rem;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-
-.ssc-close-modal-btn {
-    background: none;
-    border: none;
-    font-size: 1.6rem;
-    line-height: 1;
-    cursor: pointer;
-    color: var(--text-secondary);
-    padding: 0 4px;
-    transition: color 0.15s ease;
-}
-
-.ssc-close-modal-btn:hover {
-    color: var(--danger-text);
-}
-
-.ssc-modal-body {
-    padding: 30px;
-    overflow-y: auto;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 30px;
-}
+/* The preview dialog is the shared .viewer from components.css. */
 
 /* ====================================================
    A4 REPORT PAGE — mirrors .quote-page in the Proposal
@@ -416,12 +327,6 @@
    so the preview always matches the printed PDF.
    ==================================================== */
 @media (max-width: 980px) {
-    .ssc-modal-body {
-        padding: 16px;
-        align-items: flex-start;
-        overflow-x: auto;
-    }
-
     .ssc-report-page {
         zoom: 0.72;
     }
@@ -434,14 +339,6 @@
 }
 
 @media (max-width: 480px) {
-    .ssc-modal-header {
-        padding: 10px 14px;
-    }
-
-    .ssc-modal-header h3 {
-        font-size: 1rem;
-    }
-
     .ssc-report-page {
         zoom: 0.38;
     }
@@ -473,7 +370,7 @@
         visibility: hidden !important;
     }
 
-    .ssc-modal-overlay {
+    .viewer-overlay {
         position: static !important;
         background: none !important;
         backdrop-filter: none !important;
@@ -486,7 +383,7 @@
         overflow: visible !important;
     }
 
-    .ssc-modal-content {
+    .viewer {
         visibility: visible !important;
         position: static !important;
         width: 100% !important;
@@ -501,13 +398,13 @@
         background: none !important;
     }
 
-    .ssc-modal-header,
-    .ssc-modal-header-actions {
+    .viewer-header,
+    .viewer-actions {
         display: none !important;
         visibility: hidden !important;
     }
 
-    .ssc-modal-body {
+    .viewer-body {
         visibility: visible !important;
         padding: 0 !important;
         overflow: visible !important;

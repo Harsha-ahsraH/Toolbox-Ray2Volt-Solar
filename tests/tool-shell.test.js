@@ -62,9 +62,11 @@ const toolDirs = fs.readdirSync(path.join(repoRoot, 'tools'), { withFileTypes: t
 // standalone card collide with the grid below it.
 const sectionSpacing = {
     'quote-generator': ['.qg-form-grid', '.qg-form-card', '.qg-components-card'],
-    'warranty-card': ['.warranty-form-grid'],
-    'solar-savings': ['.ssc-actions']
+    'warranty-card': ['.warranty-form-grid']
 };
+
+// Migrated tools take their action row from the shared component.
+assert.match(cssRule('.actions', componentsCss), /margin:\s*2rem 0/);
 
 for (const [tool, selectors] of Object.entries(sectionSpacing)) {
     const cssFiles = fs.readdirSync(path.join(repoRoot, 'tools', tool))

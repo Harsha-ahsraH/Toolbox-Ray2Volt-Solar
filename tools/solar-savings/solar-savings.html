@@ -23,7 +23,6 @@
     <link rel="stylesheet" href="../../global/styles/responsive.css?v=20260930-sidebar-resize">
     <link rel="stylesheet" href="solar-savings.css?v=20260930-restore-typography">
     <link rel="stylesheet" href="solar-savings-report.css?v=20260725-roi-irr6">
-    <link rel="stylesheet" href="../../global/styles/tool-responsive.css">
     <!-- Theme: stamps light or dark on <html> before the first paint -->
     <script src="../../global/scripts/theme.js"></script>
 </head>
@@ -32,26 +31,26 @@
     <div class="app-container">
         <main class="main-content">
             <section id="solar-savings-section" class="content-section active">
-                <div class="ssc-app-body" id="sscAppBody">
+                <div id="sscAppBody">
 
                     <!-- Page Header -->
-                    <div class="ssc-page-header">
+                    <div class="tool-header">
                         <h1>Solar Savings Calculator</h1>
                         <p>Model CAPEX ownership or RESCO subscription savings for a customer's solar project.</p>
                     </div>
 
                     <!-- Calculator Mode Switcher -->
-                    <div class="ssc-mode-switcher">
-                        <button class="ssc-mode-btn active" id="capexModeBtn" onclick="switchCalculatorMode('capex')">CAPEX</button>
-                        <button class="ssc-mode-btn" id="rescoModeBtn" onclick="switchCalculatorMode('resco')">RESCO</button>
+                    <div class="segmented ssc-mode">
+                        <button class="segmented-btn active" id="capexModeBtn" onclick="switchCalculatorMode('capex')">CAPEX</button>
+                        <button class="segmented-btn" id="rescoModeBtn" onclick="switchCalculatorMode('resco')">RESCO</button>
                     </div>
 
                     <!-- ========== CAPEX FORM ========== -->
-                    <form id="solarForm" class="ssc-input-form" onsubmit="return false;">
-                        <div class="ssc-form-grid">
+                    <form id="solarForm" onsubmit="return false;">
+                        <div class="form-grid">
                             <!-- Project & Finance -->
-                            <div class="ssc-form-card">
-                                <h3 class="ssc-section-title">
+                            <div class="card">
+                                <h3 class="card-title">
                                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                                         stroke="currentColor" stroke-width="2">
                                         <line x1="12" y1="1" x2="12" y2="23"></line>
@@ -59,9 +58,9 @@
                                     </svg>
                                     Project & Finance
                                 </h3>
-                                <div class="ssc-input-group">
+                                <div class="field">
                                     <label for="kwInstalled">Solar System Capacity</label>
-                                    <select id="kwInstalled" class="ssc-input-field" onchange="calculateSavings()">
+                                    <select id="kwInstalled" class="input" onchange="calculateSavings()">
                                         <option value="" disabled selected>Select kW Capacity</option>
                                         <option value="2">2 kW</option>
                                         <option value="3">3 kW</option>
@@ -75,35 +74,35 @@
                                         <option value="manual">Manual Entry</option>
                                     </select>
                                 </div>
-                                <div class="ssc-input-group" id="manualKwInputGroup">
+                                <div class="field" id="manualKwInputGroup">
                                     <label for="manualKwInput">Manual System Capacity (kW)</label>
-                                    <input type="number" id="manualKwInput" class="ssc-input-field"
+                                    <input type="number" id="manualKwInput" class="input"
                                         placeholder="Enter kW (e.g., 12)" step="0.1" oninput="calculateSavings()">
                                 </div>
-                                <div class="ssc-input-group">
+                                <div class="field">
                                     <label for="totalCost">Total Project Cost (₹)</label>
-                                    <input type="number" id="totalCost" class="ssc-input-field" placeholder="Enter project cost">
-                                    <small class="ssc-input-hint">Auto-filled for 2-10 kW, editable. Enter manually for other capacities.</small>
+                                    <input type="number" id="totalCost" class="input" placeholder="Enter project cost">
+                                    <small class="field-hint">Auto-filled for 2-10 kW, editable. Enter manually for other capacities.</small>
                                 </div>
-                                <div class="ssc-input-group">
+                                <div class="field">
                                     <label for="subsidyAmount">Subsidy Amount (₹)</label>
-                                    <input type="number" id="subsidyAmount" class="ssc-input-field" step="100" placeholder="e.g., 40000" value="0">
+                                    <input type="number" id="subsidyAmount" class="input" step="100" placeholder="e.g., 40000" value="0">
                                 </div>
-                                <div class="ssc-input-group">
+                                <div class="field">
                                     <label for="downPayment">Down Payment (₹)</label>
-                                    <input type="number" id="downPayment" class="ssc-input-field" step="100" placeholder="e.g., 50000">
+                                    <input type="number" id="downPayment" class="input" step="100" placeholder="e.g., 50000">
                                 </div>
-                                <div class="ssc-input-group">
+                                <div class="field">
                                     <label for="loanTenure">Loan Tenure (Years)</label>
-                                    <input type="number" id="loanTenure" class="ssc-input-field" step="1" placeholder="e.g., 5">
+                                    <input type="number" id="loanTenure" class="input" step="1" placeholder="e.g., 5">
                                 </div>
-                                <div class="ssc-input-group">
+                                <div class="field">
                                     <label for="interestRate">Annual Interest Rate (%)</label>
-                                    <input type="number" id="interestRate" class="ssc-input-field" step="0.1" placeholder="e.g., 9.5">
+                                    <input type="number" id="interestRate" class="input" step="0.1" placeholder="e.g., 9.5">
                                 </div>
-                                <div class="ssc-input-group">
+                                <div class="field">
                                     <label for="loanType">Loan Type</label>
-                                    <select id="loanType" class="ssc-input-field">
+                                    <select id="loanType" class="input">
                                         <option value="reducing" selected>Reducing Balance</option>
                                         <option value="flat">Flat Rate</option>
                                     </select>
@@ -111,54 +110,54 @@
                             </div>
 
                             <!-- Energy Consumption -->
-                            <div class="ssc-form-card">
-                                <h3 class="ssc-section-title">
+                            <div class="card">
+                                <h3 class="card-title">
                                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                                         stroke="currentColor" stroke-width="2">
                                         <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
                                     </svg>
                                     Energy Consumption
                                 </h3>
-                                <div class="ssc-input-group">
+                                <div class="field">
                                     <label for="unitsPerKwDay">Daily Units / kW (kWh)</label>
-                                    <input type="number" id="unitsPerKwDay" class="ssc-input-field" step="0.1" placeholder="e.g., 4.5" value="4.2">
+                                    <input type="number" id="unitsPerKwDay" class="input" step="0.1" placeholder="e.g., 4.5" value="4.2">
                                 </div>
-                                <div class="ssc-input-group">
+                                <div class="field">
                                     <label for="avgUnitsConsumed">Monthly Consumption (kWh)</label>
-                                    <input type="number" id="avgUnitsConsumed" class="ssc-input-field" step="1" placeholder="e.g., 400">
+                                    <input type="number" id="avgUnitsConsumed" class="input" step="1" placeholder="e.g., 400">
                                 </div>
-                                <div class="ssc-input-group">
+                                <div class="field">
                                     <label for="costPerUnit">Grid Cost / Unit (₹/kWh)</label>
-                                    <input type="number" id="costPerUnit" class="ssc-input-field" step="0.01" placeholder="e.g., 8.00">
+                                    <input type="number" id="costPerUnit" class="input" step="0.01" placeholder="e.g., 8.00">
                                 </div>
-                                <div class="ssc-input-group">
+                                <div class="field">
                                     <label for="additionalCharges">Additional Charges (₹/month)</label>
-                                    <input type="number" id="additionalCharges" class="ssc-input-field" step="0.01" placeholder="e.g., 100" value="0">
+                                    <input type="number" id="additionalCharges" class="input" step="0.01" placeholder="e.g., 100" value="0">
                                 </div>
-                                <div class="ssc-input-group">
+                                <div class="field">
                                     <label for="inflationRate">Electricity Inflation (%)</label>
-                                    <input type="number" id="inflationRate" class="ssc-input-field" step="0.1" placeholder="e.g., 4.0" value="4.0">
+                                    <input type="number" id="inflationRate" class="input" step="0.1" placeholder="e.g., 4.0" value="4.0">
                                 </div>
-                                <div class="ssc-input-group">
+                                <div class="field">
                                     <label for="netMeteringRate">Export Rate (₹/kWh)</label>
-                                    <input type="number" id="netMeteringRate" class="ssc-input-field" step="0.01" placeholder="e.g., 3.50">
+                                    <input type="number" id="netMeteringRate" class="input" step="0.01" placeholder="e.g., 3.50">
                                 </div>
                             </div>
                         </div>
 
-                        <div class="ssc-actions">
-                            <button type="button" onclick="calculateSavings()" class="ssc-btn-primary">Calculate Savings</button>
-                            <button type="button" id="resetBtn" class="ssc-btn-secondary">Reset</button>
+                        <div class="actions">
+                            <button type="button" onclick="calculateSavings()" class="btn btn-primary">Calculate Savings</button>
+                            <button type="button" id="resetBtn" class="btn btn-secondary">Reset</button>
                         </div>
-                        <div id="errorMessage" class="ssc-error-message" style="display: none;"></div>
+                        <div id="errorMessage" class="alert alert-danger ssc-alert" style="display: none;"></div>
                     </form>
 
                     <!-- ========== RESCO FORM ========== -->
-                    <form id="rescoForm" class="ssc-input-form" onsubmit="return false;" style="display: none;">
-                        <div class="ssc-form-grid">
+                    <form id="rescoForm" onsubmit="return false;" style="display: none;">
+                        <div class="form-grid">
                             <!-- Consumer Consumption & Billing -->
-                            <div class="ssc-form-card">
-                                <h3 class="ssc-section-title">
+                            <div class="card">
+                                <h3 class="card-title">
                                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                                         stroke="currentColor" stroke-width="2">
                                         <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
@@ -168,68 +167,68 @@
                                     </svg>
                                     Consumer Consumption & Billing
                                 </h3>
-                                <div class="ssc-input-group">
+                                <div class="field">
                                     <label for="rescoMonthlyUnits">Monthly Consumption (kWh)</label>
-                                    <input type="number" id="rescoMonthlyUnits" class="ssc-input-field" step="1" placeholder="e.g., 500">
+                                    <input type="number" id="rescoMonthlyUnits" class="input" step="1" placeholder="e.g., 500">
                                 </div>
-                                <div class="ssc-input-group">
+                                <div class="field">
                                     <label for="rescoCurrentBill">Current Electricity Bill (₹/month)</label>
-                                    <input type="number" id="rescoCurrentBill" class="ssc-input-field" step="1" placeholder="e.g., 4000">
+                                    <input type="number" id="rescoCurrentBill" class="input" step="1" placeholder="e.g., 4000">
                                 </div>
-                                <div class="ssc-input-group">
+                                <div class="field">
                                     <label for="rescoAdditionalCharges">Additional Charges (₹/month)</label>
-                                    <input type="number" id="rescoAdditionalCharges" class="ssc-input-field" step="1" placeholder="e.g., 100" value="0">
+                                    <input type="number" id="rescoAdditionalCharges" class="input" step="1" placeholder="e.g., 100" value="0">
                                 </div>
-                                <div class="ssc-input-group">
+                                <div class="field">
                                     <label for="rescoDiscomTariff">DISCOM Tariff (₹/kWh)</label>
-                                    <input type="number" id="rescoDiscomTariff" class="ssc-input-field" step="0.01" placeholder="e.g., 8.00">
+                                    <input type="number" id="rescoDiscomTariff" class="input" step="0.01" placeholder="e.g., 8.00">
                                 </div>
-                                <div class="ssc-input-group">
+                                <div class="field">
                                     <label for="rescoTariffEscalation">DISCOM Tariff Escalation (%/yr)</label>
-                                    <input type="number" id="rescoTariffEscalation" class="ssc-input-field" step="0.1" placeholder="e.g., 5" value="5">
+                                    <input type="number" id="rescoTariffEscalation" class="input" step="0.1" placeholder="e.g., 5" value="5">
                                 </div>
                             </div>
 
                             <!-- RESCO Policy -->
-                            <div class="ssc-form-card">
-                                <h3 class="ssc-section-title">
+                            <div class="card">
+                                <h3 class="card-title">
                                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                                         stroke="currentColor" stroke-width="2">
                                         <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
                                     </svg>
                                     RESCO Policy
                                 </h3>
-                                <div class="ssc-input-group">
+                                <div class="field">
                                     <label for="rescoSystemCapacity">System Capacity (kW)</label>
-                                    <input type="number" id="rescoSystemCapacity" class="ssc-input-field" step="0.1" placeholder="e.g., 10">
+                                    <input type="number" id="rescoSystemCapacity" class="input" step="0.1" placeholder="e.g., 10">
                                 </div>
-                                <div class="ssc-input-group">
+                                <div class="field">
                                     <label for="rescoUnitsPerKwDay">Daily Generation / kW (kWh)</label>
-                                    <input type="number" id="rescoUnitsPerKwDay" class="ssc-input-field" step="0.1" placeholder="e.g., 4.2" value="4.2">
+                                    <input type="number" id="rescoUnitsPerKwDay" class="input" step="0.1" placeholder="e.g., 4.2" value="4.2">
                                 </div>
-                                <div class="ssc-input-group">
+                                <div class="field">
                                     <label for="rescoR2VTariff">Ray2Volt Tariff (₹/kWh)</label>
-                                    <input type="number" id="rescoR2VTariff" class="ssc-input-field" step="0.01" placeholder="e.g., 5.50">
-                                    <small class="ssc-input-hint">Rate charged by Ray2Volt to the consumer for solar power.</small>
+                                    <input type="number" id="rescoR2VTariff" class="input" step="0.01" placeholder="e.g., 5.50">
+                                    <small class="field-hint">Rate charged by Ray2Volt to the consumer for solar power.</small>
                                 </div>
-                                <div class="ssc-input-group">
+                                <div class="field">
                                     <label for="rescoR2VEscalation">R2V Tariff Escalation (%/yr)</label>
-                                    <input type="number" id="rescoR2VEscalation" class="ssc-input-field" step="0.1" placeholder="e.g., 3" value="3">
+                                    <input type="number" id="rescoR2VEscalation" class="input" step="0.1" placeholder="e.g., 3" value="3">
                                 </div>
-                                <div class="ssc-input-group">
+                                <div class="field">
                                     <label for="rescoPPATenure">PPA Tenure (Years)</label>
-                                    <input type="number" id="rescoPPATenure" class="ssc-input-field" step="1" placeholder="e.g., 25" value="25">
+                                    <input type="number" id="rescoPPATenure" class="input" step="1" placeholder="e.g., 25" value="25">
                                 </div>
-                                <div class="ssc-input-group">
+                                <div class="field">
                                     <label for="rescoSecurityMonths">Security Deposit (Months)</label>
-                                    <input type="number" id="rescoSecurityMonths" class="ssc-input-field" step="1" placeholder="e.g., 3" value="3">
-                                    <small class="ssc-input-hint">Months of projected RESCO bill as security deposit.</small>
+                                    <input type="number" id="rescoSecurityMonths" class="input" step="1" placeholder="e.g., 3" value="3">
+                                    <small class="field-hint">Months of projected RESCO bill as security deposit.</small>
                                 </div>
                             </div>
 
                             <!-- System Cost to Ray2Volt -->
-                            <div class="ssc-form-card">
-                                <h3 class="ssc-section-title">
+                            <div class="card">
+                                <h3 class="card-title">
                                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                                         stroke="currentColor" stroke-width="2">
                                         <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
@@ -237,35 +236,35 @@
                                     </svg>
                                     System Cost to Ray2Volt
                                 </h3>
-                                <div class="ssc-input-group">
+                                <div class="field">
                                     <label for="rescoSystemCost">Total System Cost (₹)</label>
-                                    <input type="number" id="rescoSystemCost" class="ssc-input-field" step="1" placeholder="e.g., 500000">
+                                    <input type="number" id="rescoSystemCost" class="input" step="1" placeholder="e.g., 500000">
                                 </div>
-                                <div class="ssc-input-group">
+                                <div class="field">
                                     <label for="rescoOMCost">Annual O&M Cost (₹)</label>
-                                    <input type="number" id="rescoOMCost" class="ssc-input-field" step="1" placeholder="e.g., 5000" value="0">
+                                    <input type="number" id="rescoOMCost" class="input" step="1" placeholder="e.g., 5000" value="0">
                                 </div>
-                                <div class="ssc-input-group">
+                                <div class="field">
                                     <label for="rescoOMEscalation">O&M Escalation (%/yr)</label>
-                                    <input type="number" id="rescoOMEscalation" class="ssc-input-field" step="0.1" placeholder="e.g., 5" value="5">
+                                    <input type="number" id="rescoOMEscalation" class="input" step="0.1" placeholder="e.g., 5" value="5">
                                 </div>
-                                <div class="ssc-input-group">
+                                <div class="field">
                                     <label for="rescoAMCCost">Annual AMC Cost (₹)</label>
-                                    <input type="number" id="rescoAMCCost" class="ssc-input-field" step="1" placeholder="e.g., 3000" value="0">
+                                    <input type="number" id="rescoAMCCost" class="input" step="1" placeholder="e.g., 3000" value="0">
                                 </div>
-                                <div class="ssc-input-group">
+                                <div class="field">
                                     <label for="rescoAMCEscalation">AMC Escalation (%/yr)</label>
-                                    <input type="number" id="rescoAMCEscalation" class="ssc-input-field" step="0.1" placeholder="e.g., 5" value="5">
+                                    <input type="number" id="rescoAMCEscalation" class="input" step="0.1" placeholder="e.g., 5" value="5">
                                 </div>
-                                <div class="ssc-input-group">
+                                <div class="field">
                                     <label for="rescoPanelDegradation">Panel Degradation (%/yr)</label>
-                                    <input type="number" id="rescoPanelDegradation" class="ssc-input-field" step="0.1" placeholder="e.g., 0.5" value="0.5">
+                                    <input type="number" id="rescoPanelDegradation" class="input" step="0.1" placeholder="e.g., 0.5" value="0.5">
                                 </div>
                             </div>
 
                             <!-- R2V Loan / Financing -->
-                            <div class="ssc-form-card">
-                                <h3 class="ssc-section-title">
+                            <div class="card">
+                                <h3 class="card-title">
                                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                                         stroke="currentColor" stroke-width="2">
                                         <line x1="3" y1="22" x2="21" y2="22"></line>
@@ -277,27 +276,27 @@
                                     </svg>
                                     R2V Loan / Financing
                                 </h3>
-                                <div class="ssc-input-group">
+                                <div class="field">
                                     <label for="rescoLoanAmount">Loan Amount (₹)</label>
-                                    <input type="number" id="rescoLoanAmount" class="ssc-input-field" step="1" placeholder="e.g., 400000" value="0">
-                                    <small class="ssc-input-hint">Leave 0 if no loan financing.</small>
+                                    <input type="number" id="rescoLoanAmount" class="input" step="1" placeholder="e.g., 400000" value="0">
+                                    <small class="field-hint">Leave 0 if no loan financing.</small>
                                 </div>
-                                <div class="ssc-input-group">
+                                <div class="field">
                                     <label for="rescoLoanTenure">Loan Tenure (Years)</label>
-                                    <input type="number" id="rescoLoanTenure" class="ssc-input-field" step="1" placeholder="e.g., 10" value="10">
+                                    <input type="number" id="rescoLoanTenure" class="input" step="1" placeholder="e.g., 10" value="10">
                                 </div>
-                                <div class="ssc-input-group">
+                                <div class="field">
                                     <label for="rescoMoratorium">Moratorium Period (Months)</label>
-                                    <input type="number" id="rescoMoratorium" class="ssc-input-field" step="1" placeholder="e.g., 6" value="0">
-                                    <small class="ssc-input-hint">Interest-only period before EMI starts.</small>
+                                    <input type="number" id="rescoMoratorium" class="input" step="1" placeholder="e.g., 6" value="0">
+                                    <small class="field-hint">Interest-only period before EMI starts.</small>
                                 </div>
-                                <div class="ssc-input-group">
+                                <div class="field">
                                     <label for="rescoLoanInterest">Loan Interest Rate (%/yr)</label>
-                                    <input type="number" id="rescoLoanInterest" class="ssc-input-field" step="0.1" placeholder="e.g., 9.5" value="9.5">
+                                    <input type="number" id="rescoLoanInterest" class="input" step="0.1" placeholder="e.g., 9.5" value="9.5">
                                 </div>
-                                <div class="ssc-input-group">
+                                <div class="field">
                                     <label for="rescoLoanType">Loan Type</label>
-                                    <select id="rescoLoanType" class="ssc-input-field">
+                                    <select id="rescoLoanType" class="input">
                                         <option value="reducing" selected>Reducing Balance</option>
                                         <option value="flat">Flat Rate</option>
                                     </select>
@@ -305,10 +304,10 @@
                             </div>
                         </div>
 
-                        <div class="ssc-actions">
-                            <button type="button" onclick="calculateRESCO()" class="ssc-btn-primary">Calculate RESCO</button>
+                        <div class="actions">
+                            <button type="button" onclick="calculateRESCO()" class="btn btn-primary">Calculate RESCO</button>
                         </div>
-                        <div id="rescoErrorMessage" class="ssc-error-message" style="display: none;"></div>
+                        <div id="rescoErrorMessage" class="alert alert-danger ssc-alert" style="display: none;"></div>
                     </form>
 
                     <!-- Initial Message -->
@@ -318,7 +317,7 @@
                     </div>
 
                     <!-- ========== CAPEX RESULTS ========== -->
-                    <div id="resultsSection" class="ssc-results-card" style="display: none;">
+                    <div id="resultsSection" class="card ssc-results" style="display: none;">
                         <h2 class="ssc-results-title">Solar Investment Analysis</h2>
 
                         <div id="capexReturnsSummary" class="ssc-summary-grid ssc-returns-grid"></div>
@@ -344,7 +343,7 @@
                         <div id="breakevenAnalysis" class="ssc-table-wrapper"></div>
 
                         <div class="ssc-report-btn-wrapper">
-                            <button onclick="openReportModal()" class="ssc-report-btn">
+                            <button onclick="openReportModal()" class="btn btn-primary">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
                                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
@@ -355,7 +354,7 @@
                                 View Detailed Report & Print
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
                                     stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
-                                    class="ssc-report-btn-arrow">
+                                   >
                                     <line x1="5" y1="12" x2="19" y2="12"></line>
                                     <polyline points="12 5 19 12 12 19"></polyline>
                                 </svg>
@@ -364,7 +363,7 @@
                     </div>
 
                     <!-- ========== RESCO RESULTS ========== -->
-                    <div id="rescoResultsSection" class="ssc-results-card" style="display: none;">
+                    <div id="rescoResultsSection" class="card ssc-results" style="display: none;">
                         <h2 class="ssc-results-title">RESCO Model Analysis</h2>
 
                         <div id="rescoSummary" class="ssc-summary-grid"></div>
@@ -386,12 +385,12 @@
 
 
     <!-- Report Preview Modal -->
-    <div id="reportModal" class="ssc-modal-overlay">
-        <div class="ssc-modal-content">
-            <div class="ssc-modal-header">
+    <div id="reportModal" class="viewer-overlay">
+        <div class="viewer">
+            <div class="viewer-header">
                 <h3>Solar Savings Report Preview</h3>
-                <div class="ssc-modal-header-actions">
-                    <button class="ssc-btn-primary" onclick="printReport()">
+                <div class="viewer-actions">
+                    <button class="btn btn-primary btn-sm" onclick="printReport()">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <polyline points="6 9 6 2 18 2 18 9"></polyline>
@@ -400,10 +399,10 @@
                         </svg>
                         Print / Save PDF
                     </button>
-                    <button class="ssc-close-modal-btn" onclick="closeReportModal()">&times;</button>
+                    <button type="button" class="viewer-close" onclick="closeReportModal()" aria-label="Close preview">&times;</button>
                 </div>
             </div>
-            <div class="ssc-modal-body" id="modalBody">
+            <div class="viewer-body" id="modalBody">
 
                 <!-- ===== PAGE 1 ===== -->
                 <div class="ssc-report-page" id="printableReport">
