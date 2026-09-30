@@ -208,9 +208,7 @@
 }
 
 .sidebar-brand {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
+    display: block;
     margin: 0;
     font-size: 1.25rem;
     font-weight: 600;
