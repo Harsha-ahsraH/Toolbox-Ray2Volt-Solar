@@ -70,7 +70,7 @@
     width: 100%;
     padding: 0.75rem 1rem;
     font-size: 0.95rem;
-    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
+    font-family: var(--font-ui);
     border: 1px solid var(--border-medium);
     border-radius: 2px;
     background: var(--bg-card);
@@ -100,7 +100,7 @@
     padding: 0.625rem 1rem;
     font-size: 0.875rem;
     font-weight: 500;
-    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
+    font-family: var(--font-ui);
     border: 1px solid var(--border-medium);
     border-radius: 2px;
     background: var(--bg-card);
@@ -145,7 +145,7 @@
     padding: 0.75rem 1rem;
     font-size: 0.85rem;
     font-weight: 500;
-    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
+    font-family: var(--font-ui);
     border: 1px solid var(--border-medium);
     border-radius: 2px;
     background: var(--bg-card);
@@ -209,7 +209,8 @@
     text-align: right;
     font-weight: 600;
     color: var(--text-primary);
-    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
+    font-family: var(--font-ui);
+    font-variant-numeric: tabular-nums;
 }
 
 .gst-table tbody tr:nth-child(even) {

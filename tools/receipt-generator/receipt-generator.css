@@ -82,7 +82,7 @@
     width: 100%;
     padding: 0.75rem 1rem;
     font-size: 0.95rem;
-    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
+    font-family: var(--font-ui);
     border: 1px solid var(--border-medium);
     border-radius: 2px;
     background: var(--bg-card);
@@ -167,7 +167,7 @@ textarea.rcpt-input-field {
     font-weight: 600;
     color: var(--primary);
     font-size: 0.9rem;
-    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
+    font-family: var(--font-ui);
 }
 
 .rcpt-btn-remove {
@@ -228,7 +228,7 @@ textarea.rcpt-input-field {
     margin-top: 1rem;
     font-size: 0.875rem;
     font-weight: 500;
-    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
+    font-family: var(--font-ui);
     border: 1px dashed var(--primary);
     border-radius: 2px;
     background: var(--primary-light);
@@ -256,7 +256,7 @@ textarea.rcpt-input-field {
     padding: 0.875rem 2rem;
     font-size: 1rem;
     font-weight: 600;
-    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
+    font-family: var(--font-ui);
     border: 1px solid var(--primary);
     border-radius: 2px;
     background: var(--primary);
@@ -274,7 +274,7 @@ textarea.rcpt-input-field {
     padding: 0.875rem 2rem;
     font-size: 1rem;
     font-weight: 600;
-    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
+    font-family: var(--font-ui);
     border: 1px solid var(--border-medium);
     border-radius: 2px;
     background: var(--bg-card);

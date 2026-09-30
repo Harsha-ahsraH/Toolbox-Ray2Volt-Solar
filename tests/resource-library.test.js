@@ -166,7 +166,7 @@ assert.equal(catalogue.slug('Waaree 550 Wp — datasheet'), 'waaree-550-wp-datas
 assert.equal(catalogue.slug('  Leading and trailing  '), 'leading-and-trailing');
 
 // --- Page wiring ---------------------------------------------------------
-assert.match(html, /family=Google\+Sans:/, 'the page loads Google Sans for its headings');
+assert.match(html, /family=Inter:/, 'the page loads Inter for its chrome');
 assert.match(html, /data-tool-id="resource-library"/, 'the page is password gated');
 assert.ok(
     html.lastIndexOf('resource-library.js') > html.lastIndexOf('resource-library-catalogue.js'),

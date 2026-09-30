@@ -356,7 +356,7 @@ assert.match(
 );
 
 // --- Page wiring --------------------------------------------------------
-assert.match(html, /family=Google\+Sans:/, 'the page loads Google Sans for its headings');
+assert.match(html, /family=Inter:/, 'the page loads Inter for its chrome');
 assert.match(html, /data-tool-id="comparison-sheet"/, 'the page is password gated');
 assert.doesNotMatch(
     html,

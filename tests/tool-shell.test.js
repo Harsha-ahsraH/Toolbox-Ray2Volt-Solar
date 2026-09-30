@@ -124,7 +124,7 @@ for (const tool of toolDirs) {
     }
 }
 
-// Every tool page loads Google Sans, the family base.css puts first for headings.
+// Every tool page loads Inter, the face base.css sets for the app chrome.
 for (const tool of toolDirs) {
     const htmlPath = path.join(repoRoot, 'tools', tool, `${tool}.html`);
     if (!fs.existsSync(htmlPath)) continue;
@@ -132,8 +132,25 @@ for (const tool of toolDirs) {
     const html = fs.readFileSync(htmlPath, 'utf8');
     assert.match(
         html,
-        /family=Google\+Sans:/,
-        `${tool} must load Google Sans so its headings match the other tools`
+        /family=Inter:/,
+        `${tool} must load Inter so its chrome matches the other tools`
+    );
+}
+
+// The chrome has one face, set once. A tool's form fields and buttons point at
+// the token rather than naming a family, so they cannot drift back to the old
+// Google Sans pairing; documents pin Google Sans Flex on their own root.
+assert.match(baseCss, /--font-ui:\s*'Inter'/, 'base.css defines the chrome face');
+assert.match(baseCss, /body\s*\{[^}]*font-family:\s*var\(--font-ui\)/, 'the body uses the chrome face');
+for (const tool of toolDirs) {
+    const cssFiles = fs.readdirSync(path.join(repoRoot, 'tools', tool))
+        .filter(file => file.endsWith('.css'))
+        .map(file => fs.readFileSync(path.join(repoRoot, 'tools', tool, file), 'utf8'))
+        .join('\n');
+    assert.doesNotMatch(
+        cssFiles,
+        /font-family:\s*'Google Sans Flex', 'Google Sans', sans-serif/,
+        `${tool} form chrome should use var(--font-ui)`
     );
 }
 
