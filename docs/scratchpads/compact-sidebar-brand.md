@@ -2,7 +2,7 @@
 
 ## Goal
 
-Replace the logo at the top of the sidebar with two lines: Ray2Volt and Toolbox. Reduce the space occupied by the header.
+Latest request: show only Toolbox at the top of the sidebar, in Google Sans Flex bold, and restore the typography that existed before the Inter change. Keep the header compact.
 
 ## Assumptions and principles
 
@@ -25,3 +25,12 @@ Replace the logo at the top of the sidebar with two lines: Ray2Volt and Toolbox.
 - Existing sidebar navigation, toolbox search, and local link tests passed.
 - Git diff whitespace checks passed.
 - Correction verified in Chromium with 95 rendered heading checks across 19 pages: desktop, mobile, older cached navigation styles, and no styles. Both words occupy separate lines; current desktop and mobile headers remain compact.
+
+## Latest decisions
+
+- The single Toolbox heading supersedes the earlier two-line branding.
+- Set the sidebar heading explicitly in Google Sans Flex at weight 700.
+- Reverse the complete typography change from commit 59802e5: restore the original Google Sans headings, Google Sans Flex body and form typography, sign-in typography, and previous numeral and spacing settings.
+- Refresh URLs for restored styles and the sign-in script, including imported form styles, to avoid mixing cached Inter styles with the restored fonts.
+- Preserve existing document content, calculations, navigation, and the compact sidebar padding.
+- Verification: all 34 existing test suites passed. Confirmed exact restoration of 19 font-related files; Chromium comparisons matched 4,938 text/control styles to the pre-Inter version across all 19 pages at desktop and mobile widths. All 38 visible sidebar headings use only Toolbox, Google Sans Flex, weight 700.

@@ -113,7 +113,7 @@ for (const [toolName, toolId] of Object.entries(pageToolIds)) {
 
     assert.match(
         html,
-        new RegExp(`<script src="\\.\\./\\.\\./global/scripts/auth\\.js" data-tool-id="${toolId}">`),
+        new RegExp(`<script src="\\.\\./\\.\\./global/scripts/auth\\.js(?:\\?[^\"]*)?" data-tool-id="${toolId}">`),
         `${toolName} must load auth.js under the id ${toolId}`
     );
 
@@ -126,7 +126,7 @@ for (const [toolName, toolId] of Object.entries(pageToolIds)) {
 }
 
 const indexHtml = fs.readFileSync(path.join(repoRoot, 'index.html'), 'utf8');
-assert.match(indexHtml, /<script src="global\/scripts\/auth\.js"><\/script>/, 'the dashboard is gated too');
+assert.match(indexHtml, /<script src="global\/scripts\/auth\.js(?:\?[^\"]*)?"><\/script>/, 'the dashboard is gated too');
 assert.ok(
     indexHtml.indexOf('global/scripts/auth.js') < indexHtml.indexOf('global/scripts/navigation.js'),
     'the dashboard must load auth.js before navigation.js'

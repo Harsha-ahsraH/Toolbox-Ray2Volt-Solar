@@ -25,7 +25,7 @@ assert.doesNotMatch(html, /marked\.min\.js|Markdown Content|lhdMarkdownBody|Docu
 
 assert.match(css, /\.lhd-file-drop\s*\{/);
 assert.match(css, /\.lhd-status\.success\s*\{/);
-assert.match(css, /font-family:\s*var\(--font-ui\)/);
+assert.match(css, /font-family:\s*'Google Sans Flex', 'Open Sans', 'Google Sans'/);
 assert.doesNotMatch(css, /lhd-page-content|lhd-markdown-body|@page/);
 
 assert.match(js, /Letterhead \(Latest\) Ray2Volt Solar PNG\.png/);

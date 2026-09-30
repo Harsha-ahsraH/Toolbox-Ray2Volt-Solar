@@ -41,7 +41,7 @@
     border-radius: 2px;
     cursor: pointer;
     transition: all 0.1s ease;
-    font-family: var(--font-ui);
+    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
     font-size: 0.875rem;
     font-weight: 500;
 }
@@ -152,8 +152,7 @@
     padding: 0.25rem 0.75rem;
     border-radius: 2px;
     border: 1px solid var(--primary);
-    font-family: var(--font-ui);
-    font-variant-numeric: tabular-nums;
+    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
 }
 
 /* --- Enhanced Slider --- */
@@ -201,7 +200,7 @@
     width: 100%;
     padding: 0.75rem 1rem;
     font-size: 0.95rem;
-    font-family: var(--font-ui);
+    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
     border: 1px solid var(--border-medium);
     border-radius: 2px;
     background: var(--bg-card);
@@ -264,7 +263,7 @@
     padding: 0.625rem 1rem;
     font-size: 0.85rem;
     font-weight: 500;
-    font-family: var(--font-ui);
+    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
     border: 1px solid var(--border-medium);
     border-radius: 2px;
     background: var(--bg-card);
@@ -321,8 +320,7 @@
     font-size: 1.75rem;
     font-weight: 600;
     line-height: 1.2;
-    font-family: var(--font-ui);
-    font-variant-numeric: tabular-nums;
+    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
 }
 
 /* --- Secondary Results --- */
@@ -353,8 +351,7 @@
     font-size: 1.1rem;
     font-weight: 600;
     color: var(--text-primary);
-    font-family: var(--font-ui);
-    font-variant-numeric: tabular-nums;
+    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
 }
 
 /* --- Chart Wrapper --- */

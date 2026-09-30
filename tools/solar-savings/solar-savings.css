@@ -44,7 +44,7 @@
     border-radius: 2px;
     background: transparent;
     color: var(--text-secondary);
-    font-family: var(--font-ui);
+    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
     font-weight: 600;
     font-size: 0.85rem;
     cursor: pointer;
@@ -116,7 +116,7 @@
     width: 100%;
     padding: 0.75rem 1rem;
     font-size: 0.95rem;
-    font-family: var(--font-ui);
+    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
     border: 1px solid var(--border-medium);
     border-radius: 2px;
     background: var(--bg-card);
@@ -166,7 +166,7 @@ select.ssc-input-field {
     padding: 0.875rem 2rem;
     font-size: 1rem;
     font-weight: 600;
-    font-family: var(--font-ui);
+    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
     border: 1px solid var(--primary);
     border-radius: 2px;
     background: var(--primary);
@@ -184,7 +184,7 @@ select.ssc-input-field {
     padding: 0.875rem 2rem;
     font-size: 1rem;
     font-weight: 600;
-    font-family: var(--font-ui);
+    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
     border: 1px solid var(--border-medium);
     border-radius: 2px;
     background: var(--bg-card);
@@ -289,7 +289,7 @@ select.ssc-input-field {
 
 .ssc-table th {
     background: var(--bg-body);
-    font-family: var(--font-ui);
+    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
     font-weight: 600;
     font-size: 0.85rem;
     color: var(--text-secondary);
@@ -315,7 +315,7 @@ select.ssc-input-field {
 .ssc-table .ssc-metric-col {
     text-align: left;
     font-weight: 600;
-    font-family: var(--font-ui);
+    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
 }
 
 .ssc-highlight-row td {
@@ -426,7 +426,7 @@ select.ssc-input-field {
 }
 
 .ssc-summary-card-label {
-    font-family: var(--font-ui);
+    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
     font-weight: 600;
     font-size: 0.68rem;
     color: var(--text-muted);
@@ -437,8 +437,7 @@ select.ssc-input-field {
 }
 
 .ssc-summary-card-value {
-    font-family: var(--font-ui);
-    font-variant-numeric: tabular-nums;
+    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
     font-size: 1.15rem;
     font-weight: 700;
     letter-spacing: -0.01em;
@@ -459,7 +458,7 @@ select.ssc-input-field {
     color: var(--on-primary);
     border: none;
     border-radius: 2px;
-    font-family: var(--font-ui);
+    font-family: 'Google Sans Flex', 'Google Sans', sans-serif;
     font-size: 0.95rem;
     font-weight: 600;
     cursor: pointer;

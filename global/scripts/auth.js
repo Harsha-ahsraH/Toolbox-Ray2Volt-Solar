@@ -144,7 +144,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            font-family: 'Google Sans', 'Nunito Sans', system-ui, -apple-system, sans-serif;
         }
 
         .toolbox-auth-card {

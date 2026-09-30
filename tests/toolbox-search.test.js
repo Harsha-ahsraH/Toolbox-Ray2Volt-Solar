@@ -142,8 +142,8 @@ assert.ok(
 
 assert.match(
     indexHtml,
-    /class="sidebar-mobile-header">\s*<h2 class="sidebar-brand"><span>Ray2Volt<\/span><br><span class="sidebar-brand-subtitle">Toolbox<\/span><\/h2>/,
-    'the drawer should use the compact two-line text heading'
+    /class="sidebar-mobile-header">\s*<h2 class="sidebar-brand">Toolbox<\/h2>/,
+    'the drawer should use the compact Toolbox heading'
 );
 
 console.log('toolbox search tests passed');

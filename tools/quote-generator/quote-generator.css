@@ -1,7 +1,7 @@
 /* Quote Generator stylesheet manifest. Keep imports in this order.
    The ?v= query matches the one on the <link> in quote-generator.html —
    bump both together so imported sheets are never served stale. */
-@import url('./quote-generator-form.css?v=20260929-redesign-12');
+@import url('./quote-generator-form.css?v=20260930-restore-typography');
 @import url('./quote-generator-preview-layout.css?v=20260929-redesign-12');
 @import url('./quote-generator-preview-details.css?v=20260929-redesign-12');
 @import url('./quote-generator-preview-terms.css?v=20260929-redesign-12');

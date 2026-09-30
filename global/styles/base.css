@@ -130,11 +130,6 @@
     /* Shared width for every tool's content column */
     --tool-width: 1100px;
 
-    /* The app chrome is set in Inter. Documents never reach for this:
-       each one pins Google Sans Flex on its own root, and headings
-       inherit, so a preview keeps the house document face. */
-    --font-ui: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-
     /* Vertical gap between a tool's top-level sections (cards, grids, tables) */
     --section-gap: 1.5rem;
 
@@ -318,7 +313,7 @@ html {
 }
 
 body {
-    font-family: var(--font-ui);
+    font-family: 'Google Sans Flex', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     background-color: var(--bg-body);
     color: var(--text-primary);
     line-height: 1.6;
@@ -327,31 +322,16 @@ body {
     overflow-x: hidden;
 }
 
-/* Headings take the face of whatever they sit in: Inter in the chrome,
-   Google Sans Flex inside a document preview. */
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
-    font-family: inherit;
+    font-family: 'Google Sans', 'Google Sans Flex', sans-serif;
     font-weight: 600;
     line-height: 1.3;
     color: var(--text-primary);
-}
-
-/* Page titles are display-sized, where Inter wants its spacing drawn in */
-.section-header h1,
-[class*="page-header"] h1 {
-    letter-spacing: -0.02em;
-}
-
-/* Figures line up in every field that takes a number */
-input,
-select,
-textarea {
-    font-variant-numeric: tabular-nums;
 }
 
 a {
