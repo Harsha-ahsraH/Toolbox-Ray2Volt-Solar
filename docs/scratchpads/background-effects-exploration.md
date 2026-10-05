@@ -51,3 +51,4 @@ Created twelve live previews and verified them in the in-app browser. Checked ev
 - All 35 `tests/*.test.js` files passed, including the new background behavior and page-coverage tests; `git diff --check` passed.
 - In-app browser checks verified dashboard navigation, pointer movement, approved light/dark dot intensity, opaque cards, report preview above the sidebar, mobile layout, and sidebar collapse. No browser console errors.
 - Implementation complete and verified. The user authorized committing and pushing these changes; the Git destination is `origin/main`.
+- Removed on 2026-10-05 at the user's request: the CSS, script, test and page links are gone.
