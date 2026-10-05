@@ -269,7 +269,13 @@ function generateRESCOSummary(breakevenYear, totalRevenue, totalCosts, totalProf
     const container = document.getElementById('rescoSummary');
 
     const breakevenText = breakevenYear > 0 ? `Year ${breakevenYear}` : `> ${ppaTenure} Years`;
-    const breakevenColor = breakevenYear > 0 ? '#10b981' : '#ef4444';
+    // Black and white, with green or red only where the sign of the number
+    // is the news.
+    const GAIN = 'var(--accent-green)';
+    const LOSS = 'var(--accent-red)';
+    const INK = 'var(--text-primary)';
+    const signed = ok => (ok ? GAIN : LOSS);
+    const breakevenColor = signed(breakevenYear > 0);
 
     const roi = systemCost > 0 ? ((totalProfit / systemCost) * 100) : 0;
 
@@ -286,31 +292,31 @@ function generateRESCOSummary(breakevenYear, totalRevenue, totalCosts, totalProf
     };
 
     const cards = [
-        { label: 'R2V Breakeven Year', value: breakevenText, color: breakevenColor, accent: '#10B981', iconBg: 'rgba(16, 185, 129, 0.12)', icon: svgIcons.breakeven },
-        { label: 'R2V Total Revenue', value: formatCurrency(totalRevenue), color: '#10b981', accent: '#00B4D8', iconBg: 'rgba(0, 180, 216, 0.12)', icon: svgIcons.revenue },
-        { label: 'R2V Net Profit', value: formatCurrency(totalProfit), color: totalProfit >= 0 ? '#10b981' : '#ef4444', accent: totalProfit >= 0 ? '#10B981' : '#EF4444', iconBg: totalProfit >= 0 ? 'rgba(16, 185, 129, 0.12)' : 'rgba(239, 68, 68, 0.12)', icon: svgIcons.profit },
-        { label: 'Project ROI', value: formatNumber(roi, 1, '%'), color: roi >= 0 ? '#10b981' : '#ef4444', accent: roi >= 0 ? '#8B5CF6' : '#EF4444', iconBg: roi >= 0 ? 'rgba(139, 92, 246, 0.12)' : 'rgba(239, 68, 68, 0.12)', icon: svgIcons.roi },
-        { label: 'Equity IRR', value: Ray2VoltSolarReturns.formatPercent(equityIrr), color: Number.isFinite(equityIrr) && equityIrr >= 0 ? '#10b981' : '#ef4444', accent: Number.isFinite(equityIrr) && equityIrr >= 0 ? '#10B981' : '#EF4444', iconBg: Number.isFinite(equityIrr) && equityIrr >= 0 ? 'rgba(16, 185, 129, 0.12)' : 'rgba(239, 68, 68, 0.12)', icon: svgIcons.profit },
-        { label: 'Consumer Total Savings', value: formatCurrency(consumerSavings), color: consumerSavings >= 0 ? '#10b981' : '#ef4444', accent: '#F59E0B', iconBg: 'rgba(245, 158, 11, 0.12)', icon: svgIcons.savings },
-        { label: 'Security Deposit', value: formatCurrency(securityDeposit), color: 'var(--text-primary)', accent: '#6B7280', iconBg: 'rgba(107, 114, 128, 0.12)', icon: svgIcons.deposit },
+        { label: 'R2V Breakeven Year', value: breakevenText, color: breakevenColor, accent: breakevenColor, icon: svgIcons.breakeven },
+        { label: 'R2V Total Revenue', value: formatCurrency(totalRevenue), color: INK, accent: INK, icon: svgIcons.revenue },
+        { label: 'R2V Net Profit', value: formatCurrency(totalProfit), color: signed(totalProfit >= 0), accent: signed(totalProfit >= 0), icon: svgIcons.profit },
+        { label: 'Project ROI', value: formatNumber(roi, 1, '%'), color: signed(roi >= 0), accent: signed(roi >= 0), icon: svgIcons.roi },
+        { label: 'Equity IRR', value: Ray2VoltSolarReturns.formatPercent(equityIrr), color: signed(Number.isFinite(equityIrr) && equityIrr >= 0), accent: signed(Number.isFinite(equityIrr) && equityIrr >= 0), icon: svgIcons.profit },
+        { label: 'Consumer Total Savings', value: formatCurrency(consumerSavings), color: signed(consumerSavings >= 0), accent: signed(consumerSavings >= 0), icon: svgIcons.savings },
+        { label: 'Security Deposit', value: formatCurrency(securityDeposit), color: INK, accent: INK, icon: svgIcons.deposit },
     ];
 
     if (loanAmount > 0) {
-        const dscrColor = minDSCR >= 1.2 ? '#10b981' : minDSCR >= 1.0 ? '#F59E0B' : '#ef4444';
-        const dscrAccent = minDSCR >= 1.2 ? '#10B981' : minDSCR >= 1.0 ? '#F59E0B' : '#EF4444';
-        const dscrIconBg = minDSCR >= 1.2 ? 'rgba(16, 185, 129, 0.12)' : minDSCR >= 1.0 ? 'rgba(245, 158, 11, 0.12)' : 'rgba(239, 68, 68, 0.12)';
+        // Below 1.0x the loan cannot be serviced; between 1.0x and 1.2x it can,
+        // but without the cushion lenders ask for, so it stays ink.
+        const dscrColor = minDSCR >= 1.2 ? GAIN : minDSCR >= 1.0 ? INK : LOSS;
 
         cards.push(
-            { label: 'Min DSCR', value: formatNumber(minDSCR, 2, 'x'), color: dscrColor, accent: dscrAccent, iconBg: dscrIconBg, icon: svgIcons.dscr },
-            { label: 'Monthly EMI', value: formatCurrency(monthlyEMI), color: 'var(--text-primary)', accent: '#3B82F6', iconBg: 'rgba(59, 130, 246, 0.12)', icon: svgIcons.emi },
-            { label: 'Total Debt Service', value: formatCurrency(totalDebtService), color: 'var(--text-primary)', accent: '#6366F1', iconBg: 'rgba(99, 102, 241, 0.12)', icon: svgIcons.debt },
+            { label: 'Min DSCR', value: formatNumber(minDSCR, 2, 'x'), color: dscrColor, accent: dscrColor, icon: svgIcons.dscr },
+            { label: 'Monthly EMI', value: formatCurrency(monthlyEMI), color: INK, accent: INK, icon: svgIcons.emi },
+            { label: 'Total Debt Service', value: formatCurrency(totalDebtService), color: INK, accent: INK, icon: svgIcons.debt },
         );
     }
 
     let html = '';
     cards.forEach(card => {
         html += `
-            <div class="ssc-summary-card" style="--card-accent: ${card.accent}; --card-icon-bg: ${card.iconBg}">
+            <div class="ssc-summary-card" style="--card-accent: ${card.accent}">
                 <div class="ssc-summary-card-icon">${card.icon}</div>
                 <div class="ssc-summary-card-label">${card.label}</div>
                 <div class="ssc-summary-card-value" style="color: ${card.color}">${card.value}</div>

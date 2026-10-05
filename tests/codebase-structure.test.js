@@ -19,6 +19,11 @@ for (const tool of registry.list) {
     }
     assert.ok([0, 1, 2, 3].includes(tool.level), `${tool.id} needs a level from 0 to 3`);
     assert.match(tool.icon, /^[a-z0-9_]+$/, `${tool.id} icon must be a Material Symbols ligature`);
+    // A tool outside every group still works, but lands last with no heading.
+    assert.ok(
+        Array.from(registry.groups, (group) => group.id).includes(tool.group),
+        `${tool.id} needs a group from GROUPS in tools.js`
+    );
 }
 
 assert.equal(new Set(registry.list.map((tool) => tool.id)).size, registry.list.length, 'tool ids are unique');

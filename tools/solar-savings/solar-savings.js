@@ -361,36 +361,38 @@ function generateReturnsSummary(returns, paybackText) {
     };
 
     const positive = value => Number.isFinite(value) && value > 0;
+    // Black and white, with green or red only where the sign of the number
+    // is the news.
+    const GAIN = 'var(--accent-green)';
+    const LOSS = 'var(--accent-red)';
+    const INK = 'var(--text-primary)';
 
     const cards = [
         {
             label: 'Return on Investment (25 yr)',
             value: Ray2VoltSolarReturns.formatPercent(returns.roi),
-            color: positive(returns.roi) ? '#10b981' : '#ef4444',
-            accent: positive(returns.roi) ? '#8B5CF6' : '#EF4444',
-            iconBg: positive(returns.roi) ? 'rgba(139, 92, 246, 0.12)' : 'rgba(239, 68, 68, 0.12)',
+            color: positive(returns.roi) ? GAIN : LOSS,
+            accent: positive(returns.roi) ? GAIN : LOSS,
             icon: icons.roi
         },
         {
             label: 'Internal Rate of Return (25 yr)',
             value: Ray2VoltSolarReturns.formatPercent(returns.irr),
-            color: positive(returns.irr) ? '#10b981' : '#ef4444',
-            accent: positive(returns.irr) ? '#10B981' : '#EF4444',
-            iconBg: positive(returns.irr) ? 'rgba(16, 185, 129, 0.12)' : 'rgba(239, 68, 68, 0.12)',
+            color: positive(returns.irr) ? GAIN : LOSS,
+            accent: positive(returns.irr) ? GAIN : LOSS,
             icon: icons.irr
         },
         {
             label: 'Simple Payback',
             value: paybackText,
-            color: 'var(--text-primary)',
-            accent: '#F59E0B',
-            iconBg: 'rgba(245, 158, 11, 0.12)',
+            color: INK,
+            accent: INK,
             icon: icons.payback
         }
     ];
 
     container.innerHTML = cards.map(card => `
-        <div class="ssc-summary-card" style="--card-accent: ${card.accent}; --card-icon-bg: ${card.iconBg}">
+        <div class="ssc-summary-card" style="--card-accent: ${card.accent}">
             <div class="ssc-summary-card-icon">${card.icon}</div>
             <div class="ssc-summary-card-label">${card.label}</div>
             <div class="ssc-summary-card-value" style="color: ${card.color}">${card.value}</div>

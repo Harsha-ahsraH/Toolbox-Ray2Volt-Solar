@@ -34,13 +34,14 @@ Use tokens, never raw colours, anywhere in the chrome. The dark theme redefines 
 
 | Group | Tokens |
 | --- | --- |
-| Brand | `--primary` (fills, borders), `--primary-light` (tints), `--primary-text` (brand-coloured **text**: it passes contrast; `--primary` does not), `--on-primary` (text on a `--primary` fill) |
+| Ink | `--primary` (solid fills only - buttons, active segments: charcoal, light grey in dark), `--primary-light` (grey tints), `--primary-text` (emphasised text), `--on-primary` (text on a `--primary` fill). The chrome is black and white. |
+| Accents | `--accent-cyan` (where you are: the active nav rail), `--accent-red` (loss, error), `--accent-green` (gain, pass), `--accent-blue` (information, a second data series). Use one only when the colour itself carries meaning, never as decoration. |
 | Surfaces | `--bg-body`, `--bg-card`, `--bg-sidebar`, `--bg-hover`, `--bg-active`, `--row-stripe`, `--table-head-bg` |
 | Text | `--text-primary`, `--text-secondary`, `--text-muted` |
-| Borders | `--border-light`, `--border-medium` |
+| Borders | `--border-light`, `--border-medium` (resting edges), `--border-strong` (hover, focus and selected edges; rails and underlines), `--focus-ring`. Never `--primary` for a line: the chrome stays mid contrast. |
 | Status | `--danger-*`, `--warning-*`, `--success-*`, `--info-*`, each with `-text`, `-bg` and `-border` |
 | Space | `--spacing-xs` 0.5rem · `--spacing-sm` 0.75rem · `--spacing-md` 1rem · `--spacing-lg` 1.5rem · `--spacing-xl` 2rem · `--section-gap` |
-| Shape | `--radius-sm` / `--radius-md` 2px, `--radius-lg` 4px, `--lift` (the one card shadow) |
+| Shape | `--radius-sm` / `--radius-md` 6px, `--radius-lg` 8px (documents stay square), `--lift` (the one card shadow) |
 | Layout | `--tool-width` (every tool's column), `--sidebar-width`, `--sidebar-collapsed-width` |
 
 Type: the chrome sets body text in Google Sans Flex and headings in Google Sans (`base.css`). Buttons and fields inherit the page font. Documents use Google Sans Flex. Icons in the chrome are Material Symbols Rounded: `<span class="material-symbols-rounded" aria-hidden="true">name</span>`. Documents draw inline SVG icons instead.
@@ -78,7 +79,7 @@ For a header with page-level actions on the right (preview, print), add `.tool-h
 
 ### Card
 
-A card holds every panel a person fills in or reads a result from. The icon is optional.
+A card holds every panel a person fills in or reads a result from. Give every card title an icon, so all the section headers on a page read the same way.
 
 ```html
 <div class="card">
@@ -92,12 +93,15 @@ A card holds every panel a person fills in or reads a result from. The icon is o
 
 One line of help under the title goes in `<p class="card-note">`.
 
-For a card whose title needs a subtitle, a count or a button beside it, use `.card-header`. `.card-count` is a muted count such as "12 rows":
+For a card whose title needs a subtitle, a count or a button beside it, use `.card-header`. `.card-count` is a muted count such as "12 rows". Its icon is either a Material Symbol or an inline SVG with `class="icon"`. The subtitle lines up under the title text, not under the icon:
 
 ```html
 <div class="card-header">
     <div>
-        <h3>Invoice Items</h3>
+        <h3>
+            <span class="material-symbols-rounded" aria-hidden="true">list</span>
+            Invoice Items
+        </h3>
         <p>Add items with individual GST rates</p>
     </div>
     <button type="button" class="btn btn-secondary btn-sm">Reset</button>
@@ -133,6 +137,8 @@ For a card whose title needs a subtitle, a count or a button beside it, use `.ca
 ### Choosing between options
 
 A **segmented control** picks one of a few options, such as a mode or a method. Mark the chosen button with `.active` and `aria-pressed="true"`. Placed straight after an `.input`, it becomes a row of quick picks for that field.
+
+It is the Toolbox's one switch style: a grey tray (`--tray-bg`) with the chosen option raised on a white chip (`--tray-raised`, `--tray-raise`). Tool-specific switches, such as the Quote Generator modes and the Sales SOP tabs, use the same tokens, so they all look alike. Don't build a switch with a filled black option or an underline.
 
 ```html
 <div class="segmented" role="group" aria-label="Calculate">
@@ -180,7 +186,9 @@ A **choice group** draws radio buttons or checkboxes as bordered chips. The labe
 | `.btn-sm` | Compact, inside a card header or table |
 | `.btn-block` | Full width |
 
-`.actions` centres a row of buttons. On a phone it stacks them full width.
+`.actions` is a soft floating bar for a form's main buttons. On a long form it stays pinned to the bottom of the screen while you scroll, then settles at the end of its container. Make it the last child of the form area it serves (usually `.no-print-area`). On a phone it becomes one full-width row of equal buttons. In print it is an ordinary static row.
+
+Sticky positioning only works because `html` and `body` clip horizontal overflow with `overflow-x: clip`. Don't change that back to `hidden`: `hidden` turns them into scroll containers, and the bar stops pinning.
 
 ### Line items
 
@@ -299,7 +307,7 @@ const items = lineItems.collectItems();
 
 ## Adding a tool
 
-1. **Registry.** Add an entry to `TOOLS` in `global/scripts/tools.js`: `id` (the folder name), `label`, `icon` (a Material Symbols name), `level` (0 Everyone, 1 Sales, 2 Admin, 3 Owner), `description` and `keywords`. That one entry puts the tool in the sidebar, on the dashboard, in search and behind the right access level.
+1. **Registry.** Add an entry to `TOOLS` in `global/scripts/tools.js`: `id` (the folder name), `label`, `icon` (a Material Symbols name), `level` (0 Everyone, 1 Sales, 2 Admin, 3 Owner), `group` (one of the `GROUPS` ids: `calculators`, `sales`, `quotes`, `billing`, `operations`), `description` and `keywords`. The group sets the sidebar section and the dashboard heading the tool appears under. A tool with an unknown group is listed last, with no heading. That one entry puts the tool in the sidebar, on the dashboard, in search and behind the right access level.
 2. **Folder.** Create `tools/<id>/<id>.html` and `tools/<id>/<id>.js`. Add `<id>.css` only if the tool needs something the components don't cover.
 3. **Page.** Start from this skeleton. The shell (sidebar, header, drawer) is built by `navigation.js`; don't copy it in.
 
@@ -357,4 +365,5 @@ const items = lineItems.collectItems();
 - Below 769px: 44px tap targets and 16px inputs. The sidebar rows are the one exception.
 - Every local stylesheet and script is loaded with a `?v=` release tag. When a file changes, bump the tag on every page that loads it (and on the `@import`s of a manifest such as `quote-generator.css`), so no one is served a stale copy.
 - Every Material Symbols icon the Toolbox draws is listed in `icon_names` in `base.css`.
+- Every CSS comment closes before the next one opens. A lost `*/` silently swallows every rule up to the next comment.
 - No page loads the retired `tool-responsive.css`. Forms are built from the components above; anything particular to a tool lives in that tool's own stylesheet.

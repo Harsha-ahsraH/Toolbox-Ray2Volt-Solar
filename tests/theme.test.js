@@ -56,7 +56,7 @@ for (const surface of ['--bg-body', '--bg-card', '--bg-sidebar', '--viewer-bg'])
     );
 }
 
-assert.equal(printed.get('--text-primary'), '#111827', 'printed text should be ink');
+assert.equal(printed.get('--text-primary'), '#262626', 'printed text should be ink');
 
 // theme.js decides the theme before the body paints, so every page has to load
 // it in the head rather than with the scripts at the end.

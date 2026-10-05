@@ -121,7 +121,7 @@
     padding: 0.75rem 1rem;
     background: var(--bg-body);
     border: 1px solid var(--border-light);
-    border-left: 3px solid var(--primary);
+    border-left: 3px solid var(--border-strong);
     border-radius: var(--radius-sm);
     line-height: 1.6;
 }
@@ -182,7 +182,7 @@
     left: 0;
     right: 0;
     height: 3px;
-    background: var(--card-accent, var(--primary));
+    background: var(--card-accent, var(--text-primary));
 }
 
 .ssc-summary-card-icon {
@@ -193,14 +193,14 @@
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    background: var(--card-icon-bg, var(--primary-light));
+    background: color-mix(in srgb, var(--card-accent, var(--text-primary)) 10%, transparent);
 }
 
 .ssc-summary-card-icon svg {
     width: 19px;
     height: 19px;
     fill: none;
-    stroke: var(--card-accent, var(--primary));
+    stroke: var(--card-accent, var(--text-primary));
     stroke-width: 2;
     stroke-linecap: round;
     stroke-linejoin: round;

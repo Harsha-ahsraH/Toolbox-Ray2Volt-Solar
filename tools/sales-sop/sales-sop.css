@@ -25,9 +25,9 @@
     gap: 4px;
     margin-bottom: 1.5rem;
     padding: 3px;
-    background: var(--bg-body);
+    background: var(--tray-bg);
     border: 1px solid var(--border-light);
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius-lg);
 }
 
 @media screen and (min-width: 600px) {
@@ -47,7 +47,7 @@
     text-align: left;
     background: transparent;
     border: 1px solid transparent;
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius-md);
     cursor: pointer;
     transition: background var(--transition-fast),
         border-color var(--transition-fast),
@@ -55,18 +55,18 @@
 }
 
 .sop-tab:hover {
-    background: var(--bg-hover);
+    background: color-mix(in srgb, var(--text-primary) 5%, transparent);
 }
 
 /* A raised surface identifies the open playbook without a bright fill. */
 .sop-tab.is-active {
-    background: var(--bg-card);
+    background: var(--tray-raised);
     border-color: var(--border-light);
-    box-shadow: 0 2px 4px rgb(15 23 42 / 6%), inset 0 -2px var(--primary);
+    box-shadow: var(--tray-raise);
 }
 
 .sop-tab:focus-visible {
-    outline: 2px solid var(--primary);
+    outline: 2px solid var(--focus-ring);
     outline-offset: 2px;
 }
 
@@ -214,7 +214,7 @@
     margin-bottom: 0.75rem;
     background: var(--bg-card);
     border: 1px solid var(--border-light);
-    border-top: 3px solid var(--primary);
+    border-top: 3px solid var(--border-strong);
     border-radius: var(--radius-lg);
 }
 
@@ -235,11 +235,11 @@
 }
 
 .sop-hybrid .sop-system-header {
-    border-top-color: #F59E0B;
+    border-top-color: var(--accent-blue);
 }
 
 .sop-hybrid .sop-system-header > .material-symbols-rounded {
-    color: #D97706;
+    color: var(--accent-blue);
 }
 
 .sop-card {
@@ -276,7 +276,7 @@
 }
 
 .sop-card summary:focus-visible {
-    outline: 2px solid var(--primary);
+    outline: 2px solid var(--focus-ring);
     outline-offset: -2px;
 }
 
@@ -317,7 +317,7 @@
 }
 
 .sop-card-body li::marker {
-    color: var(--primary);
+    color: var(--text-muted);
 }
 
 .sop-diagram {
@@ -351,7 +351,7 @@
     padding: 0.8rem 0.9rem;
     color: var(--primary-text);
     background: var(--primary-light);
-    border-left: 3px solid var(--primary);
+    border-left: 3px solid var(--border-strong);
     line-height: 1.55;
 }
 
@@ -419,7 +419,7 @@
 .sop-tags .preferred {
     color: var(--primary-text);
     background: var(--primary-light);
-    border-color: var(--primary);
+    border-color: var(--border-strong);
 }
 
 .sop-shared-section {
@@ -493,7 +493,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    color: var(--primary);
+    color: var(--text-muted);
     font-family: 'Material Symbols Rounded';
     font-size: 1rem;
     font-weight: 400;
@@ -583,7 +583,7 @@
     gap: 0.5rem;
     min-height: 44px;
     padding: 0.65rem 1rem;
-    border: 1px solid var(--primary);
+    border: 1px solid var(--border-strong);
     border-radius: var(--radius-lg);
     font-size: 0.84rem;
     font-weight: 650;
@@ -593,6 +593,7 @@
 .sop-action.primary {
     color: var(--on-primary);
     background: var(--primary);
+    border-color: var(--primary);
 }
 
 .sop-action.primary:hover {

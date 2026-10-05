@@ -35,9 +35,9 @@
     grid-template-columns: 1fr;
     gap: 4px;
     padding: 3px;
-    background: var(--bg-body);
+    background: var(--tray-bg);
     border: 1px solid var(--border-light);
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius-lg);
 }
 
 @media screen and (min-width: 600px) {
@@ -57,7 +57,7 @@
     text-align: left;
     background: transparent;
     border: 1px solid transparent;
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius-md);
     cursor: pointer;
     transition: background var(--transition-fast),
         border-color var(--transition-fast),
@@ -65,14 +65,14 @@
 }
 
 .qg-mode-card:hover {
-    background: var(--bg-hover);
+    background: color-mix(in srgb, var(--text-primary) 5%, transparent);
 }
 
 /* A raised surface identifies the selected document without a bright fill. */
 .qg-mode-card.is-active {
-    background: var(--bg-card);
+    background: var(--tray-raised);
     border-color: var(--border-light);
-    box-shadow: 0 2px 4px rgb(15 23 42 / 6%), inset 0 -2px var(--primary);
+    box-shadow: var(--tray-raise);
 }
 
 .qg-mode-card-title {
@@ -114,7 +114,7 @@
 .qg-workspace-tab:focus-visible,
 .qg-panel-toggle:focus-visible,
 .qg-btn-ghost:focus-visible {
-    outline: 2px solid var(--primary);
+    outline: 2px solid var(--focus-ring);
     outline-offset: 2px;
 }
 
@@ -170,7 +170,7 @@
 .qg-workspace-tab.is-active {
     color: var(--text-primary);
     font-weight: 600;
-    border-bottom-color: var(--primary);
+    border-bottom-color: var(--text-muted);
 }
 
 .qg-workspace-meta {
@@ -281,7 +281,7 @@
 }
 
 .qg-validation-link:focus-visible {
-    outline: 2px solid var(--primary);
+    outline: 2px solid var(--focus-ring);
     outline-offset: 2px;
     border-radius: var(--radius-sm);
 }
@@ -390,7 +390,7 @@
 .qg-panel-icon {
     width: 20px;
     height: 20px;
-    color: var(--primary);
+    color: var(--text-muted);
 }
 
 .qg-panel-name {
@@ -417,7 +417,7 @@
     font-weight: 700;
     letter-spacing: 0.05em;
     text-transform: uppercase;
-    border-radius: 2px;
+    border-radius: var(--radius-sm);
     border: 1px solid;
     white-space: nowrap;
 }
@@ -584,7 +584,7 @@
 }
 
 .no-print-area input[type="checkbox"]:focus-visible {
-    outline: 2px solid var(--primary);
+    outline: 2px solid var(--focus-ring);
     outline-offset: 2px;
 }
 
@@ -652,7 +652,7 @@
 .qg-section-item.is-selected {
     color: var(--text-primary);
     background: var(--bg-card);
-    border-color: var(--primary);
+    border-color: var(--border-strong);
 }
 
 .qg-section-item.is-selected:hover {

@@ -43,7 +43,7 @@
 }
 
 .sop-picker select:focus-visible {
-    outline: 2px solid var(--primary);
+    outline: 2px solid var(--focus-ring);
     outline-offset: 1px;
 }
 
@@ -112,7 +112,7 @@
 
 .sop-ruler-band.is-net {
     background: var(--primary-light);
-    border: 1px solid var(--primary);
+    border: 1px solid var(--border-strong);
     border-radius: 999px 0 0 999px;
 }
 

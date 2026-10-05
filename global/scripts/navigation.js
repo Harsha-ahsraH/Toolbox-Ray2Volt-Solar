@@ -46,6 +46,27 @@
             `${classes.includes('active') ? ' aria-current="page"' : ''}>${escapeHtml(tool.label)}</a></li>`;
     }
 
+    // The tools in each group's order, skipping groups this account can open
+    // nothing in. A tool naming no known group still gets listed, last and
+    // unheaded, rather than vanishing.
+    const groupIds = new Set(registry.groups.map((group) => group.id));
+    const toolSections = registry.groups
+        .map((group) => ({ group, tools: visibleTools.filter((tool) => tool.group === group.id) }))
+        .filter((section) => section.tools.length > 0);
+    const ungroupedTools = visibleTools.filter((tool) => !groupIds.has(tool.group));
+    if (ungroupedTools.length) toolSections.push({ group: null, tools: ungroupedTools });
+
+    // --i keeps counting across groups: it staggers the mobile drawer's rows.
+    let navIndex = 0;
+    const navItems = (tools) => tools.map((tool) => navItem(tool, navIndex++)).join('');
+
+    const navList = navItems([registry.dashboard]) + toolSections.map(({ group, tools }) => {
+        if (!group) return navItems(tools);
+        const labelId = `nav-group-${group.id}`;
+        return `<li class="nav-group"><span class="nav-group-label" id="${labelId}">${escapeHtml(group.label)}</span>` +
+            `<ul aria-labelledby="${labelId}">${navItems(tools)}</ul></li>`;
+    }).join('');
+
     const header = document.createElement('header');
     header.className = 'mobile-header';
     header.innerHTML = '<span class="sidebar-brand mobile-brand">Toolbox</span>' +
@@ -58,7 +79,7 @@
         '<div class="sidebar-mobile-header"><h2 class="sidebar-brand">Toolbox</h2>' +
         `<button class="sidebar-close-btn" id="sidebarCloseBtn" aria-label="Close menu">${CLOSE_ICON}</button></div>` +
         '<div><div class="logo-header"><h2 class="sidebar-brand">Toolbox</h2></div>' +
-        `<nav class="main-nav" aria-label="Tools"><ul>${[registry.dashboard, ...visibleTools].map(navItem).join('')}</ul></nav>` +
+        `<nav class="main-nav" aria-label="Tools"><ul>${navList}</ul></nav>` +
         '</div>';
 
     const overlay = document.createElement('div');
@@ -68,14 +89,18 @@
     appContainer.prepend(header, sidebar);
     document.body.appendChild(overlay);
 
-    // The dashboard's card grid is the same list, with descriptions.
+    // The dashboard's card grid is the same list, with descriptions, under the
+    // same group headings. A heading spans the grid's full width.
     const toolGrid = document.querySelector('.tool-grid');
     if (toolGrid) {
-        toolGrid.innerHTML = visibleTools.map((tool) =>
-            `<a href="${registry.hrefFor(tool)}" class="tool-card${tool.href ? ' is-external' : ''}"` +
-            ` data-keywords="${escapeHtml(tool.keywords || '')}">` +
-            `<h3 data-icon="${tool.icon}">${escapeHtml(tool.label)}</h3>` +
-            `<p>${escapeHtml(tool.description)}</p></a>`
+        toolGrid.innerHTML = toolSections.map(({ group, tools }) =>
+            (group ? `<h2 class="tool-grid-heading">${escapeHtml(group.label)}</h2>` : '') +
+            tools.map((tool) =>
+                `<a href="${registry.hrefFor(tool)}" class="tool-card${tool.href ? ' is-external' : ''}"` +
+                ` data-keywords="${escapeHtml(tool.keywords || '')}">` +
+                `<h3 data-icon="${tool.icon}">${escapeHtml(tool.label)}</h3>` +
+                `<p>${escapeHtml(tool.description)}</p></a>`
+            ).join('')
         ).join('');
     }
 
@@ -361,6 +386,7 @@
         link: card,
         haystack: searchTextFor(card)
     }));
+    const gridHeadings = Array.from(document.querySelectorAll('.tool-grid .tool-grid-heading'));
 
     const searchWrap = document.createElement('div');
     searchWrap.className = 'nav-search';
@@ -414,6 +440,21 @@
         cardEntries.forEach((entry) => {
             entry.target.hidden = !show(entry);
             if (!entry.target.hidden) cardMatches += 1;
+        });
+
+        // A group heading only stands over tools the search left showing.
+        mainNav.querySelectorAll('.nav-group').forEach((group) => {
+            group.hidden = !group.querySelector('li:not([hidden])');
+        });
+
+        gridHeadings.forEach((heading) => {
+            let next = heading.nextElementSibling;
+            let anyShown = false;
+            while (next && !next.matches('.tool-grid-heading')) {
+                if (!next.hidden) anyShown = true;
+                next = next.nextElementSibling;
+            }
+            heading.hidden = !anyShown;
         });
 
         const message = `No tool matches “${query}”`;

@@ -51,8 +51,8 @@
 .mobile-nav-toggle:hover,
 .mobile-search-toggle:hover {
     background: var(--primary-light);
-    border-color: var(--primary);
-    color: var(--primary);
+    border-color: var(--border-strong);
+    color: var(--text-muted);
 }
 
 .mobile-nav-toggle:active,
@@ -127,7 +127,7 @@
 }
 
 .sidebar-collapse-btn:focus-visible {
-    outline: 2px solid var(--primary);
+    outline: 2px solid var(--focus-ring);
     outline-offset: 2px;
 }
 
@@ -243,14 +243,19 @@
     transition: background var(--transition-fast);
 }
 
+/* A hint, not a line: hovering the edge only tints it, and it firms up to a
+   mid grey while it is actually being dragged. */
 .sidebar-resize-handle:hover::after,
-.sidebar-resize-handle:focus-visible::after,
+.sidebar-resize-handle:focus-visible::after {
+    background: var(--border-medium);
+}
+
 .sidebar-resizing .sidebar-resize-handle::after {
-    background: var(--primary);
+    background: var(--border-strong);
 }
 
 .sidebar-resize-handle:focus-visible {
-    outline: 2px solid var(--primary);
+    outline: 2px solid var(--focus-ring);
     outline-offset: -2px;
 }
 
@@ -318,13 +323,13 @@ body.sidebar-resizing {
 
 .nav-search-input:focus {
     outline: none;
-    border-color: var(--primary);
+    border-color: var(--border-strong);
     box-shadow: 0 0 0 3px var(--primary-light);
 }
 
 .nav-search-field:hover .nav-search-icon,
 .nav-search-field:focus-within .nav-search-icon {
-    color: var(--primary);
+    color: var(--text-muted);
 }
 
 .nav-search-clear {
@@ -371,7 +376,8 @@ body.sidebar-resizing {
 }
 
 .main-nav li[hidden],
-.tool-card[hidden] {
+.tool-card[hidden],
+.tool-grid-heading[hidden] {
     display: none;
 }
 
@@ -383,11 +389,16 @@ body.sidebar-resizing {
     min-height: 0;
     overscroll-behavior-y: contain;
     scrollbar-gutter: stable;
+    /* The shared scrollbar reads its width and colour from these, so swapping
+       the values here makes the sidebar's bar thinner and paler without
+       restyling the bar itself. */
+    --scrollbar-size: var(--sidebar-scrollbar-size);
+    --scrollbar-thumb: var(--sidebar-scrollbar-thumb);
 }
 
-/* Everything else about this scrollbar - width, pill, colours - is the shared
-   treatment in base.css. The tool list only insets its own track so the thumb
-   stops short of the header and the footer. */
+/* Everything else about this scrollbar - the pill, hover colours - is the
+   shared treatment in base.css. The tool list only insets its own track so the
+   thumb stops short of the header and the footer. */
 .main-nav::-webkit-scrollbar-track {
     margin-block: var(--spacing-xs);
 }
@@ -454,7 +465,18 @@ body.sidebar-resizing {
     }
 
     .sidebar.collapsed .main-nav .nav-link.active {
-        border-right-color: var(--primary);
+        border-right-color: var(--accent-cyan);
+    }
+
+    /* No room for a label beside bare icons: each group is set off by a
+       short hairline instead. */
+    .sidebar.collapsed .nav-group-label {
+        height: 1px;
+        margin: 0 var(--spacing-md) var(--spacing-xs);
+        padding: 0;
+        background: var(--border-light);
+        font-size: 0;
+        color: transparent;
     }
 
     .sidebar.collapsed .main-nav .nav-link::before {
@@ -485,6 +507,27 @@ body.sidebar-resizing {
 
 .main-nav ul {
     list-style: none;
+}
+
+/* Tools are listed under a few quiet section labels, so a long list breaks
+   into chunks the eye can skip between. The label lines up with the link
+   text: the links' padding plus their 3px rail. */
+.main-nav .nav-group {
+    margin-top: var(--spacing-sm);
+}
+
+.nav-group-label {
+    display: block;
+    padding: 0.25rem calc(var(--spacing-lg) + 3px);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .main-nav .nav-link {
@@ -539,9 +582,8 @@ body.sidebar-resizing {
     color: var(--text-primary);
 }
 
-/* The accent is a fill, never the ink: --primary is 2.45:1 on white and 2.3:1
-   on the --bg-active tint this row sits on, so the label and its icon take
-   --primary-text (5.37:1) while the rail keeps --primary. */
+/* The current page is the one place the sidebar shows colour: the label stays
+   ink on a grey row, and only the rail beside it takes the cyan accent. */
 .main-nav .nav-link:hover::before {
     color: var(--primary-text);
 }
@@ -549,7 +591,7 @@ body.sidebar-resizing {
 .main-nav .nav-link.active {
     background: var(--bg-active);
     color: var(--primary-text);
-    border-left-color: var(--primary);
+    border-left-color: var(--accent-cyan);
     font-weight: 600;
 }
 
@@ -660,7 +702,7 @@ body.sidebar-resizing {
 
 .nav-session-theme:focus-visible,
 .nav-session-out:focus-visible {
-    outline: 2px solid var(--primary);
+    outline: 2px solid var(--focus-ring);
     outline-offset: 1px;
 }
 
@@ -672,6 +714,23 @@ body.sidebar-resizing {
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: var(--spacing-lg);
     min-width: 0;
+}
+
+/* The sidebar's group labels, repeated over the cards. A heading takes a
+   whole row. The grid gap sits on both sides of it, so an extra margin above
+   is what ties it to the cards below rather than the ones before. */
+.tool-grid-heading {
+    grid-column: 1 / -1;
+    margin-top: var(--spacing-md);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+.tool-grid-heading:first-child {
+    margin-top: 0;
 }
 
 .tool-card {
@@ -711,7 +770,7 @@ body.sidebar-resizing {
 }
 
 .tool-card:hover {
-    border-color: var(--primary);
+    border-color: var(--border-strong);
     box-shadow: var(--shadow-md);
     transform: translateY(-2px);
 }
@@ -721,7 +780,7 @@ body.sidebar-resizing {
 }
 
 .tool-card:focus-visible {
-    outline: 2px solid var(--primary);
+    outline: 2px solid var(--focus-ring);
     outline-offset: 2px;
 }
 
@@ -801,7 +860,7 @@ body.sidebar-resizing {
 
 .toolbox-auth-input:focus {
     outline: none;
-    border-color: var(--primary);
+    border-color: var(--border-strong);
     box-shadow: 0 0 0 3px var(--primary-light);
 }
 

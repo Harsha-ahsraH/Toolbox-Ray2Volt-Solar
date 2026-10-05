@@ -30,7 +30,7 @@
     font-weight: 600;
     color: var(--primary-text);
     background: var(--primary-light);
-    border: 1px solid var(--primary);
+    border: 1px solid var(--border-strong);
     border-radius: var(--radius-sm);
 }
 
@@ -46,7 +46,7 @@
 }
 
 .emi-slider:focus-visible {
-    outline: 2px solid var(--primary);
+    outline: 2px solid var(--focus-ring);
     outline-offset: 4px;
 }
 
@@ -87,12 +87,12 @@
 .fixed-emi-container {
     padding: 1rem;
     background: var(--primary-light);
-    border: 1px solid var(--primary);
+    border: 1px solid var(--border-strong);
     border-radius: var(--radius-sm);
 }
 
 .emi-input-highlight {
-    border-color: var(--primary);
+    border-color: var(--border-strong);
 }
 
 /* --- Results --- */
@@ -106,7 +106,7 @@
     margin-bottom: 1rem;
     text-align: center;
     background: var(--primary-light);
-    border: 1px solid var(--primary);
+    border: 1px solid var(--border-strong);
     border-radius: var(--radius-sm);
 }
 
@@ -195,11 +195,11 @@
 }
 
 .legend-color.principal {
-    background: #1F4E79;
+    background: var(--border-strong);
 }
 
 .legend-color.interest {
-    background: #D97706;
+    background: var(--accent-blue);
 }
 
 /* --- Amortization schedule: scrolls inside the card, header pinned --- */

@@ -99,13 +99,17 @@
     overflow-wrap: anywhere;
 }
 
+/* Every card title leads with an icon, whichever header it uses. The icon
+   is a step lighter than the words so it guides the eye without competing. */
 .card-title .icon,
-.card-title .material-symbols-rounded {
+.card-title .material-symbols-rounded,
+.card-header h3 .icon,
+.card-header h3 .material-symbols-rounded {
     flex: 0 0 auto;
     width: 20px;
     height: 20px;
     font-size: 20px;
-    color: var(--primary-text);
+    color: var(--text-secondary);
 }
 
 /* One line of help directly under a .card-title. */
@@ -121,20 +125,32 @@
     justify-content: space-between;
     align-items: center;
     gap: 0.75rem;
-    margin-bottom: 1rem;
+    margin-bottom: 1.25rem;
     padding-bottom: 0.75rem;
     border-bottom: 1px solid var(--border-light);
 }
 
+/* The same title as .card-title - size, weight and icon - so a card with a
+   subtitle reads as the same kind of card as one without. */
 .card-header h3 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
     font-size: 1rem;
     font-weight: 600;
     color: var(--text-primary);
 }
 
+/* Set like .card-note, and indented to start under the title's words rather
+   than under its icon (20px icon + 0.5rem gap). */
 .card-header p {
-    font-size: 0.85rem;
-    color: var(--text-muted);
+    margin-top: 0.125rem;
+    font-size: 0.8125rem;
+    color: var(--text-secondary);
+}
+
+.card-header h3:has(> .icon, > .material-symbols-rounded) + p {
+    padding-left: calc(20px + 0.5rem);
 }
 
 /* --- Form grid: cards side by side on a wide screen, stacked otherwise --- */
@@ -187,7 +203,7 @@
 
 .input:focus {
     outline: none;
-    border-color: var(--primary);
+    border-color: var(--border-strong);
     box-shadow: 0 0 0 3px var(--primary-light);
 }
 
@@ -239,7 +255,7 @@ select.input {
 }
 
 .btn:focus-visible {
-    outline: 2px solid var(--primary);
+    outline: 2px solid var(--focus-ring);
     outline-offset: 2px;
 }
 
@@ -267,7 +283,7 @@ select.input {
 
 .btn-secondary:hover:not(:disabled) {
     background: var(--bg-hover);
-    border-color: var(--primary);
+    border-color: var(--border-strong);
     color: var(--primary-text);
 }
 
@@ -292,13 +308,40 @@ select.input {
 }
 
 /* The row of main actions under a form: Generate, Print. */
+/* The buttons at the foot of a tool's form (Generate, Print, Reset). The row
+   pins to the bottom of the window while the form is taller than the screen,
+   so the next step is always in reach, and settles back into place at the
+   end of the form: a sticky element never leaves its parent, so it can't
+   drift over the preview below. On a form that fits, it never moves. */
 .actions {
+    position: sticky;
+    bottom: var(--spacing-md);
+    z-index: 20;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
-    gap: 1rem;
+    gap: 0.75rem;
+    width: fit-content;
+    max-width: 100%;
     margin: 2rem 0;
+    margin-inline: auto;
+    padding: 0.5rem;
+    background: color-mix(in srgb, var(--bg-card) 88%, transparent);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border-light);
+    border-radius: calc(var(--radius-lg) + 4px);
+    box-shadow: var(--float);
+}
+
+/* Paper doesn't scroll, so nothing floats on it. */
+@media print {
+    .actions {
+        position: static;
+        -webkit-backdrop-filter: none;
+        backdrop-filter: none;
+    }
 }
 
 /* --- Line items: a repeatable group of fields (invoice items, earnings) --- */
@@ -399,7 +442,7 @@ select.input {
     font-size: 0.875rem;
     font-weight: 500;
     font-family: inherit;
-    border: 1px dashed var(--primary);
+    border: 1px dashed var(--border-strong);
     border-radius: var(--radius-sm);
     background: var(--primary-light);
     color: var(--primary-text);
@@ -409,49 +452,58 @@ select.input {
 
 .btn-add:hover {
     background: var(--primary);
+    border-color: var(--primary);
     border-style: solid;
     color: var(--on-primary);
 }
 
 /* --- Segmented control: pick one of a few options (mode, method, rate) ---
-   Mark the chosen button with .active (and aria-pressed="true"). */
+   Mark the chosen button with .active (and aria-pressed="true").
+   It is the toolbox's one switch: a recessed tray (--tray-bg) with the
+   chosen option raised out of it (--tray-raised). The Quote Generator's
+   document type and the Sales SOP's playbooks are drawn from the same tokens. */
 .segmented {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
+    gap: 4px;
+    padding: 3px;
+    background: var(--tray-bg);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
 }
 
 .segmented-btn {
     flex: 1 1 0;
     min-width: max-content;
-    padding: 0.625rem 1rem;
+    padding: 0.5625rem 1rem;
     font-size: 0.875rem;
     font-weight: 500;
     font-family: inherit;
     line-height: 1.3;
-    border: 1px solid var(--border-medium);
-    border-radius: var(--radius-sm);
-    background: var(--bg-card);
+    border: 1px solid transparent;
+    border-radius: var(--radius-md);
+    background: transparent;
     color: var(--text-secondary);
     cursor: pointer;
-    transition: background var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
+    transition: background var(--transition-fast), border-color var(--transition-fast),
+        color var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .segmented-btn:hover {
-    background: var(--bg-hover);
-    border-color: var(--primary);
+    background: color-mix(in srgb, var(--text-primary) 5%, transparent);
     color: var(--text-primary);
 }
 
 .segmented-btn:focus-visible {
-    outline: 2px solid var(--primary);
+    outline: 2px solid var(--focus-ring);
     outline-offset: 2px;
 }
 
 .segmented-btn.active {
-    background: var(--primary);
-    border-color: var(--primary);
-    color: var(--on-primary);
+    background: var(--tray-raised);
+    border-color: var(--border-light);
+    color: var(--text-primary);
+    box-shadow: var(--tray-raise);
 }
 
 /* Quick picks under a field, e.g. common rates beneath a rate input. */
@@ -578,7 +630,7 @@ select.input {
     z-index: 2;
     outline: none;
     background: var(--bg-card);
-    box-shadow: inset 0 0 0 2px var(--primary);
+    box-shadow: inset 0 0 0 2px var(--border-strong);
 }
 
 .edit-table input[type="number"] {
@@ -639,7 +691,7 @@ select.input {
 }
 
 .choice:has(input:checked) {
-    border-color: var(--primary);
+    border-color: var(--border-strong);
     background: var(--primary-light);
 }
 
@@ -867,16 +919,24 @@ select.input {
         min-height: 44px;
     }
 
+    /* One row across the bottom of the phone rather than a stack, so the
+       pinned bar costs one button's height of screen, not three. */
     .actions {
-        flex-direction: column;
+        flex-wrap: nowrap;
         align-items: stretch;
-        gap: 0.75rem;
+        gap: 0.5rem;
+        width: 100%;
         margin: 1.5rem 0;
+        bottom: var(--spacing-sm);
     }
 
     .actions .btn {
-        width: 100%;
+        flex: 1 1 0;
+        min-width: 0;
         min-height: 44px;
+        padding-inline: 0.75rem;
+        white-space: normal;
+        line-height: 1.25;
     }
 
     .btn-remove {

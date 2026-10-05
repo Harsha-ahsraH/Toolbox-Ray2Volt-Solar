@@ -202,16 +202,25 @@ document.addEventListener('DOMContentLoaded', () => {
         if (emiChart) { emiChart.destroy(); emiChart = null; }
     }
 
-    // The gap between the two arcs is the card showing through, so it has to
-    // be read from the theme rather than assumed to be white.
-    function cardColour() {
+    // Every colour on the chart is read from the theme: the gap between the
+    // arcs is the card showing through, principal a mid grey and interest the
+    // blue accent, so all three flip with the theme.
+    function themeColour(token, fallback) {
         return getComputedStyle(document.documentElement)
-            .getPropertyValue('--bg-card').trim() || '#FFFFFF';
+            .getPropertyValue(token).trim() || fallback;
+    }
+
+    function cardColour() {
+        return themeColour('--bg-card', '#FFFFFF');
+    }
+
+    function seriesColours() {
+        return [themeColour('--border-strong', '#8F8F8F'), themeColour('--accent-blue', '#1D4ED8')];
     }
 
     function updateEMIChart(principal, interest) {
         if (!emiChartCtx) return;
-        const data = { labels: ['Principal Amount', 'Total Interest'], datasets: [{ data: [principal, interest], backgroundColor: ['#1F4E79', '#D97706'], borderColor: cardColour(), borderWidth: 3 }] };
+        const data = { labels: ['Principal Amount', 'Total Interest'], datasets: [{ data: [principal, interest], backgroundColor: seriesColours(), borderColor: cardColour(), borderWidth: 3 }] };
         if (emiChart) { emiChart.data = data; emiChart.update(); }
         else { emiChart = new Chart(emiChartCtx, { type: 'doughnut', data: data, options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { display: false } }, cutout: '65%' } }); }
     }
@@ -220,6 +229,7 @@ document.addEventListener('DOMContentLoaded', () => {
         window.Ray2VoltTheme.onChange(() => {
             if (!emiChart) return;
             emiChart.data.datasets[0].borderColor = cardColour();
+            emiChart.data.datasets[0].backgroundColor = seriesColours();
             emiChart.update();
         });
     }
