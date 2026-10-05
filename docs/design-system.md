@@ -315,7 +315,9 @@ const items = lineItems.collectItems();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Tool - Ray2Volt Toolbox</title>
-    <link rel="icon" href="data:,">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../global/assets/favicon-32.png?v=20261005-favicon">
+    <link rel="icon" type="image/png" sizes="512x512" href="../../global/assets/favicon-512.png?v=20261005-favicon">
+    <link rel="apple-touch-icon" sizes="180x180" href="../../global/assets/apple-touch-icon.png?v=20261005-favicon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=Google+Sans+Flex:wght@400;500;600;700&display=swap" rel="stylesheet">

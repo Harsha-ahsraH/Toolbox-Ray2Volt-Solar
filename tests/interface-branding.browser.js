@@ -40,7 +40,7 @@ async function run() {
                 await page.goto(`${origin}/${file}`);
                 assert.equal(await page.locator('.mobile-header img, .sidebar img').count(), 0,
                     `${file} at ${width}px has no company images in its interface`);
-                assert.equal(await page.locator('link[rel="icon"]').getAttribute('href'), 'data:,');
+                assert.match(await page.locator('link[rel="icon"]').first().getAttribute('href'), /global\/assets\/favicon-32\.png/);
                 if (width <= 768) {
                     assert.equal(await page.locator('.mobile-header').isVisible(), true);
                     const title = await page.locator('.mobile-brand').evaluate(el => {
@@ -70,7 +70,7 @@ async function run() {
             }
         }
         assert.deepEqual(errors, []);
-        console.log(`Interface branding browser checks passed: ${views} views across ${pages.length} pages; text-only headers, no branded favicons, and working mobile controls.`);
+        console.log(`Interface branding browser checks passed: ${views} views across ${pages.length} pages; text-only headers, the website favicon, and working mobile controls.`);
     } finally {
         await browser.close();
     }

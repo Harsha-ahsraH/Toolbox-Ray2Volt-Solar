@@ -117,7 +117,10 @@ for (const file of shellPages) {
     assert.doesNotMatch(html, /<aside class="sidebar"|<header class="mobile-header"|class="overlay"/,
         `${file} should leave the shell to navigation.js`);
     assert.match(html, /<div class="app-container">/, `${file} needs the .app-container the shell mounts into`);
-    assert.match(html, /<link rel="icon" href="data:,">/, `${file} should not show the company favicon`);
+    // The tab icon matches the website's: the same three sizes, from global/assets.
+    for (const icon of ['favicon-32.png', 'favicon-512.png', 'apple-touch-icon.png']) {
+        assert.ok(html.includes(`global/assets/${icon}?v=`), `${file} should link ${icon}`);
+    }
 }
 
 const shellSource = navigationJs.slice(0, navigationJs.indexOf('/* --- Who is signed in'));

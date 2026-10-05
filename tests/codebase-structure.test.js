@@ -51,6 +51,9 @@ for (const sharedPath of [
     'global/scripts/financial-document.js',
     'global/assets/logo.png',
     'global/assets/favicon.png',
+    'global/assets/favicon-32.png',
+    'global/assets/favicon-512.png',
+    'global/assets/apple-touch-icon.png',
     'docs/design-system.md'
 ]) {
     assert.ok(fs.existsSync(path.join(repoRoot, sharedPath)), `Missing shared file ${sharedPath}`);
