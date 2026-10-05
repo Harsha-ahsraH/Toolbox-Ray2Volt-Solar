@@ -24,6 +24,8 @@ The toolbox has two layers, and they never share styles:
 | `global/styles/navigation.css` | The sidebar, mobile header, dashboard cards and sign-in gate. |
 | `global/styles/components.css` | The shared components below. |
 | `global/styles/responsive.css` | Shell breakpoints: the mobile drawer and sidebar sizes. |
+| `global/styles/cursor-background.css` | The faint cursor dot field, with separate light/dark intensity and print exclusion. |
+| `global/scripts/cursor-background.js` | Pointer tracking for the background; stops when settled, hidden, printing, or reduced motion is enabled. |
 | `global/styles/financial-document.css` | The A4 sheet used by the invoice, proforma, quotation, PO and receipt. |
 
 ## Tokens
@@ -42,6 +44,8 @@ Use tokens, never raw colours, anywhere in the chrome. The dark theme redefines 
 | Layout | `--tool-width` (every tool's column), `--sidebar-width`, `--sidebar-collapsed-width` |
 
 Type: the chrome sets body text in Google Sans Flex and headings in Google Sans (`base.css`). Buttons and fields inherit the page font. Documents use Google Sans Flex. Icons in the chrome are Material Symbols Rounded: `<span class="material-symbols-rounded" aria-hidden="true">name</span>`. Documents draw inline SVG icons instead.
+
+Every toolbox page loads `cursor-background.css` with the shared styles and `cursor-background.js` after navigation. It adds one decorative, pointer-transparent layer behind the page content. The 32px dot pattern stays still while its feathered 250px × 220px mask follows the pointer. Light mode uses 33% of `--primary-text`; dark mode uses 14%, matching the approved preview at 100% strength. Reduced-motion and touch devices show a still corner patch. The layer is hidden when printing and cannot enter the document previews.
 
 The icon font is downloaded as a subset: only the names listed in `icon_names` on the import at the top of `base.css`. **A new icon must be added to that list**, in alphabetical order, or it renders as its name. `tests/material-icons.test.js` finds every icon the Toolbox draws and fails until it's listed.
 

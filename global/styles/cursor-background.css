@@ -1,0 +1,29 @@
+/* A quiet dot field behind the toolbox chrome. Cards and documents stay opaque. */
+body {
+    isolation: isolate;
+}
+
+.cursor-dot-background {
+    --cursor-dot-color: color-mix(in srgb, var(--primary-text) 33%, transparent);
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    overflow: hidden;
+    contain: strict;
+    background-image: radial-gradient(circle, var(--cursor-dot-color) 1px, transparent 1.4px);
+    background-size: 32px 32px;
+    -webkit-mask-image: radial-gradient(ellipse 250px 220px at var(--cursor-dot-x, 82vw) var(--cursor-dot-y, 12vh), #000 10%, transparent 100%);
+    mask-image: radial-gradient(ellipse 250px 220px at var(--cursor-dot-x, 82vw) var(--cursor-dot-y, 12vh), #000 10%, transparent 100%);
+}
+
+/* Bright cyan reads more strongly against dark surfaces at the same opacity. */
+:root[data-theme="dark"] .cursor-dot-background {
+    --cursor-dot-color: color-mix(in srgb, var(--primary-text) 14%, transparent);
+}
+
+@media print {
+    .cursor-dot-background {
+        display: none !important;
+    }
+}
